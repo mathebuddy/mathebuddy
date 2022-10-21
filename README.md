@@ -18,11 +18,11 @@ Official website: https://app.f07-its.fh-koeln.de
 
 - https://github.com/mathebuddy/mathebuddy-downloads
 
-  Toolchains and data for the mathe:buddy app (e.g. VSCode Plugins) 
+  Downloadable toolchains and data for the mathe:buddy app (e.g. VSCode Plugins) 
  
 - https://github.com/mathebuddy/mathebuddy-compiler
 
-  Course Description Language Compiler (converts human-readable course definitions into machine-oriented language)
+  Course Description Language Compiler (converts human-readable course definitions into a machine-oriented language)
 
 - https://github.com/mathebuddy/mathebuddy-smpl
 
