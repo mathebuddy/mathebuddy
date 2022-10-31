@@ -42,7 +42,7 @@ Official website: https://app.f07-its.fh-koeln.de
 
 - https://github.com/mathebuddy/mathebuddy-vscode-sim-ext
 
-  Simulator Extension for Visual Studio Code
+  Simulator Extension for Visual Studio Code (simulation)
 
 - https://github.com/mathebuddy/mathebuddy-website
 
