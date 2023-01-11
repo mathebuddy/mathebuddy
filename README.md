@@ -31,6 +31,10 @@ Official website: https://app.f07-its.fh-koeln.de
 - https://github.com/mathebuddy/mathebuddy-simulator
 
   Course Simulator with Debugging Features (used in the web IDE and the VSCode plugins)
+  
+- https://github.com/mathebuddy/mathebuddy-math-runtime
+
+  Simple Math Runtime for the App (partly based on SMPL)
 
 - https://github.com/mathebuddy/mathebuddy-ide
 
