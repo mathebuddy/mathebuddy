@@ -1,10 +1,12 @@
 # mathe:buddy
 
-This repository implements the ``mathe:buddy`` App for the iOS App Store and Google Playground.
+This repository implements the `mathe:buddy` App for the iOS App Store and Google Playground.
 
 Also consider the other repositories of this GitHub account. You will find a list below.
 
 Official website: https://app.f07-its.fh-koeln.de
+
+![](img/mathebuddy-comp-diag.png)
 
 ## Repositories
 
@@ -18,8 +20,8 @@ Official website: https://app.f07-its.fh-koeln.de
 
 - https://github.com/mathebuddy/mathebuddy-downloads
 
-  Downloadable toolchains and data for the mathe:buddy app (e.g. VSCode Plugins) 
- 
+  Downloadable toolchains and data for the mathe:buddy app (e.g. VSCode Plugins)
+
 - https://github.com/mathebuddy/mathebuddy-compiler
 
   Course Description Language Compiler (converts human-readable course definitions into a machine-oriented language)
@@ -31,7 +33,7 @@ Official website: https://app.f07-its.fh-koeln.de
 - https://github.com/mathebuddy/mathebuddy-simulator
 
   Course Simulator with Debugging Features (used in the web IDE and the VSCode plugins)
-  
+
 - https://github.com/mathebuddy/mathebuddy-math-runtime
 
   Simple Math Runtime for the App (partly based on SMPL)
@@ -42,7 +44,7 @@ Official website: https://app.f07-its.fh-koeln.de
 
 - https://github.com/mathebuddy/mathebuddy-vscode-lang-ext
 
-  Language Extension for Visual Studio Code (syntax and semantical highlighting) 
+  Language Extension for Visual Studio Code (syntax and semantical highlighting)
 
 - https://github.com/mathebuddy/mathebuddy-vscode-sim-ext
 
