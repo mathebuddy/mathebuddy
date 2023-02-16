@@ -1,0 +1,14 @@
+{
+  "name": "mathebuddy-math-runtime-web-test",
+  "version": "0.0.1",
+  "description": "Web tests for https://www.npmjs.com/package/@mathebuddy/mathebuddy-math-runtime",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andreas Schwenk",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "esbuild": "^0.15.9"
+  }
+}
