@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="" />
+  <meta name="dcterms.date" content="2023-01-19" />
+  <title>Simple Math Programming Language (SMPL)</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="README.css" />
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+[<a href="https://app.f07-its.fh-koeln.de">Home</a>] [<a href="https://app.f07-its.fh-koeln.de/docs-mbl.html">MBL Reference</a>] [<a href="https://app.f07-its.fh-koeln.de/docs-smpl.html">SMPL Reference</a>] [<a href="https://app.f07-its.fh-koeln.de/docs-mbcl.html">MBCL Reference</a>] [<a href="https://app.f07-its.fh-koeln.de/docs-sim.html">Installation</a>] <h1 class="title">Simple Math Programming Language (SMPL)</h1>
+<p class="author"></p>
+<p class="date">2023-01-19</p>
+</header>
+<hr />
+<p><strong>NOTE</strong> This reference guide is in work-in-progress
+state. We are planning to release version 1.0 by end of 2022.</p>
+<hr />
+<p>This document describes the <em>Simple Math Programming Language
+(SMPL)</em>.</p>
+<p>SMPL is a math-oriented programming language that can be interpreted
+in the browser. Its primary use is for the <em>mathe:buddy app</em>.</p>
+<p>SMPL is (mostly) an imperative, typed language. Its syntax is
+basically a subset of <em>JavaScript</em>, but extends with intrinsic
+mathematical data types (e.g. terms, sets and matrices) and operator
+overloading for these types.</p>
+<p>The language definition of SMPL is independent of concrete
+implementations. A reference implementation can be found <a
+href="https://github.com/mathebuddy/mathebuddy-smpl">here</a>. Visit our
+online <a
+href="https://mathebuddy.github.io/mathebuddy-smpl/">playground</a>.</p>
+<p>SMPL is heavily used by the <a
+href="https://app.f07-its.fh-koeln.de/docs-mbl.html">mathe:buddy
+language</a>.</p>
+<h3 id="history-notes">History Notes</h3>
+<p>Many concepts (and also parts of the source code) are taken from the
+<em>Simple E-Learning Language</em> <a
+href="https://sell.f07-its.fh-koeln.de">SELL</a>. Compared to SELL, SMPL
+is <em>Turing Complete</em>, but lacks an interactive e-learning
+environment.</p>
+<h2 id="first-example">First Example</h2>
+<p>The following example program creates two <span
+class="math inline">\(3 \times 3\)</span>-matrices <span
+class="math inline">\(A\)</span> and <span
+class="math inline">\(B\)</span>, with random (integral) entries in
+range [-5,5] without zero. Both matrices are numerically unequal. The
+product of <span class="math inline">\(A\)</span> and <span
+class="math inline">\(B\)</span> is finally assigned to variable <span
+class="math inline">\(C\)</span>.</p>
+<pre><code>% multiplication of two 3x3-matrices
+let A/B = randZ&lt;3,3&gt;(-5,5);
+let C = A * B;</code></pre>
+<p>The example demonstrates some of the key features of SMPL:</p>
+<ul>
+<li>very short syntax</li>
+<li>flexible randomization functions</li>
+<li>operator overloading</li>
+</ul>
+<p>The following <em>Python</em> program is similar to the two lines of
+SMPL code above (but not semantically equivalent, since it generates
+zero-elements in some cases).</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> numpy.<span class="bu">round</span>(numpy.random.rand(<span class="dv">3</span>,<span class="dv">3</span>)<span class="op">*</span><span class="dv">10</span>) <span class="op">-</span> <span class="dv">5</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  B <span class="op">=</span> numpy.<span class="bu">round</span>(numpy.random.rand(<span class="dv">3</span>,<span class="dv">3</span>)<span class="op">*</span><span class="dv">10</span>) <span class="op">-</span> <span class="dv">5</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">not</span> numpy.array_equal(A,B):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> numpy.matmul(A, B)</span></code></pre></div>
+<h2 id="programs">Programs</h2>
+<p>An SMPl program is a sequence of statements <span
+class="math inline">\(p=(s_0 ~s_1 \dots)\)</span>. Each statement ends
+by a semicolon (<code>;</code>). Declarations and assignments are
+executed statement wise, i.e. <span
+class="math inline">\(s_{i+1}\)</span> is executed after statement <span
+class="math inline">\(s_i\)</span>.</p>
+<p>Example:</p>
+<pre><code>let x = 3;
+let y = sin(x);</code></pre>
+<p>The example programs executes lines one and two in given order. Each
+line is evaluated, before the next line is executed. Indeed, we also
+could write all statements in one line, since the semicolon separates
+statements.</p>
+<ul>
+<li><p>The first line evaluates the right-hand side of the equal sign
+(<code>=</code>) and assigns the result, here <code>3</code>, to a new
+variable with identifier <code>x</code>. The type of variable
+<code>x</code> is <code>INT</code>.</p></li>
+<li><p>The second line first evaluates the expression
+<code>sin(x)</code>. Variable <code>x</code> is taken as argument to the
+sine function. The numeric result <code>0.14111..</code> is stored to
+variable <code>y</code> of data type <code>real</code>. It has
+double-precision (refer to IEEE 754). Take care, that real numbers <span
+class="math inline">\(\mathbb{R}\)</span> are stored approximately,
+unless symbolic computation is applied explicitly.</p></li>
+</ul>
+<h2 id="comments">Comments</h2>
+<p>Comments provide the opportunity co write notes in natural language
+that is not executed. Comments are introduced by the percentage sign
+(<code>%</code>) and are valid until the next line break.</p>
+<p>Example:</p>
+<pre><code>% this is a comment line
+let a = 5;  % assign integer constant 5 to variable a
+%let b = 7;</code></pre>
+<p>The same listing can be denoted as follows without comments:</p>
+<pre><code>let a = 5;</code></pre>
+<h2 id="declarations">Declarations</h2>
+<p>Declarations are initiated with keyword <code>let</code>, followed by
+an identifier and finally assigned expression by <code>=</code>. The
+expression in the right-hand side is mandatory to derive the data type.
+Data types are described in detail in the next section.</p>
+<p>Example:</p>
+<pre><code>let x = 5, z = 9.1011;
+let y = 7;
+let u = rand(5);
+let v = zeros&lt;2,3&gt;();
+let a:b = randZ&lt;3,3&gt;(-2, 2);
+let c/d/e = rand&lt;3,3&gt;(-2, 2);</code></pre>
+<ul>
+<li>Variables <code>x</code> and <code>u</code> are integral. The value
+for <code>u</code> is randomly chosen from set {0,1,2,3,4,5}.</li>
+<li>Variable <code>z</code> is a real valued.</li>
+<li>Variables <code>x</code> and <code>z</code> are declared together
+(without any semantical relation). The notation is equivalent to
+<code>let y=7; let y=9.1011;</code></li>
+<li>Variables <code>v</code>, <code>a</code>, <code>b</code>,
+<code>c</code> and <code>d</code> are matrices. <code>v</code> is a zero
+matrix with two rows and three columns.</li>
+<li>Matrices <code>a</code> and <code>b</code> consist of randomly
+chosen, integral elements in range [-2,2] without zero.</li>
+<li>The colon separator <code>:</code> evaluates the right-hand side as
+many times, as there are left-hand side variables. The example is equal
+to:
+<code>let a = randZ&lt;3,3&gt;(-2, 2); let b = randZ&lt;3,3&gt;(-2, 2);</code>.</li>
+<li>Separator <code>/</code> guarantees that no pair of matrices
+<code>c</code>, <code>d</code> and <code>e</code> is equal: Matrix, a
+<span class="math inline">\(3 \times 3\)</span> matrix is generated and
+assigned to variable <code>c</code>. Then a random <span
+class="math inline">\(3 \times 3\)</span> matrix is generated that is
+numerically unequal to matrix <code>a</code>. Finally, a random <span
+class="math inline">\(3 \times 3\)</span> matrix for <code>c</code> is
+generated with <span class="math inline">\(c \neq a\)</span> and <span
+class="math inline">\(c \neq b\)</span>.</li>
+</ul>
+<h2 id="expressions">Expressions</h2>
+<p>An assignment has the form <code>X = Y;</code>. First, the right-hand
+side <code>Y</code> is evaluated and then assigned to the variable
+<code>X</code> on the left-hand side.</p>
+<p>Variables are named by identifiers, consisting of one ore more
+characters. The first character must be a lowercase or uppercase letter
+or underscore, i.e. <code>a..z</code> or <code>A..Z</code> or
+<code>_</code>. Starting from the second character, also numbers
+<code>0..9</code> are allowed additionally. Keywords and function names
+of the standard function library (see appendix) are not allowed.
+Examples: <code>x</code>, <code>y0</code>, <code>A</code>,
+<code>mat_0</code>.</p>
+<p>The right-hand side of an assignment consists of a unary constant
+(e.g. <code>1337</code> or <code>3.14</code> or <code>-42</code>) or a
+function call (e.g. <code>sin(x)</code>) or a variable
+(e.g. <code>x</code>) or an expression (e.g. <code>a + 4</code>).</p>
+<p>An expression is denoted in infix notation: The operator is denoted
+between two operands in case of a binary operation or the operator is
+denoted before the operand in case of a unary operation.</p>
+<p>The following list of operators is implemented in SMPL. The list is
+ordered by increasing precedence. Explicit parentheses can break the
+default precedence (e.g. <span class="math inline">\(a *
+(b+c)\)</span>).</p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>||</code></td>
+<td>Logical Or (binary)</td>
+</tr>
+<tr class="even">
+<td><code>&amp;&amp;</code></td>
+<td>Logical And (binary)</td>
+</tr>
+<tr class="odd">
+<td><code>==</code>,<code>!=</code></td>
+<td>Equal, Unequal (binary)</td>
+</tr>
+<tr class="even">
+<td><code>&lt;</code>,
+<code>&lt;=</code>,<code>&gt;</code>,<code>&gt;=</code></td>
+<td>Less than, Less or equal, Greater than, Greater or equal
+(binary)</td>
+</tr>
+<tr class="odd">
+<td><code>+</code>, <code>-</code></td>
+<td>Addition, Subtraction (binary)</td>
+</tr>
+<tr class="even">
+<td><code>*</code>, <code>/</code></td>
+<td>Multiplication, Division (binary)</td>
+</tr>
+<tr class="odd">
+<td><code>^</code></td>
+<td>Potency (binary)</td>
+</tr>
+<tr class="even">
+<td><code>++</code>, <code>--</code></td>
+<td>Postfix Incrementation, Decrementation (unary)</td>
+</tr>
+<tr class="odd">
+<td><code>!</code></td>
+<td>logical not (unary)</td>
+</tr>
+</tbody>
+</table>
+<p>Not all operators can be applied to each data type. For example,
+<code>a &amp;&amp; b</code> is only valid, if operands <code>a</code>
+and <code>b</code> are boolean.</p>
+<p>Base data types are evaluated at compile-time. The compiler reports
+an error, if types do not match for a operator.</p>
+<p>Dimensions are evaluated at runtime. For example, a
+<code>RuntimeError</code> is thrown if two matrices with a different
+number of rows are added.</p>
+<p>Comparing non-integer numbers with <code>==</code> and
+<code>!=</code> applies the following numerical compare:
+<code>a == b</code> is implemented as <span
+class="math inline">\(|a-b|\leq\epsilon\)</span> and <code>a != b</code>
+is implemented as <span
+class="math inline">\(|a-b|&gt;\epsilon\)</span>. <em>(Note: <span
+class="math inline">\(\epsilon\)</span> is statically set to <span
+class="math inline">\(10^{-9}\)</span>. It will be configurable in
+future SMPL revisions.)</em></p>
+<p>Some examples for expressions (the examples assumes, that variables
+<code>y</code>, <code>u</code>, <code>w</code>, <code>A</code>,
+<code>B</code>, <code>C</code> have been declared before usage):</p>
+<pre><code>let x = 1.23 * sin(y) + exp(u + 2*w);
+let C = A * transpose(B);
+let d = det(C);</code></pre>
+<p>The set of implemented functions is listed in the appendix.</p>
+<h2 id="data-types">Data Types</h2>
+<p>SMPL supports the following data types:</p>
+<ul>
+<li><p>boolean (<code>BOOL</code>)</p>
+<p>A boolean variable is either <code>true</code> or
+<code>false</code>.</p>
+<p>Example:</p>
+<pre><code>let x = true;
+let y = false;
+let w = true;
+let u = (x &amp;&amp; y) || !w;
+let v = 3 &lt; 5;</code></pre>
+<p><span class="math inline">\(u := (x \land y) \lor \lnot
+w\)</span></p></li>
+<li><p>integer (<code>INT</code>)</p>
+<p>An integer variable stores integral values in range <span
+class="math inline">\(-2^{53}\)</span> to <span
+class="math inline">\(2^{53}-1\)</span>.</p>
+<blockquote>
+<p>Note: <code>JavaScript</code> stores integer values as double
+precision floating point numbers.</p>
+</blockquote>
+<p>Example:</p>
+<pre><code>let x = 5;
+let y = -23;
+let z = x * y;
+let w = round(x / y);</code></pre>
+<p>Note that the division outputs <code>RATIONAL</code> data type,
+despite concrete values. Use <code>round</code> or <code>floor</code> or
+<code>ceil</code> to get an integer value.</p></li>
+<li><p>rational (<code>RATIONAL</code>)</p>
+<p>A rational number variable stores values of the form <code>x/y</code>
+with <span class="math inline">\(x,y \in \mathbb{Z}\)</span>.</p>
+<p>Example:</p>
+<pre><code>let x = 1 / 7;
+let y = real(1 / 7);</code></pre>
+<p>Variable <code>x</code> is of type <code>RATIONAL</code> and stores
+<code>1/7</code>. Variable <code>y</code> is of type <code>REAL</code>
+and stores <code>0.142857...</code> in IEEE 754 double
+precision.</p></li>
+<li><p>real (<code>REAL</code>)</p>
+<p>Real number variables store approximations of real values with IEEE
+754 double precision.</p>
+<p>Example:</p>
+<pre><code>let x = PI;
+let y = sin(0.1);</code></pre></li>
+<li><p>complex (<code>COMPLEX</code>).</p>
+<p>Complex variables store complex number in normal form
+<code>x+yi</code> with <span class="math inline">\(x,y \in
+\mathbb{R}\)</span>. Complex numbers can be initialized by function
+<code>complex(x,y)</code> or writing <code>x+yi</code>.</p>
+<p>For <code>y=1</code>, one must write <code>1i</code> instead of just
+<code>i</code>. The identifier <code>i</code> is an ordinary variable
+name.</p>
+<p>Example:</p>
+<pre><code>let x = 3 - 4i;
+let y = complex(3, -4);
+let phi = arg(x);
+let r = abs(x);
+let z = r * exp(phi);</code></pre></li>
+<li><p>set (<code>SET</code>)</p>
+<p>A set variable stores a set of integer numbers. A set is
+initialized</p>
+<pre><code>let x = set(3, 4, 5);      // x := {3,4,5}
+add(x, 4);                 // x := {3,4,5}
+add(x, 6);                 // x := {3,4,5,6}
+remove(x, 3);              // x := {4,5,6}
+let y = iselement(x, 4);   // true</code></pre>
+<blockquote>
+<p>Note: set of non-integers will be supported later.</p>
+</blockquote></li>
+<li><p>term (<code>TERM</code>)</p>
+<p>A term is an symbolic expression.</p>
+<p>Example</p>
+<pre><code>let f(x) = x^2;
+let y = f(3);
+let g(x,y) = 2 * exp(-x) * sin(y);
+let h(x,y) = diff(g, x);
+let i = int(f, 0, 3);</code></pre>
+<p>The example calculates <span class="math inline">\(f(x)=x^2\)</span>,
+<span class="math inline">\(y=9\)</span>, <span
+class="math inline">\(g(x)=2\cdot\exp(x)\cdot\sin(y)\)</span>, <span
+class="math inline">\(h(x,y)=-2 \cdot \exp(x) \cdot \sin(y)\)</span>,
+<span class="math inline">\(i=21.3333...\)</span>.</p></li>
+<li><p>vector (<code>VECTOR</code>)</p>
+<pre><code>let v = [1, 2, 3];
+let w = [4, 5, 6];
+let x = zeros&lt;3&gt;();
+let n = len(v);
+let d = dot(v, w);</code></pre></li>
+<li><p>matrix (<code>MATRIX</code>)</p>
+<p>A matrix variable stores a real valued matrix.</p>
+<ul>
+<li>Matrices can be initialized e.g. by the
+<code>zero&lt;m,n&gt;()</code> function, which creates a zero matrix
+with <code>m</code> rows and <code>n</code> columns.</li>
+<li>A matrix with all its elements can be specified by the brackets
+operator:
+<code>[a00, a01, ..., a0n-1; a10, a11, ..., a1n-1; ...; am-10 am-11 ... am-1n-1]</code>.
+Rows are delimited by <code>;</code> and columns are delimited by
+<code>,</code>.</li>
+<li>Matrix elements can be accessed by <code>[i,j]</code> with row
+<code>i</code> and column <code>j</code>. Indices start at zero,
+i.e. the first index is 0 and the last index is <span
+class="math inline">\(m-1\)</span> for a row and <span
+class="math inline">\(n-1\)</span> for a column.</li>
+</ul>
+<p>The appendix lists all functions with matrix operands.</p>
+<pre><code>let A = zeros&lt;2,3&gt;();
+let B = [1, 2, 3; 4, 5, 6];
+let C = ones&lt;3,3&gt;();
+B[2,3] = 5;
+let x = B[0,0];
+let d = det(C);</code></pre>
+<blockquote>
+<p>Note: matrices with complex elements will be supported later.</p>
+</blockquote></li>
+</ul>
+<!-- TODO: bigint -->
+<!-- TODO: special constants: PI, ... -->
+<h2 id="conditions">Conditions</h2>
+<p>Conditional code is executed only, if a conditional is true. The
+<code>if</code>-statement has the form
+<code>if (C) { S0 } else if (C1) { S1 } ... else { Sn }</code>, with a
+sequences of statements <code>S0</code>, <code>S1</code> etc. Sequence
+<code>S0</code> is executed, if the boolean condition <code>S0</code> is
+true. Sequence <code>S1</code> is executed, if the boolean condition
+<code>S0</code> is false and the boolean condition <code>S1</code> is
+true. In case that all conditions <code>Ci</code> are false, then
+sequence <code>Sn</code> is executed.</p>
+<p>The <code>else if</code> parts and <code>else</code> part are
+optional.</p>
+<blockquote>
+<p>Example</p>
+</blockquote>
+<pre><code>let s = 0;
+if (x &gt; 0) {
+  s=1;
+}
+else if (x &lt; 0) {
+  s = -1;
+}
+else {
+  x=0;
+}</code></pre>
+<h2 id="loops">Loops</h2>
+<p>TODO:</p>
+<p>Example:</p>
+<pre><code>while (x &gt; 0) {
+  // body
+}</code></pre>
+<p>Example:</p>
+<pre><code>do {
+  // body
+} while (x &gt; 0);</code></pre>
+<p>Example:</p>
+<pre><code>for (let i = 0; i &lt; 5; i++) {
+  // body
+}</code></pre>
+<h2 id="functions">Functions</h2>
+<p>A function consists of a <strong>header</strong> and a
+<strong>body</strong>:</p>
+<ul>
+<li>The <strong>header</strong> declared the name of the function, its
+parameter names and types and the return type.</li>
+<li>The <strong>body</strong> is represented by a list of statements and
+returns a result that is compatible to the return type.</li>
+</ul>
+<p>Example:</p>
+<pre><code>function f(x: INT, y: INT): INT {
+  return x + y;
+}
+
+let y = f(3, 4);</code></pre>
+<h2 id="appendix-built-in-constants">Appendix: Built-in constants</h2>
+<p>The following list describes all built-in constants. We use the
+notation <code>:T</code> after each variable to indicate its data
+type.</p>
+<ul>
+<li><strong><code>PI : REAL</code>   (<span
+class="math inline">\(3.141592653589793\)</span>)</strong></li>
+</ul>
+<h2 id="appendix-built-in-functions">Appendix: Built-in functions</h2>
+<p>The following list describes all built-in functions. We use the
+notation <code>:T1|T2|...</code> to list valid data types for each
+parameter and the return value. For example
+<code>abs(x:INT|REAL|COMPLEX):REAL</code> denotes function
+<code>abs</code> with one parameter named <code>x</code> that can be an
+integer a real value or complex value. The function returns a real
+value.</p>
+<p>Some function also require dimensions. These are embedded into
+<code>&lt;...&gt;</code>.</p>
+<ul>
+<li><p><strong><code>abs ( x : INT|REAL|COMPLEX ) : REAL</code></strong></p>
+<p>Returns the absolute values of <code>x</code>.</p>
+<p><em>Example: <code>abs(-4)</code> is evaluated to
+<code>4</code>.</em></p>
+<p><em>Example: <code>abs(3+4i)</code> is evaluated to
+<code>5</code>.</em></p></li>
+<li><p><strong><code>acos ( x : REAL ) : REAL</code></strong></p>
+<p>Calculates <span class="math inline">\(\cos^{-1}(x)\)</span>.</p>
+<p><em>Example: <code>acos(0)</code> returns <span
+class="math inline">\(1.57079...\)</span>.</em></p></li>
+<li><p><strong><code>asin ( x : REAL ) : REAL</code></strong></p>
+<p>Calculates <span class="math inline">\(\sin^{-1}(x)\)</span>.</p>
+<p><em>Example: <code>asin(0)</code> returns <span
+class="math inline">\(0\)</span>.</em></p></li>
+<li><p><strong><code>atan ( x : REAL ) : REAL</code></strong></p>
+<p>Calculates <span class="math inline">\(\tan^{-1}(x)\)</span>.</p>
+<p><em>Example: <code>atan(0)</code> returns <span
+class="math inline">\(0\)</span>.</em></p></li>
+<li><p><strong><code>binomial ( n : INT , k : INT ) : INT</code></strong></p>
+<p>Calculates the binomial coefficient <span
+class="math inline">\(\binom{n}{k} = \frac{n!}{k!(n-k)!}\)</span>.</p>
+<p><em>Example: <code>binomial(4,2)</code> returns
+<code>6</code>.</em></p></li>
+<li><p><strong><code>ceil ( x : INT|REAL ) : INT</code></strong></p>
+<p>Returns the ceiling of <code>x</code>.</p>
+<p><em>Example: <code>ceil(3.14159)</code> returns
+<code>4</code>.</em></p></li>
+<li><p><strong><code>ceil ( x : MATRIX ) : MATRIX</code></strong></p>
+<p>Returns a matrix, where each element is the ceiling value of the
+input matrix.</p>
+<p><em>Example: <code>ceil([[1.1,2.2],[4.4,5.5]])</code> returns
+<code>[2,3;5,6]</code>.</em></p></li>
+<li><p><strong><code>complex ( x : INT|REAL , y : INT|REAL ) : COMPLEX</code></strong></p>
+<p>Creates a complex number from real part <code>x</code> and imaginary
+part <code>y</code>, i.e. <span
+class="math inline">\(z=x+yi\)</span>.</p>
+<p><em>Example: <code>complex(2,3)</code> returns
+<code>2+3i</code></em>.</p></li>
+<li><p><strong><code>column ( x : MATRIX, c : INT ): VECTOR</code></strong></p>
+<p>Returns the <code>c</code>-th column of matrix <code>x</code> as
+vector. The first vector has index 0.</p>
+<p><em>Example: <code>column([[1,2],[3,4]], 1)</code> returns
+<code>[2,4]</code>.</em></p></li>
+<li><p><strong><code>conj ( z : COMPLEX ) : COMPLEX</code></strong></p>
+<p>Calculates <span class="math inline">\(\bar z\)</span>, i.e. the
+complex conjugate of <code>z</code>.</p>
+<p><em>Example: <code>conj(3+4i)</code> returns
+<code>3-4i</code>.</em></p></li>
+<li><p><strong><code>cos ( x : REAL ) : REAL</code></strong></p>
+<p>Calculates <span class="math inline">\(\cos(x)\)</span>.</p>
+<p><em>Example: <code>cos(PI/2)</code> returns <span
+class="math inline">\(0\)</span>.</em></p></li>
+<li><p><strong><code>cross ( x : VECTOR, y : VECTOR ) : VECTOR</code></strong></p>
+<p>Calculated the cross product of two vectors <span
+class="math inline">\(x\)</span> and <span
+class="math inline">\(y\)</span>, i.e. <span class="math inline">\(x
+\times y\)</span>, or throws an exception, if one of the vectors has not
+exactly three elements.</p>
+<p><em>Example: <code>cross([1,2,3],[4,5,6])</code> returns
+<code>[-3,6,-3]</code>.</em>;</p></li>
+<li><p><strong><code>det ( x : MATRIX ) : REAL</code></strong></p>
+<p>Returns <code>\det(x)</code> or throws an error, if <span
+class="math inline">\(x\)</span> is not square.</p>
+<p>TODO: example(s).</p></li>
+<li><p><strong><code>diff ( f : TERM , x : ID ) : TERM</code></strong></p>
+<p>Calculates <span class="math inline">\(\frac{\partial f}{\partial
+x}\)</span>.</p>
+<p><em>Example: <code>f(x,y)=x^2+y; diff(f, x)</code> returns
+<code>2*x</code>.</em></p></li>
+<li><p><strong><code>dot ( u : VECTOR , v : VECTOR ) : REAL</code></strong></p>
+<p>Calculates the doc product of two vectors <span
+class="math inline">\(u\)</span> and <span
+class="math inline">\(v\)</span>.</p>
+<p><em>Example: <code>dot([1,2,3],[4,5,6])</code> returns
+<code>32</code>.</em></p></li>
+<li><p><strong><code>eigenvalues_sym ( x : MATRIX ) : SET_REAL</code></strong></p>
+<p>Calculate the set of eigenvalues of a symmetric matrix
+<code>x</code>. If <code>x</code> is not symmetric, an error is
+thrown.</p>
+<p><em>Example: <code>eigenvalues_sym([[3,0],[0,4]])</code> returns
+<code>{3,4}</code>.</em></p></li>
+<li><p><strong><code>exp ( x : REAL|COMPLEX ) : REAL|COMPLEX</code></strong></p>
+<p>Calculates <span class="math inline">\(\exp(x)\)</span>.</p>
+<p><em>Examples: <code>exp(0)</code> returns <span
+class="math inline">\(1\)</span>. <code>exp(1i)</code> returns
+<code>0.54... + 0.84...i</code>.</em></p></li>
+<li><p><strong><code>eye ( n : INT ): MATRIX</code></strong></p>
+<p>Returns an <span class="math inline">\(n \times n\)</span> identity
+matrix.</p>
+<p><em>Example: <code>eye(3)</code> returns
+<code>[[1,0,0],[0,1,0],[0,0,1]]</code></em></p></li>
+<li><p><strong><code>fac ( x : INTEGER) : INTEGER</code></strong></p>
+<p>Calculates <span class="math inline">\(x!\)</span>, i.e. the faculty
+of <span class="math inline">\(x\)</span>.</p>
+<p><em>Example: <code>fac(3)</code> returns 6.</em></p></li>
+<li><p><strong><code>figure2d() : FIGURE_2D</code></strong></p>
+<p>Creates a new 2D-figure instance.</p></li>
+<li><p><strong><code>figure_x_range( fig : FIGURE_2D, min : REAL , max : REAL ) : VOID</code></strong></p>
+<p>Defines the range of the <span class="math inline">\(x\)</span>-axis
+for figure <code>fig</code>.</p></li>
+<li><p><strong><code>figure_y_range( fig : FIGURE_2D, min : REAL , max : REAL ) : VOID</code></strong></p>
+<p>Defines the range of the <span class="math inline">\(y\)</span>-axis
+for figure <code>fig</code>.</p></li>
+<li><p><strong><code>figure_x_label( fig : FIGURE_2D, label : STRING ) : VOID</code></strong></p>
+<p>Sets the label of the <span class="math inline">\(x\)</span>-axis for
+figure <code>fig</code>.</p></li>
+<li><p><strong><code>figure_y_label( fig : FIGURE_2D, label : STRING ) : VOID</code></strong></p>
+<p>Sets the label of the <span class="math inline">\(y\)</span>-axis for
+figure <code>fig</code>.</p></li>
+<li><p><strong><code>figure_color( fig : FIGURE_2D, key : INT ) : VOID</code></strong></p>
+<p>Sets the color for figure <code>fig</code>.</p></li>
+<li><p><strong><code>figure_plot( fig : FIGURE_2D, x : VECTOR|TERM ) : VOID</code></strong></p>
+<p>Plots a 2D-point or a function term into figure
+<code>fig</code>.</p></li>
+<li><p><strong><code>floor ( x : INT|REAL ) : INT</code></strong></p>
+<p>Returns the floor of <code>x</code>.</p>
+<p><em>Example: <code>floor(2.71)</code> returns
+<code>2</code>.</em></p></li>
+<li><p><strong><code>floor ( x : MATRIX ) : MATRIX</code></strong></p>
+<p>Returns a matrix, where each element is the ceiling value of the
+input matrix.</p>
+<p><em>Example: <code>floor([[1.1,2.2],[4.4,5.5]])</code> returns
+<code>[[1,2],[4,5]]</code>.</em></p></li>
+<li><p><strong><code>imag ( x : COMPLEX ) : REAL</code></strong></p>
+<p>Returns the imaginary part of a complex number.</p>
+<p><em>Example: <code>imag(3+4i)</code> returns 4.</em></p></li>
+<li><p><strong><code>int ( x : REAL ) : INT</code></strong></p>
+<p>Typecast from type real to type integer. Same behavior as function
+<code>floor</code>.</p>
+<p><em>Example: <code>int(3.0)</code> returns <code>3</code>.    
+<code>int(2.71)</code> returns <code>2</code>.</em></p></li>
+<li><p><strong><code>is_invertible ( x : MATRIX ) : BOOL</code></strong></p>
+<p>Returns true, if <span class="math inline">\(x\)</span> is
+invertible, otherwise false. Throws an exception, if <span
+class="math inline">\(x\)</span> is not a square matrix.</p>
+<p>TODO: epsilon + give example(s)</p></li>
+<li><p><strong><code>is_symmetric ( x : MATRIX ) : BOOL</code></strong></p>
+<p>Returns true, if <span class="math inline">\(x\)</span> is symmetric,
+otherwise false. Throws an exception, if <span
+class="math inline">\(x\)</span> is not a square matrix.</p>
+<p>TODO: epsilon + give example(s)</p></li>
+<li><p><strong><code>is_zero ( x : VECTOR|MATRIX ) : BOOL</code></strong></p>
+<p>Returns true, if all elements <span class="math inline">\(|x| &lt;
+\epsilon\)</span>.</p>
+<!-- TODO: specify epsilon + give example(s) --></li>
+<li><p><strong><code>len ( x : VECTOR|SET ) : INT</code></strong></p>
+<p>Returns the length of a vector or the cardinality (number of
+elements) of a set.</p>
+<p><em>Examples: <code>len([1,0,0,1])</code> returns 4.
+<code>len(set(1,3,3,7))</code> returns 3.</em></p></li>
+<li><p><strong><code>linsolve ( A : MATRIX , x : VECTOR ) : VECTOR</code></strong></p>
+<p>TODO: no, one, inf solutions.</p></li>
+<li><p><strong><code>max ( s : SET_INT ) : INT</code></strong></p>
+<p>Returns the maximum value from an integer set. If the set is empty,
+then <span class="math inline">\(-\infty\)</span> is returned.</p>
+<p><em>Example: <code>max(set(1,-2,3))</code> returns
+<code>3</code>.</em></p></li>
+<li><p><strong><code>max ( s : SET_REAL ) : REAL</code></strong></p>
+<p>Returns the maximum value from a set consisting of real valued
+elements. If the set is empty, then <span
+class="math inline">\(-\infty\)</span> is returned.</p>
+<p><em>Example: <code>max(set(1.1,-2.1,3.1))</code> returns
+<code>3.1</code>.</em></p></li>
+<li><p><strong><code>min ( s : SET_INT ) : INT</code></strong></p>
+<p>Returns the minimum value from an integer set. If the set is empty,
+then <span class="math inline">\(\infty\)</span> is returned.</p>
+<p><em>Example: <code>min(set(1,-2,3))</code> returns
+<code>-2</code>.</em></p></li>
+<li><p><strong><code>min ( s : SET_REAL ) : REAL</code></strong></p>
+<p>Returns the minimum value from a set consisting of real valued
+elements. If the set is empty, then <span
+class="math inline">\(\infty\)</span> is returned.</p>
+<p><em>Example: <code>min(set(1.1,-2.1,3.1))</code> returns
+<code>-2.1</code>.</em></p></li>
+<li><p><strong><code>norm2 ( u : VECTOR ) : REAL</code></strong></p>
+<p>Calculates the euclidean norm of a vector <span
+class="math inline">\(u\)</span>, i.e. <span
+class="math inline">\(\sqrt{u_0^2 + u_1^2 + \dots}\)</span>.</p>
+<p><em>Example: <code>norm2([3,4])</code> returns
+<code>5</code>.</em></p></li>
+<li><p><strong><code>ode &lt; lhs : TERM , rhs : TERM &gt; : TERM</code></strong></p>
+<p>Returns an ordinary differential equation (ODE).</p>
+<p><em>Example:
+<code>let y(x) = ode( diff(y,x), - 2 * x^2/y );</code></em></p></li>
+<li><p><strong><code>ones &lt; m : INT , n : INT &gt; () : MATRIX</code></strong></p>
+<p>Returns a one-matrix with <code>m</code> rows and <code>n</code>
+columns.</p>
+<p><em>Example: <code>ones&lt;2,3&gt;()</code> returns a <span
+class="math inline">\(2\times 3\)</span> matrix with all elements
+1.</em></p></li>
+<li><p><strong><code>rand ( a : INT , b : INT ) : INT</code></strong></p>
+<p>Returns a random integer in range <code>[a,b]</code>.</p></li>
+<li><p><strong><code>rand &lt; n : INT &gt; ( a : INT , b : INT ) : VECTOR</code></strong></p>
+<p>Returns a vector of length <span class="math inline">\(n\)</span>,
+where each element is a randomly chosen integer value in range
+<code>[a,b]</code>.</p></li>
+<li><p><strong><code>rand &lt; m : INT , n : INT &gt; ( a : INT , b : INT ) : MATRIX</code></strong></p>
+<p>Returns a <span class="math inline">\(m \times n\)</span> matrix,
+where each element is a randomly chosen integer value in range
+<code>[a,b]</code>.</p></li>
+<li><p><strong><code>rand ( s : SET_INT ) : INT</code></strong></p>
+<p>Randomly returns one of the elements of integer set
+<code>s</code>.</p>
+<p><em>Example: <code>rand(set(11,12,13))</code> returns <code>11</code>
+or <code>12</code> or <code>13</code>.</em></p></li>
+<li><p><strong><code>randZ ( a : INT , b : INT ) : INT</code></strong></p>
+<p>Returns a random integer in range <code>[a,b]</code>, except value
+0.</p></li>
+<li><p><strong><code>randZ &lt; n : INT &gt; ( a : INT , b : INT ) : VECTOR</code></strong></p>
+<p>Returns a vector of length <span class="math inline">\(n\)</span>,
+where each element is a randomly chosen integer value in range
+<code>[a,b]</code>, except value 0.</p></li>
+<li><p><strong><code>randZ &lt; m : INT , n : INT &gt; ( a : INT , b : INT ) : MATRIX</code></strong></p>
+<p>Returns a <span class="math inline">\(m \times n\)</span> vector,
+where each element is a randomly chosen integer value in range
+<code>[a,b]</code>, except value 0.</p></li>
+<li><p><strong><code>rank ( x : MATRIX ) : INT</code></strong></p>
+<p>Calculates the rank of matrix <span
+class="math inline">\(x\)</span>.</p>
+<!-- TODO: give example(s) --></li>
+<li><p><strong><code>real ( x : INT ) : REAL</code></strong></p>
+<p>Type casts an integer value to a real value.</p>
+<p><em>Example: <code>real(3)</code> returns
+<code>3.0</code>.</em></p></li>
+<li><p><strong><code>real ( x : COMPLEX ) : REAL</code></strong></p>
+<p>Returns the real part of a complex number.</p>
+<p><em>Example: <code>real(3+4i)</code> returns 3.</em></p></li>
+<li><p><strong><code>row ( x : MATRIX, r : INT ): VECTOR</code></strong></p>
+<p>Returns the <code>c</code>-th row of matrix <code>x</code> as vector.
+The first row has index 0.</p>
+<p><em>Example: <code>row([[1,2],[3,4]], 1)</code> returns
+<code>[3,4]</code>.</em></p></li>
+<li><p><strong><code>round ( x : INT|REAL ) : INT</code></strong></p>
+<p>Returns the rounded value of <code>x</code>.</p>
+<p><em>Example: <code>round(3.14159)</code> returns
+<code>3</code>.</em></p></li>
+<li><p><strong><code>round ( x : MATRIX ) : MATRIX</code></strong></p>
+<p>Returns a matrix, where each element of the input matrix is
+rounded.</p>
+<p><em>Example: <code>round([[1.1,2.2],[4.4,5.5]])</code> returns
+<code>[[1,2],[4,6]]</code>.</em></p></li>
+<li><p><strong><code>set ( x0 : INT , x1 : INT, ... ) : SET_INT</code></strong></p>
+<p>Creates and returns a set of integer values.</p>
+<p><em>Example: <code>set(4, 2, 5, 2)</code> returns a set <span
+class="math inline">\(\{2,4,5\}\)</span>.</em></p></li>
+<li><p><strong><code>set ( x0 : REAL , x1 : REAL, ... ) : SET_REAL</code></strong></p>
+<p>Creates and returns a set of real values.</p>
+<p><em>Example: <code>set(0.1, -3.4)</code> returns a set <span
+class="math inline">\(\{-3.4,0.1\}\)</span>.</em></p></li>
+<li><p><strong><code>set ( x0 : COMPLEX , x1 : COMPLEX, ... ) : SET_COMPLEX</code></strong></p>
+<p>Creates and returns a set of complex values.</p>
+<p><em>Example: <code>set(4+2i, 2, 5i, 2)</code> returns a set <span
+class="math inline">\(\{4+2i,2,5i\}\)</span>.</em></p></li>
+<li><p><strong><code>sin ( x : REAL ) : REAL</code></strong></p>
+<p>Calculates <span class="math inline">\(\sin(x)\)</span>.</p>
+<p><em>Example: <code>sin(0)</code> returns <span
+class="math inline">\(0\)</span>.</em></p></li>
+<li><p><strong><code>shuffle ( x : VECTOR ) : VECTOR</code></strong></p>
+<p>Randomly reorders the elements of <code>x</code>.</p>
+<p><em>Example: <code>shuffle([3,1,4])</code> returns
+<code>[1,3,4]</code> or <code>[4,3,1]</code> or …</em></p></li>
+<li><p><strong><code>sqrt ( x : INT|REAL ) : REAL</code></strong></p>
+<p>Calculates <span class="math inline">\(\sqrt{x}\)</span> for <span
+class="math inline">\(x \geq 0\)</span>. If <span
+class="math inline">\(x&lt;0\)</span>, a runtime error is thrown.</p>
+<p>For negative or complex <code>x</code>, use function
+<code>sqrtC</code>.</p>
+<p><em>Example: <code>sqrt(4)</code> returns
+<code>2</code>.</em></p></li>
+<li><p><strong><code>sqrtC ( x : INT|REAL|COMPLEX ) : COMPLEX</code></strong></p>
+<p>Calculates <span class="math inline">\(\sqrt{x}\)</span> and returns
+the result as complex number. The result is technically a complex
+number, even if the imaginary part is zero.</p>
+<p><em>Examples: <code>sqrt(-4)</code> returns <code>2i</code>.    
+<code>sqrt(4)</code> returns <code>2+0i</code>.</em></p></li>
+<li><p><strong><code>tan ( x : REAL ) : REAL</code></strong></p>
+<p>Calculates <span class="math inline">\(\tan(x)\)</span>.</p>
+<p><em>Example: <code>tan(0)</code> returns <span
+class="math inline">\(0\)</span>.</em></p></li>
+<li><p><strong><code>triu ( x : MATRIX ) : MATRIX</code></strong></p>
+<p>Returns the upper triangular part of <span
+class="math inline">\(x\)</span>.</p>
+<p>TODO: example(s)</p></li>
+<li><p><strong><code>zeros &lt; n : INT &gt; () : VECTOR</code></strong></p>
+<p>Returns a zero-vector with <code>n</code> elements.</p>
+<p><em>Example: <code>zero&lt;3&gt;()</code> returns a vector with all
+three elements 0.</em></p></li>
+<li><p><strong><code>zeros &lt; m : INT , n : INT &gt; () : MATRIX</code></strong></p>
+<p>Returns a zero-matrix with <code>m</code> rows and <code>n</code>
+columns.</p>
+<p><em>Example: <code>zero&lt;2,3&gt;()</code> returns a <span
+class="math inline">\(2\times 3\)</span> matrix with all elements
+0.</em></p></li>
+</ul>
+<h2 id="appendix-grammar">Appendix: Grammar</h2>
+<p>The following formal grammar (denoted in EBNF) is currently
+implemented.</p>
+<pre class="ebnf"><code>program = { statement };
+statement = declaration | if | for | do | while | switch | function | return | break | continue | expression EOS;
+declaration = &quot;let&quot; id_list &quot;=&quot; expr EOS | &quot;let&quot; ID &quot;(&quot; ID { &quot;,&quot; ID } &quot;)&quot; &quot;=&quot; expr EOS;
+id_list = ID { &quot;:&quot; ID } | ID { &quot;/&quot; ID };
+expression = or { (&quot;=&quot;|&quot;+=&quot;|&quot;-=&quot;|&quot;/=&quot;) or };
+or = and { &quot;||&quot; and };
+and = equal { &quot;&amp;&amp;&quot; equal };
+equal = relational [ (&quot;==&quot;|&quot;!=&quot;) relational ];
+relational = add [ (&quot;&lt;=&quot;|&quot;&gt;=&quot;|&quot;&lt;&quot;|&quot;&gt;&quot;) add ];
+add = mul { (&quot;+&quot;|&quot;-&quot;) mul };
+mul = pow { (&quot;*&quot;|&quot;/&quot;|&quot;mod&quot;) pow };
+pow = unary [ &quot;^&quot; unary ];
+unary = unaryExpression [ unaryPostfix ];
+unaryExpression = &quot;PI&quot; | &quot;true&quot; | &quot;false&quot; | INT [&quot;i&quot;] | REAL [&quot;i&quot;] | &quot;(&quot; expr &quot;)&quot; | &quot;[&quot; matrix_row { &quot;,&quot; matrix_row } &quot;]&quot; | &quot;[&quot; expr { &quot;,&quot; expr } &quot;]&quot; | | ID | &quot;-&quot; unary | &quot;!&quot; unary | STR;
+matrix_row = &quot;[&quot; expr { &quot;,&quot; expr } &quot;]&quot;;
+unaryPostfix = &quot;++&quot; | &quot;--&quot; | [ &quot;&lt;&quot; [ unary { &quot;,&quot; unary } ] &quot;&gt;&quot; ] &quot;(&quot; [ expr { &quot;,&quot; expr } ] &quot;)&quot; | &quot;[&quot; expr &quot;]&quot;;
+for = &quot;for&quot; &quot;(&quot; expression &quot;;&quot; expression &quot;;&quot; expression &quot;)&quot; block;
+if = &quot;if&quot; &quot;(&quot; expression &quot;)&quot; block [ &quot;else&quot; block ];
+block = statement | &quot;{&quot; { statement } &quot;}&quot;;
+do = &quot;do&quot; block &quot;while&quot; &quot;(&quot; expr &quot;)&quot; EOS;
+while = &quot;while&quot; &quot;(&quot; expr &quot;)&quot; block;
+switch = &quot;switch&quot; &quot;(&quot; expr &quot;)&quot; &quot;{&quot; { &quot;case&quot; INT &quot;:&quot; { statement } } &quot;default&quot; &quot;:&quot; { statement } &quot;}&quot;;
+function = &quot;function&quot; ID &quot;(&quot; [ ID { &quot;,&quot; ID } ] &quot;)&quot; block;
+return = &quot;return&quot; [ expr ] EOS;
+break = &quot;break&quot; EOS;
+continue = &quot;continue&quot; EOS;</code></pre>
+<p><em>Author: Andreas Schwenk, TH Köln</em></p>
+</body>
+</html>
