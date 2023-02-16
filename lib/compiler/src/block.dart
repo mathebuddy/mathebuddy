@@ -6,51 +6,30 @@
  * License: GPL-3.0-or-later
  */
 
-// TODO: use npm-package in future!
-import * as SMPL from '@mathebuddy/mathebuddy-smpl/src';
-import { BaseType } from '@mathebuddy/mathebuddy-smpl/src/symbol';
+import 'compiler.dart';
+import 'data/dataDefinition.dart';
+import 'data/dataEquation.dart';
+import 'data/dataLevel.dart';
+import 'data/dataTable.dart';
+import 'data/dataText.dart';
 
-import { Compiler } from './compiler';
-import { MBL_NewPage } from './data';
-import { MBL_Definition, MBL_DefinitionType } from './dataDefinition';
-import { MBL_Equation, MBL_EquationOption } from './dataEquation';
-import { MBL_Error } from './dataError';
-import { MBL_Example } from './dataExample';
-import {
-  MBL_Exercise,
-  MBL_Exercise_Instance,
-  MBL_Exercise_Variable,
-  MBL_Exercise_VariableType,
-} from './dataExercise';
-import { MBL_Figure, MBL_Figure_Option } from './dataFigure';
-import { MBL_LevelItem } from './dataLevel';
-import { MBL_Table, MBL_Table_Option, MBL_Table_Row } from './dataTable';
-import {
-  MBL_Text,
-  MBL_Text_AlignCenter,
-  MBL_Text_AlignLeft,
-  MBL_Text_AlignRight,
-} from './dataText';
-
-export class BlockPart {
-  name = '';
-  lines: string[] = [];
+class BlockPart {
+  String name = '';
+  List<String> lines = [];
 }
 
-export class Block {
-  type = '';
-  title = '';
-  label = '';
+class Block {
+  String type = '';
+  String title = '';
+  String label = '';
   parts: (MBL_LevelItem | BlockPart)[] = [];
-  srcLine = 0;
+  int srcLine = 0;
 
-  private compiler: Compiler = null;
+  Compiler _compiler;
 
-  constructor(compiler: Compiler) {
-    this.compiler = compiler;
-  }
+  Block(this._compiler);
 
-  process(): MBL_LevelItem {
+  MBL_LevelItem process() {
     switch (this.type) {
       case 'DEFINITION':
         return this.processDefinition(MBL_DefinitionType.Definition);
@@ -102,27 +81,27 @@ export class Block {
         return new MBL_NewPage();
 
       default: {
-        const err = new MBL_Error();
+        var err = new MBL_Error();
         err.message = 'unknown block type "' + this.type + '"';
         return err;
       }
     }
   }
 
-  private processText(): MBL_Text {
+  MBL_Text _processText() {
     // this block has no parts
     return this.compiler.parseParagraph(
       (this.parts[0] as BlockPart).lines.join('\n'),
     );
   }
 
-  private processTable(): MBL_Table {
-    let i: number;
-    const table = new MBL_Table();
+  MBL_Table _processTable() {
+    var i: number;
+    var table = new MBL_Table();
     table.title = this.title;
-    for (const p of this.parts) {
+    for (var p of this.parts) {
       if (p instanceof BlockPart) {
-        const part = <BlockPart>p;
+        var part = <BlockPart>p;
         switch (part.name) {
           case 'global':
             if (part.lines.join('\n').trim().length > 0)
@@ -130,7 +109,7 @@ export class Block {
                 'Some of your code is not inside a tag (e.g. "@code" or "@text")';
             break;
           case 'options':
-            for (let line of part.lines) {
+            for (var line of part.lines) {
               line = line.trim();
               if (line.length == 0) continue;
               switch (line) {
@@ -150,15 +129,15 @@ export class Block {
             break;
           case 'text':
             i = 0;
-            for (let line of part.lines) {
+            for (var line of part.lines) {
               line = line.trim();
               // TODO: "&" may also be used in math-mode!!
-              const columnStrings = line.split('&');
-              const row = new MBL_Table_Row();
+              var columnStrings = line.split('&');
+              var row = new MBL_Table_Row();
               if (i == 0) table.head = row;
               else table.rows.push(row);
-              for (const columnString of columnStrings) {
-                const column = this.compiler.parseParagraph(columnString);
+              for (var columnString of columnStrings) {
+                var column = this.compiler.parseParagraph(columnString);
                 row.columns.push(column);
               }
               i++;
@@ -173,12 +152,12 @@ export class Block {
     return table;
   }
 
-  private processFigure(): MBL_Figure {
-    const figure = new MBL_Figure();
-    const plotData: { [id: string]: string } = {};
-    for (const p of this.parts) {
+  _processFigure(): MBL_Figure {
+    var figure = new MBL_Figure();
+    var plotData: { [id: string]: string } = {};
+    for (var p of this.parts) {
       if (p instanceof BlockPart) {
-        const part = <BlockPart>p;
+        var part = <BlockPart>p;
         switch (part.name) {
           case 'global':
             if (part.lines.join('\n').trim().length > 0)
@@ -193,10 +172,10 @@ export class Block {
           case 'code':
             {
               // TODO: stop in case of infinite loops after some seconds!
-              const code = part.lines.join('\n');
+              var code = part.lines.join('\n');
               try {
-                const variables = SMPL.interpret(code);
-                for (const v of variables) {
+                var variables = SMPL.interpret(code);
+                for (var v of variables) {
                   if (v.type.base === BaseType.FIGURE_2D) {
                     plotData[v.id] = v.value.toString();
                   }
@@ -211,9 +190,9 @@ export class Block {
               figure.error += 'invalid path';
             } else {
               // TODO: check if path exists!
-              const line = part.lines[0].trim();
+              var line = part.lines[0].trim();
               if (line.startsWith('#')) {
-                const variableId = line.substring(1);
+                var variableId = line.substring(1);
                 if (variableId in plotData) {
                   figure.data = plotData[variableId];
                 } else {
@@ -225,7 +204,7 @@ export class Block {
             }
             break;
           case 'options':
-            for (let line of part.lines) {
+            for (var line of part.lines) {
               line = line.trim();
               if (line.length == 0) continue;
               switch (line) {
@@ -261,17 +240,17 @@ export class Block {
     return figure;
   }
 
-  private processEquation(numbering: boolean): MBL_Equation {
-    const equation = new MBL_Equation();
+  MBL_Equation _processEquation(bool numbering) {
+    var equation = new MBL_Equation();
     equation.numbering = numbering ? 888 : -1; // TODO: number
     equation.title = this.title;
     equation.label = this.label;
-    for (const p of this.parts) {
+    for (var p of this.parts) {
       if (p instanceof BlockPart) {
-        const part = <BlockPart>p;
+        var part = <BlockPart>p;
         switch (part.name) {
           case 'options':
-            for (let line of part.lines) {
+            for (var line of part.lines) {
               line = line.trim();
               if (line.length == 0) continue;
               switch (line) {
@@ -308,13 +287,13 @@ export class Block {
     return equation;
   }
 
-  private processExample(): MBL_Example {
-    const example = new MBL_Example();
+  _processExample(): MBL_Example {
+    var example = new MBL_Example();
     example.title = this.title;
     example.label = this.label;
-    for (const p of this.parts) {
+    for (var p of this.parts) {
       if (p instanceof BlockPart) {
-        const part = <BlockPart>p;
+        var part = <BlockPart>p;
         switch (part.name) {
           case 'global':
             example.items.push(
@@ -333,8 +312,8 @@ export class Block {
     return example;
   }
 
-  private processTextAlign(type: string): MBL_Text {
-    let align: MBL_Text_AlignLeft | MBL_Text_AlignCenter | MBL_Text_AlignRight;
+  MBL_Text _processTextAlign(String type) {
+    var align: MBL_Text_AlignLeft | MBL_Text_AlignCenter | MBL_Text_AlignRight;
     switch (type) {
       case 'LEFT':
         align = new MBL_Text_AlignLeft();
@@ -346,9 +325,9 @@ export class Block {
         align = new MBL_Text_AlignRight();
         break;
     }
-    for (const p of this.parts) {
+    for (var p of this.parts) {
       if (p instanceof BlockPart) {
-        const part = <BlockPart>p;
+        var part = <BlockPart>p;
         switch (part.name) {
           case 'global':
             align.items.push(
@@ -364,13 +343,13 @@ export class Block {
     return align;
   }
 
-  private processDefinition(type: MBL_DefinitionType): MBL_Definition {
-    const def = new MBL_Definition(type);
+  MBL_Definition _processDefinition(MBL_DefinitionType type) {
+    var def = new MBL_Definition(type);
     def.title = this.title;
     def.label = this.label;
-    for (const p of this.parts) {
+    for (var p of this.parts) {
       if (p instanceof BlockPart) {
-        const part = <BlockPart>p;
+        var part = <BlockPart>p;
         switch (part.name) {
           case 'global':
             def.items.push(this.compiler.parseParagraph(part.lines.join('\n')));
@@ -387,17 +366,17 @@ export class Block {
     return def;
   }
 
-  private processExercise(): MBL_Exercise {
-    const exercise = new MBL_Exercise();
+  _processExercise(): MBL_Exercise {
+    var exercise = new MBL_Exercise();
     exercise.title = this.title;
     // TODO: must guarantee that no two exercises labels are same in entire course!!
     exercise.label = this.label;
     if (exercise.label.length == 0) {
       exercise.label = 'ex' + this.compiler.createUniqueId();
     }
-    for (const p of this.parts) {
+    for (var p of this.parts) {
       if (p instanceof BlockPart) {
-        const part = <BlockPart>p;
+        var part = <BlockPart>p;
         switch (part.name) {
           case 'global':
             if (part.lines.join('\n').trim().length > 0)
@@ -407,14 +386,14 @@ export class Block {
           case 'code':
             exercise.code = part.lines.join('\n');
             try {
-              for (let i = 0; i < 3; i++) {
+              for (var i = 0; i < 3; i++) {
                 // TODO: configure number of instances!
                 // TODO: repeat if same instance is already drawn
                 // TODO: must check for endless loops, e.g. happens if search space is restricted!
-                const instance = new MBL_Exercise_Instance();
-                const variables = SMPL.interpret(exercise.code);
-                for (const v of variables) {
-                  const ev = new MBL_Exercise_Variable();
+                var instance = new MBL_Exercise_Instance();
+                var variables = SMPL.interpret(exercise.code);
+                for (var v of variables) {
+                  var ev = new MBL_Exercise_Variable();
                   switch (v.type.base) {
                     case BaseType.BOOL:
                       ev.type = MBL_Exercise_VariableType.Bool;
@@ -479,7 +458,7 @@ export class Block {
     return exercise;
   }
 
-  private error(message: string): void {
+  _error(message: string): void {
     console.error('' + (this.srcLine + 1) + ': ' + message);
   }
 }
