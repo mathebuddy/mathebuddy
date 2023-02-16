@@ -6,11 +6,15 @@
  * License: GPL-3.0-or-later
  */
 
+import '../../../ext/multila-lexer/src/lex.dart';
+import '../../../ext/multila-lexer/src/token.dart';
 import 'block.dart';
 import 'data/dataChapter.dart';
 import 'data/dataCourse.dart';
+import 'data/dataExercise.dart';
 import 'data/dataLevel.dart';
 import 'data/dataSection.dart';
+import 'data/dataText.dart';
 import 'data/dataUnit.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
@@ -206,10 +210,10 @@ class Compiler {
   }
 
   //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
-  compileLevel(path: string): void {
+  void compileLevel(String path) {
     // create a new level
     this._level = new MBL_Level();
-    this._chapter.levels.push(this._level);
+    this._chapter.levels.add(this._level);
     // get level source
     var src = this.loadFile(path);
     if (src.length == 0)
@@ -228,23 +232,23 @@ class Compiler {
     // parse
     while (this._line != '§END') {
       if (this._line2.startsWith('#####')) {
-        this.pushParagraph();
-        this.parseLevelTitle();
+        this._pushParagraph();
+        this._parseLevelTitle();
       } else if (this._line2.startsWith('==')) {
-        this.pushParagraph();
-        this._level.items.push(this.parseSectionTitle());
+        this._pushParagraph();
+        this._level.items.add(this._parseSectionTitle());
       } else if (this._line2.startsWith('-----')) {
-        this.pushParagraph();
-        this._level.items.push(this.parseSubSectionTitle());
+        this._pushParagraph();
+        this._level.items.add(this._parseSubSectionTitle());
       } else if (this._line == '---') {
-        this.pushParagraph();
-        this._level.items.push(this.parseBlock(false));
+        this._pushParagraph();
+        this._level.items.add(this._parseBlock(false));
       } else {
         this._paragraph += this._line + '\n';
         this._next();
       }
     }
-    this.pushParagraph();
+    this._pushParagraph();
   }
 
   void _pushParagraph() {
@@ -315,7 +319,7 @@ class Compiler {
     }
     block.title = block.title.trim();
     this._next();
-    var part: BlockPart = new BlockPart();
+    BlockPart part = new BlockPart();
     part.name = 'global';
     block.parts.push(part);
     while (this._line != '---' && this._line != '§END') {
@@ -326,14 +330,14 @@ class Compiler {
         this._next();
       } else if (
         this._line.length >= 3 &&
-        this._line[0] >= 'A' &&
-        this._line[0] <= 'Z' &&
+        this._line.codeUnitAt(0) >= 'A'.codeUnitAt(0) &&
+        this._line.codeUnitAt(0) <= 'Z'.codeUnitAt(0) &&
         this._line.substring(0, 3) == this._line.toUpperCase().substring(0, 3)
       ) {
         if (parseSubBlock) break;
-        else block.parts.push(this.parseBlock(true));
+        else block.parts.push(this._parseBlock(true));
       } else {
-        part.lines.push(this._line);
+        part.lines.add(this._line);
         this._next();
       }
     }
@@ -341,7 +345,7 @@ class Compiler {
       if (this._line == '---') this._next();
       else
         this._error(
-          'block started in line ' + block.srcLine + ' must end with ---',
+          'block started in line ' + block.srcLine.toString() + ' must end with ---',
         );
     }
     return block.process();
@@ -364,7 +368,7 @@ class Compiler {
       | ID
       | DEL;
    */
-  parseParagraph(raw: string, ex: MBL_Exercise = null): MBL_Text {
+  MBL_Text parseParagraph(String raw, [MBL_Exercise? ex = null]) {
     // skip empty paragraphs
     if (raw.trim().length == 0)
       //return new ParagraphItem(ParagraphItemType.Text);
@@ -377,11 +381,11 @@ class Compiler {
     lexer.setTerminals(['**', '#.', '-)']);
     var paragraph = new MBL_Text_Paragraph();
     while (lexer.isNotEND())
-      paragraph.items.push(this.parseParagraph_part(lexer, ex));
+      paragraph.items.add(this.parseParagraph_part(lexer, ex));
     return paragraph;
   }
 
-  _parseParagraph_part(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  MBL_Text _parseParagraph_part(Lexer lexer, MBL_Exercise exercise) {
     if (
       lexer.getToken().col == 1 &&
       (lexer.isTER('-') || lexer.isTER('#.') || lexer.isTER('-)'))
@@ -429,10 +433,10 @@ class Compiler {
     throw new Error('this should never happen!');
   }
 
-  _parseItemize(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  MBL_Text _parseItemize(Lexer lexer, MBL_Exercise exercise) {
     // '-' for itemize; '#.' for enumerate; '-)' for alpha enumerate
     var typeStr = lexer.getToken().token;
-    var type: MBL_Text_Itemize_Type;
+    MBL_Text_Itemize_Type type;
     switch (typeStr) {
       case '-':
         type = MBL_Text_Itemize_Type.Itemize;
@@ -448,54 +452,54 @@ class Compiler {
     while (lexer.getToken().col == 1 && lexer.isTER(typeStr)) {
       lexer.next();
       var span = new MBL_Text_Span();
-      itemize.items.push(span);
+      itemize.items.add(span);
       while (lexer.isNotNEWLINE() && lexer.isNotEND())
-        span.items.push(this.parseParagraph_part(lexer, exercise));
+        span.items.add(this._parseParagraph_part(lexer, exercise));
       if (lexer.isNEWLINE()) lexer.NEWLINE();
     }
     return itemize;
   }
 
-  _parseBoldText(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  MBL_Text _parseBoldText(Lexer lexer, MBL_Exercise exercise) {
     lexer.next();
     var bold = new MBL_Text_Bold();
     while (lexer.isNotTER('**') && lexer.isNotEND())
-      bold.items.push(this.parseParagraph_part(lexer, exercise));
+      bold.items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER('**')) lexer.next();
     return bold;
   }
 
-  _parseItalicText(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  MBL_Text _parseItalicText(Lexer lexer, MBL_Exercise exercise) {
     lexer.next();
     var italic = new MBL_Text_Italic();
     while (lexer.isNotTER('*') && lexer.isNotEND())
-      italic.items.push(this.parseParagraph_part(lexer, exercise));
+      italic.items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER('*')) lexer.next();
     return italic;
   }
 
-  _parseInlineMath(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  MBL_Text _parseInlineMath(Lexer lexer, MBL_Exercise exercise) {
     lexer.next();
     var inlineMath = new MBL_Text_InlineMath();
-    while (lexer.isNotTER('$') && lexer.isNotEND()) {
+    while (lexer.isNotTER('\$') && lexer.isNotEND()) {
       var tk = lexer.getToken().token;
       var isId = lexer.getToken().type == LexerTokenType.ID;
       lexer.next();
       if (isId && exercise != null && tk in exercise.variables) {
         var v = new MBL_Exercise_Text_Variable();
         v.variableId = tk;
-        inlineMath.items.push(v);
+        inlineMath.items.add(v);
       } else {
         var text = new MBL_Text_Text();
         text.value = tk;
-        inlineMath.items.push(text);
+        inlineMath.items.add(text);
       }
     }
-    if (lexer.isTER('$')) lexer.next();
+    if (lexer.isTER('\$')) lexer.next();
     return inlineMath;
   }
 
-  _parseReference(lexer: Lexer): MBL_Text {
+  MBL_Text _parseReference(Lexer lexer) {
     lexer.next();
     var ref = new MBL_Text_Reference();
     if (lexer.isID()) {
@@ -505,11 +509,11 @@ class Compiler {
     return ref;
   }
 
-  _parseInputElements(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  MBL_Text _parseInputElements(Lexer lexer, MBL_Exercise exercise) {
     lexer.next();
     var id = '';
     var input = new MBL_Exercise_Text_Input();
-    input.input_id = 'input' + this.createUniqueId();
+    input.input_id = 'input' + this.createUniqueId().toString();
     if (lexer.isID()) {
       id = lexer.ID();
       if (id in exercise.variables) {
@@ -535,7 +539,7 @@ class Compiler {
             input.input_type = MBL_Exercise_Text_Input_Type.Matrix;
             break;
           default:
-            exercise.error += 'UNIMPLEMENTED input type ' + v.type + '. ';
+            exercise.error += 'UNIMPLEMENTED input type ' + v.type.name + '. ';
         }
       } else {
         exercise.error = 'there is no variable "' + id + '". ';
@@ -546,10 +550,10 @@ class Compiler {
     return input;
   }
 
-  _parseSingleOrMultipleChoice(
-    lexer: Lexer,
-    exercise: MBL_Exercise,
-  ): MBL_Text {
+  MBL_Text _parseSingleOrMultipleChoice(
+    Lexer lexer,
+    MBL_Exercise exercise,
+  ) {
     var isMultipleChoice = lexer.isTER('[');
     lexer.next();
     var staticallyCorrect = false;
@@ -593,12 +597,12 @@ class Compiler {
     return element;
   }
 
-  _parseTextProperty(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  MBL_Text _parseTextProperty(Lexer lexer, MBL_Exercise exercise) {
     // TODO: make sure, that errors are not too annoying...
     lexer.next();
-    var items: MBL_Text[] = [];
+    List<MBL_Text> items = [];
     while (lexer.isNotTER(']') && lexer.isNotEND())
-      items.push(this.parseParagraph_part(lexer, exercise));
+      items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER(']')) lexer.next();
     else return new MBL_Text_Error('expected ]');
     if (lexer.isTER('@')) lexer.next();
@@ -624,8 +628,8 @@ class Compiler {
     } else return new MBL_Text_Error('missing property name');
   }
 
-  _error(message: string): void {
+  void _error(String message) {
     // TODO: include file path!
-    throw new MBL_Compile_Error('ERROR:' + (this._i + 1) + ': ' + message);
+    throw new Exception('ERROR:' + (this._i + 1).toString() + ': ' + message);
   }
 }
