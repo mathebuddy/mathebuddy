@@ -7,8 +7,12 @@
  */
 
 import 'compiler.dart';
+import 'data/data.dart';
 import 'data/dataDefinition.dart';
 import 'data/dataEquation.dart';
+import 'data/dataError.dart';
+import 'data/dataExercise.dart';
+import 'data/dataFigure.dart';
 import 'data/dataLevel.dart';
 import 'data/dataTable.dart';
 import 'data/dataText.dart';
@@ -32,50 +36,50 @@ class Block {
   MBL_LevelItem process() {
     switch (this.type) {
       case 'DEFINITION':
-        return this.processDefinition(MBL_DefinitionType.Definition);
+        return this._processDefinition(MBL_DefinitionType.Definition);
       case 'THEOREM':
-        return this.processDefinition(MBL_DefinitionType.Theorem);
+        return this._processDefinition(MBL_DefinitionType.Theorem);
       case 'LEMMA':
-        return this.processDefinition(MBL_DefinitionType.Lemma);
+        return this._processDefinition(MBL_DefinitionType.Lemma);
       case 'COROLLARY':
-        return this.processDefinition(MBL_DefinitionType.Corollary);
+        return this._processDefinition(MBL_DefinitionType.Corollary);
       case 'PROPOSITION':
-        return this.processDefinition(MBL_DefinitionType.Proposition);
+        return this._processDefinition(MBL_DefinitionType.Proposition);
       case 'CONJECTURE':
-        return this.processDefinition(MBL_DefinitionType.Conjecture);
+        return this._processDefinition(MBL_DefinitionType.Conjecture);
       case 'AXIOM':
-        return this.processDefinition(MBL_DefinitionType.Axiom);
+        return this._processDefinition(MBL_DefinitionType.Axiom);
       case 'CLAIM':
-        return this.processDefinition(MBL_DefinitionType.Claim);
+        return this._processDefinition(MBL_DefinitionType.Claim);
       case 'IDENTITY':
-        return this.processDefinition(MBL_DefinitionType.Identity);
+        return this._processDefinition(MBL_DefinitionType.Identity);
       case 'PARADOX':
-        return this.processDefinition(MBL_DefinitionType.Paradox);
+        return this._processDefinition(MBL_DefinitionType.Paradox);
 
       case 'LEFT':
       case 'CENTER':
       case 'RIGHT':
-        return this.processTextAlign(this.type);
+        return this._processTextAlign(this.type);
 
       case 'EQUATION':
-        return this.processEquation(true);
+        return this._processEquation(true);
       case 'EQUATION*':
-        return this.processEquation(false);
+        return this._processEquation(false);
 
       case 'EXAMPLE':
-        return this.processExample();
+        return this._processExample();
 
       case 'EXERCISE':
-        return this.processExercise();
+        return this._processExercise();
 
       case 'TEXT':
-        return this.processText();
+        return this._processText();
 
       case 'TABLE':
-        return this.processTable();
+        return this._processTable();
 
       case 'FIGURE':
-        return this.processFigure();
+        return this._processFigure();
 
       case 'NEWPAGE':
         return new MBL_NewPage();
@@ -152,7 +156,7 @@ class Block {
     return table;
   }
 
-  _processFigure(): MBL_Figure {
+  MBL_Figure _processFigure() {
     var figure = new MBL_Figure();
     var plotData: { [id: string]: string } = {};
     for (var p of this.parts) {
@@ -209,22 +213,22 @@ class Block {
               if (line.length == 0) continue;
               switch (line) {
                 case 'width-100':
-                  figure.options.push(MBL_Figure_Option.Width100);
+                  figure.options.add(MBL_Figure_Option.Width100);
                   break;
                 case 'width-75':
-                  figure.options.push(MBL_Figure_Option.Width75);
+                  figure.options.add(MBL_Figure_Option.Width75);
                   break;
                 case 'width-66':
-                  figure.options.push(MBL_Figure_Option.Width66);
+                  figure.options.add(MBL_Figure_Option.Width66);
                   break;
                 case 'width-50':
-                  figure.options.push(MBL_Figure_Option.Width50);
+                  figure.options.add(MBL_Figure_Option.Width50);
                   break;
                 case 'width-33':
-                  figure.options.push(MBL_Figure_Option.Width33);
+                  figure.options.add(MBL_Figure_Option.Width33);
                   break;
                 case 'width-25':
-                  figure.options.push(MBL_Figure_Option.Width25);
+                  figure.options.add(MBL_Figure_Option.Width25);
                   break;
                 default:
                   figure.error += 'unknown option "' + line + '"';
@@ -246,7 +250,7 @@ class Block {
     equation.title = this.title;
     equation.label = this.label;
     for (var p of this.parts) {
-      if (p instanceof BlockPart) {
+      if (p is BlockPart) {
         var part = <BlockPart>p;
         switch (part.name) {
           case 'options':
@@ -255,17 +259,17 @@ class Block {
               if (line.length == 0) continue;
               switch (line) {
                 case 'align-left':
-                  equation.options.push(MBL_EquationOption.AlignLeft);
+                  equation.options.add(MBL_EquationOption.AlignLeft);
                   break;
                 case 'align-center':
-                  equation.options.push(MBL_EquationOption.AlignCenter);
+                  equation.options.add(MBL_EquationOption.AlignCenter);
                   break;
                 case 'align-right':
-                  equation.options.push(MBL_EquationOption.AlignRight);
+                  equation.options.add(MBL_EquationOption.AlignRight);
                   break;
                 case 'align-equals':
                   // TODO: do NOT store. create LaTeX-code instead!
-                  equation.options.push(MBL_EquationOption.AlignEquals);
+                  equation.options.add(MBL_EquationOption.AlignEquals);
                   break;
                 default:
                   equation.error += 'unknown option "' + line + '"';
@@ -326,7 +330,7 @@ class Block {
         break;
     }
     for (var p of this.parts) {
-      if (p instanceof BlockPart) {
+      if (p is BlockPart) {
         var part = <BlockPart>p;
         switch (part.name) {
           case 'global':
@@ -348,11 +352,11 @@ class Block {
     def.title = this.title;
     def.label = this.label;
     for (var p of this.parts) {
-      if (p instanceof BlockPart) {
+      if (p is BlockPart) {
         var part = <BlockPart>p;
         switch (part.name) {
           case 'global':
-            def.items.push(this.compiler.parseParagraph(part.lines.join('\n')));
+            def.items.push(this._compiler.parseParagraph(part.lines.join('\n')));
             break;
           default:
             def.error += 'unexpected part "' + part.name + '"';
@@ -366,7 +370,7 @@ class Block {
     return def;
   }
 
-  _processExercise(): MBL_Exercise {
+  MBL_Exercise _processExercise() {
     var exercise = new MBL_Exercise();
     exercise.title = this.title;
     // TODO: must guarantee that no two exercises labels are same in entire course!!
@@ -434,15 +438,15 @@ class Block {
                   exercise.variables[v.id] = ev;
                   instance.values[v.id] = v.value.toString();
                 }
-                exercise.instances.push(instance);
+                exercise.instances.add(instance);
               }
             } catch (e) {
               exercise.error = e.toString();
             }
             break;
           case 'text':
-            exercise.text = this.compiler.parseParagraph(
-              part.lines.join('\n'),
+            exercise.text = this._compiler.parseParagraph(
+              part._lines.join('\n'),
               exercise,
             );
             break;
@@ -458,7 +462,7 @@ class Block {
     return exercise;
   }
 
-  _error(message: string): void {
-    console.error('' + (this.srcLine + 1) + ': ' + message);
+  void _error(String message) {
+    print('' + (this.srcLine + 1).toString() + ': ' + message);
   }
 }
