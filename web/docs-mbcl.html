@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content />
+  <meta name="dcterms.date" content="2023-01-19" />
+  <title>Mathe:Buddy Compiled Language (MBCL)</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">html {
+line-height: 1.5;
+font-family: Georgia, serif;
+font-size: 20px;
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 1em;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p,
+h2,
+h3 {
+orphans: 3;
+widows: 3;
+}
+h2,
+h3,
+h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1.4em;
+}
+h5,
+h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol,
+ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol,
+li > ul {
+margin-top: 0;
+}
+blockquote {
+
+margin: 0em 0 -0.75em 0;
+padding: 0;
+
+text-align: center;
+}
+code {
+font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+font-size: 85%;
+margin: 0;
+}
+pre {
+
+overflow: auto;
+padding: 10px;
+border: black;
+border-width: 1px;
+border-style: solid;
+font-size: medium;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code {
+white-space: pre-wrap;
+}
+span.smallcaps {
+font-variant: small-caps;
+}
+div.columns {
+display: flex;
+gap: min(4vw, 1.5em);
+}
+div.column {
+flex: auto;
+overflow-x: auto;
+}
+div.hanging-indent {
+margin-left: 1.5em;
+text-indent: -1.5em;
+}
+ul.task-list {
+list-style: none;
+}
+ul.task-list li input[type='checkbox'] {
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+pre > code.sourceCode {
+white-space: pre;
+position: relative;
+}
+pre > code.sourceCode > span {
+display: inline-block;
+line-height: 1.25;
+}
+pre > code.sourceCode > span:empty {
+height: 1.2em;
+}
+.sourceCode {
+overflow: visible;
+}
+code.sourceCode > span {
+color: inherit;
+text-decoration: inherit;
+}
+div.sourceCode {
+margin: 1em 0;
+}
+pre.sourceCode {
+margin: 0;
+}
+@media screen {
+div.sourceCode {
+overflow: auto;
+}
+}
+@media print {
+pre > code.sourceCode {
+white-space: pre-wrap;
+}
+pre > code.sourceCode > span {
+text-indent: -5em;
+padding-left: 5em;
+}
+}
+pre.numberSource code {
+counter-reset: source-line 0;
+}
+pre.numberSource code > span {
+position: relative;
+left: -4em;
+counter-increment: source-line;
+}
+pre.numberSource code > span > a:first-child::before {
+content: counter(source-line);
+position: relative;
+left: -1em;
+text-align: right;
+vertical-align: baseline;
+border: none;
+display: inline-block;
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+padding: 0 4px;
+width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource {
+margin-left: 3em;
+border-left: 1px solid #aaaaaa;
+padding-left: 4px;
+}
+div.sourceCode {
+}
+@media screen {
+pre > code.sourceCode > span > a:first-child::before {
+text-decoration: underline;
+}
+}
+code span.al {
+color: #ff0000;
+font-weight: bold;
+} 
+code span.an {
+color: #60a0b0;
+font-weight: bold;
+font-style: italic;
+} 
+code span.at {
+color: #7d9029;
+} 
+code span.bn {
+color: #40a070;
+} 
+code span.bu {
+color: #008000;
+} 
+code span.cf {
+color: #007020;
+font-weight: bold;
+} 
+code span.ch {
+color: #4070a0;
+} 
+code span.cn {
+color: #880000;
+} 
+code span.co {
+color: #60a0b0;
+font-style: italic;
+} 
+code span.cv {
+color: #60a0b0;
+font-weight: bold;
+font-style: italic;
+} 
+code span.do {
+color: #ba2121;
+font-style: italic;
+} 
+code span.dt {
+color: #902000;
+} 
+code span.dv {
+color: #40a070;
+} 
+code span.er {
+color: #ff0000;
+font-weight: bold;
+} 
+code span.ex {
+} 
+code span.fl {
+color: #40a070;
+} 
+code span.fu {
+color: #06287e;
+} 
+code span.im {
+color: #008000;
+font-weight: bold;
+} 
+code span.in {
+color: #60a0b0;
+font-weight: bold;
+font-style: italic;
+} 
+code span.kw {
+color: #007020;
+font-weight: bold;
+} 
+code span.op {
+color: #666666;
+} 
+code span.ot {
+color: #007020;
+} 
+code span.pp {
+color: #bc7a00;
+} 
+code span.sc {
+color: #4070a0;
+} 
+code span.ss {
+color: #bb6688;
+} 
+code span.st {
+color: #4070a0;
+} 
+code span.va {
+color: #19177c;
+} 
+code span.vs {
+color: #4070a0;
+} 
+code span.wa {
+color: #60a0b0;
+font-weight: bold;
+font-style: italic;
+} 
+</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+[<a href="https://app.f07-its.fh-koeln.de">Home</a>] [<a href="https://app.f07-its.fh-koeln.de/docs-mbl.html">MBL Reference</a>] [<a href="https://app.f07-its.fh-koeln.de/docs-smpl.html">SMPL Reference</a>] [<a href="https://app.f07-its.fh-koeln.de/docs-mbcl.html">MBCL Reference</a>] [<a href="https://app.f07-its.fh-koeln.de/docs-sim.html">Installation</a>] <h1 class="title">Mathe:Buddy Compiled Language (MBCL)</h1>
+<p class="author"></p>
+<p class="date">2023-01-19</p>
+</header>
+<hr />
+<p><strong>NOTE</strong> This reference is in work-in-progress state. We
+are planning to release version 1.0 by end of 2022.</p>
+<hr />
+<p>This document describes the syntax of the <em>mathe:buddy compiled
+language (MBCL)</em>, which can be used to express mathematical based
+online courses technically.</p>
+<h2 id="introduction">Introduction</h2>
+<p>MBCL is a JSON-based format defined for the mathe:buddy App. Each
+MBCL-JSON file stores a complete course, defined by the Mathe:Buddy
+Language (MBL).</p>
+<p>MBL is intended to be used by course creators, i.e. humans, while
+MBCL is a pure computer language.</p>
+<p>This document assumes detailed knowledge about MBL. Definitions are
+not repeated here.</p>
+<p>The reference compiler to translate MBL to MBCL can be found on <a href="https://github.com/mathebuddy/mathebuddy-compiler.git">GitHub</a>.</p>
+<h2 id="json-specification">JSON Specification</h2>
+<h3 id="intrinsic-data-types">Intrinsic Data Types</h3>
+<p>We use the following intrinsic data types.</p>
+<ul>
+<li><p><code>IDENTIFIER</code></p>
+<p>Examples: <code>&quot;hello&quot;</code>, <code>&quot;x314&quot;</code>,
+<code>&quot;_1337&quot;</code>, <code>&quot;AFFE&quot;</code></p></li>
+<li><p><code>UNIQUE_IDENTIFIER</code></p>
+<p>An identifier that is only given once per course.</p>
+<p>Example: <code>&quot;x123&quot;</code></p></li>
+<li><p><code>STRING</code></p>
+<p>Example: <code>&quot;hello, world!&quot;</code></p></li>
+<li><p><code>INTEGER</code></p>
+<p>Example: <code>1337</code></p></li>
+<li><p><code>REAL</code></p>
+<p>Example: <code>3.14159</code></p></li>
+<li><p><code>BOOLEAN</code></p>
+<p>Examples: <code>true</code>, <code>false</code></p></li>
+<li><p><code>UNIX_TIMESTAMP</code></p>
+<p>(Time in seconds since 1.1.1970 00:00)</p>
+<p>Example: <code>1669712632</code></p></li>
+<li><p><code>MATH_STRING = int | real | complex | int_set | vector | matrix;</code>:</p>
+<p>The following strings represent mathematical objects (in EBNF
+notation):</p>
+<ul>
+<li><p>Integers numbers: <code>int = INTEGER;</code></p>
+<p>Example: <code>&quot;3&quot;</code></p></li>
+<li><p>Real numbers: <code>real = REAL;</code></p>
+<p>Example: <code>&quot;-3.14&quot;</code></p></li>
+<li><p>Complex numbers:
+<code>complex = REAL &quot;+&quot; REAL &quot;i&quot; | REAL &quot;-&quot; REAL &quot;i&quot;;</code></p>
+<p>Example: <code>&quot;3-3i&quot;</code></p></li>
+<li><p>Set of integer numbers:
+<code>int_set = &quot;{&quot; [ INT { &quot;,&quot; INT } ] &quot;}&quot;;</code></p>
+<p>Example: <code>&quot;{1,3,5}&quot;</code></p></li>
+<li><p>Vectors: <code>vector = &quot;[&quot; [ REAL { &quot;,&quot; REAL } ] &quot;]&quot;;</code></p>
+<p>Example: <code>&quot;[-1337,2.71,9.81]&quot;</code></p></li>
+<li><p>Matrices:
+<code>matrix = &quot;[&quot; vector { &quot;,&quot; vector } &quot;]&quot;;</code></p>
+<p>Example: <code>&quot;[[1,2],[3,4]]&quot;</code></p></li>
+<li><p>Terms: TODO</p></li>
+</ul></li>
+</ul>
+<h3 id="custom-json-datatype-definition-language">Custom JSON Datatype
+Definition Language</h3>
+<p>We use the following custom notation instead of JSON-schema in this
+document to denote the structure of data.</p>
+<p><em>(Note: JSON-schema is NOT used, since its notation is rather long
+s.t. the context can only be grasped hardly.)</em></p>
+<ul>
+<li><p><code>A = { &quot;x&quot;:IDENTIFIER, &quot;y&quot;:B }; B = { &quot;z&quot;: INTEGER };</code>
+denotes an object type with name <code>A</code> and attributes
+<code>x</code> and <code>y</code>. The value of attribute <code>x</code>
+must be an identifier, while attribute <code>y</code> is an object of
+type <code>B</code>.</p>
+<p><em>JSON-Example that is accepted by the grammar defined
+above:</em></p>
+<p><code>{&quot;x&quot;: &quot;leet&quot;, &quot;y&quot;: {&quot;z&quot;: 1337}}</code></p></li>
+<li><p><code>X = {&quot;a&quot;:INTEGER|STRING};</code> denotes alternative
+definitions for attribute <code>a</code>.</p>
+<p><em>JSON-Examples that are accepted by the grammar defined
+above:</em></p>
+<p><code>{&quot;a&quot;:&quot;xx&quot;}</code>   or   <code>{&quot;a&quot;:314}</code>   or  
+<code>{&quot;a&quot;:42}</code></p></li>
+<li><p><code>Y = {&quot;x&quot;:&quot;txt&quot;} | INTEGER;</code> denotes alternative
+definitions for object <code>Y</code>.</p>
+<p><em>JSON-Examples (fragments only) that are accepted by the grammar
+defined above:</em></p>
+<p><code>{&quot;x&quot;:&quot;txt&quot;}</code>   or   <code>1337</code>   or  
+<code>271</code></p></li>
+<li><p><code>Z = {&quot;k&quot;:INTEGER[]};</code> denotes that attribute
+<code>k</code> is an array of type integer.</p>
+<p><em>JSON-Examples that are accepted by the grammar defined
+above:</em></p>
+<p><code>{&quot;k&quot;:[1,1,2,3,5,8,13]}</code>   or  
+<code>{&quot;k&quot;:[]}</code></p></li>
+<li><p><code>abstract(W) = {abstract(&quot;a&quot;):IDENTIFIER, &quot;b&quot;:STRING};</code>
+<code>V extends W = {&quot;a&quot;:&quot;xyz&quot;, &quot;c&quot;:REAL};</code> declares an abstract
+object type <code>W</code> and an object type <code>V</code> that
+inherits all attributes from <code>W</code>. Abstract object types and
+attributes can not be instantiated.</p>
+<p><em>JSON-Example that is accepted by the grammar defined
+above:</em></p>
+<p><code>{&quot;a&quot;:&quot;xyz&quot;,&quot;b&quot;:&quot;hello, world&quot;,&quot;c&quot;:3.14159}</code></p></li>
+<li><p><code>M = { &quot;id&quot;: IDENTIFIER }; N = { &quot;ref&quot;: IDENTIFIER&lt;M.id&gt; };</code>
+declares two object types <code>M</code> and <code>N</code>. Attribute
+<code>ref</code> in <code>N</code> must hold an identifier of some
+actual instance of <code>M</code>.</p>
+<p><em>JSON-Example that is accepted by the grammar defined
+above:</em></p>
+<p><code>{&quot;id&quot;:&quot;myId&quot;}</code>   for <code>M</code> and  
+<code>{&quot;ref&quot;:&quot;myId&quot;}</code>   for <code>N</code></p></li>
+<li><p><code>O = { IDENTIFIER: INT };</code> denotes a dictionary-like
+object type.</p>
+<p><em>JSON-Example that is accepted by the grammar defined
+above:</em></p>
+<p><code>{&quot;a&quot;:1,&quot;b&quot;:5,&quot;pi&quot;:314}</code></p></li>
+</ul>
+<h2 id="courses">Courses</h2>
+<p>A course represents the root of an MBCL file. It contains a set of
+chapters.</p>
+<pre><code>COURSE = {
+  &quot;title&quot;: STRING,
+  &quot;author&quot;: STRING,
+  &quot;mbcl_version&quot;: INTEGER,
+  &quot;date_modified&quot;: UNIX_TIMESTAMP,
+  &quot;debug&quot;: &quot;no&quot; | &quot;chapter&quot; | &quot;level&quot;,
+  &quot;chapters&quot;: CHAPTER[]
+};</code></pre>
+<ul>
+<li>if <code>debug</code> is not <code>no</code>, then only one
+<code>chapter</code> or one <code>level</code> is provided for debugging
+purposes</li>
+</ul>
+<p>Example:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;higher math 1&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;TH Koeln&quot;</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mbcl_version&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;date_modified&quot;</span><span class="fu">:</span> <span class="dv">1669712632</span><span class="fu">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;debug_level&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;chapters&quot;</span><span class="fu">:</span> <span class="ot">[]</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="chapters">Chapters</h2>
+<p>A chapter consists of a set of levels.</p>
+<pre><code>CHAPTER = {
+  &quot;file_id&quot;: STRING,
+  &quot;title&quot;: STRING,
+  &quot;pos_x&quot;: INTEGER,
+  &quot;pos_y&quot;: INTEGER,
+  &quot;requires&quot;: IDENTIFIER&lt;CHAPTER.file_id&gt;[],
+  &quot;units&quot;: UNIT[],
+  &quot;levels&quot;: LEVEL[]
+};</code></pre>
+<p>Example:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;file_id&quot;</span><span class="fu">:</span> <span class="st">&quot;cmplx&quot;</span><span class="fu">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;Complex Numbers&quot;</span><span class="fu">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;label&quot;</span><span class="fu">:</span> <span class="st">&quot;cmplx&quot;</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pos_x&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pos_y&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;requires&quot;</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;units&quot;</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;levels&quot;</span><span class="fu">:</span> <span class="ot">[]</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="levels">Levels</h2>
+<p>A level defines a part of course, consisting of e.g. text, exercises
+and games.</p>
+<pre><code>LEVEL = {
+  &quot;file_id&quot;: STRING,
+  &quot;title&quot;: STRING,
+  &quot;pos_x&quot;: INTEGER,
+  &quot;pos_y&quot;: INTEGER,
+  &quot;requires&quot;: IDENTIFIER&lt;LEVEL.file_id&gt;[],
+  &quot;items&quot;: LEVEL_ITEM[]
+};</code></pre>
+<pre><code>LEVEL_ITEM = SECTION | TEXT | EQUATION | DEFINITION | EXERCISE
+           | FIGURE | TABLE | NEWPAGE;</code></pre>
+<pre><code>UNIT = {
+  &quot;title&quot;: STRING,
+  &quot;levels&quot;: IDENTIFIER&lt;LEVEL.file_id&gt;[]
+};</code></pre>
+<h2 id="sectioning">Sectioning</h2>
+<p>A <em>title</em> is used as level title. (Sub-)Sections subdivide a
+level.</p>
+<pre><code>SECTION = {
+  &quot;type&quot;: &quot;section&quot; | &quot;subsection&quot; | &quot;subsubsection&quot;,
+  &quot;text&quot;: STRING,
+  &quot;label&quot;: IDENTIFIER
+};</code></pre>
+<h2 id="paragraphs">Paragraphs</h2>
+<p>A paragraph hierarchically defines a part of text, including format
+options and equations, alignment, enumerations etc.</p>
+<pre><code>TEXT = {
+  &quot;type&quot;: &quot;paragraph&quot; | &quot;inline_math&quot; | &quot;bold&quot; | &quot;italic&quot; | &quot;itemize&quot;
+        | &quot;enumerate&quot; | &quot;enumerate_alpha&quot; | &quot;span&quot;
+        | &quot;align_left&quot; | &quot;align_center&quot; | &quot;align_right&quot;,
+  &quot;items&quot;: TEXT[]
+} | {
+  &quot;type&quot;: &quot;text&quot;,
+  &quot;value&quot;: STRING
+} | {
+  &quot;type&quot;: &quot;linefeed&quot;
+} | {
+  &quot;type&quot;: &quot;color&quot;,
+  &quot;key&quot;: INTEGER
+} | {
+  &quot;type&quot;: &quot;reference&quot;,
+  &quot;label&quot;: IDENTIFIER&lt;SECTION.label|BLOCK_ITEM.label&gt;
+} | {
+  &quot;type&quot;: &quot;error&quot;,
+  &quot;message&quot;: STRING
+};</code></pre>
+<p>The following example represents a paragraph containing an italic
+text    <em>Hello, world <span class="math inline"><em>x</em><sup>2</sup> + <em>y</em><sup>2</sup></span>!</em>
+   that ends with a line feed.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;paragraph&quot;</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;items&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;italic&quot;</span><span class="fu">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;items&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;text&quot;</span><span class="fu">,</span> <span class="dt">&quot;value&quot;</span><span class="fu">:</span> <span class="st">&quot;Hello, world&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;inline_math&quot;</span><span class="fu">,</span> <span class="dt">&quot;items&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span><span class="dt">&quot;type&quot;</span><span class="fu">:</span><span class="st">&quot;text&quot;</span><span class="fu">,</span><span class="dt">&quot;value&quot;</span><span class="fu">:</span><span class="st">&quot;x^2+y^2&quot;</span><span class="fu">}</span><span class="ot">]</span><span class="fu">}</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;text&quot;</span><span class="fu">,</span> <span class="dt">&quot;value&quot;</span><span class="fu">:</span> <span class="st">&quot;!&quot;</span> <span class="fu">}</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;linefeed&quot;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="block-items">Block Items</h2>
+<p>For example display style equations, figures and exercises are called
+<em>block items</em>. The following abstract type defines attributes
+that are common to all block items.</p>
+<pre><code>abstract(BLOCK_ITEM) = {
+  abstract(&quot;type&quot;): IDENTIFIER,
+  &quot;title&quot;: STRING,
+  &quot;label&quot;: IDENTIFIER
+  &quot;error&quot;: STRING
+};</code></pre>
+<p>Attribute <code>error</code> is used to indicate syntax errors in the
+MBL definition.</p>
+<h2 id="display-style-equations">Display Style Equations</h2>
+<p>A (numbered) equation is rendered in display style by the following
+object.</p>
+<pre><code>EQUATION extends BLOCK_ITEM = {
+  &quot;type&quot;: &quot;equation&quot;,
+  &quot;value&quot;: STRING,
+  &quot;numbering&quot;: INTEGER,
+  &quot;options&quot;: EQUATION_OPTION[]
+};</code></pre>
+<pre><code>EQUATION_OPTION = &quot;align_left&quot; | &quot;align_center&quot; | &quot;align_right&quot; | &quot;align_equals&quot;;</code></pre>
+<p>If attribute <code>numbering</code> is set to a negative value, the
+numbering is not displayed.</p>
+<h2 id="definitions">Definitions</h2>
+<p>A definition (and in the same way a theorem, lemma, …) is rendered as
+block. It may contain text and display-style equation items.</p>
+<pre><code>DEFINITION extends BLOCK_ITEM = {
+  &quot;type&quot;: &quot;definition&quot; | &quot;theorem&quot; | &quot;lemma&quot; | &quot;corollary&quot; | &quot;proposition&quot;
+        | &quot;conjecture&quot; | &quot;axiom&quot; | &quot;claim&quot; | &quot;identity&quot; | &quot;paradox&quot;,
+  &quot;items&quot;: DEFINITION_ITEM[]
+};</code></pre>
+<pre><code>DEFINITION_ITEM = EQUATION | TEXT;</code></pre>
+<h2 id="examples">Examples</h2>
+<pre><code>EXAMPLE extends DEFINITION = {
+  &quot;type&quot;: &quot;example&quot;
+};</code></pre>
+<h2 id="exercises">Exercises</h2>
+<p>An exercise includes a set variables with values that can be used in
+the question text or as answers.</p>
+<p>The attribute <code>instance</code> defines concrete values for each
+variable. Randomized questions may have multiple (distinct)
+instances.</p>
+<pre><code>EXERCISE extends BLOCK_ITEM = {
+  &quot;type&quot;: &quot;exercise&quot;,
+  &quot;variables&quot;: {
+    IDENTIFIER: EXERCISE_VARIABLE
+  },
+  &quot;instances&quot;: EXERCISE_INSTANCE[],
+  &quot;text&quot;: EXERCISE_TEXT
+};</code></pre>
+<p><em>Note: a <code>label</code> is created automatically, if none is
+provided.</em></p>
+<p>Exercise text is extended to the following types:</p>
+<ul>
+<li><code>variable</code> refers to a question variable and displays the
+value of the the chosen instance.</li>
+<li><code>text_input</code> renders one or more text-based input
+field(s); dependent of the actual variable type.
+<ul>
+<li>Attribute <code>input_require</code> lists a set of identifiers that
+must be input by the student (e.g. <code>[&quot;sin&quot;]</code> to require using
+the sine-function).</li>
+<li>Attribute <code>input_forbid</code> is the opposite to
+<code>input_require</code>.</li>
+<li>Attribute <code>width</code> controls the width of the input
+field(s). <!-- TODO: specify unit! --></li>
+</ul></li>
+<li><code>choices_input</code> lists a set of <code>count</code>
+buttons, where one given answer is correct and the other answers are
+incorrect.</li>
+<li><code>multiple_choice</code> declares a set of answers of a
+multi-choice question</li>
+<li><code>single_choice</code> declares a set of answers of a
+single-choice question</li>
+</ul>
+<pre><code>EXERCISE_TEXT extends TEXT = {
+  &quot;type&quot;: &quot;variable&quot;,
+  &quot;variable&quot;: IDENTIFIER&lt;EXERCISE.VARIABLES&gt;
+} | {
+  &quot;type&quot;: &quot;text_input&quot;,
+  &quot;input_id&quot;: UNIQUE_IDENTIFIER,
+  &quot;input_type&quot;: &quot;int&quot; | &quot;real&quot;
+              | &quot;complex_normal&quot; | &quot;complex_polar&quot;
+              | &quot;int_set&quot; | &quot;int_set_n_args&quot;
+              | &quot;vector&quot; | &quot;vector_flex&quot;
+              | &quot;matrix&quot; | &quot;matrix_flex_rows&quot; | &quot;matrix_flex_cols&quot; | &quot;matrix_flex&quot;
+              | &quot;term&quot;,
+  &quot;input_require&quot;: IDENTIFIER[],
+  &quot;input_forbid&quot;: IDENTIFIER[],
+  &quot;variable&quot;: IDENTIFIER&lt;EXERCISE.VARIABLES&gt;,
+  &quot;width&quot;: INTEGER
+} | {
+  &quot;type&quot;: &quot;choices_input&quot;,
+  &quot;input_id&quot;: UNIQUE_IDENTIFIER,
+  &quot;variable&quot;: IDENTIFIER&lt;EXERCISE.VARIABLES&gt;,
+  &quot;count&quot;: INTEGER
+} | {
+  &quot;type&quot;: &quot;multiple_choice&quot; | &quot;single_choice&quot;,
+  &quot;input_id&quot;: UNIQUE_IDENTIFIER,
+  &quot;items&quot;: EXERCISE_SINGLE_MULTIPLE_CHOICE_OPTION[]
+};</code></pre>
+<pre><code>EXERCISE_VARIABLE = {
+  &quot;type&quot;: &quot;bool&quot; | &quot;int&quot; | &quot;int_set&quot; | &quot;real&quot; | &quot;real_set&quot;
+        | &quot;complex&quot; | &quot;complex_set&quot; | &quot;vector&quot; | &quot;matrix&quot; | &quot;term&quot;
+};</code></pre>
+<pre><code>EXERCISE_INSTANCE = {
+  IDENTIFIER&lt;EXERCISE.VARIABLES&gt;: MATH_STRING
+};</code></pre>
+<pre><code>EXERCISE_SINGLE_MULTIPLE_CHOICE_OPTION = {
+  &quot;variable&quot;: IDENTIFIER&lt;EXERCISE.VARIABLES&gt;,
+  &quot;text&quot;: TEXT
+};</code></pre>
+<!--
+TODO: scoring
+
+TODO: gap exercise, arrangement exercise, timed exercise
+-->
+<h2 id="figures">Figures</h2>
+<p>A figure renders a graphics file, as well as an optional caption.</p>
+<pre><code>FIGURE extends BLOCK_ITEM = {
+  &quot;file_path&quot;: STRING,
+  &quot;data&quot;: STRING,
+  &quot;caption&quot;: MBL_TEXT,
+  &quot;options&quot;: FIGURE_OPTION[]
+};</code></pre>
+<ul>
+<li>either <code>file_path</code> or <code>data</code> must be set.</li>
+<li><code>data</code> represents an image in base64 encoding.</li>
+</ul>
+<pre><code>FIGURE_OPTION = &quot;width_X&quot;;</code></pre>
+<ul>
+<li><code>X</code> denotes the width as percentage of screen width.</li>
+</ul>
+<h2 id="tables">Tables</h2>
+<p>A table renders tabular data.</p>
+<pre><code>TABLE extends BLOCK_ITEM = {
+  &quot;options&quot;: TABLE_OPTION[],
+  &quot;head&quot;: TABLE_ROW,
+  &quot;rows&quot;: TABLE_ROW[]
+};</code></pre>
+<pre><code>TABLE_ROW = {
+  &quot;columns&quot;: MBL_TEXT[];
+}</code></pre>
+<!--
+TODO: must restrict `TEXT`
+-->
+<pre><code>TABLE_OPTION = &quot;align_left&quot; | &quot;align_center&quot; | &quot;align_right&quot;;</code></pre>
+<h2 id="page-breaks">Page Breaks</h2>
+<pre><code>NEWPAGE = {
+  &quot;type&quot;: &quot;new_page&quot;
+};</code></pre>
+<h2 id="errors">Errors</h2>
+<p>An error block is used for development purposes only. It is used, if
+a course developer defined a block type that is unknown (or
+unimplemented).</p>
+<pre><code>ERROR extends BLOCK_ITEM = {
+  &quot;type&quot;: &quot;error&quot;,
+  &quot;message&quot;: STRING
+};</code></pre>
+<h2 id="compressed-courses">Compressed Courses</h2>
+<p>The MBCL file size can be reduced by using LZ-based compression <a href="https://www.npmjs.com/package/lz-string">npm-package</a>.</p>
+<!--
+TODO: compression format, hex, ...
+TODO: encryption with password
+-->
+<p><em>Author: Andreas Schwenk, TH Köln</em></p>
+</body>
+</html>
