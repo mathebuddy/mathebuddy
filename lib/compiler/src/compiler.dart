@@ -6,96 +6,59 @@
  * License: GPL-3.0-or-later
  */
 
+import 'dataChapter.dart';
+import 'dataCourse.dart';
+import 'dataLevel.dart';
+import 'dataUnit.dart';
+
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
-import { Lexer } from '@multila/multila-lexer';
-import { LexerTokenType } from '@multila/multila-lexer/lib/token';
+class Compiler {
+  _loadFile: (String path) => String = null;
 
-import { Block, BlockPart } from './block';
-import {
-  MBL_Exercise,
-  MBL_Exercise_Text_Input,
-  MBL_Exercise_Text_Input_Type,
-  MBL_Exercise_Text_Multiple_Choice,
-  MBL_Exercise_Text_Single_Choice,
-  MBL_Exercise_Text_Single_or_Multi_Choice_Option,
-  MBL_Exercise_Text_Variable,
-  MBL_Exercise_VariableType,
-} from './dataExercise';
-import { MBL_Course, MBL_Course_Debug } from './dataCourse';
-import { MBL_Chapter } from './dataChapter';
-import { MBL_Level, MBL_LevelItem } from './dataLevel';
-import { MBL_Section, MBL_SectionType } from './dataSection';
-import {
-  MBL_Text,
-  MBL_Text_Bold,
-  MBL_Text_Color,
-  MBL_Text_Error,
-  MBL_Text_InlineMath,
-  MBL_Text_Italic,
-  MBL_Text_Itemize,
-  MBL_Text_Itemize_Type,
-  MBL_Text_Linefeed,
-  MBL_Text_Paragraph,
-  MBL_Text_Reference,
-  MBL_Text_Span,
-  MBL_Text_Text,
-} from './dataText';
-import { MBL_Unit } from './dataUnit';
+  MBL_Course _course = null;
+  MBL_Chapter _chapter = null;
+  MBL_Unit _unit = null;
+  MBL_Level _level = null;
 
-export class MBL_Compile_Error extends Error {
-  constructor(msg: string) {
-    super(msg);
-    this.name = 'MBL_Compile_Error';
-  }
-}
+  List<String> _srcLines = [];
+  int _i = -1; // current line index (starting from 0)
+  String _line = ''; // current line
+  String _line2 = ''; // next line
+  String _paragraph = '';
 
-export class Compiler {
-  private loadFile: (path: string) => string = null;
+  int _uniqueIdCounter = 0;
 
-  private course: MBL_Course = null;
-  private chapter: MBL_Chapter = null;
-  private unit: MBL_Unit = null;
-  private level: MBL_Level = null;
-
-  private srcLines: string[] = [];
-  private i = -1; // current line index (starting from 0)
-  private line = ''; // current line
-  private line2 = ''; // next line
-  private paragraph = '';
-
-  private uniqueIdCounter = 0;
-
-  public createUniqueId(): number {
-    return this.uniqueIdCounter++;
+  int createUniqueId() {
+    return this._uniqueIdCounter++;
   }
 
-  public getCourse(): MBL_Course {
-    return this.course;
+  MBL_Course getCourse() {
+    return this._course;
   }
 
-  public compile(path: string, loadFile: (path: string) => string): void {
+  void compile(String path, loadFile: (path: string) => string) {
     // store load function
-    this.loadFile = loadFile;
+    this._loadFile = loadFile;
     // compile
     if (path.endsWith('course.mbl')) {
       // processing complete course
-      this.compileCourse(path);
+      this._compileCourse(path);
     } else if (path.endsWith('index.mbl')) {
       // processing only a course chapter
-      this.course = new MBL_Course();
-      this.course.debug = MBL_Course_Debug.Chapter;
-      this.compileChapter(path);
+      this._course = new MBL_Course();
+      this._course.debug = MBL_Course_Debug.Chapter;
+      this._compileChapter(path);
     } else {
       // processing only a course level
-      this.course = new MBL_Course();
-      this.course.debug = MBL_Course_Debug.Level;
-      this.chapter = new MBL_Chapter();
-      this.course.chapters.push(this.chapter);
+      this._course = new MBL_Course();
+      this._course.debug = MBL_Course_Debug.Level;
+      this._chapter = new MBL_Chapter();
+      this._course.chapters.push(this._chapter);
       this.compileLevel(path);
     }
     // post processing
-    this.course.postProcess();
+    this._course.postProcess();
   }
 
   //G course = courseTitle courseAuthor courseChapters;
@@ -103,11 +66,11 @@ export class Compiler {
   //G courseAuthor = "AUTHOR" { ID } "\n";
   //G courseChapters = "CHAPTERS" "\n" { courseChapter };
   //G courseChapter = "(" INT "," INT ")" ID { "!" ID } "\n";
-  public compileCourse(path: string): void {
+  void compileCourse(String path) {
     // create a new course
-    this.course = new MBL_Course();
+    this._course = new MBL_Course();
     // get course description file source
-    const src = this.loadFile(path);
+    var src = this.loadFile(path);
     if (src.length == 0) {
       this.error(
         'course description file ' + path + ' does not exist or is empty',
@@ -115,51 +78,51 @@ export class Compiler {
       return;
     }
     // parse
-    const lines = src.split('\n');
-    let state = 'global';
-    let rowIdx = 0;
-    for (let line of lines) {
+    var lines = src.split('\n');
+    var state = 'global';
+    var rowIdx = 0;
+    for (var line of lines) {
       rowIdx++;
       line = line.split('%')[0];
       if (line.trim().length == 0) continue;
       if (state === 'global') {
         if (line.startsWith('TITLE'))
-          this.course.title = line.substring('TITLE'.length).trim();
+          this._course.title = line.substring('TITLE'.length).trim();
         else if (line.startsWith('AUTHOR'))
-          this.course.author = line.substring('AUTHOR'.length).trim();
+          this._course.author = line.substring('AUTHOR'.length).trim();
         else if (line.startsWith('CHAPTERS')) state = 'chapter';
         else this.error('unexpected line ' + line);
       } else if (state === 'chapter') {
-        const lexer = new Lexer();
+        var lexer = new Lexer();
         lexer.enableHyphenInID(true);
         lexer.pushSource(path, line, rowIdx);
         lexer.TER('(');
-        const posX = lexer.INT();
+        var posX = lexer.INT();
         lexer.TER(',');
-        const posY = lexer.INT();
+        var posY = lexer.INT();
         lexer.TER(')');
-        const directoryName = lexer.ID();
-        const requirements: string[] = [];
+        var directoryName = lexer.ID();
+        var requirements: string[] = [];
         while (lexer.isTER('!')) {
           lexer.next();
           requirements.push(lexer.ID());
         }
         lexer.END();
         // compile chapter
-        const dirname = path.match(/.*\//);
-        const chapterPath = dirname + directoryName + '/index.mbl';
+        var dirname = path.match(/.*\//);
+        var chapterPath = dirname + directoryName + '/index.mbl';
         this.compileChapter(chapterPath);
         // set chapter meta data
-        this.chapter.file_id = directoryName;
-        this.chapter.pos_x = posX;
-        this.chapter.pos_y = posY;
-        this.chapter.requires_tmp.push(...requirements);
+        this._chapter.file_id = directoryName;
+        this._chapter.pos_x = posX;
+        this._chapter.pos_y = posY;
+        this._chapter.requires_tmp.push(...requirements);
       }
     }
     // build dependency graph
-    for (const chapter of this.course.chapters) {
-      for (const r of chapter.requires_tmp) {
-        const requiredChapter = this.course.getChapterByFileID(r);
+    for (var chapter of this._course.chapters) {
+      for (var r of chapter.requires_tmp) {
+        var requiredChapter = this._course.getChapterByFileID(r);
         if (requiredChapter == null) this.error('unknown chapter ' + r);
         else chapter.requires.push(requiredChapter);
       }
@@ -171,69 +134,69 @@ export class Compiler {
   //G chapterAuthor = "AUTHOR" { ID } "\n";
   //G chapterUnit = "UNIT" { ID } "\n" { chapterLevel };
   //G chapterLevel = "(" INT "," INT ")" ID { "!" ID } "\n";
-  public compileChapter(path: string): void {
+  compileChapter(path: string): void {
     // create a new chapter
-    this.chapter = new MBL_Chapter();
-    this.course.chapters.push(this.chapter);
+    this._chapter = new MBL_Chapter();
+    this._course.chapters.push(this._chapter);
     // get chapter index file source
-    const src = this.loadFile(path);
+    var src = this.loadFile(path);
     if (src.length == 0) {
       this.error('chapter index file ' + path + ' does not exist or is empty');
       return;
     }
     // parse
-    const lines = src.split('\n');
-    let state = 'global';
-    let rowIdx = 0;
-    for (let line of lines) {
+    var lines = src.split('\n');
+    var state = 'global';
+    var rowIdx = 0;
+    for (var line of lines) {
       rowIdx++;
       line = line.split('%')[0];
       if (line.trim().length == 0) continue;
       if (state === 'global' || line.startsWith('UNIT')) {
         if (line.startsWith('TITLE'))
-          this.chapter.title = line.substring('TITLE'.length).trim();
+          this._chapter.title = line.substring('TITLE'.length).trim();
         else if (line.startsWith('AUTHOR'))
-          this.chapter.author = line.substring('AUTHOR'.length).trim();
+          this._chapter.author = line.substring('AUTHOR'.length).trim();
         else if (line.startsWith('UNIT')) {
           // TODO: handle units!!
-          const unitTitle = line.substring('UNIT'.length).trim();
+          var unitTitle = line.substring('UNIT'.length).trim();
           state = 'unit';
-          this.unit = new MBL_Unit();
-          this.unit.title = unitTitle;
-          this.chapter.units.push(this.unit);
+          this._unit = new MBL_Unit();
+          this._unit.title = unitTitle;
+          this._chapter.units.push(this._unit);
         } else this.error('unexpected line ' + line);
       } else if (state === 'unit') {
-        const lexer = new Lexer();
+        var lexer = new Lexer();
         lexer.enableHyphenInID(true);
         lexer.pushSource(path, line, rowIdx);
         lexer.TER('(');
-        const posX = lexer.INT();
+        var posX = lexer.INT();
         lexer.TER(',');
-        const posY = lexer.INT();
+        var posY = lexer.INT();
         lexer.TER(')');
-        const fileName = lexer.ID();
-        const requirements: string[] = [];
+        var fileName = lexer.ID();
+        var requirements: string[] = [];
         while (lexer.isTER('!')) {
           lexer.next();
           requirements.push(lexer.ID());
         }
         lexer.END();
         // compile level
-        const dirname = path.match(/.*\//);
-        const levelPath = dirname + fileName + '.mbl';
+        var dirname = path.match(/.*\//);
+        var levelPath = dirname + fileName + '.mbl';
         this.compileLevel(levelPath);
-        this.unit.levels.push(this.level);
+        this._unit.levels.push(this._level);
         // set chapter meta data
-        this.level.file_id = fileName;
-        this.level.pos_x = posX;
-        this.level.pos_y = posY;
-        this.level.requires_tmp.push(...requirements);
+        this._level.file_id = fileName;
+        this._level.pos_x = posX;
+        this._level.pos_y = posY;
+        this._level.requires_tmp.push(...requirements);
       }
     }
     // build dependency graph
-    for (const level of this.chapter.levels) {
-      for (const r of level.requires_tmp) {
-        const requiredLevel = this.chapter.getLevelByFileID(r);
+    for (var level of this._chapter.levels) {
+      for (var r of level.requires_tmp) {
+        var requiredLevel = this._chapter.getLevelByFileID(r);
         if (requiredLevel == null) this.error('unknown level ' + r);
         else level.requires.push(requiredLevel);
       }
@@ -241,25 +204,25 @@ export class Compiler {
   }
 
   //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
-  public compileLevel(path: string): void {
+  compileLevel(path: string): void {
     // create a new level
-    this.level = new MBL_Level();
-    this.chapter.levels.push(this.level);
+    this._level = new MBL_Level();
+    this._chapter.levels.push(this._level);
     // get level source
-    const src = this.loadFile(path);
+    var src = this.loadFile(path);
     if (src.length == 0)
       this.error('level file ' + path + ' does not exist or is empty');
     // set source, split it into lines, trim these lines and
     // filter out comments of each line
     this.srcLines = src.split('\n');
-    for (let k = 0; k < this.srcLines.length; k++) {
-      const line = this.srcLines[k].trim();
-      const tokens = line.split('%');
+    for (var k = 0; k < this.srcLines.length; k++) {
+      var line = this.srcLines[k].trim();
+      var tokens = line.split('%');
       this.srcLines[k] = tokens[0];
     }
     // init lexer
-    this.i = -1;
-    this.next();
+    this._i = -1;
+    this._next();
     // parse
     while (this.line !== '§END') {
       if (this.line2.startsWith('#####')) {
@@ -267,90 +230,90 @@ export class Compiler {
         this.parseLevelTitle();
       } else if (this.line2.startsWith('=====')) {
         this.pushParagraph();
-        this.level.items.push(this.parseSectionTitle());
+        this._level.items.push(this.parseSectionTitle());
       } else if (this.line2.startsWith('-----')) {
         this.pushParagraph();
-        this.level.items.push(this.parseSubSectionTitle());
+        this._level.items.push(this.parseSubSectionTitle());
       } else if (this.line === '---') {
         this.pushParagraph();
-        this.level.items.push(this.parseBlock(false));
+        this._level.items.push(this.parseBlock(false));
       } else {
         this.paragraph += this.line + '\n';
-        this.next();
+        this._next();
       }
     }
     this.pushParagraph();
   }
 
-  private pushParagraph(): void {
+  _pushParagraph(): void {
     if (this.paragraph.trim().length > 0) {
-      this.level.items.push(this.parseParagraph(this.paragraph));
+      this._level.items.push(this.parseParagraph(this.paragraph));
       this.paragraph = '';
     }
   }
 
-  private next(): void {
-    this.i++;
-    if (this.i < this.srcLines.length) {
-      this.line = this.srcLines[this.i];
+  _next(): void {
+    this._i++;
+    if (this._i < this.srcLines.length) {
+      this.line = this.srcLines[this._i];
     } else this.line = '§END';
-    if (this.i + 1 < this.srcLines.length) {
-      this.line2 = this.srcLines[this.i + 1];
+    if (this._i + 1 < this.srcLines.length) {
+      this.line2 = this.srcLines[this._i + 1];
     } else this.line2 = '§END';
   }
 
   //G levelTitle = { CHAR } "@" { ID } NEWLINE "#####.." { "#" } NEWLINE;
-  private parseLevelTitle(): void {
-    const tokens = this.line.split('@');
-    this.level.title = tokens[0].trim();
+  _parseLevelTitle(): void {
+    var tokens = this.line.split('@');
+    this._level.title = tokens[0].trim();
     if (tokens.length > 1) {
-      this.level.label = tokens[1].trim();
+      this._level.label = tokens[1].trim();
     }
-    this.next(); // skip document title
-    this.next(); // skip '#####..'
+    this._next(); // skip document title
+    this._next(); // skip '#####..'
   }
 
   //G sectionTitle = { CHAR } "@" { ID } NEWLINE "=====.." { "#" } NEWLINE;
-  private parseSectionTitle(): MBL_Section {
-    const section = new MBL_Section(MBL_SectionType.Section);
-    const tokens = this.line.split('@');
+  _parseSectionTitle(): MBL_Section {
+    var section = new MBL_Section(MBL_SectionType.Section);
+    var tokens = this.line.split('@');
     section.text = tokens[0].trim();
     if (tokens.length > 1) {
       section.label = tokens[1].trim();
     }
-    this.next(); // skip section title
-    this.next(); // skip '=====..'
+    this._next(); // skip section title
+    this._next(); // skip '=====..'
     return section;
   }
 
   //G subSectionTitle = { CHAR } "@" { ID } NEWLINE "-----.." { "#" } NEWLINE;
-  private parseSubSectionTitle(): MBL_Section {
-    const subSection = new MBL_Section(MBL_SectionType.SubSection);
-    const tokens = this.line.split('@');
+  _parseSubSectionTitle(): MBL_Section {
+    var subSection = new MBL_Section(MBL_SectionType.SubSection);
+    var tokens = this.line.split('@');
     subSection.text = tokens[0].trim();
     if (tokens.length > 1) {
       subSection.label = tokens[1].trim();
     }
-    this.next(); // skip subSection title
-    this.next(); // skip '-----..'
+    this._next(); // skip subSection title
+    this._next(); // skip '-----..'
     return subSection;
   }
 
   //G block = "---" NEWLINE { "@" ID NEWLINE | LINE } "---" NEWLINE;
   // TODO: grammar for subblocks
-  private parseBlock(parseSubBlock: boolean): MBL_LevelItem {
-    const block = new Block(this);
-    block.srcLine = this.i;
-    if (!parseSubBlock) this.next(); // skip "---"
-    const tokens = this.line.split(' ');
-    for (let k = 0; k < tokens.length; k++) {
+  _parseBlock(parseSubBlock: boolean): MBL_LevelItem {
+    var block = new Block(this);
+    block.srcLine = this._i;
+    if (!parseSubBlock) this._next(); // skip "---"
+    var tokens = this.line.split(' ');
+    for (var k = 0; k < tokens.length; k++) {
       if (k == 0) block.type = tokens[k];
       else if (tokens[k].startsWith('@')) block.label = tokens[k];
       else block.title += tokens[k] + ' ';
     }
     block.title = block.title.trim();
-    this.next();
-    let part: BlockPart = new BlockPart();
+    this._next();
+    var part: BlockPart = new BlockPart();
     part.name = 'global';
     block.parts.push(part);
     while (this.line !== '---' && this.line !== '§END') {
@@ -358,7 +321,7 @@ export class Compiler {
         part = new BlockPart();
         block.parts.push(part);
         part.name = this.line.substring(1).trim();
-        this.next();
+        this._next();
       } else if (
         this.line.length >= 3 &&
         this.line[0] >= 'A' &&
@@ -369,11 +332,11 @@ export class Compiler {
         else block.parts.push(this.parseBlock(true));
       } else {
         part.lines.push(this.line);
-        this.next();
+        this._next();
       }
     }
     if (!parseSubBlock) {
-      if (this.line === '---') this.next();
+      if (this.line === '---') this._next();
       else
         this.error(
           'block started in line ' + block.srcLine + ' must end with ---',
@@ -399,24 +362,24 @@ export class Compiler {
       | ID
       | DEL;
    */
-  public parseParagraph(raw: string, ex: MBL_Exercise = null): MBL_Text {
+  parseParagraph(raw: string, ex: MBL_Exercise = null): MBL_Text {
     // skip empty paragraphs
     if (raw.trim().length == 0)
       //return new ParagraphItem(ParagraphItemType.Text);
       return new MBL_Text_Text(); // TODO: OK??
     // create lexer
-    const lexer = new Lexer();
+    var lexer = new Lexer();
     lexer.enableEmitNewlines(true);
     lexer.enableUmlautInID(true);
     lexer.pushSource('', raw);
     lexer.setTerminals(['**', '#.', '-)']);
-    const paragraph = new MBL_Text_Paragraph();
+    var paragraph = new MBL_Text_Paragraph();
     while (lexer.isNotEND())
       paragraph.items.push(this.parseParagraph_part(lexer, ex));
     return paragraph;
   }
 
-  private parseParagraph_part(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  _parseParagraph_part(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
     if (
       lexer.getToken().col == 1 &&
       (lexer.isTER('-') || lexer.isTER('#.') || lexer.isTER('-)'))
@@ -447,7 +410,7 @@ export class Compiler {
       return this.parseSingleOrMultipleChoice(lexer, exercise);
     } else if (lexer.isTER('\n')) {
       // line feed
-      const isNewParagraph = lexer.getToken().col == 1;
+      var isNewParagraph = lexer.getToken().col == 1;
       lexer.next();
       if (isNewParagraph) return new MBL_Text_Linefeed();
       else return new MBL_Text_Text();
@@ -456,7 +419,7 @@ export class Compiler {
       return this.parseTextProperty(lexer, exercise);
     } else {
       // text tokens (... or yet unimplemented paragraph items)
-      const text = new MBL_Text_Text();
+      var text = new MBL_Text_Text();
       text.value = lexer.getToken().token;
       lexer.next();
       return text;
@@ -464,10 +427,10 @@ export class Compiler {
     throw new Error('this should never happen!');
   }
 
-  private parseItemize(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  _parseItemize(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
     // '-' for itemize; '#.' for enumerate; '-)' for alpha enumerate
-    const typeStr = lexer.getToken().token;
-    let type: MBL_Text_Itemize_Type;
+    var typeStr = lexer.getToken().token;
+    var type: MBL_Text_Itemize_Type;
     switch (typeStr) {
       case '-':
         type = MBL_Text_Itemize_Type.Itemize;
@@ -479,10 +442,10 @@ export class Compiler {
         type = MBL_Text_Itemize_Type.EnumerateAlpha;
         break;
     }
-    const itemize = new MBL_Text_Itemize(type);
+    var itemize = new MBL_Text_Itemize(type);
     while (lexer.getToken().col == 1 && lexer.isTER(typeStr)) {
       lexer.next();
-      const span = new MBL_Text_Span();
+      var span = new MBL_Text_Span();
       itemize.items.push(span);
       while (lexer.isNotNEWLINE() && lexer.isNotEND())
         span.items.push(this.parseParagraph_part(lexer, exercise));
@@ -491,37 +454,37 @@ export class Compiler {
     return itemize;
   }
 
-  private parseBoldText(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  _parseBoldText(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
     lexer.next();
-    const bold = new MBL_Text_Bold();
+    var bold = new MBL_Text_Bold();
     while (lexer.isNotTER('**') && lexer.isNotEND())
       bold.items.push(this.parseParagraph_part(lexer, exercise));
     if (lexer.isTER('**')) lexer.next();
     return bold;
   }
 
-  private parseItalicText(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  _parseItalicText(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
     lexer.next();
-    const italic = new MBL_Text_Italic();
+    var italic = new MBL_Text_Italic();
     while (lexer.isNotTER('*') && lexer.isNotEND())
       italic.items.push(this.parseParagraph_part(lexer, exercise));
     if (lexer.isTER('*')) lexer.next();
     return italic;
   }
 
-  private parseInlineMath(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  _parseInlineMath(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
     lexer.next();
-    const inlineMath = new MBL_Text_InlineMath();
+    var inlineMath = new MBL_Text_InlineMath();
     while (lexer.isNotTER('$') && lexer.isNotEND()) {
-      const tk = lexer.getToken().token;
-      const isId = lexer.getToken().type === LexerTokenType.ID;
+      var tk = lexer.getToken().token;
+      var isId = lexer.getToken().type === LexerTokenType.ID;
       lexer.next();
       if (isId && exercise != null && tk in exercise.variables) {
-        const v = new MBL_Exercise_Text_Variable();
+        var v = new MBL_Exercise_Text_Variable();
         v.variableId = tk;
         inlineMath.items.push(v);
       } else {
-        const text = new MBL_Text_Text();
+        var text = new MBL_Text_Text();
         text.value = tk;
         inlineMath.items.push(text);
       }
@@ -530,9 +493,9 @@ export class Compiler {
     return inlineMath;
   }
 
-  private parseReference(lexer: Lexer): MBL_Text {
+  _parseReference(lexer: Lexer): MBL_Text {
     lexer.next();
-    const ref = new MBL_Text_Reference();
+    var ref = new MBL_Text_Reference();
     if (lexer.isID()) {
       ref.label = lexer.getToken().token;
       lexer.next();
@@ -540,15 +503,15 @@ export class Compiler {
     return ref;
   }
 
-  private parseInputElements(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  _parseInputElements(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
     lexer.next();
-    let id = '';
-    const input = new MBL_Exercise_Text_Input();
+    var id = '';
+    var input = new MBL_Exercise_Text_Input();
     input.input_id = 'input' + this.createUniqueId();
     if (lexer.isID()) {
       id = lexer.ID();
       if (id in exercise.variables) {
-        const v = exercise.variables[id];
+        var v = exercise.variables[id];
         input.variable = id;
         switch (v.type) {
           case MBL_Exercise_VariableType.Int:
@@ -581,14 +544,14 @@ export class Compiler {
     return input;
   }
 
-  private parseSingleOrMultipleChoice(
+  _parseSingleOrMultipleChoice(
     lexer: Lexer,
     exercise: MBL_Exercise,
   ): MBL_Text {
-    const isMultipleChoice = lexer.isTER('[');
+    var isMultipleChoice = lexer.isTER('[');
     lexer.next();
-    let staticallyCorrect = false;
-    let varId = '';
+    var staticallyCorrect = false;
+    var varId = '';
     if (lexer.isTER('x')) {
       lexer.next();
       staticallyCorrect = true;
@@ -602,7 +565,7 @@ export class Compiler {
         exercise.error = 'expected ID after :';
       }
     }
-    let element:
+    var element:
       | MBL_Exercise_Text_Multiple_Choice
       | MBL_Exercise_Text_Single_Choice = null;
     if (varId.length == 0)
@@ -616,11 +579,11 @@ export class Compiler {
       else exercise.error = 'expected )';
       element = new MBL_Exercise_Text_Multiple_Choice();
     }
-    const option = new MBL_Exercise_Text_Single_or_Multi_Choice_Option();
+    var option = new MBL_Exercise_Text_Single_or_Multi_Choice_Option();
     option.input_id = 'input' + this.createUniqueId();
     option.variable = varId;
     element.items.push(option);
-    const span = new MBL_Text_Span();
+    var span = new MBL_Text_Span();
     option.text = span;
     while (lexer.isNotNEWLINE() && lexer.isNotEND())
       span.items.push(this.parseParagraph_part(lexer, exercise));
@@ -628,10 +591,10 @@ export class Compiler {
     return element;
   }
 
-  private parseTextProperty(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
+  _parseTextProperty(lexer: Lexer, exercise: MBL_Exercise): MBL_Text {
     // TODO: make sure, that errors are not too annoying...
     lexer.next();
-    const items: MBL_Text[] = [];
+    var items: MBL_Text[] = [];
     while (lexer.isNotTER(']') && lexer.isNotEND())
       items.push(this.parseParagraph_part(lexer, exercise));
     if (lexer.isTER(']')) lexer.next();
@@ -639,17 +602,17 @@ export class Compiler {
     if (lexer.isTER('@')) lexer.next();
     else return new MBL_Text_Error('expected @');
     if (lexer.isID()) {
-      const id = lexer.ID();
+      var id = lexer.ID();
       if (id === 'bold') {
-        const bold = new MBL_Text_Bold();
+        var bold = new MBL_Text_Bold();
         bold.items = items;
         return bold;
       } else if (id === 'italic') {
-        const italic = new MBL_Text_Italic();
+        var italic = new MBL_Text_Italic();
         italic.items = items;
         return italic;
       } else if (id.startsWith('color')) {
-        const color = new MBL_Text_Color();
+        var color = new MBL_Text_Color();
         color.key = parseInt(id.substring(5)); // TODO: check if INT
         color.items = items;
         return color;
@@ -659,8 +622,8 @@ export class Compiler {
     } else return new MBL_Text_Error('missing property name');
   }
 
-  private error(message: string): void {
+  _error(message: string): void {
     // TODO: include file path!
-    throw new MBL_Compile_Error('ERROR:' + (this.i + 1) + ': ' + message);
+    throw new MBL_Compile_Error('ERROR:' + (this._i + 1) + ': ' + message);
   }
 }
