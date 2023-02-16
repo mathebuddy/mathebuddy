@@ -1,0 +1,25 @@
+{
+  "name": "mathebuddy-website",
+  "version": "1.0.0",
+  "description": "Website for the MatheBuddy App",
+  "main": "index.js",
+  "scripts": {
+    "webserver": "php -S localhost:8314"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathebuddy/mathebuddy.git"
+  },
+  "author": "Andreas Schwenk, TH Köln",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/mathebuddy/mathebuddy/issues"
+  },
+  "homepage": "https://github.com/mathebuddy/mathebuddy#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.1.2",
+    "axios": "^0.27.2",
+    "bootstrap": "^5.2.0",
+    "showdown": "^2.1.0"
+  }
+}
