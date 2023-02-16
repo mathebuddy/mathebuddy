@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+
+  "configurations": [
+    {
+      "type": "dart",
+      "name": "[math-runtime] tests",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/math-runtime/test.dart"
+    },
+    {
+      "type": "dart",
+      "name": "[smpl] tests",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/smpl/test.dart"
+    },
+    {
+      "type": "dart",
+      "name": "[compiler] tests",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/compiler/test.dart"
+    }
+  ]
+}
