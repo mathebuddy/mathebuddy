@@ -6,10 +6,12 @@
  * License: GPL-3.0-or-later
  */
 
-import 'dataChapter.dart';
-import 'dataCourse.dart';
-import 'dataLevel.dart';
-import 'dataUnit.dart';
+import 'block.dart';
+import 'data/dataChapter.dart';
+import 'data/dataCourse.dart';
+import 'data/dataLevel.dart';
+import 'data/dataSection.dart';
+import 'data/dataUnit.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
@@ -72,7 +74,7 @@ class Compiler {
     // get course description file source
     var src = this.loadFile(path);
     if (src.length == 0) {
-      this.error(
+      this._error(
         'course description file ' + path + ' does not exist or is empty',
       );
       return;
@@ -85,14 +87,14 @@ class Compiler {
       rowIdx++;
       line = line.split('%')[0];
       if (line.trim().length == 0) continue;
-      if (state === 'global') {
+      if (state == 'global') {
         if (line.startsWith('TITLE'))
           this._course.title = line.substring('TITLE'.length).trim();
         else if (line.startsWith('AUTHOR'))
           this._course.author = line.substring('AUTHOR'.length).trim();
         else if (line.startsWith('CHAPTERS')) state = 'chapter';
-        else this.error('unexpected line ' + line);
-      } else if (state === 'chapter') {
+        else this._error('unexpected line ' + line);
+      } else if (state == 'chapter') {
         var lexer = new Lexer();
         lexer.enableHyphenInID(true);
         lexer.pushSource(path, line, rowIdx);
@@ -123,7 +125,7 @@ class Compiler {
     for (var chapter of this._course.chapters) {
       for (var r of chapter.requires_tmp) {
         var requiredChapter = this._course.getChapterByFileID(r);
-        if (requiredChapter == null) this.error('unknown chapter ' + r);
+        if (requiredChapter == null) this._error('unknown chapter ' + r);
         else chapter.requires.push(requiredChapter);
       }
     }
@@ -134,14 +136,14 @@ class Compiler {
   //G chapterAuthor = "AUTHOR" { ID } "\n";
   //G chapterUnit = "UNIT" { ID } "\n" { chapterLevel };
   //G chapterLevel = "(" INT "," INT ")" ID { "!" ID } "\n";
-  compileChapter(path: string): void {
+  void compileChapter(String path) {
     // create a new chapter
     this._chapter = new MBL_Chapter();
-    this._course.chapters.push(this._chapter);
+    this._course.chapters.add(this._chapter);
     // get chapter index file source
     var src = this.loadFile(path);
     if (src.length == 0) {
-      this.error('chapter index file ' + path + ' does not exist or is empty');
+      this._error('chapter index file ' + path + ' does not exist or is empty');
       return;
     }
     // parse
@@ -152,7 +154,7 @@ class Compiler {
       rowIdx++;
       line = line.split('%')[0];
       if (line.trim().length == 0) continue;
-      if (state === 'global' || line.startsWith('UNIT')) {
+      if (state == 'global' || line.startsWith('UNIT')) {
         if (line.startsWith('TITLE'))
           this._chapter.title = line.substring('TITLE'.length).trim();
         else if (line.startsWith('AUTHOR'))
@@ -164,8 +166,8 @@ class Compiler {
           this._unit = new MBL_Unit();
           this._unit.title = unitTitle;
           this._chapter.units.push(this._unit);
-        } else this.error('unexpected line ' + line);
-      } else if (state === 'unit') {
+        } else this._error('unexpected line ' + line);
+      } else if (state == 'unit') {
         var lexer = new Lexer();
         lexer.enableHyphenInID(true);
         lexer.pushSource(path, line, rowIdx);
@@ -197,7 +199,7 @@ class Compiler {
     for (var level of this._chapter.levels) {
       for (var r of level.requires_tmp) {
         var requiredLevel = this._chapter.getLevelByFileID(r);
-        if (requiredLevel == null) this.error('unknown level ' + r);
+        if (requiredLevel == null) this._error('unknown level ' + r);
         else level.requires.push(requiredLevel);
       }
     }
@@ -211,60 +213,60 @@ class Compiler {
     // get level source
     var src = this.loadFile(path);
     if (src.length == 0)
-      this.error('level file ' + path + ' does not exist or is empty');
+      this._error('level file ' + path + ' does not exist or is empty');
     // set source, split it into lines, trim these lines and
     // filter out comments of each line
-    this.srcLines = src.split('\n');
-    for (var k = 0; k < this.srcLines.length; k++) {
-      var line = this.srcLines[k].trim();
+    this._srcLines = src.split('\n');
+    for (var k = 0; k < this._srcLines.length; k++) {
+      var line = this._srcLines[k].trim();
       var tokens = line.split('%');
-      this.srcLines[k] = tokens[0];
+      this._srcLines[k] = tokens[0];
     }
     // init lexer
     this._i = -1;
     this._next();
     // parse
-    while (this.line !== '§END') {
-      if (this.line2.startsWith('#####')) {
+    while (this._line != '§END') {
+      if (this._line2.startsWith('#####')) {
         this.pushParagraph();
         this.parseLevelTitle();
-      } else if (this.line2.startsWith('=====')) {
+      } else if (this._line2.startsWith('==')) {
         this.pushParagraph();
         this._level.items.push(this.parseSectionTitle());
-      } else if (this.line2.startsWith('-----')) {
+      } else if (this._line2.startsWith('-----')) {
         this.pushParagraph();
         this._level.items.push(this.parseSubSectionTitle());
-      } else if (this.line === '---') {
+      } else if (this._line == '---') {
         this.pushParagraph();
         this._level.items.push(this.parseBlock(false));
       } else {
-        this.paragraph += this.line + '\n';
+        this._paragraph += this._line + '\n';
         this._next();
       }
     }
     this.pushParagraph();
   }
 
-  _pushParagraph(): void {
-    if (this.paragraph.trim().length > 0) {
-      this._level.items.push(this.parseParagraph(this.paragraph));
-      this.paragraph = '';
+  void _pushParagraph() {
+    if (this._paragraph.trim().length > 0) {
+      this._level.items.add(this.parseParagraph(this._paragraph));
+      this._paragraph = '';
     }
   }
 
-  _next(): void {
+  void _next() {
     this._i++;
-    if (this._i < this.srcLines.length) {
-      this.line = this.srcLines[this._i];
-    } else this.line = '§END';
-    if (this._i + 1 < this.srcLines.length) {
-      this.line2 = this.srcLines[this._i + 1];
-    } else this.line2 = '§END';
+    if (this._i < this._srcLines.length) {
+      this._line = this._srcLines[this._i];
+    } else this._line = '§END';
+    if (this._i + 1 < this._srcLines.length) {
+      this._line2 = this._srcLines[this._i + 1];
+    } else this._line2 = '§END';
   }
 
   //G levelTitle = { CHAR } "@" { ID } NEWLINE "#####.." { "#" } NEWLINE;
-  _parseLevelTitle(): void {
-    var tokens = this.line.split('@');
+  void _parseLevelTitle() {
+    var tokens = this._line.split('@');
     this._level.title = tokens[0].trim();
     if (tokens.length > 1) {
       this._level.label = tokens[1].trim();
@@ -273,23 +275,23 @@ class Compiler {
     this._next(); // skip '#####..'
   }
 
-  //G sectionTitle = { CHAR } "@" { ID } NEWLINE "=====.." { "#" } NEWLINE;
-  _parseSectionTitle(): MBL_Section {
+  //G sectionTitle = { CHAR } "@" { ID } NEWLINE "==.." { "#" } NEWLINE;
+  MBL_Section _parseSectionTitle() {
     var section = new MBL_Section(MBL_SectionType.Section);
-    var tokens = this.line.split('@');
+    var tokens = this._line.split('@');
     section.text = tokens[0].trim();
     if (tokens.length > 1) {
       section.label = tokens[1].trim();
     }
     this._next(); // skip section title
-    this._next(); // skip '=====..'
+    this._next(); // skip '==..'
     return section;
   }
 
   //G subSectionTitle = { CHAR } "@" { ID } NEWLINE "-----.." { "#" } NEWLINE;
-  _parseSubSectionTitle(): MBL_Section {
+  MBL_Section _parseSubSectionTitle() {
     var subSection = new MBL_Section(MBL_SectionType.SubSection);
-    var tokens = this.line.split('@');
+    var tokens = this._line.split('@');
     subSection.text = tokens[0].trim();
     if (tokens.length > 1) {
       subSection.label = tokens[1].trim();
@@ -301,11 +303,11 @@ class Compiler {
 
   //G block = "---" NEWLINE { "@" ID NEWLINE | LINE } "---" NEWLINE;
   // TODO: grammar for subblocks
-  _parseBlock(parseSubBlock: boolean): MBL_LevelItem {
+  MBL_LevelItem _parseBlock(bool parseSubBlock) {
     var block = new Block(this);
     block.srcLine = this._i;
     if (!parseSubBlock) this._next(); // skip "---"
-    var tokens = this.line.split(' ');
+    var tokens = this._line.split(' ');
     for (var k = 0; k < tokens.length; k++) {
       if (k == 0) block.type = tokens[k];
       else if (tokens[k].startsWith('@')) block.label = tokens[k];
@@ -316,29 +318,29 @@ class Compiler {
     var part: BlockPart = new BlockPart();
     part.name = 'global';
     block.parts.push(part);
-    while (this.line !== '---' && this.line !== '§END') {
-      if (this.line.startsWith('@')) {
+    while (this._line != '---' && this._line != '§END') {
+      if (this._line.startsWith('@')) {
         part = new BlockPart();
         block.parts.push(part);
-        part.name = this.line.substring(1).trim();
+        part.name = this._line.substring(1).trim();
         this._next();
       } else if (
-        this.line.length >= 3 &&
-        this.line[0] >= 'A' &&
-        this.line[0] <= 'Z' &&
-        this.line.substring(0, 3) === this.line.toUpperCase().substring(0, 3)
+        this._line.length >= 3 &&
+        this._line[0] >= 'A' &&
+        this._line[0] <= 'Z' &&
+        this._line.substring(0, 3) == this._line.toUpperCase().substring(0, 3)
       ) {
         if (parseSubBlock) break;
         else block.parts.push(this.parseBlock(true));
       } else {
-        part.lines.push(this.line);
+        part.lines.push(this._line);
         this._next();
       }
     }
     if (!parseSubBlock) {
-      if (this.line === '---') this._next();
+      if (this._line == '---') this._next();
       else
-        this.error(
+        this._error(
           'block started in line ' + block.srcLine + ' must end with ---',
         );
     }
@@ -477,7 +479,7 @@ class Compiler {
     var inlineMath = new MBL_Text_InlineMath();
     while (lexer.isNotTER('$') && lexer.isNotEND()) {
       var tk = lexer.getToken().token;
-      var isId = lexer.getToken().type === LexerTokenType.ID;
+      var isId = lexer.getToken().type == LexerTokenType.ID;
       lexer.next();
       if (isId && exercise != null && tk in exercise.variables) {
         var v = new MBL_Exercise_Text_Variable();
@@ -603,11 +605,11 @@ class Compiler {
     else return new MBL_Text_Error('expected @');
     if (lexer.isID()) {
       var id = lexer.ID();
-      if (id === 'bold') {
+      if (id == 'bold') {
         var bold = new MBL_Text_Bold();
         bold.items = items;
         return bold;
-      } else if (id === 'italic') {
+      } else if (id == 'italic') {
         var italic = new MBL_Text_Italic();
         italic.items = items;
         return italic;
