@@ -6,6 +6,7 @@
  * License: GPL-3.0-or-later
  */
 
+import 'dataExercise.dart';
 import 'dataLevel.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html
@@ -17,7 +18,7 @@ abstract class MBL_Text extends MBL_LevelItem {}
 void simplifyText(List<MBL_Text> items) {
   // remove unnecessary line feeds
   while (items.length > 0 && items[0] is MBL_Text_Linefeed) {
-    items.shift();
+    items.removeAt(0);
   }
   while (
     items.length > 0 &&
