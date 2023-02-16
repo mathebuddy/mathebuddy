@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/img/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/img/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/img/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/img/favicon/safari-pinned-tab.svg"
+      color="#9c1e14"
+    />
+    <link rel="shortcut icon" href="/img/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#9c1e14" />
+    <meta
+      name="msapplication-config"
+      content="/img/favicon/browserconfig.xml"
+    />
+    <meta name="theme-color" content="#ffffff" />
+
+    <title>mathe:buddy - eine gamifizierte App für die höhere Mathematik</title>
+
+    <link
+      rel="stylesheet"
+      href="node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+    />
+
+    <style>
+      body {
+        padding-top: 64px;
+        background-color: #ffffff;
+      }
+
+      p.indent {
+        text-indent: 24px;
+      }
+
+      a:link {
+        text-decoration: none;
+      }
+
+      a:visited {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a
+          class="navbar-brand p-0 m-0"
+          href="index.html"
+          style="cursor: pointer"
+        >
+          &nbsp;
+          <img class="p-0 m-0" src="img/logo/logo.svg" alt="" height="48" />
+          &nbsp;
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul id="navbar-items" class="navbar-nav"></ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== HOME ===== -->
+    <div id="home" class="container">
+      <div class="row text-center">
+        <div class="col">
+          <img
+            src="img/logo/logo-large.svg?v=5"
+            class="img-fluid w-75 text-center py-2"
+            alt="Responsive 
+image"
+          />
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col">
+          <p class="fw-lighter">
+            Gefördert durch die Stiftung Innovation in der Hochschullehre;
+            <a
+              class="text-secondary"
+              href="https://stiftung-hochschullehre.de/foerderung/freiraum2022/"
+              >FREIRAUM 2022</a
+            >
+          </p>
+          <p class="lead">
+            Die Lernanwendung
+            <span style="color: #b92323"><b>mathe:buddy</b></span> ist eine
+            interaktive und gamifizierte App für die höhere Mathematik im ersten
+            Studienjahr. Studierende werden durch interaktives Training und
+            Elemente des spielerischen Lernens motiviert, begleitet und
+            individuell gefördert.
+          </p>
+          <p class="indent lead">
+            Jedes Themengebiet wird durch prägnante, gut verständliche Texte
+            eingeführt und enthält Beispiele, Abbildungen und Verweise zum
+            Praxisbezug. Ein automatisiertes Lernmanagement stellt abhängig vom
+            Lernstand randomisierte Trainingsaufgaben unterschiedlicher
+            Taxonomiestufen. Die Lernphase wird abgerundet durch kurze Spiele,
+            wie zum Beispiel Schnellabfragen, Mathe-Rätsel und
+            Formelfehlersuche. Das Erreichen von Meilensteinen wird durch Awards
+            und Highscores belohnt. Studierende werden motiviert kontinuierlich
+            auf die Lernziele hinzuarbeiten. Ein integrierter Chatbot
+            beantwortet einfache Fragen und stellt kurze Trainingsaufgaben. Alle
+            Kursbestandteile sind modular aufgebaut und können nichtlinear
+            bearbeitet werden.
+          </p>
+          <p class="indent lead">
+            Das niederschwellige Angebot ermöglicht den Studierenden fachliche
+            Lücken eigenständig zu schließen. Mittels eines digitalen
+            Zertifikats kann der erreichte Lernstand nachgewiesen werden. Die
+            App ist
+            <a href="https://github.com/mathebuddy" target="_blank"
+              >Open-Source</a
+            >, kostenfrei und kann ohne zentrale Datenerhebung genutzt werden.
+            Lehrende können selbst einfach Anpassungen und Erweiterung von
+            Kursbestandteilen vornehmen.
+          </p>
+          <br />
+          <p class="text-center py-2">
+            <img
+              src="img/timeline.svg?v=4"
+              alt="Responsive image"
+              style="height: 96px; max-height: 96px"
+            />
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center p-2 m-2">
+          <button
+            class="btn"
+            onclick=""
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="verfügbar ab voraussichtlich 09/2023"
+          >
+            <img
+              src="img/app-store/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.png"
+              alt="Responsive image"
+              style="height: 64px; opacity: 0.33"
+            />
+          </button>
+          <button
+            class="btn"
+            onclick=""
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="verfügbar ab voraussichtlich 09/2023"
+          >
+            <img
+              src="img/app-store/google-play-badge-en.png"
+              alt="Responsive image"
+              style="height: 64px; opacity: 0.33"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== BLOG ===== -->
+    <div id="blog" class="container" style="display: none">
+      <br />
+      <div class="row">
+        <div class="col">
+          <h1 class="display-4">Blog</h1>
+          <div id="blog-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DOCS ===== -->
+    <div id="docs" class="container" style="display: none">
+      <br />
+      <div class="row">
+        <div class="col">
+          <h1 class="display-4">Docs</h1>
+
+          <br />
+          <p class="lead fw-lighter text-center">
+            We are currently working on the documentation.<br />
+            Feel free to read the alpha versions, provided by the links below.
+            <br /><br />
+            <img
+              class="img-fluid"
+              src="img/mathebuddy-comp-diag.png"
+              style="
+                border-style: solid;
+                border-width: 2px;
+                border-radius: 10px;
+                border-color: lightgrey;
+                max-width: 50%;
+              "
+            />
+          </p>
+
+          <br />
+
+          <div class="row">
+            <div class="col text-start">
+              <button
+                type="button"
+                class="btn btn-danger btn-lg"
+                onclick="window.open('docs-mbl.html', '_self')"
+              >
+                MATHE:BUDDY LANGUAGE (MBL)
+              </button>
+              <button
+                type="button"
+                class="btn btn-dark btn-lg"
+                onclick="window.open('https://github.com/mathebuddy/mathebuddy-compiler', '_blank')"
+              >
+                <i class="fa-brands fa-github"></i>
+              </button>
+              <p class="lead">
+                Formal language to expressively define online math courses.
+              </p>
+              <br />
+
+              <button
+                type="button"
+                class="btn btn-danger btn-lg"
+                onclick="window.open('docs-smpl.html', '_self')"
+              >
+                SIMPLE MATH PROGRAMMING LANGUAGE (SMPL)
+              </button>
+              <button
+                type="button"
+                class="btn btn-success btn-lg"
+                onclick="window.open('https://mathebuddy.github.io/mathebuddy-smpl/', '_blank')"
+              >
+                Playground
+              </button>
+              <button
+                type="button"
+                class="btn btn-dark btn-lg"
+                onclick="window.open('https://github.com/mathebuddy/mathebuddy-smpl', '_blank')"
+              >
+                <i class="fa-brands fa-github"></i>
+              </button>
+              <p class="lead">
+                Turing-complete programming language with intrinsic mathematical
+                data types.
+              </p>
+              <br />
+
+              <button
+                type="button"
+                class="btn btn-danger btn-lg"
+                onclick="window.open('docs-mbcl.html', '_self')"
+              >
+                MATHE:BUDDY COMPILED LANGUAGE (MBCL)
+              </button>
+              <button
+                type="button"
+                class="btn btn-dark btn-lg"
+                onclick="window.open('https://github.com/mathebuddy/mathebuddy-compiler', '_blank')"
+              >
+                <i class="fa-brands fa-github"></i>
+              </button>
+              <p class="lead">
+                JSON-based technical language for compiled online math courses.
+              </p>
+              <br />
+
+              <button
+                type="button"
+                class="btn btn-danger btn-lg"
+                onclick="window.open('docs-sim.html', '_self')"
+              >
+                SIMULATOR GUIDE
+              </button>
+              <button
+                type="button"
+                class="btn btn-dark btn-lg"
+                onclick="window.open('https://github.com/mathebuddy/mathebuddy-simulator', '_blank')"
+              >
+                <i class="fa-brands fa-github"></i>
+              </button>
+              <p class="lead">Mathe:Buddy simulator installation guide.</p>
+              <br />
+
+              <button
+                type="button"
+                class="btn btn-danger btn-lg"
+                onclick="alert('work-in-progress')"
+              >
+                Math Runtime
+              </button>
+              <button
+                type="button"
+                class="btn btn-success btn-lg"
+                onclick="window.open('https://mathebuddy.github.io/mathebuddy-math-runtime/', '_blank')"
+              >
+                Playground
+              </button>
+              <button
+                type="button"
+                class="btn btn-dark btn-lg"
+                onclick="window.open('https://github.com/mathebuddy/mathebuddy-math-runtime', '_blank')"
+              >
+                <i class="fa-brands fa-github"></i>
+              </button>
+              <p class="lead">
+                Math runtime for the App. Based on SMPL; extended for robust
+                student answer parsing.
+              </p>
+              <br />
+            </div>
+          </div>
+
+          <h2>Changelog</h2>
+          <p>
+            The following changelog lists recent changes in documentation and
+            implementation (may be incomplete!).
+          </p>
+          <div class="border border-dark p-2">
+            <pre><code><span id="changelog"></span></code></pre>
+          </div>
+          <br />
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== EDITOR ===== -->
+    <div id="editor" class="container" style="display: none">
+      <br />
+      <div class="row">
+        <div class="col">
+          <h1 class="display-4">Editor</h1>
+          <p class="lead">... work in progress</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <br />
+    <div id="footer" class="container text-secondary">
+      &copy; 2022-<span id="current-year"></span> Prof. Dr. Heiko Knospe,
+      Patricia Maria Graf M.Sc., Andreas Schwenk M.Sc., TH Köln.
+      <br />
+      <br />
+      <a href="https://www.th-koeln.de">
+        <img
+          src="img/logo-th-koeln.png"
+          class=""
+          alt="Responsive image"
+          style="height: 48px"
+      /></a>
+      &nbsp; &nbsp;
+      <a href="https://stiftung-hochschullehre.de">
+        <img
+          src="img/logo_stiftung_hochschullehre.png"
+          class=""
+          alt="Responsive image"
+          style="height: 48px"
+      /></a>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">
+        <img
+          src="img/gpl-v3-logo.svg"
+          class=""
+          alt="Responsive image"
+          style="height: 48px"
+        />
+      </a>
+    </div>
+    <br /><br />
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="node_modules/showdown/dist/showdown.min.js"></script>
+
+    <script>
+      document.getElementById("current-year").innerHTML =
+        new Date().getFullYear();
+
+      // get current page by URL parameter "page"
+      let urlParameters = new URLSearchParams(window.location.search);
+      let page = urlParameters.get("page");
+      if (page == null) page = "home";
+
+      // links
+      const navLinks = [
+        // id, rendered name, href
+        "home # Home # .",
+        "blog # Blog # .",
+        //'editor # Editor # .',
+        //"docs # Docs # docs/build/index.html",
+        "docs # Docs # .",
+        'github # <i class="fa-brands fa-github"></i> # https://github.com/mathebuddy',
+      ];
+
+      // ===== add navbar items =====
+      let htmlNavbar = "";
+      for (const link of navLinks) {
+        const tokens = link.split("#");
+        const id = tokens[0].trim();
+        const name = tokens[1].trim();
+        const active = id === page ? " active" : "";
+        let href = tokens[2].trim();
+        let target = "_self";
+        if (href === ".") {
+          href = "index.html?page=" + id + "&time=" + Date.now();
+          const element = document.getElementById(id);
+          if (element != null) {
+            document.getElementById(id).style.display =
+              id === page ? "block" : "none";
+          }
+        } else target = "_blank";
+        htmlNavbar += '<li class="nav-item">';
+        htmlNavbar += "    <a ";
+        htmlNavbar += '        id="nav-link-' + id + '"';
+        htmlNavbar += '        class="nav-link' + active + '"';
+        htmlNavbar += '        aria-current="page"';
+        htmlNavbar += '        href="' + href + '"';
+        htmlNavbar += '        target="' + target + '"';
+        htmlNavbar += '        style="cursor: pointer"';
+        htmlNavbar += ">" + name + "</a></li>";
+      }
+      document.getElementById("navbar-items").innerHTML = htmlNavbar;
+
+      // ===== build blog from files from subdirectory blog/ =====
+      if (page === "blog") {
+        if (document.getElementById("blog-content") == null) {
+          console.log('HTML has no "blog-content" element');
+        }
+        axios.get("blog/list.txt?time=" + Date.now()).then(function (response) {
+          let lines = response.data.split("\n");
+          const filenames = [];
+          let html = "";
+          for (const line of lines) {
+            const data = line.trim();
+            if (data.length == 0) continue;
+            const tokens = data.split("#");
+            let filename = tokens[0].trim();
+            let image = "";
+            if (tokens.length > 1) image = tokens[1].trim();
+            filenames.push(filename);
+            html += "<br/>";
+            html += '<div class="shadow p-3">';
+            html += '    <div id="blog_' + filename + '" class="lead">';
+            html += "    </div>";
+            if (image.length > 0) {
+              html += '<div class="row text-center">';
+              html += '    <div class="col text-center">';
+              html +=
+                '        <img class="img-fluid mx-auto d-block" src="' +
+                image +
+                '" style="border-radius: 0px;"/>';
+              html += "    </div>";
+              html += "</div>";
+            }
+            html += "</div>";
+            html += "<br/>";
+          }
+          document.getElementById("blog-content").innerHTML = html;
+          for (const filename of filenames) {
+            axios.get("blog/" + filename).then(function (response) {
+              let html = "";
+              html += new showdown.Converter().makeHtml(response.data);
+              document.getElementById("blog_" + filename).innerHTML = html;
+            });
+          }
+        });
+      }
+
+      // show changelog
+      axios.get("changelog.txt?time=" + Date.now()).then(function (response) {
+        //let lines = response.data.split("\n");
+        //let html = lines.join("<br/>");
+        //let html = lines.join("\n");
+        let html = response.data;
+        document.getElementById("changelog").innerHTML = html;
+      });
+
+      // update tooltips
+      var tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      );
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    </script>
+  </body>
+</html>
