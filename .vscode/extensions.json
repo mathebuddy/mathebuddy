@@ -1,3 +1,7 @@
 {
-  "recommendations": ["dart-code.dart-code", "dart-code.flutter"]
+  "recommendations": [
+    "dart-code.dart-code",
+    "dart-code.flutter",
+    "streetsidesoftware.code-spell-checker-german"
+  ]
 }
