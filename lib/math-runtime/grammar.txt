@@ -1,0 +1,18 @@
+# extracted automatically by running ./build.sh
+term = relational;
+relational = add [ ("<"|"<="|">"|">=") add ];
+add = mul { ("+"|"-") mul };
+mul = pow { ("*"|"/"|!fill"*"!) pow };
+pow = unary [ "^" unary ];
+unary = [prefix] infix [postfix];
+prefix = "-";
+postfix = "i";
+vector = "[" [ term { "," term } ] "]";
+matrixOrVector = vector | "[" [ vector { "," vector } ] "]";
+set = "{" [ term { "," term } ] "}";
+fct2 = "binomial" | "complex" | "rand" | "randZ";
+builtin = "pi" | "e";
+IMAG = REAL "i";
+REAL = INT "." { NUM0 };
+INT = "0" | NUM1 { NUM0 };
+ID = ALPHA { (ALPHA | NUM0) };
