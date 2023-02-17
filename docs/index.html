@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>mathe:buddy Playground</title>
+    <title>mathe:buddy</title>
     <link rel="stylesheet" href="Skeleton-2.0.4/css/normalize.css" />
     <link rel="stylesheet" href="Skeleton-2.0.4/css/skeleton.css?v=3" />
   </head>
@@ -47,10 +47,15 @@
         <div style="text-align: center">
           <button class="button-primary" onclick="show('home')">home</button>
           <button class="button-primary" onclick="show('blog')">blog</button>
+          <button class="button-primary" onclick="show('doc')">
+            documentation
+          </button>
+          <button class="button-primary" onclick="show('sim')">
+            simulator
+          </button>
           <button class="button-primary" onclick="show('playground-list')">
             playground
           </button>
-          <button class="button-primary" onclick="show('doc')">doc</button>
         </div>
         <div id="playground-list" style="text-align: center; display: none">
           <b>PLAYGROUND</b><br />
@@ -66,6 +71,13 @@
           <button class="button" onclick="showDoc('smpl')">SMPL</button>
           <button class="button" onclick="showDoc('mbcl')">MBCL</button>
           <button class="button" onclick="showDoc('sim')">SIM</button>
+        </div>
+        <div id="sim-list" style="text-align: center; display: none">
+          <b>SIMULATION</b><br />
+          <!-- TODO <button class="button" onclick="showSim('demo')">demo</button>-->
+          <button class="button" onclick="showSim('localhost')">
+            http://localhost:8271
+          </button>
         </div>
       </div>
     </div>
@@ -180,6 +192,20 @@
         <br />
         <h2>Blog</h2>
         <div id="blog-items"></div>
+      </div>
+    </div>
+
+    <!-- ===== SIM ===== -->
+    <div id="sim" class="container" style="display: none">
+      <div class="row">
+        <br />
+        <h2>Simulator</h2>
+        <p id="localhost-error-info" style="font-size: larger; display: none">
+          ERROR: You need to run a local webserver on your local computer. Head
+          to your course directory and run <code>python3 server.py</code>. Then
+          reload this page.
+        </p>
+        <div id="sim-core"></div>
       </div>
     </div>
 
@@ -422,21 +448,109 @@
         />
       </a>
 
-      <!-- TODO: remove this!! -->
       <br />
-      <a onclick="blub()">blub</a>
     </div>
 
     <script>
-      // TODO: remove this!!
-      function blub() {
-        fetch("http://localhost:8000/")
+      let simPath = [];
+
+      function showSim(loc) {
+        document.getElementById("sim").style.display = "block";
+        // TODO: loc in ['demo', 'localhost']
+        let simCore = document.getElementById("sim-core");
+        simCore.innerHTML = "";
+
+        let label = document.createElement("div");
+        label.style.textAlign = "center";
+        label.style.color = "#aa322c";
+        label.innerHTML = "Path Selection";
+        simCore.appendChild(label);
+
+        let border = document.createElement("div");
+        border.style.borderStyle = "solid";
+        border.style.borderRadius = "10px";
+        border.style.borderColor = "#aa322c";
+        border.style.padding = "10px";
+        simCore.appendChild(border);
+
+        let dir = document.createElement("span");
+        dir.id = "sim-current-path";
+        dir.innerHTML = "&raquo; <br/>";
+        border.appendChild(dir);
+
+        let buttons = document.createElement("span");
+        buttons.id = "sim-path-buttons";
+        border.appendChild(buttons);
+
+        updateSimPathButtons();
+      }
+
+      function updateSimPathButtons() {
+        let simPathButtons = document.getElementById("sim-path-buttons");
+        simPathButtons.innerHTML = "";
+        fetch("http://localhost:8271/" + simPath.join("/"))
           .then((response) => response.text())
-          .then((data) => console.log(data));
+          .then((data) => {
+            let files = [];
+            if (
+              simPath.length == 0 ||
+              simPath[simPath.length - 1].endsWith("/")
+            ) {
+              files = extractFilesFromDirectoryListingHtml(data);
+            }
+            if (simPath.length > 0) files.unshift("..");
+            for (let file of files) {
+              let button = document.createElement("button");
+              button.classList.add("button");
+              button.innerHTML = file;
+              simPathButtons.appendChild(button);
+              let span = document.createElement("span");
+              span.innerHTML = "&nbsp;";
+              simPathButtons.appendChild(span);
+              button.onclick = function (event) {
+                if (file == "..") simPath.pop();
+                else simPath.push(file);
+                updateSimPath();
+                updateSimPathButtons();
+              };
+            }
+          })
+          .catch((error) => {
+            document.getElementById("localhost-error-info").style.display =
+              "block";
+            document.getElementById("sim-core").style.display = "none";
+          });
+        //}
+      }
+
+      function updateSimPath() {
+        let e = document.getElementById("sim-current-path");
+        let html = "";
+        for (let i = 0; i < simPath.length; i++) {
+          html += "&raquo; " + simPath[i].replace("/", "") + " ";
+        }
+        html += "<br/>";
+        e.innerHTML = html;
+      }
+
+      function extractFilesFromDirectoryListingHtml(data) {
+        let files = [];
+        let lines = data.split("\n");
+        for (let line of lines) {
+          if (line.startsWith('<li><a href="')) {
+            let file = line.substring(13).split('"')[0];
+            if (file.startsWith(".")) continue;
+            if (!file.endsWith("/") && !file.endsWith(".mbl")) continue;
+            files.push(file);
+          }
+        }
+        console.log(files);
+        return files;
       }
 
       // div selection
       function show(id) {
+        document.getElementById("sim").style.display = "none";
         showPlayground(""); // disable active playground
         let divs = [
           "home",
@@ -451,6 +565,9 @@
           document.getElementById(d).style.display = id == d ? "block" : "none";
         document.getElementById("doc-list").style.display =
           id == "doc" ? "block" : "none";
+        document.getElementById("sim-list").style.display =
+          id == "sim" ? "block" : "none";
+        //if (id == "sim") showSim();
       }
       show("home"); // home is default
 
