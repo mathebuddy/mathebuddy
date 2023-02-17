@@ -19,6 +19,9 @@
 # DEV-INFO: The current version of this file can be retrieved from:
 # https://raw.githubusercontent.com/mathebuddy/mathebuddy/main/bin/server.py
 
+
+# TODO: USE HTTPS!!!!! https://blog.anvileight.com/posts/simple-python-http-server/
+
 from http.server import HTTPServer, SimpleHTTPRequestHandler, test
 import sys
 
