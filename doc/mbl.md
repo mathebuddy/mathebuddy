@@ -1,11 +1,9 @@
-# mathe:buddy Language (MBL) Reference
-
-<!-- start-for-website -->
+<!-- Mathe:Buddy Language (MBL) -->
 
 ---
 
 **NOTE**
-This reference guide is in work-in-progress state. We are planning to release version 1.0 by end of 2022.
+This reference guide is in work-in-progress state. We are planning to release version 1.0 by mid of 2023.
 
 ---
 
