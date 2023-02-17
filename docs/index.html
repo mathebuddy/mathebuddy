@@ -209,6 +209,70 @@
           to your course directory and run <code>python3 server.py</code>. Then
           reload this page.
         </p>
+        <p id="localhost-error-info" style="font-size: larger; display: none">
+          WARNING: The Safari Browser is currently NOT supported.
+        </p>
+
+        <div style="text-align: center; color: #aa322c">Path Selection</div>
+        <div
+          style="
+            border-style: solid;
+            border-radius: 10px;
+            border-color: #aa322c;
+            padding: 10px;
+          "
+        >
+          <span id="sim-current-path">&raquo; <br /></span>
+          <span id="sim-path-buttons"></span>
+        </div>
+
+        <br />
+
+        <div style="text-align: center; color: #aa322c">Simulator</div>
+        <div
+          class="row"
+          style="
+            border-style: solid;
+            border-radius: 10px;
+            border-color: #aa322c;
+            padding: 10px;
+          "
+        >
+          <div
+            style="
+              width: 480px;
+              min-width: 480px;
+              max-width: 480px;
+              float: left;
+            "
+          >
+            <div
+              style="
+                border-style: solid;
+                border-color: #767676;
+                border-width: 1px;
+                border-radius: 25px;
+                min-height: 960px;
+                height: 960px;
+                max-height: 960px;
+              "
+            >
+              <img
+                class="u-max-full-width"
+                src="img/app-bg.png"
+                style="width: 480px"
+              />
+            </div>
+          </div>
+
+          <div
+            id="sim-log-area"
+            style="float: left; padding: 5px; overflow: scroll"
+          >
+            log area
+          </div>
+        </div>
+
         <div id="sim-core"></div>
       </div>
     </div>
@@ -463,29 +527,6 @@
         // TODO: loc in ['demo', 'localhost']
         let simCore = document.getElementById("sim-core");
         simCore.innerHTML = "";
-
-        let label = document.createElement("div");
-        label.style.textAlign = "center";
-        label.style.color = "#aa322c";
-        label.innerHTML = "Path Selection";
-        simCore.appendChild(label);
-
-        let border = document.createElement("div");
-        border.style.borderStyle = "solid";
-        border.style.borderRadius = "10px";
-        border.style.borderColor = "#aa322c";
-        border.style.padding = "10px";
-        simCore.appendChild(border);
-
-        let dir = document.createElement("span");
-        dir.id = "sim-current-path";
-        dir.innerHTML = "&raquo; <br/>";
-        border.appendChild(dir);
-
-        let buttons = document.createElement("span");
-        buttons.id = "sim-path-buttons";
-        border.appendChild(buttons);
-
         updateSimPathButtons();
       }
 
@@ -495,12 +536,19 @@
         fetch("http://localhost:8271/" + simPath.join("/"))
           .then((response) => response.text())
           .then((data) => {
+            console.log(data);
             let files = [];
             if (
               simPath.length == 0 ||
               simPath[simPath.length - 1].endsWith("/")
             ) {
               files = extractFilesFromDirectoryListingHtml(data);
+            } else if (
+              simPath.length > 0 &&
+              simPath[simPath.length - 1].endsWith(".mbl")
+            ) {
+              document.getElementById("sim-log-area").innerHTML =
+                "<pre><code>" + data + "</code></pre>";
             }
             if (simPath.length > 0) files.unshift("..");
             for (let file of files) {
@@ -549,7 +597,7 @@
           }
         }
         console.log(files);
-        return files;
+        return files.sort();
       }
 
       // div selection
