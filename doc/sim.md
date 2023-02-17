@@ -1,6 +1,4 @@
-# mathe:buddy Simulator
-
-<!-- start-for-website -->
+<!-- Mathe:Buddy Simulator -->
 
 ---
 
