@@ -65,3 +65,7 @@ for file in files:
     f = open(out_path, "w")
     f.write(contents)
     f.close()
+
+# copy to docs/
+
+os.system('cp build/* ../docs/docs/')
