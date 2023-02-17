@@ -1,3 +1,5 @@
+/* adjustments made for mathe:buddy (primary colors) */
+
 /*
 * Skeleton V2.0.4
 * Copyright 2014, Dave Gamache
@@ -158,9 +160,12 @@ p {
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 a {
-  color: #1EAEDB; }
+  color: #aa322c; 
+  text-decoration: none;
+}
 a:hover {
-  color: #0FA0CE; }
+  color: #be6f6b; 
+}
 
 
 /* Buttons
