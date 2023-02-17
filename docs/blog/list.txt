@@ -1,5 +1,5 @@
-2022-11-09_Dev.md
-2022-09-01_Welcome.md
-2022-08-08_Mockups.md # docs/source/intro/img/mockups-combined.png
-2022-08-06_Logo.md # img/logo/logo-corporate-design.svg
-2022-08-06_Design.md # img/app-all.png
+2022-11-09_Dev.html
+2022-09-01_Welcome.html
+2022-08-08_Mockups.html
+2022-08-06_Logo.html
+2022-08-06_Design.html
