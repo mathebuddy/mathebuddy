@@ -1,0 +1,11 @@
+{
+  "name": "mathebuddy-math-runtime-web-test",
+  "version": "0.0.1",
+  "description": "Web tests for https://www.npmjs.com/package/@mathebuddy/mathebuddy-math-runtime",
+  "scripts": {
+    "webserver": "python3 -m http.server 8315"
+  },
+  "author": "Andreas Schwenk",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {}
+}
