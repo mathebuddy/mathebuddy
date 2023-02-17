@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>mathe:buddy Playground</title>
+    <link rel="stylesheet" href="Skeleton-2.0.4/css/skeleton.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <h1>mathe:buddy Playground</h1>
+        <p>
+          Visit
+          <a href="https://app.f07-its.fh-koeln.de"
+            >https://app.f07-its.fh-koeln.de</a
+          >
+          and
+          <a href="https://github.com/mathebuddy/"
+            >https://github.com/mathebuddy/</a
+          >
+          for more information.
+        </p>
+        <div style="text-align: center">
+          <button class="button-primary" onclick="show('math-runtime')">
+            math-runtime
+          </button>
+          <button class="button-primary" onclick="show('smpl')">SMPL</button>
+          <button class="button-primary" onclick="show('mbl')">MBL</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MATH RUNTIME ===== -->
+
+    <div id="math-runtime" class="container">
+      <div class="row">
+        <h2>Math-Runtime</h2>
+        <p>
+          "Math Runtime" is used as math engine in the <i>mathe:buddy</i> app.
+          It is entirely written in the <i>Dart</i> programming language and has
+          no dependencies.
+        </p>
+        <b>Currently implemented grammar</b>
+        <pre><code id="math-runtime-grammar"></code></pre>
+      </div>
+
+      <div class="row">
+        <h4>Robust Parsing of Student Input</h4>
+        <input type="text" id="student-term" class="u-full-width" />
+        <button id="runParser" type="button">run</button>
+        <br />
+      </div>
+
+      <div class="row">
+        <b>Tokens:</b>&nbsp;
+        <div id="tokens">(empty)</div>
+      </div>
+
+      <div class="row" style="padding-top: 5px">
+        <b>Parsed Term / Error(s):</b>&nbsp;
+        <div id="term">(empty)</div>
+      </div>
+
+      <br />
+
+      <div class="row">
+        <h4>Numerical Evaluation of Terms</h4>
+        <input type="text" id="term-eval" class="u-full-width" />
+        <button id="runEval" type="button">run</button>
+        <br />
+      </div>
+
+      <div class="row">
+        <b>Output:</b>&nbsp;
+        <div id="eval-output">(empty)</div>
+      </div>
+
+      <br />
+
+      <div class="row">
+        <h4>Term Optimization</h4>
+        <input type="text" id="term-opt" class="u-full-width" />
+        <button id="runOpt" type="button">run</button>
+        <br />
+      </div>
+
+      <div class="row">
+        <b>Output:</b>&nbsp;
+        <div id="opt-output">(empty)</div>
+      </div>
+
+      <br />
+
+      <div class="row">
+        <h4>Automatic Differentiation</h4>
+        Term:
+        <input type="text" id="term-diff" class="u-full-width" />
+        Variable:
+        <input type="text" id="term-diff-var" class="u-full-width" />
+        <button id="runDiff" type="button">run</button>
+        <br />
+      </div>
+
+      <div class="row">
+        <b>Output:</b>&nbsp;
+        <div id="diff-output">(empty)</div>
+      </div>
+
+      <br />
+
+      <div class="row">
+        <h4>Equivalency of Terms</h4>
+        First Term:
+        <input type="text" id="term-compare-first" class="u-full-width" />
+        Second Term:
+        <input type="text" id="term-compare-second" class="u-full-width" />
+        <button id="runCompare" type="button">run</button>
+        <br />
+      </div>
+
+      <div class="row">
+        <b>Output:</b>&nbsp;
+        <div id="compare-output">(empty)</div>
+      </div>
+
+      <br />
+    </div>
+
+    <!-- ===== SMPL ===== -->
+
+    <div id="smpl" class="container" style="display: none">
+      <div class="row">
+        <h2>SMPL</h2>
+        <p>
+          SMPL is a math-oriented programming language that can be interpreted
+          in the browser. It is entirely written in the <i>Dart</i> programming
+          language and has no dependencies, except "math-runtime". TODO: list
+          grammar.
+        </p>
+        <b>Currently implemented grammar</b>
+        (math-runtime grammar is not listed here)
+        <pre><code id="smpl-grammar"></code></pre>
+      </div>
+
+      <div class="row">
+        <h4>Source Code</h4>
+        <textarea
+          id="editor"
+          class="u-full-width"
+          style="width: 100%; min-height: 150px"
+          spellcheck="false"
+        ></textarea>
+        <button id="runParser" type="button">run</button>
+        <br />
+      </div>
+
+      <br />
+
+      <div class="row">
+        <h2>Output</h2>
+        <div id="smpl-output">(empty)</div>
+      </div>
+
+      <br />
+
+      <div class="row">
+        <h2>Intermediate Code</h2>
+        <div id="smpl-ic">(empty)</div>
+      </div>
+    </div>
+
+    <!-- ===== MBL ===== -->
+
+    <div id="mbl" class="container" style="display: none">
+      <div class="row">
+        <h2>MBL</h2>
+        <p>
+          TODO: TEXT!!! "Math Runtime" is used as math engine in the
+          <i>mathe:buddy</i> app. It is entirely written in the
+          <i>Dart</i> programming language and has no dependencies.
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!--
+        <div class="row">
+        <h4>Dev Info</h4>
+        <ul>
+          <li>
+            <code
+              >git clone
+              git@github.com/mathebuddy/mathebuddy-math-runtime.git</code
+            >
+          </li>
+          <li><code>cd mathebuddy-math-runtime</code></li>
+          <li><code>npm install</code></li>
+          <li><code>npm run build</code></li>
+        </ul>
+      </div>
+      -->
+
+      <br />
+      <p>
+        author:
+        <a href="https://www.th-koeln.de/personen/andreas.schwenk/"
+          >Andreas Schwenk, TH Köln</a
+        >
+      </p>
+    </div>
+
+    <script>
+      // playground selection (enable/disable divs)
+      function show(id) {
+        document.getElementById("math-runtime").style.display =
+          id == "math-runtime" ? "block" : "none";
+        document.getElementById("smpl").style.display =
+          id == "smpl" ? "block" : "none";
+        document.getElementById("mbl").style.display =
+          id == "mbl" ? "block" : "none";
+      }
+      // update formal grammar (read from "*-grammar")
+      let element1 = document.getElementById("math-runtime-grammar");
+      fetch("math-runtime-grammar.txt")
+        .then((response) => response.text())
+        .then((data) => (element1.innerHTML = data));
+      let element2 = document.getElementById("smpl-grammar");
+      fetch("smpl-grammar.txt")
+        .then((response) => response.text())
+        .then((data) => (element2.innerHTML = data));
+    </script>
+
+    <script src="math-runtime-playground.min.js?version=1676627476"></script>
+  </body>
+</html>
