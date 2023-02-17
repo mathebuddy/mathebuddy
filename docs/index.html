@@ -135,8 +135,14 @@
         <p>
           SMPL is a math-oriented programming language that can be interpreted
           in the browser. It is entirely written in the <i>Dart</i> programming
-          language and has no dependencies, except "math-runtime". TODO: list
-          grammar.
+          language and has no dependencies, except "math-runtime".
+        </p>
+        <p>
+          More examples can be found in
+          <a href="https://github.com/mathebuddy/mathebuddy-public-courses"
+            >https://github.com/mathebuddy/mathebuddy-public-courses</a
+          >
+          (consider @code parts).
         </p>
         <b>Currently implemented grammar</b>
         (math-runtime grammar is not listed here)
@@ -146,12 +152,12 @@
       <div class="row">
         <h4>Source Code</h4>
         <textarea
-          id="editor"
+          id="smpl-editor"
           class="u-full-width"
           style="width: 100%; min-height: 150px"
           spellcheck="false"
         ></textarea>
-        <button id="runParser" type="button">run</button>
+        <button id="runSmpl" type="button">run</button>
         <br />
       </div>
 
@@ -231,6 +237,6 @@
         .then((data) => (element2.innerHTML = data));
     </script>
 
-    <script src="math-runtime-playground.min.js?version=1676627476"></script>
+    <script src="index.min.js?version=1676631227"></script>
   </body>
 </html>
