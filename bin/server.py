@@ -16,7 +16,8 @@
 # Head to https://mathebuddy.github.io/mathebuddy/ and run the simulator.
 # Your local courses will be visible there.
 
-# DEV-INFO: The current version of this file
+# DEV-INFO: The current version of this file can be retrieved from:
+# https://raw.githubusercontent.com/mathebuddy/mathebuddy/main/bin/server.py
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler, test
 import sys
