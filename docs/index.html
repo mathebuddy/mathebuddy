@@ -3,37 +3,182 @@
   <head>
     <meta charset="UTF-8" />
     <title>mathe:buddy Playground</title>
+    <link rel="stylesheet" href="Skeleton-2.0.4/css/normalize.css" />
     <link rel="stylesheet" href="Skeleton-2.0.4/css/skeleton.css" />
   </head>
 
   <body>
     <div class="container">
+      <br />
+      <div style="text-align: left">
+        <span onclick="switchLanguage('de')" style="cursor: pointer"
+          ><b>German</b></span
+        >
+        |
+        <span onclick="switchLanguage('en')" style="cursor: pointer"
+          ><b>English</b></span
+        >
+        <br />
+      </div>
+
+      <span class="text-german">
+        <img class="u-max-full-width" src="img/logo/logo-large.svg" />
+      </span>
+      <span class="text-english">
+        <img class="u-max-full-width" src="img/logo/logo-large-en.svg" />
+      </span>
+
       <div class="row">
-        <h1>mathe:buddy Playground</h1>
-        <p>
-          Visit
-          <a href="https://app.f07-its.fh-koeln.de"
-            >https://app.f07-its.fh-koeln.de</a
-          >
-          and
-          <a href="https://github.com/mathebuddy/"
-            >https://github.com/mathebuddy/</a
-          >
-          for more information.
-        </p>
         <div style="text-align: center">
-          <button class="button-primary" onclick="show('math-runtime')">
-            math-runtime
+          <button class="button-primary" onclick="show('home')">home</button>
+          <button class="button-primary" onclick="show('blog')">blog</button>
+          <button class="button-primary" onclick="show('playground')">
+            playground
           </button>
-          <button class="button-primary" onclick="show('smpl')">SMPL</button>
-          <button class="button-primary" onclick="show('mbl')">MBL</button>
+          <button
+            class="button-primary"
+            onclick="window.open('docs/', '_blank')"
+          >
+            docs
+          </button>
+          <a href="https://github.com/mathebuddy" target="_blank">
+            <img
+              src="img/github/GitHub_Logo.png"
+              style="max-height: 24px; vertical-align: middle"
+            />
+          </a>
         </div>
+        <div id="playground" style="text-align: center; display: none">
+          <b>PLAYGROUND</b><br />
+          <!--<img
+            src="img/fontawesome/circle-play-regular.svg"
+            style="max-height: 24px; vertical-align: middle"
+          />-->
+          <button class="button" onclick="showPlayground('math-runtime')">
+            math
+          </button>
+          <button class="button" onclick="showPlayground('smpl')">SMPL</button>
+          <button class="button" onclick="showPlayground('mbl')">MBL</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== HOME ===== -->
+    <div id="home" class="container" style="display: none">
+      <div class="row">
+        <br />
+        <!--<h2>Home</h2>-->
+        <p>
+          <span class="text-german">
+            Gefördert durch die
+            <i>Stiftung Innovation in der Hochschullehre; FREIRAUM 2022</i>
+          </span>
+          <span class="text-english">
+            Funded by
+            <i>Stiftung Innovation in der Hochschullehre; FREIRAUM 2022</i>
+          </span>
+        </p>
+        <p style="font-size: large">
+          <span class="text-german">
+            Die Lernanwendung
+            <b><span style="color: #aa322c">mathe:buddy</span></b> ist eine
+            interaktive und gamifizierte App für die höhere Mathematik im ersten
+            Studienjahr. Studierende werden durch interaktives Training und
+            Elemente des spielerischen Lernens motiviert, begleitet und
+            individuell gefördert.
+          </span>
+          <span class="text-english">
+            The learning application
+            <b><span style="color: #aa322c">mathe:buddy</span></b> is an
+            interactive and gamified app for higher mathematics in the first
+            year of study. Students are motivated through interactive training
+            and elements of game-based learning, motivating, guiding, and
+            individually supported.
+          </span>
+        </p>
+        <p style="font-size: large">
+          <span class="text-german">
+            Jedes Themengebiet wird durch prägnante, gut verständliche Texte
+            eingeführt und enthält Beispiele, Abbildungen und Verweise zum
+            Praxisbezug. Ein automatisiertes Lernmanagement stellt abhängig vom
+            Lernstand randomisierte Trainingsaufgaben unterschiedlicher
+            Taxonomiestufen. Die Lernphase wird abgerundet durch kurze Spiele,
+            wie zum Beispiel Schnellabfragen, Mathe-Rätsel und
+            Formelfehlersuche. Das Erreichen von Meilensteinen wird durch Awards
+            und Highscores belohnt. Studierende werden motiviert kontinuierlich
+            auf die Lernziele hinzuarbeiten. Ein integrierter Chatbot
+            beantwortet einfache Fragen und stellt kurze Trainingsaufgaben. Alle
+            Kursbestandteile sind modular aufgebaut und können nichtlinear
+            bearbeitet werden.
+          </span>
+          <span class="text-english">
+            Each subject area is introduced by concise, easy-to-understand texts
+            and contains examples, illustrations and references for practical
+            use. An automated learning management system provides randomized
+            training tasks of different taxonomic levels. The learning phase is
+            rounded off with short games, such as quick quizzes, math puzzles,
+            and formula error search. The achievement of milestones is rewarded
+            with awards and high scores. Students are motivated to continuously
+            work towards their learning goals. An integrated chatbot answers
+            simple questions and poses short training tasks. All course
+            components are modular and can be worked on non-linearly.
+          </span>
+        </p>
+        <p style="font-size: large">
+          <span class="text-german">
+            Das niederschwellige Angebot ermöglicht den Studierenden fachliche
+            Lücken eigenständig zu schließen. Mittels eines digitalen
+            Zertifikats kann der erreichte Lernstand nachgewiesen werden. Die
+            App ist
+            <a href="https://github.com/mathebuddy/" target="_blank"
+              >Open-Source</a
+            >
+            , kostenfrei und kann ohne zentrale Datenerhebung genutzt werden.
+            Lehrende können selbst einfach Anpassungen und Erweiterung von
+            Kursbestandteilen vornehmen.
+          </span>
+          <span class="text-english">
+            The low-threshold offer enables students to close subject-related
+            gaps on their own. A digital certificate can be used to prove the
+            level of learning achieved. The app is
+            <a href="https://github.com/mathebuddy/" target="_blank"
+              >Open-Source</a
+            >, free of charge and can be used without central data collection.
+            Teachers can easily adapt and expand course components themselves.
+          </span>
+        </p>
+
+        <br />
+
+        <div style="text-align: center">
+          <span class="text-german">
+            <img
+              class="u-max-full-width"
+              src="img/timeline/timeline-de.svg?v=2"
+            />
+          </span>
+          <span class="text-english"
+            ><img
+              class="u-max-full-width"
+              src="img/timeline/timeline-en.svg?v=2"
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== HOME ===== -->
+    <div id="blog" class="container" style="display: none">
+      <div class="row">
+        <br />
+        <h2>Blog</h2>
+        <p>xx</p>
       </div>
     </div>
 
     <!-- ===== MATH RUNTIME ===== -->
 
-    <div id="math-runtime" class="container">
+    <div id="math-runtime" class="container" style="display: none">
       <div class="row">
         <h2>Math-Runtime</h2>
         <p>
@@ -190,42 +335,68 @@
     </div>
 
     <div class="container">
-      <!--
-        <div class="row">
-        <h4>Dev Info</h4>
-        <ul>
-          <li>
-            <code
-              >git clone
-              git@github.com/mathebuddy/mathebuddy-math-runtime.git</code
-            >
-          </li>
-          <li><code>cd mathebuddy-math-runtime</code></li>
-          <li><code>npm install</code></li>
-          <li><code>npm run build</code></li>
-        </ul>
-      </div>
-      -->
-
       <br />
-      <p>
-        author:
+      <p style="color: #767676">
+        &copy; 2022-<span id="current-year"></span> Prof. Dr. Heiko Knospe,
+        Patricia Maria Graf M.Sc.,
         <a href="https://www.th-koeln.de/personen/andreas.schwenk/"
-          >Andreas Schwenk, TH Köln</a
-        >
+          >Andreas Schwenk M.Sc.</a
+        >, TH Köln.
       </p>
+
+      <a href="https://www.th-koeln.de">
+        <img
+          src="img/misc/logo-th-koeln.png"
+          class=""
+          alt="Responsive image"
+          style="height: 48px"
+      /></a>
+      &nbsp; &nbsp;
+      <a href="https://stiftung-hochschullehre.de">
+        <img
+          src="img/misc/logo_stiftung_hochschullehre.png"
+          class=""
+          alt="Responsive image"
+          style="height: 48px"
+      /></a>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">
+        <img
+          src="img/misc/gpl-v3-logo.svg"
+          class=""
+          alt="Responsive image"
+          style="height: 48px"
+        />
+      </a>
     </div>
 
     <script>
       // playground selection (enable/disable divs)
       function show(id) {
-        document.getElementById("math-runtime").style.display =
-          id == "math-runtime" ? "block" : "none";
-        document.getElementById("smpl").style.display =
-          id == "smpl" ? "block" : "none";
-        document.getElementById("mbl").style.display =
-          id == "mbl" ? "block" : "none";
+        let divs = [
+          "home",
+          "blog",
+          "playground",
+          "math-runtime",
+          "smpl",
+          "mbl",
+        ];
+        for (let d of divs)
+          document.getElementById(d).style.display = id == d ? "block" : "none";
       }
+      show("home"); // home is default
+
+      // language
+      function switchLanguage(id) {
+        let de = document.getElementsByClassName("text-german");
+        for (element of de)
+          element.style.display = id == "de" ? "block" : "none";
+        let en = document.getElementsByClassName("text-english");
+        for (element of en)
+          element.style.display = id == "en" ? "block" : "none";
+      }
+      switchLanguage("en"); // English is default
+
       // update formal grammar (read from "*-grammar")
       let element1 = document.getElementById("math-runtime-grammar");
       fetch("math-runtime-grammar.txt")
@@ -235,8 +406,21 @@
       fetch("smpl-grammar.txt")
         .then((response) => response.text())
         .then((data) => (element2.innerHTML = data));
+
+      // set current year in footer
+      document.getElementById("current-year").innerHTML =
+        new Date().getFullYear();
+
+      // load blog
+      fetch("blog/list.txt")
+        .then((response) => response.text())
+        .then((data) => updateBlog(data));
+
+      function updateBlog(data) {
+        console.log(data);
+      }
     </script>
 
-    <script src="index.min.js?version=1676631227"></script>
+    <script src="index.min.js?version=1676631568"></script>
   </body>
 </html>
