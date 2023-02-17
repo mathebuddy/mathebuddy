@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="" />
+  <meta name="dcterms.date" content="2023-02-17" />
+  <title>Mathe:Buddy Language (MBL)</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="doc.css" />
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+[<a href="https://app.f07-its.fh-koeln.de">Home</a>] 
+[<a href="./docs-mbl.html">MBL Reference</a>] 
+[<a href="./docs-smpl.html">SMPL Reference</a>] 
+[<a href="./docs-mbcl.html">MBCL Reference</a>] 
+[<a href="./docs-sim.html">Installation</a>] 
+<h1 class="title">Mathe:Buddy Language (MBL)</h1>
+<p class="author"></p>
+<p class="date">2023-02-17</p>
+</header>
+<!-- Mathe:Buddy Language (MBL) -->
+<hr />
+<p><strong>NOTE</strong> This reference guide is in work-in-progress
+state. We are planning to release version 1.0 by mid of 2023.</p>
+<hr />
+<p>This document describes the syntax of the <em>mathe:buddy language
+(MBL)</em>, which can be used to create mathematical based online
+courses. MBL describes contents as well as randomized training
+exercises. It is also used to structure large courses with many levels
+and keeps track of the contents dependencies. Tags can be inserted to
+transform the definition into a semantical network. The latter can be
+used for example in chat bots or didactical learning concepts;
+e.g. smart repetition for optimized memoization.</p>
+<p>Some concepts of MBL are taken (or copied) from other formal
+languages:</p>
+<ul>
+<li>Text formatting is inspired from <code>Markdown</code>, as it
+provides a very expressive and memorable syntax.</li>
+<li><code>TeX</code> is used for equations, as most mathematical staff
+at universities is firm to that language.</li>
+<li><code>SMPL</code>, which is developed in parallel to
+<code>MBL</code>, is a general purpose language with focus on expressive
+math. It is used to generate random variables in exercises, as well as
+to calculate sample solutions.</li>
+</ul>
+<!-- TODO: implement such tags in to the language! -->
+<p>The language definition of MBL is independent of concrete
+implementations. All concepts can be transferred to other learning
+management systems.</p>
+<p>Visit <a
+href="https://github.com/mathebuddy/mathebuddy-public-courses">https://github.com/mathebuddy/mathebuddy-public-courses</a>
+for practical examples, written in MBL.</p>
+<h2 id="hello-world">Hello, world!</h2>
+<p>The following lines define a trivial level page:</p>
+<pre><code>My first level
+###############
+
+Welcome to mathe:buddy!</code></pre>
+<h2 id="typography">Typography</h2>
+<p>This section describes the text structuring and text formatting
+features.</p>
+<ul>
+<li><p><code>Level Title</code></p>
+<p>A level title is the main heading of a level file. Example:</p>
+<pre><code>My Course Title @myLabel
+###############</code></pre>
+<p>Five or more hashtags (<code>#</code>) are required. Labels are
+optional.</p></li>
+<li><p><code>Sections</code></p>
+<p>A level can be separated into sections (headlines). Example:</p>
+<pre><code>My Section @sec:myLabel
+==========</code></pre>
+<p>Five or more equal signs (<code>=</code>) are required. Labels are
+optional. We suggest to use prefix <code>sec:</code> for section labels,
+but this is optional.</p></li>
+<li><p><code>Subsections</code></p>
+<p>A section can be subdivided into one or multiple subsections.
+Example:</p>
+<pre><code>My Subsection @subsec:myLabel
+-------------</code></pre>
+<p>Five or more dashes (<code>-</code>) are required. Labels are
+optional. We suggest to use prefix <code>subsec:</code> for subsection
+labels, but this is optional.</p></li>
+<li><p><code>Paragraphs</code></p>
+<p>A paragraph consists of one or multiple lines of continuous text.
+Example:</p>
+<pre><code>This is text within a paragraph.
+Even this text stands in a new line, it is compiled to be written directly behind the last line.
+
+An empty line starts a new paragraph.</code></pre></li>
+<li><p><code>Definitions, Theorems, Lemmas, ...</code></p>
+<p>Definitions, Theorems etc. are embedded into a <em>block</em> that
+syntactically starts and ends with each a line of three dashes
+(<code>---</code>). Examples:</p>
+<pre><code>---
+DEFINITION Positive @def:positive
+For any integer $n$, $n$ is **positive** if $n&gt;0$.
+---</code></pre>
+<pre><code>---
+THEOREM The Aristotelian Syllogism @thm:socrates
+If every man is mortal and Socrates is a man, then Socrates is mortal.
+---</code></pre>
+<p>The runtime environment may replace tag names with corresponding
+terms of the local language.</p>
+<p>The complete list of supported tags is <code>DEFINITION</code>,
+<code>THEOREM</code>, <code>LEMMA</code>, <code>COROLLARY</code>,
+<code>PROPOSITION</code>, <code>CONJECTURE</code>, <code>AXIOM</code>,
+<code>CLAIM</code>, <code>IDENTITY</code>,
+<code>PARADOX</code>.</p></li>
+<li><p><code>Examples</code></p>
+<p>Examples are embedded into a <em>block</em> that syntactically starts
+and ends with each a line of three dashes (<code>---</code>).</p>
+<pre><code>---
+EXAMPLE Addition of complex numbers @ex:myExample
+$z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i$
+---</code></pre>
+<p>Full line equations can be inserted as described in subsection
+“nesting of blocks below. Example:</p>
+<pre><code>---
+EXAMPLE Addition of complex numbers @ex:myExample
+EQUATION
+z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i
+---</code></pre></li>
+<li><p><code>Bold, Italic and Colored Text</code></p>
+<p>Basic text formatting options are bold text, italic text and colored
+text. Examples:</p>
+<pre><code>Some **bold** text. Some *italic* text.
+The word [sky]@color1 is written in primary color.
+[Some text written in the secondary color.]@color2.
+You can also write [bold text]@bold and [italic text]@italic similar to color notation.</code></pre>
+<p>Colors are only defined implicitly. The exact rendering depends on
+the runtime environment. We restricted the degree of freedom per design
+to force uniformly presented courses. <code>color0</code> defines black
+color in all cases.</p></li>
+<li><p><code>Alignment</code></p>
+<p>The default alignment of paragraphs is left. Block types
+<code>LEFT</code>, <code>CENTER</code> and <code>RIGHT</code> change the
+alignment.</p>
+<p>Example:</p>
+<pre><code>---
+CENTER
+This text is centered.
+---</code></pre></li>
+<li><p><code>Links and References</code></p>
+<p>Each section, subsection, equation, exercise, … can be labeled at
+declaration. A label has the form <code>@PREFIX:LABEL</code>, with
+identifiers for <code>PREFIX</code> and <code>LABEL</code>. Using
+prefixes is optional.</p>
+<p>A link to a labeled object can be placed in paragraph text. One has
+to write <code>@PREFIX:LABEL</code> again.</p>
+<p>The order of declaration and reference is arbitrary.</p>
+<!-- TODO: references to other levels.. -->
+<p>Example:</p>
+<pre><code>An introduction is given in @sec:intro.
+
+Intro @sec:intro
+=====</code></pre>
+<p>We suggest to use the following prefixes:</p>
+<table>
+<thead>
+<tr class="header">
+<th>prefix</th>
+<th>used for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sec:</code></td>
+<td>sections</td>
+</tr>
+<tr class="even">
+<td><code>subsec:</code></td>
+<td>subsections</td>
+</tr>
+<tr class="odd">
+<td><code>ex:</code></td>
+<td>exercises</td>
+</tr>
+<tr class="even">
+<td><code>fig:</code></td>
+<td>figures</td>
+</tr>
+<tr class="odd">
+<td><code>eq:</code> </td>
+<td>equation</td>
+</tr>
+<tr class="even">
+<td><code>tab:</code></td>
+<td>table</td>
+</tr>
+<tr class="odd">
+<td><code>def:</code></td>
+<td>definition</td>
+</tr>
+<tr class="even">
+<td><code>thm:</code></td>
+<td>theorem</td>
+</tr>
+</tbody>
+</table>
+<p>References to other files should be avoided, if destination levels
+are possibly unplayable/locked (read section <a
+href="#course-structure">course structure</a>).</p>
+<p>A link to a labeled object in another file is denoted by
+<code>@PATH/PREFIX:LABEL</code>, where <code>PATH</code> is the relative
+file path within the current course, without file extension
+(<code>.mbl</code>). <em>Example: To link to theorem
+<code>thm:taylor</code> in file <code>../diff/taylor.mbl</code>, write
+<code>@../diff/intro/thm:taylor</code>.</em></p>
+<p>It is also feasible to insert generic references with the asterisk
+operator (<code>*</code>). For example, <code>@ex:taylor*</code> links
+to the set of all exercises that have a label starting with
+<code>ex:taylor</code> (e.g. <code>ex:taylor-simple</code>,
+<code>ex:taylor2</code>, …). The runtime environment inserts comma
+separated links.</p></li>
+<li><p><code>Comments</code></p>
+<p>All characters after <code>%</code> are ignored by the compiler,
+until the current line ends.</p>
+<p>Comments can e.g. be used to make notes to other developers, or
+temporarily hide unfinished stuff. Example:</p>
+<pre><code>This text is displayed in the output. % only a course developer can read this.</code></pre></li>
+<li><p><code>Page Breaks</code></p>
+<p>A level can be scrolled vertically by the student. Doom-scrolling
+should be avoided (not only) for didactical reasons. Page breaks can be
+inserted by a <code>NEWPAGE</code>-<em>block</em>. Example:</p>
+<pre><code>---
+NEWPAGE
+---</code></pre></li>
+<li><p>Nesting of blocks:</p>
+<p>In general, format blocks are used in a sequence, i.e. a new block
+starts after the last block ended.</p>
+<p>In some cases, a nesting of blocks is needed. The following example
+uses text alignment and an equation within a
+<code>DEFINITION</code>:</p>
+<pre><code>---
+DEFINITION My definition @def:myDef
+Some paragraph text here.
+
+CENTER
+This text is center aligned.
+
+EQUATION @myEquation
+x^2 + y^2 = z^2
+
+TEXT
+Another paragraph here.
+---</code></pre>
+<p>Inner blocks do not use <code>---</code> as separator. Note in the
+example, that <code>TEXT</code> is used to leave equation mode.</p></li>
+</ul>
+<h2 id="equations">Equations</h2>
+<p>We distinguish two kinds of equations: <em>inline equations</em> are
+embedded into a text of a paragraph. <em>Full equations</em> are
+rendered in one or more separate lines. The latter are numbered by
+default.</p>
+<p>Equations are encoded in <code>TeX</code> notation.</p>
+<ul>
+<li><p><code>Inline Equations</code></p>
+<p>An inline equation is embedded into a pair of dollar signs.
+Example:</p>
+<pre><code>Einstein&#39;s famous formula is $E=mc^2$. It defines the energy $E$ of ...</code></pre></li>
+<li><p><code>Full Equations</code> (equations in display math mode)</p>
+<p>Full equations are embedded into a block with keyword
+<code>EQUATION</code>. Example:</p>
+<pre><code>---
+EQUATION @eq:myLabel
+a^2 + b^2 = c^2
+---</code></pre>
+<p>The label is optional.</p>
+<p>A numbering is displayed right to the equation per default. An
+asterisk <code>*</code> hides the numbering. Example:</p>
+<pre><code>---
+EQUATION* @eq:myLabel
+a^2 + b^2 = c^2
+---</code></pre>
+<p>Equations can be labeled with <code>@</code>. For example,
+<code>@eq:myLabel</code> is displayed <span
+class="math inline">\(Eq~(1)\)</span> (depends on the runtime
+environment).</p></li>
+<li><p>Options</p>
+<p>Equations can be configured with the following options:</p>
+<p>Option <code>align-left</code> left aligns the equation.</p>
+<p>Option <code>align-equals</code> renders each specified line of the
+equation in a separate line and aligns it to the first equal sign
+(<code>=</code>) of each row.</p>
+<p>Example:</p>
+<pre><code>---
+EQUATION
+@options
+align-left
+align-equals
+@text
+(x+1)^2 = (x+1)(x+1)
+        = x^2 + x + x + 1
+        = x^2 + 2x + 1
+---</code></pre></li>
+<li><p>Abbreviations</p>
+<p>Equations are written in plain <code>TeX</code> code. In some cases,
+the notation is rather long. We introduce some abbreviations for a
+shorter notation. The following table lists all implemented
+abbreviations:</p>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 66%" />
+<col style="width: 22%" />
+<col style="width: 2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>type</th>
+<th>plain tex</th>
+<th>short notation</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mathbb{R}\)</span></td>
+<td><code>\mathbb{R}</code></td>
+<td><code>\RR</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathbb{N}\)</span></td>
+<td><code>\mathbb{N}</code></td>
+<td><code>\NN</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mathbb{Z}\)</span></td>
+<td><code>\mathbb{Z}</code></td>
+<td><code>\ZZ</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathbb{C}\)</span></td>
+<td><code>\mathbb{C}</code></td>
+<td><code>\CC</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>matrix</td>
+<td><code>\begin{pmatrix}</code> <br>   <code>A &amp; B\\</code> <br>
+  <code>C &amp; D\\</code> <br> <code>\end{pmatrix}</code></td>
+<td><code>\mat{A&amp;B\\C&amp;D}</code> <br> <br> <br></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Using abbreviations is optional.</p></li>
+</ul>
+<!-- (TODO: extend table) -->
+<h2 id="figures">Figures</h2>
+<p>SMPL provides syntax to plot function graphs.</p>
+<p>All other figures must be generated with external tools. We highly
+recommend to generate files in the <code>SVG</code> (Scalable Vector
+Graphics) format using <a href="https://inkscape.org">Inkscape</a>).</p>
+<ul>
+<li><p><code>Function Plots</code></p>
+<p>Functions graphs are described in a <em>block</em> with keyword
+<code>FIGURE</code>.</p>
+<p>Example:</p>
+<pre><code>---
+FIGURE My Plot @fig:polynomials
+@options
+width-75
+@code
+let f(x) = x^2;
+let g(x) = 2*x;
+let fig0 = figure2d();
+figure_x_range(fig0, -5, 5);
+figure_y_range(fig0, -5, 5);
+figure_x_label(fig0, &quot;x&quot;);
+figure_y_label(fig0, &quot;y&quot;);
+figure_color(fig0, 1);
+figure_plot(fig0, f);
+figure_color(fig0, 2);
+figure_plot(fig0, g);
+figure_color(fig0, 0);
+figure_plot(fig0, [0, 0]);
+figure_plot(fig0, [2, 4]);
+@path
+#fig
+@caption
+Some functions
+---</code></pre>
+<p>Part <code>@code</code> defines two functions <span
+class="math inline">\(f(x)\)</span> anf <span
+class="math inline">\(g(x)\)</span>. Function <code>figures2d()</code>
+generates a new plot variable.</p></li>
+</ul>
+<!-- TODO: write more text -->
+<!--  OLD
+Axis definition is done by &nbsp;&nbsp; `xaxis LABEL from MIN to MAX` &nbsp;&nbsp; for the x-axis and &nbsp;&nbsp; `yaxis LABEL from MIN to MAX` &nbsp;&nbsp; for the y-axis.
+
+`colorX` changes the current color. All subsequent plots are drawn in that color. `X` is an integer value for the color key.
+
+`plot F` renders a function curve `F` that is specified as term. An exact definition is essential. In particular, all multiplication operators (`*`) must be denoted explicitly. The exact syntax is described in the SMPL documentation.
+
+Keyword `coord X Y` renders a small circle at position $(X,Y)$.
+-->
+<ul>
+<li><p><code>Figures</code></p>
+<p>A figure displays an image file. It is highly recommended to use
+<code>*.svg</code> as file format (scalable vector graphics).
+Example:</p>
+<pre><code>---
+FIGURE My figure title @fig:myFigure
+@options
+width-75
+@path
+images/myImage.svg
+---</code></pre>
+<p>Option <code>width-P</code> specifies the displayed width with a
+percentage value for <code>P</code>. E.g. <code>width-75</code> renders
+the figure with 75 % of the display width. Default is
+<code>width-100</code>.</p></li>
+</ul>
+<h2 id="itemizations-and-enumerations">Itemizations and
+Enumerations</h2>
+<ul>
+<li><p><code>Itemize</code></p>
+<p>An itemization lists a set of bullet points. Example:</p>
+<pre><code>My itemization:
+- first item
+- second item
+- third item</code></pre>
+<p>A line that starts with a dash (<code>-</code>) is rendered as bullet
+point.</p></li>
+<li><p><code>Enumeration (numbers)</code></p>
+<p>Enumerations list a sequence of numbered items. Example:</p>
+<pre><code>My enumeration:
+#. first item
+#. second item
+#. third item</code></pre>
+<p>A line that starts with a hashtag following a dot (<code>#.</code>)
+is rendered with numbering (1, 2, …).</p></li>
+<li><p><code>Enumeration (letters)</code></p>
+<p>Alphabetical enumerations list a sequence of items. Example:</p>
+<pre><code>My enumeration:
+-) first item
+-) second item
+-) third item</code></pre>
+<p>A line that starts with a dash following a closing parenthesis
+(<code>-)</code>) is rendered with preceding letters <code>a)</code>,
+<code>b)</code>, … .</p></li>
+</ul>
+<p><em>Note: Hierarchical itemizations are not supported for didactical
+reasons, as well as a mobile friendly presentation.</em></p>
+<h2 id="tables">Tables</h2>
+<p>A table is described by a <em>block</em> with keyword
+<code>TABLE</code>. Each row of the table is written without line break.
+Columns are separated by <code>&amp;</code>. The first row is considered
+as headline.</p>
+<p>Example:</p>
+<pre><code>---
+TABLE title @tab:label
+@options
+align-left
+@text
+$x$ &amp; $f(x)$
+1 &amp; 1
+2 &amp; 4
+3 &amp; 9
+---</code></pre>
+<p>The alignment option <code>align-X</code> specifies the placing of
+the table. Parameter <code>X</code> is one of <code>left</code>,
+<code>center</code>, <code>right</code>. Default is
+<code>align-center</code>.</p>
+<h2 id="exercises">Exercises</h2>
+<p>Exercises provide interactive elements to the course. For example,
+multiple choice questions display multiple answers, from which students
+have to select all correct ones to gather scores.</p>
+<p>Most exercises contain a <code>@code</code> part to generate
+randomized variables and to calculate the sample solution. It is denoted
+in the <em>Simple Math Programing Language (SMPL)</em>. The
+documentation can be found <a
+href="https://app.f07-its.fh-koeln.de/docs-smpl.html">here</a>.</p>
+<p>The following paragraphs describe all implemented exercise types.</p>
+<ul>
+<li><p><code>Calculation Exercises</code></p>
+<p>This type of exercise asks students to solve a question with one or
+more numeric solutions. Solutions can be scalars, vectors, matrices or
+sets.</p>
+<pre><code>---
+EXERCISE My exercise @ex:myLabel
+@code
+let x/y = rand(1, 5);
+let z = x + y;
+let A/B = rand&lt;2,3&gt;();
+let C = A + B;
+@text
+Calculate $x+y=$ #z
+Calculate $xA+B=$ #C
+---</code></pre>
+<p><em>Note: <code>let x/y = rand(1, 5);</code> is an abbreviation for
+<code>let x = rand(1, 5); let y = rand(1, 5);</code> with guarantee that
+<span class="math inline">\(x \neq y\)</span></em></p>
+<p>Part <code>@code</code> draws random variables and generates the
+sample solution.</p>
+<p>Part <code>@texts</code> describes the question text. Typography,
+itemizations, equations, etc. can be included, as described above. Input
+fields are generated for patterns <code>#V</code>, where <code>V</code>
+is a valid variable from part <code>@code</code>. Take care, that input
+fields are <em>not</em> inserted within equations.</p>
+<p>Variables in math mode (inline equations embedded into dollar signs)
+are substituted by values of code variables by default. In the example
+above, <span class="math inline">\(x\)</span> is e.g. shown as <span
+class="math inline">\(3\)</span> (depending on the present value for
+<span class="math inline">\(x\)</span>). If the variable identifiers
+should be rendered instead, the concerned variable name must written in
+quotes, e.g.   <code>$ "x" + "y" $</code>   (spacing is optional).</p>
+<!-- TODO: number of random instances; default 10 -->
+<p>Input Types:</p>
+<ul>
+<li><p><code>integers and real numbers</code></p>
+<p>Without any options, an input field is generated for each input with
+<code>#V</code>, for a variable <code>V</code> from part
+<code>@code</code>. The student has to type in the answer on a numeric
+keyboard.</p>
+<p>If option <code>choices-X</code> is given, a set of <code>X</code>
+possible answers is shown. One of theses answers correct. All other
+answers are incorrect. The student has to select the correct solution to
+gather scoring.</p>
+<p>Example:</p>
+<pre><code>---
+EXERCISE Multiplication
+@options
+choices-4
+@code
+let x/y = rand(10,20);
+let z = x * y;
+@text
+Calculate $x * y=$ #z
+---</code></pre></li>
+<li><p><code>complex numbers</code></p>
+<p>Per default, two input fields of the form    <code>[ ] + [ ]i</code>
+   are shown to enter the solution in normal form.</p>
+<p>If the option <code>polar-form</code> is given, then the student as
+to enter the solution in polar form.</p>
+<p>Option <code>choices-X</code> renders <code>X</code> buttons, where
+one of them shows the correct solution (refer to exercise type
+<code>integers and real numbers</code>).</p>
+<p>Example:</p>
+<pre><code>---
+EXERCISE Complex addition
+@options
+polar-form
+@code
+let x/y = complex(rand(10,20), rand(10,20));
+let z = x + y;
+@text
+Calculate $x + y=$ #z
+---</code></pre></li>
+<li><p><code>sets</code></p>
+<p>Per default, if the set has length <span
+class="math inline">\(n\)</span>, then <span
+class="math inline">\(n\)</span> input fields are shown to enter the
+solution from a numeric keyboard.</p>
+<p>If option <code>n-args</code> is given, students must figure out the
+number of solution fields on their own.</p>
+<p>Option <code>choices-X</code> renders <code>X</code> buttons, where
+one of them shows the correct solution (refer to exercise type
+<code>integers and real numbers</code>).</p>
+<p>Example:</p>
+<pre><code>---
+EXERCISE Linear Equations
+@options
+n-args
+@code
+let s = set(-2, 2);
+@text
+Solve $x^2 - 4 = 0$.
+$x=$ #s
+---</code></pre></li>
+<li><p><code>matrices</code></p>
+<p>Per default, an input matrix is shown with a text field for each
+element of the solution matrix.</p>
+<p>If option <code>n-rows</code> is given, students must figure out the
+number of solution rows on their own.</p>
+<p>If option <code>n-cols</code> is given, students must figure out the
+number of solution columns on their own.</p>
+<p>Option <code>choices-X</code> renders <code>X</code> buttons, where
+one of them shows the correct solution (refer to exercise type
+<code>integers and real numbers</code>).</p>
+<p>Example:</p>
+<pre><code>---
+EXERCISE Matrix Operations
+@options
+n-rows
+n-cols
+@code
+let A/B/C = rand&lt;3,3&gt;(0, 5);  % 3x3-matrices
+let D = A*B + C;
+@text
+Calculate $A*B + C=$ #D
+---</code></pre></li>
+<li><p><code>vectors</code></p>
+<p>Exercises with vector solutions are technically matrix exercises with
+the number of rows, or columns respectively, set to one.</p></li>
+<li><p><code>terms</code></p>
+<pre><code>---
+EXERCISE Simple Integration @ex:intSimple
+@options
+term-tokens-1.5
+@code
+F(x) = 1/3*x^3 + 7*x
+@text
+Solve $\int (x^2+7) \dx =$  #F  $+C$
+---</code></pre>
+<p>Without any option, the student is required to enter
+<code>1/3*x^3 + 7*x</code> (or an algebraic equivalent solution) on a
+keyboard.</p>
+<p>Option <code>term-tokens-X</code> lists a set of buttons. Each button
+represents a part of the solution term. In the example, buttons
+<code>[1/3]</code>, <code>[*]</code>, <code>[x^3]</code>,
+<code>[+]</code>, <code>[7]</code>, <code>[x]</code> are shown in random
+order. The student has to click on the buttons to construct the
+solution. Attribute <code>X</code> represents the overhead factor,
+i.e. the number of additional buttons with (most likely) useless
+options. The example sets <code>X</code> to <code>1,5</code>. In this
+case 9 instead of 6 buttons are shown (e.g. <code>[1/5]</code>,
+<code>[/]</code>, <code>[x^4]</code>).</p>
+<p>Option <code>forbid-X</code> does not allow <code>X</code>in the
+solution term. For example <code>forbid-sin</code> forbids to use the
+sinus function. List of supported values for <code>X</code> (in
+alphabetical order): <code>abs</code>, <code>acos</code>,
+<code>asin</code>, <code>atan</code>, <code>cos</code>,
+<code>exp</code>, <code>log</code>, <code>sin</code>, <code>tan</code>.
+For multiple forbiddings, repeat the <code>forbid-X</code> option with
+different identifiers for <code>X</code>.</p>
+<p>Option <code>require-X</code> forces the student to use
+<code>X</code> in the answer. The set of supported values is equal to
+the definition of <code>forbid-X</code>.</p>
+<!-- TODO: equivalency, ... -->
+<!-- TODO: exercise with fraction answer --></li>
+</ul></li>
+<li><p>Scoring of answers</p>
+<p>Per default, each input field is weighted with 1 score. And the total
+score per exercise is defined as sum of scores of the input fields.</p>
+<p>Example for custom scoring:</p>
+<pre><code>---
+EXERCISE Scoring example
+@options
+scores-5        % total score of the exercise (5/3 for fa; 10/3 for fb)
+score-fa-1      % relative score for solution fa
+score-fb-2      % relative score for solution fb
+@code
+let a = rand(2,4);
+let b = rand(5,8)
+let fa = fac(a);
+let fb = fac(b);
+@text
+Calculate $ a! = $ #fa
+Calculate $ b! = $ #fb
+---</code></pre>
+<p>Option <code>scores-X</code> defines that <code>X</code> is the total
+score for the exercise a student can receive at maximum.</p>
+<p>Option <code>score-V-X</code> defines that <code>X</code> is the
+maximum score for solution variable <code>V</code>.</p>
+<p>The sum of all <code>score-V-Xi</code> must <em>not</em> necessarily
+be equal to <code>score-V-X</code>.</p></li>
+<li><p><code>Static Multiple Choice Exercise</code></p>
+<p>Multiple choice exercises list a set of answers, which can be
+selected or deselected by the student with checkboxes. Correct answers
+are indicated by <code>[x]</code>. Incorrect answers are indicated by
+<code>[ ]</code>. Example:</p>
+<pre><code>---
+EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
+@options
+keep-order
+@text
+[x] This answer is correct.
+[ ] This answer is incorrect.
+[x] This answer is correct.
+---</code></pre>
+<p>Each correct answer is scored with 1 points, each wrong answer is
+scored with -1 points. The total score of the exercise can be weighted
+with option <code>scores-X</code>, where <code>X</code> is the total
+score.</p>
+<p>Answers are displayed in random order per default. Option
+<code>keep-order</code> suppresses random shuffling.</p></li>
+<li><p><code>Dynamic Multiple Choice Exercise</code></p>
+<p>Dynamic multiple choice exercises calculate the correctness of
+answers at runtime. Example:</p>
+<pre><code>---
+EXERCISE My dynamic Multiple Choice Exercise @ex:myMultiChoice
+@code
+let x/y/z/w = rand(10,20);    % no pair of x, y, z, w is equal
+let c1 = x &gt; w;
+let c2 = y &gt; w;
+let c3 = z &gt; w;
+@text
+[:c1] $x &gt; w$
+[:c2] $y &gt; w$
+[:c3] $z &gt; w$
+[x]   $1 &gt; 0$    % statically true
+[ ]   $1 &lt; 0$    % statically false
+---</code></pre>
+<p>Correctness of an answer is determined by a boolean variable
+<code>V</code>, in the form <code>[:V]</code>.</p>
+<p>You are allowed to mix static and dynamic answers: If variable
+<code>x</code> is a boolean variable, then <code>[:x]</code> is correct
+(incorrect) if <span class="math inline">\(x\)</span> is true (false).
+The notation <code>[x]</code> indicates that the answer is
+<em>always</em> true.</p></li>
+<li><p><code>Single Choice Exercise</code></p>
+<p>In single choice exercises, exactly one answer is true. All other
+answers are wrong. Instead of check boxes, radio buttons are
+displayed.</p>
+<pre><code>---
+EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
+@text
+(x) This answer is correct.
+( ) This answer is incorrect.
+( ) This answer is incorrect.
+---</code></pre>
+<p>The definition of single choice exercises is similar to the
+definition of multiple choice exercises. We use round parentheses
+<code>( )</code>, instead of brackets <code>[ ]</code>.</p>
+<p>For dynamic single choice exercises, the exercise designer must take
+care, that no more than one option is correct. In case of more than one
+correct answers, the behavior is undefined.</p></li>
+<li><p><code>Gap Exercise</code></p>
+<p>Gap exercises provide an input field to enter words within fluent
+paragraph text.</p>
+<pre><code>---
+EXERCISE My Gap Exercise @ex:myLabel
+@options
+show-length
+restricted-keyboard
+@text
+Garfield is a #&quot;cat&quot;. Rain is #&quot;wet&quot;.
+---</code></pre>
+<p>Option <code>show-length</code> hints the number of characters of the
+solution word.</p>
+<p>Option <code>restricted-keyboard</code> displays a context-sensitive
+keyboard that only shows characters needed for the solution. E.g. for
+the first answer <code>cat</code> from the example, the student only
+sees keys <code>[A]</code>, <code>[C]</code> and
+<code>[T]</code>.</p></li>
+<li><p><code>Arrangement Exercise</code></p>
+<p>Arrangement exercises show a sequence of strings or numbers that must
+be reordered by the student.</p>
+<!-- TODO: string arrangement -->
+<pre><code>---
+EXERCISE Title @ex:label
+@options
+accept-immediately
+@code
+let n = rand(5,10);         % length
+let f = zeros&lt;1,n&gt;();       % row vector for the sequence
+f[1] = 1;                   % f[0]=0, f[1]=1
+for (let i=2; i&lt;n; i++) {   % calc sequence iteratively
+  f[i] = f[i-2] + f[i-1];
+}
+@text
+Arrange the following numbers to get the first numbers of the Fibonacci sequence: #:order(s,f)
+---</code></pre>
+<p><em>Preface: The answer field <code>#f</code> would ask the student
+to type in the elements of the row vector:
+<code>[0, 1, 1, 2, 3, 5, ...]</code>.</em></p>
+<p>Writing   <code>#:order(v)</code>   lists a randomly shuffled form of
+vector <code>v</code>. The student is required to reorder the vector to
+finally get vector <code>v</code>.</p>
+<p>The option <code>accept-immediately</code> accepts the answer
+immediately when it is correct. If the option is missing, then the
+student needs to submit the solution explicitly.</p></li>
+<li><p><code>Timed Exercise</code></p>
+<p>A timed exercise is repeatedly shown. Each instance uses different
+variables. Quick and correct responses results in a large high score.
+This question type might test, if students are already trained well to a
+specific topic.</p>
+<pre><code>---
+EXERCISE Title @ex:label
+@options
+timed-3
+accelerate
+multi-choice-4
+stop-on-error-1
+@code
+let x:y = rand(20,50);
+let z = x + y;
+@text
+Calculate $x+y=$ #z
+---</code></pre>
+<p>Option <code>timed-X</code> enables timing. The student has
+<code>X</code> seconds to give an answer.</p>
+<p>Option <code>accelerate</code> decreases time per question.</p>
+<p>Option <code>multi-choice-X</code> lists <code>X</code> options per
+question.</p>
+<p>Option <code>stop-on-error-X</code> stops asking after <code>X</code>
+incorrect answers.</p></li>
+</ul>
+<h2 id="course-structure">Course Structure</h2>
+<p>Large courses need to be structured into multiple files. We use the
+following terms in the subsequent sections:</p>
+<ul>
+<li><code>Course</code>: an entire course, e.g. “higher math 1”.</li>
+<li><code>Chapter</code>: a logical chapter of a course, e.g. “complex
+numbers”.</li>
+<li><code>Unit</code>: a learning unit of a chapter, e.g. “basics of
+complex numbers”, “complex functions, sequences and series”.</li>
+<li><code>Level</code>: a basic part of a unit, e.g. “normal form”,
+“polar form”, “absolute value”.</li>
+</ul>
+<p>A course consists of multiple <code>*.mbl</code> files. The file
+hierarchy is <code>/COURSE/CHAPTER/LEVEL_FILE.mbl</code>. Thus, each
+file represents a level of the course. Units are defined in index files
+(see below).</p>
+<p>Example folder hierarchy for a course <em>higher math 1</em>
+(<code>hm1</code>):</p>
+<pre><code>hm1/course.mbl
+...
+hm1/cmplx/index.mbl
+hm1/cmplx/start.mbl
+hm1/cmplx/intro.mbl
+hm1/cmplx/normal.mbl
+hm1/cmplx/conj.mbl
+hm1/cmplx/conj-props.mbl
+hm1/cmplx/abs.mbl
+hm1/cmplx/polar.mbl
+...
+hm1/diff/index.mbl
+hm1/diff/...
+...</code></pre>
+<p>File <code>course.mbl</code> contains general meta data for the
+course and lists all chapters.</p>
+<p>Each chapter directory is organized by an index file, named
+<code>index.mbl</code>. The format of index files is described in the
+next section.</p>
+<h2 id="level-index-files-index.mbl">Level Index Files
+(<code>index.mbl</code>)</h2>
+<p>An index file defines meta data for a chapter. It also lists all
+files and its dependencies.</p>
+<blockquote>
+<p>hm1/cmplx/index.mbl</p>
+</blockquote>
+<pre><code>% a comment line
+
+TITLE Complex Numbers
+AUTHOR TH Koeln
+
+UNIT Complex Basics
+(2,0) start
+(1,0) gauss       !start
+(3,1) normal      !start
+(3,2) conj        !normal
+(4,2) conj-props  !conj
+(3,3) abs         !conj
+(2,4) polar       !abs
+
+UNIT Complex Functions, Sequences, Series
+...</code></pre>
+<p>Each chapter consists of a set of units.</p>
+<p>Each unit consists of a set of levels. A unit can be represented by a
+(directed) graph <span class="math inline">\(G=(V,E)\)</span> with <span
+class="math inline">\(V\)</span> the levels and <span
+class="math inline">\(E\)</span> the dependencies between levels.</p>
+<p>Each level is described by an <code>*.mbl</code> file. A level is
+only playable, if all presuming levels have been passed successfully. At
+least one level must have no presuming level.</p>
+<p>All Levels of a unit are listed below the <code>UNIT UNIT_NAME</code>
+entry. Each level is described in the form:
+<code>(X,Y) A !B !C !D ...</code>.</p>
+<ul>
+<li><p>Coordinates <code>(X,Y)</code> describe the position of node
+<span class="math inline">\(v \in V(G)\)</span>, where
+<code>(0,0)</code> is interpreted as <em>top-left</em>.</p></li>
+<li><p>File <code>A</code> is the level.</p></li>
+<li><p>Files <code>!B</code>, <code>!C</code>, … (with
+<code>!</code>-prefix) represent the requirements of <code>A</code>,
+i.e. level <code>A</code> depends on levels <code>B</code>,
+<code>C</code>, ….</p></li>
+<li><p>Requirements for other course chapters can be denoted by relative
+paths, e.g. <code>!../basics/sets</code> requires level
+<code>sets.mbl</code> in chapter <code>basics</code>.</p></li>
+</ul>
+<p>Since all units are stored in the same file directory, prefixes to
+file names may be helpful.</p>
+<p>Example:</p>
+<pre><code>...
+UNIT Complex Basics
+(2,0) basics-start
+(1,0) basics-gauss       !basics-start
+(3,1) basics-normal      !basics-start
+...
+
+UNIT Complex Functions, Sequences, Series
+(0,0) fss-start
+...</code></pre>
+<h2 id="course-description-file-course.mbl">Course Description File
+(<code>course.mbl</code>)</h2>
+<p>The course description file <code>course.mbl</code> is similar
+organized to level index files.</p>
+<p>It mainly lists all chapters and its dependencies.</p>
+<p>Example:</p>
+<pre><code>TITLE A Short Demo Course
+
+AUTHOR TH Koeln
+
+CHAPTERS
+(0,0) basics
+(2,0) essentials  !basics
+(1,1) advanced    !basics !essentials</code></pre>
+<p><em>Author: Andreas Schwenk, TH Köln</em></p>
+<!--
+# TODO
+
+- add preview images in this document
+- add links to web-simulator (not public)
+- chatbot code
+- repetition, ...
+- indexing / glossary
+
+-->
+</body>
+</html>
