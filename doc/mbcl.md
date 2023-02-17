@@ -1,11 +1,9 @@
-# Mathe:Buddy Compiled Language (MBCL) Reference
-
-<!-- start-for-website -->
+<!-- Mathe:Buddy Compiled Language (MBCL) -->
 
 ---
 
 **NOTE**
-This reference is in work-in-progress state. We are planning to release version 1.0 by end of 2022.
+This reference guide is in work-in-progress state. We are planning to release version 1.0 by mid of 2023.
 
 ---
 
