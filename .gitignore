@@ -2,5 +2,7 @@ __pycache__/
 node_modules/
 package-lock.json
 build/
+*.js.deps
+*.js.map
 
 .DS_Store
