@@ -1,0 +1,6 @@
+# extracted automatically by running ./build.sh
+program = { statement };
+statement = assignment | ifCond | whileLoop;
+assignment = ["let"] ID { (":"|"/") ID } ["(" ID { "," ID } ")"] "=" term (";"|"\n");
+ifCond = "if" cond block [ "else" block ];
+whileLoop = "while" term block;
