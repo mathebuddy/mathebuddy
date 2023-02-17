@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>mathe:buddy Playground</title>
     <link rel="stylesheet" href="Skeleton-2.0.4/css/normalize.css" />
-    <link rel="stylesheet" href="Skeleton-2.0.4/css/skeleton.css" />
+    <link rel="stylesheet" href="Skeleton-2.0.4/css/skeleton.css?v=3" />
   </head>
 
   <body>
@@ -167,12 +167,12 @@
       </div>
     </div>
 
-    <!-- ===== HOME ===== -->
+    <!-- ===== BLOG ===== -->
     <div id="blog" class="container" style="display: none">
       <div class="row">
         <br />
         <h2>Blog</h2>
-        <p>xx</p>
+        <div id="blog-items"></div>
       </div>
     </div>
 
@@ -412,12 +412,85 @@
         new Date().getFullYear();
 
       // load blog
-      fetch("blog/list.txt")
+      fetch("blog/list.txt?version=" + Date.now())
         .then((response) => response.text())
-        .then((data) => updateBlog(data));
+        .then((data) => updateBlogList(data));
 
-      function updateBlog(data) {
-        console.log(data);
+      function updateBlogList(data) {
+        let lines = data.split("\n");
+        let div = document.getElementById("blog-items");
+        let idx = 0;
+        for (let line of lines) {
+          filename = line.trim();
+          if (line.length == 0) continue;
+
+          let blogItem = document.createElement("div");
+          blogItem.style.borderStyle = "solid";
+          blogItem.style.borderRadius = "10px";
+          blogItem.style.borderColor = "#aa322c";
+          blogItem.style.padding = "10px";
+          blogItem.style.fontSize = "large";
+          div.appendChild(blogItem);
+
+          div.appendChild(document.createElement("br"));
+
+          let dateAndAuthor = document.createElement("h6");
+          dateAndAuthor.id = "blog-date-and-author-" + idx;
+          dateAndAuthor.style.marginBottom = "0px";
+          dateAndAuthor.innerHTML = "<i>TODO: DATE AND NAME</i>";
+          blogItem.appendChild(dateAndAuthor);
+
+          let title = document.createElement("h3");
+          title.id = "blog-title-" + idx;
+          title.style.color = "#aa322c";
+          title.innerHTML = "TODO: TITLE";
+          blogItem.appendChild(title);
+
+          let p = document.createElement("p");
+          p.id = "blog-text-" + idx;
+          p.innerHTML = "TODO: text";
+          blogItem.appendChild(p);
+
+          let _idx = idx;
+          fetch("blog/" + filename + "?version=" + Date.now())
+            .then((response) => response.text())
+            .then((data) => updateBlogItem(_idx, data));
+
+          idx++;
+        }
+
+        function updateBlogItem(idx, src) {
+          let date = "";
+          let title = "";
+          let authorName = "";
+          let authorUrl = "";
+          let imgPath = "";
+          let lines = src.split("\n");
+          for (let line of lines) {
+            if (line.startsWith("<!--date="))
+              date = line.substring(9, line.length - 3);
+            else if (line.startsWith("<!--title="))
+              title = line.substring(10, line.length - 3);
+            else if (line.startsWith("<!--author-name="))
+              authorName = line.substring(16, line.length - 3);
+            else if (line.startsWith("<!--author-url="))
+              authorUrl = line.substring(15, line.length - 3);
+            else if (line.startsWith("<!--img="))
+              imgPath = "blog/img/" + line.substring(8, line.length - 3);
+          }
+          let author = authorName;
+          if (authorUrl.length > 0)
+            author =
+              '<a href="' + authorUrl + '" target="_blank">' + author + "</a>";
+          document.getElementById("blog-date-and-author-" + idx).innerHTML =
+            date + " " + author;
+          document.getElementById("blog-title-" + idx).innerHTML = title;
+          if (imgPath.length > 0) {
+            src +=
+              '<br/><br/><img class="u-max-full-width" src="' + imgPath + '"/>';
+          }
+          document.getElementById("blog-text-" + idx).innerHTML = src;
+        }
       }
     </script>
 
