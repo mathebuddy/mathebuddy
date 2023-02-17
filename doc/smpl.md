@@ -1,11 +1,9 @@
-# Simple Math Programming Language (SMPL) Reference
-
-<!-- start-for-website -->
+<!-- Simple Math Programming Language (SMPL) -->
 
 ---
 
 **NOTE**
-This reference guide is in work-in-progress state. We are planning to release version 1.0 by end of 2022.
+This reference guide is in work-in-progress state. We are planning to release version 1.0 by mid of 2023.
 
 ---
 
