@@ -18,6 +18,21 @@
         <span onclick="switchLanguage('en')" style="cursor: pointer"
           ><b>English</b></span
         >
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="https://github.com/mathebuddy" target="_blank">
+          <img
+            src="img/github/GitHub_Logo.png"
+            style="max-height: 26px; vertical-align: middle"
+          />
+        </a>
+        <img
+          src="img/app-store/ios.png"
+          style="height: 32px; vertical-align: middle"
+        />
+        <img
+          src="img/app-store/android.png"
+          style="height: 32px; vertical-align: middle"
+        />
         <br />
       </div>
 
@@ -32,33 +47,25 @@
         <div style="text-align: center">
           <button class="button-primary" onclick="show('home')">home</button>
           <button class="button-primary" onclick="show('blog')">blog</button>
-          <button class="button-primary" onclick="show('playground')">
+          <button class="button-primary" onclick="show('playground-list')">
             playground
           </button>
-          <button
-            class="button-primary"
-            onclick="window.open('docs/', '_blank')"
-          >
-            docs
-          </button>
-          <a href="https://github.com/mathebuddy" target="_blank">
-            <img
-              src="img/github/GitHub_Logo.png"
-              style="max-height: 24px; vertical-align: middle"
-            />
-          </a>
+          <button class="button-primary" onclick="show('doc')">doc</button>
         </div>
-        <div id="playground" style="text-align: center; display: none">
+        <div id="playground-list" style="text-align: center; display: none">
           <b>PLAYGROUND</b><br />
-          <!--<img
-            src="img/fontawesome/circle-play-regular.svg"
-            style="max-height: 24px; vertical-align: middle"
-          />-->
           <button class="button" onclick="showPlayground('math-runtime')">
             math
           </button>
           <button class="button" onclick="showPlayground('smpl')">SMPL</button>
           <button class="button" onclick="showPlayground('mbl')">MBL</button>
+        </div>
+        <div id="doc-list" style="text-align: center; display: none">
+          <b>DOCUMENTATION</b><br />
+          <button class="button" onclick="showDoc('mbl')">MBL</button>
+          <button class="button" onclick="showDoc('smpl')">SMPL</button>
+          <button class="button" onclick="showDoc('mbcl')">MBCL</button>
+          <button class="button" onclick="showDoc('sim')">SIM</button>
         </div>
       </div>
     </div>
@@ -173,6 +180,52 @@
         <br />
         <h2>Blog</h2>
         <div id="blog-items"></div>
+      </div>
+    </div>
+
+    <!-- ===== DOC ===== -->
+    <div id="doc" class="container" style="display: none">
+      <div class="row">
+        <br />
+        <h2>Documentation</h2>
+        <p style="font-size: large">
+          The following diagram visually shows all components of the app and the
+          environment.
+        </p>
+        <div style="border-style: solid; border-color: black">
+          <img
+            class="u-max-full-width"
+            src="img/misc/mathebuddy-comp-diag.png"
+          />
+        </div>
+        <br />
+
+        <!-- TODO: math-runtime -->
+
+        <h3>Mathe:Buddy Langauge (MBL)</h3>
+        <p style="font-size: large">
+          Formal language to expressively define online math courses.
+          <a href="docs/docs-mbl.html" target="_blank">Documentation</a>
+        </p>
+
+        <h3>Simple Math Programming Language (SMPL)</h3>
+        <p style="font-size: large">
+          Turing-complete programming language with intrinsic mathematical data
+          types.
+          <a href="docs/docs-smpl.html" target="_blank">Documentation</a>
+        </p>
+
+        <h3>Mathe:Buddy Compiled Langauge (MBCL)</h3>
+        <p style="font-size: large">
+          JSON-based technical language for compiled online math courses.
+          <a href="docs/docs-mbcl.html" target="_blank">Documentation</a>
+        </p>
+
+        <h3>Simulator Guide</h3>
+        <p style="font-size: large">
+          Mathe:Buddy simulator installation guide.
+          <a href="docs/docs-sim.html" target="_blank">Documentation</a>
+        </p>
       </div>
     </div>
 
@@ -371,20 +424,36 @@
     </div>
 
     <script>
-      // playground selection (enable/disable divs)
+      // div selection
       function show(id) {
+        showPlayground(""); // disable active playground
         let divs = [
           "home",
           "blog",
-          "playground",
+          "doc",
+          "playground-list",
           "math-runtime",
           "smpl",
           "mbl",
         ];
         for (let d of divs)
           document.getElementById(d).style.display = id == d ? "block" : "none";
+        document.getElementById("doc-list").style.display =
+          id == "doc" ? "block" : "none";
       }
       show("home"); // home is default
+
+      // documentation selection
+      function showDoc(id) {
+        window.open("docs/docs-" + id + ".html", "_blank");
+      }
+
+      // playground selection
+      function showPlayground(id) {
+        let playgrounds = ["math-runtime", "smpl", "mbl"];
+        for (let d of playgrounds)
+          document.getElementById(d).style.display = id == d ? "block" : "none";
+      }
 
       // language
       function switchLanguage(id) {
