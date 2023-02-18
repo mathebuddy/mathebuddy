@@ -7,7 +7,7 @@
       content="upgrade-insecure-requests"
     />-->
     <title>mathe:buddy</title>
-    <link rel="stylesheet" href="Skeleton-2.0.4/css/normalize.css" />
+    <!--<link rel="stylesheet" href="Skeleton-2.0.4/css/normalize.css" />-->
     <link rel="stylesheet" href="Skeleton-2.0.4/css/skeleton.css?v=3" />
   </head>
 
@@ -94,11 +94,25 @@
         <p>
           <span class="text-german">
             Gefördert durch die
-            <i>Stiftung Innovation in der Hochschullehre; FREIRAUM 2022</i>
+            <i
+              >Stiftung Innovation in der Hochschullehre;
+              <a
+                href="https://stiftung-hochschullehre.de/foerderung/freiraum2022/"
+                target="_blank"
+                >FREIRAUM 2022</a
+              >
+            </i>
           </span>
           <span class="text-english">
             Funded by
-            <i>Stiftung Innovation in der Hochschullehre; FREIRAUM 2022</i>
+            <i
+              >Stiftung Innovation in der Hochschullehre;
+              <a
+                href="https://stiftung-hochschullehre.de/foerderung/freiraum2022/"
+                target="_blank"
+                >FREIRAUM 2022</a
+              >
+            </i>
           </span>
         </p>
         <p style="font-size: large">
@@ -200,6 +214,13 @@
     </div>
 
     <!-- ===== SIM ===== -->
+    <div id="sim-info" class="container" style="display: none">
+      <!-- TODO: write and activate this info div -->
+      <div class="row" style="font-size: large">
+        Simulation can be performed from XXXX
+      </div>
+    </div>
+
     <div id="sim" class="container" style="display: none">
       <div class="row">
         <br />
@@ -636,13 +657,18 @@
       }
 
       // language
-      function switchLanguage(id) {
+      var language = "en";
+      function refreshLanguage() {
         let de = document.getElementsByClassName("text-german");
         for (element of de)
-          element.style.display = id == "de" ? "block" : "none";
+          element.style.display = language == "de" ? "block" : "none";
         let en = document.getElementsByClassName("text-english");
         for (element of en)
-          element.style.display = id == "en" ? "block" : "none";
+          element.style.display = language == "en" ? "block" : "none";
+      }
+      function switchLanguage(id) {
+        language = id;
+        refreshLanguage();
       }
       switchLanguage("en"); // English is default
 
@@ -739,6 +765,7 @@
               '<br/><br/><img class="u-max-full-width" src="' + imgPath + '"/>';
           }
           document.getElementById("blog-text-" + idx).innerHTML = src;
+          refreshLanguage();
         }
       }
     </script>
