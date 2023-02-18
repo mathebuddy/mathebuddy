@@ -6,15 +6,18 @@
  * License: GPL-3.0-or-later
  */
 
-import 'dataLevel.dart';
+// TODO: remove this file!!
+
+//import 'dataLevel.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html
 
 // -------- BLOCK ITEM --------
 
-abstract class MBL_BlockItem extends MBL_LevelItem {
+/*abstract class MBL_BlockItem extends MBL_LevelItem {
   //String type;
   String title = '';
   String label = '';
   String error = '';
-}
+}*/
+
