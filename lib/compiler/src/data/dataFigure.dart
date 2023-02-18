@@ -14,11 +14,12 @@ import 'dataText.dart';
 // -------- FIGURE --------
 
 class MBL_Figure extends MBL_LevelItem {
-  String type = 'figure';
   String filePath = '';
   String data = '';
   MBL_Text caption = new MBL_Text_Text();
   List<MBL_Figure_Option> options = [];
+
+  MBL_Figure() : super(MBL_LevelItemType.Figure);
 
   void postProcess() {
     // TODO
