@@ -25,7 +25,9 @@ do
     echo "[1] install"
     echo "[2] run tests"
     echo "[3] run simulator locally"
-    echo "[4] exit"
+    echo "[4] build documentation"
+    echo "[5] run website at http://localhost:8314"
+    echo "[6] exit"
     read x
     case $x in
     1)
@@ -41,6 +43,16 @@ do
     3)
         cd bin
         python3 sim.py
+        cd ..
+        ;;
+    4)
+        cd doc
+        python3 build.py
+        cd ..
+        ;;
+    5)
+        cd docs
+        python3 -m http.server 8314
         cd ..
         ;;
     *)
