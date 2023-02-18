@@ -2,6 +2,7 @@
   "recommendations": [
     "dart-code.dart-code",
     "dart-code.flutter",
-    "streetsidesoftware.code-spell-checker-german"
+    "streetsidesoftware.code-spell-checker-german",
+    "esbenp.prettier-vscode"
   ]
 }
