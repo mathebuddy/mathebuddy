@@ -8,6 +8,7 @@
 
 import '../../../ext/multila-lexer/src/lex.dart';
 import '../../../ext/multila-lexer/src/token.dart';
+
 import 'block.dart';
 import 'data/dataChapter.dart';
 import 'data/dataCourse.dart';
@@ -16,11 +17,11 @@ import 'data/dataLevel.dart';
 import 'data/dataSection.dart';
 import 'data/dataText.dart';
 import 'data/dataUnit.dart';
+import 'help.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
 class Compiler {
-  //_loadFile: (String path) => String = null;
   Function(String) _loadFile;
 
   MBL_Course? _course = null;
@@ -36,18 +37,14 @@ class Compiler {
 
   int _uniqueIdCounter = 0;
 
-  int createUniqueId() {
-    return this._uniqueIdCounter++;
-  }
+  Compiler(this._loadFile);
 
   MBL_Course? getCourse() {
     return this._course;
   }
 
   //void compile(String path, loadFile: (path: string) => string) {
-  void compile(String path, Function(String) loadFile) {
-    // store load function
-    this._loadFile = loadFile;
+  void compile(String path) {
     // compile
     if (path.endsWith('course.mbl')) {
       // processing complete course
@@ -117,7 +114,7 @@ class Compiler {
         }
         lexer.END();
         // compile chapter
-        var dirname = path.match(/.*\//);
+        var dirname = extractDirname(path);
         var chapterPath = dirname + directoryName + '/index.mbl';
         this.compileChapter(chapterPath);
         // set chapter meta data
@@ -128,8 +125,8 @@ class Compiler {
       }
     }
     // build dependency graph
-    for(var i=0; i<this._course.chapters.length; i++) {
-      var chapter = this._course.chapters[i];
+    for(var i=0; i<(this._course as MBL_Course).chapters.length; i++) {
+      var chapter = this._course?.chapters[i] as MBL_Chapter;
       for(var j=0; j<chapter.requires_tmp.length; j++) {
         var r = chapter.requires_tmp[j];
         var requiredChapter = this._course?.getChapterByFileID(r);
@@ -172,7 +169,7 @@ class Compiler {
           state = 'unit';
           this._unit = new MBL_Unit();
           this._unit?.title = unitTitle;
-          this._chapter?.units.add(this._unit);
+          this._chapter?.units.add(this._unit as MBL_Unit);
         } else this._error('unexpected line ' + line);
       } else if (state == 'unit') {
         var lexer = new Lexer();
@@ -191,10 +188,10 @@ class Compiler {
         }
         lexer.END();
         // compile level
-        var dirname = path.match(/.*\//);
+        var dirname = extractDirname(path);
         var levelPath = dirname + fileName + '.mbl';
         this.compileLevel(levelPath);
-        this._unit?.levels.add(this._level);
+        this._unit?.levels.add(this._level as MBL_Level);
         // set chapter meta data
         this._level?.file_id = fileName;
         this._level?.pos_x = posX;
@@ -203,11 +200,11 @@ class Compiler {
       }
     }
     // build dependency graph
-    for(var i=0; i<this._chapter.levels.length; i++) {
-      var level = this._chapter.levels[i];
+    for(var i=0; i<(this._chapter as MBL_Chapter).levels.length; i++) {
+      var level = this._chapter?.levels[i] as MBL_Level;
       for(var j=0; j<level.requires_tmp.length; j++) {
         var r = level.requires_tmp[j];
-        var requiredLevel = this._chapter.getLevelByFileID(r);
+        var requiredLevel = this._chapter?.getLevelByFileID(r);
         if (requiredLevel == null) this._error('unknown level ' + r);
         else level.requires.add(requiredLevel);
       }
@@ -218,7 +215,7 @@ class Compiler {
   void compileLevel(String path) {
     // create a new level
     this._level = new MBL_Level();
-    this._chapter?.levels.add(this._level);
+    this._chapter?.levels.add(this._level as MBL_Level);
     // get level source
     var src = this._loadFile(path);
     if (src.length == 0)
@@ -255,6 +252,12 @@ class Compiler {
     }
     this._pushParagraph();
   }
+
+    int createUniqueId() {
+    // TODO: make private!
+    return this._uniqueIdCounter++;
+  }
+
 
   void _pushParagraph() {
     if (this._paragraph.trim().length > 0) {
@@ -390,7 +393,7 @@ class Compiler {
     return paragraph;
   }
 
-  MBL_Text _parseParagraph_part(Lexer lexer, MBL_Exercise exercise) {
+  MBL_Text _parseParagraph_part(Lexer lexer, MBL_Exercise? exercise) {
     if (
       lexer.getToken().col == 1 &&
       (lexer.isTER('-') || lexer.isTER('#.') || lexer.isTER('-)'))
@@ -437,7 +440,7 @@ class Compiler {
     }
   }
 
-  MBL_Text _parseItemize(Lexer lexer, MBL_Exercise exercise) {
+  MBL_Text _parseItemize(Lexer lexer, MBL_Exercise? exercise) {
     // '-' for itemize; '#.' for enumerate; '-)' for alpha enumerate
     var typeStr = lexer.getToken().token;
     MBL_Text_Itemize_Type type;
@@ -464,7 +467,7 @@ class Compiler {
     return itemize;
   }
 
-  MBL_Text _parseBoldText(Lexer lexer, MBL_Exercise exercise) {
+  MBL_Text _parseBoldText(Lexer lexer, MBL_Exercise? exercise) {
     lexer.next();
     var bold = new MBL_Text_Bold();
     while (lexer.isNotTER('**') && lexer.isNotEND())
@@ -473,7 +476,7 @@ class Compiler {
     return bold;
   }
 
-  MBL_Text _parseItalicText(Lexer lexer, MBL_Exercise exercise) {
+  MBL_Text _parseItalicText(Lexer lexer, MBL_Exercise? exercise) {
     lexer.next();
     var italic = new MBL_Text_Italic();
     while (lexer.isNotTER('*') && lexer.isNotEND())
@@ -482,7 +485,7 @@ class Compiler {
     return italic;
   }
 
-  MBL_Text _parseInlineMath(Lexer lexer, MBL_Exercise exercise) {
+  MBL_Text _parseInlineMath(Lexer lexer, MBL_Exercise? exercise) {
     lexer.next();
     var inlineMath = new MBL_Text_InlineMath();
     while (lexer.isNotTER('\$') && lexer.isNotEND()) {
