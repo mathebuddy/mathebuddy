@@ -6,13 +6,13 @@
  * License: GPL-3.0-or-later
  */
 
-import 'dataBlock.dart';
+import 'dataLevel.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html
 
 // -------- ERROR --------
 
-class MBL_Error extends MBL_BlockItem {
+class MBL_Error extends MBL_LevelItem {
   String type = 'error';
   String message = '';
 
