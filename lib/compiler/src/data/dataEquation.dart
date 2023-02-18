@@ -20,24 +20,25 @@ enum MBL_EquationOption {
 }
 
 class MBL_Equation extends MBL_LevelItem {
-  String type = 'equation';
   String value = '';
   int numbering = -1;
   List<MBL_EquationOption> options = [];
+
+  MBL_Equation() : super(MBL_LevelItemType.Equation);
 
   void postProcess() {
     // TODO
   }
 
-  Map<Object, Object> toJSON() {
+  Map<String, Object> toJSON() {
     return {
-      type: this.type,
-      title: this.title,
-      label: this.label,
-      error: this.error,
-      value: this.value,
-      numbering: this.numbering,
-      options: this.options.map((option) => option.toString()),
+      "type": this.type,
+      "title": this.title,
+      "label": this.label,
+      "error": this.error,
+      "value": this.value,
+      "numbering": this.numbering,
+      "options": this.options.map((option) => option.toString()),
     };
   }
 }
