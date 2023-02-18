@@ -19,7 +19,7 @@ enum MBL_SectionType {
 }
 
 class MBL_Section extends MBL_LevelItem {
-  MBL_SectionType type;
+  MBL_SectionType subType;
   String text = '';
   String label = '';
 
@@ -29,11 +29,12 @@ class MBL_Section extends MBL_LevelItem {
     /* empty */
   }
 
-  Map<Object, Object> toJSON() {
+  Map<String, Object> toJSON() {
     return {
-      type: this.type,
-      text: this.text,
-      label: this.label,
+      "type": this.type,
+      "subType": this.subType,
+      "text": this.text,
+      "label": this.label,
     };
   }
 }
