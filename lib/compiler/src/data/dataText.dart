@@ -13,6 +13,10 @@ import 'dataLevel.dart';
 
 // -------- TEXT --------
 
+
+TODO: aggregate most classes of this file????
+
+
 abstract class MBL_Text extends MBL_LevelItem {}
 
 void simplifyText(List<MBL_Text> items) {
@@ -34,7 +38,7 @@ void simplifyText(List<MBL_Text> items) {
       items[i] is MBL_Text_Text
     ) {
       var text = (<MBL_Text_Text>items[i]).value;
-      if ('.,:!?'.includes(text) == false) text = ' ' + text;
+      if ('.,:!?'.contains(text) == false) text = ' ' + text;
       (<MBL_Text_Text>items[i - 1]).value += text;
       // TODO: next line is an ugly hack for TeX..
       (<MBL_Text_Text>items[i - 1]).value = (<MBL_Text_Text>(
