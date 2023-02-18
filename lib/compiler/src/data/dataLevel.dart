@@ -50,7 +50,6 @@ enum MBL_LevelItemType {
   Figure,
   NewPage,
   Section,
-  SubSection,
   Table,
   Text
 }
