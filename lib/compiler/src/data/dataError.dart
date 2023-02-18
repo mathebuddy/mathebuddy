@@ -13,22 +13,21 @@ import 'dataLevel.dart';
 // -------- ERROR --------
 
 class MBL_Error extends MBL_LevelItem {
-  String type = 'error';
   String message = '';
 
-  MBL_Error();
+  MBL_Error() : super(MBL_LevelItemType.Error);
 
   void postProcess() {
     /* empty */
   }
 
-  Map<Object, Object> toJSON() {
+  Map<String, Object> toJSON() {
     return {
-      type: this.type,
-      title: this.title,
-      label: this.label,
-      error: this.error,
-      message: this.message,
+      "type": this.type,
+      "title": this.title,
+      "label": this.label,
+      "error": this.error,
+      "message": this.message,
     };
   }
 }
