@@ -14,10 +14,11 @@ import 'dataText.dart';
 // -------- TABLE --------
 
 class MBL_Table extends MBL_LevelItem {
-  String type = 'table';
   MBL_Table_Row head = new MBL_Table_Row();
   List<MBL_Table_Row> rows = [];
   List<MBL_Table_Option> options = [];
+
+  MBL_Table() : super(MBL_LevelItemType.Table);
 
   void postProcess() {
     this.head.postProcess();
