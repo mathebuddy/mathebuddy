@@ -6,14 +6,14 @@
  * License: GPL-3.0-or-later
  */
 
-import 'dataBlock.dart';
+import 'dataLevel.dart';
 import 'dataText.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html
 
 // -------- TABLE --------
 
-class MBL_Table extends MBL_BlockItem {
+class MBL_Table extends MBL_LevelItem {
   String type = 'table';
   MBL_Table_Row head = new MBL_Table_Row();
   List<MBL_Table_Row> rows = [];
