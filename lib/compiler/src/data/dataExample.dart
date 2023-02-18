@@ -6,13 +6,13 @@
  * License: GPL-3.0-or-later
  */
 
-import 'dataBlock.dart';
+import 'dataLevel.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html
 
 // -------- EXAMPLE --------
 
-class MBL_Example extends MBL_BlockItem {
+class MBL_Example extends MBL_LevelItem {
   String type = 'example';
   items: (MBL_Equation | MBL_Text)[] = [];
   
