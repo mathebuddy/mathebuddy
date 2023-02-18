@@ -43,6 +43,11 @@ class MBL_Level {
 
 abstract class MBL_LevelItem {
   String type = '';
+  String title = '';
+  String label = '';
+  String error = '';
+
   void postProcess();
+
   Map<Object, Object> toJSON();
 }
