@@ -49,17 +49,17 @@ class MBL_Chapter {
     }
   }
 
-  Map<Object, Object> toJSON() {
+  Map<String, Object> toJSON() {
     return {
-      file_id: this.file_id,
-      title: this.title,
-      author: this.author,
-      label: this.label,
-      pos_x: this.pos_x,
-      pos_y: this.pos_y,
-      requires: this.requires.map((req) => req.file_id),
-      units: this.units.map((unit) => unit.toJSON()),
-      levels: this.levels.map((level) => level.toJSON()),
+      "file_id": this.file_id,
+      "title": this.title,
+      "author": this.author,
+      "label": this.label,
+      "pos_x": this.pos_x,
+      "pos_y": this.pos_y,
+      "requires": this.requires.map((req) => req.file_id),
+      "units": this.units.map((unit) => unit.toJSON()),
+      "levels": this.levels.map((level) => level.toJSON()),
     };
   }
 }
