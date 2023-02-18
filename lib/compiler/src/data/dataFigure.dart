@@ -6,14 +6,14 @@
  * License: GPL-3.0-or-later
  */
 
-import 'dataBlock.dart';
+import 'dataLevel.dart';
 import 'dataText.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html
 
 // -------- FIGURE --------
 
-class MBL_Figure extends MBL_BlockItem {
+class MBL_Figure extends MBL_LevelItem {
   String type = 'figure';
   String filePath = '';
   String data = '';
