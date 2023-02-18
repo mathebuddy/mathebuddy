@@ -12,12 +12,13 @@ import 'dataText.dart';
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html
 
 class MBL_Exercise extends MBL_LevelItem {
-  String type = 'exercise';
   Map<String,MBL_Exercise_Variable> variables = {};
   List<MBL_Exercise_Instance> instances = [];
   String code = '';
   MBL_Exercise_Text text = new MBL_Text_Paragraph();
   int staticVariableCounter = 0;
+
+  MBL_Exercise() : super(MBL_LevelItemType.Exercise);
 
   String addStaticBooleanVariable(bool value) {
     var varId = '__bool__' + (this.staticVariableCounter++).toString();
