@@ -49,14 +49,14 @@ class MBL_Course {
     }
   }
 
-  Map<Object, Object> toJSON() {
+  Map<String, Object> toJSON() {
     return {
-      debug: this.debug,
-      title: this.title,
-      author: this.author,
-      mbcl_version: this.mbcl_version,
-      date_modified: this.date_modified,
-      chapters: this.chapters.map((chapter) => chapter.toJSON()),
+      "debug": this.debug,
+      "title": this.title,
+      "author": this.author,
+      "mbcl_version": this.mbcl_version,
+      "date_modified": this.date_modified,
+      "chapters": this.chapters.map((chapter) => chapter.toJSON()),
     };
   }
 }
