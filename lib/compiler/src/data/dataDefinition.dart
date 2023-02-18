@@ -17,30 +17,31 @@ enum MBL_DefinitionType {
   Theorem,
   Lemma,
   Corollary,
-  Proposition ,
+  Proposition,
   Conjecture,
-  Axiom ,
-  Claim ,
+  Axiom,
+  Claim,
   Identity,
   Paradox,
 }
 
 class MBL_Definition extends MBL_LevelItem {
-  MBL_DefinitionType type;
-  items: (MBL_Equation | MBL_Text)[] = [];
-  
-  MBL_Definition(this.type);
-  
+  MBL_DefinitionType subType;
+  List<MBL_LevelItem> items = [];
+
+  MBL_Definition(this.subType) : super(MBL_LevelItemType.Definition);
+
   void postProcess() {
-    for(var i=0; i<this.items.length; i++) {
+    for (var i = 0; i < this.items.length; i++) {
       var item = this.items[i];
       item.postProcess();
     }
   }
-  
-  Map<String,Object> toJSON() {
+
+  Map<String, Object> toJSON() {
     return {
       "type": this.type,
+      "subType": this.subType,
       "title": this.title,
       "label": this.label,
       "error": this.error,
