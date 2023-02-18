@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# TODO: must create a release version + get THAT version here
+
 mkdir -p src/
 cd src/
 curl -O https://raw.githubusercontent.com/multila/multila-lexer/main/src/lang.dart
