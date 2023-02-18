@@ -121,7 +121,7 @@ class Compiler {
         this._chapter?.file_id = directoryName;
         this._chapter?.pos_x = posX;
         this._chapter?.pos_y = posY;
-        this._chapter?.requires_tmp.add(...requirements);
+        this._chapter?.requires_tmp.addAll(requirements);
       }
     }
     // build dependency graph
@@ -144,7 +144,7 @@ class Compiler {
   void compileChapter(String path) {
     // create a new chapter
     this._chapter = new MBL_Chapter();
-    this._course?.chapters.add(this._chapter);
+    this._course?.chapters.add(this._chapter as MBL_Chapter);
     // get chapter index file source
     var src = this._loadFile(path);
     if (src.length == 0) {
@@ -196,7 +196,7 @@ class Compiler {
         this._level?.file_id = fileName;
         this._level?.pos_x = posX;
         this._level?.pos_y = posY;
-        this._level?.requires_tmp.add(...requirements);
+        this._level?.requires_tmp.addAll(requirements);
       }
     }
     // build dependency graph
@@ -253,8 +253,7 @@ class Compiler {
     this._pushParagraph();
   }
 
-    int createUniqueId() {
-    // TODO: make private!
+    int _createUniqueId() {
     return this._uniqueIdCounter++;
   }
 
@@ -443,7 +442,7 @@ class Compiler {
   MBL_Text _parseItemize(Lexer lexer, MBL_Exercise? exercise) {
     // '-' for itemize; '#.' for enumerate; '-)' for alpha enumerate
     var typeStr = lexer.getToken().token;
-    MBL_Text_Itemize_Type type;
+    MBL_Text_Itemize_Type type = MBL_Text_Itemize_Type.Itemize;
     switch (typeStr) {
       case '-':
         type = MBL_Text_Itemize_Type.Itemize;
@@ -492,7 +491,7 @@ class Compiler {
       var tk = lexer.getToken().token;
       var isId = lexer.getToken().type == LexerTokenType.ID;
       lexer.next();
-      if (isId && exercise != null && tk in exercise.variables) {
+      if (isId && exercise != null && exercise.variables.containsKey(tk)) {
         var v = new MBL_Exercise_Text_Variable();
         v.variableId = tk;
         inlineMath.items.add(v);
@@ -520,11 +519,11 @@ class Compiler {
     lexer.next();
     var id = '';
     var input = new MBL_Exercise_Text_Input();
-    input.input_id = 'input' + this.createUniqueId().toString();
+    input.input_id = 'input' + this._createUniqueId().toString();
     if (lexer.isID()) {
       id = lexer.ID();
-      if (id in exercise.variables) {
-        var v = exercise.variables[id];
+      if (exercise.variables.containsKey(id)) {
+        var v = exercise.variables[id] as MBL_Exercise_Variable;
         input.variable = id;
         switch (v.type) {
           case MBL_Exercise_VariableType.Int:
@@ -572,7 +571,7 @@ class Compiler {
       lexer.next();
       if (lexer.isID()) {
         varId = lexer.ID();
-        if (varId in exercise.variables == false)
+        if (exercise.variables.containsKey(varId) == false)
           exercise.error = 'unknown variable ' + varId;
       } else {
         exercise.error = 'expected ID after :';
@@ -593,7 +592,7 @@ class Compiler {
       element = new MBL_Exercise_Text_Multiple_Choice();
     }
     var option = new MBL_Exercise_Text_Single_or_Multi_Choice_Option();
-    option.input_id = 'input' + this.createUniqueId().toString();
+    option.input_id = 'input' + this._createUniqueId().toString();
     option.variable = varId;
     element.items.add(option);
     var span = new MBL_Text_Span();
@@ -604,7 +603,7 @@ class Compiler {
     return element;
   }
 
-  MBL_Text _parseTextProperty(Lexer lexer, MBL_Exercise exercise) {
+  MBL_Text _parseTextProperty(Lexer lexer, MBL_Exercise? exercise) {
     // TODO: make sure, that errors are not too annoying...
     lexer.next();
     List<MBL_Text> items = [];
