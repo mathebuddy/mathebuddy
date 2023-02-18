@@ -6,12 +6,12 @@
  * License: GPL-3.0-or-later
  */
 
-import 'dataBlock.dart';
+import 'dataLevel.dart';
 import 'dataText.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html
 
-class MBL_Exercise extends MBL_BlockItem {
+class MBL_Exercise extends MBL_LevelItem {
   String type = 'exercise';
   Map<String,MBL_Exercise_Variable> variables = {};
   List<MBL_Exercise_Instance> instances = [];
@@ -135,9 +135,12 @@ class MBL_Exercise_Text_Input extends MBL_Exercise_Text {
 
 // TODO: class MBL_Exercise_Text_Choices_Input
 
-class MBL_Exercise_Text_Multiple_Choice extends MBL_Exercise_Text {
-  String type = 'multiple_choice';
+abstract class MBL_Exercise_Text_SingleOrMultiple_Choice extends MBL_Exercise_Text {
   List<MBL_Exercise_Text_Single_or_Multi_Choice_Option> items = [];
+}
+
+class MBL_Exercise_Text_Multiple_Choice extends MBL_Exercise_Text_SingleOrMultiple_Choice {
+  String type = 'multiple_choice';
   
   void postProcess() {
     for (var i=0; i<this.items.length; i++) {
@@ -154,9 +157,8 @@ class MBL_Exercise_Text_Multiple_Choice extends MBL_Exercise_Text {
   }
 }
 
-class MBL_Exercise_Text_Single_Choice extends MBL_Exercise_Text {
+class MBL_Exercise_Text_Single_Choice extends MBL_Exercise_Text_SingleOrMultiple_Choice {
   String type = 'single_choice';
-  List<MBL_Exercise_Text_Single_or_Multi_Choice_Option> items = [];
   
   void postProcess() {
     for (var i=0; i<this.items.length; i++) {
