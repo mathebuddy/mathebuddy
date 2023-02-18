@@ -23,7 +23,7 @@ class MBL_Section extends MBL_LevelItem {
   String text = '';
   String label = '';
 
-  MBL_Section(this.type);
+  MBL_Section(this.subType) : super(MBL_LevelItemType.Section);
 
   void postProcess() {
     /* empty */
