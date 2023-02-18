@@ -28,26 +28,42 @@ class MBL_Level {
     }
   }
 
-  Map<Object, Object> toJSON() {
+  Map<String, Object> toJSON() {
     return {
-      file_id: this.file_id,
-      title: this.title,
-      label: this.label,
-      pos_x: this.pos_x,
-      pos_y: this.pos_y,
-      requires: this.requires.map((req) => req.file_id),
-      items: this.items.map((item) => item.toJSON()),
+      "file_id": this.file_id,
+      "title": this.title,
+      "label": this.label,
+      "pos_x": this.pos_x,
+      "pos_y": this.pos_y,
+      "requires": this.requires.map((req) => req.file_id),
+      "items": this.items.map((item) => item.toJSON()),
     };
   }
 }
 
+enum MBL_LevelItemType {
+  Definition,
+  Equation,
+  Error,
+  Example,
+  Exercise,
+  Figure,
+  NewPage,
+  Section,
+  SubSection,
+  Table,
+  Text
+}
+
 abstract class MBL_LevelItem {
-  String type = '';
+  MBL_LevelItemType type; // = MBL_LevelItemType.Error;
   String title = '';
   String label = '';
   String error = '';
 
+  MBL_LevelItem(this.type);
+
   void postProcess();
 
-  Map<Object, Object> toJSON();
+  Map<String, Object> toJSON();
 }
