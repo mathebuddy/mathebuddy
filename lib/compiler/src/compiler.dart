@@ -20,12 +20,13 @@ import 'data/dataUnit.dart';
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
 class Compiler {
-  _loadFile: (String path) => String = null;
+  //_loadFile: (String path) => String = null;
+  Function(String) _loadFile;
 
-  MBL_Course _course = null;
-  MBL_Chapter _chapter = null;
-  MBL_Unit _unit = null;
-  MBL_Level _level = null;
+  MBL_Course? _course = null;
+  MBL_Chapter? _chapter = null;
+  MBL_Unit? _unit = null;
+  MBL_Level? _level = null;
 
   List<String> _srcLines = [];
   int _i = -1; // current line index (starting from 0)
@@ -39,32 +40,33 @@ class Compiler {
     return this._uniqueIdCounter++;
   }
 
-  MBL_Course getCourse() {
+  MBL_Course? getCourse() {
     return this._course;
   }
 
-  void compile(String path, loadFile: (path: string) => string) {
+  //void compile(String path, loadFile: (path: string) => string) {
+  void compile(String path, Function(String) loadFile) {
     // store load function
     this._loadFile = loadFile;
     // compile
     if (path.endsWith('course.mbl')) {
       // processing complete course
-      this._compileCourse(path);
+      this.compileCourse(path);
     } else if (path.endsWith('index.mbl')) {
       // processing only a course chapter
       this._course = new MBL_Course();
-      this._course.debug = MBL_Course_Debug.Chapter;
-      this._compileChapter(path);
+      this._course?.debug = MBL_Course_Debug.Chapter;
+      this.compileChapter(path);
     } else {
       // processing only a course level
       this._course = new MBL_Course();
-      this._course.debug = MBL_Course_Debug.Level;
+      this._course?.debug = MBL_Course_Debug.Level;
       this._chapter = new MBL_Chapter();
-      this._course.chapters.push(this._chapter);
+      this._course?.chapters.add(this._chapter as MBL_Chapter);
       this.compileLevel(path);
     }
     // post processing
-    this._course.postProcess();
+    this._course?.postProcess();
   }
 
   //G course = courseTitle courseAuthor courseChapters;
@@ -76,7 +78,7 @@ class Compiler {
     // create a new course
     this._course = new MBL_Course();
     // get course description file source
-    var src = this.loadFile(path);
+    var src = this._loadFile(path);
     if (src.length == 0) {
       this._error(
         'course description file ' + path + ' does not exist or is empty',
@@ -181,10 +183,10 @@ class Compiler {
         var posY = lexer.INT();
         lexer.TER(')');
         var fileName = lexer.ID();
-        var requirements: string[] = [];
+        List<String> requirements = [];
         while (lexer.isTER('!')) {
           lexer.next();
-          requirements.push(lexer.ID());
+          requirements.add(lexer.ID());
         }
         lexer.END();
         // compile level
@@ -321,11 +323,11 @@ class Compiler {
     this._next();
     BlockPart part = new BlockPart();
     part.name = 'global';
-    block.parts.push(part);
+    block.parts.add(part);
     while (this._line != '---' && this._line != '§END') {
       if (this._line.startsWith('@')) {
         part = new BlockPart();
-        block.parts.push(part);
+        block.parts.add(part);
         part.name = this._line.substring(1).trim();
         this._next();
       } else if (
@@ -335,7 +337,7 @@ class Compiler {
         this._line.substring(0, 3) == this._line.toUpperCase().substring(0, 3)
       ) {
         if (parseSubBlock) break;
-        else block.parts.push(this._parseBlock(true));
+        else block.parts.add(this._parseBlock(true));
       } else {
         part.lines.add(this._line);
         this._next();
@@ -381,7 +383,7 @@ class Compiler {
     lexer.setTerminals(['**', '#.', '-)']);
     var paragraph = new MBL_Text_Paragraph();
     while (lexer.isNotEND())
-      paragraph.items.add(this.parseParagraph_part(lexer, ex));
+      paragraph.items.add(this._parseParagraph_part(lexer, ex));
     return paragraph;
   }
 
@@ -391,29 +393,29 @@ class Compiler {
       (lexer.isTER('-') || lexer.isTER('#.') || lexer.isTER('-)'))
     ) {
       // itemize or enumerate
-      return this.parseItemize(lexer, exercise);
+      return this._parseItemize(lexer, exercise);
     } else if (lexer.isTER('**')) {
       // bold text
-      return this.parseBoldText(lexer, exercise);
+      return this._parseBoldText(lexer, exercise);
     } else if (lexer.isTER('*')) {
       // italic text
-      return this.parseItalicText(lexer, exercise);
+      return this._parseItalicText(lexer, exercise);
     } else if (lexer.isTER('$')) {
       // inline math
-      return this.parseInlineMath(lexer, exercise);
+      return this._parseInlineMath(lexer, exercise);
     } else if (lexer.isTER('@')) {
       // reference
-      return this.parseReference(lexer);
+      return this._parseReference(lexer);
     } else if (exercise != null && lexer.isTER('#')) {
       // input element(s)
-      return this.parseInputElements(lexer, exercise);
+      return this._parseInputElements(lexer, exercise);
     } else if (
       exercise != null &&
       lexer.getToken().col == 1 &&
       (lexer.isTER('[') || lexer.isTER('('))
     ) {
       // single or multiple choice answer
-      return this.parseSingleOrMultipleChoice(lexer, exercise);
+      return this._parseSingleOrMultipleChoice(lexer, exercise);
     } else if (lexer.isTER('\n')) {
       // line feed
       var isNewParagraph = lexer.getToken().col == 1;
@@ -422,7 +424,7 @@ class Compiler {
       else return new MBL_Text_Text();
     } else if (lexer.isTER('[')) {
       // text properties: e.g. "[text in red color]@color1"
-      return this.parseTextProperty(lexer, exercise);
+      return this._parseTextProperty(lexer, exercise);
     } else {
       // text tokens (... or yet unimplemented paragraph items)
       var text = new MBL_Text_Text();
@@ -430,7 +432,6 @@ class Compiler {
       lexer.next();
       return text;
     }
-    throw new Error('this should never happen!');
   }
 
   MBL_Text _parseItemize(Lexer lexer, MBL_Exercise exercise) {
@@ -563,7 +564,7 @@ class Compiler {
       staticallyCorrect = true;
     } else if (lexer.isTER(':')) {
       lexer.next();
-      if (lexer.isID) {
+      if (lexer.isID()) {
         varId = lexer.ID();
         if (varId in exercise.variables == false)
           exercise.error = 'unknown variable ' + varId;
@@ -586,13 +587,13 @@ class Compiler {
       element = new MBL_Exercise_Text_Multiple_Choice();
     }
     var option = new MBL_Exercise_Text_Single_or_Multi_Choice_Option();
-    option.input_id = 'input' + this.createUniqueId();
+    option.input_id = 'input' + this.createUniqueId().toString();
     option.variable = varId;
     element.items.push(option);
     var span = new MBL_Text_Span();
     option.text = span;
     while (lexer.isNotNEWLINE() && lexer.isNotEND())
-      span.items.push(this.parseParagraph_part(lexer, exercise));
+      span.items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER('\n')) lexer.next();
     return element;
   }
