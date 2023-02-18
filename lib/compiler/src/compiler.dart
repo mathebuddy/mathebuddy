@@ -86,7 +86,7 @@ class Compiler {
     var lines = src.split('\n');
     var state = 'global';
 
-    for(var rowIdx =0; rowIdx<lines.length; rowIdx++) {
+    for (var rowIdx = 0; rowIdx < lines.length; rowIdx++) {
       var line = lines[rowIdx];
       line = line.split('%')[0];
       if (line.trim().length == 0) continue;
@@ -95,8 +95,10 @@ class Compiler {
           this._course?.title = line.substring('TITLE'.length).trim();
         else if (line.startsWith('AUTHOR'))
           this._course?.author = line.substring('AUTHOR'.length).trim();
-        else if (line.startsWith('CHAPTERS')) state = 'chapter';
-        else this._error('unexpected line ' + line);
+        else if (line.startsWith('CHAPTERS'))
+          state = 'chapter';
+        else
+          this._error('unexpected line ' + line);
       } else if (state == 'chapter') {
         var lexer = new Lexer();
         lexer.enableHyphenInID(true);
@@ -125,13 +127,15 @@ class Compiler {
       }
     }
     // build dependency graph
-    for(var i=0; i<(this._course as MBL_Course).chapters.length; i++) {
+    for (var i = 0; i < (this._course as MBL_Course).chapters.length; i++) {
       var chapter = this._course?.chapters[i] as MBL_Chapter;
-      for(var j=0; j<chapter.requires_tmp.length; j++) {
+      for (var j = 0; j < chapter.requires_tmp.length; j++) {
         var r = chapter.requires_tmp[j];
         var requiredChapter = this._course?.getChapterByFileID(r);
-        if (requiredChapter == null) this._error('unknown chapter ' + r);
-        else chapter.requires.add(requiredChapter);
+        if (requiredChapter == null)
+          this._error('unknown chapter ' + r);
+        else
+          chapter.requires.add(requiredChapter);
       }
     }
   }
@@ -154,7 +158,7 @@ class Compiler {
     // parse
     var lines = src.split('\n');
     var state = 'global';
-    for(var rowIdx =0; rowIdx<lines.length; rowIdx++) {
+    for (var rowIdx = 0; rowIdx < lines.length; rowIdx++) {
       var line = lines[rowIdx];
       line = line.split('%')[0];
       if (line.trim().length == 0) continue;
@@ -170,7 +174,8 @@ class Compiler {
           this._unit = new MBL_Unit();
           this._unit?.title = unitTitle;
           this._chapter?.units.add(this._unit as MBL_Unit);
-        } else this._error('unexpected line ' + line);
+        } else
+          this._error('unexpected line ' + line);
       } else if (state == 'unit') {
         var lexer = new Lexer();
         lexer.enableHyphenInID(true);
@@ -200,13 +205,15 @@ class Compiler {
       }
     }
     // build dependency graph
-    for(var i=0; i<(this._chapter as MBL_Chapter).levels.length; i++) {
+    for (var i = 0; i < (this._chapter as MBL_Chapter).levels.length; i++) {
       var level = this._chapter?.levels[i] as MBL_Level;
-      for(var j=0; j<level.requires_tmp.length; j++) {
+      for (var j = 0; j < level.requires_tmp.length; j++) {
         var r = level.requires_tmp[j];
         var requiredLevel = this._chapter?.getLevelByFileID(r);
-        if (requiredLevel == null) this._error('unknown level ' + r);
-        else level.requires.add(requiredLevel);
+        if (requiredLevel == null)
+          this._error('unknown level ' + r);
+        else
+          level.requires.add(requiredLevel);
       }
     }
   }
@@ -253,10 +260,9 @@ class Compiler {
     this._pushParagraph();
   }
 
-    int _createUniqueId() {
+  int _createUniqueId() {
     return this._uniqueIdCounter++;
   }
-
 
   void _pushParagraph() {
     if (this._paragraph.trim().length > 0) {
@@ -269,10 +275,12 @@ class Compiler {
     this._i++;
     if (this._i < this._srcLines.length) {
       this._line = this._srcLines[this._i];
-    } else this._line = '§END';
+    } else
+      this._line = '§END';
     if (this._i + 1 < this._srcLines.length) {
       this._line2 = this._srcLines[this._i + 1];
-    } else this._line2 = '§END';
+    } else
+      this._line2 = '§END';
   }
 
   //G levelTitle = { CHAR } "@" { ID } NEWLINE "#####.." { "#" } NEWLINE;
@@ -320,9 +328,12 @@ class Compiler {
     if (!parseSubBlock) this._next(); // skip "---"
     var tokens = this._line.split(' ');
     for (var k = 0; k < tokens.length; k++) {
-      if (k == 0) block.type = tokens[k];
-      else if (tokens[k].startsWith('@')) block.label = tokens[k];
-      else block.title += tokens[k] + ' ';
+      if (k == 0)
+        block.type = tokens[k];
+      else if (tokens[k].startsWith('@'))
+        block.label = tokens[k];
+      else
+        block.title += tokens[k] + ' ';
     }
     block.title = block.title.trim();
     this._next();
@@ -335,24 +346,28 @@ class Compiler {
         block.parts.add(part);
         part.name = this._line.substring(1).trim();
         this._next();
-      } else if (
-        this._line.length >= 3 &&
-        this._line.codeUnitAt(0) >= 'A'.codeUnitAt(0) &&
-        this._line.codeUnitAt(0) <= 'Z'.codeUnitAt(0) &&
-        this._line.substring(0, 3) == this._line.toUpperCase().substring(0, 3)
-      ) {
-        if (parseSubBlock) break;
-        else block.parts.add(this._parseBlock(true));
+      } else if (this._line.length >= 3 &&
+          this._line.codeUnitAt(0) >= 'A'.codeUnitAt(0) &&
+          this._line.codeUnitAt(0) <= 'Z'.codeUnitAt(0) &&
+          this._line.substring(0, 3) ==
+              this._line.toUpperCase().substring(0, 3)) {
+        if (parseSubBlock)
+          break;
+        else
+          block.parts.add(this._parseBlock(true));
       } else {
         part.lines.add(this._line);
         this._next();
       }
     }
     if (!parseSubBlock) {
-      if (this._line == '---') this._next();
+      if (this._line == '---')
+        this._next();
       else
         this._error(
-          'block started in line ' + block.srcLine.toString() + ' must end with ---',
+          'block started in line ' +
+              block.srcLine.toString() +
+              ' must end with ---',
         );
     }
     return block.process();
@@ -393,10 +408,8 @@ class Compiler {
   }
 
   MBL_Text _parseParagraph_part(Lexer lexer, MBL_Exercise? exercise) {
-    if (
-      lexer.getToken().col == 1 &&
-      (lexer.isTER('-') || lexer.isTER('#.') || lexer.isTER('-)'))
-    ) {
+    if (lexer.getToken().col == 1 &&
+        (lexer.isTER('-') || lexer.isTER('#.') || lexer.isTER('-)'))) {
       // itemize or enumerate
       return this._parseItemize(lexer, exercise);
     } else if (lexer.isTER('**')) {
@@ -414,19 +427,19 @@ class Compiler {
     } else if (exercise != null && lexer.isTER('#')) {
       // input element(s)
       return this._parseInputElements(lexer, exercise);
-    } else if (
-      exercise != null &&
-      lexer.getToken().col == 1 &&
-      (lexer.isTER('[') || lexer.isTER('('))
-    ) {
+    } else if (exercise != null &&
+        lexer.getToken().col == 1 &&
+        (lexer.isTER('[') || lexer.isTER('('))) {
       // single or multiple choice answer
       return this._parseSingleOrMultipleChoice(lexer, exercise);
     } else if (lexer.isTER('\n')) {
       // line feed
       var isNewParagraph = lexer.getToken().col == 1;
       lexer.next();
-      if (isNewParagraph) return new MBL_Text_Linefeed();
-      else return new MBL_Text_Text();
+      if (isNewParagraph)
+        return new MBL_Text_Linefeed();
+      else
+        return new MBL_Text_Text();
     } else if (lexer.isTER('[')) {
       // text properties: e.g. "[text in red color]@color1"
       return this._parseTextProperty(lexer, exercise);
@@ -577,19 +590,21 @@ class Compiler {
         exercise.error = 'expected ID after :';
       }
     }
-    var element:
-      | MBL_Exercise_Text_Multiple_Choice
-      | MBL_Exercise_Text_Single_Choice = null;
+    MBL_Exercise_Text_SingleOrMultiple_Choice? element = null;
     if (varId.length == 0)
       varId = exercise.addStaticBooleanVariable(staticallyCorrect);
     if (isMultipleChoice) {
-      if (lexer.isTER(']')) lexer.next();
-      else exercise.error = 'expected ]';
+      if (lexer.isTER(']'))
+        lexer.next();
+      else
+        exercise.error = 'expected ]';
       element = new MBL_Exercise_Text_Multiple_Choice();
     } else {
-      if (lexer.isTER(')')) lexer.next();
-      else exercise.error = 'expected )';
-      element = new MBL_Exercise_Text_Multiple_Choice();
+      if (lexer.isTER(')'))
+        lexer.next();
+      else
+        exercise.error = 'expected )';
+      element = new MBL_Exercise_Text_Single_Choice();
     }
     var option = new MBL_Exercise_Text_Single_or_Multi_Choice_Option();
     option.input_id = 'input' + this._createUniqueId().toString();
@@ -609,10 +624,14 @@ class Compiler {
     List<MBL_Text> items = [];
     while (lexer.isNotTER(']') && lexer.isNotEND())
       items.add(this._parseParagraph_part(lexer, exercise));
-    if (lexer.isTER(']')) lexer.next();
-    else return new MBL_Text_Error('expected ]');
-    if (lexer.isTER('@')) lexer.next();
-    else return new MBL_Text_Error('expected @');
+    if (lexer.isTER(']'))
+      lexer.next();
+    else
+      return new MBL_Text_Error('expected ]');
+    if (lexer.isTER('@'))
+      lexer.next();
+    else
+      return new MBL_Text_Error('expected @');
     if (lexer.isID()) {
       var id = lexer.ID();
       if (id == 'bold') {
@@ -631,7 +650,8 @@ class Compiler {
       } else {
         return new MBL_Text_Error('unknown property ' + id);
       }
-    } else return new MBL_Text_Error('missing property name');
+    } else
+      return new MBL_Text_Error('missing property name');
   }
 
   void _error(String message) {
