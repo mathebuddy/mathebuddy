@@ -6,6 +6,8 @@
  * License: GPL-3.0-or-later
  */
 
+import 'dataLevel.dart';
+
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html
 
 // -------- NEWPAGE --------
@@ -15,7 +17,7 @@ class MBL_NewPage extends MBL_LevelItem {
   void postProcess() {
     /* empty */
   }
-  JSONValue toJSON() {
+  Map<String, Object> toJSON() {
     return {
       type: this.type,
     };
