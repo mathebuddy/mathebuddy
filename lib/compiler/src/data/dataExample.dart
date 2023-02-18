@@ -13,17 +13,18 @@ import 'dataLevel.dart';
 // -------- EXAMPLE --------
 
 class MBL_Example extends MBL_LevelItem {
-  String type = 'example';
-  items: (MBL_Equation | MBL_Text)[] = [];
-  
+  List<MBL_LevelItem> items = [];
+
+  MBL_Example() : super(MBL_LevelItemType.Example);
+
   void postProcess() {
-    for(var i=0; i<this.items.length; i++) {
+    for (var i = 0; i < this.items.length; i++) {
       var item = this.items[i];
       item.postProcess();
     }
   }
-  
-  Map<String,Object> toJSON() {
+
+  Map<String, Object> toJSON() {
     return {
       "type": this.type,
       "title": this.title,
