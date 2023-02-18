@@ -11,6 +11,7 @@ import 'data/data.dart';
 import 'data/dataDefinition.dart';
 import 'data/dataEquation.dart';
 import 'data/dataError.dart';
+import 'data/dataExample.dart';
 import 'data/dataExercise.dart';
 import 'data/dataFigure.dart';
 import 'data/dataLevel.dart';
@@ -26,7 +27,8 @@ class Block {
   String type = '';
   String title = '';
   String label = '';
-  parts: (MBL_LevelItem | BlockPart)[] = [];
+  //parts: (MBL_LevelItem | BlockPart)[] = [];
+  List<BlockPart> parts = [];
   int srcLine = 0;
 
   Compiler _compiler;
@@ -84,25 +86,30 @@ class Block {
       case 'NEWPAGE':
         return new MBL_NewPage();
 
-      default: {
-        var err = new MBL_Error();
-        err.message = 'unknown block type "' + this.type + '"';
-        return err;
-      }
+      default:
+        {
+          var err = new MBL_Error();
+          err.message = 'unknown block type "' + this.type + '"';
+          return err;
+        }
     }
   }
 
   MBL_Text _processText() {
     // this block has no parts
-    return this.compiler.parseParagraph(
-      (this.parts[0] as BlockPart).lines.join('\n'),
-    );
+    return this._compiler.parseParagraph(
+          (this.parts[0] as BlockPart).lines.join('\n'),
+        );
   }
 
   MBL_Table _processTable() {
-    var i: number;
+    int i;
     var table = new MBL_Table();
+    return table;
+    // TODO
+    /*
     table.title = this.title;
+    // TODO:for(var k=0; k<this.parts.)
     for (var p of this.parts) {
       if (p instanceof BlockPart) {
         var part = <BlockPart>p;
@@ -118,13 +125,13 @@ class Block {
               if (line.length == 0) continue;
               switch (line) {
                 case 'align-left':
-                  table.options.push(MBL_Table_Option.AlignLeft);
+                  table.options.add(MBL_Table_Option.AlignLeft);
                   break;
                 case 'align-center':
-                  table.options.push(MBL_Table_Option.AlignCenter);
+                  table.options.add(MBL_Table_Option.AlignCenter);
                   break;
                 case 'align-right':
-                  table.options.push(MBL_Table_Option.AlignRight);
+                  table.options.add(MBL_Table_Option.AlignRight);
                   break;
                 default:
                   table.error += 'unknown option "' + line + '"';
@@ -153,12 +160,14 @@ class Block {
         }
       }
     }
-    return table;
+    return table;*/
   }
 
   MBL_Figure _processFigure() {
     var figure = new MBL_Figure();
-    var plotData: { [id: string]: string } = {};
+    return figure;
+    // TODO!!
+    /*var plotData: { [id: string]: string } = {};
     for (var p of this.parts) {
       if (p instanceof BlockPart) {
         var part = <BlockPart>p;
@@ -241,12 +250,14 @@ class Block {
         }
       }
     }
-    return figure;
+    return figure;*/
   }
 
   MBL_Equation _processEquation(bool numbering) {
     var equation = new MBL_Equation();
-    equation.numbering = numbering ? 888 : -1; // TODO: number
+    return equation;
+    // TODO
+    /*equation.numbering = numbering ? 888 : -1; // TODO: number
     equation.title = this.title;
     equation.label = this.label;
     for (var p of this.parts) {
@@ -288,11 +299,14 @@ class Block {
         equation.error += 'unexpected sub-block';
       }
     }
-    return equation;
+    return equation;*/
   }
 
-  _processExample(): MBL_Example {
+  MBL_Example _processExample() {
     var example = new MBL_Example();
+    return example;
+    // TODO
+    /*
     example.title = this.title;
     example.label = this.label;
     for (var p of this.parts) {
@@ -313,10 +327,14 @@ class Block {
         example.items.push(p);
       }
     }
-    return example;
+    return example;*/
   }
 
   MBL_Text _processTextAlign(String type) {
+    var xxx = new MBL_Text_Text();
+    return xxx;
+    // TODO
+    /*
     var align: MBL_Text_AlignLeft | MBL_Text_AlignCenter | MBL_Text_AlignRight;
     switch (type) {
       case 'LEFT':
@@ -344,12 +362,14 @@ class Block {
         align.items.push(p);
       }
     }
-    return align;
+    return align;*/
   }
 
   MBL_Definition _processDefinition(MBL_DefinitionType type) {
     var def = new MBL_Definition(type);
-    def.title = this.title;
+    return def;
+    // TODO
+    /*def.title = this.title;
     def.label = this.label;
     for (var p of this.parts) {
       if (p is BlockPart) {
@@ -367,12 +387,14 @@ class Block {
         def.items.push(p);
       }
     }
-    return def;
+    return def;*/
   }
 
   MBL_Exercise _processExercise() {
     var exercise = new MBL_Exercise();
-    exercise.title = this.title;
+    return exercise;
+    // TODO
+    /*exercise.title = this.title;
     // TODO: must guarantee that no two exercises labels are same in entire course!!
     exercise.label = this.label;
     if (exercise.label.length == 0) {
@@ -459,10 +481,10 @@ class Block {
         //TODO: exercise.items.push(p);
       }
     }
-    return exercise;
+    return exercise;*/
   }
 
-  void _error(String message) {
+  /*void _error(String message) {
     print('' + (this.srcLine + 1).toString() + ': ' + message);
-  }
+  }*/
 }
