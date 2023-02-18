@@ -6,7 +6,7 @@
  * License: GPL-3.0-or-later
  */
 
-import 'dataBlock.dart';
+import 'dataLevel.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html
 
@@ -25,7 +25,7 @@ enum MBL_DefinitionType {
   Paradox,
 }
 
-class MBL_Definition extends MBL_BlockItem {
+class MBL_Definition extends MBL_LevelItem {
   MBL_DefinitionType type;
   items: (MBL_Equation | MBL_Text)[] = [];
   
