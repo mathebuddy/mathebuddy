@@ -10,8 +10,8 @@ import '../../../ext/multila-lexer/src/lex.dart';
 import '../../../ext/multila-lexer/src/token.dart';
 
 import '../../mbcl/src/course.dart';
-
 import '../../mbcl/src/levelItem.dart';
+
 import 'block.dart';
 import 'chapter.dart';
 import 'course.dart';
@@ -447,7 +447,7 @@ class Compiler {
     } else {
       // text tokens (... or yet unimplemented paragraph items)
       var text = new MBCL_LevelItem(MBCL_LevelItemType.Text);
-      text.value = lexer.getToken().token;
+      text.text = lexer.getToken().token;
       lexer.next();
       return text;
     }
@@ -511,7 +511,7 @@ class Compiler {
         inlineMath.items.add(v);
       } else {
         var text = new MBCL_LevelItem(MBCL_LevelItemType.Text);
-        text.value = tk;
+        text.text = tk;
         inlineMath.items.add(text);
       }
     }
@@ -529,17 +529,18 @@ class Compiler {
     return ref;
   }
 
-  MBCL_Text _parseInputElements(Lexer lexer, MBCL_Exercise exercise) {
+  MBCL_LevelItem _parseInputElements(Lexer lexer, MBCL_LevelItem exercise) {
     lexer.next();
     var id = '';
-    var input = new MBCL_Exercise_Text_Input();
-    input.input_id = 'input' + this._createUniqueId().toString();
+    var input = new MBCL_LevelItem(MBCL_LevelItemType.ExerciseInputField);
+    input.id = 'input' + this._createUniqueId().toString();
+    var data = exercise.exerciseData as MBCL_ExerciseData;
     if (lexer.isID()) {
       id = lexer.ID();
-      if (exercise.variables.containsKey(id)) {
-        var v = exercise.variables[id] as MBCL_Exercise_Variable;
-        input.variable = id;
-        switch (v.type) {
+      if (data.variables.containsKey(id)) {
+        var v = data.variables[id] as MBCL_Exercise_VariableType;
+        input.id = id;
+        switch (v) {
           case MBCL_Exercise_VariableType.Int:
             input.input_type = MBCL_Exercise_Text_Input_Type.Int;
             break;
@@ -559,7 +560,7 @@ class Compiler {
             input.input_type = MBCL_Exercise_Text_Input_Type.Matrix;
             break;
           default:
-            exercise.error += 'UNIMPLEMENTED input type ' + v.type.name + '. ';
+            exercise.error += 'UNIMPLEMENTED input type ' + v.name + '. ';
         }
       } else {
         exercise.error = 'there is no variable "' + id + '". ';
