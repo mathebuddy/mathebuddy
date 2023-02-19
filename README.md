@@ -1,14 +1,35 @@
 # mathe:buddy
 
-This repository implements the `mathe:buddy` App for the iOS App Store and Google Playground.
+Official website with simulator and playgrounds: https://mathebuddy.github.io/mathebuddy/
 
-Also consider the other repositories of this GitHub account. You will find a list below.
+## Developers Info
 
-Official website: https://app.f07-its.fh-koeln.de
+This repository implements all components of the `mathe:buddy` app.
+
+<!-- for the iOS App Store and Google Playground.-->
 
 ![](img/mathebuddy-comp-diag.png)
 
-## Repositories
+Head to the readme files in the subdirectories.
+
+## File Structure
+
+| Path     | Description                                       |
+| -------- | ------------------------------------------------- |
+| .vscode/ | Visual Code Project Settings                      |
+| app/     | Implementation of the App with Flutter            |
+| bin/     | Scripts                                           |
+| doc/     | Documentation of SMPL, MBL, MBCL                  |
+| docs/    | Website: https://mathebuddy.github.io/mathebuddy/ |
+| ext/     | External Components                               |
+| img/     | Original image files                              |
+| lib/     | Implementation of components (math-runtime, ...)  |
+| cmd.sh   | Administration script for developers              |
+
+## Repository List
+
+<!--List of all repositories
+Also consider the other repositories of this GitHub account. You will find a list below.-->
 
 - https://github.com/mathebuddy/mathebuddy
 
@@ -18,6 +39,7 @@ Official website: https://app.f07-its.fh-koeln.de
 
   Free and Open Source Math Courses
 
+<!--
 - https://github.com/mathebuddy/mathebuddy-downloads
 
   Downloadable toolchains and data for the mathe:buddy app (e.g. VSCode Plugins)
@@ -53,3 +75,4 @@ Official website: https://app.f07-its.fh-koeln.de
 - https://github.com/mathebuddy/mathebuddy-website
 
   Website for the MatheBuddy App (https://app.f07-its.fh-koeln.de)
+-->
