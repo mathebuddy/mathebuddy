@@ -124,7 +124,7 @@ enum MBCL_EquationOption {
 class MBCL_ExerciseData {
   String code = '';
   int staticVariableCounter = 0;
-  Map<String, MBCL_Exercise_VariableType> variableTypes = {};
+  Map<String, MBCL_Exercise_VariableType> variables = {};
   List<Map<String, String>> instances = [];
   List<String> inputRequire = [];
   List<String> inputForbid = [];
@@ -137,7 +137,7 @@ class MBCL_ExerciseData {
     // TODO: do NOT output code in final build
     return {
       "code": this.code,
-      "variableTypes": this.variableTypes,
+      "variables": this.variables,
       "instances": this.instances.map((e) => e),
       "inputRequire": this.inputRequire.map((e) => e),
       "inputForbid": this.inputForbid.map((e) => e),
