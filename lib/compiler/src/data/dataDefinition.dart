@@ -13,6 +13,7 @@ import 'dataLevel.dart';
 // -------- DEFINITION --------
 
 enum MBL_DefinitionType {
+  None,
   Definition,
   Theorem,
   Lemma,
