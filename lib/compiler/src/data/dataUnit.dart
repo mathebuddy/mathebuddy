@@ -16,10 +16,10 @@ class MBL_Unit {
   String title = '';
   List<MBL_Level> levels = [];
 
-  Map<Object, Object> toJSON() {
+  Map<String, Object> toJSON() {
     return {
-      title: this.title,
-      levels: this.levels.map((level) => level.file_id),
+      "title": this.title,
+      "levels": this.levels.map((level) => level.file_id),
     };
   }
 }
