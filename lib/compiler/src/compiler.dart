@@ -9,25 +9,26 @@
 import '../../../ext/multila-lexer/src/lex.dart';
 import '../../../ext/multila-lexer/src/token.dart';
 
+import '../../mbcl/src/course.dart';
+
+import '../../mbcl/src/levelItem.dart';
 import 'block.dart';
-import 'data/dataChapter.dart';
-import 'data/dataCourse.dart';
-import 'data/dataExercise.dart';
-import 'data/dataLevel.dart';
-import 'data/dataSection.dart';
-import 'data/dataText.dart';
-import 'data/dataUnit.dart';
+import 'chapter.dart';
+import 'course.dart';
 import 'help.dart';
+import 'level.dart';
+import 'levelItem.dart';
+import 'unit.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
 class Compiler {
   Function(String) _loadFile;
 
-  MBL_Course? _course = null;
-  MBL_Chapter? _chapter = null;
-  MBL_Unit? _unit = null;
-  MBL_Level? _level = null;
+  MBCL_Course? _course = null;
+  MBCL_Chapter? _chapter = null;
+  MBCL_Unit? _unit = null;
+  MBCL_Level? _level = null;
 
   List<String> _srcLines = [];
   int _i = -1; // current line index (starting from 0)
@@ -39,7 +40,7 @@ class Compiler {
 
   Compiler(this._loadFile);
 
-  MBL_Course? getCourse() {
+  MBCL_Course? getCourse() {
     return this._course;
   }
 
@@ -51,15 +52,15 @@ class Compiler {
       this.compileCourse(path);
     } else if (path.endsWith('index.mbl')) {
       // processing only a course chapter
-      this._course = new MBL_Course();
-      this._course?.debug = MBL_Course_Debug.Chapter;
+      this._course = new MBCL_Course();
+      this._course?.debug = MBCL_Course_Debug.Chapter;
       this.compileChapter(path);
     } else {
       // processing only a course level
-      this._course = new MBL_Course();
-      this._course?.debug = MBL_Course_Debug.Level;
-      this._chapter = new MBL_Chapter();
-      this._course?.chapters.add(this._chapter as MBL_Chapter);
+      this._course = new MBCL_Course();
+      this._course?.debug = MBCL_Course_Debug.Level;
+      this._chapter = new MBCL_Chapter();
+      this._course?.chapters.add(this._chapter as MBCL_Chapter);
       this.compileLevel(path);
     }
     // post processing
@@ -73,7 +74,7 @@ class Compiler {
   //G courseChapter = "(" INT "," INT ")" ID { "!" ID } "\n";
   void compileCourse(String path) {
     // create a new course
-    this._course = new MBL_Course();
+    this._course = new MBCL_Course();
     // get course description file source
     var src = this._loadFile(path);
     if (src.length == 0) {
@@ -127,8 +128,8 @@ class Compiler {
       }
     }
     // build dependency graph
-    for (var i = 0; i < (this._course as MBL_Course).chapters.length; i++) {
-      var chapter = this._course?.chapters[i] as MBL_Chapter;
+    for (var i = 0; i < (this._course as MBCL_Course).chapters.length; i++) {
+      var chapter = this._course?.chapters[i] as MBCL_Chapter;
       for (var j = 0; j < chapter.requires_tmp.length; j++) {
         var r = chapter.requires_tmp[j];
         var requiredChapter = this._course?.getChapterByFileID(r);
@@ -147,8 +148,8 @@ class Compiler {
   //G chapterLevel = "(" INT "," INT ")" ID { "!" ID } "\n";
   void compileChapter(String path) {
     // create a new chapter
-    this._chapter = new MBL_Chapter();
-    this._course?.chapters.add(this._chapter as MBL_Chapter);
+    this._chapter = new MBCL_Chapter();
+    this._course?.chapters.add(this._chapter as MBCL_Chapter);
     // get chapter index file source
     var src = this._loadFile(path);
     if (src.length == 0) {
@@ -171,9 +172,9 @@ class Compiler {
           // TODO: handle units!!
           var unitTitle = line.substring('UNIT'.length).trim();
           state = 'unit';
-          this._unit = new MBL_Unit();
+          this._unit = new MBCL_Unit();
           this._unit?.title = unitTitle;
-          this._chapter?.units.add(this._unit as MBL_Unit);
+          this._chapter?.units.add(this._unit as MBCL_Unit);
         } else
           this._error('unexpected line ' + line);
       } else if (state == 'unit') {
@@ -196,7 +197,7 @@ class Compiler {
         var dirname = extractDirname(path);
         var levelPath = dirname + fileName + '.mbl';
         this.compileLevel(levelPath);
-        this._unit?.levels.add(this._level as MBL_Level);
+        this._unit?.levels.add(this._level as MBCL_Level);
         // set chapter meta data
         this._level?.file_id = fileName;
         this._level?.pos_x = posX;
@@ -205,8 +206,8 @@ class Compiler {
       }
     }
     // build dependency graph
-    for (var i = 0; i < (this._chapter as MBL_Chapter).levels.length; i++) {
-      var level = this._chapter?.levels[i] as MBL_Level;
+    for (var i = 0; i < (this._chapter as MBCL_Chapter).levels.length; i++) {
+      var level = this._chapter?.levels[i] as MBCL_Level;
       for (var j = 0; j < level.requires_tmp.length; j++) {
         var r = level.requires_tmp[j];
         var requiredLevel = this._chapter?.getLevelByFileID(r);
@@ -221,8 +222,8 @@ class Compiler {
   //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
   void compileLevel(String path) {
     // create a new level
-    this._level = new MBL_Level();
-    this._chapter?.levels.add(this._level as MBL_Level);
+    this._level = new MBCL_Level();
+    this._chapter?.levels.add(this._level as MBCL_Level);
     // get level source
     var src = this._loadFile(path);
     if (src.length == 0)
@@ -295,8 +296,8 @@ class Compiler {
   }
 
   //G sectionTitle = { CHAR } "@" { ID } NEWLINE "==.." { "#" } NEWLINE;
-  MBL_Section _parseSectionTitle() {
-    var section = new MBL_Section(MBL_SectionType.Section);
+  MBCL_LevelItem _parseSectionTitle() {
+    var section = new MBCL_LevelItem(MBCL_LevelItemType.Section);
     var tokens = this._line.split('@');
     section.text = tokens[0].trim();
     if (tokens.length > 1) {
@@ -308,8 +309,8 @@ class Compiler {
   }
 
   //G subSectionTitle = { CHAR } "@" { ID } NEWLINE "-----.." { "#" } NEWLINE;
-  MBL_Section _parseSubSectionTitle() {
-    var subSection = new MBL_Section(MBL_SectionType.SubSection);
+  MBCL_LevelItem _parseSubSectionTitle() {
+    var subSection = new MBCL_LevelItem(MBCL_LevelItemType.SubSection);
     var tokens = this._line.split('@');
     subSection.text = tokens[0].trim();
     if (tokens.length > 1) {
@@ -322,7 +323,7 @@ class Compiler {
 
   //G block = "---" NEWLINE { "@" ID NEWLINE | LINE } "---" NEWLINE;
   // TODO: grammar for subblocks
-  MBL_LevelItem _parseBlock(bool parseSubBlock) {
+  MBCL_LevelItem _parseBlock(bool parseSubBlock) {
     var block = new Block(this);
     block.srcLine = this._i;
     if (!parseSubBlock) this._next(); // skip "---"
@@ -390,24 +391,24 @@ class Compiler {
       | ID
       | DEL;
    */
-  MBL_Text parseParagraph(String raw, [MBL_Exercise? ex = null]) {
+  MBCL_LevelItem parseParagraph(String raw, [MBCL_LevelItem? ex = null]) {
     // skip empty paragraphs
     if (raw.trim().length == 0)
       //return new ParagraphItem(ParagraphItemType.Text);
-      return new MBL_Text_Text(); // TODO: OK??
+      return new MBCL_Text_Text(); // TODO: OK??
     // create lexer
     var lexer = new Lexer();
     lexer.enableEmitNewlines(true);
     lexer.enableUmlautInID(true);
     lexer.pushSource('', raw);
     lexer.setTerminals(['**', '#.', '-)']);
-    var paragraph = new MBL_Text_Paragraph();
+    var paragraph = new MBCL_LevelItem(MBCL_LevelItemType.Paragraph);
     while (lexer.isNotEND())
       paragraph.items.add(this._parseParagraph_part(lexer, ex));
     return paragraph;
   }
 
-  MBL_Text _parseParagraph_part(Lexer lexer, MBL_Exercise? exercise) {
+  MBCL_LevelItem _parseParagraph_part(Lexer lexer, MBCL_LevelItem? exercise) {
     if (lexer.getToken().col == 1 &&
         (lexer.isTER('-') || lexer.isTER('#.') || lexer.isTER('-)'))) {
       // itemize or enumerate
@@ -437,40 +438,40 @@ class Compiler {
       var isNewParagraph = lexer.getToken().col == 1;
       lexer.next();
       if (isNewParagraph)
-        return new MBL_Text_Linefeed();
+        return new MBCL_LevelItem(MBCL_LevelItemType.LineFeed);
       else
-        return new MBL_Text_Text();
+        return new MBCL_LevelItem(MBCL_LevelItemType.Text);
     } else if (lexer.isTER('[')) {
       // text properties: e.g. "[text in red color]@color1"
       return this._parseTextProperty(lexer, exercise);
     } else {
       // text tokens (... or yet unimplemented paragraph items)
-      var text = new MBL_Text_Text();
+      var text = new MBCL_LevelItem(MBCL_LevelItemType.Text);
       text.value = lexer.getToken().token;
       lexer.next();
       return text;
     }
   }
 
-  MBL_Text _parseItemize(Lexer lexer, MBL_Exercise? exercise) {
+  MBCL_LevelItem _parseItemize(Lexer lexer, MBCL_LevelItem? exercise) {
     // '-' for itemize; '#.' for enumerate; '-)' for alpha enumerate
     var typeStr = lexer.getToken().token;
-    MBL_Text_Itemize_Type type = MBL_Text_Itemize_Type.Itemize;
+    MBCL_LevelItemType type = MBCL_LevelItemType.Itemize;
     switch (typeStr) {
       case '-':
-        type = MBL_Text_Itemize_Type.Itemize;
+        type = MBCL_LevelItemType.Itemize;
         break;
       case '#.':
-        type = MBL_Text_Itemize_Type.Enumerate;
+        type = MBCL_LevelItemType.Enumerate;
         break;
       case '-)':
-        type = MBL_Text_Itemize_Type.EnumerateAlpha;
+        type = MBCL_LevelItemType.EnumerateAlpha;
         break;
     }
-    var itemize = new MBL_Text_Itemize(type);
+    var itemize = new MBCL_LevelItem(type);
     while (lexer.getToken().col == 1 && lexer.isTER(typeStr)) {
       lexer.next();
-      var span = new MBL_Text_Span();
+      var span = new MBCL_LevelItem(MBCL_LevelItemType.Span);
       itemize.items.add(span);
       while (lexer.isNotNEWLINE() && lexer.isNotEND())
         span.items.add(this._parseParagraph_part(lexer, exercise));
@@ -479,37 +480,37 @@ class Compiler {
     return itemize;
   }
 
-  MBL_Text _parseBoldText(Lexer lexer, MBL_Exercise? exercise) {
+  MBCL_LevelItem _parseBoldText(Lexer lexer, MBCL_LevelItem? exercise) {
     lexer.next();
-    var bold = new MBL_Text_Bold();
+    var bold = new MBCL_LevelItem(MBCL_LevelItemType.BoldText);
     while (lexer.isNotTER('**') && lexer.isNotEND())
       bold.items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER('**')) lexer.next();
     return bold;
   }
 
-  MBL_Text _parseItalicText(Lexer lexer, MBL_Exercise? exercise) {
+  MBCL_LevelItem _parseItalicText(Lexer lexer, MBCL_LevelItem? exercise) {
     lexer.next();
-    var italic = new MBL_Text_Italic();
+    var italic = new MBCL_LevelItem(MBCL_LevelItemType.ItalicText);
     while (lexer.isNotTER('*') && lexer.isNotEND())
       italic.items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER('*')) lexer.next();
     return italic;
   }
 
-  MBL_Text _parseInlineMath(Lexer lexer, MBL_Exercise? exercise) {
+  MBCL_LevelItem _parseInlineMath(Lexer lexer, MBCL_LevelItem? exercise) {
     lexer.next();
-    var inlineMath = new MBL_Text_InlineMath();
+    var inlineMath = new MBCL_LevelItem(MBCL_LevelItemType.InlineMath);
     while (lexer.isNotTER('\$') && lexer.isNotEND()) {
       var tk = lexer.getToken().token;
       var isId = lexer.getToken().type == LexerTokenType.ID;
       lexer.next();
       if (isId && exercise != null && exercise.variables.containsKey(tk)) {
-        var v = new MBL_Exercise_Text_Variable();
+        var v = new MBCL_Exercise_Text_Variable();
         v.variableId = tk;
         inlineMath.items.add(v);
       } else {
-        var text = new MBL_Text_Text();
+        var text = new MBCL_LevelItem(MBCL_LevelItemType.Text);
         text.value = tk;
         inlineMath.items.add(text);
       }
@@ -518,9 +519,9 @@ class Compiler {
     return inlineMath;
   }
 
-  MBL_Text _parseReference(Lexer lexer) {
+  MBCL_LevelItem _parseReference(Lexer lexer) {
     lexer.next();
-    var ref = new MBL_Text_Reference();
+    var ref = new MBCL_LevelItem(MBCL_LevelItemType.Reference);
     if (lexer.isID()) {
       ref.label = lexer.getToken().token;
       lexer.next();
@@ -528,34 +529,34 @@ class Compiler {
     return ref;
   }
 
-  MBL_Text _parseInputElements(Lexer lexer, MBL_Exercise exercise) {
+  MBCL_Text _parseInputElements(Lexer lexer, MBCL_Exercise exercise) {
     lexer.next();
     var id = '';
-    var input = new MBL_Exercise_Text_Input();
+    var input = new MBCL_Exercise_Text_Input();
     input.input_id = 'input' + this._createUniqueId().toString();
     if (lexer.isID()) {
       id = lexer.ID();
       if (exercise.variables.containsKey(id)) {
-        var v = exercise.variables[id] as MBL_Exercise_Variable;
+        var v = exercise.variables[id] as MBCL_Exercise_Variable;
         input.variable = id;
         switch (v.type) {
-          case MBL_Exercise_VariableType.Int:
-            input.input_type = MBL_Exercise_Text_Input_Type.Int;
+          case MBCL_Exercise_VariableType.Int:
+            input.input_type = MBCL_Exercise_Text_Input_Type.Int;
             break;
-          case MBL_Exercise_VariableType.IntSet:
-            input.input_type = MBL_Exercise_Text_Input_Type.IntSet;
+          case MBCL_Exercise_VariableType.IntSet:
+            input.input_type = MBCL_Exercise_Text_Input_Type.IntSet;
             break;
-          case MBL_Exercise_VariableType.Real:
-            input.input_type = MBL_Exercise_Text_Input_Type.Real;
+          case MBCL_Exercise_VariableType.Real:
+            input.input_type = MBCL_Exercise_Text_Input_Type.Real;
             break;
-          case MBL_Exercise_VariableType.Complex:
-            input.input_type = MBL_Exercise_Text_Input_Type.ComplexNormal;
+          case MBCL_Exercise_VariableType.Complex:
+            input.input_type = MBCL_Exercise_Text_Input_Type.ComplexNormal;
             break;
-          case MBL_Exercise_VariableType.ComplexSet:
-            input.input_type = MBL_Exercise_Text_Input_Type.ComplexSet;
+          case MBCL_Exercise_VariableType.ComplexSet:
+            input.input_type = MBCL_Exercise_Text_Input_Type.ComplexSet;
             break;
-          case MBL_Exercise_VariableType.Matrix:
-            input.input_type = MBL_Exercise_Text_Input_Type.Matrix;
+          case MBCL_Exercise_VariableType.Matrix:
+            input.input_type = MBCL_Exercise_Text_Input_Type.Matrix;
             break;
           default:
             exercise.error += 'UNIMPLEMENTED input type ' + v.type.name + '. ';
@@ -569,9 +570,9 @@ class Compiler {
     return input;
   }
 
-  MBL_Text _parseSingleOrMultipleChoice(
+  MBCL_Text _parseSingleOrMultipleChoice(
     Lexer lexer,
-    MBL_Exercise exercise,
+    MBCL_Exercise exercise,
   ) {
     var isMultipleChoice = lexer.isTER('[');
     lexer.next();
@@ -590,7 +591,7 @@ class Compiler {
         exercise.error = 'expected ID after :';
       }
     }
-    MBL_Exercise_Text_SingleOrMultiple_Choice? element = null;
+    MBCL_Exercise_Text_SingleOrMultiple_Choice? element = null;
     if (varId.length == 0)
       varId = exercise.addStaticBooleanVariable(staticallyCorrect);
     if (isMultipleChoice) {
@@ -598,19 +599,19 @@ class Compiler {
         lexer.next();
       else
         exercise.error = 'expected ]';
-      element = new MBL_Exercise_Text_Multiple_Choice();
+      element = new MBCL_Exercise_Text_Multiple_Choice();
     } else {
       if (lexer.isTER(')'))
         lexer.next();
       else
         exercise.error = 'expected )';
-      element = new MBL_Exercise_Text_Single_Choice();
+      element = new MBCL_Exercise_Text_Single_Choice();
     }
-    var option = new MBL_Exercise_Text_Single_or_Multi_Choice_Option();
+    var option = new MBCL_Exercise_Text_Single_or_Multi_Choice_Option();
     option.input_id = 'input' + this._createUniqueId().toString();
     option.variable = varId;
     element.items.add(option);
-    var span = new MBL_Text_Span();
+    var span = new MBCL_Text_Span();
     option.text = span;
     while (lexer.isNotNEWLINE() && lexer.isNotEND())
       span.items.add(this._parseParagraph_part(lexer, exercise));
@@ -618,40 +619,40 @@ class Compiler {
     return element;
   }
 
-  MBL_Text _parseTextProperty(Lexer lexer, MBL_Exercise? exercise) {
+  MBCL_Text _parseTextProperty(Lexer lexer, MBCL_Exercise? exercise) {
     // TODO: make sure, that errors are not too annoying...
     lexer.next();
-    List<MBL_Text> items = [];
+    List<MBCL_Text> items = [];
     while (lexer.isNotTER(']') && lexer.isNotEND())
       items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER(']'))
       lexer.next();
     else
-      return new MBL_Text_Error('expected ]');
+      return new MBCL_Text_Error('expected ]');
     if (lexer.isTER('@'))
       lexer.next();
     else
-      return new MBL_Text_Error('expected @');
+      return new MBCL_Text_Error('expected @');
     if (lexer.isID()) {
       var id = lexer.ID();
       if (id == 'bold') {
-        var bold = new MBL_Text_Bold();
+        var bold = new MBCL_Text_Bold();
         bold.items = items;
         return bold;
       } else if (id == 'italic') {
-        var italic = new MBL_Text_Italic();
+        var italic = new MBCL_Text_Italic();
         italic.items = items;
         return italic;
       } else if (id.startsWith('color')) {
-        var color = new MBL_Text_Color();
+        var color = new MBCL_Text_Color();
         color.key = int.parse(id.substring(5)); // TODO: check if INT
         color.items = items;
         return color;
       } else {
-        return new MBL_Text_Error('unknown property ' + id);
+        return new MBCL_Text_Error('unknown property ' + id);
       }
     } else
-      return new MBL_Text_Error('missing property name');
+      return new MBCL_Text_Error('missing property name');
   }
 
   void _error(String message) {
