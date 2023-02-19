@@ -24,6 +24,7 @@ abstract class MBCL_LevelItem__ABSTRACT {
   MBCL_TableData? tableData = null;
 
   MBCL_LevelItem__ABSTRACT(this.type);
+
   void postProcess();
 
   Map<String, dynamic> toJSON() {
