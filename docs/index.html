@@ -8,7 +8,42 @@
     />-->
     <title>mathe:buddy</title>
     <!--<link rel="stylesheet" href="Skeleton-2.0.4/css/normalize.css" />-->
-    <link rel="stylesheet" href="Skeleton-2.0.4/css/skeleton.css?v=3" />
+    <link rel="stylesheet" href="Skeleton-2.0.4/css/skeleton.css?v=4" />
+
+    <style>
+      pre code {
+        white-space: pre-wrap;
+      }
+      /*TODO: add to skeleton.css*/
+      .tooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+      }
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        max-height: 32px;
+        background-color: rgb(255, 255, 255);
+        color: #000000;
+        text-align: center;
+        border-radius: 30px;
+        border-style: solid;
+        border-width: 2px;
+        border-color: #000000;
+        padding: 0px 0;
+        position: absolute;
+        z-index: 1;
+        top: 85%;
+        left: 50%;
+        margin-left: -60px;
+        opacity: 0.85;
+        text-transform: none;
+      }
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+      }
+    </style>
   </head>
 
   <body>
@@ -53,17 +88,15 @@
 
       <div class="row">
         <div style="text-align: center">
-          <button class="button-primary" onclick="show('home')">home</button>
+          <button class="button-primary" onclick="show('home')" style="">
+            home
+          </button>
           <button class="button-primary" onclick="show('blog')">blog</button>
-          <button class="button-primary" onclick="show('doc')">
-            documentation
-          </button>
-          <button class="button-primary" onclick="show('sim')">
-            simulator
-          </button>
+          <button class="button-primary" onclick="show('doc')">doc</button>
           <button class="button-primary" onclick="show('playground-list')">
-            playground
+            play
           </button>
+          <button class="button-primary" onclick="show('sim')">sim</button>
         </div>
         <div id="playground-list" style="text-align: center; display: none">
           <b>PLAYGROUND</b><br />
@@ -238,89 +271,91 @@
           WARNING: The Safari Browser is currently NOT supported.
         </p>
 
-        <div style="text-align: center; color: #000000">Path Selection</div>
-        <div
-          style="
-            border-style: solid;
-            border-radius: 10px;
-            border-color: #000000;
-            padding: 10px;
-            border-width: 2px;
-          "
-        >
-          <span id="sim-current-path">&raquo; <br /></span>
-          <span id="sim-path-buttons"></span>
+        <!--<div style="text-align: center; color: #aa322c">Simulator</div>-->
+        <div id="sim-list" class="row" style="padding: 0px; text-align: left">
+          <span style="color: gray"
+            ><img
+              src="img/fontawesome/mobile-screen-solid.svg"
+              style="height: 12px"
+          /></span>
+          &nbsp;
+          <button class="button" onclick="" style="font-size: 10px">
+            iPhone 5s
+          </button>
+          <button class="button" onclick="" style="font-size: 10px">
+            iPhone 8
+          </button>
+          <button class="button" onclick="" style="font-size: 10px">
+            iPhone 14 Pro Max
+          </button>
         </div>
 
-        <br />
+        <div class="row" style="padding: 0px; text-align: left">
+          <span style="color: gray"
+            ><img
+              src="img/fontawesome/folder-open-solid.svg"
+              style="height: 12px"
+          /></span>
+          <span
+            id="sim-path-buttons"
+            style="text-align: left; padding: 0"
+          ></span>
+        </div>
 
-        <!--<div style="text-align: center; color: #aa322c">Simulator</div>-->
-        <div class="row" style="padding: 10px; text-align: center">
-          <div id="sim-list" style="text-align: center">
-            <span style="color: gray">device</span> &nbsp;
-            <button class="button" onclick="" style="font-size: 10px">
-              iPhone 5s
-            </button>
-            <button class="button" onclick="" style="font-size: 10px">
-              iPhone 8
-            </button>
-            <button class="button" onclick="" style="font-size: 10px">
-              iPhone 14 Pro Max
-            </button>
+        <div class="row" style="text-align: left">
+          <div class="six columns" style="text-align: center">&nbsp;</div>
+          <div class="six columns" style="text-align: center">
+            <div id="sim-current-path" style="text-align: center; padding: 0" ;>
+              <span>(no file selected)</span>
+            </div>
           </div>
-
-          <iframe
-            id="sim-iframe"
-            title="mathe:buddy simulator instance"
-            style="
-              border-style: solid;
-              border-color: #434343;
-              border-width: 1px;
-              border-radius: 25px;
-              min-height: 960px;
-              height: 960px;
-              max-height: 960px;
-              width: 480px;
-              min-width: 480px;
-              max-width: 480px;
-              border-width: 1px;
-              -moz-box-shadow: 0 0 10px #aaa;
-              -webkit-box-shadow: 0 0 10px #aaa;
-              box-shadow: 0 0 10px #aaa;
-            "
-          ></iframe>
-          <!--<div
+        </div>
+        <div class="row" style="text-align: left">
+          <div class="six columns" style="text-align: center">
+            <iframe
+              id="sim-iframe"
+              title="mathe:buddy simulator instance"
               style="
                 border-style: solid;
-                border-color: #767676;
+                border-color: #434343;
                 border-width: 1px;
                 border-radius: 25px;
-                min-height: 960px;
-                height: 960px;
-                max-height: 960px;
+                min-height: 640px;
+                height: 640px;
+                max-height: 640px;
+                width: 360px;
+                min-width: 360px;
+                max-width: 360px;
+                border-width: 2px;
+                -moz-box-shadow: 0 0 10px #aaa;
+                -webkit-box-shadow: 0 0 10px #aaa;
+                box-shadow: 0 0 10px #aaa;
+              "
+            ></iframe>
+          </div>
+          <div class="six columns">
+            <div
+              id="sim-log-area"
+              style="
+                border-style: solid;
+                border-color: #434343;
+                border-width: 1px;
+                border-radius: 0px;
+                padding: 10px;
+                border-width: 2px;
+                width: 100%;
+                min-height: 640px;
+                height: 640px;
+                max-height: 640px;
+                -moz-box-shadow: 0 0 10px #aaa;
+                -webkit-box-shadow: 0 0 10px #aaa;
+                box-shadow: 0 0 10px #aaa;
+                overflow-y: scroll;
               "
             >
-              <img
-                class="u-max-full-width"
-                src="img/app-bg.png"
-                style="width: 480px"
-              />
-            </div>-->
-        </div>
-
-        <div style="text-align: center; color: #000000">Log Area</div>
-        <div
-          id="sim-log-area"
-          style="
-            border-style: solid;
-            border-radius: 10px;
-            border-color: #000000;
-            padding: 10px;
-            border-width: 2px;
-            overflow: scroll;
-          "
-        >
-          TODO: not yet implemented
+              Log Area
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -334,7 +369,16 @@
           The following diagram visually shows all components of the app and the
           environment.
         </p>
-        <div style="border-style: solid; border-color: black">
+        <div
+          style="
+            border-style: solid;
+            border-width: 1px;
+            border-color: black;
+            border-radius: 10px;
+            padding: 10px;
+            width: 65%;
+          "
+        >
           <img
             class="u-max-full-width"
             src="img/misc/mathebuddy-comp-diag.png?v=2"
@@ -585,9 +629,6 @@
       }
 
       function updateSimPathButtons() {
-        let simPathButtons = document.getElementById("sim-path-buttons");
-        simPathButtons.innerHTML =
-          '<span style="color: gray">path</span> &nbsp;';
         let p = simBaseDir + simPath.join("/");
         console.log("LOADING FILE: " + p);
         fetch(p)
@@ -608,6 +649,9 @@
                 "<pre><code>" + data + "</code></pre>";
             }
             if (simPath.length > 0) files.unshift("..");
+            let simPathButtons = document.getElementById("sim-path-buttons");
+            simPathButtons.innerHTML =
+              '<span style="color: gray"></span> &nbsp;';
             for (let file of files) {
               let button = document.createElement("button");
               button.classList.add("button");
