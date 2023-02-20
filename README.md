@@ -1,6 +1,12 @@
 # mathe:buddy
 
-Official website with simulator and playgrounds: https://mathebuddy.github.io/mathebuddy/
+Official website with simulator and playgrounds: [https://mathebuddy.github.io/mathebuddy/](https://mathebuddy.github.io/mathebuddy/)
+
+## Users and Content Creators Info
+
+- If you only like to use playgrounds or test the simulator with example files, there is no need to install anything. Just visit [https://mathebuddy.github.io/mathebuddy/](https://mathebuddy.github.io/mathebuddy/)
+
+- If you like to develop and test your own courses, visit the website, head to `simulator` and click on button `http://localhost:8271`. Then follow the instructions listed.
 
 ## Developers Info
 
@@ -10,7 +16,7 @@ This repository implements all components of the `mathe:buddy` app.
 
 ![](img/mathebuddy-comp-diag.png)
 
-Head to the readme files in the subdirectories.
+Head to the `README.md` files in the subdirectories.
 
 ## File Structure
 
@@ -26,15 +32,19 @@ Head to the readme files in the subdirectories.
 | lib/     | Implementation of components (math-runtime, ...)  |
 | cmd.sh   | Administration script for developers              |
 
-## Development
+## Installation
+
+_Other operating systems than Debian and macOS are not yet supported._
 
 Use [VSCode](https://code.visualstudio.com) for editing source code and make sure you install ALL recommended extensions (click on `Extensions` on the left symbol div and type `@recommended` in the search field. Then click on `Install` on each extension that is not yet installed).
 
 ### Dependencies
 
-_Other operating systems than Debian and macOS are not yet supported._
+**IMPORTANT: If you only like to run the webserver locally (including all playgrounds and the simulator), you only need to install Python 3. The repository delivers up-to-date built libraries in the `docs/` directory.**
 
 <!-- TODO: android SDK, XCode, ... -->
+
+Note: Android and XCode can be skipped, if you only like to compile and run `mathe:buddy` simulator. `pandoc` can be skipped if you do not intend to build the manuals.
 
 - Debian based Linux (e.g. Ubuntu)
 
@@ -51,7 +61,25 @@ _Other operating systems than Debian and macOS are not yet supported._
   brew install git python3 flutter pandoc
   ```
 
-Then run `flutter doctor` in a terminal window and install all listed dependencies. Android and XCode can be skipped, if you only like to compile and run `mathe:buddy` simulator.
+Then run `flutter doctor` in a terminal window and install all listed dependencies.
+
+- macOS
+
+  Install `Xcode` from the App Store and start the application to complete the installation.
+  Then run the following commands from a terminal.
+
+  ```
+  xcode-select --install
+  sudo gem install cocoapods
+  brew install --cask android-studio
+  ```
+
+  Run the application `Android Studio.app`, agree to the licenses and complete the setup.
+  In Android Studio Settings, Choose `Appearance & Behavior`, `System Settings`, `Android SDK` and select in tab `[SDK Platforms]` (e.g.) `Android 13`. Then select in tab `[SDK Tools]` `Android SDK Command-line Tools (latest)`. Click on the `Accept` button to start the installation.
+
+  In a terminal, run `flutter doctor --android-licenses` and accept each license with `y`. Then run `flutter doctor` again to check installation.
+
+  In case that you do not have no Java runtime, run `brew install openjdk` to install it.
 
 ### Getting mathe:buddy
 
@@ -84,11 +112,10 @@ git clone git@github.com:mathebuddy/mathebuddy-private-courses.git
 ### Running the website locally
 
 ```
-cd docs
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000` in your favorite browser. You may choose another port than `8000`.
+Open `http://localhost:8000/docs` in your favorite browser. You may choose another port than `8000`.
 
 ## Repository List
 
