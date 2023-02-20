@@ -18,17 +18,18 @@ This repository implements all components of the `mathe:buddy` app.
 
 ## File Structure
 
-| Path     | Description                                       |
-| -------- | ------------------------------------------------- |
-| .vscode/ | Visual Code Project Settings                      |
-| app/     | Implementation of the App with Flutter            |
-| bin/     | Scripts                                           |
-| doc/     | Documentation of SMPL, MBL, MBCL                  |
-| docs/    | Website: https://mathebuddy.github.io/mathebuddy/ |
-| ext/     | External Components                               |
-| img/     | Original image files                              |
-| lib/     | Implementation of components (math-runtime, ...)  |
-| cmd.sh   | Administration script for developers              |
+| Path                      | Description                                       |
+| ------------------------- | ------------------------------------------------- |
+| .vscode/                  | Visual Code Project Settings                      |
+| app/                      | Implementation of the App with Flutter            |
+| bin/                      | Scripts                                           |
+| doc/                      | Documentation of SMPL, MBL, MBCL                  |
+| docs/                     | Website: https://mathebuddy.github.io/mathebuddy/ |
+| ext/                      | External Components                               |
+| img/                      | Original image files                              |
+| lib/                      | Implementation of components (math-runtime, ...)  |
+| cmd.sh                    | Administration script for developers              |
+| mathebuddy.code-workspace | Workspace for VSCode                              |
 
 Head to the `README.md` files in the subdirectories for more information.
 
@@ -114,12 +115,21 @@ git clone git@github.com:mathebuddy/mathebuddy-private-courses.git
 
 ### Running the website locally
 
+Run the following commands:
+
 ```
 cd YOUR_FAVORITE_DIRECTORY/mathebuddy
-python3 -m http.server 8000
+python3 -m http.server 8314
 ```
 
-Open `http://localhost:8000/docs` in your favorite browser. You may choose some other port than `8000`.
+Open `http://localhost:8314/docs` in your favorite browser. You may choose some other port than `8314`.
+
+Alternatively, you may also use the admin tool `cmd.sh` and follow the instructions to start the webserver.
+
+```
+cd YOUR_FAVORITE_DIRECTORY/mathebuddy
+./cmd.sh
+```
 
 ### Build
 
