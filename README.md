@@ -26,6 +26,70 @@ Head to the readme files in the subdirectories.
 | lib/     | Implementation of components (math-runtime, ...)  |
 | cmd.sh   | Administration script for developers              |
 
+## Development
+
+Use [VSCode](https://code.visualstudio.com) for editing source code and make sure you install ALL recommended extensions (click on `Extensions` on the left symbol div and type `@recommended` in the search field. Then click on `Install` on each extension that is not yet installed).
+
+### Dependencies
+
+_Other operating systems than Debian and macOS are not yet supported._
+
+<!-- TODO: android SDK, XCode, ... -->
+
+- Debian based Linux (e.g. Ubuntu)
+
+  ```
+  sudo apt install python3 snapd pandoc
+  sudo snap install flutter --classic
+  ```
+
+- macOS
+
+  First install the [brew package manager](https://brew.sh).
+
+  ```
+  brew install git python3 flutter pandoc
+  ```
+
+Then run `flutter doctor` in a terminal window and install all listed dependencies. Android and XCode can be skipped, if you only like to compile and run `mathe:buddy` simulator.
+
+### Getting mathe:buddy
+
+You now need to clone the following _mathe:buddy_ repositories. Replace `YOUR_FAVORITE_DIRECTORY` by a local directory on your disk.
+
+> TIP: use [GitHub Desktop](https://desktop.github.com) to clone the repositories (refer to the end of this document).
+
+```
+cd YOUR_FAVORITE_DIRECTORY
+git clone https://github.com/mathebuddy/mathebuddy.git
+git clone https://github.com/mathebuddy/mathebuddy-public-courses.git
+```
+
+Developers of the core team should use a SSH key pair; see
+[https://docs.github.com/en/authentication/connecting-to-github-with-ssh](https://docs.github.com/en/authentication/connecting-to-github-with-ssh); and also clone the private repository:
+
+```
+cd YOUR_FAVORITE_DIRECTORY
+git clone git@github.com:mathebuddy/mathebuddy.git
+git clone git@github.com:mathebuddy/mathebuddy-public-courses.git
+git clone git@github.com:mathebuddy/mathebuddy-private-courses.git
+```
+
+> WARNING: Never(!!) clone to iCloud / GoogleDrive / OneDrive / NextCloud / Sciebo / ...!
+
+### Build
+
+(TODO: this section will be added soon...)
+
+### Running the website locally
+
+```
+cd docs
+python3 -m http.server 8000
+```
+
+Open `http://localhost:8000` in your favorite browser. You may choose another port than `8000`.
+
 ## Repository List
 
 <!--List of all repositories
