@@ -79,6 +79,15 @@ Then run `flutter doctor` in a terminal window and install all listed dependenci
 
   In case that you do not have no Java runtime, run `brew install openjdk` to install it. Homebrew will output that you have to run `echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc`. Do it!
 
+  A recently bug ([https://github.com/flutter/flutter/issues/118502](https://github.com/flutter/flutter/issues/118502)) may list Java Errors. Run the following (ugly!) fix:
+
+  ```
+  cd /Applications/Android Studio.app/Contents
+  cp -r jbr jre
+  ```
+
+  <!-- In case of Java Errors, run `export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jbr/Contents/Home` and then run `flutter doctor` again.-->
+
 ### Getting mathe:buddy
 
 You now need to clone the following _mathe:buddy_ repositories. Replace `YOUR_FAVORITE_DIRECTORY` by a local directory on your disk.
