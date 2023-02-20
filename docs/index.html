@@ -82,7 +82,7 @@
         </div>
         <div id="sim-list" style="text-align: center; display: none">
           <b>SIMULATION</b><br />
-          <!-- TODO <button class="button" onclick="showSim('demo')">demo</button>-->
+          <button class="button" onclick="showSim('demo')">demo</button>
           <button class="button" onclick="showSim('localhost')">
             http://localhost:8271
           </button>
@@ -238,13 +238,14 @@
           WARNING: The Safari Browser is currently NOT supported.
         </p>
 
-        <div style="text-align: center; color: #aa322c">Path Selection</div>
+        <div style="text-align: center; color: #000000">Path Selection</div>
         <div
           style="
             border-style: solid;
             border-radius: 10px;
-            border-color: #aa322c;
+            border-color: #000000;
             padding: 10px;
+            border-width: 2px;
           "
         >
           <span id="sim-current-path">&raquo; <br /></span>
@@ -253,25 +254,29 @@
 
         <br />
 
-        <div style="text-align: center; color: #aa322c">Simulator</div>
-        <div
-          class="row"
-          style="
-            border-style: solid;
-            border-radius: 10px;
-            border-color: #aa322c;
-            padding: 10px;
-          "
-        >
-          <div
+        <!--<div style="text-align: center; color: #aa322c">Simulator</div>-->
+        <div class="row" style="padding: 10px; text-align: center">
+          <iframe
+            id="sim-iframe"
+            title="mathe:buddy simulator instance"
             style="
+              border-style: solid;
+              border-color: #434343;
+              border-width: 1px;
+              border-radius: 25px;
+              min-height: 960px;
+              height: 960px;
+              max-height: 960px;
               width: 480px;
               min-width: 480px;
               max-width: 480px;
-              float: left;
+              border-width: 1px;
+              -moz-box-shadow: 0 0 10px #aaa;
+              -webkit-box-shadow: 0 0 10px #aaa;
+              box-shadow: 0 0 10px #aaa;
             "
-          >
-            <div
+          ></iframe>
+          <!--<div
               style="
                 border-style: solid;
                 border-color: #767676;
@@ -287,18 +292,23 @@
                 src="img/app-bg.png"
                 style="width: 480px"
               />
-            </div>
-          </div>
-
-          <div
-            id="sim-log-area"
-            style="float: left; padding: 5px; overflow: scroll"
-          >
-            log area
-          </div>
+            </div>-->
         </div>
 
-        <div id="sim-core"></div>
+        <div style="text-align: center; color: #000000">Log Area</div>
+        <div
+          id="sim-log-area"
+          style="
+            border-style: solid;
+            border-radius: 10px;
+            border-color: #000000;
+            padding: 10px;
+            border-width: 2px;
+            overflow: scroll;
+          "
+        >
+          TODO: not yet implemented
+        </div>
       </div>
     </div>
 
@@ -547,18 +557,23 @@
     <script>
       let simPath = [];
 
+      let simBaseDir = "demo/";
       function showSim(loc) {
+        document.getElementById("sim-iframe").src = "sim/";
         document.getElementById("sim").style.display = "block";
         // TODO: loc in ['demo', 'localhost']
-        let simCore = document.getElementById("sim-core");
-        simCore.innerHTML = "";
+        //let simCore = document.getElementById("sim-core");
+        //simCore.innerHTML = "";
+        simBaseDir = loc == "demo" ? "demo/" : "http://localhost:8271/";
         updateSimPathButtons();
       }
 
       function updateSimPathButtons() {
         let simPathButtons = document.getElementById("sim-path-buttons");
         simPathButtons.innerHTML = "";
-        fetch("http://localhost:8271/" + simPath.join("/"))
+        let p = simBaseDir + simPath.join("/");
+        console.log("LOADING FILE: " + p);
+        fetch(p)
           .then((response) => response.text())
           .then((data) => {
             console.log(data);
@@ -593,9 +608,10 @@
             }
           })
           .catch((error) => {
+            console.log(error);
             document.getElementById("localhost-error-info").style.display =
               "block";
-            document.getElementById("sim-core").style.display = "none";
+            //document.getElementById("sim-core").style.display = "none";
           });
         //}
       }
