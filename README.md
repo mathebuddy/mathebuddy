@@ -29,6 +29,7 @@ This repository implements all components of the `mathe:buddy` app.
 | img/                      | Original image files                              |
 | lib/                      | Implementation of components (math-runtime, ...)  |
 | cmd.sh                    | Administration script for developers              |
+| web.sh                    | Starts the webserver locally                      |
 | mathebuddy.code-workspace | Workspace for VSCode                              |
 
 Head to the `README.md` files in the subdirectories for more information.
@@ -118,13 +119,13 @@ git clone git@github.com:mathebuddy/mathebuddy-private-courses.git
 Run the following commands:
 
 ```
-cd YOUR_FAVORITE_DIRECTORY/mathebuddy
+cd YOUR_FAVORITE_DIRECTORY/mathebuddy/docs
 python3 -m http.server 8314
 ```
 
-Open `http://localhost:8314/docs` in your favorite browser. You may choose some other port than `8314`.
+Open `http://localhost:8314/` in your favorite browser. You may choose some other port than `8314`.
 
-Alternatively, you may also use the admin tool `cmd.sh` and follow the instructions to start the webserver.
+Alternatively, you may also use script `./web.sh` in the root directory of the repository.
 
 ```
 cd YOUR_FAVORITE_DIRECTORY/mathebuddy
