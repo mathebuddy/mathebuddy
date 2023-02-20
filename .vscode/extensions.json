@@ -3,6 +3,7 @@
     "dart-code.dart-code",
     "dart-code.flutter",
     "streetsidesoftware.code-spell-checker-german",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "ms-python.python"
   ]
 }
