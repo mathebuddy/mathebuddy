@@ -297,6 +297,7 @@ input[type="button"] {
   border: 1px solid #bbb;
   cursor: pointer;
   box-sizing: border-box;
+  transition: transform 0.2s;
 }
 .button:hover,
 button:hover,
@@ -311,6 +312,7 @@ input[type="button"]:focus {
   color: #333;
   border-color: #888;
   outline: 0;
+  transform: scale(1.03);
 }
 .button.button-primary,
 button.button-primary,
@@ -320,6 +322,7 @@ input[type="button"].button-primary {
   color: #fff;
   background-color: #aa322c;
   border-color: #aa322c;
+  transition: transform 0.2s;
 }
 .button.button-primary:hover,
 button.button-primary:hover,
@@ -334,6 +337,7 @@ input[type="button"].button-primary:focus {
   color: #fff;
   background-color: #d33d35;
   border-color: #d33d35;
+  transform: scale(1.03);
 }
 
 /* Forms
