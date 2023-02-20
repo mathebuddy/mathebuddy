@@ -1,8 +1,13 @@
 {
   "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[dart]": {
+    "editor.defaultFormatter": "Dart-Code.dart-code"
+  },
   "cSpell.language": "en,de-de",
   "cSpell.words": [
     "Andreas",
+    "cond",
     "Cond",
     "conglomerare",
     "debian",
@@ -28,6 +33,7 @@
     "pandoc",
     "Revisionsupdates",
     "Schwenk",
+    "Sciebo",
     "smpl",
     "SMPL",
     "Sourcen",
