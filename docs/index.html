@@ -559,7 +559,10 @@
 
       let simBaseDir = "demo/";
       function showSim(loc) {
-        document.getElementById("sim-iframe").src = "sim/";
+        let src = window.location.host.includes("localhost")
+          ? "sim/index.html"
+          : "sim/index-github.html";
+        document.getElementById("sim-iframe").src = src;
         document.getElementById("sim").style.display = "block";
         // TODO: loc in ['demo', 'localhost']
         //let simCore = document.getElementById("sim-core");
