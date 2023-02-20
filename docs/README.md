@@ -1,5 +1,3 @@
-This directory implements playgrounds, visible at [https://mathebuddy.github.io/mathebuddy/](https://mathebuddy.github.io/mathebuddy/).
+This directory implements the website, visible at [https://mathebuddy.github.io/mathebuddy/](https://mathebuddy.github.io/mathebuddy/)
 
-# Dev Info:
-
-run `npm run webserver` for local tests.
+Directory `sim/` is created by `/app/mathebuddy/build-web.sh` of this repository. Do NOT make changes here, since all changes will be overwritten anyway!
