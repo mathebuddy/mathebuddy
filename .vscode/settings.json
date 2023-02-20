@@ -4,9 +4,13 @@
   "[dart]": {
     "editor.defaultFormatter": "Dart-Code.dart-code"
   },
+  "markdown.preview.scrollEditorWithPreview": false,
+  "markdown.preview.scrollPreviewWithEditor": false,
   "cSpell.language": "en,de-de",
   "cSpell.words": [
+    "andi",
     "Andreas",
+    "cocoapods",
     "cond",
     "Cond",
     "conglomerare",
@@ -38,6 +42,7 @@
     "SMPL",
     "Sourcen",
     "Taxonomiestufen",
-    "webserver"
+    "webserver",
+    "xcode"
   ]
 }
