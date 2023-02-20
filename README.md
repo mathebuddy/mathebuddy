@@ -6,7 +6,7 @@ Official website with simulator and playgrounds: [https://mathebuddy.github.io/m
 
 - If you only like to use playgrounds or test the simulator with example files, there is no need to install anything. Just visit [https://mathebuddy.github.io/mathebuddy/](https://mathebuddy.github.io/mathebuddy/)
 
-- If you like to develop and test your own courses, visit the website, head to `simulator` and click on button `http://localhost:8271`. Then follow the instructions listed.
+- If you like to create and test your own courses, visit the website, head to `simulator` and click on button `http://localhost:8271`. Then follow the instructions listed.
 
 ## Developers Info
 
@@ -15,8 +15,6 @@ This repository implements all components of the `mathe:buddy` app.
 <!-- for the iOS App Store and Google Playground.-->
 
 ![](img/mathebuddy-comp-diag.png)
-
-Head to the `README.md` files in the subdirectories.
 
 ## File Structure
 
@@ -32,11 +30,11 @@ Head to the `README.md` files in the subdirectories.
 | lib/     | Implementation of components (math-runtime, ...)  |
 | cmd.sh   | Administration script for developers              |
 
+Head to the `README.md` files in the subdirectories for more information.
+
 ## Installation
 
-_Other operating systems than Debian and macOS are not yet supported._
-
-Use [VSCode](https://code.visualstudio.com) for editing source code and make sure you install ALL recommended extensions (click on `Extensions` on the left symbol div and type `@recommended` in the search field. Then click on `Install` on each extension that is not yet installed).
+_Other operating systems than Debian and macOS are not yet supported. Only macOS allows to build an iOS version of the app._
 
 ### Dependencies
 
@@ -79,7 +77,7 @@ Then run `flutter doctor` in a terminal window and install all listed dependenci
 
   In a terminal, run `flutter doctor --android-licenses` and accept each license with `y`. Then run `flutter doctor` again to check installation.
 
-  In case that you do not have no Java runtime, run `brew install openjdk` to install it.
+  In case that you do not have no Java runtime, run `brew install openjdk` to install it. Homebrew will output that you have to run `echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc`. Do it!
 
 ### Getting mathe:buddy
 
@@ -105,17 +103,21 @@ git clone git@github.com:mathebuddy/mathebuddy-private-courses.git
 
 > WARNING: Never(!!) clone to iCloud / GoogleDrive / OneDrive / NextCloud / Sciebo / ...!
 
-### Build
-
-(TODO: this section will be added soon...)
-
 ### Running the website locally
 
 ```
+cd YOUR_FAVORITE_DIRECTORY/mathebuddy
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000/docs` in your favorite browser. You may choose another port than `8000`.
+Open `http://localhost:8000/docs` in your favorite browser. You may choose some other port than `8000`.
+
+### Build
+
+We use [VSCode](https://code.visualstudio.com) for editing source code.
+Make sure you install ALL recommended extensions: Open the `mathebuddy` repository in VSCode, then click on `Extensions` on the left symbol div. Type `@recommended` in the search field. Then click on `Install` on each extension that is not yet installed.
+
+(TODO: this section will be added soon...)
 
 ## Repository List
 
