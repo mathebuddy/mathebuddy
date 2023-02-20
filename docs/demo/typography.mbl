@@ -1,0 +1,52 @@
+Typography
+##########
+
+This is text within a paragraph.
+Even this text stands in a new line, it is compiled to be written directly behind the last line.
+
+An empty line starts a new paragraph.
+
+This text is displayed in the output. % only a course developer can read this.
+
+My section @sec:mySection
+=====================
+
+Some text in [red]@color1 color.
+
+My subsection @subsec:mySubSection
+-------------
+
+Refer to @mySection.
+
+An itemization:
+- first item
+- second item
+
+An enumeration
+#. first item
+#. second item
+
+An alpha enumeration
+-) first item
+-) second item
+
+---
+NEWPAGE
+---
+
+Bold, italic and colored text
+-----------------------------
+
+Some **bold** text. Some *italic* text.
+The word [sky]@color1 is written in primary color.
+[Some text written in the secondary color.]@color2.
+You can also write [bold text]@bold and [italic text]@italic similar to color notation.
+
+Text alignment
+--------------
+
+---
+CENTER
+This text is centered.
+---
+
