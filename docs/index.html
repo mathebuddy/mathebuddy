@@ -256,6 +256,19 @@
 
         <!--<div style="text-align: center; color: #aa322c">Simulator</div>-->
         <div class="row" style="padding: 10px; text-align: center">
+          <div id="sim-list" style="text-align: center">
+            <span style="color: gray">device</span> &nbsp;
+            <button class="button" onclick="" style="font-size: 10px">
+              iPhone 5s
+            </button>
+            <button class="button" onclick="" style="font-size: 10px">
+              iPhone 8
+            </button>
+            <button class="button" onclick="" style="font-size: 10px">
+              iPhone 14 Pro Max
+            </button>
+          </div>
+
           <iframe
             id="sim-iframe"
             title="mathe:buddy simulator instance"
@@ -573,7 +586,8 @@
 
       function updateSimPathButtons() {
         let simPathButtons = document.getElementById("sim-path-buttons");
-        simPathButtons.innerHTML = "";
+        simPathButtons.innerHTML =
+          '<span style="color: gray">path</span> &nbsp;';
         let p = simBaseDir + simPath.join("/");
         console.log("LOADING FILE: " + p);
         fetch(p)
