@@ -81,7 +81,7 @@ Then run `flutter doctor` in a terminal window and install all listed dependenci
 
   In case that you do not have no Java runtime, run `brew install openjdk` to install it. Homebrew will output that you have to run `echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc`. Do it!
 
-  A recently bug ([https://github.com/flutter/flutter/issues/118502](https://github.com/flutter/flutter/issues/118502)) may list Java Errors. Run the following (ugly!) fix:
+  A recent bug ([https://github.com/flutter/flutter/issues/118502](https://github.com/flutter/flutter/issues/118502)) may list Java Errors. Run the following (ugly!) fix:
 
   ```
   cd /Applications/Android Studio.app/Contents
@@ -137,7 +137,7 @@ cd YOUR_FAVORITE_DIRECTORY/mathebuddy
 We use [VSCode](https://code.visualstudio.com) for editing source code.
 Make sure you install ALL recommended extensions: Open the `mathebuddy` repository in VSCode, then click on `Extensions` on the left symbol div. Type `@recommended` in the search field. Then click on `Install` on each extension that is not yet installed.
 
-(TODO: this section will be added soon...)
+(TODO: this section will be extended soon...)
 
 ## Repository List
 
