@@ -10,14 +10,14 @@ import '../../../ext/multila-lexer/src/lex.dart';
 import '../../../ext/multila-lexer/src/token.dart';
 
 import '../../mbcl/src/course.dart';
-import '../../mbcl/src/levelItem.dart';
+import '../../mbcl/src/level_item.dart';
 
 import 'block.dart';
 import 'chapter.dart';
 import 'course.dart';
 import 'help.dart';
 import 'level.dart';
-import 'levelItem.dart';
+import 'level_item.dart';
 import 'unit.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
@@ -534,30 +534,30 @@ class Compiler {
     var id = '';
     var input = new MBCL_LevelItem(MBCL_LevelItemType.ExerciseInputField);
     input.id = 'input' + this._createUniqueId().toString();
-    var data = exercise.exerciseData as MBCL_ExerciseData;
+    var exerciseData = exercise.exerciseData as MBCL_ExerciseData;
     if (lexer.isID()) {
       id = lexer.ID();
-      if (data.variables.containsKey(id)) {
-        var v = data.variables[id] as MBCL_Exercise_VariableType;
+      if (exerciseData.variables.containsKey(id)) {
+        var v = exerciseData.variables[id] as MBCL_Exercise_VariableType;
         input.id = id;
         switch (v) {
           case MBCL_Exercise_VariableType.Int:
-            input.input_type = MBCL_Exercise_Text_Input_Type.Int;
+            input.id = MBCL_Exercise_Text_Input_Type.Int.name;
             break;
           case MBCL_Exercise_VariableType.IntSet:
-            input.input_type = MBCL_Exercise_Text_Input_Type.IntSet;
+            input.id = MBCL_Exercise_Text_Input_Type.IntSet.name;
             break;
           case MBCL_Exercise_VariableType.Real:
-            input.input_type = MBCL_Exercise_Text_Input_Type.Real;
+            input.id = MBCL_Exercise_Text_Input_Type.Real.name;
             break;
           case MBCL_Exercise_VariableType.Complex:
-            input.input_type = MBCL_Exercise_Text_Input_Type.ComplexNormal;
+            input.id = MBCL_Exercise_Text_Input_Type.ComplexNormal.name;
             break;
           case MBCL_Exercise_VariableType.ComplexSet:
-            input.input_type = MBCL_Exercise_Text_Input_Type.ComplexSet;
+            input.id = MBCL_Exercise_Text_Input_Type.ComplexSet.name;
             break;
           case MBCL_Exercise_VariableType.Matrix:
-            input.input_type = MBCL_Exercise_Text_Input_Type.Matrix;
+            input.id = MBCL_Exercise_Text_Input_Type.Matrix.name;
             break;
           default:
             exercise.error += 'UNIMPLEMENTED input type ' + v.name + '. ';
@@ -571,10 +571,11 @@ class Compiler {
     return input;
   }
 
-  MBCL_Text _parseSingleOrMultipleChoice(
+  MBCL_LevelItem _parseSingleOrMultipleChoice(
     Lexer lexer,
-    MBCL_Exercise exercise,
+    MBCL_LevelItem exercise,
   ) {
+    var exerciseData = exercise.exerciseData as MBCL_ExerciseData;
     var isMultipleChoice = lexer.isTER('[');
     lexer.next();
     var staticallyCorrect = false;
@@ -586,7 +587,7 @@ class Compiler {
       lexer.next();
       if (lexer.isID()) {
         varId = lexer.ID();
-        if (exercise.variables.containsKey(varId) == false)
+        if (exerciseData.variables.containsKey(varId) == false)
           exercise.error = 'unknown variable ' + varId;
       } else {
         exercise.error = 'expected ID after :';
@@ -612,7 +613,7 @@ class Compiler {
     option.input_id = 'input' + this._createUniqueId().toString();
     option.variable = varId;
     element.items.add(option);
-    var span = new MBCL_Text_Span();
+    var span = new MBCL_LevelItem(MBCL_LevelItemType.Span);
     option.text = span;
     while (lexer.isNotNEWLINE() && lexer.isNotEND())
       span.items.add(this._parseParagraph_part(lexer, exercise));
@@ -620,40 +621,42 @@ class Compiler {
     return element;
   }
 
-  MBCL_Text _parseTextProperty(Lexer lexer, MBCL_Exercise? exercise) {
+  MBCL_LevelItem _parseTextProperty(Lexer lexer, MBCL_LevelItem? exercise) {
     // TODO: make sure, that errors are not too annoying...
     lexer.next();
-    List<MBCL_Text> items = [];
+    List<MBCL_LevelItem> items = [];
     while (lexer.isNotTER(']') && lexer.isNotEND())
       items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER(']'))
       lexer.next();
     else
-      return new MBCL_Text_Error('expected ]');
+      return new MBCL_LevelItem(MBCL_LevelItemType.Error, 'expected ]');
     if (lexer.isTER('@'))
       lexer.next();
     else
-      return new MBCL_Text_Error('expected @');
+      return new MBCL_LevelItem(MBCL_LevelItemType.Error, 'expected @');
     if (lexer.isID()) {
       var id = lexer.ID();
       if (id == 'bold') {
-        var bold = new MBCL_Text_Bold();
+        var bold = new MBCL_LevelItem(MBCL_LevelItemType.BoldText);
         bold.items = items;
         return bold;
       } else if (id == 'italic') {
-        var italic = new MBCL_Text_Italic();
+        var italic = new MBCL_LevelItem(MBCL_LevelItemType.ItalicText);
         italic.items = items;
         return italic;
       } else if (id.startsWith('color')) {
-        var color = new MBCL_Text_Color();
-        color.key = int.parse(id.substring(5)); // TODO: check if INT
+        var color = new MBCL_LevelItem(MBCL_LevelItemType.Color);
+        color.id = id.substring(5); // TODO: check if INT
         color.items = items;
         return color;
       } else {
-        return new MBCL_Text_Error('unknown property ' + id);
+        return new MBCL_LevelItem(
+            MBCL_LevelItemType.Error, 'unknown property ' + id);
       }
     } else
-      return new MBCL_Text_Error('missing property name');
+      return new MBCL_LevelItem(
+          MBCL_LevelItemType.Error, 'missing property name');
   }
 
   void _error(String message) {
