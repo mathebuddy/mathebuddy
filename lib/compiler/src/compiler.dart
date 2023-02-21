@@ -252,7 +252,8 @@ class Compiler {
         this._level?.items.add(this._parseSubSectionTitle());
       } else if (this._line == '---') {
         this._pushParagraph();
-        this._level?.items.add(this._parseBlock(false));
+        var block = this._parseBlock(false);
+        this._level?.items.add(block.levelItem);
       } else {
         this._paragraph += this._line + '\n';
         this._next();
@@ -321,9 +322,9 @@ class Compiler {
     return subSection;
   }
 
-  //G block = "---" NEWLINE { "@" ID NEWLINE | LINE } "---" NEWLINE;
-  // TODO: grammar for subblocks
-  MBCL_LevelItem _parseBlock(bool parseSubBlock) {
+  //G block = "---" NEWLINE { "@" ID NEWLINE | LINE | subBlock } "---" NEWLINE;
+  //G subBlock = UPPERCASE_LINE NEWLINE { "@" ID NEWLINE | LINE | subBlock };
+  Block _parseBlock(bool parseSubBlock) {
     var block = new Block(this);
     block.srcLine = this._i;
     if (!parseSubBlock) this._next(); // skip "---"
@@ -355,7 +356,7 @@ class Compiler {
         if (parseSubBlock)
           break;
         else
-          block.parts.add(this._parseBlock(true));
+          block.subBlocks.add(this._parseBlock(true));
       } else {
         part.lines.add(this._line);
         this._next();
@@ -372,7 +373,7 @@ class Compiler {
         );
     }
     block.process();
-    return block.levelItem;
+    return block;
   }
 
   /*G
