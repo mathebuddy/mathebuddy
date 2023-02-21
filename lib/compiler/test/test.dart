@@ -11,7 +11,7 @@ import 'dart:io';
 
 import '../src/compiler.dart';
 
-// load function
+// load function that allows the compiler to read files dynamically by request
 String load(String path) {
   if (File(path).existsSync() == false)
     return '';
@@ -28,7 +28,7 @@ void main() {
   //compiler.compile('examples/demo-course/course.mbl');
   compiler.compile('lib/compiler/test/data/demo-basic/hello.mbl');
   var y = compiler.getCourse()?.toJSON();
-  var json = JsonEncoder().convert(y);
+  var json = JsonEncoder.withIndent("  ").convert(y);
   print(json);
 
   var bp = 1337;
