@@ -19,7 +19,7 @@ class MBL_Unit {
   Map<String, Object> toJSON() {
     return {
       "title": this.title,
-      "levels": this.levels.map((level) => level.file_id),
+      "levels": this.levels.map((level) => level.file_id).toList(),
     };
   }
 }
