@@ -8,7 +8,7 @@
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html (TODO: update link!)
 
-import 'levelItem.dart';
+import 'level_item.dart';
 
 abstract class MBCL_Level__ABSTRACT {
   String file_id =
