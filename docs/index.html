@@ -273,29 +273,56 @@
 
         <!--<div style="text-align: center; color: #aa322c">Simulator</div>-->
         <div id="sim-list" class="row" style="padding: 0px; text-align: left">
-          <span style="color: gray"
-            ><img
+          <span
+            style="
+              color: gray;
+              width: 20px;
+              display: inline-block;
+              text-align: center;
+            "
+          >
+            <img
               src="img/fontawesome/mobile-screen-solid.svg"
               style="height: 12px"
-          /></span>
-          &nbsp;
-          <button class="button" onclick="" style="font-size: 10px">
+            />
+          </span>
+          <button
+            class="button"
+            onclick="setDevice('iPhone5s')"
+            style="font-size: 10px"
+          >
             iPhone 5s
           </button>
-          <button class="button" onclick="" style="font-size: 10px">
+          <button
+            class="button"
+            onclick="setDevice('iPhone8')"
+            style="font-size: 10px"
+          >
             iPhone 8
           </button>
-          <button class="button" onclick="" style="font-size: 10px">
+          <button
+            class="button"
+            onclick="setDevice('iPhone14ProMax')"
+            style="font-size: 10px"
+          >
             iPhone 14 Pro Max
           </button>
         </div>
 
         <div class="row" style="padding: 0px; text-align: left">
-          <span style="color: gray"
-            ><img
+          <span
+            style="
+              color: gray;
+              width: 20px;
+              display: inline-block;
+              text-align: center;
+            "
+          >
+            <img
               src="img/fontawesome/folder-open-solid.svg"
               style="height: 12px"
-          /></span>
+            />
+          </span>
           <span
             id="sim-path-buttons"
             style="text-align: left; padding: 0"
@@ -335,7 +362,6 @@
           </div>
           <div class="six columns">
             <div
-              id="sim-log-area"
               style="
                 border-style: solid;
                 border-color: #434343;
@@ -353,7 +379,11 @@
                 overflow-y: scroll;
               "
             >
-              Log Area
+              <div style="width: 100%; text-align: center">
+                <button type="button">MBL</button>
+                <button type="button">MBCL</button>
+              </div>
+              <div id="sim-log-area">Log Area</div>
             </div>
           </div>
         </div>
@@ -662,7 +692,7 @@
 
       function updateSimPathButtonsCore(files) {
         let simPathButtons = document.getElementById("sim-path-buttons");
-        simPathButtons.innerHTML = '<span style="color: gray"></span> &nbsp;';
+        simPathButtons.innerHTML = "";
         for (let file of files) {
           let button = document.createElement("button");
           button.classList.add("button");
@@ -708,7 +738,7 @@
           readTextFile(p).then((text) => {
             updateSimPathButtonsCore(simPath.length > 0 ? [".."] : []);
             document.getElementById("sim-log-area").innerHTML =
-              "<pre><code>" + text + "</code></pre>";
+              "MBL Code:<br/>" + "<pre><code>" + text + "</code></pre>";
           });
         }
         // TODO: reactive localhost not available error!
@@ -782,6 +812,29 @@
         }
         //console.log(files);
         return files.sort();
+      }
+
+      function setDevice(id) {
+        let width = 360;
+        let height = 640;
+        switch (id) {
+          case "iPhone5s":
+            width = 308;
+            height = 480;
+            break;
+          case "iPhone8":
+            // default; no change
+            break;
+          default:
+            console.log("Error: unknown device " + id);
+        }
+        const div = document.getElementById("sim-iframe");
+        div.style.minWidth = width + "px";
+        div.style.maxWidth = width + "px";
+        div.style.width = width + "px";
+        div.style.minHeight = height + "px";
+        div.style.maxHeight = height + "px";
+        div.style.height = height + "px";
       }
 
       // div selection
