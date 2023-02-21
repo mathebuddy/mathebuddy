@@ -14,7 +14,6 @@ import 'level_item.dart';
 class BlockPart {
   String name = '';
   List<String> lines = [];
-  MBCL_LevelItem? levelItem = null;
 }
 
 class Block {
@@ -23,68 +22,95 @@ class Block {
   String label = '';
   List<BlockPart> parts = [];
   int srcLine = 0;
+  MBCL_LevelItem levelItem =
+      new MBCL_LevelItem(MBCL_LevelItemType.Error, 'block unprocessed');
 
   Compiler _compiler;
 
   Block(this._compiler);
 
-  BlockPart process() {
+  void process() {
     switch (this.type) {
       case 'DEFINITION':
-        return this._processDefinition(MBCL_LevelItemType.DefDefinition);
+        this.levelItem =
+            this._processDefinition(MBCL_LevelItemType.DefDefinition);
+        break;
       case 'THEOREM':
-        return this._processDefinition(MBCL_LevelItemType.DefTheorem);
+        this.levelItem = this._processDefinition(MBCL_LevelItemType.DefTheorem);
+        break;
       case 'LEMMA':
-        return this._processDefinition(MBCL_LevelItemType.DefLemma);
+        this.levelItem = this._processDefinition(MBCL_LevelItemType.DefLemma);
+        break;
       case 'COROLLARY':
-        return this._processDefinition(MBCL_LevelItemType.DefCorollary);
+        this.levelItem =
+            this._processDefinition(MBCL_LevelItemType.DefCorollary);
+        break;
       case 'PROPOSITION':
-        return this._processDefinition(MBCL_LevelItemType.DefProposition);
+        this.levelItem =
+            this._processDefinition(MBCL_LevelItemType.DefProposition);
+        break;
       case 'CONJECTURE':
-        return this._processDefinition(MBCL_LevelItemType.DefConjecture);
+        this.levelItem =
+            this._processDefinition(MBCL_LevelItemType.DefConjecture);
+        break;
       case 'AXIOM':
-        return this._processDefinition(MBCL_LevelItemType.DefAxiom);
+        this.levelItem = this._processDefinition(MBCL_LevelItemType.DefAxiom);
+        break;
       case 'CLAIM':
-        return this._processDefinition(MBCL_LevelItemType.DefClaim);
+        this.levelItem = this._processDefinition(MBCL_LevelItemType.DefClaim);
+        break;
       case 'IDENTITY':
-        return this._processDefinition(MBCL_LevelItemType.DefIdentity);
+        this.levelItem =
+            this._processDefinition(MBCL_LevelItemType.DefIdentity);
+        break;
       case 'PARADOX':
-        return this._processDefinition(MBCL_LevelItemType.DefParadox);
+        this.levelItem = this._processDefinition(MBCL_LevelItemType.DefParadox);
+        break;
 
       case 'LEFT':
+        this.levelItem = this._processTextAlign(MBCL_LevelItemType.AlignLeft);
+        break;
       case 'CENTER':
+        this.levelItem = this._processTextAlign(MBCL_LevelItemType.AlignCenter);
+        break;
       case 'RIGHT':
-        return this._processTextAlign(this.type);
+        this.levelItem = this._processTextAlign(MBCL_LevelItemType.AlignRight);
+        break;
 
       case 'EQUATION':
-        return this._processEquation(true);
+        this.levelItem = this._processEquation(true);
+        break;
       case 'EQUATION*':
-        return this._processEquation(false);
+        this.levelItem = this._processEquation(false);
+        break;
 
       case 'EXAMPLE':
-        return this._processExample();
+        this.levelItem = this._processExample();
+        break;
 
       case 'EXERCISE':
-        return this._processExercise();
+        this.levelItem = this._processExercise();
+        break;
 
       case 'TEXT':
-        return this._processText();
+        this.levelItem = this._processText();
+        break;
 
       case 'TABLE':
-        return this._processTable();
+        this.levelItem = this._processTable();
+        break;
 
       case 'FIGURE':
-        return this._processFigure();
+        this.levelItem = this._processFigure();
+        break;
 
       case 'NEWPAGE':
-        return new MBCL_LevelItem(MBCL_LevelItemType.NewPage);
+        this.levelItem = new MBCL_LevelItem(MBCL_LevelItemType.NewPage);
+        break;
 
       default:
-        {
-          var err = new MBCL_LevelItem(MBCL_LevelItemType.Error);
-          err.text = 'unknown block type "' + this.type + '"';
-          return err;
-        }
+        this.levelItem = new MBCL_LevelItem(
+            MBCL_LevelItemType.Error, 'unknown block type "' + this.type + '"');
     }
   }
 
