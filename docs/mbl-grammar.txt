@@ -1,0 +1,17 @@
+# extracted automatically by running ./build.sh
+course = courseTitle courseAuthor courseChapters;
+courseTitle = "TITLE" { ID } "\n";
+courseAuthor = "AUTHOR" { ID } "\n";
+courseChapters = "CHAPTERS" "\n" { courseChapter };
+courseChapter = "(" INT "," INT ")" ID { "!" ID } "\n";
+chapter = chapterTitle chapterAuthor { chapterUnit };
+chapterTitle = "TITLE" { ID } "\n";
+chapterAuthor = "AUTHOR" { ID } "\n";
+chapterUnit = "UNIT" { ID } "\n" { chapterLevel };
+chapterLevel = "(" INT "," INT ")" ID { "!" ID } "\n";
+level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
+levelTitle = { CHAR } "@" { ID } NEWLINE "#####.." { "#" } NEWLINE;
+sectionTitle = { CHAR } "@" { ID } NEWLINE "==.." { "#" } NEWLINE;
+subSectionTitle = { CHAR } "@" { ID } NEWLINE "-----.." { "#" } NEWLINE;
+block = "---" NEWLINE { "@" ID NEWLINE | LINE | subBlock } "---" NEWLINE;
+subBlock = UPPERCASE_LINE NEWLINE { "@" ID NEWLINE | LINE | subBlock };
