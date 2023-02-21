@@ -669,15 +669,13 @@
       <br />
 
       <div class="row">
-        <h2>Output</h2>
-        <div id="smpl-output">(empty)</div>
+        <h4>Output</h4>
+        <div id="smpl-output">(empty)<br /><br /></div>
       </div>
 
-      <br />
-
       <div class="row">
-        <h2>Intermediate Code</h2>
-        <div id="smpl-ic">(empty)</div>
+        <h4>Intermediate Code</h4>
+        <div id="smpl-ic">(empty)<br /><br /></div>
       </div>
     </div>
 
@@ -687,10 +685,40 @@
       <div class="row">
         <h2>MBL</h2>
         <p>
-          TODO: TEXT!!! "Math Runtime" is used as math engine in the
-          <i>mathe:buddy</i> app. It is entirely written in the
-          <i>Dart</i> programming language and has no dependencies.
+          MBL (mathe:buddy language) is a langauge to describe randomized and
+          gamified math online courses. The compiler is entirely written in the
+          <i>Dart</i> programming language and has no dependencies, except
+          "smpl" and "math-runtime", which are part of the mathe:buddy project.
+          The compiler generates code in the MBCL format (mathe:buddy compiled
+          language), which is encodes as JSON-data.
         </p>
+        <p>
+          More examples can be found in
+          <a href="https://github.com/mathebuddy/mathebuddy-public-courses"
+            >https://github.com/mathebuddy/mathebuddy-public-courses</a
+          >
+        </p>
+        <b>Currently implemented grammar</b>
+        <pre><code id="mbl-grammar"></code></pre>
+      </div>
+
+      <div class="row">
+        <h4>MBL Code</h4>
+        <textarea
+          id="mbl-editor"
+          class="u-full-width"
+          style="width: 100%; min-height: 150px"
+          spellcheck="false"
+        ></textarea>
+        <button id="runMbl" type="button">run</button>
+        <br />
+      </div>
+
+      <br />
+
+      <div class="row">
+        <h4>MBCL</h4>
+        <div id="mbl-output">(empty)<br /><br /></div>
       </div>
     </div>
 
@@ -1001,6 +1029,10 @@
       fetch("smpl-grammar.txt")
         .then((response) => response.text())
         .then((data) => (element2.innerHTML = data));
+      let element3 = document.getElementById("mbl-grammar");
+      fetch("mbl-grammar.txt")
+        .then((response) => response.text())
+        .then((data) => (element3.innerHTML = data));
 
       // set current year in footer
       document.getElementById("current-year").innerHTML =
@@ -1090,6 +1122,6 @@
       }
     </script>
 
-    <script src="index.min.js?version=1676986287"></script>
+    <script src="index.min.js?version=1677003833"></script>
   </body>
 </html>
