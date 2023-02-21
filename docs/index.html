@@ -474,6 +474,33 @@
                 <button type="button">MBL</button>
                 <button type="button">MBCL</button>
               </div>
+              <div id="sim-data-area"></div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row" style="text-align: left">
+          <div class="twelve columns">
+            <div
+              style="
+                border-style: solid;
+                border-color: #434343;
+                border-width: 1px;
+                border-radius: 0px;
+                padding: 10px;
+                border-width: 2px;
+                width: 100%;
+                min-height: 128px;
+                height: 128px;
+                max-height: 128px;
+                -moz-box-shadow: 0 0 10px #aaa;
+                -webkit-box-shadow: 0 0 10px #aaa;
+                box-shadow: 0 0 10px #aaa;
+                overflow-y: scroll;
+              "
+            >
               <div id="sim-log-area">Log Area</div>
             </div>
           </div>
@@ -868,7 +895,7 @@
         ) {
           readTextFile(p).then((text) => {
             updateSimPathButtonsCore(simPath.length > 0 ? [".."] : []);
-            document.getElementById("sim-log-area").innerHTML =
+            document.getElementById("sim-data-area").innerHTML =
               "MBL Code:<br/>" + "<pre><code>" + text + "</code></pre>";
           });
         }
@@ -888,7 +915,7 @@
               simPath.length > 0 &&
               simPath[simPath.length - 1].endsWith(".mbl")
             ) {
-              document.getElementById("sim-log-area").innerHTML =
+              document.getElementById("sim-data-area").innerHTML =
                 "<pre><code>" + data + "</code></pre>";
             }
             if (simPath.length > 0) {
