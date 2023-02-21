@@ -1,0 +1,26 @@
+Definitions
+###########
+
+---
+DEFINITION Positive @def:positive
+For any integer $n$, $n$ is **positive** if $n>0$.
+---
+
+---
+THEOREM The Aristotelian Syllogism @thm:socrates
+If every man is mortal and Socrates is a man, then Socrates is mortal.
+---
+
+---
+DEFINITION My definition @def:myDef
+Some paragraph text here.
+
+CENTER
+This text is center aligned.
+
+EQUATION @myEquation
+x^2 + y^2 = z^2
+
+TEXT
+Another paragraph here.
+---

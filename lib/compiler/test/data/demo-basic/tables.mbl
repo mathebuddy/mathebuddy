@@ -1,0 +1,12 @@
+Tables
+######
+
+---
+TABLE Negation
+@options
+align-left
+@text
+$A$ & $\not A$
+w & f
+f & w
+---

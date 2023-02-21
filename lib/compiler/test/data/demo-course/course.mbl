@@ -1,0 +1,10 @@
+% This file describes meta data for the course
+
+TITLE A Short Demo Course
+
+AUTHOR TH Koeln
+
+CHAPTERS
+(0,0) basics
+(2,0) essentials  !basics
+(1,1) advanced    !basics !essentials

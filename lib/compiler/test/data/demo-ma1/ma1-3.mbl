@@ -1,0 +1,201 @@
+Folgen, Reihen und Stetigkeit
+#############################
+
+---
+EXERCISE Reelle Folgen
+@code
+let x = rand(2,5);
+let a1 = x/2;
+let a2 = 2*x/3;
+let a3 = 3*x/4;
+@text
+Bestimme die ersten drei Glieder der reellen Folge $ (a_n)_{n \in \NN} = ( \frac{x\cdot n}{n+1} )_{n \in \NN} $
+- $n=1:$ #a1
+- $n=2:$ #a2
+- $n=3:$ #a3
+---
+
+---
+EXERCISE Rekursiv definierte Folgen
+@code
+let x:y:z = rand(2,5);
+let a1 = z;
+let a2 = x*a1 + y;
+let a3 = x*a2 + y;
+@text
+Bestimme die ersten drei Glieder der *rekursiv* definierten Folge $(a_n)_{n \in \NN}$ mit $ a_1 = z, a_{n+1} = x \cdot a_n + y $
+- $n=1:$ #a1
+- $n=2:$ #a2
+- $n=3:$ #a3
+---
+
+---
+EXERCISE Konvergenz von Folgen
+@code
+let x:y:z = rand(2,5);
+let u:v:w = rand(2,5);
+let res1 = 0;
+let res2 = x / y;
+let res3 = x / u;
+@text
+Bestimme:
+- $ \lim_{n \to \infty} \frac{x}{n}=$ #res1
+- $ \lim_{n \to \infty} \frac{x \cdot n}{y \cdot n+z}=$ #res2
+- $ \lim_{n \to \infty} \frac{x \cdot n^2 + y \cdot n + z}{u \cdot n^2 + v \cdot n + w}=$ #res3
+---
+
+---
+EXERCISE Konvergenz von Folgen
+@text
+Sei $ (a_n)_{n \in \NN} $ eine konvergente Folge. Dann ist die Folge $ (a_n) $
+[x] beschränkt
+[ ] unbeschränkt
+---
+
+---
+EXERCISE Häufungspunkte
+@code
+let x:y:z = rand(2,5);
+@text
+Welche der Folgen besitzt **zwei** Häufungspunkte?
+[x] $ (a_n)_{n \in \NN} $ mit $ a_n = (-1)^n \frac{n^2-x}{n^2-y} $
+[ ] $ (a_n)_{n \in \NN} $ mit $ a_n = 1^n \frac{n^2-x}{n^2-y} $
+---
+
+---
+EXERCISE Konvergente Folgen
+@code
+let x:y:z:w = rand(2,5);
+@text
+Welche der folgenden Folgen sind **konvergent**?
+[x] $ (a_n)_{n \in \NN} $ mit $ a_n = x $
+[ ] $ (a_n)_{n \in \NN} $ mit $ a_n = x \cdot n $
+[x] $ (a_n)_{n \in \NN} $ mit $ a_n = \frac{x \cdot n^{10} + y \cdot n^2}{z \cdot n^{10} + w \cdot n^4} $
+[ ] $ (a_n)_{n \in \NN} $ mit $ a_n = (-1)^n \cdot x $
+---
+
+---
+EXERCISE Bestimmt divergent
+@code
+let x:y:z:w = rand(2,5);
+@text
+Welche der folgenden Folgen sind **bestimmt divergent**?
+[x] $ (a_n)_{n \in \NN} $ mit $ a_n = x \cdot n $
+[x] $ (a_n)_{n \in \NN} $ mit $ a_n = \frac{x \cdot n^5+y \cdot n}{z \cdot n^4+w} $
+[ ] $ (a_n)_{n \in \NN} $ mit $ a_n = (-1)^n \cdot x + y $
+---
+
+---
+EXERCISE Unbestimmt divergent
+@code
+let x:y:z:w:u = rand(2,5);
+@text
+Welche der folgenden Folgen sind **unbestimmt divergent**?
+[x] $ (a_n)_{n \in \NN} $ mit $ a_n = (-1)^n \cdot x $
+[ ] $ (a_n)_{n \in \NN} $ mit $ a_n = \left| x - \frac{y \cdot n}{x \cdot n+z} \RRight| $
+[ ] $ (a_n)_{n \in \NN} $ mit $ a_n = \frac{x \cdot n^3+w \cdot n}{y \cdot n^3+u} $
+---
+
+---
+EXERCISE Geometrische Reihe
+@code
+let x = rand(2,5);
+let q = 1/x;
+let res = 1/(1-q);
+@text
+Bestimme $ \sum_{k=0}^{\infty} \left(\frac{1}{x}\RRight)^k $
+- #res
+---
+
+---
+EXERCISE Geometrische Reihe
+@code
+let x = rand(2,5);
+let q = 1/x;
+let res = 1/(1-q) - 1 - q;
+@text
+Bestimme $ \sum_{k=2}^{\infty} \left(\frac{1}{x}\RRight)^k $
+- #res
+---
+
+---
+EXERCISE Potenzreihe
+@code
+let a:b = rand(2,4);
+let x = 1/b;
+let k0 = 1 / fac(0) * (a*x)^0;
+let k1 = 1 / fac(1) * (a*x)^1;
+let k2 = 1 / fac(2) * (a*x)^2;
+@text
+Geben Sie die ersten **drei Summanden der Potenzreihe** von $ e^{a \cdot "x"} $ an. Weiterhin sei $ "x" = 1/b $:
+- $ k=0: $ #k0
+- $ k=1: $ #k1
+- $ k=2: $ #k2
+---
+
+---
+EXERCISE Konvergenzradius
+@code
+let a = rand(3,8);
+let r = 1/a;
+@text
+Bestimmen Sie den Konvergenzradius $R$ der Potenzreihe $ \sum_{k=0}^{\infty} a^k \cdot x^k $:
+* $R=$ #r
+---
+
+---
+EXERCISE Grenzwerte
+@code 
+let a:b:c = rand(3,8);
+let u:v = rand(2,4);
+let res1 = a;
+let res2 = 0;
+let res3 = u^v;
+@text
+Bestimme die folgenden Grenzwerte:
+- $ lim_{x \to \infty} (a \cdot x-b)/x=$ #res1
+- $ lim_{x \to -\infty} e^(c \cdot x)=$ #res2
+- $ lim_{x \to \infty ( (u \cdot x^2+a)/(x^2+x+b) )^v=$ #res3
+---
+
+---
+EXERCISE Stetigkeit
+@code
+let a1:b1:c1:d1 = rand(3,8);
+let a2:b2 = rand(3,8);
+let a3 = rand(3,8);
+let a4:b4:c4 = rand(3,8);
+let a5:b5 = rand(3,8);
+let a6:b6 = rand(3,8);
+let a7:b7 = rand(2,4);
+let c7 = rand(5,7);
+@text
+Welche der folgenden Funktionen sind auf ganz $RR$ stetig?
+[x] $f(x) = a1 \cdot x^3 + b1 \cdot x^2 + c1 \cdot x + d1$
+[x] $f(x) = a2 \cdot sin(b2 \cdot x)$
+[x] $f(x)= \frac{a3 \cdot x^2}{x}$
+[x] $f(x)= a4 \cdot e^{b4 \cdot x+c4}$
+[ ] $f(x)= a5 \cdot \sqrt{b5 \cdot x}$
+[x] $f(x)= \frac{ (x-a6) \cdot (x-b6) }{ x-a6 }$
+[ ] $f(x)= \frac{ (x-a7) \cdot (x-b7) }{ x-c7 }$
+---
+
+---
+EXERCISE Stetigkeit
+@code
+let a:b = rand(2,5);
+let c = rand(6,8);
+@text
+An welcher Stelle $x_0 \in \RR$ ist $f(x)=\frac{ (x-a) \cdot (x-b) }{ x-c }$ **unstetig**?
+- $x_0=$ #c
+---
+
+---
+EXERCISE Asymptote
+@code
+let m:b:c:d = rand(2,8);
+@text
+Bestimmen Sie die Asymptote $ y = "m" \cdot x+"b" $, welche die Funktion $ f(x) = m \cdot x + b - \frac{c \cdot x}{d \cdot x^2} $ für $x \to \infty$ annähert:
+- $"m"=$ #m
+- $"b"=$ #b
+---

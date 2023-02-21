@@ -1,0 +1,41 @@
+Figures
+#######
+
+Function Plots
+==============
+
+---
+FIGURE My Plot @fig:polynomials
+@options
+width-75
+@code
+let f(x) = x^2;
+let g(x) = 2*x;
+let fig0 = figure2d();
+figure_x_range(fig0, -5, 5);
+figure_y_range(fig0, -5, 5);
+figure_x_label(fig0, "x");
+figure_y_label(fig0, "y");
+figure_color(fig0, 1);
+figure_plot(fig0, f);
+figure_color(fig0, 2);
+figure_plot(fig0, g);
+figure_color(fig0, 0);
+figure_plot(fig0, [0, 0]);
+figure_plot(fig0, [2, 4]);
+@path
+#fig0
+@caption
+Some functions
+---
+
+Figures
+=======
+
+---
+FIGURE My figure title @fig:myFigure
+@options
+width-75
+@path
+images/myImage.svg
+---

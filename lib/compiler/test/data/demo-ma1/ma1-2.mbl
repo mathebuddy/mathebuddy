@@ -1,0 +1,111 @@
+Elementare Funktionen
+#####################
+
+---
+EXERCISE Polynome
+@code
+let n:u = rand(4,8);
+let grad = n + u;
+@text
+Sei $ f : \RR \to \RR, f(x) = \sum_{k=0}^n a_{k} x^{k+u} $ mit $ a_n, ..., a_1, a_0 \in \RR $ und $a_n != 0$
+Das Polynom $f$ hat den Grad #grad
+---
+
+---
+EXERCISE Nullstellen
+@code
+let a:b:u = rand(3,6);
+let v = u * (a + b);
+let w = u * (a * b);
+let r = {a,b};
+@text
+Bestimme die Nullstellen von $ f(x) = u \cdot x^2 - v \cdot x + w $:
+- #r
+---
+
+---
+EXERCISE Potenz und Wurzelfunktion
+@text
+Sei $ k \in \NN, k > 0 $. Wähle die richtigen Antworten:
+[x] $ \sqrt[k]{x} = x^{1/k} $
+[ ] $ \sqrt[k]{x} = 1/x^k $
+---
+
+---
+EXERCISE Rechenregeln für Potenzen
+@text
+Sei $q_1, q_2 \in \QQ$ und $x, x_1, x_2 > 0$.
+Wähle die richtigen Antworten:
+[x] $ {x_1 x_2}^q = x_1^q x_2^q $
+[x] $ x^{q_1+q_2} = x^{q_1} x^{q_2} $
+[x] $ x^{q_1 q_2} = {x^{q_1}}^{q_2} $
+[ ] $ x^{q_1 + q_2} = x^{q_1} + x^{q_2} $
+[ ] $ x^{q_1 q_2} = x^{q_1 + q_2} $
+---
+
+---
+EXERCISE Exponentialfunktion
+@code
+let a:b = rand(2,8);
+@text
+Gegeben sei die Funktion $ f : \RR \to \RR, x \mapsto e^{-a \cdot x+b} $.
+Welche der folgenden Aussagen sind wahr?
+[ ] $f$ ist streng monoton steigend
+[x] $f$ ist streng monoton fallend
+[x] $f$ besitzt den Wertebereich $ ]0, \infty[ $
+[ ] $f$ besitzt den Wertebereich $ ]b, \infty[ $
+---
+
+---
+EXERCISE Exponentialfunktion und Logarithmus
+@text
+Seien $a,b \in \RR$ und $a>0$.
+Wähle die richtige Antwort:
+(x) $ a^b = e^{b \ln(a)} $
+( ) $ a^b = e^{a \ln(b)} $
+( ) $ a^b = \ln{b \cdot e^a} $
+---
+
+---
+EXERCISE Logarithmus
+@text
+Wähle die richtigen Antworten ($a > 0$):
+[x] $ \log_a (x) = {\ln(x)}/{\ln(a)} $
+[ ] $ \log_a (x) = {\ln(a)}/{\ln(x)} $
+[x] $ \log_a (1) = 0 $
+[x] $ \log_a (a) = 1 $
+[ ] $ \log_a (1) = 1 $
+[ ] $ \log_a (0) = 0 $
+---
+
+---
+EXERCISE Rechenregeln für allgemeine Exponentialfunktionen und Logarithmen
+@text
+Seien $ a, b > 0 $. Wähle die richtigen Antworten.
+[x] $ {a_1 a_2}^x = a_1^x a_2^x $     für $x \in \RR$
+[x] $ \log_a(1/x) = -\log_a(x) $     für $x > 0$
+[x] $ \log_a(b^x) = x \log_a(b) $     für $x \in \RR$
+[x] $ \log_a(a^x) = x $     für $x \in \RR$
+[x] $ \log_a(x_1 x_2) = \log_a(x_1) + \log_a(x_2) $     für $x_1, x_2 > 0$
+[ ] $ \log_a(x_1 x_2) = \log_a(x_1) \cdot \log_a(x_2) $     für $x_1, x_2 > 0$
+---
+
+---
+EXERCISE Sinus und Cosinus
+@text
+Sei $P=(u,v)$ ein Punkt auf dem Einheitskreis. Dann ist:
+(x) $ \sin(x) = v $
+( ) $ \sin(x) = u $
+---
+
+---
+EXERCISE Sinus und Cosinus
+@text
+Sei $x \in \RR$. Wähle die richtigen Antworten:
+[x] $ \sin(x + pi) = - \sin(x) $
+[x] $ \sin^2(x) + \cos^2(x) = 1 $
+[x] $ \sin(-x) = -\sin(x) $
+[x] $ \cos(-x) = \cos(x) $
+[ ] $ \sin(-x) = \sin(x) $
+[ ] $ \cos(-x) = -\cos(x) $
+---

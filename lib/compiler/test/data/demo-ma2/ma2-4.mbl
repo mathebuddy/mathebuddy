@@ -1,0 +1,284 @@
+Funktionen von mehreren Variablen
+#################################
+
+---
+EXERCISE Komponentenfunktionen
+@code
+let a:b:c:d:e:f:g:h:i = rand(0,1);
+let f1(x,y,z) = a*x + b*y + c*z;
+let f2(x,y,z) = d*x + e*y + f*z;
+let f3(x,y,z) = g*x + h*y + i*z;
+@text
+Sei $ f : \RR^3 \to \RR^3 $; $ f(x,y,z) = (f_1,f_2,f_3) $ ein Vektorfeld.
+Bestimme die **Komponentenfunktionen** von $f$:
+- $f_1(x,y,z)=$ #f1
+- $f_2(x,y,z)=$ #f2
+- $f_3(x,y,z)=$ #f3
+---
+
+---
+EXERCISE Partielle Ableitungen
+@code
+let a:b:c:d:e = rand(2,5);
+let f(x,y) = a*x^b + c*x^d*y^e;
+let fx(x,y) = diff(f, x);
+let fy(x,y) = diff(f, y);
+@text
+Sei $"f"(x,y)=f$. Bestimme die **partiellen Ableitungen**:
+- $\frac{\partial f}{\partial x}=$ #fx
+- $\frac{\partial f}{\partial y}=$ #fy
+---
+
+---
+EXERCISE Partielle Ableitungen
+@code
+let a = rand(0,1);
+let b = 1 - a;
+let c = rand(4,8);
+let f(x,y) = c / (a*x^2 + b*y^2);
+let fx(x,y) = diff(f, x);
+let fy(x,y) = diff(f, y);
+@text
+Sei $"f"(x,y)=f$. Bestimme die **partiellen Ableitungen**:
+- $\frac{\partial f}{\partial x}=$ #fx
+- $\frac{\partial f}{\partial y}=$ #fy
+---
+
+---
+EXERCISE Gradient
+@code
+let a:b = rand(0,1);
+let c = rand(2,5);
+let f(x,y) = - x^3 - a*y^3 + b*c*x*y;
+let fx(x,y) = diff(f, x);
+let fy(x,y) = diff(f, y);
+@text
+Gegeben sei eine Funktion $"f"(x,y)=f$.
+Bestimme den **Gradienten**:
+- $\nabla"f($  #fx  ,  #fy  $)$
+---
+
+---
+EXERCISE Gradient
+@code
+let c = rand(2,5);
+let f(u,v) = u^2 / v^2 + c;
+let fu(u,v) = diff(f, u);
+let fv(u,v) = diff(f, v);
+@text
+Gegeben sei eine Funktion $"f"(u,v)=f$.
+Bestimme den **Gradienten**:
+- $\nabla"f($  #fu  ,  #fv  $)$
+---
+
+---
+EXERCISE Gradient
+@code
+let a = rand(0,1);
+let b = 1 - a;
+let c:d = rand(2,5);
+let f(x,y) = exp(c*x) * (a*sin(d*y) + b*cos(d*y));
+let fx(x,y) = diff(f, x);
+let fy(x,y) = diff(f, y);
+@text
+Gegeben sei eine Funktion $"f"(x,y)=f$.
+Bestimme den **Gradienten**:
+- $\nabla"f($  #fx  ,  #fy  $)$
+*Hinweis: gebe die Exponentialfunktion in der Form `exp(x)` an.*
+---
+
+
+% %%%    TODO
+%
+%
+%Jacobi-Matrix
+%
+%	a in { 0, 1 }
+%	b = 1 - a
+%	c in { -1, 1 }
+%	d in { 1, 2, ..., 5}
+%	f1(x,y) = a * x * y * sin(x) + b * x * y * cos(x)
+%	f2(x,y) = x^2 + c * y^2 + d
+%	J(x,y) = [ [ diff(f1,x), diff(f1,y) ], [ diff(f2,x), diff(f2,y) ] ]
+%
+%Sei $f(x,y) = ( f1, f2 )$.
+%Bestimmen Sie die __Jacobi-Matrix__:
+%* $ "J_f" = #J $
+
+
+---
+EXERCISE Rotation und Divergenz
+@code
+let a:b = rand(0,1);
+let c = 1 - a;
+let dd = 1 - b;
+let e = rand(2,9);
+let f1(x,y,z) = a * x + c * z;
+let f2(x,y,z) = b * sin(PI*y) + dd * cos(PI*x);
+let f3(x,y,z) = x^3 + e * z^2;
+let rx(x,y,z) = diff(f3,y) - diff(f2,z);
+let ry(x,y,z) = diff(f1,z) - diff(f3,x);
+let rz(x,y,z) = diff(f2,x) - diff(f1,y);
+let d(x,y,z) = diff(f1,x) + diff(f2,y) + diff(f3,z);
+@text
+Sei $f(x,y) = ( f1, f2, f3 )$.
+Bestimme **Rotation** und **Divergenz** des Vektorfeldes.
+- rot$(f)=($  #rx  ,  #ry ,  #rz  $)$
+- div$(f)=$ #d
+---
+
+---
+EXERCISE Höhere partielle Ableitungen
+@code
+let a = rand(0,1);
+let b = 1 - a;
+let c:d = rand(3,4);
+let f(x,y) = c * x^d * y + x^(d-1);
+let dxx(x,y) = diff( diff(f,x), x);
+let dxy(x,y) = diff( diff(f,x), y);
+let dyy(x,y) = diff( diff(f,y), y);
+@text
+Sei $"f"(x,y)=f$. Bestimme die folgenden **höheren partiellen Ableitungen**:
+- $\frac{\partial^2 "f"}{\partial x^2}=$ #dxx
+- $\frac{\partial^2 "f"}{\partial x \partial y}=$ #dxy
+- $\frac{\partial^2 "f"}{\partial y^2}=$ #dyy
+---
+
+---
+EXERCISE Stationäre Stellen
+@code
+let a:b = rand(2,8);
+let f(x,y) = a*x^2 - b*y^2;
+let fx(x,y) = diff(f, x);
+let fy(x,y) = diff(f, y);
+let sx = 0;
+let sy = 0;
+@text
+Gegeben sei eine Funktion $"f"(x,y)=f$.
+- Bestimme zunächst den **Gradienten**:
+  $\nabla "f"=($  #fx  ,  #fy $)$
+- Gebe die (einzige) **stationäre Stelle** an:
+  $($  #sx  ,  #sy $)$
+---
+
+---
+EXERCISE Definitheit
+@code
+let a:b:c = randZ(-1,2);
+let A = [[a,0,0],[0,b,0],[0,0,c]];
+let s = {a,b,c};
+let p1 = min(s) > 0;
+let p2 = max(s) < 0;
+let p3 = !(p1 || p2);
+@text
+Sei $"A"=A$ eine Matrix über $\RR$.
+Welche der folgenden Aussagen ist korrekt?
+[$p1$] $"A"$ ist **positiv definit**
+[$p2$] $"A"$ ist **negativ definit**
+[$p3$] $"A"$ ist **indefinit**
+---
+
+---
+EXERCISE Definitheit
+@code
+let A = rand<2,2>(1,4);
+while (is_invertible(A) == false || is_symmetric(A) == false) {
+	A = rand<2,2>(1,4);
+}
+let s = eigenvalues_sym(A);
+let p1 = min(s) > 0;
+let p2 = max(s) < 0;
+let p3 = !(p1 || p2);
+@text
+Sei $"A"=A$ eine Matrix über $\RR$.
+Welche der folgenden Aussagen ist korrekt?
+[$p1$] $"A"$ ist **positiv definit**
+[$p2$] $"A"$ ist **negativ definit**
+[$p3$] $"A"$ ist **indefinit**
+---
+
+---
+EXERCISE Hesse-Matrix
+@code
+let a = rand(2,8);
+let b = rand(2,4);
+let f(x,y) = a * x^b * y^(b+1);
+let h11(x,y) = diff( diff(f,x), x);
+let h12(x,y) = diff( diff(f,x), y);
+let h21(x,y) = diff( diff(f,y), x);
+let h22(x,y) = diff( diff(f,y), y);
+% TODO: let H = [ [ h11, h12 ], [ h21, h22 ] ];
+@text
+Sei $"f"(x,y) = f$.
+Bestimme die **Hesse-Matrix**:
+- $ "H" "f"=$ #H
+---
+
+---
+EXERCISE Hesse-Matrix
+@code
+let a:b = rand(0,1);
+let c = 1 - a;
+let d = 1 - b;
+let e = rand(2,8);
+let f(x,y) = exp(a*x+c*y) + e * x^2 + y^2 + b*cos(y) + d*sin(y);
+let h11(x,y) = diff( diff(f,x), x);
+let h12(x,y) = diff( diff(f,x), y);
+let h21(x,y) = diff( diff(f,y), x);
+let h22(x,y) = diff( diff(f,y), y);
+% TODO: let H = [ [ h11, h12 ], [ h21, h22 ] ];
+@text
+Sei $"f"(x,y) = f$.
+Bestimme die **Hesse-Matrix**:
+- $ "H" "f"=$ #H
+*Hinweis: gebe die Exponentialfunktion in der Form `exp(x)` an.*
+---
+
+---
+EXERCISE Extremwerte
+@code
+let w1 = rand(0,1);
+let w2 = 1 - w1;
+let w3:w4:w5:w6:w7:w8:w9:w10 = rand(2,3);
+let f(x,y) = w4*x^w5*y^w6 + w7*x^w8 + w9*y^w10;
+let h11(x,y) = diff( diff(f,x), x);
+let h12(x,y) = diff( diff(f,x), y);
+let h21(x,y) = diff( diff(f,y), x);
+let h22(x,y) = diff( diff(f,y), y);
+% TODO: let H = [ [ h11, h12 ], [ h21, h22 ] ];
+let ax = 0;
+let ay = 0;
+let A = [ [ h11(ax,ay), h12(ax,ay) ], [ h21(ax,ay), h22(ax,ay) ] ];
+let lambda = eigenvalues_sym(A);
+let p1 = min(lambda) > 0;
+let p2 = max(lambda) < 0;
+let p3 = !(p1 || p2);
+@text
+Sei $"f"(x,y) = f$.
+Bestimme die **Hesse-Matrix**:
+- $"H" "f"=$ #H
+Betrachte die potentielle Extremstelle $ a=(ax,ay) $ und berechne die Eigenwerte von $ ("H" "f")(a) $:
+- $"lambda"=$ #lambda
+Welche der folgenden Aussagen ist korrekt?
+[$p1$] $"f"$ besitzt bei $a$ ein **lokales Minimum**
+[$p2$] $"f"$ besitzt bei $a$ ein **lokales Maximum**
+[$p3$] $"f"$ besitzt bei $a$ einen **Sattelpunkt**
+---
+
+---
+EXERCISE Fehlerfortpflanzung
+@code
+let a:b:c:vx:vy = rand(2,4);
+let f(x,y) = a*x^b * y^c + x*y;
+let ex(x,y) = diff(f, x);
+let ey(x,y) = diff(f, y);
+let delta = 0.1;
+let zmax = abs(ex(vx,vy))*delta + abs(ey(vx,vy))*delta;
+@text
+Sei $"f"(x,y) = f$.
+Bestimmen die **maximale Messunsicherheit** bei **linearer Fehlerfortpflanzung**:
+- $ (\Delta z)_{\max} = \abs("a") \Delta "x" + \abs("b") \Delta "y" $; $"a"=$  #ex  ,  $"b"=$  #ey
+Seien nun $x=vx$, $y=vy$ und $\Delta x = \Delta y = \delta$.
+Berechnen die folgende Fehlergröße:
+- $ (\Delta z)_{\max} =$  #zmax
+---
