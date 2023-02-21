@@ -24,9 +24,10 @@ do
     echo "mathe:buddy CLI. Choose option and press [ENTER]"
     echo "[1] build website"
     echo "[2] build documentation"
-    echo "[3] run website at http://localhost:8314"
-    echo "[4] run tests"
-    echo "[5] exit"
+    echo "[3] build flutter web app"
+    echo "[4] run website at http://localhost:8314"
+    echo "[5] run tests"
+    echo "[6] exit"
     read x
     case $x in
     1)
@@ -40,11 +41,16 @@ do
         cd ..
         ;;
     3)
+        cd app/mathebuddy
+        ./build-web.sh
+        cd ../..
+        ;;
+    4)
         cd docs
         python3 -m http.server 8314
         cd ..
         ;;
-    4)
+    5)
         cd lib
         ./test.sh
         cd ..
