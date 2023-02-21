@@ -49,7 +49,7 @@ abstract class MBCL_Course__ABSTRACT {
       "author": this.author,
       "mbclVersion": this.mbcl_version,
       "dateModified": this.date_modified,
-      "chapters": this.chapters.map((chapter) => chapter.toJSON()),
+      "chapters": this.chapters.map((chapter) => chapter.toJSON()).toList(),
     };
   }
 
