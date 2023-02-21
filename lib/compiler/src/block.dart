@@ -6,28 +6,21 @@
  * License: GPL-3.0-or-later
  */
 
+import '../../mbcl/src/level_item.dart';
+
 import 'compiler.dart';
-import 'data/data.dart';
-import 'data/dataDefinition.dart';
-import 'data/dataEquation.dart';
-import 'data/dataError.dart';
-import 'data/dataExample.dart';
-import 'data/dataExercise.dart';
-import 'data/dataFigure.dart';
-import 'data/dataLevel.dart';
-import 'data/dataTable.dart';
-import 'data/dataText.dart';
+import 'level_item.dart';
 
 class BlockPart {
   String name = '';
   List<String> lines = [];
+  MBCL_LevelItem? levelItem = null;
 }
 
 class Block {
   String type = '';
   String title = '';
   String label = '';
-  //parts: (MBL_LevelItem | BlockPart)[] = [];
   List<BlockPart> parts = [];
   int srcLine = 0;
 
@@ -35,28 +28,28 @@ class Block {
 
   Block(this._compiler);
 
-  MBL_LevelItem process() {
+  BlockPart process() {
     switch (this.type) {
       case 'DEFINITION':
-        return this._processDefinition(MBL_DefinitionType.Definition);
+        return this._processDefinition(MBCL_LevelItemType.DefDefinition);
       case 'THEOREM':
-        return this._processDefinition(MBL_DefinitionType.Theorem);
+        return this._processDefinition(MBCL_LevelItemType.DefTheorem);
       case 'LEMMA':
-        return this._processDefinition(MBL_DefinitionType.Lemma);
+        return this._processDefinition(MBCL_LevelItemType.DefLemma);
       case 'COROLLARY':
-        return this._processDefinition(MBL_DefinitionType.Corollary);
+        return this._processDefinition(MBCL_LevelItemType.DefCorollary);
       case 'PROPOSITION':
-        return this._processDefinition(MBL_DefinitionType.Proposition);
+        return this._processDefinition(MBCL_LevelItemType.DefProposition);
       case 'CONJECTURE':
-        return this._processDefinition(MBL_DefinitionType.Conjecture);
+        return this._processDefinition(MBCL_LevelItemType.DefConjecture);
       case 'AXIOM':
-        return this._processDefinition(MBL_DefinitionType.Axiom);
+        return this._processDefinition(MBCL_LevelItemType.DefAxiom);
       case 'CLAIM':
-        return this._processDefinition(MBL_DefinitionType.Claim);
+        return this._processDefinition(MBCL_LevelItemType.DefClaim);
       case 'IDENTITY':
-        return this._processDefinition(MBL_DefinitionType.Identity);
+        return this._processDefinition(MBCL_LevelItemType.DefIdentity);
       case 'PARADOX':
-        return this._processDefinition(MBL_DefinitionType.Paradox);
+        return this._processDefinition(MBCL_LevelItemType.DefParadox);
 
       case 'LEFT':
       case 'CENTER':
@@ -84,27 +77,27 @@ class Block {
         return this._processFigure();
 
       case 'NEWPAGE':
-        return new MBL_NewPage();
+        return new MBCL_LevelItem(MBCL_LevelItemType.NewPage);
 
       default:
         {
-          var err = new MBL_Error();
-          err.message = 'unknown block type "' + this.type + '"';
+          var err = new MBCL_LevelItem(MBCL_LevelItemType.Error);
+          err.text = 'unknown block type "' + this.type + '"';
           return err;
         }
     }
   }
 
-  MBL_Text _processText() {
+  MBCL_LevelItem _processText() {
     // this block has no parts
     return this._compiler.parseParagraph(
           (this.parts[0] as BlockPart).lines.join('\n'),
         );
   }
 
-  MBL_Table _processTable() {
+  MBCL_LevelItem _processTable() {
     int i;
-    var table = new MBL_Table();
+    var table = new MBCL_LevelItem(MBCL_LevelItemType.Table);
     return table;
     // TODO
     /*
@@ -163,8 +156,8 @@ class Block {
     return table;*/
   }
 
-  MBL_Figure _processFigure() {
-    var figure = new MBL_Figure();
+  MBCL_LevelItem _processFigure() {
+    var figure = new MBCL_LevelItem(MBCL_LevelItemType.Figure);
     return figure;
     // TODO!!
     /*var plotData: { [id: string]: string } = {};
@@ -253,8 +246,8 @@ class Block {
     return figure;*/
   }
 
-  MBL_Equation _processEquation(bool numbering) {
-    var equation = new MBL_Equation();
+  MBCL_LevelItem _processEquation(bool numbering) {
+    var equation = new MBCL_LevelItem(MBCL_LevelItemType.Equation);
     return equation;
     // TODO
     /*equation.numbering = numbering ? 888 : -1; // TODO: number
@@ -302,8 +295,8 @@ class Block {
     return equation;*/
   }
 
-  MBL_Example _processExample() {
-    var example = new MBL_Example();
+  MBCL_LevelItem _processExample() {
+    var example = new MBCL_LevelItem(MBCL_LevelItemType.Exercise);
     return example;
     // TODO
     /*
@@ -330,8 +323,8 @@ class Block {
     return example;*/
   }
 
-  MBL_Text _processTextAlign(String type) {
-    var xxx = new MBL_Text_Text();
+  MBCL_LevelItem _processTextAlign(MBCL_LevelItemType type) {
+    var xxx = new MBCL_LevelItem(type);
     return xxx;
     // TODO
     /*
@@ -365,8 +358,8 @@ class Block {
     return align;*/
   }
 
-  MBL_Definition _processDefinition(MBL_DefinitionType type) {
-    var def = new MBL_Definition(type);
+  MBCL_LevelItem _processDefinition(MBCL_LevelItemType type) {
+    var def = new MBCL_LevelItem(type);
     return def;
     // TODO
     /*def.title = this.title;
@@ -390,8 +383,8 @@ class Block {
     return def;*/
   }
 
-  MBL_Exercise _processExercise() {
-    var exercise = new MBL_Exercise();
+  MBCL_LevelItem _processExercise() {
+    var exercise = new MBCL_LevelItem(MBCL_LevelItemType.Exercise);
     return exercise;
     // TODO
     /*exercise.title = this.title;
