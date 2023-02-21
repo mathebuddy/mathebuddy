@@ -4,6 +4,9 @@
   "[dart]": {
     "editor.defaultFormatter": "Dart-Code.dart-code"
   },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
   "markdown.preview.scrollEditorWithPreview": false,
   "markdown.preview.scrollPreviewWithEditor": false,
   "cSpell.language": "en,de-de",
@@ -28,6 +31,7 @@
     "IMAG",
     "Koeln",
     "Köln",
+    "makefs",
     "mathe",
     "mathebuddy",
     "mathjax",
