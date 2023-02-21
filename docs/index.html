@@ -765,7 +765,7 @@
       }
 
       async function readTextFile(path) {
-        const response = await fetch(path + "?version=" + Date.now());
+        const response = await fetch(path + "?ver=" + Date.now());
         if (response.ok == false) return []; // ERROR
         let text = await response.text();
         return text;
@@ -775,7 +775,7 @@
         if (_useFsJson) {
           if (fetchedFs == false) {
             const response = await fetch(
-              path + "_fs.json" + "?version=" + Date.now()
+              path + "_fs.json" + "?ver=" + Date.now()
             );
             if (response.ok == false) return []; // ERROR
             fs = await response.json();
@@ -1007,7 +1007,7 @@
         new Date().getFullYear();
 
       // load blog
-      fetch("blog/list.txt?version=" + Date.now())
+      fetch("blog/list.txt?ver=" + Date.now())
         .then((response) => response.text())
         .then((data) => updateBlogList(data));
 
@@ -1047,7 +1047,7 @@
           blogItem.appendChild(p);
 
           let _idx = idx;
-          fetch("blog/" + filename + "?version=" + Date.now())
+          fetch("blog/" + filename + "?ver=" + Date.now())
             .then((response) => response.text())
             .then((data) => updateBlogItem(_idx, data));
 
@@ -1090,6 +1090,6 @@
       }
     </script>
 
-    <script src="index.min.js?version=1676631568"></script>
+    <script src="index.min.js?version=1676986287"></script>
   </body>
 </html>
