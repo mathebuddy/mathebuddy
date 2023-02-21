@@ -252,9 +252,7 @@ class Compiler {
         this._level?.items.add(this._parseSubSectionTitle());
       } else if (this._line == '---') {
         this._pushParagraph();
-        var block = this._parseBlock(false);
-        if (block.levelItem != null)
-          this._level?.items.add(block.levelItem as MBCL_LevelItem);
+        this._level?.items.add(this._parseBlock(false));
       } else {
         this._paragraph += this._line + '\n';
         this._next();
@@ -325,7 +323,7 @@ class Compiler {
 
   //G block = "---" NEWLINE { "@" ID NEWLINE | LINE } "---" NEWLINE;
   // TODO: grammar for subblocks
-  BlockPart _parseBlock(bool parseSubBlock) {
+  MBCL_LevelItem _parseBlock(bool parseSubBlock) {
     var block = new Block(this);
     block.srcLine = this._i;
     if (!parseSubBlock) this._next(); // skip "---"
@@ -373,7 +371,8 @@ class Compiler {
               ' must end with ---',
         );
     }
-    return block.process();
+    block.process();
+    return block.levelItem;
   }
 
   /*G
