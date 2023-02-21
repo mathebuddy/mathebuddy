@@ -261,8 +261,6 @@ class Term {
     if (this.op == '\$') vars.add(this.value.id);
     for (var i = 0; i < this.o.length; i++) {
       var oi = this.o[i];
-      vars = new Set<String>();
-      vars.addAll(vars);
       vars.addAll(oi.getVariableIDs());
     }
     return vars;
