@@ -22,37 +22,31 @@ cd ..
 while true
 do
     echo "mathe:buddy CLI. Choose option and press [ENTER]"
-    echo "[1] install"
-    echo "[2] run tests"
-    echo "[3] run simulator locally"
-    echo "[4] build documentation"
-    echo "[5] run website at http://localhost:8314"
-    echo "[6] exit"
+    echo "[1] build website"
+    echo "[2] build documentation"
+    echo "[3] run website at http://localhost:8314"
+    echo "[4] run tests"
+    echo "[5] exit"
     read x
     case $x in
     1)
-        cd bin
-        python3 install.py
+        cd docs
+        ./build.sh
         cd ..
         ;;
     2)
-        cd lib
-        ./test.sh
-        cd ..
-        ;;
-    3)
-        cd bin
-        python3 sim.py
-        cd ..
-        ;;
-    4)
         cd doc
         python3 build.py
         cd ..
         ;;
-    5)
+    3)
         cd docs
         python3 -m http.server 8314
+        cd ..
+        ;;
+    4)
+        cd lib
+        ./test.sh
         cd ..
         ;;
     *)
