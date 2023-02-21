@@ -43,6 +43,39 @@
       .tooltip:hover .tooltiptext {
         visibility: visible;
       }
+      .milestone-green {
+        background-color: #4ba645;
+        color: white;
+        font-size: large;
+        border-radius: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .milestone-red {
+        background-color: #aa322c;
+        color: white;
+        font-size: large;
+        border-radius: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .milestone-done {
+        font-size: large;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: right;
+        padding-left: 10px;
+      }
+      .milestone-todo {
+        font-size: large;
+        border-left-style: solid;
+        border-left-color: #000000;
+        border-left-width: 2px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: left;
+        padding-left: 10px;
+      }
     </style>
   </head>
 
@@ -88,15 +121,14 @@
 
       <div class="row">
         <div style="text-align: center">
-          <button class="button-primary" onclick="show('home')" style="">
-            home
-          </button>
+          <button class="button-primary" onclick="show('home')">home</button>
           <button class="button-primary" onclick="show('blog')">blog</button>
           <button class="button-primary" onclick="show('doc')">doc</button>
           <button class="button-primary" onclick="show('playground-list')">
             play
           </button>
           <button class="button-primary" onclick="show('sim')">sim</button>
+          <button class="button-primary" onclick="show('road')">road</button>
         </div>
         <div id="playground-list" style="text-align: center; display: none">
           <b>PLAYGROUND</b><br />
@@ -247,6 +279,53 @@
         <br />
         <h2>Blog</h2>
         <div id="blog-items"></div>
+      </div>
+    </div>
+
+    <!-- ===== ROAD ===== -->
+    <div id="road" class="container" style="display: none">
+      <div class="row" style="text-align: left">
+        <br />
+        <h2>Roadmap</h2>
+
+        <p style="font-size: large; color: #434343">
+          <em>Note: This page only lists technical stuff.</em>
+        </p>
+      </div>
+
+      <div class="row" style="text-align: center">
+        <div class="one-half column offset-by-three milestone-green">
+          Project Start 09/2022
+        </div>
+      </div>
+      <div class="row" style="text-align: center; display: flex">
+        <div class="one-half column milestone-done">
+          <span style="color: gray; font-size: small">DONE</span><br />
+          formal language definition<br />
+          simulator prototype<br />
+        </div>
+        <div class="one-half column milestone-todo">
+          <span style="color: gray; font-size: small">WIP / TODO</span><br />
+          complete math runtime<br />
+          complete compiler<br />
+          rewrite code with Dart<br />
+          flutter simulator<br />
+        </div>
+      </div>
+      <div class="row" style="text-align: center">
+        <div class="one-half column offset-by-three milestone-red">
+          Release Webapp ~03/2023
+        </div>
+      </div>
+      <div class="row" style="text-align: center">...</div>
+      <div class="row" style="text-align: center">
+        <div class="one-half column offset-by-three milestone-red">
+          Release iOS / Android App ~09/2023
+        </div>
+      </div>
+
+      <div class="row">
+        <div id="road-items"></div>
       </div>
     </div>
 
@@ -605,6 +684,7 @@
 
     <div class="container">
       <br />
+      <br />
       <p style="color: #767676">
         &copy; 2022-<span id="current-year"></span> Prof. Dr. Heiko Knospe,
         Patricia Maria Graf M.Sc.,
@@ -849,6 +929,7 @@
           "math-runtime",
           "smpl",
           "mbl",
+          "road",
         ];
         for (let d of divs)
           document.getElementById(d).style.display = id == d ? "block" : "none";
