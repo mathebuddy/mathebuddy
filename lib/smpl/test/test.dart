@@ -32,15 +32,15 @@ void run(String src) {
 }
 
 var src = '''
-/*let a=3
+let a=3
 let b = 1/2 + 2/4
 let p(x) = 2x^2 + ax - 7
 let k=3
 while k > 0 {
   k = k - 1;
-}*/
+}
 
-let A = rand<2,3>(-2,2)
+/*let A = rand<2,3>(-2,2)
 let a:u = rand(2,4)
 let b = 2 + a
 let t = 1/2 {+|-} b/4
@@ -50,7 +50,7 @@ if k > 0 {
   k = k-1
 } else {
   k = k + 1
-}
+}*/
 ''';
 
 void main() {
