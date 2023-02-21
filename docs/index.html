@@ -757,6 +757,11 @@
 
       function resetSim() {
         document.getElementById("sim-iframe").src = simURL;
+        setTimeout(() => {
+          document
+            .getElementById("sim-iframe")
+            .contentWindow.postMessage("my message");
+        }, 500);
       }
 
       async function readTextFile(path) {
@@ -837,10 +842,6 @@
             updateSimPathButtonsCore(simPath.length > 0 ? [".."] : []);
             document.getElementById("sim-log-area").innerHTML =
               "MBL Code:<br/>" + "<pre><code>" + text + "</code></pre>";
-
-            document
-              .getElementById("sim-iframe")
-              .contentWindow.postMessage(text);
           });
         }
         // TODO: reactive localhost not available error!
