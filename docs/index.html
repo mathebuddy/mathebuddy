@@ -612,6 +612,10 @@
     </div>
 
     <script>
+      // TODO: add everything form here to src/ as Dart code
+      let fs = {};
+      let fetchedFs = false;
+
       let simPath = [];
 
       let simBaseDir = "demo/";
@@ -621,17 +625,95 @@
           : "sim/index-github.html";
         document.getElementById("sim-iframe").src = src;
         document.getElementById("sim").style.display = "block";
-        // TODO: loc in ['demo', 'localhost']
-        //let simCore = document.getElementById("sim-core");
-        //simCore.innerHTML = "";
         simBaseDir = loc == "demo" ? "demo/" : "http://localhost:8271/";
+        useFsJson = loc == "demo";
+        fetchedFs = false;
         updateSimPathButtons();
+      }
+
+      async function readTextFile(path) {
+        const response = await fetch(path + "?version=" + Date.now());
+        if (response.ok == false) return []; // ERROR
+        let text = await response.text();
+        return text;
+      }
+
+      async function getFiles(_useFsJson, path) {
+        if (_useFsJson) {
+          if (fetchedFs == false) {
+            const response = await fetch(
+              path + "_fs.json" + "?version=" + Date.now()
+            );
+            if (response.ok == false) return []; // ERROR
+            fs = await response.json();
+            fetchedFs = true;
+          }
+          return fs[path].sort();
+        } else {
+          // directory listing
+          const response = await fetch(path);
+          if (response.ok == false) return []; // ERROR
+          let y = await response.text();
+          return extractFilesFromDirectoryListingHtml(y);
+        }
+      }
+      //getFiles(true, "demo/").then((files) => console.log(files));
+      //getFiles(false, "demo/").then((files) => console.log(files));
+
+      function updateSimPathButtonsCore(files) {
+        let simPathButtons = document.getElementById("sim-path-buttons");
+        simPathButtons.innerHTML = '<span style="color: gray"></span> &nbsp;';
+        for (let file of files) {
+          let button = document.createElement("button");
+          button.classList.add("button");
+          button.innerHTML = file;
+          simPathButtons.appendChild(button);
+          let span = document.createElement("span");
+          span.innerHTML = "&nbsp;";
+          simPathButtons.appendChild(span);
+          button.onclick = function (event) {
+            if (file == "..") simPath.pop();
+            else simPath.push(file);
+            updateSimPath();
+            updateSimPathButtons();
+          };
+        }
       }
 
       function updateSimPathButtons() {
         let p = simBaseDir + simPath.join("/");
-        console.log("LOADING FILE: " + p);
-        fetch(p)
+        //console.log("LOADING FILE: " + p);
+        if (simPath.length == 0 || simPath[simPath.length - 1].endsWith("/")) {
+          getFiles(useFsJson, p).then((files) => {
+            // only keep directories and .mbl files
+            let _files = [];
+            for (let file of files) {
+              if (file.endsWith(".mbl") || file.endsWith("/"))
+                _files.push(file);
+            }
+            files = _files;
+            //console.log("files:");
+            //console.log(files);
+            // add dir-up button
+            if (simPath.length > 0 && files.includes("..") == false) {
+              files.unshift("..");
+            }
+            // create buttons
+            updateSimPathButtonsCore(files);
+          });
+        } else if (
+          simPath.length > 0 &&
+          simPath[simPath.length - 1].endsWith(".mbl")
+        ) {
+          readTextFile(p).then((text) => {
+            updateSimPathButtonsCore(simPath.length > 0 ? [".."] : []);
+            document.getElementById("sim-log-area").innerHTML =
+              "<pre><code>" + text + "</code></pre>";
+          });
+        }
+        // TODO: reactive localhost not available error!
+
+        /*fetch(p)
           .then((response) => response.text())
           .then((data) => {
             console.log(data);
@@ -648,7 +730,9 @@
               document.getElementById("sim-log-area").innerHTML =
                 "<pre><code>" + data + "</code></pre>";
             }
-            if (simPath.length > 0) files.unshift("..");
+            if (simPath.length > 0) {
+              files.unshift("..");
+            }
             let simPathButtons = document.getElementById("sim-path-buttons");
             simPathButtons.innerHTML =
               '<span style="color: gray"></span> &nbsp;';
@@ -672,9 +756,7 @@
             console.log(error);
             document.getElementById("localhost-error-info").style.display =
               "block";
-            //document.getElementById("sim-core").style.display = "none";
-          });
-        //}
+          });*/
       }
 
       function updateSimPath() {
@@ -694,11 +776,11 @@
           if (line.startsWith('<li><a href="')) {
             let file = line.substring(13).split('"')[0];
             if (file.startsWith(".")) continue;
-            if (!file.endsWith("/") && !file.endsWith(".mbl")) continue;
+            //if (!file.endsWith("/") && !file.endsWith(".mbl")) continue;
             files.push(file);
           }
         }
-        console.log(files);
+        //console.log(files);
         return files.sort();
       }
 
