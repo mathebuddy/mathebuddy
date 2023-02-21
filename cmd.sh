@@ -28,40 +28,53 @@ do
     echo "[4] run website at http://localhost:8314"
     echo "[5] run tests"
     echo "[6] update testdata from mathebuddy-public-courses repo"
-    echo "[7] exit"
+    echo "[7] update grammar.txt in lib/*"
+    echo "[8] exit"
     read x
     case $x in
     1)
+        # [1] build website
         cd docs
         ./build.sh
         cd ..
         ;;
     2)
+        # [2] build documentation
         cd doc
         python3 build.py
         cd ..
         ;;
     3)
+        # [3] build flutter web app
         cd app/mathebuddy
         ./build-web.sh
         cd ../..
         ;;
     4)
+        # [4] run website at http://localhost:8314
         cd docs
         python3 -m http.server 8314
         cd ..
         ;;
     5)
+        # [5] run tests
         cd lib
         ./test.sh
         cd ..
         ;;
     6)
+        # [6] update testdata from mathebuddy-public-courses repo
         cd lib/compiler/test/
         ./update-testdata.sh
         cd ../../..
         ;;
+    7)  
+        # [7] update grammar.txt in lib/*
+        cd lib/
+        ./build.sh
+        ;;
     *)
+        # [*] exit
         echo ".. bye!"
         exit 0
         ;;
