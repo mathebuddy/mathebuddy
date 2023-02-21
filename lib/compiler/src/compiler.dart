@@ -252,7 +252,9 @@ class Compiler {
         this._level?.items.add(this._parseSubSectionTitle());
       } else if (this._line == '---') {
         this._pushParagraph();
-        this._level?.items.add(this._parseBlock(false));
+        var block = this._parseBlock(false);
+        if (block.levelItem != null)
+          this._level?.items.add(block.levelItem as MBCL_LevelItem);
       } else {
         this._paragraph += this._line + '\n';
         this._next();
@@ -323,7 +325,7 @@ class Compiler {
 
   //G block = "---" NEWLINE { "@" ID NEWLINE | LINE } "---" NEWLINE;
   // TODO: grammar for subblocks
-  MBCL_LevelItem _parseBlock(bool parseSubBlock) {
+  BlockPart _parseBlock(bool parseSubBlock) {
     var block = new Block(this);
     block.srcLine = this._i;
     if (!parseSubBlock) this._next(); // skip "---"
@@ -394,8 +396,7 @@ class Compiler {
   MBCL_LevelItem parseParagraph(String raw, [MBCL_LevelItem? ex = null]) {
     // skip empty paragraphs
     if (raw.trim().length == 0)
-      //return new ParagraphItem(ParagraphItemType.Text);
-      return new MBCL_Text_Text(); // TODO: OK??
+      return new MBCL_LevelItem(MBCL_LevelItemType.Text);
     // create lexer
     var lexer = new Lexer();
     lexer.enableEmitNewlines(true);
@@ -505,11 +506,13 @@ class Compiler {
       var tk = lexer.getToken().token;
       var isId = lexer.getToken().type == LexerTokenType.ID;
       lexer.next();
-      if (isId && exercise != null && exercise.variables.containsKey(tk)) {
+      // TODO: reactivate the following!
+      /*if (isId && exercise != null && exercise.variables.containsKey(tk)) {
         var v = new MBCL_Exercise_Text_Variable();
         v.variableId = tk;
         inlineMath.items.add(v);
-      } else {
+      } else*/
+      {
         var text = new MBCL_LevelItem(MBCL_LevelItemType.Text);
         text.text = tk;
         inlineMath.items.add(text);
@@ -575,6 +578,13 @@ class Compiler {
     Lexer lexer,
     MBCL_LevelItem exercise,
   ) {
+    return MBCL_LevelItem(MBCL_LevelItemType.Error, 'MC/SC is unimplemented!');
+  }
+  // TODO: reactivate the following method
+  /*MBCL_LevelItem _parseSingleOrMultipleChoice(
+    Lexer lexer,
+    MBCL_LevelItem exercise,
+  ) {
     var exerciseData = exercise.exerciseData as MBCL_ExerciseData;
     var isMultipleChoice = lexer.isTER('[');
     lexer.next();
@@ -619,7 +629,7 @@ class Compiler {
       span.items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER('\n')) lexer.next();
     return element;
-  }
+  }*/
 
   MBCL_LevelItem _parseTextProperty(Lexer lexer, MBCL_LevelItem? exercise) {
     // TODO: make sure, that errors are not too annoying...
