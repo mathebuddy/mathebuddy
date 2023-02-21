@@ -27,7 +27,8 @@ do
     echo "[3] build flutter web app"
     echo "[4] run website at http://localhost:8314"
     echo "[5] run tests"
-    echo "[6] exit"
+    echo "[6] update testdata from mathebuddy-public-courses repo"
+    echo "[7] exit"
     read x
     case $x in
     1)
@@ -54,6 +55,11 @@ do
         cd lib
         ./test.sh
         cd ..
+        ;;
+    6)
+        cd lib/compiler/test/
+        ./update-testdata.sh
+        cd ../../..
         ;;
     *)
         echo ".. bye!"
