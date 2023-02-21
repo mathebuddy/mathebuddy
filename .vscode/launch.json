@@ -6,19 +6,22 @@
       "type": "dart",
       "name": "[math-runtime] tests",
       "request": "launch",
-      "program": "${workspaceFolder}/lib/math-runtime/test.dart"
+      "program": "${workspaceFolder}/lib/math-runtime/test/test.dart",
+      "console": "terminal"
     },
     {
       "type": "dart",
       "name": "[smpl] tests",
       "request": "launch",
-      "program": "${workspaceFolder}/lib/smpl/test.dart"
+      "program": "${workspaceFolder}/lib/smpl/test/test.dart",
+      "console": "terminal"
     },
     {
       "type": "dart",
       "name": "[compiler] tests",
       "request": "launch",
-      "program": "${workspaceFolder}/lib/compiler/test.dart"
+      "program": "${workspaceFolder}/lib/compiler/test/test.dart",
+      "console": "terminal"
     },
     {
       "type": "python",
