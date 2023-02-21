@@ -19,6 +19,13 @@
       "name": "[compiler] tests",
       "request": "launch",
       "program": "${workspaceFolder}/lib/compiler/test.dart"
+    },
+    {
+      "type": "python",
+      "name": "[python] current file",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
     }
   ]
 }
