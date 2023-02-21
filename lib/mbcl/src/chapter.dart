@@ -50,9 +50,9 @@ abstract class MBCL_Chapter__ABSTRACT {
       "author": this.author,
       "posX": this.pos_x,
       "posY": this.pos_y,
-      "requires": this.requires.map((req) => req.file_id),
-      "units": this.units.map((unit) => unit.toJSON()),
-      "levels": this.levels.map((level) => level.toJSON()),
+      "requires": this.requires.map((req) => req.file_id).toList(),
+      "units": this.units.map((unit) => unit.toJSON()).toList(),
+      "levels": this.levels.map((level) => level.toJSON()).toList(),
     };
   }
 
