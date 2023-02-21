@@ -29,18 +29,34 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png" />
 
-    <title>mathebuddy</title>
+    <title>mathe:buddy</title>
     <link rel="manifest" href="manifest.json" />
 
     <script>
       // The value below is injected by flutter build, do not touch.
-      var serviceWorkerVersion = '3442163006';
+      var serviceWorkerVersion = '2004664108';
     </script>
     <!-- This script adds the flutter initialization JS code -->
     <script src="flutter.js" defer></script>
   </head>
   <body>
+    <span id="test-span"></span>
+
     <script>
+      // TODO: security: https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
+      window.addEventListener(
+        "message",
+        (event) => {
+          //if (event.origin !== "http://example.org:8080")
+          //  return;
+          console.log("FLUTTER RECEIVED MESSAGE: " + event.data);
+          //_flutter. xx+
+
+          document.getElementById("test-span").innerHTML = event.data;
+        },
+        false
+      );
+
       window.addEventListener("load", function (ev) {
         // Download main.dart.js
         _flutter.loader.loadEntrypoint({
