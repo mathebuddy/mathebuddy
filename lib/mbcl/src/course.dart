@@ -44,7 +44,7 @@ abstract class MBCL_Course__ABSTRACT {
 
   Map<String, Object> toJSON() {
     return {
-      "debug": this.debug,
+      "debug": this.debug.name,
       "title": this.title,
       "author": this.author,
       "mbclVersion": this.mbcl_version,
