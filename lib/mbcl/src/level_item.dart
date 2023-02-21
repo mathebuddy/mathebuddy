@@ -35,7 +35,7 @@ abstract class MBCL_LevelItem__ABSTRACT {
       "error": this.error,
       "text": this.text,
       "id": this.id,
-      "items": this.items.map((item) => item.toJSON()),
+      "items": this.items.map((item) => item.toJSON()).toList(),
     };
     switch (this.type) {
       case MBCL_LevelItemType.Equation:
@@ -106,7 +106,10 @@ class MBCL_EquationData {
   int number = 0;
 
   Map<String, dynamic> toJSON() {
-    return {"options": this.options.map((o) => o.name), "number": this.number};
+    return {
+      "options": this.options.map((o) => o.name).toList(),
+      "number": this.number
+    };
   }
 
   fromJSON(Map<String, dynamic> src) {
@@ -138,9 +141,9 @@ class MBCL_ExerciseData {
     return {
       "code": this.code,
       "variables": this.variables,
-      "instances": this.instances.map((e) => e),
-      "inputRequire": this.inputRequire.map((e) => e),
-      "inputForbid": this.inputForbid.map((e) => e),
+      "instances": this.instances.map((e) => e).toList(),
+      "inputRequire": this.inputRequire.map((e) => e).toList(),
+      "inputForbid": this.inputForbid.map((e) => e).toList(),
       "inputType": this.inputType.name,
       "inputVariableId": this.inputVariableId,
       "inputWidth": this.inputWidth
@@ -193,7 +196,7 @@ class MBCL_FigureData {
     return {
       "filePath": this.filePath,
       "data": this.data,
-      "options": this.options.map((e) => e.name)
+      "options": this.options.map((e) => e.name).toList()
     };
   }
 
@@ -219,8 +222,8 @@ class MBCL_TableData {
   Map<String, dynamic> toJSON() {
     return {
       "head": this.head.toJSON(),
-      "rows": this.rows.map((e) => e.toJSON()),
-      "options": this.options.map((e) => e.name)
+      "rows": this.rows.map((e) => e.toJSON()).toList(),
+      "options": this.options.map((e) => e.name).toList()
     };
   }
 
@@ -233,7 +236,7 @@ class MBCL_Table_Row {
   List<MBCL_LevelItem__ABSTRACT> columns = [];
 
   Map<String, dynamic> toJSON() {
-    return {"columns": this.columns.map((e) => e.toJSON())};
+    return {"columns": this.columns.map((e) => e.toJSON()).toList()};
   }
 
   fromJSON(Map<String, dynamic> src) {
