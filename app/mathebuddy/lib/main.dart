@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'dart:html';
+
 void main() {
   runApp(const MyApp());
 }
@@ -49,6 +51,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String _msg = '';
+
+  void _getMessage() {
+    setState(() {
+      var msg = document.getElementById('test-span')?.innerHtml as String;
+      //print("xxxxx " + msg);
+      _msg = msg;
+    });
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -102,6 +113,17 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            Text(
+              _msg,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: _getMessage,
+              child: Text('get message'),
+            )
           ],
         ),
       ),
@@ -109,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
