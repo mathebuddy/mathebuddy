@@ -11,6 +11,16 @@ import '../../mbcl/src/level_item.dart';
 import 'compiler.dart';
 import 'level_item.dart';
 
+/*
+---
+EXAMPLE Addition of complex numbers @ex:myExample
+@options
+blub
+EQUATION
+z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i
+---
+*/
+
 class BlockPart {
   String name = '';
   List<String> lines = [];
@@ -20,11 +30,11 @@ class Block {
   String type = '';
   String title = '';
   String label = '';
-  List<BlockPart> parts = [];
+  List<BlockPart> parts = []; // e.g. "@options ..."
+  List<Block> subBlocks = []; // e.g. "EQUATION ..."
   int srcLine = 0;
   MBCL_LevelItem levelItem =
       new MBCL_LevelItem(MBCL_LevelItemType.Error, 'block unprocessed');
-
   Compiler _compiler;
 
   Block(this._compiler);
