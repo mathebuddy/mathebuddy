@@ -30,8 +30,8 @@ abstract class MBCL_Level__ABSTRACT {
       "label": this.label,
       "posX": this.pos_x,
       "posY": this.pos_y,
-      "requires": this.requires.map((req) => req.file_id),
-      "items": this.items.map((item) => item.toJSON()),
+      "requires": this.requires.map((req) => req.file_id).toList(),
+      "items": this.items.map((item) => item.toJSON()).toList(),
     };
   }
 
