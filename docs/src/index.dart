@@ -8,8 +8,10 @@
 
 import 'math-runtime-playground.dart';
 import 'smpl-playground.dart';
+import 'mbl-playground.dart';
 
 void main() {
   mathRuntimePlayground();
   smplPlayground();
+  mblPlayground();
 }
