@@ -1,0 +1,12 @@
+{
+  "demo/": [
+    "_makefs.sh",
+    "_fs.json",
+    "hello.mbl",
+    "typography.mbl",
+    "test-dir/"
+  ],
+  "demo/test-dir/": [
+    "hello2.mbl"
+  ]
+}
