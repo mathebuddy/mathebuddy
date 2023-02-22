@@ -10,7 +10,7 @@ import '../../compiler/src/level.dart';
 import '../../compiler/src/level_item.dart';
 import '../../math-runtime/src/operand.dart';
 
-// refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html (TODO: update link!)
+// refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
 abstract class MBCL_LevelItem__ABSTRACT {
   MBCL_LevelItemType type;
@@ -35,16 +35,16 @@ abstract class MBCL_LevelItem__ABSTRACT {
   void postProcess();
 
   Map<String, dynamic> toJSON() {
-    // TODO: write title, label, id, ... only where necessary!
     Map<String, dynamic> json = {
       "type": this.type.name,
-      "title": this.title,
-      "label": this.label,
-      "error": this.error,
-      "text": this.text,
-      "id": this.id,
-      "items": this.items.map((item) => item.toJSON()).toList(),
     };
+    if (this.title.length > 0) json["title"] = this.title;
+    if (this.label.length > 0) json["label"] = this.label;
+    if (this.error.length > 0) json["error"] = this.error;
+    if (this.text.length > 0) json["text"] = this.text;
+    if (this.id.length > 0) json["id"] = this.id;
+    if (this.items.length > 0)
+      json["items"] = this.items.map((item) => item.toJSON()).toList();
     switch (this.type) {
       case MBCL_LevelItemType.Equation:
         json["equationData"] = this.equationData?.toJSON();
@@ -118,6 +118,7 @@ enum MBCL_LevelItemType {
   SubSubSection,
   Table,
   Text,
+  VariableReference
 }
 
 class MBCL_EquationData {
@@ -264,13 +265,11 @@ enum MBCL_InputField_Type {
 class MBCL_SingleOrMultipleChoiceOptionData {
   String inputId = '';
   String variableId = '';
-  List<MBCL_LevelItem__ABSTRACT> items = [];
 
   Map<String, dynamic> toJSON() {
     return {
       "inputId": this.inputId,
       "variableId": this.variableId,
-      "items": this.items.map((item) => item.toJSON()).toList()
     };
   }
 
