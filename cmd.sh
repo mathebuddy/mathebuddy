@@ -29,7 +29,8 @@ do
     echo "[5] run tests"
     echo "[6] update testdata from mathebuddy-public-courses repo"
     echo "[7] update grammar.txt in lib/*"
-    echo "[8] exit"
+    echo "[8] update file system files (_fs.txt) files in docs/demo/"
+    echo "[9] exit"
     read x
     case $x in
     1)
@@ -72,6 +73,12 @@ do
         # [7] update grammar.txt in lib/*
         cd lib/
         ./build.sh
+        ;;
+    8)
+        # [8] update file system files (_fs.txt) files in docs/demo/
+        cd docs/demo/
+        ./_makefs.sh
+        cd ../..
         ;;
     *)
         # [*] exit
