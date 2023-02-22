@@ -37,7 +37,7 @@ abstract class MBCL_Chapter__ABSTRACT {
   MBCL_Level__ABSTRACT? getLevelByFileID(String fileID) {
     for (var i = 0; i < this.levels.length; i++) {
       var level = this.levels[i];
-      if (level.file_id == fileID) return level;
+      if (level.fileId == fileID) return level;
     }
     return null;
   }
