@@ -148,8 +148,9 @@
         </div>
         <div id="sim-list" style="text-align: center; display: none">
           <b>SIMULATION</b><br />
-          <button class="button" onclick="showSim('demo')">demo</button>
-          <button class="button" onclick="showSim('localhost')">
+          <button class="button">info</button>
+          <button id="showSimDemo" class="button">demo</button>
+          <button id="showSimLocalhost" class="button">
             http://localhost:8271
           </button>
         </div>
@@ -462,7 +463,7 @@
               "
             >
               <div style="width: 100%; text-align: center">
-                <button type="button" onclick="resetSim();">
+                <button id="resetSim" type="button">
                   <img
                     src="img/fontawesome/power-off-solid.svg"
                     style="
@@ -472,8 +473,8 @@
                     "
                   />
                 </button>
-                <button type="button">MBL</button>
-                <button type="button">MBCL</button>
+                <button id="simShowMblButton" type="button">MBL</button>
+                <button id="simShowMbclButton" type="button">MBCL</button>
               </div>
               <div id="sim-data-area"></div>
             </div>
@@ -790,189 +791,6 @@
     </div>
 
     <script>
-      // TODO: add everything form here to src/ as Dart code
-      let fs = {};
-      let fetchedFs = false;
-
-      let simPath = [];
-      let simURL = "";
-
-      let simBaseDir = "demo/";
-      function showSim(loc) {
-        let src = window.location.host.includes("localhost")
-          ? "sim/index.html"
-          : "sim/index-github.html";
-        simURL = src;
-        //resetSim();
-        document.getElementById("sim").style.display = "block";
-        simBaseDir = loc == "demo" ? "demo/" : "http://localhost:8271/";
-        useFsJson = loc == "demo";
-        fetchedFs = false;
-        updateSimPathButtons();
-      }
-
-      function resetSim() {
-        document.getElementById("sim-iframe").src = simURL;
-        setTimeout(() => {
-          document
-            .getElementById("sim-iframe")
-            .contentWindow.postMessage("my message");
-        }, 500);
-      }
-
-      async function readTextFile(path) {
-        const response = await fetch(path + "?ver=" + Date.now());
-        if (response.ok == false) return []; // ERROR
-        let text = await response.text();
-        return text;
-      }
-
-      async function getFiles(_useFsJson, path) {
-        if (_useFsJson) {
-          if (fetchedFs == false) {
-            const response = await fetch(
-              path + "_fs.json" + "?ver=" + Date.now()
-            );
-            if (response.ok == false) return []; // ERROR
-            fs = await response.json();
-            fetchedFs = true;
-          }
-          return fs[path].sort();
-        } else {
-          // directory listing
-          const response = await fetch(path);
-          if (response.ok == false) return []; // ERROR
-          let y = await response.text();
-          return extractFilesFromDirectoryListingHtml(y);
-        }
-      }
-      //getFiles(true, "demo/").then((files) => console.log(files));
-      //getFiles(false, "demo/").then((files) => console.log(files));
-
-      function updateSimPathButtonsCore(files) {
-        let simPathButtons = document.getElementById("sim-path-buttons");
-        simPathButtons.innerHTML = "";
-        for (let file of files) {
-          let button = document.createElement("button");
-          button.classList.add("button");
-          button.innerHTML = file;
-          simPathButtons.appendChild(button);
-          let span = document.createElement("span");
-          span.innerHTML = "&nbsp;";
-          simPathButtons.appendChild(span);
-          button.onclick = function (event) {
-            if (file == "..") simPath.pop();
-            else simPath.push(file);
-            updateSimPath();
-            updateSimPathButtons();
-          };
-        }
-      }
-
-      function updateSimPathButtons() {
-        let p = simBaseDir + simPath.join("/");
-        //console.log("LOADING FILE: " + p);
-        if (simPath.length == 0 || simPath[simPath.length - 1].endsWith("/")) {
-          getFiles(useFsJson, p).then((files) => {
-            // only keep directories and .mbl files
-            let _files = [];
-            for (let file of files) {
-              if (file.endsWith(".mbl") || file.endsWith("/"))
-                _files.push(file);
-            }
-            files = _files;
-            //console.log("files:");
-            //console.log(files);
-            // add dir-up button
-            if (simPath.length > 0 && files.includes("..") == false) {
-              files.unshift("..");
-            }
-            // create buttons
-            updateSimPathButtonsCore(files);
-          });
-        } else if (
-          simPath.length > 0 &&
-          simPath[simPath.length - 1].endsWith(".mbl")
-        ) {
-          readTextFile(p).then((text) => {
-            updateSimPathButtonsCore(simPath.length > 0 ? [".."] : []);
-            document.getElementById("sim-data-area").innerHTML =
-              "MBL Code:<br/>" + "<pre><code>" + text + "</code></pre>";
-          });
-        }
-        // TODO: reactive localhost not available error!
-
-        /*fetch(p)
-          .then((response) => response.text())
-          .then((data) => {
-            console.log(data);
-            let files = [];
-            if (
-              simPath.length == 0 ||
-              simPath[simPath.length - 1].endsWith("/")
-            ) {
-              files = extractFilesFromDirectoryListingHtml(data);
-            } else if (
-              simPath.length > 0 &&
-              simPath[simPath.length - 1].endsWith(".mbl")
-            ) {
-              document.getElementById("sim-data-area").innerHTML =
-                "<pre><code>" + data + "</code></pre>";
-            }
-            if (simPath.length > 0) {
-              files.unshift("..");
-            }
-            let simPathButtons = document.getElementById("sim-path-buttons");
-            simPathButtons.innerHTML =
-              '<span style="color: gray"></span> &nbsp;';
-            for (let file of files) {
-              let button = document.createElement("button");
-              button.classList.add("button");
-              button.innerHTML = file;
-              simPathButtons.appendChild(button);
-              let span = document.createElement("span");
-              span.innerHTML = "&nbsp;";
-              simPathButtons.appendChild(span);
-              button.onclick = function (event) {
-                if (file == "..") simPath.pop();
-                else simPath.push(file);
-                updateSimPath();
-                updateSimPathButtons();
-              };
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-            document.getElementById("localhost-error-info").style.display =
-              "block";
-          });*/
-      }
-
-      function updateSimPath() {
-        let e = document.getElementById("sim-current-path");
-        let html = "";
-        for (let i = 0; i < simPath.length; i++) {
-          html += "&raquo; " + simPath[i].replace("/", "") + " ";
-        }
-        html += "<br/>";
-        e.innerHTML = html;
-      }
-
-      function extractFilesFromDirectoryListingHtml(data) {
-        let files = [];
-        let lines = data.split("\n");
-        for (let line of lines) {
-          if (line.startsWith('<li><a href="')) {
-            let file = line.substring(13).split('"')[0];
-            if (file.startsWith(".")) continue;
-            //if (!file.endsWith("/") && !file.endsWith(".mbl")) continue;
-            files.push(file);
-          }
-        }
-        //console.log(files);
-        return files.sort();
-      }
-
       function setDevice(id) {
         let width = 360;
         let height = 640;
@@ -1150,6 +968,6 @@
       }
     </script>
 
-    <script src="index.min.js?version=1677003833"></script>
+    <script src="index.min.js?version=1677064336"></script>
   </body>
 </html>
