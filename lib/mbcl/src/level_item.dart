@@ -6,6 +6,10 @@
  * License: GPL-3.0-or-later
  */
 
+import '../../compiler/src/level.dart';
+import '../../compiler/src/level_item.dart';
+import '../../math-runtime/src/operand.dart';
+
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html (TODO: update link!)
 
 abstract class MBCL_LevelItem__ABSTRACT {
@@ -22,6 +26,7 @@ abstract class MBCL_LevelItem__ABSTRACT {
   MBCL_ExerciseData? exerciseData = null;
   MBCL_FigureData? figureData = null;
   MBCL_TableData? tableData = null;
+  MBCL_InputFieldData? inputFieldData = null;
 
   MBCL_LevelItem__ABSTRACT(this.type);
 
@@ -42,13 +47,16 @@ abstract class MBCL_LevelItem__ABSTRACT {
         json["equationData"] = this.equationData?.toJSON();
         break;
       case MBCL_LevelItemType.Exercise:
-        json["equationData"] = this.exerciseData?.toJSON();
+        json["exerciseData"] = this.exerciseData?.toJSON();
         break;
       case MBCL_LevelItemType.Figure:
-        json["equationData"] = this.figureData?.toJSON();
+        json["figureData"] = this.figureData?.toJSON();
         break;
       case MBCL_LevelItemType.Table:
-        json["equationData"] = this.tableData?.toJSON();
+        json["tableData"] = this.tableData?.toJSON();
+        break;
+      case MBCL_LevelItemType.InputField:
+        json["inputFieldData"] = this.inputFieldData?.toJSON();
         break;
       default:
         break;
@@ -83,8 +91,8 @@ enum MBCL_LevelItemType {
   Error,
   Example,
   Exercise,
-  ExerciseInputField,
-  ExerciseTextVariable,
+  InputField,
+  //ExerciseTextVariable, ???
   Figure,
   InlineMath,
   ItalicText,
@@ -127,14 +135,14 @@ enum MBCL_EquationOption {
 class MBCL_ExerciseData {
   String code = '';
   int staticVariableCounter = 0;
-  Map<String, MBCL_Exercise_VariableType> variables = {};
+  List<String> variables = [];
   List<Map<String, String>> instances = [];
   List<String> inputRequire = [];
   List<String> inputForbid = [];
-  MBCL_Exercise_Text_Input_Type inputType = MBCL_Exercise_Text_Input_Type.None;
   String inputVariableId = '';
   int inputWidth = 0;
   // TODO: single/multiple choice
+  Map<String, OperandType> operandType___ = {}; // not experted
 
   Map<String, dynamic> toJSON() {
     // TODO: do NOT output code in final build
@@ -144,7 +152,6 @@ class MBCL_ExerciseData {
       "instances": this.instances.map((e) => e).toList(),
       "inputRequire": this.inputRequire.map((e) => e).toList(),
       "inputForbid": this.inputForbid.map((e) => e).toList(),
-      "inputType": this.inputType.name,
       "inputVariableId": this.inputVariableId,
       "inputWidth": this.inputWidth
     };
@@ -156,7 +163,7 @@ class MBCL_ExerciseData {
   }
 }
 
-enum MBCL_Exercise_VariableType {
+/*enum MBCL_Exercise_VariableType {
   Bool,
   Int,
   IntSet,
@@ -167,25 +174,7 @@ enum MBCL_Exercise_VariableType {
   Vector,
   Matrix,
   Term,
-}
-
-enum MBCL_Exercise_Text_Input_Type {
-  None,
-  Int,
-  Real,
-  ComplexNormal,
-  ComplexPolar,
-  ComplexSet,
-  IntSet,
-  IntSetNArts,
-  Vector,
-  VectorFlex,
-  Matrix,
-  MatrixFlexRows,
-  MatrixFlexCols,
-  MatrixFlex,
-  Term,
-}
+}*/
 
 class MBCL_FigureData {
   String filePath = '';
@@ -230,6 +219,37 @@ class MBCL_TableData {
   fromJSON(Map<String, dynamic> src) {
     // TODO
   }
+}
+
+class MBCL_InputFieldData {
+  MBCL_InputField_Type type = MBCL_InputField_Type.None;
+
+  Map<String, dynamic> toJSON() {
+    return {"type": this.type.name};
+  }
+
+  fromJSON(Map<String, dynamic> src) {
+    // TODO
+  }
+}
+
+enum MBCL_InputField_Type {
+  None,
+  Int,
+  Rational,
+  Real,
+  ComplexNormal,
+  ComplexPolar,
+  ComplexSet,
+  IntSet,
+  IntSetNArts,
+  Vector,
+  VectorFlex,
+  Matrix,
+  MatrixFlexRows,
+  MatrixFlexCols,
+  MatrixFlex,
+  Term,
 }
 
 class MBCL_Table_Row {
