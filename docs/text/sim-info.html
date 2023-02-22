@@ -1,0 +1,90 @@
+<p style="font-size: large">
+  This page enables to simulate courses. Since the simulator is written with
+  <i>Flutter</i>, the behavior is identical to the app.
+</p>
+<h4>Explore the demo course</h4>
+<p style="font-size: large; font-style: italic">
+  Remark: The demo course is currently not editable.
+</p>
+<p style="font-size: large">
+  The demo course demonstrates how to write courses in the mathe:buddy langauge
+  (MBL). Each file concentrates on a separate technological aspect.
+</p>
+Steps:
+<ol>
+  <li>
+    <!-- -->
+    Click on the <code>[DEMO]</code> button above.
+  </li>
+  <li>
+    <!-- -->
+    Choose file
+    <img src="img/fontawesome/folder-open-solid.svg" style="height: 12px" />
+    <code>HELLO.MBL</code>. You will see the MBL code on the right info page.
+  </li>
+  <li>
+    <!-- -->
+    Optionally click on [MBCL] to see the compiled code, that is transferred to
+    the simulator.
+  </li>
+  <li>
+    <!-- -->
+    Check in the log area (below the simulator window) that no error occurred.
+  </li>
+  <li>
+    <!-- -->
+    Start the simulator by pressing on the power on button
+    <img src="img/fontawesome/power-off-solid.svg" style="height: 12px" />. The
+    current course (or level) is simulated.
+  </li>
+  <li>
+    <!-- -->
+    Optionally change to another screen size by pressing on one of the
+    smartphone buttons
+    <img src="img/fontawesome/mobile-screen-solid.svg" style="height: 12px" />.
+  </li>
+</ol>
+
+<h4>Create own courses</h4>
+<p style="font-size: large; font-style: italic">
+  Remark: The following guide will currently not work with all browsers. As a
+  workaround, you may run this website locally on your computer, as described
+  <a href="https://github.com/mathebuddy" target="_blank">here</a> in the readme
+  file.
+</p>
+<p style="font-size: large">
+  Creating and editing own courses requires to store MBL files locally on your
+  device. As a dependency you need to have
+  <a href="https://www.python.org/downloads/" target="_blank">Python 3</a>
+  installed on your computer.
+</p>
+Steps:
+<ol>
+  <li>
+    <!-- -->
+    Download an extract the example template from
+    <a
+      href="https://github.com/mathebuddy/mathebuddy-public-courses/archive/refs/heads/main.zip"
+      >here</a
+    >. Alternatively, run the following command from a terminal window:
+    <code
+      >git clone
+      https://github.com/mathebuddy/mathebuddy-public-courses.git</code
+    >
+  </li>
+  <li>
+    <!-- -->
+    Change into the <code>mathebuddy-public-courses</code> directory and run
+    <code>server.py</code>. The script runs a local webserver at port
+    <code>8271</code>.
+  </li>
+  <li>
+    <!-- -->
+    On this website, click on the
+    <code>[HTTP://LOCALHOST:8271]</code> button above.
+  </li>
+  <li>
+    <!-- -->
+    The remaining steps are similar to working with the DEMO course (above).
+  </li>
+</ol>
