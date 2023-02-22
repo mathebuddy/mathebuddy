@@ -8,8 +8,8 @@
 
 import 'dart:html';
 
-import '../../lib/smpl/src/interpreter.dart';
-import '../../lib/smpl/src/parser.dart';
+import '../../lib/smpl/src/interpreter.dart' as smplInterpreter;
+import '../../lib/smpl/src/parser.dart' as smplParser;
 
 import 'help.dart';
 
@@ -42,16 +42,16 @@ void smplPlayground() {
 }
 
 void runSmplCode(String src) {
-  Parser parser = new Parser();
+  var parser = new smplParser.Parser();
   try {
     // parse
     parser.parse(src);
     // get and show intermediate code (=: ic)
-    AST_Node? ast = parser.getAbstractSyntaxTree();
-    String astStr = (ast as AST_Node).toString(0);
+    var ast = parser.getAbstractSyntaxTree() as smplParser.AST_Node;
+    String astStr = ast.toString(0);
     showIntermediateCode(astStr);
     // get and show variable values
-    var interpreter = new Interpreter();
+    var interpreter = new smplInterpreter.Interpreter();
     var symbols = interpreter.runProgram(ast);
     var output = '';
     for (var id in symbols.keys) {
