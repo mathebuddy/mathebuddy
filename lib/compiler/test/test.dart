@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import '../src/compiler.dart';
+import '../src/course.dart';
 
 // load function that allows the compiler to read files dynamically by request
 String load(String path) {
@@ -27,6 +28,16 @@ void compile(String path_in) {
   print(jsonStr);
   var path_out = path_in.substring(0, path_in.length - 4) + '_COMPILED.json';
   File(path_out).writeAsStringSync(jsonStr);
+
+  var dec = jsonDecode(jsonStr);
+  var reimportTest = new MBCL_Course();
+  try {
+    reimportTest.fromJSON(dec);
+
+    var bp = 1337;
+  } catch (e) {
+    print("ERROR: " + e.toString());
+  }
 }
 
 void main() {
