@@ -8,6 +8,7 @@
 
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
+import '../../compiler/src/chapter.dart';
 import 'chapter.dart';
 
 enum MBCL_Course_Debug {
@@ -20,8 +21,8 @@ abstract class MBCL_Course__ABSTRACT {
   MBCL_Course_Debug debug = MBCL_Course_Debug.No;
   String title = '';
   String author = '';
-  int mbcl_version = 1;
-  int date_modified = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
+  int mbclVersion = 1;
+  int dateModified = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
   List<MBCL_Chapter__ABSTRACT> chapters = [];
 
   void postProcess();
@@ -47,13 +48,24 @@ abstract class MBCL_Course__ABSTRACT {
       "debug": this.debug.name,
       "title": this.title,
       "author": this.author,
-      "mbclVersion": this.mbcl_version,
-      "dateModified": this.date_modified,
+      "mbclVersion": this.mbclVersion,
+      "dateModified": this.dateModified,
       "chapters": this.chapters.map((chapter) => chapter.toJSON()).toList(),
     };
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.debug = MBCL_Course_Debug.values.byName(src["debug"]);
+    this.title = src["title"];
+    this.author = src["author"];
+    this.mbclVersion = src["mbclVersion"];
+    this.dateModified = src["dateModified"];
+    this.chapters = [];
+    int n = src["chapters"].length;
+    for (var i = 0; i < n; i++) {
+      var chapter = new MBCL_Chapter();
+      chapter.fromJSON(src["chapters"][i]);
+      this.chapters.add(chapter);
+    }
   }
 }
