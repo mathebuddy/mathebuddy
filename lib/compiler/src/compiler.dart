@@ -16,6 +16,7 @@ import '../../mbcl/src/level_item.dart';
 import 'block.dart';
 import 'chapter.dart';
 import 'course.dart';
+import 'exercise.dart';
 import 'help.dart';
 import 'level.dart';
 import 'level_item.dart';
@@ -575,13 +576,7 @@ class Compiler {
     Lexer lexer,
     MBCL_LevelItem exercise,
   ) {
-    return MBCL_LevelItem(MBCL_LevelItemType.Error, 'MC/SC is unimplemented!');
-  }
-  // TODO: reactivate the following method
-  /*MBCL_LevelItem _parseSingleOrMultipleChoice(
-    Lexer lexer,
-    MBCL_LevelItem exercise,
-  ) {
+    //TODO: return MBCL_LevelItem(MBCL_LevelItemType.Error, 'MC/SC is unimplemented!');
     var exerciseData = exercise.exerciseData as MBCL_ExerciseData;
     var isMultipleChoice = lexer.isTER('[');
     lexer.next();
@@ -594,39 +589,44 @@ class Compiler {
       lexer.next();
       if (lexer.isID()) {
         varId = lexer.ID();
-        if (exerciseData.variables.containsKey(varId) == false)
+        if (exerciseData.variables.contains(varId) == false)
           exercise.error = 'unknown variable ' + varId;
       } else {
         exercise.error = 'expected ID after :';
       }
     }
-    MBCL_Exercise_Text_SingleOrMultiple_Choice? element = null;
+    MBCL_LevelItem element =
+        new MBCL_LevelItem(MBCL_LevelItemType.MultipleChoice);
     if (varId.length == 0)
-      varId = exercise.addStaticBooleanVariable(staticallyCorrect);
+      varId = addStaticBooleanVariable(exerciseData, staticallyCorrect);
     if (isMultipleChoice) {
       if (lexer.isTER(']'))
         lexer.next();
       else
         exercise.error = 'expected ]';
-      element = new MBCL_Exercise_Text_Multiple_Choice();
+      element.type = MBCL_LevelItemType.MultipleChoice;
     } else {
       if (lexer.isTER(')'))
         lexer.next();
       else
         exercise.error = 'expected )';
-      element = new MBCL_Exercise_Text_Single_Choice();
+      element.type = MBCL_LevelItemType.SingleChoice;
     }
-    var option = new MBCL_Exercise_Text_Single_or_Multi_Choice_Option();
-    option.input_id = 'input' + this._createUniqueId().toString();
-    option.variable = varId;
+    var option = new MBCL_LevelItem(MBCL_LevelItemType.MultipleChoiceOption);
+    var data = new MBCL_SingleOrMultipleChoiceOptionData();
+    option.singleOrMultipleChoiceOptionData = data;
+    if (element.type == MBCL_LevelItemType.SingleChoice)
+      option.type = MBCL_LevelItemType.SingleChoiceOption;
+    data.inputId = 'input' + this.createUniqueId().toString();
+    data.variableId = varId;
     element.items.add(option);
     var span = new MBCL_LevelItem(MBCL_LevelItemType.Span);
-    option.text = span;
+    option.items.add(span);
     while (lexer.isNotNEWLINE() && lexer.isNotEND())
       span.items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER('\n')) lexer.next();
     return element;
-  }*/
+  }
 
   MBCL_LevelItem _parseTextProperty(Lexer lexer, MBCL_LevelItem? exercise) {
     // TODO: make sure, that errors are not too annoying...
