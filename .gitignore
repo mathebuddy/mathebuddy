@@ -1,3 +1,4 @@
+docs/sim/assets/NOTICES
 __pycache__/
 node_modules/
 package-lock.json
@@ -6,3 +7,4 @@ build/
 *.js.map
 
 .DS_Store
+
