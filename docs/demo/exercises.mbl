@@ -1,0 +1,20 @@
+Exercises
+#########
+
+---
+EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
+@text
+Some text here.
+[x] This answer is correct.
+[ ] This answer is incorrect.
+[x] This answer is correct.
+---
+
+---
+EXERCISE Addition @ex:add
+@code
+let x/y = rand(1, 5);
+let z = x + y;
+@text
+Calculate $ x + y = $ #z.
+---
