@@ -19,17 +19,27 @@ String load(String path) {
     return File(path).readAsStringSync();
 }
 
+void compile(String path_in) {
+  var compiler = new Compiler(load);
+  compiler.compile(path_in);
+  var y = compiler.getCourse()?.toJSON();
+  var jsonStr = JsonEncoder.withIndent("  ").convert(y);
+  print(jsonStr);
+  var path_out = path_in.substring(0, path_in.length - 4) + '_COMPILED.json';
+  File(path_out).writeAsStringSync(jsonStr);
+}
+
 void main() {
   print('mathe:buddy Compiler (c) 2022-2023 by TH Koeln');
 
   // demo course
-  print('=== TESTING DEMO COURSE ===');
-  var compiler = new Compiler(load);
-  //compiler.compile('examples/demo-course/course.mbl');
-  compiler.compile('lib/compiler/test/data/demo-basic/hello.mbl');
-  var y = compiler.getCourse()?.toJSON();
-  var json = JsonEncoder.withIndent("  ").convert(y);
-  print(json);
+  print('=== TESTING DEMO FILES ===');
+
+  var files = ['hello.mbl', 'equations.mbl', 'examples.mbl'];
+  for (var file in files) {
+    print("== TESTING FILE " + file + " ==");
+    compile('lib/compiler/test/data/demo-basic/' + file);
+  }
 
   var bp = 1337;
 
