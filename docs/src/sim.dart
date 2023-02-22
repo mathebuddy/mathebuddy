@@ -26,10 +26,16 @@ var dataArea = html.document.getElementById("sim-data-area") as html.DivElement;
 var logArea = html.document.getElementById("sim-log-area") as html.DivElement;
 
 void init() {
+  html.querySelector('#showSimInfo')?.onClick.listen((event) {
+    html.querySelector('#sim-info')?.style.display = 'block';
+    html.querySelector('#sim')?.style.display = 'none';
+  });
   html.querySelector('#showSimDemo')?.onClick.listen((event) {
+    html.querySelector('#sim-info')?.style.display = 'none';
     showSim('demo');
   });
   html.querySelector('#showSimLocalhost')?.onClick.listen((event) {
+    html.querySelector('#sim-info')?.style.display = 'none';
     showSim('localhost');
   });
   html.querySelector('#resetSim')?.onClick.listen((event) {
