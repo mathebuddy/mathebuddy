@@ -6,12 +6,53 @@
  * License: GPL-3.0-or-later
  */
 
-import 'dart:html';
+import 'dart:html' as html;
 
 void setTextInput(String elementId, String value) {
-  (document.getElementById(elementId) as InputElement).value = value;
+  (html.document.getElementById(elementId) as html.InputElement).value = value;
 }
 
 void setTextArea(String id, String value) {
-  (document.getElementById(id) as TextAreaElement).value = value;
+  (html.document.getElementById(id) as html.TextAreaElement).value = value;
+}
+
+Future<String> readTextFile(String path) {
+  return html.HttpRequest.getString(
+          path + "?ver=" + DateTime.now().millisecondsSinceEpoch.toString())
+      .catchError((e) => throw new Exception("failed to read file " + path));
+}
+
+Future<List<String>> getFilesFromDir(String path) async {
+  List<String> res = [];
+  // a) try to do directory listing
+  try {
+    var data = await readTextFile(path);
+    res = extractFilesFromDirectoryListingHtml(data);
+  } catch (e) {
+    print('reading _fs.txt');
+    // b) try to read _fs.txt
+    try {
+      var data = await readTextFile(path + '_fs.txt');
+      res = data.split('\n');
+    } catch (e) {
+      print("... failed to get files from dir '" + path + "'");
+    }
+  }
+  return Future.value(res);
+}
+
+List<String> extractFilesFromDirectoryListingHtml(String data) {
+  List<String> files = [];
+  var lines = data.split("\n");
+  for (var line in lines) {
+    if (line.startsWith('<li><a href="')) {
+      var file = line.substring(13).split('"')[0];
+      if (file.startsWith(".")) continue;
+      //if (!file.endsWith("/") && !file.endsWith(".mbl")) continue;
+      files.add(file);
+    }
+  }
+  //console.log(files);
+  files.sort();
+  return files;
 }
