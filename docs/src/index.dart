@@ -6,12 +6,18 @@
  * License: GPL-3.0-or-later
  */
 
-import 'math-runtime-playground.dart';
-import 'smpl-playground.dart';
-import 'mbl-playground.dart';
+import 'math-runtime-playground.dart' as mathPlay;
+import 'smpl-playground.dart' as smplPlay;
+import 'mbl-playground.dart' as mblPlay;
+import 'sim.dart' as sim;
 
-void main() {
-  mathRuntimePlayground();
-  smplPlayground();
-  mblPlayground();
+void main() async {
+  mathPlay.mathRuntimePlayground();
+  smplPlay.smplPlayground();
+  mblPlay.mblPlayground();
+
+  sim.init();
+
+  //var files = await getFilesFromDir('demo/');
+  //print(files.toString());
 }
