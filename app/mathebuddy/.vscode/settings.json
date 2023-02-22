@@ -1,9 +1,4 @@
 {
-    "editor.formatOnSave": true,
-    "cSpell.words": [
-        "appbar",
-        "cupertino",
-        "mathe",
-        "wireframe"
-    ]
+  "editor.formatOnSave": true,
+  "cSpell.words": ["appbar", "cupertino", "mathe", "mathebuddy", "wireframe"]
 }
