@@ -201,7 +201,7 @@ class Compiler {
         this.compileLevel(levelPath);
         this._unit?.levels.add(this._level as MBCL_Level);
         // set chapter meta data
-        this._level?.file_id = fileName;
+        this._level?.fileId = fileName;
         this._level?.pos_x = posX;
         this._level?.pos_y = posY;
         this._level?.requires_tmp.addAll(requirements);
