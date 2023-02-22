@@ -17,7 +17,7 @@ abstract class MBCL_Unit__ABSTRACT {
   Map<String, dynamic> toJSON() {
     return {
       "title": this.title,
-      "levels": this.levels.map((level) => level.file_id).toList(),
+      "levels": this.levels.map((level) => level.fileId).toList(),
     };
   }
 
