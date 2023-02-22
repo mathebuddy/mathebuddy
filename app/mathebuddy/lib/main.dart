@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'dart:html';
+//import 'dart:html';
+import 'package:universal_html/html.dart' as html;
 
 void main() {
   runApp(const MyApp());
@@ -55,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _getMessage() {
     setState(() {
-      var msg = document.getElementById('test-span')?.innerHtml as String;
+      var msg = html.document.getElementById('test-span')?.innerHtml as String;
       //print("xxxxx " + msg);
       _msg = msg;
     });
