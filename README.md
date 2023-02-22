@@ -72,6 +72,7 @@ Then run `flutter doctor` in a terminal window and install all listed dependenci
   xcode-select --install
   sudo gem install cocoapods
   brew install --cask android-studio
+  brew install bundletool
   ```
 
   Run the application `Android Studio.app`, agree to the licenses and complete the setup.
@@ -125,11 +126,11 @@ python3 -m http.server 8314
 
 Open `http://localhost:8314/` in your favorite browser. You may choose some other port than `8314`.
 
-Alternatively, you may also use script `./web.sh` in the root directory of the repository.
+Alternatively, you may also use script `./web.sh` (or the admin tool `./cmd.sh`) in the root directory of the repository.
 
 ```
 cd YOUR_FAVORITE_DIRECTORY/mathebuddy
-./cmd.sh
+./web.sh
 ```
 
 ### Build
