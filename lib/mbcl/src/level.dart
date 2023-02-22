@@ -11,7 +11,7 @@
 import 'level_item.dart';
 
 abstract class MBCL_Level__ABSTRACT {
-  String file_id =
+  String fileId =
       ''; // all references go here; label is only used for searching
   String title = '';
   String label = '';
@@ -25,12 +25,12 @@ abstract class MBCL_Level__ABSTRACT {
 
   Map<String, dynamic> toJSON() {
     return {
-      "fileId": this.file_id,
+      "fileId": this.fileId,
       "title": this.title,
       "label": this.label,
       "posX": this.pos_x,
       "posY": this.pos_y,
-      "requires": this.requires.map((req) => req.file_id).toList(),
+      "requires": this.requires.map((req) => req.fileId).toList(),
       "items": this.items.map((item) => item.toJSON()).toList(),
     };
   }
