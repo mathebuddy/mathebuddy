@@ -9,6 +9,7 @@
 import '../../../ext/multila-lexer/src/lex.dart';
 import '../../../ext/multila-lexer/src/token.dart';
 
+import '../../math-runtime/src/operand.dart';
 import '../../mbcl/src/course.dart';
 import '../../mbcl/src/level_item.dart';
 
@@ -262,7 +263,7 @@ class Compiler {
     this._pushParagraph();
   }
 
-  int _createUniqueId() {
+  int createUniqueId() {
     return this._uniqueIdCounter++;
   }
 
@@ -535,35 +536,31 @@ class Compiler {
   MBCL_LevelItem _parseInputElements(Lexer lexer, MBCL_LevelItem exercise) {
     lexer.next();
     var id = '';
-    var input = new MBCL_LevelItem(MBCL_LevelItemType.ExerciseInputField);
-    input.id = 'input' + this._createUniqueId().toString();
+    var input = new MBCL_LevelItem(MBCL_LevelItemType.InputField);
+    var data = new MBCL_InputFieldData();
+    input.inputFieldData = data;
+    input.id = 'input' + this.createUniqueId().toString();
     var exerciseData = exercise.exerciseData as MBCL_ExerciseData;
     if (lexer.isID()) {
       id = lexer.ID();
-      if (exerciseData.variables.containsKey(id)) {
-        var v = exerciseData.variables[id] as MBCL_Exercise_VariableType;
+      if (exerciseData.variables.contains(id)) {
+        var opType = exerciseData.operandType___[id] as OperandType;
         input.id = id;
-        switch (v) {
-          case MBCL_Exercise_VariableType.Int:
-            input.id = MBCL_Exercise_Text_Input_Type.Int.name;
+        switch (opType) {
+          case OperandType.INT:
+            data.type = MBCL_InputField_Type.Int;
             break;
-          case MBCL_Exercise_VariableType.IntSet:
-            input.id = MBCL_Exercise_Text_Input_Type.IntSet.name;
+          case OperandType.RATIONAL:
+            data.type = MBCL_InputField_Type.Rational;
             break;
-          case MBCL_Exercise_VariableType.Real:
-            input.id = MBCL_Exercise_Text_Input_Type.Real.name;
+          case OperandType.REAL:
+            data.type = MBCL_InputField_Type.Real;
             break;
-          case MBCL_Exercise_VariableType.Complex:
-            input.id = MBCL_Exercise_Text_Input_Type.ComplexNormal.name;
-            break;
-          case MBCL_Exercise_VariableType.ComplexSet:
-            input.id = MBCL_Exercise_Text_Input_Type.ComplexSet.name;
-            break;
-          case MBCL_Exercise_VariableType.Matrix:
-            input.id = MBCL_Exercise_Text_Input_Type.Matrix.name;
+          case OperandType.COMPLEX:
+            data.type = MBCL_InputField_Type.ComplexNormal;
             break;
           default:
-            exercise.error += 'UNIMPLEMENTED input type ' + v.name + '. ';
+            exercise.error += 'UNIMPLEMENTED input type ' + opType.name + '. ';
         }
       } else {
         exercise.error = 'there is no variable "' + id + '". ';
