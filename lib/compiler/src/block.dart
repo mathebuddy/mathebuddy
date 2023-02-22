@@ -11,6 +11,8 @@ import '../../mbcl/src/level_item.dart';
 import 'compiler.dart';
 import 'level_item.dart';
 
+// TODO: define a "whitelist" for allowed subblocks for each block type. CHECK IF ALLOWED!
+
 /*
 ---
 EXAMPLE Addition of complex numbers @ex:myExample
@@ -284,79 +286,71 @@ class Block {
 
   MBCL_LevelItem _processEquation(bool numbering) {
     var equation = new MBCL_LevelItem(MBCL_LevelItemType.Equation);
-    return equation;
-    // TODO
-    /*equation.numbering = numbering ? 888 : -1; // TODO: number
+    var data = new MBCL_EquationData();
+    equation.equationData = data;
+    equation.id = (numbering ? 888 : -1).toString(); // TODO: number
     equation.title = this.title;
     equation.label = this.label;
-    for (var p of this.parts) {
-      if (p is BlockPart) {
-        var part = <BlockPart>p;
-        switch (part.name) {
-          case 'options':
-            for (var line of part.lines) {
-              line = line.trim();
-              if (line.length == 0) continue;
-              switch (line) {
-                case 'align-left':
-                  equation.options.add(MBL_EquationOption.AlignLeft);
-                  break;
-                case 'align-center':
-                  equation.options.add(MBL_EquationOption.AlignCenter);
-                  break;
-                case 'align-right':
-                  equation.options.add(MBL_EquationOption.AlignRight);
-                  break;
-                case 'align-equals':
-                  // TODO: do NOT store. create LaTeX-code instead!
-                  equation.options.add(MBL_EquationOption.AlignEquals);
-                  break;
-                default:
-                  equation.error += 'unknown option "' + line + '"';
-              }
+    for (var part in this.parts) {
+      switch (part.name) {
+        case 'options':
+          for (var line in part.lines) {
+            line = line.trim();
+            if (line.length == 0) continue;
+            switch (line) {
+              case 'align-left':
+                data.options.add(MBCL_EquationOption.AlignLeft);
+                break;
+              case 'align-center':
+                data.options.add(MBCL_EquationOption.AlignCenter);
+                break;
+              case 'align-right':
+                data.options.add(MBCL_EquationOption.AlignRight);
+                break;
+              case 'align-equals':
+                // TODO: do NOT store. create LaTeX-code instead!
+                data.options.add(MBCL_EquationOption.AlignEquals);
+                break;
+              default:
+                equation.error += 'unknown option "' + line + '"';
             }
-            break;
-          case 'global':
-          case 'text':
-            equation.value += part.lines.join('\\\\');
-            break;
-          default:
-            equation.error += 'unexpected part "' + part.name + '"';
-            break;
-        }
-      } else {
-        equation.error += 'unexpected sub-block';
+          }
+          break;
+        case 'global':
+        case 'text':
+          equation.text += part.lines.join('\\\\');
+          break;
+        default:
+          equation.error += 'unexpected part "' + part.name + '"';
+          break;
       }
     }
-    return equation;*/
+    for (var sub in this.subBlocks) {
+      sub.process();
+      equation.items.add(sub.levelItem);
+    }
+    return equation;
   }
 
   MBCL_LevelItem _processExample() {
-    var example = new MBCL_LevelItem(MBCL_LevelItemType.Exercise);
-    return example;
-    // TODO
-    /*
+    var example = new MBCL_LevelItem(MBCL_LevelItemType.Example);
     example.title = this.title;
     example.label = this.label;
-    for (var p of this.parts) {
-      if (p instanceof BlockPart) {
-        var part = <BlockPart>p;
-        switch (part.name) {
-          case 'global':
-            example.items.push(
-              this.compiler.parseParagraph(part.lines.join('\n')),
-            );
-            break;
-          default:
-            example.error += 'unexpected part "' + part.name + '"';
-            break;
-        }
-      } else {
-        // TODO: check if allowed here!!
-        example.items.push(p);
+    for (var part in this.parts) {
+      switch (part.name) {
+        case 'global':
+          example.items
+              .add(this._compiler.parseParagraph(part.lines.join("\n")));
+          break;
+        default:
+          example.error += 'unexpected part "' + part.name + '"';
       }
     }
-    return example;*/
+    for (var sub in this.subBlocks) {
+      sub.process();
+      example.items.add(sub.levelItem);
+    }
+    return example;
   }
 
   MBCL_LevelItem _processTextAlign(MBCL_LevelItemType type) {
