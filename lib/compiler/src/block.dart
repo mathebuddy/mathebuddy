@@ -7,6 +7,8 @@
  */
 
 import '../../mbcl/src/level_item.dart';
+import '../../smpl/src/parser.dart' as smplParser;
+import '../../smpl/src/interpreter.dart' as smplInterpreter;
 
 import 'compiler.dart';
 import 'level_item.dart';
@@ -78,7 +80,6 @@ class Block {
       case 'PARADOX':
         this.levelItem = this._processDefinition(MBCL_LevelItemType.DefParadox);
         break;
-
       case 'LEFT':
         this.levelItem = this._processTextAlign(MBCL_LevelItemType.AlignLeft);
         break;
@@ -88,38 +89,30 @@ class Block {
       case 'RIGHT':
         this.levelItem = this._processTextAlign(MBCL_LevelItemType.AlignRight);
         break;
-
       case 'EQUATION':
         this.levelItem = this._processEquation(true);
         break;
       case 'EQUATION*':
         this.levelItem = this._processEquation(false);
         break;
-
       case 'EXAMPLE':
         this.levelItem = this._processExample();
         break;
-
       case 'EXERCISE':
         this.levelItem = this._processExercise();
         break;
-
       case 'TEXT':
         this.levelItem = this._processText();
         break;
-
       case 'TABLE':
         this.levelItem = this._processTable();
         break;
-
       case 'FIGURE':
         this.levelItem = this._processFigure();
         break;
-
       case 'NEWPAGE':
         this.levelItem = new MBCL_LevelItem(MBCL_LevelItemType.NewPage);
         break;
-
       default:
         this.levelItem = new MBCL_LevelItem(
             MBCL_LevelItemType.Error, 'unknown block type "' + this.type + '"');
@@ -354,160 +347,102 @@ class Block {
   }
 
   MBCL_LevelItem _processTextAlign(MBCL_LevelItemType type) {
-    var xxx = new MBCL_LevelItem(type);
-    return xxx;
-    // TODO
-    /*
-    var align: MBL_Text_AlignLeft | MBL_Text_AlignCenter | MBL_Text_AlignRight;
-    switch (type) {
-      case 'LEFT':
-        align = new MBL_Text_AlignLeft();
-        break;
-      case 'CENTER':
-        align = new MBL_Text_AlignCenter();
-        break;
-      case 'RIGHT':
-        align = new MBL_Text_AlignRight();
-        break;
-    }
-    for (var p of this.parts) {
-      if (p is BlockPart) {
-        var part = <BlockPart>p;
-        switch (part.name) {
-          case 'global':
-            align.items.push(
-              this.compiler.parseParagraph(part.lines.join('\n')),
-            );
-            break;
-        }
-      } else {
-        // TODO: check if allowed here!!
-        align.items.push(p);
+    var align = new MBCL_LevelItem(type);
+    for (var part in this.parts) {
+      switch (part.name) {
+        case 'global':
+          align.items.add(this._compiler.parseParagraph(part.lines.join("\n")));
+          break;
+        default:
+          align.error += 'unexpected part "' + part.name + '"';
       }
     }
-    return align;*/
+    for (var sub in this.subBlocks) {
+      sub.process();
+      align.items.add(sub.levelItem);
+    }
+    return align;
   }
 
   MBCL_LevelItem _processDefinition(MBCL_LevelItemType type) {
     var def = new MBCL_LevelItem(type);
-    return def;
-    // TODO
-    /*def.title = this.title;
+    def.title = this.title;
     def.label = this.label;
-    for (var p of this.parts) {
-      if (p is BlockPart) {
-        var part = <BlockPart>p;
-        switch (part.name) {
-          case 'global':
-            def.items.push(this._compiler.parseParagraph(part.lines.join('\n')));
-            break;
-          default:
-            def.error += 'unexpected part "' + part.name + '"';
-            break;
-        }
-      } else {
-        // TODO: check if allowed here!!
-        def.items.push(p);
+    for (var part in this.parts) {
+      switch (part.name) {
+        case 'global':
+          def.items.add(this._compiler.parseParagraph(part.lines.join("\n")));
+          break;
+        default:
+          def.error += 'unexpected part "' + part.name + '"';
       }
     }
-    return def;*/
+    for (var sub in this.subBlocks) {
+      sub.process();
+      def.items.add(sub.levelItem);
+    }
+    return def;
   }
 
   MBCL_LevelItem _processExercise() {
     var exercise = new MBCL_LevelItem(MBCL_LevelItemType.Exercise);
-    return exercise;
-    // TODO
-    /*exercise.title = this.title;
+    var data = new MBCL_ExerciseData();
+    exercise.exerciseData = data;
+    exercise.title = this.title;
     // TODO: must guarantee that no two exercises labels are same in entire course!!
     exercise.label = this.label;
     if (exercise.label.length == 0) {
-      exercise.label = 'ex' + this.compiler.createUniqueId();
+      exercise.label = 'ex' + this._compiler.createUniqueId().toString();
     }
-    for (var p of this.parts) {
-      if (p instanceof BlockPart) {
-        var part = <BlockPart>p;
-        switch (part.name) {
-          case 'global':
-            if (part.lines.join('\n').trim().length > 0)
-              exercise.error =
+    for (var part in this.parts) {
+      switch (part.name) {
+        case 'global':
+          if (part.lines.join('\n').trim().length > 0)
+            exercise.error +=
                 'Some of your code is not inside a tag (e.g. "@code" or "@text")';
-            break;
-          case 'code':
-            exercise.code = part.lines.join('\n');
+          break;
+        case 'code':
+          data.code = part.lines.join('\n');
+          for (var i = 0; i < 3; i++) {
+            // TODO: configure number of instances!
+            // TODO: repeat if same instance is already drawn
+            // TODO: must check for endless loops, e.g. happens if search space is restricted!
             try {
-              for (var i = 0; i < 3; i++) {
-                // TODO: configure number of instances!
-                // TODO: repeat if same instance is already drawn
-                // TODO: must check for endless loops, e.g. happens if search space is restricted!
-                var instance = new MBL_Exercise_Instance();
-                var variables = SMPL.interpret(exercise.code);
-                for (var v of variables) {
-                  var ev = new MBL_Exercise_Variable();
-                  switch (v.type.base) {
-                    case BaseType.BOOL:
-                      ev.type = MBL_Exercise_VariableType.Bool;
-                      break;
-                    case BaseType.INT:
-                      ev.type = MBL_Exercise_VariableType.Int;
-                      break;
-                    case BaseType.REAL:
-                      ev.type = MBL_Exercise_VariableType.Real;
-                      break;
-                    case BaseType.COMPLEX:
-                      ev.type = MBL_Exercise_VariableType.Complex;
-                      break;
-                    case BaseType.TERM:
-                      ev.type = MBL_Exercise_VariableType.Term;
-                      break;
-                    case BaseType.VECTOR:
-                      ev.type = MBL_Exercise_VariableType.Vector;
-                      break;
-                    case BaseType.MATRIX:
-                      ev.type = MBL_Exercise_VariableType.Matrix;
-                      break;
-                    case BaseType.INT_SET:
-                      ev.type = MBL_Exercise_VariableType.IntSet;
-                      break;
-                    case BaseType.REAL_SET:
-                      ev.type = MBL_Exercise_VariableType.RealSet;
-                      break;
-                    case BaseType.COMPLEX_SET:
-                      ev.type = MBL_Exercise_VariableType.ComplexSet;
-                      break;
-                    default:
-                      throw Error(
-                        'unimplemented: processExercise(..) type ' +
-                          v.type.base,
-                      );
-                  }
-                  exercise.variables[v.id] = ev;
-                  instance.values[v.id] = v.value.toString();
+              var parser = new smplParser.Parser();
+              parser.parse(data.code);
+              var ic = parser.getAbstractSyntaxTree() as smplParser.AST_Node;
+              var interpreter = new smplInterpreter.Interpreter();
+              var symbols = interpreter.runProgram(ic);
+              if (i == 0) {
+                for (var symId in symbols.keys) {
+                  var sym = symbols[symId] as smplInterpreter.InterpreterSymbol;
+                  data.variables.add(symId);
+                  data.operandType___[symId] = sym.value.type;
                 }
-                exercise.instances.add(instance);
               }
+              Map<String, String> instance = {};
+              for (var v in data.variables) {
+                var sym = symbols[v] as smplInterpreter.InterpreterSymbol;
+                instance[v] = sym.value.toString();
+                instance['@' + v] = sym.term.toString();
+              }
+              data.instances.add(instance);
             } catch (e) {
-              exercise.error = e.toString();
+              exercise.error += 'SMPL-Error: ' + e.toString() + '\n';
             }
-            break;
-          case 'text':
-            exercise.text = this._compiler.parseParagraph(
-              part._lines.join('\n'),
-              exercise,
-            );
-            break;
-          default:
-            exercise.error = 'unknown part "' + part.name + '"';
-            break;
-        }
-      } else {
-        // TODO: check if allowed here!!
-        //TODO: exercise.items.push(p);
+          }
+          break;
+        case 'text':
+          exercise.items.add(this._compiler.parseParagraph(
+                part.lines.join('\n'),
+                exercise,
+              ));
+          break;
+        default:
+          exercise.error += 'unknown part "' + part.name + '"';
+          break;
       }
     }
-    return exercise;*/
+    return exercise;
   }
-
-  /*void _error(String message) {
-    print('' + (this.srcLine + 1).toString() + ': ' + message);
-  }*/
 }
