@@ -13,8 +13,8 @@ import 'parser.dart';
 
 class InterpreterSymbol {
   String id = '';
-  Term? term = null;
-  Operand? value = null;
+  Term term = Term.Const(Operand.createInt(0));
+  Operand value = Operand.createInt(0);
 }
 
 class Interpreter {
@@ -63,13 +63,12 @@ class Interpreter {
           var isOK = true;
           var k = 0;
           do {
-            symbol.value = symbol.term?.eval({}); // TODO: error handling
+            symbol.value = symbol.term.eval({}); // TODO: error handling
             isOK = true;
             for (var i = 0; i < assignment.independentTo.length; i++) {
               var indTo = assignment.independentTo[i];
               var s2 = this._getSymbol(indTo);
-              if (Operand.compareEqual(
-                  symbol.value as Operand, s2?.value as Operand)) {
+              if (Operand.compareEqual(symbol.value, s2?.value as Operand)) {
                 isOK = false;
                 break;
               }
@@ -84,9 +83,9 @@ class Interpreter {
             '>> assigned ' +
                 symbol.id +
                 ' := ' +
-                (symbol.value as Operand).toString() +
+                symbol.value.toString() +
                 ' (' +
-                (symbol.value as Operand).type.name +
+                symbol.value.type.name +
                 ')',
           );
         }
@@ -156,10 +155,9 @@ class Interpreter {
             'error in term "${src}": variable ${id} is unknown!'); // TODO: location
       } else {
         if (id.startsWith('@')) {
-          term.substituteVariableByTerm(id, (symbol.term as Term).clone());
+          term.substituteVariableByTerm(id, symbol.term.clone());
         } else {
-          term.substituteVariableByOperand(
-              id, (symbol.value as Operand).clone());
+          term.substituteVariableByOperand(id, symbol.value.clone());
         }
       }
     }
