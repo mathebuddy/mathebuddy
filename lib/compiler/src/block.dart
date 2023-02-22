@@ -403,8 +403,9 @@ class Block {
           break;
         case 'code':
           data.code = part.lines.join('\n');
-          for (var i = 0; i < 3; i++) {
-            // TODO: configure number of instances!
+          // TODO: configure number of instances!
+          const numInstances = 3;
+          for (var i = 0; i < numInstances; i++) {
             // TODO: repeat if same instance is already drawn
             // TODO: must check for endless loops, e.g. happens if search space is restricted!
             try {
