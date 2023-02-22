@@ -1,4 +1,5 @@
 _makefs.sh
+exercises.mbl
 hello.mbl
 typography.mbl
 test-dir/
