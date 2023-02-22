@@ -508,13 +508,13 @@ class Compiler {
       var tk = lexer.getToken().token;
       var isId = lexer.getToken().type == LexerTokenType.ID;
       lexer.next();
-      // TODO: reactivate the following!
-      /*if (isId && exercise != null && exercise.variables.containsKey(tk)) {
-        var v = new MBCL_Exercise_Text_Variable();
-        v.variableId = tk;
+      if (isId &&
+          exercise != null &&
+          (exercise.exerciseData as MBCL_ExerciseData).variables.contains(tk)) {
+        var v = new MBCL_LevelItem(MBCL_LevelItemType.VariableReference);
+        v.id = tk;
         inlineMath.items.add(v);
-      } else*/
-      {
+      } else {
         var text = new MBCL_LevelItem(MBCL_LevelItemType.Text);
         text.text = tk;
         inlineMath.items.add(text);
