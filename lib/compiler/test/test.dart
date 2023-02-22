@@ -35,7 +35,13 @@ void main() {
   // demo course
   print('=== TESTING DEMO FILES ===');
 
-  var files = ['hello.mbl', 'equations.mbl', 'examples.mbl'];
+  var files = [
+    'hello.mbl',
+    'exercises-simple.mbl',
+    'definitions.mbl',
+    'equations.mbl',
+    'examples.mbl'
+  ];
   for (var file in files) {
     print("== TESTING FILE " + file + " ==");
     compile('lib/compiler/test/data/demo-basic/' + file);
