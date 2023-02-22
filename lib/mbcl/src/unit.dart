@@ -6,7 +6,7 @@
  * License: GPL-3.0-or-later
  */
 
-// refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbcl.html (TODO: update link!)
+// refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
 import 'level.dart';
 
