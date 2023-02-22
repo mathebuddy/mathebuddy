@@ -4,6 +4,7 @@ Exercises
 ---
 EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
 @text
+Some text here.
 [x] This answer is correct.
 [ ] This answer is incorrect.
 [x] This answer is correct.
