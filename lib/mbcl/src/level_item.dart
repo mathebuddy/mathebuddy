@@ -27,12 +27,15 @@ abstract class MBCL_LevelItem__ABSTRACT {
   MBCL_FigureData? figureData = null;
   MBCL_TableData? tableData = null;
   MBCL_InputFieldData? inputFieldData = null;
+  MBCL_SingleOrMultipleChoiceOptionData? singleOrMultipleChoiceOptionData =
+      null;
 
   MBCL_LevelItem__ABSTRACT(this.type);
 
   void postProcess();
 
   Map<String, dynamic> toJSON() {
+    // TODO: write title, label, id, ... only where necessary!
     Map<String, dynamic> json = {
       "type": this.type.name,
       "title": this.title,
@@ -57,6 +60,11 @@ abstract class MBCL_LevelItem__ABSTRACT {
         break;
       case MBCL_LevelItemType.InputField:
         json["inputFieldData"] = this.inputFieldData?.toJSON();
+        break;
+      case MBCL_LevelItemType.SingleChoiceOption:
+      case MBCL_LevelItemType.MultipleChoiceOption:
+        json["singleOrMultipleChoiceData"] =
+            this.singleOrMultipleChoiceOptionData?.toJSON();
         break;
       default:
         break;
@@ -91,17 +99,20 @@ enum MBCL_LevelItemType {
   Error,
   Example,
   Exercise,
-  InputField,
-  //ExerciseTextVariable, ???
   Figure,
   InlineMath,
+  InputField,
   ItalicText,
   Itemize,
   LineFeed,
+  MultipleChoice,
+  MultipleChoiceOption,
   NewPage,
   Paragraph,
   Reference,
   Section,
+  SingleChoice,
+  SingleChoiceOption,
   Span,
   SubSection,
   SubSubSection,
@@ -134,18 +145,17 @@ enum MBCL_EquationOption {
 
 class MBCL_ExerciseData {
   String code = '';
-  int staticVariableCounter = 0;
   List<String> variables = [];
   List<Map<String, String>> instances = [];
   List<String> inputRequire = [];
   List<String> inputForbid = [];
   String inputVariableId = '';
   int inputWidth = 0;
-  // TODO: single/multiple choice
-  Map<String, OperandType> operandType___ = {}; // not experted
+  int staticVariableCounter___ = 0; // not exported
+  Map<String, OperandType> operandType___ = {}; // not exported
 
   Map<String, dynamic> toJSON() {
-    // TODO: do NOT output code in final build
+    // TODO: do NOT output this.code in final build
     return {
       "code": this.code,
       "variables": this.variables,
@@ -155,7 +165,6 @@ class MBCL_ExerciseData {
       "inputVariableId": this.inputVariableId,
       "inputWidth": this.inputWidth
     };
-    // TODO: single/multiple choice
   }
 
   fromJSON(Map<String, dynamic> src) {
@@ -250,6 +259,24 @@ enum MBCL_InputField_Type {
   MatrixFlexCols,
   MatrixFlex,
   Term,
+}
+
+class MBCL_SingleOrMultipleChoiceOptionData {
+  String inputId = '';
+  String variableId = '';
+  List<MBCL_LevelItem__ABSTRACT> items = [];
+
+  Map<String, dynamic> toJSON() {
+    return {
+      "inputId": this.inputId,
+      "variableId": this.variableId,
+      "items": this.items.map((item) => item.toJSON()).toList()
+    };
+  }
+
+  fromJSON(Map<String, dynamic> src) {
+    // TODO
+  }
 }
 
 class MBCL_Table_Row {
