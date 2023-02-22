@@ -1,6 +1,8 @@
 #!/bin/bash
-#flutter build web --web-renderer canvaskit --release
-#flutter build web --web-renderer html --release
+
+# more info: https://docs.flutter.dev/deployment/web
+
+# build web app
 flutter build web --web-renderer auto --release  # auto := html for mobile, canvaskit for desktop
 
 # update website
