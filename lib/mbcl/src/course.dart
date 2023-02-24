@@ -8,7 +8,6 @@
 
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
-import '../../compiler/src/chapter.dart';
 import 'chapter.dart';
 
 enum MBCL_Course_Debug {
@@ -17,17 +16,15 @@ enum MBCL_Course_Debug {
   Level,
 }
 
-abstract class MBCL_Course__ABSTRACT {
+class MBCL_Course {
   MBCL_Course_Debug debug = MBCL_Course_Debug.No;
   String title = '';
   String author = '';
   int mbclVersion = 1;
   int dateModified = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
-  List<MBCL_Chapter__ABSTRACT> chapters = [];
+  List<MBCL_Chapter> chapters = [];
 
-  void postProcess();
-
-  MBCL_Chapter__ABSTRACT? getChapterByLabel(String label) {
+  MBCL_Chapter? getChapterByLabel(String label) {
     for (var i = 0; i < this.chapters.length; i++) {
       var chapter = this.chapters[i];
       if (chapter.label == label) return chapter;
@@ -35,10 +32,10 @@ abstract class MBCL_Course__ABSTRACT {
     return null;
   }
 
-  MBCL_Chapter__ABSTRACT? getChapterByFileID(String fileID) {
+  MBCL_Chapter? getChapterByFileID(String fileID) {
     for (var i = 0; i < this.chapters.length; i++) {
       var chapter = this.chapters[i];
-      if (chapter.file_id == fileID) return chapter;
+      if (chapter.fileId == fileID) return chapter;
     }
     return null;
   }
