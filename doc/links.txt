@@ -2,4 +2,3 @@
 [<a href="./mbl.html">MBL Reference</a>] 
 [<a href="./smpl.html">SMPL Reference</a>] 
 [<a href="./mbcl.html">MBCL Reference</a>] 
-[<a href="./sim.html">Installation</a>] 
