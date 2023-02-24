@@ -25,12 +25,13 @@ do
     echo "[1] build website"
     echo "[2] build documentation"
     echo "[3] build flutter web app"
-    echo "[4] run website at http://localhost:8314"
-    echo "[5] run tests"
-    echo "[6] update testdata from mathebuddy-public-courses repo"
-    echo "[7] update grammar.txt in lib/*"
-    echo "[8] update file system files (_fs.txt) files in docs/demo/"
-    echo "[9] exit"
+    echo "[4] build android web app"
+    echo "[5] run website at http://localhost:8314"
+    echo "[6] run tests"
+    echo "[7] update testdata from mathebuddy-public-courses repo"
+    echo "[8] update grammar.txt in lib/*"
+    echo "[9] update file system files (_fs.txt) files in docs/demo/"
+    echo "[10] exit"
     read x
     case $x in
     1)
@@ -52,30 +53,36 @@ do
         cd ../..
         ;;
     4)
-        # [4] run website at http://localhost:8314
+        # [4] build flutter android app
+        cd app/mathebuddy
+        ./build-android.sh
+        cd ../..
+        ;;
+    5)
+        # [5] run website at http://localhost:8314
         cd docs
         python3 -m http.server 8314
         cd ..
         ;;
-    5)
-        # [5] run tests
+    6)
+        # [6] run tests
         cd lib
         ./test.sh
         cd ..
         ;;
-    6)
-        # [6] update testdata from mathebuddy-public-courses repo
+    7)
+        # [7] update testdata from mathebuddy-public-courses repo
         cd lib/compiler/test/
         ./update-testdata.sh
         cd ../../..
         ;;
-    7)  
-        # [7] update grammar.txt in lib/*
+    8)  
+        # [8] update grammar.txt in lib/*
         cd lib/
         ./build.sh
         ;;
-    8)
-        # [8] update file system files (_fs.txt) files in docs/demo/
+    9)
+        # [9] update file system files (_fs.txt) files in docs/demo/
         cd docs/demo/
         ./_makefs.sh
         cd ../..
