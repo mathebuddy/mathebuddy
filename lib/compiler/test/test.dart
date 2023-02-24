@@ -31,7 +31,7 @@ void compile(String path_in) {
   File(path_out).writeAsStringSync(jsonStr);
 
   var dec = jsonDecode(jsonStr);
-  var reimportTest = new MBCL_Course();
+  var reimportTest = new MbclCourse();
   try {
     reimportTest.fromJSON(dec);
     var y2 = reimportTest.toJSON();
