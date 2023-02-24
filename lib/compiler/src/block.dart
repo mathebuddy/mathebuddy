@@ -6,14 +6,13 @@
  * License: GPL-3.0-or-later
  */
 
+import '../../math-runtime/src/operand.dart';
 import '../../mbcl/src/level_item.dart';
+
 import '../../smpl/src/parser.dart' as smplParser;
 import '../../smpl/src/interpreter.dart' as smplInterpreter;
 
 import 'compiler.dart';
-import 'level_item.dart';
-
-// TODO: define a "whitelist" for allowed subblocks for each block type. CHECK IF ALLOWED!
 
 /*
 ---
@@ -129,152 +128,155 @@ class Block {
   MBCL_LevelItem _processTable() {
     int i;
     var table = new MBCL_LevelItem(MBCL_LevelItemType.Table);
-    return table;
-    // TODO
-    /*
+    var data = new MBCL_TableData();
+    table.tableData = data;
     table.title = this.title;
-    // TODO:for(var k=0; k<this.parts.)
-    for (var p of this.parts) {
-      if (p instanceof BlockPart) {
-        var part = <BlockPart>p;
-        switch (part.name) {
-          case 'global':
-            if (part.lines.join('\n').trim().length > 0)
-              table.error +=
+    for (var part in this.parts) {
+      switch (part.name) {
+        case 'global':
+          if (part.lines.join('\n').trim().length > 0) {
+            table.error +=
                 'Some of your code is not inside a tag (e.g. "@code" or "@text")';
-            break;
-          case 'options':
-            for (var line of part.lines) {
-              line = line.trim();
-              if (line.length == 0) continue;
-              switch (line) {
-                case 'align-left':
-                  table.options.add(MBL_Table_Option.AlignLeft);
-                  break;
-                case 'align-center':
-                  table.options.add(MBL_Table_Option.AlignCenter);
-                  break;
-                case 'align-right':
-                  table.options.add(MBL_Table_Option.AlignRight);
-                  break;
-                default:
-                  table.error += 'unknown option "' + line + '"';
-              }
+          }
+          break;
+        case 'options':
+          for (var line in part.lines) {
+            line = line.trim();
+            if (line.length == 0) continue;
+            switch (line) {
+              case 'align-left':
+                data.options.add(MBCL_Table_Option.AlignLeft);
+                break;
+              case 'align-center':
+                data.options.add(MBCL_Table_Option.AlignCenter);
+                break;
+              case 'align-right':
+                data.options.add(MBCL_Table_Option.AlignRight);
+                break;
+              default:
+                table.error += 'unknown option "' + line + '"';
             }
-            break;
-          case 'text':
-            i = 0;
-            for (var line of part.lines) {
-              line = line.trim();
-              // TODO: "&" may also be used in math-mode!!
-              var columnStrings = line.split('&');
-              var row = new MBL_Table_Row();
-              if (i == 0) table.head = row;
-              else table.rows.push(row);
-              for (var columnString of columnStrings) {
-                var column = this.compiler.parseParagraph(columnString);
-                row.columns.push(column);
-              }
-              i++;
+          }
+          break;
+        case 'text':
+          i = 0;
+          for (var line in part.lines) {
+            line = line.trim();
+            // TODO: "&" may also be used in math-mode!!
+            var columnStrings = line.split('&');
+            var row = new MBCL_Table_Row();
+            if (i == 0)
+              data.head = row;
+            else
+              data.rows.add(row);
+            for (var columnString in columnStrings) {
+              var column = this._compiler.parseParagraph(columnString);
+              row.columns.add(column);
             }
-            break;
-          default:
-            table.error += 'unexpected part "' + part.name + '"';
-            break;
-        }
+            i++;
+          }
+          break;
+        default:
+          table.error += 'unexpected part "' + part.name + '"';
+          break;
       }
     }
-    return table;*/
+    _processSubblocks(table);
+    return table;
   }
 
   MBCL_LevelItem _processFigure() {
     var figure = new MBCL_LevelItem(MBCL_LevelItemType.Figure);
-    return figure;
-    // TODO!!
-    /*var plotData: { [id: string]: string } = {};
-    for (var p of this.parts) {
-      if (p instanceof BlockPart) {
-        var part = <BlockPart>p;
-        switch (part.name) {
-          case 'global':
-            if (part.lines.join('\n').trim().length > 0)
-              figure.error +=
+    var data = new MBCL_FigureData();
+    figure.figureData = data;
+    Map<String, String> plotData = {};
+    for (var part in this.parts) {
+      switch (part.name) {
+        case 'global':
+          if (part.lines.join('\n').trim().length > 0)
+            figure.error +=
                 'Some of your code is not inside a tag (e.g. "@code")';
-            break;
-          case 'caption':
-            figure.caption = this.compiler.parseParagraph(
-              part.lines.join('\n'),
-            );
-            break;
-          case 'code':
-            {
-              // TODO: stop in case of infinite loops after some seconds!
-              var code = part.lines.join('\n');
-              try {
-                var variables = SMPL.interpret(code);
-                for (var v of variables) {
-                  if (v.type.base === BaseType.FIGURE_2D) {
-                    plotData[v.id] = v.value.toString();
-                  }
+          break;
+        case 'caption':
+          data.caption.add(this._compiler.parseParagraph(
+                part.lines.join('\n'),
+              ));
+          break;
+        case 'code':
+          {
+            // TODO: stop in case of infinite loops after some seconds!
+            var code = part.lines.join('\n');
+            try {
+              print("ERROR: _processFigure NOT IMPLEMENTED");
+              /*var parser = new smplParser.Parser();
+              parser.parse(code);
+              var ic = parser.getAbstractSyntaxTree() as smplParser.AST_Node;
+              var interpreter = new smplInterpreter.Interpreter();
+              var symbols = interpreter.runProgram(ic);
+              for (var key in symbols.keys) {
+                var sym = symbols[key] as smplInterpreter.InterpreterSymbol;
+                if (sym.value.type == OperandType.FIGURE_2D) {
+                  plotData[sym.id] = sym.value.toString();
                 }
-              } catch (e) {
-                figure.error += e.toString();
-              }
+              }*/
+            } catch (e) {
+              figure.error += e.toString();
             }
-            break;
-          case 'path':
-            if (part.lines.length != 1) {
-              figure.error += 'invalid path';
-            } else {
-              // TODO: check if path exists!
-              var line = part.lines[0].trim();
-              if (line.startsWith('#')) {
-                var variableId = line.substring(1);
-                if (variableId in plotData) {
-                  figure.data = plotData[variableId];
-                } else {
-                  figure.error += 'non-existing variable ' + line;
-                }
+          }
+          break;
+        case 'path':
+          if (part.lines.length != 1) {
+            figure.error += 'invalid path';
+          } else {
+            // TODO: check if path exists!
+            var line = part.lines[0].trim();
+            if (line.startsWith('#')) {
+              var variableId = line.substring(1);
+              if (plotData.containsKey(variableId)) {
+                data.data = plotData[variableId] as String;
               } else {
-                figure.filePath = line;
+                figure.error += 'non-existing variable ' + line;
               }
+            } else {
+              data.filePath = line;
             }
-            break;
-          case 'options':
-            for (var line of part.lines) {
-              line = line.trim();
-              if (line.length == 0) continue;
-              switch (line) {
-                case 'width-100':
-                  figure.options.add(MBL_Figure_Option.Width100);
-                  break;
-                case 'width-75':
-                  figure.options.add(MBL_Figure_Option.Width75);
-                  break;
-                case 'width-66':
-                  figure.options.add(MBL_Figure_Option.Width66);
-                  break;
-                case 'width-50':
-                  figure.options.add(MBL_Figure_Option.Width50);
-                  break;
-                case 'width-33':
-                  figure.options.add(MBL_Figure_Option.Width33);
-                  break;
-                case 'width-25':
-                  figure.options.add(MBL_Figure_Option.Width25);
-                  break;
-                default:
-                  figure.error += 'unknown option "' + line + '"';
-              }
+          }
+          break;
+        case 'options':
+          for (var line in part.lines) {
+            line = line.trim();
+            if (line.length == 0) continue;
+            switch (line) {
+              case 'width-100':
+                data.options.add(MBCL_Figure_Option.Width100);
+                break;
+              case 'width-75':
+                data.options.add(MBCL_Figure_Option.Width75);
+                break;
+              case 'width-66':
+                data.options.add(MBCL_Figure_Option.Width66);
+                break;
+              case 'width-50':
+                data.options.add(MBCL_Figure_Option.Width50);
+                break;
+              case 'width-33':
+                data.options.add(MBCL_Figure_Option.Width33);
+                break;
+              case 'width-25':
+                data.options.add(MBCL_Figure_Option.Width25);
+                break;
+              default:
+                figure.error += 'unknown option "' + line + '"';
             }
-            break;
-          default:
-            figure.error += 'unexpected part "' + part.name + '"';
-            break;
-        }
+          }
+          break;
+        default:
+          figure.error += 'unexpected part "' + part.name + '"';
+          break;
       }
     }
-    return figure;*/
+    _processSubblocks(figure);
+    return figure;
   }
 
   MBCL_LevelItem _processEquation(bool numbering) {
@@ -318,10 +320,7 @@ class Block {
           break;
       }
     }
-    for (var sub in this.subBlocks) {
-      sub.process();
-      equation.items.add(sub.levelItem);
-    }
+    _processSubblocks(equation);
     return equation;
   }
 
@@ -339,10 +338,7 @@ class Block {
           example.error += 'unexpected part "' + part.name + '"';
       }
     }
-    for (var sub in this.subBlocks) {
-      sub.process();
-      example.items.add(sub.levelItem);
-    }
+    _processSubblocks(example);
     return example;
   }
 
@@ -357,10 +353,7 @@ class Block {
           align.error += 'unexpected part "' + part.name + '"';
       }
     }
-    for (var sub in this.subBlocks) {
-      sub.process();
-      align.items.add(sub.levelItem);
-    }
+    _processSubblocks(align);
     return align;
   }
 
@@ -377,10 +370,7 @@ class Block {
           def.error += 'unexpected part "' + part.name + '"';
       }
     }
-    for (var sub in this.subBlocks) {
-      sub.process();
-      def.items.add(sub.levelItem);
-    }
+    this._processSubblocks(def);
     return def;
   }
 
@@ -444,6 +434,21 @@ class Block {
           break;
       }
     }
+    _processSubblocks(exercise);
     return exercise;
+  }
+
+  void _processSubblocks(MBCL_LevelItem item) {
+    for (var sub in this.subBlocks) {
+      sub.process();
+      if (MBCL_SubBlockWhiteList.containsKey(item.type) &&
+          (MBCL_SubBlockWhiteList[item.type] as List<MBCL_LevelItemType>)
+              .contains(sub.levelItem.type)) {
+        item.items.add(sub.levelItem);
+      } else {
+        item.error +=
+            'subblock type ' + sub.levelItem.type.name + ' is not allowed here';
+      }
+    }
   }
 }
