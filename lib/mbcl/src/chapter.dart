@@ -11,22 +11,20 @@
 import 'level.dart';
 import 'unit.dart';
 
-abstract class MBCL_Chapter__ABSTRACT {
-  String file_id =
+class MBCL_Chapter {
+  String fileId =
       ''; // all references go here; label is only used for searching
   String title = '';
   String label = '';
   String author = '';
-  int pos_x = -1;
-  int pos_y = -1;
-  List<MBCL_Chapter__ABSTRACT> requires = [];
+  int posX = -1;
+  int posY = -1;
+  List<MBCL_Chapter> requires = [];
   List<String> requires_tmp = []; // only used while compiling
-  List<MBCL_Unit__ABSTRACT> units = [];
-  List<MBCL_Level__ABSTRACT> levels = [];
+  List<MBCL_Unit> units = [];
+  List<MBCL_Level> levels = [];
 
-  void postProcess();
-
-  MBCL_Level__ABSTRACT? getLevelByLabel(String label) {
+  MBCL_Level? getLevelByLabel(String label) {
     for (var i = 0; i < this.levels.length; i++) {
       var level = this.levels[i];
       if (level.label == label) return level;
@@ -34,7 +32,7 @@ abstract class MBCL_Chapter__ABSTRACT {
     return null;
   }
 
-  MBCL_Level__ABSTRACT? getLevelByFileID(String fileID) {
+  MBCL_Level? getLevelByFileID(String fileID) {
     for (var i = 0; i < this.levels.length; i++) {
       var level = this.levels[i];
       if (level.fileId == fileID) return level;
@@ -44,19 +42,47 @@ abstract class MBCL_Chapter__ABSTRACT {
 
   Map<String, dynamic> toJSON() {
     return {
-      "fileId": this.file_id,
+      "fileId": this.fileId,
       "title": this.title,
       "label": this.label,
       "author": this.author,
-      "posX": this.pos_x,
-      "posY": this.pos_y,
-      "requires": this.requires.map((req) => req.file_id).toList(),
+      "posX": this.posX,
+      "posY": this.posY,
+      "requires": this.requires.map((req) => req.fileId).toList(),
       "units": this.units.map((unit) => unit.toJSON()).toList(),
       "levels": this.levels.map((level) => level.toJSON()).toList(),
     };
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.fileId = src["fileId"];
+    this.title = src["title"];
+    this.label = src["label"];
+    this.author = src["author"];
+    this.posX = src["posX"];
+    this.posY = src["posY"];
+    // units
+    this.units = [];
+    int n = src["units"].length;
+    for (var i = 0; i < n; i++) {
+      var unit = new MBCL_Unit();
+      unit.fromJSON(src["units"][i]);
+      this.units.add(unit);
+    }
+    // levels
+    this.levels = [];
+    n = src["levels"].length;
+    for (var i = 0; i < n; i++) {
+      var level = new MBCL_Level();
+      level.fromJSON(src["levels"][i]);
+      this.levels.add(level);
+    }
+    // requires
+    this.requires = [];
+    n = src["requires"].length;
+    for (var i = 0; i < n; i++) {
+      this.requires_tmp.add(src["requires"][i]);
+      // TODO: this.requires!!!
+    }
   }
 }
