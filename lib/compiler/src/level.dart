@@ -8,12 +8,11 @@
 
 import '../../mbcl/src/level.dart';
 
-class MBCL_Level extends MBCL_Level__ABSTRACT {
-  @override
-  void postProcess() {
-    for (var i = 0; i < this.items.length; i++) {
-      var item = this.items[i];
-      item.postProcess();
-    }
+import 'level_item.dart';
+
+void postProcessLevel(MBCL_Level level) {
+  for (var i = 0; i < level.items.length; i++) {
+    var item = level.items[i];
+    postProcessLevelItem(item);
   }
 }
