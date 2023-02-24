@@ -10,7 +10,7 @@ import '../../mbcl/src/course.dart';
 
 import 'chapter.dart';
 
-void postProcessCourse(MBCL_Course course) {
+void postProcessCourse(MbclCourse course) {
   for (var i = 0; i < course.chapters.length; i++) {
     var chapter = course.chapters[i];
     postProcessChapter(chapter);
