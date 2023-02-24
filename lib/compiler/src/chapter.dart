@@ -10,7 +10,7 @@ import '../../mbcl/src/chapter.dart';
 
 import 'level.dart';
 
-void postProcessChapter(MBCL_Chapter chapter) {
+void postProcessChapter(MbclChapter chapter) {
   for (var i = 0; i < chapter.levels.length; i++) {
     var level = chapter.levels[i];
     postProcessLevel(level);
