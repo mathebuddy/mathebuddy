@@ -8,12 +8,11 @@
 
 import '../../mbcl/src/chapter.dart';
 
-class MBCL_Chapter extends MBCL_Chapter__ABSTRACT {
-  @override
-  void postProcess() {
-    for (var i = 0; i < this.levels.length; i++) {
-      var level = this.levels[i];
-      level.postProcess();
-    }
+import 'level.dart';
+
+void postProcessChapter(MBCL_Chapter chapter) {
+  for (var i = 0; i < chapter.levels.length; i++) {
+    var level = chapter.levels[i];
+    postProcessLevel(level);
   }
 }
