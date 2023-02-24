@@ -88,12 +88,12 @@ void showSim(String location) {
 void resetSim() {
   (html.document.getElementById("sim-iframe") as html.IFrameElement).src =
       simURL;
-  Timer(Duration(milliseconds: 500), () => sendMessageToSim());
+  Timer(Duration(milliseconds: 500), () => sendCourseToSim());
 }
 
-void sendMessageToSim() {
+void sendCourseToSim() {
   var e = html.document.getElementById("sim-iframe") as html.IFrameElement;
-  e.contentWindow?.postMessage("my message", '*');
+  e.contentWindow?.postMessage(mbclData, '*');
 }
 
 void updateSimPathButtons() {
