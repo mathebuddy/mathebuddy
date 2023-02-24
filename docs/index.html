@@ -144,7 +144,6 @@
           <button class="button" onclick="showDoc('mbl')">MBL</button>
           <button class="button" onclick="showDoc('smpl')">SMPL</button>
           <button class="button" onclick="showDoc('mbcl')">MBCL</button>
-          <button class="button" onclick="showDoc('sim')">SIM</button>
         </div>
         <div id="sim-list" style="text-align: center; display: none">
           <b>SIMULATION</b><br />
@@ -446,11 +445,11 @@
           <a href="doc/mbcl.html" target="_blank">Documentation</a>
         </p>
 
-        <h3>Simulator Guide</h3>
+        <!--<h3>Simulator Guide</h3>
         <p style="font-size: large">
           Mathe:Buddy simulator installation guide.
           <a href="doc/sim.html" target="_blank">Documentation</a>
-        </p>
+        </p>-->
       </div>
     </div>
 
@@ -742,13 +741,12 @@
           id == "doc" ? "block" : "none";
         document.getElementById("sim-list").style.display =
           id == "sim-info" ? "block" : "none";
-        //if (id == "sim") showSim();
       }
       show("home"); // home is default
 
       // documentation selection
       function showDoc(id) {
-        window.open("doc/" + id + ".html", "_blank");
+        window.open("doc/" + id + ".html?ver=" + Date.now(), "_blank");
       }
 
       // playground selection
@@ -874,6 +872,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1677091868"></script>
+    <script src="js/index.min.js?version=1677175519"></script>
   </body>
 </html>
