@@ -8,43 +8,36 @@
 
 import '../../mbcl/src/level_item.dart';
 
-class MBCL_LevelItem extends MBCL_LevelItem__ABSTRACT {
-  MBCL_LevelItem(MBCL_LevelItemType type, [text = '']) : super(type) {
-    this.text = text;
+void postProcessLevelItem(MBCL_LevelItem levelItem) {
+  for (var i = 0; i < levelItem.items.length; i++) {
+    var item = levelItem.items[i];
+    postProcessLevelItem(item);
   }
-
-  @override
-  void postProcess() {
-    for (var i = 0; i < this.items.length; i++) {
-      var item = this.items[i];
-      item.postProcess();
-    }
-    switch (this.type) {
-      case MBCL_LevelItemType.AlignCenter:
-      case MBCL_LevelItemType.AlignLeft:
-      case MBCL_LevelItemType.AlignRight:
-      case MBCL_LevelItemType.BoldText:
-      case MBCL_LevelItemType.Color:
-      case MBCL_LevelItemType.Enumerate:
-      case MBCL_LevelItemType.EnumerateAlpha:
-      case MBCL_LevelItemType.InlineMath:
-      case MBCL_LevelItemType.ItalicText:
-      case MBCL_LevelItemType.Itemize:
-      case MBCL_LevelItemType.Paragraph:
-      case MBCL_LevelItemType.Span:
-        aggregateText(this.items);
-        if (this.type == MBCL_LevelItemType.Paragraph) {
-          aggregateMultipleChoice(this.items);
-          aggregateSingleChoice(this.items);
-        }
-        break;
-      default:
-        break;
-    }
+  switch (levelItem.type) {
+    case MBCL_LevelItemType.AlignCenter:
+    case MBCL_LevelItemType.AlignLeft:
+    case MBCL_LevelItemType.AlignRight:
+    case MBCL_LevelItemType.BoldText:
+    case MBCL_LevelItemType.Color:
+    case MBCL_LevelItemType.Enumerate:
+    case MBCL_LevelItemType.EnumerateAlpha:
+    case MBCL_LevelItemType.InlineMath:
+    case MBCL_LevelItemType.ItalicText:
+    case MBCL_LevelItemType.Itemize:
+    case MBCL_LevelItemType.Paragraph:
+    case MBCL_LevelItemType.Span:
+      aggregateText(levelItem.items);
+      if (levelItem.type == MBCL_LevelItemType.Paragraph) {
+        aggregateMultipleChoice(levelItem.items);
+        aggregateSingleChoice(levelItem.items);
+      }
+      break;
+    default:
+      break;
   }
 }
 
-void aggregateText(List<MBCL_LevelItem__ABSTRACT> items) {
+void aggregateText(List<MBCL_LevelItem> items) {
   // remove unnecessary line feeds
   while (items.length > 0 && items[0].type == MBCL_LevelItemType.LineFeed) {
     items.removeAt(0);
@@ -71,7 +64,7 @@ void aggregateText(List<MBCL_LevelItem__ABSTRACT> items) {
   }
 }
 
-void aggregateMultipleChoice(List<MBCL_LevelItem__ABSTRACT> items) {
+void aggregateMultipleChoice(List<MBCL_LevelItem> items) {
   for (var i = 0; i < items.length; i++) {
     if (i > 0 &&
         items[i - 1].type == MBCL_LevelItemType.MultipleChoice &&
@@ -85,7 +78,7 @@ void aggregateMultipleChoice(List<MBCL_LevelItem__ABSTRACT> items) {
   }
 }
 
-void aggregateSingleChoice(List<MBCL_LevelItem__ABSTRACT> items) {
+void aggregateSingleChoice(List<MBCL_LevelItem> items) {
   for (var i = 0; i < items.length; i++) {
     if (i > 0 &&
         items[i - 1].type == MBCL_LevelItemType.SingleChoice &&
