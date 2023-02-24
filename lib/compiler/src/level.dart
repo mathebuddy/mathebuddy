@@ -10,7 +10,7 @@ import '../../mbcl/src/level.dart';
 
 import 'level_item.dart';
 
-void postProcessLevel(MBCL_Level level) {
+void postProcessLevel(MbclLevel level) {
   for (var i = 0; i < level.items.length; i++) {
     var item = level.items[i];
     postProcessLevelItem(item);
