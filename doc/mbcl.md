@@ -143,13 +143,13 @@ A course represents the root of an MBCL file.
 It contains a set of chapters.
 
 ```
-COURSE = {
+MBCL_Course = {
+  "debug": "No" | "Chapter" | "Level",
   "title": STRING,
   "author": STRING,
-  "mbcl_version": INTEGER,
-  "date_modified": UNIX_TIMESTAMP,
-  "debug": "no" | "chapter" | "level",
-  "chapters": CHAPTER[]
+  "mbclVersion": INTEGER,
+  "dateModified": UNIX_TIMESTAMP,
+  "chapters": MBCL_Chapter[]
 };
 ```
 
@@ -159,11 +159,11 @@ Example:
 
 ```json
 {
+  "debug_level": "No",
   "title": "higher math 1",
   "author": "TH Koeln",
-  "mbcl_version": 1,
-  "date_modified": 1669712632,
-  "debug_level": false,
+  "mbclVersion": 1,
+  "dateModified": 1669712632,
   "chapters": []
 }
 ```
@@ -173,14 +173,16 @@ Example:
 A chapter consists of a set of levels.
 
 ```
-CHAPTER = {
-  "file_id": STRING,
+MBCL_Chapter = {
+  "fileId": STRING,
   "title": STRING,
-  "pos_x": INTEGER,
-  "pos_y": INTEGER,
-  "requires": IDENTIFIER<CHAPTER.file_id>[],
-  "units": UNIT[],
-  "levels": LEVEL[]
+  "label": STRING,
+  "author": STRING
+  "posX": INTEGER,
+  "posY": INTEGER,
+  "requires": IDENTIFIER<MBCL_Chapter.file_id>[],
+  "units": MBCL_Unit[],
+  "levels": MBCL_Level[]
 };
 ```
 
@@ -191,6 +193,7 @@ Example:
   "file_id": "cmplx",
   "title": "Complex Numbers",
   "label": "cmplx",
+  "author": "Knuth",
   "pos_x": 0,
   "pos_y": 0,
   "requires": [],
@@ -204,20 +207,76 @@ Example:
 A level defines a part of course, consisting of e.g. text, exercises and games.
 
 ```
-LEVEL = {
-  "file_id": STRING,
+MBCL_Level = {
+  "fileId": STRING,
   "title": STRING,
-  "pos_x": INTEGER,
-  "pos_y": INTEGER,
-  "requires": IDENTIFIER<LEVEL.file_id>[],
-  "items": LEVEL_ITEM[]
+  "posX": INTEGER,
+  "posY": INTEGER,
+  "requires": IDENTIFIER<MBCL_Level.file_id>[],
+  "items": MBCL_LevelItem[]
 };
 ```
 
 ```
-LEVEL_ITEM = SECTION | TEXT | EQUATION | DEFINITION | EXERCISE
-           | FIGURE | TABLE | NEWPAGE;
+MBCL_LevelItem = {
+  "type": "AlignCenter"
+    | "AlignLeft"
+    | "AlignRight"
+    | "BoldText"
+    | "Color"
+    | "DefAxiom"
+    | "DefClaim"
+    | "DefConjecture"
+    | "DefCorollary"
+    | "DefDefinition"
+    | "DefIdentity"
+    | "DefLemma"
+    | "DefParadox"
+    | "DefProposition"
+    | "DefTheorem"
+    | "Enumerate"
+    | "EnumerateAlpha"
+    | "Equation"
+    | "Error"
+    | "Example"
+    | "Exercise"
+    | "Figure"
+    | "InlineMath"
+    | "InputField"
+    | "ItalicText"
+    | "Itemize"
+    | "LineFeed"
+    | "MultipleChoice"
+    | "MultipleChoiceOption"
+    | "NewPage"
+    | "Paragraph"
+    | "Reference"
+    | "Section"
+    | "SingleChoice"
+    | "SingleChoiceOption"
+    | "Span"
+    | "SubSection"
+    | "SubSubSection"
+    | "Table"
+    | "Text"
+    | "VariableReference",
+  ?"title": STRING,
+  ?"label": STRING,
+  ?"error": STRING,
+  ?"text": STRING,
+  ?"id": STRING,
+  ?"equationData": MBCL_EquationData,
+  ?"exerciseData": MBCL_ExerciseData,
+  ?"figureData": MBCL_FigureData,
+  ?"tableData": MBCL_TableData,
+  ?"inputFieldData": MBCL_InputFieldData,
+  ?"singleOrMultipleChoiceOptionData": MBCL_SingleOrMultipleChoiceOptionData
+};
 ```
+
+Attention: `title`, `label`, `error`, `text` and `id` are stored only in case the string length is greater than zero.
+
+!!!!! TODO: MUST UPDATE DOCUMENTATION STARTING FROM HERE !!!!!
 
 ```
 UNIT = {
