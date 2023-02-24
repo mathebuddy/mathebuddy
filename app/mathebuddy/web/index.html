@@ -41,17 +41,17 @@
   </head>
   <body>
     <h1>... be patient, this will take a few seconds!</h1>
-    <span id="test-span" style="color: white"></span>
+    <span id="course-data-span" style="color: white"></span>
 
     <script>
       // TODO: security: https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
       window.addEventListener("message", (event) => {
+        // TODO: CHECK ORIGIN!!
         //if (event.origin !== "http://example.org:8080")
         //  return;
-        console.log("FLUTTER RECEIVED MESSAGE: " + event.data);
+        //console.log("FLUTTER RECEIVED MESSAGE: " + event.data);
         //_flutter. xx+
-
-        document.getElementById("test-span").innerHTML = event.data;
+        document.getElementById("course-data-span").innerHTML = event.data;
         /*},
         false
       );
