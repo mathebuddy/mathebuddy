@@ -85,7 +85,7 @@ Then run `flutter doctor` in a terminal window and install all listed dependenci
   A recent bug ([https://github.com/flutter/flutter/issues/118502](https://github.com/flutter/flutter/issues/118502)) may list Java Errors. Run the following (ugly!) fix:
 
   ```
-  cd /Applications/Android Studio.app/Contents
+  cd /Applications/Android\ Studio.app/Contents
   cp -r jbr jre
   ```
 
