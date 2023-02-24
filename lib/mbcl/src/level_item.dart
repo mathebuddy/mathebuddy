@@ -6,20 +6,19 @@
  * License: GPL-3.0-or-later
  */
 
-import '../../compiler/src/level.dart';
-import '../../compiler/src/level_item.dart';
+// TODO: remove the following import!
 import '../../math-runtime/src/operand.dart';
 
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
-abstract class MBCL_LevelItem__ABSTRACT {
+class MBCL_LevelItem {
   MBCL_LevelItemType type;
   String title = '';
   String label = '';
   String error = '';
   String text = '';
   String id = '';
-  List<MBCL_LevelItem__ABSTRACT> items = [];
+  List<MBCL_LevelItem> items = [];
 
   // data for certain types only
   MBCL_EquationData? equationData = null;
@@ -30,9 +29,9 @@ abstract class MBCL_LevelItem__ABSTRACT {
   MBCL_SingleOrMultipleChoiceOptionData? singleOrMultipleChoiceOptionData =
       null;
 
-  MBCL_LevelItem__ABSTRACT(this.type);
-
-  void postProcess();
+  MBCL_LevelItem(this.type, [text = '']) {
+    this.text = text;
+  }
 
   Map<String, dynamic> toJSON() {
     Map<String, dynamic> json = {
@@ -63,7 +62,7 @@ abstract class MBCL_LevelItem__ABSTRACT {
         break;
       case MBCL_LevelItemType.SingleChoiceOption:
       case MBCL_LevelItemType.MultipleChoiceOption:
-        json["singleOrMultipleChoiceData"] =
+        json["singleOrMultipleChoiceOptionData"] =
             this.singleOrMultipleChoiceOptionData?.toJSON();
         break;
       default:
@@ -73,7 +72,59 @@ abstract class MBCL_LevelItem__ABSTRACT {
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.type = MBCL_LevelItemType.values.byName(src["type"]);
+    this.title = src.containsKey("title") ? src["title"] : "";
+    this.label = src.containsKey("label") ? src["label"] : "";
+    this.error = src.containsKey("error") ? src["error"] : "";
+    this.text = src.containsKey("text") ? src["text"] : "";
+    this.id = src.containsKey("id") ? src["id"] : "";
+    this.items = [];
+    if (src.containsKey("items")) {
+      int n = src["items"].length;
+      for (var i = 0; i < n; i++) {
+        var item = new MBCL_LevelItem(MBCL_LevelItemType.Error);
+        item.fromJSON(src["items"][i]);
+        this.items.add(item);
+      }
+    }
+    this.equationData = null;
+    this.exerciseData = null;
+    this.figureData = null;
+    this.tableData = null;
+    this.inputFieldData = null;
+    this.singleOrMultipleChoiceOptionData = null;
+    switch (this.type) {
+      case MBCL_LevelItemType.Equation:
+        this.equationData = new MBCL_EquationData();
+        this.equationData?.fromJSON(src["equationData"]);
+        break;
+      case MBCL_LevelItemType.Exercise:
+        this.exerciseData = new MBCL_ExerciseData();
+        this.exerciseData?.fromJSON(src["exerciseData"]);
+        break;
+      case MBCL_LevelItemType.Figure:
+        this.figureData = new MBCL_FigureData();
+        this.figureData?.fromJSON(src["figureData"]);
+        break;
+      case MBCL_LevelItemType.Table:
+        this.tableData = new MBCL_TableData();
+        this.tableData?.fromJSON(src["tableData"]);
+        break;
+      case MBCL_LevelItemType.InputField:
+        this.inputFieldData = new MBCL_InputFieldData();
+        this.inputFieldData?.fromJSON(src["inputFieldData"]);
+        break;
+      case MBCL_LevelItemType.SingleChoiceOption:
+      case MBCL_LevelItemType.MultipleChoiceOption:
+        this.singleOrMultipleChoiceOptionData =
+            new MBCL_SingleOrMultipleChoiceOptionData();
+        this
+            .singleOrMultipleChoiceOptionData
+            ?.fromJSON(src["singleOrMultipleChoiceOptionData"]);
+        break;
+      default:
+        break;
+    }
   }
 }
 
@@ -121,6 +172,11 @@ enum MBCL_LevelItemType {
   VariableReference
 }
 
+// TODO: fill this list
+Map<MBCL_LevelItemType, List<MBCL_LevelItemType>> MBCL_SubBlockWhiteList = {
+  MBCL_LevelItemType.Exercise: [MBCL_LevelItemType.Equation]
+};
+
 class MBCL_EquationData {
   List<MBCL_EquationOption> options = [];
   int number = 0;
@@ -133,7 +189,13 @@ class MBCL_EquationData {
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.options = [];
+    int n = src["options"].length;
+    for (var i = 0; i < n; i++) {
+      var option = MBCL_EquationOption.values.byName(src["options"][i]);
+      this.options.add(option);
+    }
+    this.number = src["number"];
   }
 }
 
@@ -156,10 +218,10 @@ class MBCL_ExerciseData {
   Map<String, OperandType> operandType___ = {}; // not exported
 
   Map<String, dynamic> toJSON() {
-    // TODO: do NOT output this.code in final build
+    // TODO: do NOT output "code" in final build
     return {
       "code": this.code,
-      "variables": this.variables,
+      "variables": this.variables.map((e) => e).toList(),
       "instances": this.instances.map((e) => e).toList(),
       "inputRequire": this.inputRequire.map((e) => e).toList(),
       "inputForbid": this.inputForbid.map((e) => e).toList(),
@@ -169,38 +231,59 @@ class MBCL_ExerciseData {
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.code = src["code"];
+    this.variables = [];
+    int n = src["variables"].length;
+    for (var i = 0; i < n; i++) this.variables.add(src["variables"][i]);
+    this.instances = [];
+    n = src["instances"].length;
+    for (var i = 0; i < n; i++) {
+      Map<String, dynamic> instanceSrc = src["instances"][i];
+      Map<String, String> instance = {};
+      for (var key in instanceSrc.keys) {
+        String value = instanceSrc[key];
+        instance[key] = value;
+      }
+      this.instances.add(instance);
+    }
+    this.inputRequire = [];
+    n = src["inputRequire"].length;
+    for (var i = 0; i < n; i++) this.inputRequire.add(src["inputRequire"][i]);
+    this.inputForbid = [];
+    n = src["inputForbid"].length;
+    for (var i = 0; i < n; i++) this.inputForbid.add(src["inputForbid"][i]);
+    this.inputVariableId = src["inputVariableId"];
+    this.inputWidth = src["inputWidth"];
   }
 }
-
-/*enum MBCL_Exercise_VariableType {
-  Bool,
-  Int,
-  IntSet,
-  Real,
-  RealSet,
-  Complex,
-  ComplexSet,
-  Vector,
-  Matrix,
-  Term,
-}*/
 
 class MBCL_FigureData {
   String filePath = '';
   String data = '';
+  List<MBCL_LevelItem> caption = [];
   List<MBCL_Figure_Option> options = [];
 
   Map<String, dynamic> toJSON() {
     return {
       "filePath": this.filePath,
       "data": this.data,
+      "caption": this.caption.map((e) => e.toJSON()).toList(),
       "options": this.options.map((e) => e.name).toList()
     };
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.filePath = src["filePath"];
+    this.data = src["data"];
+    int n = src["caption"].length;
+    for (var i = 0; i < n; i++) {
+      var cap = new MBCL_LevelItem(MBCL_LevelItemType.Error);
+      cap.fromJSON(src["caption"][i]);
+      this.caption.add(cap);
+    }
+    n = src["options"].length;
+    for (var i = 0; i < n; i++)
+      this.options.add(MBCL_Figure_Option.values.byName(src["options"][i]));
   }
 }
 
@@ -227,7 +310,19 @@ class MBCL_TableData {
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.head = new MBCL_Table_Row();
+    this.head.fromJSON(src["head"]);
+    this.rows = [];
+    int n = src["rows"].length;
+    for (var i = 0; i < n; i++) {
+      var row = new MBCL_Table_Row();
+      row.fromJSON(src["rows"][i]);
+      this.rows.add(row);
+    }
+    this.options = [];
+    n = src["options"].length;
+    for (var i = 0; i < n; i++)
+      this.options.add(MBCL_Table_Option.values.byName(src["options"][i]));
   }
 }
 
@@ -239,7 +334,7 @@ class MBCL_InputFieldData {
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.type = MBCL_InputField_Type.values.byName(src["type"]);
   }
 }
 
@@ -274,19 +369,26 @@ class MBCL_SingleOrMultipleChoiceOptionData {
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.inputId = src["inputId"];
+    this.variableId = src["variableId"];
   }
 }
 
 class MBCL_Table_Row {
-  List<MBCL_LevelItem__ABSTRACT> columns = [];
+  List<MBCL_LevelItem> columns = [];
 
   Map<String, dynamic> toJSON() {
     return {"columns": this.columns.map((e) => e.toJSON()).toList()};
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.columns = [];
+    int n = src["columns"];
+    for (var i = 0; i < n; i++) {
+      var column = new MBCL_LevelItem(MBCL_LevelItemType.Error);
+      column.fromJSON(src["columns"][i]);
+      this.columns.add(column);
+    }
   }
 }
 
