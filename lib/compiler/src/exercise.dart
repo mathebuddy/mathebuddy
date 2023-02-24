@@ -14,10 +14,10 @@ import '../../mbcl/src/level_item.dart';
 
 const NUM_INST = 3; // TODO!! must be configurable
 
-String addStaticBooleanVariable(MBCL_ExerciseData data, bool value) {
+String addStaticBooleanVariable(MbclExerciseData data, bool value) {
   var varId = '__bool__' + (data.staticVariableCounter___++).toString();
   data.variables.add(varId);
-  data.operandType___[varId] = OperandType.BOOLEAN;
+  data.smplOperandType___[varId] = OperandType.BOOLEAN.name;
   if (data.instances.length == 0) {
     for (var i = 0; i < NUM_INST; i++) {
       Map<String, String> instance = {};
