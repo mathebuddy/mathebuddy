@@ -10,9 +10,9 @@
 
 import 'level.dart';
 
-abstract class MBCL_Unit__ABSTRACT {
+class MBCL_Unit {
   String title = '';
-  List<MBCL_Level__ABSTRACT> levels = [];
+  List<MBCL_Level> levels = [];
 
   Map<String, dynamic> toJSON() {
     return {
@@ -22,6 +22,13 @@ abstract class MBCL_Unit__ABSTRACT {
   }
 
   fromJSON(Map<String, dynamic> src) {
-    // TODO
+    this.title = src["title"];
+    this.levels = [];
+    int n = src["levels"].length;
+    for (var i = 0; i < n; i++) {
+      var level = new MBCL_Level();
+      level.fromJSON(src["levels"][i]);
+      this.levels.add(level);
+    }
   }
 }
