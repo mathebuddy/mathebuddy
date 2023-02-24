@@ -9,8 +9,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import '../../mbcl/src/course.dart';
+
 import '../src/compiler.dart';
-import '../src/course.dart';
 
 // load function that allows the compiler to read files dynamically by request
 String load(String path) {
@@ -33,10 +34,18 @@ void compile(String path_in) {
   var reimportTest = new MBCL_Course();
   try {
     reimportTest.fromJSON(dec);
+    var y2 = reimportTest.toJSON();
+    var jsonStr2 = JsonEncoder.withIndent("  ").convert(y2);
+    print(jsonStr2);
+    var path_out =
+        path_in.substring(0, path_in.length - 4) + '_COMPILED_2.json';
+    File(path_out).writeAsStringSync(jsonStr2);
+    assert(jsonStr == jsonStr2, "reimport of JSon fails!");
 
     var bp = 1337;
   } catch (e) {
     print("ERROR: " + e.toString());
+    assert(false);
   }
 }
 
@@ -54,7 +63,7 @@ void main() {
     'examples.mbl'
   ];
   for (var file in files) {
-    print("== TESTING FILE " + file + " ==");
+    print("******************* TESTING FILE " + file + " *******************");
     compile('lib/compiler/test/data/demo-basic/' + file);
   }
 
