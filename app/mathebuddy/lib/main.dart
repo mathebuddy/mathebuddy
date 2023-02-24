@@ -1,7 +1,14 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-//import 'dart:html';
+import 'package:flutter/material.dart';
+import 'package:mathebuddy/mbcl/src/chapter.dart';
+import 'package:mathebuddy/mbcl/src/level.dart';
+
 import 'package:universal_html/html.dart' as html;
+
+import 'mbcl/src/course.dart';
+
+// TODO: rename all classes!
 
 void main() {
   runApp(const MyApp());
@@ -52,13 +59,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String _msg = '';
+  String _courseData = '';
+  MbclCourse? _course;
+  MbclChapter? _chapter;
+  MbclLevel? _level;
 
-  void _getMessage() {
+  void _getCourseDataDEBUG() {
     setState(() {
-      var msg = html.document.getElementById('test-span')?.innerHtml as String;
-      //print("xxxxx " + msg);
-      _msg = msg;
+      _courseData =
+          html.document.getElementById('course-data-span')?.innerHtml as String;
+      print("received course: ");
+      print(_courseData);
+      var courseDataJson = jsonDecode(_courseData);
+      _course = MbclCourse();
+      _course?.fromJSON(courseDataJson);
+      var course = _course as MbclCourse;
+      print("course title ${course.title}");
+      if (course.debug == MbclCourseDebug.level) {
+        _chapter = _course?.chapters[0];
+        _level = _chapter?.levels[0];
+      }
     });
   }
 
@@ -115,14 +135,14 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             Text(
-              _msg,
+              _courseData,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             TextButton(
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
-              onPressed: _getMessage,
+              onPressed: _getCourseDataDEBUG,
               child: Text('get message'),
             )
           ],
