@@ -8,12 +8,11 @@
 
 import '../../mbcl/src/course.dart';
 
-class MBCL_Course extends MBCL_Course__ABSTRACT {
-  @override
-  void postProcess() {
-    for (var i = 0; i < this.chapters.length; i++) {
-      var chapter = this.chapters[i];
-      chapter.postProcess();
-    }
+import 'chapter.dart';
+
+void postProcessCourse(MBCL_Course course) {
+  for (var i = 0; i < course.chapters.length; i++) {
+    var chapter = course.chapters[i];
+    postProcessChapter(chapter);
   }
 }
