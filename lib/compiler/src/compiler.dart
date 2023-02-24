@@ -10,17 +10,17 @@ import '../../../ext/multila-lexer/src/lex.dart';
 import '../../../ext/multila-lexer/src/token.dart';
 
 import '../../math-runtime/src/operand.dart';
+
+import '../../mbcl/src/chapter.dart';
 import '../../mbcl/src/course.dart';
 import '../../mbcl/src/level_item.dart';
+import '../../mbcl/src/level.dart';
+import '../../mbcl/src/unit.dart';
 
 import 'block.dart';
-import 'chapter.dart';
 import 'course.dart';
 import 'exercise.dart';
 import 'help.dart';
-import 'level.dart';
-import 'level_item.dart';
-import 'unit.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
@@ -66,7 +66,7 @@ class Compiler {
       this.compileLevel(path);
     }
     // post processing
-    this._course?.postProcess();
+    postProcessCourse(this._course as MBCL_Course);
   }
 
   //G course = courseTitle courseAuthor courseChapters;
@@ -123,9 +123,9 @@ class Compiler {
         var chapterPath = dirname + directoryName + '/index.mbl';
         this.compileChapter(chapterPath);
         // set chapter meta data
-        this._chapter?.file_id = directoryName;
-        this._chapter?.pos_x = posX;
-        this._chapter?.pos_y = posY;
+        this._chapter?.fileId = directoryName;
+        this._chapter?.posX = posX;
+        this._chapter?.posY = posY;
         this._chapter?.requires_tmp.addAll(requirements);
       }
     }
@@ -202,8 +202,8 @@ class Compiler {
         this._unit?.levels.add(this._level as MBCL_Level);
         // set chapter meta data
         this._level?.fileId = fileName;
-        this._level?.pos_x = posX;
-        this._level?.pos_y = posY;
+        this._level?.posX = posX;
+        this._level?.posY = posY;
         this._level?.requires_tmp.addAll(requirements);
       }
     }
