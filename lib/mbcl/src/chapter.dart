@@ -1,17 +1,15 @@
-/**
- * mathe:buddy - a gamified learning-app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
 import 'level.dart';
 import 'unit.dart';
 
-class MBCL_Chapter {
+class MbclChapter {
   String fileId =
       ''; // all references go here; label is only used for searching
   String title = '';
@@ -19,22 +17,22 @@ class MBCL_Chapter {
   String author = '';
   int posX = -1;
   int posY = -1;
-  List<MBCL_Chapter> requires = [];
-  List<String> requires_tmp = []; // only used while compiling
-  List<MBCL_Unit> units = [];
-  List<MBCL_Level> levels = [];
+  List<MbclChapter> requires = [];
+  List<String> requiresTmp = []; // only used while compiling
+  List<MbclUnit> units = [];
+  List<MbclLevel> levels = [];
 
-  MBCL_Level? getLevelByLabel(String label) {
-    for (var i = 0; i < this.levels.length; i++) {
-      var level = this.levels[i];
+  MbclLevel? getLevelByLabel(String label) {
+    for (var i = 0; i < levels.length; i++) {
+      var level = levels[i];
       if (level.label == label) return level;
     }
     return null;
   }
 
-  MBCL_Level? getLevelByFileID(String fileID) {
-    for (var i = 0; i < this.levels.length; i++) {
-      var level = this.levels[i];
+  MbclLevel? getLevelByFileID(String fileID) {
+    for (var i = 0; i < levels.length; i++) {
+      var level = levels[i];
       if (level.fileId == fileID) return level;
     }
     return null;
@@ -42,47 +40,47 @@ class MBCL_Chapter {
 
   Map<String, dynamic> toJSON() {
     return {
-      "fileId": this.fileId,
-      "title": this.title,
-      "label": this.label,
-      "author": this.author,
-      "posX": this.posX,
-      "posY": this.posY,
-      "requires": this.requires.map((req) => req.fileId).toList(),
-      "units": this.units.map((unit) => unit.toJSON()).toList(),
-      "levels": this.levels.map((level) => level.toJSON()).toList(),
+      "fileId": fileId,
+      "title": title,
+      "label": label,
+      "author": author,
+      "posX": posX,
+      "posY": posY,
+      "requires": requires.map((req) => req.fileId).toList(),
+      "units": units.map((unit) => unit.toJSON()).toList(),
+      "levels": levels.map((level) => level.toJSON()).toList(),
     };
   }
 
   fromJSON(Map<String, dynamic> src) {
-    this.fileId = src["fileId"];
-    this.title = src["title"];
-    this.label = src["label"];
-    this.author = src["author"];
-    this.posX = src["posX"];
-    this.posY = src["posY"];
+    fileId = src["fileId"];
+    title = src["title"];
+    label = src["label"];
+    author = src["author"];
+    posX = src["posX"];
+    posY = src["posY"];
     // units
-    this.units = [];
+    units = [];
     int n = src["units"].length;
     for (var i = 0; i < n; i++) {
-      var unit = new MBCL_Unit();
+      var unit = MbclUnit();
       unit.fromJSON(src["units"][i]);
-      this.units.add(unit);
+      units.add(unit);
     }
     // levels
-    this.levels = [];
+    levels = [];
     n = src["levels"].length;
     for (var i = 0; i < n; i++) {
-      var level = new MBCL_Level();
+      var level = MbclLevel();
       level.fromJSON(src["levels"][i]);
-      this.levels.add(level);
+      levels.add(level);
     }
     // requires
-    this.requires = [];
+    requires = [];
     n = src["requires"].length;
     for (var i = 0; i < n; i++) {
-      this.requires_tmp.add(src["requires"][i]);
-      // TODO: this.requires!!!
+      requiresTmp.add(src["requires"][i]);
+      // TODO: requires!!!
     }
   }
 }
