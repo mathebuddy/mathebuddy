@@ -9,3 +9,4 @@ build/
 .DS_Store
 
 *_COMPILED.json
+*_COMPILED_2.json
