@@ -36,8 +36,8 @@ class Block {
   List<BlockPart> parts = []; // e.g. "@options ..."
   List<Block> subBlocks = []; // e.g. "EQUATION ..."
   int srcLine = 0;
-  MBCL_LevelItem levelItem =
-      new MBCL_LevelItem(MBCL_LevelItemType.Error, 'block unprocessed');
+  MbclLevelItem levelItem =
+      new MbclLevelItem(MbclLevelItemType.error, 'block unprocessed');
   Compiler _compiler;
 
   Block(this._compiler);
@@ -46,47 +46,46 @@ class Block {
     switch (this.type) {
       case 'DEFINITION':
         this.levelItem =
-            this._processDefinition(MBCL_LevelItemType.DefDefinition);
+            this._processDefinition(MbclLevelItemType.defDefinition);
         break;
       case 'THEOREM':
-        this.levelItem = this._processDefinition(MBCL_LevelItemType.DefTheorem);
+        this.levelItem = this._processDefinition(MbclLevelItemType.defTheorem);
         break;
       case 'LEMMA':
-        this.levelItem = this._processDefinition(MBCL_LevelItemType.DefLemma);
+        this.levelItem = this._processDefinition(MbclLevelItemType.defLemma);
         break;
       case 'COROLLARY':
         this.levelItem =
-            this._processDefinition(MBCL_LevelItemType.DefCorollary);
+            this._processDefinition(MbclLevelItemType.defCorollary);
         break;
       case 'PROPOSITION':
         this.levelItem =
-            this._processDefinition(MBCL_LevelItemType.DefProposition);
+            this._processDefinition(MbclLevelItemType.defProposition);
         break;
       case 'CONJECTURE':
         this.levelItem =
-            this._processDefinition(MBCL_LevelItemType.DefConjecture);
+            this._processDefinition(MbclLevelItemType.defConjecture);
         break;
       case 'AXIOM':
-        this.levelItem = this._processDefinition(MBCL_LevelItemType.DefAxiom);
+        this.levelItem = this._processDefinition(MbclLevelItemType.defAxiom);
         break;
       case 'CLAIM':
-        this.levelItem = this._processDefinition(MBCL_LevelItemType.DefClaim);
+        this.levelItem = this._processDefinition(MbclLevelItemType.defClaim);
         break;
       case 'IDENTITY':
-        this.levelItem =
-            this._processDefinition(MBCL_LevelItemType.DefIdentity);
+        this.levelItem = this._processDefinition(MbclLevelItemType.defIdentity);
         break;
       case 'PARADOX':
-        this.levelItem = this._processDefinition(MBCL_LevelItemType.DefParadox);
+        this.levelItem = this._processDefinition(MbclLevelItemType.defParadox);
         break;
       case 'LEFT':
-        this.levelItem = this._processTextAlign(MBCL_LevelItemType.AlignLeft);
+        this.levelItem = this._processTextAlign(MbclLevelItemType.alignLeft);
         break;
       case 'CENTER':
-        this.levelItem = this._processTextAlign(MBCL_LevelItemType.AlignCenter);
+        this.levelItem = this._processTextAlign(MbclLevelItemType.alignCenter);
         break;
       case 'RIGHT':
-        this.levelItem = this._processTextAlign(MBCL_LevelItemType.AlignRight);
+        this.levelItem = this._processTextAlign(MbclLevelItemType.alignRight);
         break;
       case 'EQUATION':
         this.levelItem = this._processEquation(true);
@@ -110,25 +109,25 @@ class Block {
         this.levelItem = this._processFigure();
         break;
       case 'NEWPAGE':
-        this.levelItem = new MBCL_LevelItem(MBCL_LevelItemType.NewPage);
+        this.levelItem = new MbclLevelItem(MbclLevelItemType.newPage);
         break;
       default:
-        this.levelItem = new MBCL_LevelItem(
-            MBCL_LevelItemType.Error, 'unknown block type "' + this.type + '"');
+        this.levelItem = new MbclLevelItem(
+            MbclLevelItemType.error, 'unknown block type "' + this.type + '"');
     }
   }
 
-  MBCL_LevelItem _processText() {
+  MbclLevelItem _processText() {
     // this block has no parts
     return this._compiler.parseParagraph(
           (this.parts[0] as BlockPart).lines.join('\n'),
         );
   }
 
-  MBCL_LevelItem _processTable() {
+  MbclLevelItem _processTable() {
     int i;
-    var table = new MBCL_LevelItem(MBCL_LevelItemType.Table);
-    var data = new MBCL_TableData();
+    var table = new MbclLevelItem(MbclLevelItemType.table);
+    var data = new MbclTableData();
     table.tableData = data;
     table.title = this.title;
     for (var part in this.parts) {
@@ -145,13 +144,13 @@ class Block {
             if (line.length == 0) continue;
             switch (line) {
               case 'align-left':
-                data.options.add(MBCL_Table_Option.AlignLeft);
+                data.options.add(MbclTableOption.alignLeft);
                 break;
               case 'align-center':
-                data.options.add(MBCL_Table_Option.AlignCenter);
+                data.options.add(MbclTableOption.alignCenter);
                 break;
               case 'align-right':
-                data.options.add(MBCL_Table_Option.AlignRight);
+                data.options.add(MbclTableOption.alignRight);
                 break;
               default:
                 table.error += 'unknown option "' + line + '"';
@@ -164,7 +163,7 @@ class Block {
             line = line.trim();
             // TODO: "&" may also be used in math-mode!!
             var columnStrings = line.split('&');
-            var row = new MBCL_Table_Row();
+            var row = new MbclTableRow();
             if (i == 0)
               data.head = row;
             else
@@ -185,9 +184,9 @@ class Block {
     return table;
   }
 
-  MBCL_LevelItem _processFigure() {
-    var figure = new MBCL_LevelItem(MBCL_LevelItemType.Figure);
-    var data = new MBCL_FigureData();
+  MbclLevelItem _processFigure() {
+    var figure = new MbclLevelItem(MbclLevelItemType.figure);
+    var data = new MbclFigureData();
     figure.figureData = data;
     Map<String, String> plotData = {};
     for (var part in this.parts) {
@@ -248,22 +247,22 @@ class Block {
             if (line.length == 0) continue;
             switch (line) {
               case 'width-100':
-                data.options.add(MBCL_Figure_Option.Width100);
+                data.options.add(MbclFigureOption.width100);
                 break;
               case 'width-75':
-                data.options.add(MBCL_Figure_Option.Width75);
+                data.options.add(MbclFigureOption.width75);
                 break;
               case 'width-66':
-                data.options.add(MBCL_Figure_Option.Width66);
+                data.options.add(MbclFigureOption.width66);
                 break;
               case 'width-50':
-                data.options.add(MBCL_Figure_Option.Width50);
+                data.options.add(MbclFigureOption.width50);
                 break;
               case 'width-33':
-                data.options.add(MBCL_Figure_Option.Width33);
+                data.options.add(MbclFigureOption.width33);
                 break;
               case 'width-25':
-                data.options.add(MBCL_Figure_Option.Width25);
+                data.options.add(MbclFigureOption.width25);
                 break;
               default:
                 figure.error += 'unknown option "' + line + '"';
@@ -279,9 +278,9 @@ class Block {
     return figure;
   }
 
-  MBCL_LevelItem _processEquation(bool numbering) {
-    var equation = new MBCL_LevelItem(MBCL_LevelItemType.Equation);
-    var data = new MBCL_EquationData();
+  MbclLevelItem _processEquation(bool numbering) {
+    var equation = new MbclLevelItem(MbclLevelItemType.equation);
+    var data = new MbclEquationData();
     equation.equationData = data;
     equation.id = (numbering ? 888 : -1).toString(); // TODO: number
     equation.title = this.title;
@@ -294,17 +293,17 @@ class Block {
             if (line.length == 0) continue;
             switch (line) {
               case 'align-left':
-                data.options.add(MBCL_EquationOption.AlignLeft);
+                data.options.add(MbclEquationOption.alignLeft);
                 break;
               case 'align-center':
-                data.options.add(MBCL_EquationOption.AlignCenter);
+                data.options.add(MbclEquationOption.alignCenter);
                 break;
               case 'align-right':
-                data.options.add(MBCL_EquationOption.AlignRight);
+                data.options.add(MbclEquationOption.alignRight);
                 break;
               case 'align-equals':
                 // TODO: do NOT store. create LaTeX-code instead!
-                data.options.add(MBCL_EquationOption.AlignEquals);
+                data.options.add(MbclEquationOption.alignEquals);
                 break;
               default:
                 equation.error += 'unknown option "' + line + '"';
@@ -324,8 +323,8 @@ class Block {
     return equation;
   }
 
-  MBCL_LevelItem _processExample() {
-    var example = new MBCL_LevelItem(MBCL_LevelItemType.Example);
+  MbclLevelItem _processExample() {
+    var example = new MbclLevelItem(MbclLevelItemType.example);
     example.title = this.title;
     example.label = this.label;
     for (var part in this.parts) {
@@ -342,8 +341,8 @@ class Block {
     return example;
   }
 
-  MBCL_LevelItem _processTextAlign(MBCL_LevelItemType type) {
-    var align = new MBCL_LevelItem(type);
+  MbclLevelItem _processTextAlign(MbclLevelItemType type) {
+    var align = new MbclLevelItem(type);
     for (var part in this.parts) {
       switch (part.name) {
         case 'global':
@@ -357,8 +356,8 @@ class Block {
     return align;
   }
 
-  MBCL_LevelItem _processDefinition(MBCL_LevelItemType type) {
-    var def = new MBCL_LevelItem(type);
+  MbclLevelItem _processDefinition(MbclLevelItemType type) {
+    var def = new MbclLevelItem(type);
     def.title = this.title;
     def.label = this.label;
     for (var part in this.parts) {
@@ -374,9 +373,9 @@ class Block {
     return def;
   }
 
-  MBCL_LevelItem _processExercise() {
-    var exercise = new MBCL_LevelItem(MBCL_LevelItemType.Exercise);
-    var data = new MBCL_ExerciseData();
+  MbclLevelItem _processExercise() {
+    var exercise = new MbclLevelItem(MbclLevelItemType.exercise);
+    var data = new MbclExerciseData();
     exercise.exerciseData = data;
     exercise.title = this.title;
     // TODO: must guarantee that no two exercises labels are same in entire course!!
@@ -408,7 +407,7 @@ class Block {
                 for (var symId in symbols.keys) {
                   var sym = symbols[symId] as smplInterpreter.InterpreterSymbol;
                   data.variables.add(symId);
-                  data.operandType___[symId] = sym.value.type;
+                  data.smplOperandType___[symId] = sym.value.type.name;
                 }
               }
               Map<String, String> instance = {};
@@ -438,11 +437,11 @@ class Block {
     return exercise;
   }
 
-  void _processSubblocks(MBCL_LevelItem item) {
+  void _processSubblocks(MbclLevelItem item) {
     for (var sub in this.subBlocks) {
       sub.process();
-      if (MBCL_SubBlockWhiteList.containsKey(item.type) &&
-          (MBCL_SubBlockWhiteList[item.type] as List<MBCL_LevelItemType>)
+      if (mbclSubBlockWhiteList.containsKey(item.type) &&
+          (mbclSubBlockWhiteList[item.type] as List<MbclLevelItemType>)
               .contains(sub.levelItem.type)) {
         item.items.add(sub.levelItem);
       } else {
