@@ -22,15 +22,15 @@ cd ..
 while true
 do
     echo "mathe:buddy CLI. Choose option and press [ENTER]"
-    echo "[1] build website"
-    echo "[2] build documentation"
-    echo "[3] build flutter web app"
-    echo "[4] build android web app"
-    echo "[5] run website at http://localhost:8314"
-    echo "[6] run tests"
-    echo "[7] update testdata from mathebuddy-public-courses repo"
-    echo "[8] update grammar.txt in lib/*"
-    echo "[9] update file system files (_fs.txt) files in docs/demo/"
+    echo "[1]  build website"
+    echo "[2]  build documentation"
+    echo "[3]  build flutter web app"
+    echo "[4]  build android app"
+    echo "[5]  run website at http://localhost:8314"
+    echo "[6]  run tests"
+    echo "[7]  update testdata from mathebuddy-public-courses repo"
+    echo "[8]  update grammar.txt in lib/*"
+    echo "[9]  update file system files (_fs.txt) files in docs/demo/"
     echo "[10] exit"
     read x
     case $x in
