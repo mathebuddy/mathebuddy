@@ -57,6 +57,7 @@ void main() {
 
   var files = [
     'hello.mbl',
+    'typography.mbl',
     'exercises-simple.mbl',
     'definitions.mbl',
     'equations.mbl',
