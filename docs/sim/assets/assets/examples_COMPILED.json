@@ -1,0 +1,63 @@
+{
+  "debug": "level",
+  "title": "",
+  "author": "",
+  "mbclVersion": 1,
+  "dateModified": 1677308167,
+  "chapters": [
+    {
+      "fileId": "",
+      "title": "",
+      "label": "",
+      "author": "",
+      "posX": -1,
+      "posY": -1,
+      "requires": [],
+      "units": [],
+      "levels": [
+        {
+          "fileId": "",
+          "title": "Examples",
+          "label": "",
+          "posX": -1,
+          "posY": -1,
+          "requires": [],
+          "items": [
+            {
+              "type": "example",
+              "title": "Addition of complex numbers",
+              "label": "@ex:myExample",
+              "items": [
+                {
+                  "type": "paragraph",
+                  "items": [
+                    {
+                      "type": "inlineMath",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "z_1 = 1 + 3 i ~ ~ z_2 = 2 + 4 i ~ ~ z_1 + z_2 = 3 + 7 i"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "example",
+              "title": "Addition of complex numbers",
+              "label": "@ex:myExample",
+              "error": "subblock type equation is not allowed here",
+              "items": [
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

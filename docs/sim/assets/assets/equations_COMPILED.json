@@ -1,0 +1,222 @@
+{
+  "debug": "level",
+  "title": "",
+  "author": "",
+  "mbclVersion": 1,
+  "dateModified": 1677308167,
+  "chapters": [
+    {
+      "fileId": "",
+      "title": "",
+      "label": "",
+      "author": "",
+      "posX": -1,
+      "posY": -1,
+      "requires": [],
+      "units": [],
+      "levels": [
+        {
+          "fileId": "",
+          "title": "Equations",
+          "label": "",
+          "posX": -1,
+          "posY": -1,
+          "requires": [],
+          "items": [
+            {
+              "type": "section",
+              "text": "Inline Equations"
+            },
+            {
+              "type": "paragraph",
+              "items": [
+                {
+                  "type": "text",
+                  "text": "An inline equation"
+                },
+                {
+                  "type": "inlineMath",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "x ^ 2 + y ^ 2 + \\sqrt ( z )"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": "."
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "text": "Equations"
+            },
+            {
+              "type": "subSection",
+              "text": "Numbered equation"
+            },
+            {
+              "type": "equation",
+              "label": "@myLabel",
+              "text": "a^2 + b^2 = c^2",
+              "id": "888",
+              "equationData": {
+                "options": [],
+                "number": 0
+              }
+            },
+            {
+              "type": "subSection",
+              "text": "Equation without number"
+            },
+            {
+              "type": "equation",
+              "label": "@eq:myLabel",
+              "text": "a^2 + b^2 = c^2",
+              "id": "-1",
+              "equationData": {
+                "options": [],
+                "number": 0
+              }
+            },
+            {
+              "type": "subSection",
+              "text": "Reference to equations"
+            },
+            {
+              "type": "paragraph",
+              "items": [
+                {
+                  "type": "text",
+                  "text": "Refer to"
+                },
+                {
+                  "type": "reference",
+                  "label": "myLabel"
+                },
+                {
+                  "type": "text",
+                  "text": "."
+                }
+              ]
+            },
+            {
+              "type": "subSection",
+              "text": "Aligned equations"
+            },
+            {
+              "type": "equation",
+              "text": "(x+1)^2 = (x+1)(x+1)\\\\= x^2 + x + x + 1\\\\= x^2 + 2x + 1",
+              "id": "888",
+              "equationData": {
+                "options": [
+                  "alignLeft",
+                  "alignEquals"
+                ],
+                "number": 0
+              }
+            },
+            {
+              "type": "section",
+              "text": "Abbreviations"
+            },
+            {
+              "type": "paragraph",
+              "items": [
+                {
+                  "type": "text",
+                  "text": "Equations may be written in plain TeX code. We introduce some ( optional ) abbreviations for simpler notation."
+                }
+              ]
+            },
+            {
+              "type": "subSection",
+              "text": "Numbers"
+            },
+            {
+              "type": "paragraph",
+              "items": [
+                {
+                  "type": "itemize",
+                  "items": [
+                    {
+                      "type": "span",
+                      "items": [
+                        {
+                          "type": "inlineMath",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "\\RR"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "span",
+                      "items": [
+                        {
+                          "type": "inlineMath",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "\\NN"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "span",
+                      "items": [
+                        {
+                          "type": "inlineMath",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "\\ZZ"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "span",
+                      "items": [
+                        {
+                          "type": "inlineMath",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "\\C"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "subSection",
+              "text": "Matrices"
+            },
+            {
+              "type": "equation",
+              "text": "\\mat{1&1&-2&0 \\\\ -2&0&1&1} \\cdot\\\\\\mat{-3&0&1 \\\\ 0&1&0 \\\\ 1&1&1 \\\\ 2&0&1} =\\\\\\mat{-5&-1&-1 \\\\ 9&1&0}",
+              "id": "888",
+              "equationData": {
+                "options": [],
+                "number": 0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

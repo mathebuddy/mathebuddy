@@ -1,0 +1,132 @@
+{
+  "debug": "level",
+  "title": "",
+  "author": "",
+  "mbclVersion": 1,
+  "dateModified": 1677308167,
+  "chapters": [
+    {
+      "fileId": "",
+      "title": "",
+      "label": "",
+      "author": "",
+      "posX": -1,
+      "posY": -1,
+      "requires": [],
+      "units": [],
+      "levels": [
+        {
+          "fileId": "",
+          "title": "Definitions",
+          "label": "",
+          "posX": -1,
+          "posY": -1,
+          "requires": [],
+          "items": [
+            {
+              "type": "defDefinition",
+              "title": "Positive",
+              "label": "@def:positive",
+              "items": [
+                {
+                  "type": "paragraph",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "For any integer"
+                    },
+                    {
+                      "type": "inlineMath",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "n"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": ","
+                    },
+                    {
+                      "type": "inlineMath",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "n"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": "is"
+                    },
+                    {
+                      "type": "boldText",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "positive"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": "if"
+                    },
+                    {
+                      "type": "inlineMath",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "n > 0"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": "."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "defTheorem",
+              "title": "The Aristotelian Syllogism",
+              "label": "@thm:socrates",
+              "items": [
+                {
+                  "type": "paragraph",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "If every man is mortal and Socrates is a man, then Socrates is mortal."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "defDefinition",
+              "title": "My definition",
+              "label": "@def:myDef",
+              "error": "subblock type alignCenter is not allowed heresubblock type equation is not allowed heresubblock type paragraph is not allowed here",
+              "items": [
+                {
+                  "type": "paragraph",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "Some paragraph text here."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

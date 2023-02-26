@@ -1,0 +1,302 @@
+{
+  "debug": "level",
+  "title": "",
+  "author": "",
+  "mbclVersion": 1,
+  "dateModified": 1677308553,
+  "chapters": [
+    {
+      "fileId": "",
+      "title": "",
+      "label": "",
+      "author": "",
+      "posX": -1,
+      "posY": -1,
+      "requires": [],
+      "units": [],
+      "levels": [
+        {
+          "fileId": "",
+          "title": "Typography",
+          "label": "",
+          "posX": -1,
+          "posY": -1,
+          "requires": [],
+          "items": [
+            {
+              "type": "paragraph",
+              "items": [
+                {
+                  "type": "text",
+                  "text": "This is text within a paragraph. Even this text stands in a new line, it is compiled to be written directly behind the last line."
+                },
+                {
+                  "type": "lineFeed"
+                },
+                {
+                  "type": "text",
+                  "text": "An empty line starts a new paragraph."
+                },
+                {
+                  "type": "lineFeed"
+                },
+                {
+                  "type": "text",
+                  "text": "This text is displayed in the output."
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "label": "sec:mySection",
+              "text": "My section"
+            },
+            {
+              "type": "paragraph",
+              "items": [
+                {
+                  "type": "text",
+                  "text": "Some text in"
+                },
+                {
+                  "type": "color",
+                  "id": "1",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "red"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": "color."
+                }
+              ]
+            },
+            {
+              "type": "subSection",
+              "label": "subsec:mySubSection",
+              "text": "My subsection"
+            },
+            {
+              "type": "paragraph",
+              "items": [
+                {
+                  "type": "text",
+                  "text": "Refer to"
+                },
+                {
+                  "type": "reference",
+                  "label": "mySection"
+                },
+                {
+                  "type": "text",
+                  "text": "."
+                },
+                {
+                  "type": "lineFeed"
+                },
+                {
+                  "type": "text",
+                  "text": "An itemization:"
+                },
+                {
+                  "type": "itemize",
+                  "items": [
+                    {
+                      "type": "span",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "first item"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "span",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "second item"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": "An enumeration"
+                },
+                {
+                  "type": "enumerate",
+                  "items": [
+                    {
+                      "type": "span",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "first item"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "span",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "second item"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": "An alpha enumeration"
+                },
+                {
+                  "type": "enumerateAlpha",
+                  "items": [
+                    {
+                      "type": "span",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "first item"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "span",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "second item"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "newPage"
+            },
+            {
+              "type": "subSection",
+              "text": "Bold, italic and colored text"
+            },
+            {
+              "type": "paragraph",
+              "items": [
+                {
+                  "type": "text",
+                  "text": "Some"
+                },
+                {
+                  "type": "boldText",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "bold"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": "text. Some"
+                },
+                {
+                  "type": "italicText",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "italic"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": "text. The word"
+                },
+                {
+                  "type": "color",
+                  "id": "1",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "sky"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": "is written in primary color."
+                },
+                {
+                  "type": "color",
+                  "id": "2",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "Some text written in the secondary color."
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": ". You can also write"
+                },
+                {
+                  "type": "boldText",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "bold text"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": "and"
+                },
+                {
+                  "type": "italicText",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "italic text"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": "similar to color notation."
+                }
+              ]
+            },
+            {
+              "type": "subSection",
+              "text": "Text alignment"
+            },
+            {
+              "type": "alignCenter",
+              "items": [
+                {
+                  "type": "paragraph",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "This text is centered."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
