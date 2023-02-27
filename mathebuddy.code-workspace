@@ -1,11 +1,11 @@
 {
   "folders": [
-	{
-		"path": "."
-	},
-	{
-		"path": "app/mathebuddy"
-	}
-],
+    {
+      "path": "."
+    },
+    {
+      "path": "app"
+    }
+  ],
   "settings": {}
 }

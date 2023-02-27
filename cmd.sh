@@ -48,15 +48,15 @@ do
         ;;
     3)
         # [3] build flutter web app
-        cd app/mathebuddy
+        cd app
         ./build-web.sh
-        cd ../..
+        cd ..
         ;;
     4)
         # [4] build flutter android app
-        cd app/mathebuddy
+        cd app
         ./build-android.sh
-        cd ../..
+        cd ..
         ;;
     5)
         # [5] run website at http://localhost:8314
