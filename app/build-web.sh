@@ -9,12 +9,30 @@ flutter build web --web-renderer auto --release  # auto := html for mobile, canv
 rm -rf ../docs/sim
 cp -r build/web/ ../docs/sim
 
-cp ../docs/sim/index.html ../docs/sim/index-github.html 
+rm -rf ../docs/sim-ghpages
+mkdir -p ../docs/sim-ghpages
+cp ../docs/sim/index.html ../docs/sim-ghpages/index.html
+
+cd ../docs/sim-ghpages/
+ln -s ../sim/.last_build_id .
+ln -s ../sim/assets .
+ln -s ../sim/canvaskit .
+ln -s ../sim/favicon.png .
+ln -s ../sim/flutter_service_worker.js .
+ln -s ../sim/flutter.js .
+ln -s ../sim/icons .
+ln -s ../sim/main.dart.js .
+ln -s ../sim/manifest.json .
+ln -s ../sim/version.json .
+
+cd ../sim/
 
 # for localhost: replace <base href="/"> by <base href="/sim/">
-sed -i.bak 's/<base href="\/" \/>/<base href="\/sim\/" \/>/g' ../docs/sim/index.html 
-rm ../docs/sim/index.html.bak
+sed -i.bak 's/<base href="\/" \/>/<base href="\/sim\/" \/>/g' index.html 
+rm index.html.bak
+
+cd ../sim-ghpages/
 
 # for github pages: replace <base href="/"> by <base href="/mathebuddy-sim/">
-sed -i.bak 's/<base href="\/" \/>/<base href="\/mathebuddy\/sim\/" \/>/g' ../docs/sim/index-github.html 
-rm ../docs/sim/index-github.html.bak
+sed -i.bak 's/<base href="\/" \/>/<base href="\/mathebuddy\/sim-ghpages\/" \/>/g' index.html 
+rm index.html.bak

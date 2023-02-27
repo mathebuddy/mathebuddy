@@ -77,7 +77,7 @@ String compileMblCode(String src) {
 void showSim(String location) {
   var src = html.window.location.host.contains("localhost")
       ? "sim/index.html"
-      : "sim/index-github.html";
+      : "sim-ghpages/index.html";
   simURL = src + '?ver=' + DateTime.now().millisecondsSinceEpoch.toString();
   //resetSim();
   html.document.getElementById("sim")?.style.display = "block";
