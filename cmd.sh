@@ -31,7 +31,8 @@ do
     echo "[7]  update testdata from mathebuddy-public-courses repo"
     echo "[8]  update grammar.txt in lib/*"
     echo "[9]  update file system files (_fs.txt) files in docs/demo/"
-    echo "[10] exit"
+    echo "[10] generate TeX fonts code in lib/tex/gen/"
+    echo "[11] exit"
     read x
     case $x in
     1)
@@ -86,6 +87,12 @@ do
         cd docs/demo/
         ./_makefs.sh
         cd ../..
+        ;;
+    10)
+        # [10] generate TeX fonts code in lib/tex/gen/
+        cd lib/tex/gen/
+        ./run.sh
+        cd ../../..
         ;;
     *)
         # [*] exit
