@@ -46,6 +46,7 @@ class Lexer {
 
   bool _allowUmlautInID = false;
   bool _allowHyphenInID = false;
+  bool _allowUnderscoreInID = true;
 
   List<LexerToken> _putTrailingSemicolon = [];
   List<String> _multicharDelimiters = [];
@@ -105,6 +106,10 @@ class Lexer {
 
   enableHyphenInID(bool value) {
     this._allowHyphenInID = value;
+  }
+
+  enableUnderscoreInID(bool value) {
+    this._allowUnderscoreInID = value;
   }
 
   bool isEND() {
@@ -616,8 +621,8 @@ class Lexer {
       this._token.type = LexerTokenType.END;
       return;
     }
-    // ID = ( "A".."Z" | "a".."z" | "_" | hyphen&&"-" | umlaut&&("ä".."ß") )
-    //   { "A".."Z" | "a".."z" | "0".."9" | "_" | hyphen&&"-" | umlaut&&("ä".."ß") };
+    // ID = ( "A".."Z" | "a".."z" | underscore&&"_" | hyphen&&"-" | umlaut&&("ä".."ß") )
+    //   { "A".."Z" | "a".."z" | "0".."9" | underscore&&"_" | hyphen&&"-" | umlaut&&("ä".."ß") };
     this._token.type = LexerTokenType.ID;
     this._token.token = '';
     if (s.i < s.n &&
@@ -625,7 +630,7 @@ class Lexer {
                 src.codeUnitAt(s.i) <= 'Z'.codeUnitAt(0)) ||
             (src.codeUnitAt(s.i) >= 'a'.codeUnitAt(0) &&
                 src.codeUnitAt(s.i) <= 'z'.codeUnitAt(0)) ||
-            src[s.i] == '_' ||
+            (this._allowUnderscoreInID && src[s.i] == '_') ||
             (this._allowHyphenInID && src[s.i] == '-') ||
             (this._allowUmlautInID && 'ÄÖÜäöüß'.contains(src[s.i])))) {
       this._token.token += src[s.i];
@@ -638,7 +643,7 @@ class Lexer {
                   src.codeUnitAt(s.i) <= 'z'.codeUnitAt(0)) ||
               (src.codeUnitAt(s.i) >= '0'.codeUnitAt(0) &&
                   src.codeUnitAt(s.i) <= '9'.codeUnitAt(0)) ||
-              src[s.i] == '_' ||
+              (this._allowUnderscoreInID && src[s.i] == '_') ||
               (this._allowHyphenInID && src[s.i] == '-') ||
               (this._allowUmlautInID && 'ÄÖÜäöüß'.contains(src[s.i])))) {
         this._token.token += src[s.i];
