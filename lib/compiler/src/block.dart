@@ -6,7 +6,6 @@
  * License: GPL-3.0-or-later
  */
 
-import '../../math-runtime/src/operand.dart';
 import '../../mbcl/src/level_item.dart';
 
 import '../../smpl/src/parser.dart' as smplParser;
@@ -36,8 +35,9 @@ class Block {
   List<BlockPart> parts = []; // e.g. "@options ..."
   List<Block> subBlocks = []; // e.g. "EQUATION ..."
   int srcLine = 0;
-  MbclLevelItem levelItem =
-      new MbclLevelItem(MbclLevelItemType.error, 'block unprocessed');
+  List<MbclLevelItem> levelItems = [
+    new MbclLevelItem(MbclLevelItemType.error, 'block unprocessed')
+  ];
   Compiler _compiler;
 
   Block(this._compiler);
@@ -45,82 +45,98 @@ class Block {
   void process() {
     switch (this.type) {
       case 'DEFINITION':
-        this.levelItem =
-            this._processDefinition(MbclLevelItemType.defDefinition);
+        this.levelItems = [
+          this._processDefinition(MbclLevelItemType.defDefinition)
+        ];
         break;
       case 'THEOREM':
-        this.levelItem = this._processDefinition(MbclLevelItemType.defTheorem);
+        this.levelItems = [
+          this._processDefinition(MbclLevelItemType.defTheorem)
+        ];
         break;
       case 'LEMMA':
-        this.levelItem = this._processDefinition(MbclLevelItemType.defLemma);
+        this.levelItems = [this._processDefinition(MbclLevelItemType.defLemma)];
         break;
       case 'COROLLARY':
-        this.levelItem =
-            this._processDefinition(MbclLevelItemType.defCorollary);
+        this.levelItems = [
+          this._processDefinition(MbclLevelItemType.defCorollary)
+        ];
         break;
       case 'PROPOSITION':
-        this.levelItem =
-            this._processDefinition(MbclLevelItemType.defProposition);
+        this.levelItems = [
+          this._processDefinition(MbclLevelItemType.defProposition)
+        ];
         break;
       case 'CONJECTURE':
-        this.levelItem =
-            this._processDefinition(MbclLevelItemType.defConjecture);
+        this.levelItems = [
+          this._processDefinition(MbclLevelItemType.defConjecture)
+        ];
         break;
       case 'AXIOM':
-        this.levelItem = this._processDefinition(MbclLevelItemType.defAxiom);
+        this.levelItems = [this._processDefinition(MbclLevelItemType.defAxiom)];
         break;
       case 'CLAIM':
-        this.levelItem = this._processDefinition(MbclLevelItemType.defClaim);
+        this.levelItems = [this._processDefinition(MbclLevelItemType.defClaim)];
         break;
       case 'IDENTITY':
-        this.levelItem = this._processDefinition(MbclLevelItemType.defIdentity);
+        this.levelItems = [
+          this._processDefinition(MbclLevelItemType.defIdentity)
+        ];
         break;
       case 'PARADOX':
-        this.levelItem = this._processDefinition(MbclLevelItemType.defParadox);
+        this.levelItems = [
+          this._processDefinition(MbclLevelItemType.defParadox)
+        ];
         break;
       case 'LEFT':
-        this.levelItem = this._processTextAlign(MbclLevelItemType.alignLeft);
+        this.levelItems = [this._processTextAlign(MbclLevelItemType.alignLeft)];
         break;
       case 'CENTER':
-        this.levelItem = this._processTextAlign(MbclLevelItemType.alignCenter);
+        this.levelItems = [
+          this._processTextAlign(MbclLevelItemType.alignCenter)
+        ];
         break;
       case 'RIGHT':
-        this.levelItem = this._processTextAlign(MbclLevelItemType.alignRight);
+        this.levelItems = [
+          this._processTextAlign(MbclLevelItemType.alignRight)
+        ];
         break;
       case 'EQUATION':
-        this.levelItem = this._processEquation(true);
+        this.levelItems = [this._processEquation(true)];
         break;
       case 'EQUATION*':
-        this.levelItem = this._processEquation(false);
+        this.levelItems = [this._processEquation(false)];
         break;
       case 'EXAMPLE':
-        this.levelItem = this._processExample();
+        this.levelItems = [this._processExample()];
         break;
       case 'EXERCISE':
-        this.levelItem = this._processExercise();
+        this.levelItems = [this._processExercise()];
         break;
       case 'TEXT':
-        this.levelItem = this._processText();
+        this.levelItems = this._processText();
         break;
       case 'TABLE':
-        this.levelItem = this._processTable();
+        this.levelItems = [this._processTable()];
         break;
       case 'FIGURE':
-        this.levelItem = this._processFigure();
+        this.levelItems = [this._processFigure()];
         break;
       case 'NEWPAGE':
-        this.levelItem = new MbclLevelItem(MbclLevelItemType.newPage);
+        this.levelItems = [new MbclLevelItem(MbclLevelItemType.newPage)];
         break;
       default:
-        this.levelItem = new MbclLevelItem(
-            MbclLevelItemType.error, 'unknown block type "' + this.type + '"');
+        this.levelItems = [
+          new MbclLevelItem(
+              MbclLevelItemType.error, 'unknown block type "' + this.type + '"')
+        ];
     }
   }
 
-  MbclLevelItem _processText() {
+  List<MbclLevelItem> _processText() {
     // this block has no parts
     return this._compiler.parseParagraph(
-          (this.parts[0] as BlockPart).lines.join('\n'),
+          this.parts[0].lines.join('\n'),
         );
   }
 
@@ -169,8 +185,15 @@ class Block {
             else
               data.rows.add(row);
             for (var columnString in columnStrings) {
-              var column = this._compiler.parseParagraph(columnString);
-              row.columns.add(column);
+              var columnText = this._compiler.parseParagraph(columnString);
+              if (columnText.length != 1 ||
+                  columnText[0].type != MbclLevelItemType.paragraph) {
+                table.error += 'table cell is not pure text';
+                row.columns
+                    .add(new MbclLevelItem(MbclLevelItemType.text, 'error'));
+              } else {
+                row.columns.add(columnText[0]);
+              }
             }
             i++;
           }
@@ -197,9 +220,16 @@ class Block {
                 'Some of your code is not inside a tag (e.g. "@code")';
           break;
         case 'caption':
-          data.caption.add(this._compiler.parseParagraph(
-                part.lines.join('\n'),
-              ));
+          {
+            var captionText = this._compiler.parseParagraph(
+                  part.lines.join('\n'),
+                );
+            if (captionText.length != 1 ||
+                captionText[0].type != MbclLevelItemType.paragraph) {
+            } else {
+              data.caption.add(captionText[0]);
+            }
+          }
           break;
         case 'code':
           {
@@ -331,7 +361,7 @@ class Block {
       switch (part.name) {
         case 'global':
           example.items
-              .add(this._compiler.parseParagraph(part.lines.join("\n")));
+              .addAll(this._compiler.parseParagraph(part.lines.join("\n")));
           break;
         default:
           example.error += 'unexpected part "' + part.name + '"';
@@ -346,7 +376,8 @@ class Block {
     for (var part in this.parts) {
       switch (part.name) {
         case 'global':
-          align.items.add(this._compiler.parseParagraph(part.lines.join("\n")));
+          align.items
+              .addAll(this._compiler.parseParagraph(part.lines.join("\n")));
           break;
         default:
           align.error += 'unexpected part "' + part.name + '"';
@@ -363,7 +394,8 @@ class Block {
     for (var part in this.parts) {
       switch (part.name) {
         case 'global':
-          def.items.add(this._compiler.parseParagraph(part.lines.join("\n")));
+          def.items
+              .addAll(this._compiler.parseParagraph(part.lines.join("\n")));
           break;
         default:
           def.error += 'unexpected part "' + part.name + '"';
@@ -423,7 +455,7 @@ class Block {
           }
           break;
         case 'text':
-          exercise.items.add(this._compiler.parseParagraph(
+          exercise.items.addAll(this._compiler.parseParagraph(
                 part.lines.join('\n'),
                 exercise,
               ));
@@ -442,11 +474,12 @@ class Block {
       sub.process();
       if (mbclSubBlockWhiteList.containsKey(item.type) &&
           (mbclSubBlockWhiteList[item.type] as List<MbclLevelItemType>)
-              .contains(sub.levelItem.type)) {
-        item.items.add(sub.levelItem);
+              .contains(sub.levelItems[0].type)) {
+        item.items.addAll(sub.levelItems);
       } else {
-        item.error +=
-            'subblock type ' + sub.levelItem.type.name + ' is not allowed here';
+        item.error += 'subblock type ' +
+            sub.levelItems[0].type.name +
+            ' is not allowed here';
       }
     }
   }
