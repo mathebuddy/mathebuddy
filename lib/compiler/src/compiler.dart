@@ -255,7 +255,7 @@ class Compiler {
       } else if (this._line == '---') {
         this._pushParagraph();
         var block = this._parseBlock(false);
-        this._level?.items.add(block.levelItem);
+        this._level?.items.addAll(block.levelItems);
       } else {
         this._paragraph += this._line + '\n';
         this._next();
@@ -270,7 +270,7 @@ class Compiler {
 
   void _pushParagraph() {
     if (this._paragraph.trim().length > 0) {
-      this._level?.items.add(this.parseParagraph(this._paragraph));
+      this._level?.items.addAll(this.parseParagraph(this._paragraph));
       this._paragraph = '';
     }
   }
@@ -395,20 +395,47 @@ class Compiler {
       | ID
       | DEL;
    */
-  MbclLevelItem parseParagraph(String raw, [MbclLevelItem? ex = null]) {
+  // TODO: RENAME METHOD!!
+  List<MbclLevelItem> parseParagraph(String raw, [MbclLevelItem? ex = null]) {
     // skip empty paragraphs
     if (raw.trim().length == 0)
-      return new MbclLevelItem(MbclLevelItemType.text);
+      return [new MbclLevelItem(MbclLevelItemType.text)];
     // create lexer
     var lexer = new Lexer();
     lexer.enableEmitNewlines(true);
     lexer.enableUmlautInID(true);
     lexer.pushSource('', raw);
     lexer.setTerminals(['**', '#.', '-)']);
-    var paragraph = new MbclLevelItem(MbclLevelItemType.paragraph);
-    while (lexer.isNotEND())
-      paragraph.items.add(this._parseParagraph_part(lexer, ex));
-    return paragraph;
+    List<MbclLevelItem> res = [];
+    while (lexer.isNotEND()) {
+      var part = this._parseParagraph_part(lexer, ex);
+      switch (part.type) {
+        case MbclLevelItemType.itemize:
+        case MbclLevelItemType.enumerate:
+        case MbclLevelItemType.enumerateAlpha:
+        case MbclLevelItemType.multipleChoice:
+          res.add(part);
+          break;
+        case MbclLevelItemType.lineFeed:
+          res.add(new MbclLevelItem(MbclLevelItemType.paragraph));
+          break;
+        default:
+          if (res.isNotEmpty && res.last.type == MbclLevelItemType.paragraph) {
+            res.last.items.add(part);
+          } else {
+            var paragraph = new MbclLevelItem(MbclLevelItemType.paragraph);
+            res.add(paragraph);
+            paragraph.items.add(part);
+          }
+      }
+    }
+    // remove unnecessary line feeds at end
+    while (res.isNotEmpty &&
+        res.last.type == MbclLevelItemType.paragraph &&
+        res.last.items.length == 0) {
+      res.removeLast();
+    }
+    return res;
   }
 
   MbclLevelItem _parseParagraph_part(Lexer lexer, MbclLevelItem? exercise) {
@@ -596,7 +623,7 @@ class Compiler {
         exercise.error = 'expected ID after :';
       }
     }
-    MbclLevelItem element = new MbclLevelItem(MbclLevelItemType.multipleChoice);
+    MbclLevelItem root = new MbclLevelItem(MbclLevelItemType.multipleChoice);
     if (varId.length == 0)
       varId = addStaticBooleanVariable(exerciseData, staticallyCorrect);
     if (isMultipleChoice) {
@@ -604,28 +631,28 @@ class Compiler {
         lexer.next();
       else
         exercise.error = 'expected ]';
-      element.type = MbclLevelItemType.multipleChoice;
+      root.type = MbclLevelItemType.multipleChoice;
     } else {
       if (lexer.isTER(')'))
         lexer.next();
       else
         exercise.error = 'expected )';
-      element.type = MbclLevelItemType.singleChoice;
+      root.type = MbclLevelItemType.singleChoice;
     }
     var option = new MbclLevelItem(MbclLevelItemType.multipleChoiceOption);
     var data = new MbclSingleOrMultipleChoiceOptionData();
     option.singleOrMultipleChoiceOptionData = data;
-    if (element.type == MbclLevelItemType.singleChoice)
+    if (root.type == MbclLevelItemType.singleChoice)
       option.type = MbclLevelItemType.singleChoiceOption;
     data.inputId = 'input' + this.createUniqueId().toString();
     data.variableId = varId;
-    element.items.add(option);
+    root.items.add(option);
     var span = new MbclLevelItem(MbclLevelItemType.span);
     option.items.add(span);
     while (lexer.isNotNEWLINE() && lexer.isNotEND())
       span.items.add(this._parseParagraph_part(lexer, exercise));
     if (lexer.isTER('\n')) lexer.next();
-    return element;
+    return root;
   }
 
   MbclLevelItem _parseTextProperty(Lexer lexer, MbclLevelItem? exercise) {
