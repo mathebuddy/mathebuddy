@@ -3,7 +3,7 @@
   "title": "",
   "author": "",
   "mbclVersion": 1,
-  "dateModified": 1677308167,
+  "dateModified": 1677518299,
   "chapters": [
     {
       "fileId": "",
@@ -34,65 +34,75 @@
                     {
                       "type": "text",
                       "text": "Some text here."
-                    },
+                    }
+                  ]
+                },
+                {
+                  "type": "multipleChoice",
+                  "items": [
                     {
-                      "type": "multipleChoice",
+                      "type": "multipleChoiceOption",
                       "items": [
                         {
-                          "type": "multipleChoiceOption",
+                          "type": "span",
                           "items": [
                             {
-                              "type": "span",
-                              "items": [
-                                {
-                                  "type": "text",
-                                  "text": "This answer is correct."
-                                }
-                              ]
+                              "type": "text",
+                              "text": "This answer is correct."
                             }
-                          ],
-                          "singleOrMultipleChoiceOptionData": {
-                            "inputId": "input0",
-                            "variableId": "__bool__0"
-                          }
-                        },
-                        {
-                          "type": "multipleChoiceOption",
-                          "items": [
-                            {
-                              "type": "span",
-                              "items": [
-                                {
-                                  "type": "text",
-                                  "text": "This answer is incorrect."
-                                }
-                              ]
-                            }
-                          ],
-                          "singleOrMultipleChoiceOptionData": {
-                            "inputId": "input1",
-                            "variableId": "__bool__1"
-                          }
-                        },
-                        {
-                          "type": "multipleChoiceOption",
-                          "items": [
-                            {
-                              "type": "span",
-                              "items": [
-                                {
-                                  "type": "text",
-                                  "text": "This answer is correct."
-                                }
-                              ]
-                            }
-                          ],
-                          "singleOrMultipleChoiceOptionData": {
-                            "inputId": "input2",
-                            "variableId": "__bool__2"
-                          }
+                          ]
                         }
-                      ]
+                      ],
+                      "singleOrMultipleChoiceOptionData": {
+                        "inputId": "input0",
+                        "variableId": "__bool__0"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "multipleChoice",
+                  "items": [
+                    {
+                      "type": "multipleChoiceOption",
+                      "items": [
+                        {
+                          "type": "span",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "This answer is incorrect."
+                            }
+                          ]
+                        }
+                      ],
+                      "singleOrMultipleChoiceOptionData": {
+                        "inputId": "input1",
+                        "variableId": "__bool__1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "multipleChoice",
+                  "items": [
+                    {
+                      "type": "multipleChoiceOption",
+                      "items": [
+                        {
+                          "type": "span",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "This answer is correct."
+                            }
+                          ]
+                        }
+                      ],
+                      "singleOrMultipleChoiceOptionData": {
+                        "inputId": "input2",
+                        "variableId": "__bool__2"
+                      }
                     }
                   ]
                 }
@@ -183,28 +193,28 @@
                 ],
                 "instances": [
                   {
-                    "x": "5",
-                    "@x": "rand(1,5)",
-                    "y": "3",
-                    "@y": "rand(1,5)",
-                    "z": "8",
-                    "@z": "(5+3)"
-                  },
-                  {
-                    "x": "5",
-                    "@x": "rand(1,5)",
-                    "y": "3",
-                    "@y": "rand(1,5)",
-                    "z": "8",
-                    "@z": "(5+3)"
-                  },
-                  {
-                    "x": "2",
+                    "x": "4",
                     "@x": "rand(1,5)",
                     "y": "5",
                     "@y": "rand(1,5)",
-                    "z": "7",
-                    "@z": "(2+5)"
+                    "z": "9",
+                    "@z": "(4+5)"
+                  },
+                  {
+                    "x": "1",
+                    "@x": "rand(1,5)",
+                    "y": "2",
+                    "@y": "rand(1,5)",
+                    "z": "3",
+                    "@z": "(1+2)"
+                  },
+                  {
+                    "x": "1",
+                    "@x": "rand(1,5)",
+                    "y": "4",
+                    "@y": "rand(1,5)",
+                    "z": "5",
+                    "@z": "(1+4)"
                   }
                 ],
                 "inputRequire": [],
