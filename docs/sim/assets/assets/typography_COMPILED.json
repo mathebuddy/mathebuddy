@@ -3,7 +3,7 @@
   "title": "",
   "author": "",
   "mbclVersion": 1,
-  "dateModified": 1677308553,
+  "dateModified": 1677518299,
   "chapters": [
     {
       "fileId": "",
@@ -29,17 +29,21 @@
                 {
                   "type": "text",
                   "text": "This is text within a paragraph. Even this text stands in a new line, it is compiled to be written directly behind the last line."
-                },
-                {
-                  "type": "lineFeed"
-                },
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "items": [
                 {
                   "type": "text",
                   "text": "An empty line starts a new paragraph."
-                },
-                {
-                  "type": "lineFeed"
-                },
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "items": [
                 {
                   "type": "text",
                   "text": "This text is displayed in the output."
@@ -93,88 +97,100 @@
                 {
                   "type": "text",
                   "text": "."
-                },
-                {
-                  "type": "lineFeed"
-                },
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "items": [
                 {
                   "type": "text",
                   "text": "An itemization:"
-                },
+                }
+              ]
+            },
+            {
+              "type": "itemize",
+              "items": [
                 {
-                  "type": "itemize",
+                  "type": "span",
                   "items": [
                     {
-                      "type": "span",
-                      "items": [
-                        {
-                          "type": "text",
-                          "text": "first item"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "span",
-                      "items": [
-                        {
-                          "type": "text",
-                          "text": "second item"
-                        }
-                      ]
+                      "type": "text",
+                      "text": "first item"
                     }
                   ]
                 },
+                {
+                  "type": "span",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "second item"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "items": [
                 {
                   "type": "text",
                   "text": "An enumeration"
-                },
+                }
+              ]
+            },
+            {
+              "type": "enumerate",
+              "items": [
                 {
-                  "type": "enumerate",
+                  "type": "span",
                   "items": [
                     {
-                      "type": "span",
-                      "items": [
-                        {
-                          "type": "text",
-                          "text": "first item"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "span",
-                      "items": [
-                        {
-                          "type": "text",
-                          "text": "second item"
-                        }
-                      ]
+                      "type": "text",
+                      "text": "first item"
                     }
                   ]
                 },
                 {
-                  "type": "text",
-                  "text": "An alpha enumeration"
-                },
-                {
-                  "type": "enumerateAlpha",
+                  "type": "span",
                   "items": [
                     {
-                      "type": "span",
-                      "items": [
-                        {
-                          "type": "text",
-                          "text": "first item"
-                        }
-                      ]
-                    },
+                      "type": "text",
+                      "text": "second item"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "items": [
+                {
+                  "type": "text",
+                  "text": "An alpha enumeration"
+                }
+              ]
+            },
+            {
+              "type": "enumerateAlpha",
+              "items": [
+                {
+                  "type": "span",
+                  "items": [
                     {
-                      "type": "span",
-                      "items": [
-                        {
-                          "type": "text",
-                          "text": "second item"
-                        }
-                      ]
+                      "type": "text",
+                      "text": "first item"
+                    }
+                  ]
+                },
+                {
+                  "type": "span",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "second item"
                     }
                   ]
                 }
