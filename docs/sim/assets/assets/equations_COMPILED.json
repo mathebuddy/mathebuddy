@@ -3,7 +3,7 @@
   "title": "",
   "author": "",
   "mbclVersion": 1,
-  "dateModified": 1677308167,
+  "dateModified": 1677518299,
   "chapters": [
     {
       "fileId": "",
@@ -136,64 +136,62 @@
               "text": "Numbers"
             },
             {
-              "type": "paragraph",
+              "type": "paragraph"
+            },
+            {
+              "type": "itemize",
               "items": [
                 {
-                  "type": "itemize",
+                  "type": "span",
                   "items": [
                     {
-                      "type": "span",
+                      "type": "inlineMath",
                       "items": [
                         {
-                          "type": "inlineMath",
-                          "items": [
-                            {
-                              "type": "text",
-                              "text": "\\RR"
-                            }
-                          ]
+                          "type": "text",
+                          "text": "\\RR"
                         }
                       ]
-                    },
+                    }
+                  ]
+                },
+                {
+                  "type": "span",
+                  "items": [
                     {
-                      "type": "span",
+                      "type": "inlineMath",
                       "items": [
                         {
-                          "type": "inlineMath",
-                          "items": [
-                            {
-                              "type": "text",
-                              "text": "\\NN"
-                            }
-                          ]
+                          "type": "text",
+                          "text": "\\NN"
                         }
                       ]
-                    },
+                    }
+                  ]
+                },
+                {
+                  "type": "span",
+                  "items": [
                     {
-                      "type": "span",
+                      "type": "inlineMath",
                       "items": [
                         {
-                          "type": "inlineMath",
-                          "items": [
-                            {
-                              "type": "text",
-                              "text": "\\ZZ"
-                            }
-                          ]
+                          "type": "text",
+                          "text": "\\ZZ"
                         }
                       ]
-                    },
+                    }
+                  ]
+                },
+                {
+                  "type": "span",
+                  "items": [
                     {
-                      "type": "span",
+                      "type": "inlineMath",
                       "items": [
                         {
-                          "type": "inlineMath",
-                          "items": [
-                            {
-                              "type": "text",
-                              "text": "\\C"
-                            }
-                          ]
+                          "type": "text",
+                          "text": "\\C"
                         }
                       ]
                     }
