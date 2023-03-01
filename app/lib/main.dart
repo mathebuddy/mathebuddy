@@ -68,7 +68,7 @@ class _CoursePageState extends State<CoursePage> {
     var fjs = flutterJs as js.JavascriptRuntime;
     fjs.evaluate('console.log("hello, world from flutter_js.");');
     DefaultAssetBundle.of(context)
-        .loadString("assets/tex-browser.min.js")
+        .loadString("assets/mathjax.min.js")
         .then((value) {
       fjs.evaluate(value);
       fjs.evaluate("let mj = new tex.MathJax();");
