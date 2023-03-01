@@ -40,4 +40,4 @@ flutter:
     - assets/typography_COMPILED.json
     - assets/img/logo.png
     - assets/img/logoSmall.png
-    - assets/tex-browser.min.js
+    - assets/mathjax.min.js
