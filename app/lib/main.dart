@@ -9,6 +9,9 @@ import 'dart:convert';
 import 'package:universal_html/html.dart' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+// TODO: remove all JavaScript dependencies, as soon as own TeX is ready
+// the following imports "dart:js" for the web app, or "flutter_js" for iOS/Android/...
+//import 'package:flutter_js/flutter_js.dart' as js if (dart.library.io) "dart:js";
 
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
@@ -53,6 +56,29 @@ class _CoursePageState extends State<CoursePage> {
   MbclCourse? _course;
   MbclChapter? _chapter;
   MbclLevel? _level;
+
+  //dynamic flutterJs;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //if (dart.library.io) {
+    /*flutterJs = js.getJavascriptRuntime();
+    var fjs = flutterJs as js.JavascriptRuntime;
+    fjs.evaluate('console.log("hello, world from flutter_js.");');
+    DefaultAssetBundle.of(context)
+        .loadString("assets/tex-browser.min.js")
+        .then((value) {
+      fjs.evaluate(value);
+      fjs.evaluate("let mj = new tex.MathJax();");
+      fjs.evaluate("console.log(mj.tex2svgInline('x^2'));");
+    });*/
+    /*}
+    if (dart.library.js) {
+      // TODO: browser
+    }*/
+  }
 
   void _selectCourse(String path) async {
     print("_getCourseDataDEBUG:");
@@ -129,8 +155,7 @@ class _CoursePageState extends State<CoursePage> {
         {
           // width="2.403ex" height="1.464ex"
           var testSvgData =
-              """<svg style="vertical-align: -0.464ex;" xmlns="http://www.w3.org/2000/svg" width="2.403ex"
-    height="2.464ex" role="img" focusable="false" viewBox="0 -1100 1500 1200"
+              """<svg style="" xmlns="http://www.w3.org/2000/svg" role="img" focusable="false" viewBox="0 -800 2000 900"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <path id="MJX-1-TEX-I-1D465"
@@ -143,20 +168,19 @@ class _CoursePageState extends State<CoursePage> {
             <g data-mml-node="mi">
                 <use data-c="1D465" xlink:href="#MJX-1-TEX-I-1D465"></use>
             </g>
-            <g data-mml-node="mi" transform="translate(572,0)">
+            <g data-mml-node="mi" transform="translate(500,0)">
                 <use data-c="1D466" xlink:href="#MJX-1-TEX-I-1D466"></use>
             </g>
         </g>
     </g>
 </svg>""";
-          //PictureInfo pictureInfo =
-          //    vg.loadPicture(SvgStringLoader(testSvgData), null);
           return WidgetSpan(
               child: SvgPicture.string(
             testSvgData,
-            height: 28,
+            height: 20,
           ));
         }
+
       default:
         print(
             "ERROR: genParagraphItem(..): type '${item.type.name}' is not implemented");
