@@ -164,6 +164,7 @@
           </button>
           <button class="button" onclick="showPlayground('smpl')">SMPL</button>
           <button class="button" onclick="showPlayground('mbl')">MBL</button>
+          <button class="button" onclick="showPlayground('tex')">TeX</button>
         </div>
         <div id="doc-list" style="text-align: center; display: none">
           <b>DOCUMENTATION</b><br />
@@ -665,6 +666,55 @@
       </div>
     </div>
 
+    <!-- ===== TEX ===== -->
+
+    <div id="tex" class="container" style="display: none">
+      <div class="row">
+        <h2>TeX</h2>
+        <p>
+          <code>TeX</code> syntax is used to display equations in the
+          <i>mathe:buddy</i> app. Unfortunately, there is no TeX rendering
+          engine available that fully meets our demands: We use
+          <code>Flutter</code> to write the app. Equations must be embedded into
+          TextSpan elements in fluent text. These elements must be updatable at
+          runtime. All available libraries, for example <code>MathJax</code>,
+          use <code>JavaScript (JS)</code>. Even it is feasible to run JS code
+          from Flutter, MathJax has a minified size of nearly 2 MB. Furthermore,
+          we require conditional code for the JS runtime (dart:fs for the
+          web-app, flutter_js for all other platforms), that results in an ugly
+          build process. We will properly use MathJS, despite its disadvantages
+          in the near future. Later on, it will be replaced by an own TeX
+          typesetter, that is extremely(!) light-weight and entirely written in
+          the <code>Dart</code> programming language; without any dependencies.
+        </p>
+        <p>
+          This playground uses the above mentioned custom TeX typesetter! Much
+          work has to be done...
+        </p>
+      </div>
+
+      <div class="row">
+        <b>Input TeX Code:</b>&nbsp;
+        <input type="text" id="tex-input" class="u-full-width" />
+        <button id="runTex" type="button">typeset</button>
+        <br />
+      </div>
+
+      <div class="row" style="padding-top: 5px">
+        <b>Parsed Term:</b>&nbsp;
+        <div id="tex-term">(empty)</div>
+      </div>
+
+      <div class="row" style="padding-top: 5px">
+        <b>Rendering:</b>&nbsp;
+        <div id="tex-rendering"></div>
+      </div>
+
+      <br />
+    </div>
+
+    <!-- end of tex -->
+
     <div class="container">
       <br />
       <br />
@@ -777,7 +827,7 @@
 
       // playground selection
       function showPlayground(id) {
-        let playgrounds = ["math-runtime", "smpl", "mbl"];
+        let playgrounds = ["math-runtime", "smpl", "mbl", "tex"];
         for (let d of playgrounds)
           document.getElementById(d).style.display = id == d ? "block" : "none";
       }
@@ -898,6 +948,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1677504392"></script>
+    <script src="js/index.min.js?version=1677695571"></script>
   </body>
 </html>
