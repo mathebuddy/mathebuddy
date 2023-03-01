@@ -21,6 +21,7 @@ dependencies:
   universal_html: ^2.0.9
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.2
+  flutter_js: ^0.6.0 # TODO: NEEDED???? THEN MAKE CHANGES FOR ANDROID AS DESCRIBED IN https://pub.dev/packages/flutter_js
 
 dev_dependencies:
   flutter_test:
@@ -39,3 +40,4 @@ flutter:
     - assets/typography_COMPILED.json
     - assets/img/logo.png
     - assets/img/logoSmall.png
+    - assets/tex-browser.min.js
