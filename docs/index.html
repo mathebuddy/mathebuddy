@@ -680,9 +680,11 @@
           runtime. All available libraries, for example <code>MathJax</code>,
           use <code>JavaScript (JS)</code>. Even it is feasible to run JS code
           from Flutter, MathJax has a minified size of nearly 2 MB. Furthermore,
-          we require conditional code for the JS runtime (dart:fs for the
+          we require conditional code for the JS runtime (dart:js for the
           web-app, flutter_js for all other platforms), that results in an ugly
-          build process. We will properly use MathJS, despite its disadvantages
+          build process. We will properly use MathJS (YES, we know about
+          <code>flutter_tex</code>; but it just provides a shell around MathJax
+          and does not provide TextSpan integration), despite its disadvantages
           in the near future. Later on, it will be replaced by an own TeX
           typesetter, that is extremely(!) light-weight and entirely written in
           the <code>Dart</code> programming language; without any dependencies.
