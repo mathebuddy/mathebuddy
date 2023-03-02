@@ -13,7 +13,7 @@ import '../src/tex.dart';
 void main() {
   var tex = new TeX();
   var src =
-      "f(x,y)=3x+y^{2^{8+1}}+z^{3+2}+\\alpha_{\\gamma}+\\beta+X"; //"\\frac x{ \\sum_1^{{6}} w } \\cdot 5";
+      "\\mathbb{N}, f(x,y)=3x+y^{2^{8+1}}+z^{3+2}+\\alpha_{\\gamma}+\\beta+X"; //"\\frac x{ \\sum_1^{{6}} w } \\cdot 5";
   var output = '';
   var paintBox = true;
   output = tex.tex2svg(src, paintBox);
