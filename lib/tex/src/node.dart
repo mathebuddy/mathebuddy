@@ -9,6 +9,7 @@
 class TeXNode {
   bool isList;
   List<TeXNode> items = [];
+  List<TeXNode> args = [];
   String tk = '';
   TeXNode? sub = null;
   TeXNode? sup = null;
@@ -40,6 +41,11 @@ class TeXNode {
       }
       if (this.sup != null) {
         s += '^' + this.sup.toString();
+      }
+      if (this.args.isNotEmpty) {
+        for (var arg in this.args) {
+          s += ' %arg ' + arg.toString();
+        }
       }
       return s;
     }
