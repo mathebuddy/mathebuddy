@@ -17,25 +17,31 @@ void texPlayground() {
   setTextInput(
       'tex-input', 'f(x,y)=3x+y^{2^{8+1}}+z^{3+2}+\\alpha_{\\gamma}+\\beta+X');
   querySelector('#runTex')?.onClick.listen((event) {
-    var src = (querySelector('#tex-input') as InputElement).value as String;
-    var tex = new TeX();
-    var paintBox = true;
-    print(src);
-    var output = tex.tex2svg(src, paintBox);
-    print(output);
-    if (output.isNotEmpty) {
-      var outputBase64 = base64Encode(utf8.encode(output));
-      var img = document.createElement('img') as ImageElement;
-      img.style.height = "72px";
-      img.src = "data:image/svg+xml;base64,${outputBase64}";
-      /*var img =
-          '<img class="" style="height:72px;" src="data:image/svg+xml;base64,${outputBase64}"/>';*/
-      print(img);
-      document.getElementById('tex-term')?.innerHtml = tex.lastParsed;
-      document.getElementById('tex-rendering')?.innerHtml = '';
-      document.getElementById('tex-rendering')?.append(img);
-    } else {
-      document.getElementById('tex-term')?.innerHtml = tex.error;
-    }
+    typeset(false);
   });
+  querySelector('#runTexWithBorder')?.onClick.listen((event) {
+    typeset(true);
+  });
+}
+
+void typeset(bool paintBox) {
+  var src = (querySelector('#tex-input') as InputElement).value as String;
+  var tex = new TeX();
+  print(src);
+  var output = tex.tex2svg(src, paintBox);
+  print(output);
+  if (output.isNotEmpty) {
+    var outputBase64 = base64Encode(utf8.encode(output));
+    var img = document.createElement('img') as ImageElement;
+    img.style.height = "72px";
+    img.src = "data:image/svg+xml;base64,${outputBase64}";
+    /*var img =
+          '<img class="" style="height:72px;" src="data:image/svg+xml;base64,${outputBase64}"/>';*/
+    print(img);
+    document.getElementById('tex-term')?.innerHtml = tex.lastParsed;
+    document.getElementById('tex-rendering')?.innerHtml = '';
+    document.getElementById('tex-rendering')?.append(img);
+  } else {
+    document.getElementById('tex-term')?.innerHtml = tex.error;
+  }
 }
