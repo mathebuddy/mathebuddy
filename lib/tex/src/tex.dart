@@ -12,6 +12,7 @@ import '../../../ext/multila-lexer/src/lex.dart' as multilaLexer;
 
 import 'font.dart';
 import 'node.dart';
+import 'tables.dart';
 
 class TeX {
   multilaLexer.Lexer _lexer = new multilaLexer.Lexer();
@@ -39,20 +40,20 @@ class TeX {
       _lexer.next();
     }*/
     try {
-      var list = _parseTexList(false);
-      _lastParsed = list.toString();
+      var root = _parseTexList(false);
+      _lastParsed = root.toString();
       print(_lastParsed); // TODO: remove this
 
       var cmds = '';
 
-      _layout(list, 0, 0);
-      cmds += _generate(list, 4);
+      _layout(root, 0, 0);
+      cmds += _generate(root, 4);
 
       int BELOW_HEIGHT = 250; // TODO
       int minX = 0;
-      int minY = -list.height;
-      int width = list.width;
-      int height = list.height + BELOW_HEIGHT;
+      int minY = -root.height;
+      int width = root.width;
+      int height = root.height + BELOW_HEIGHT;
       var defs = '';
       for (var id in _usedLetters) {
         var d = fontDB[id];
@@ -135,27 +136,28 @@ class TeX {
     } else {
       int x = baseX;
       int y = baseY;
-      var ch = node.tk;
+      var tk = node.tk;
       node.x = x;
       node.y = y;
       int code = 0;
-      if (_isNum(ch)) {
-        node.svgPathId = _createSvgPathId("MJX-1-TEX-N-", ch.codeUnitAt(0));
+      if (_isNum(tk)) {
+        node.svgPathId = _createSvgPathId("MJX-1-TEX-N-", tk.codeUnitAt(0));
         x += 500;
         node.height = 750;
-      } else if (_isUpperCaseAlpha(ch)) {
+      } else if (_isUpperCaseAlpha(tk)) {
         node.svgPathId = _createSvgPathId(
-            "MJX-1-TEX-I-", (0x1D434 + ch.codeUnitAt(0) - "A".codeUnitAt(0)));
+            "MJX-1-TEX-I-", (0x1D434 + tk.codeUnitAt(0) - "A".codeUnitAt(0)));
         x += 800;
         node.height = 750;
-      } else if (_isLowerCaseAlpha(ch)) {
+      } else if (_isLowerCaseAlpha(tk)) {
         node.svgPathId = _createSvgPathId(
-            "MJX-1-TEX-I-", (0x1D44E + ch.codeUnitAt(0) - "a".codeUnitAt(0)));
+            "MJX-1-TEX-I-", (0x1D44E + tk.codeUnitAt(0) - "a".codeUnitAt(0)));
         x += 500;
         node.height = 750;
-      } else if ("+-*/=()[],".contains(ch)) {
-        node.svgPathId = _createSvgPathId("MJX-1-TEX-N-", ch.codeUnitAt(0));
-        switch (ch) {
+      } else if ("+-*/=()[],-<>:;|!".contains(tk)) {
+        // TODO: add these to tables.dart
+        node.svgPathId = _createSvgPathId("MJX-1-TEX-N-", tk.codeUnitAt(0));
+        switch (tk) {
           case ",":
             node.x += 150;
             x += 600;
@@ -163,6 +165,9 @@ class TeX {
           case "+":
             node.x += 200;
             x += 1200;
+            break;
+          case "-":
+            x += 600;
             break;
           case "=":
             node.x += 200;
@@ -177,12 +182,22 @@ class TeX {
             break;
         }
         node.height = 750;
-      } else if ((code = _getGreekCode(ch)) != 0) {
+      } else if ((code = _getGreekCode(tk)) != 0) {
         node.svgPathId = _createSvgPathId("MJX-1-TEX-I-", code);
         x += 650;
         node.height = 750;
+      } else if (table.containsKey(tk)) {
+        var entry = table[tk] as Map<Object, Object>;
+        node.svgPathId = _createSvgPathId(entry["code"] as String, -1);
+        x += entry["w"] as int;
+        if (entry.containsKey("d")) {
+          node.x += entry["d"] as int;
+        }
+      } else if (tk == "\\mathbb") {
+        // TODO: flatter-function that replaces lists with one node by that node
+        var bp = 1337;
       } else {
-        throw new Exception("unimplemented token '" + ch + "'");
+        throw new Exception("unimplemented token '" + tk + "'");
       }
       if (node.sub != null) {
         var sub = node.sub as TeXNode;
@@ -206,7 +221,8 @@ class TeX {
   }
 
   String _createSvgPathId(String prefix, int num) {
-    var id = prefix + num.toRadixString(16).toUpperCase();
+    var id = prefix;
+    if (num >= 0) id += num.toRadixString(16).toUpperCase();
     _usedLetters.add(id);
     return id;
   }
@@ -229,13 +245,82 @@ class TeX {
   int _getGreekCode(String ch) {
     if (ch.startsWith("\\") == false) return 0;
     switch (ch) {
-      // TODO!!
       case "\\alpha":
         return 0x1D6FC;
       case "\\beta":
         return 0x1D6FD;
       case "\\gamma":
         return 0x1D6FE;
+      case "\\delta":
+        return 0x1D6FF;
+      case "\\Delta":
+        return 0x394;
+      case "\\epsilon":
+        return 0x1D700;
+      case "\\varepsilon":
+        return 0; // TODO
+      case "\\zeta":
+        return 0x1D701;
+      case "\\eta":
+        return 0x1D702;
+      case "\\theta":
+        return 0x1D703;
+      case "\\vartheta":
+        return 0; // TODO
+      case "\\Theta":
+        return 0x398;
+      case "\\iota":
+        return 0x1D704;
+      case "\\kappa":
+        return 0x1D705;
+      case "\\lambda":
+        return 0x1D706;
+      case "\\Lambda":
+        return 0; // TODO
+      case "\\mu":
+        return 0x1D707;
+      case "\\nu":
+        return 0x1D708;
+      case "\\xi":
+        return 0x1D709;
+      case "\\Xi":
+        return 0; // TODO
+      case "\\pi":
+        return 0x1D70B;
+      case "\\Pi":
+        return 0; // TODO
+      case "\\rho":
+        return 0x1D70C;
+      case "\\varrho":
+        return 0; // TODO
+      case "\\varsigma":
+        return 0x1D70D;
+      case "\\sigma":
+        return 0x1D70E;
+      case "\\Sigma":
+        return 0; // TODO
+      case "\\tau":
+        return 0x1D70F;
+      case "\\upsilon":
+        return 0x1D710;
+      case "\\Upsilon":
+        return 0; // TODO
+      case "\\phi":
+        return 0x1D711;
+      case "\\varphi":
+        return 0; // TODO
+      case "\\Phi":
+        return 0; // TODO
+      case "\\chi":
+        return 0x1D712;
+      case "\\psi":
+        return 0x1D713;
+      case "\\Psi":
+        return 0; // TODO
+      case "\\omega":
+        return 0x1D714;
+      case "\\Omega":
+        return 0; // TODO
       default:
         return 0;
     }
@@ -259,6 +344,26 @@ class TeX {
         _lexer.next();
       } else {
         throw new Exception('ERROR: expected }');
+      }
+    }
+    // post-process: populate node.args
+    for (var i = 0; i < list.items.length; i++) {
+      if (list.items[i].isList == false &&
+          numArgs.containsKey(list.items[i].tk)) {
+        var item = list.items[i];
+        var n = numArgs[item.tk] as int;
+        for (var j = 0; j < n; j++) {
+          if (i + 1 >= list.items.length) {
+            throw new Exception('ERROR: ' +
+                item.tk +
+                ' excepts ' +
+                n.toString() +
+                ' arguments!');
+          }
+          var item2 = list.items.removeAt(i + 1);
+          item.args.add(item2);
+        }
+        i += n - 1;
       }
     }
     return list;
