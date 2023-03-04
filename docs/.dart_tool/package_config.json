@@ -1,0 +1,20 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "tex",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/tex-0.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "mathebuddyWebsite",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    }
+  ],
+  "generated": "2023-03-04T12:14:43.614368Z",
+  "generator": "pub",
+  "generatorVersion": "2.19.2"
+}
