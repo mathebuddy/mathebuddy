@@ -9,7 +9,7 @@
 import 'dart:convert';
 import 'dart:html';
 
-import '../../lib/tex/src/tex.dart';
+import 'package:tex/tex.dart';
 
 import 'help.dart';
 
