@@ -6,12 +6,10 @@
 
 import 'dart:convert';
 
+import 'package:tex/tex.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// TODO: remove all JavaScript dependencies, as soon as own TeX is ready
-// the following imports "dart:js" for the web app, or "flutter_js" for iOS/Android/...
-//import 'package:flutter_js/flutter_js.dart' as js if (dart.library.io) "dart:js";
 
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
@@ -57,27 +55,9 @@ class _CoursePageState extends State<CoursePage> {
   MbclChapter? _chapter;
   MbclLevel? _level;
 
-  //dynamic flutterJs;
-
   @override
   void initState() {
     super.initState();
-
-    //if (dart.library.io) {
-    /*flutterJs = js.getJavascriptRuntime();
-    var fjs = flutterJs as js.JavascriptRuntime;
-    fjs.evaluate('console.log("hello, world from flutter_js.");');
-    DefaultAssetBundle.of(context)
-        .loadString("assets/mathjax.min.js")
-        .then((value) {
-      fjs.evaluate(value);
-      fjs.evaluate("let mj = new tex.MathJax();");
-      fjs.evaluate("console.log(mj.tex2svgInline('x^2'));");
-    });*/
-    /*}
-    if (dart.library.js) {
-      // TODO: browser
-    }*/
   }
 
   void _selectCourse(String path) async {
@@ -153,8 +133,15 @@ class _CoursePageState extends State<CoursePage> {
         }
       case MbclLevelItemType.inlineMath:
         {
+          var tex = TeX();
+          var texSrc = ''; // TODO: must get this from child elements!
+          // TODO: if texSrc.isEmpty -> then do NOT create SVG, since flutter_svg will crash when displaying an image of width 0
+          var svg = tex.tex2svg(texSrc);
+          print(svg);
+          svg = ''; // TODO
+
           // width="2.403ex" height="1.464ex"
-          var testSvgData =
+          /*var testSvgData =
               """<svg style="" xmlns="http://www.w3.org/2000/svg" role="img" focusable="false" viewBox="0 -800 2000 900"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
@@ -173,12 +160,19 @@ class _CoursePageState extends State<CoursePage> {
             </g>
         </g>
     </g>
-</svg>""";
-          return WidgetSpan(
-              child: SvgPicture.string(
-            testSvgData,
-            height: 20,
-          ));
+</svg>""";*/
+          if (svg.isEmpty) {
+            return TextSpan(
+              text: "${tex.error} ",
+              style: TextStyle(color: Colors.red, fontSize: fontSize),
+            );
+          } else {
+            return WidgetSpan(
+                child: SvgPicture.string(
+              svg,
+              height: 20,
+            ));
+          }
         }
 
       default:
