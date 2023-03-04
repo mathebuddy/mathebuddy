@@ -31,9 +31,8 @@ do
     echo "[7]  update testdata from mathebuddy-public-courses repo"
     echo "[8]  update grammar.txt in lib/*"
     echo "[9]  update file system files (_fs.txt) files in docs/demo/"
-    echo "[10] generate TeX fonts code in lib/tex/gen/"
-    echo "[11] show empty directories recursively"
-    echo "[12] exit"
+    echo "[10] show empty directories recursively"
+    echo "[11] exit"
     read x
     case $x in
     1)
@@ -90,13 +89,7 @@ do
         cd ../..
         ;;
     10)
-        # [10] generate TeX fonts code in lib/tex/gen/
-        cd lib/tex/gen/
-        ./run.sh
-        cd ../../..
-        ;;
-    11)
-        # [11] show empty directories recursively
+        # [10] show empty directories recursively
         find . -type d -empty -print
         ;;
     *)
