@@ -462,7 +462,7 @@
         >
           <img
             class="u-max-full-width"
-            src="img/misc/mathebuddy-comp-diag.png?v=3"
+            src="img/misc/mathebuddy-comp-diag.png?v=5"
           />
         </div>
         <br />
@@ -689,33 +689,34 @@
         <h2>TeX</h2>
         <p>
           <code>TeX</code> syntax is used to display equations in the
-          <i>mathe:buddy</i> app. Unfortunately, there is no TeX rendering
-          engine available that fully meets our demands: We use
-          <code>Flutter</code> to write the app. Equations must be embedded into
-          TextSpan elements in fluent text. These elements must be updatable at
-          runtime. All available libraries, for example <code>MathJax</code>,
-          use <code>JavaScript (JS)</code>. Even it is feasible to run JS code
-          from Flutter, MathJax has a minified size of nearly 2 MB. Furthermore,
-          we require conditional code for the JS runtime (dart:js for the
-          web-app, flutter_js for all other platforms), that results in an ugly
-          build process. We will properly use MathJS (YES, we know about
-          <code>flutter_tex</code>; but it just provides a shell around MathJax
-          and does not provide TextSpan integration), despite its disadvantages
-          in the near future. Later on, it will be replaced by an own TeX
-          typesetter, that is extremely(!) light-weight and entirely written in
-          the <code>Dart</code> programming language; without any dependencies.
+          <i>mathe:buddy</i> app. Unfortunately, there is currently no fully
+          implemented TeX rendering engine available that meets our demands: We
+          use <code>Flutter</code> to write the app. Equations must be embedded
+          into TextSpan elements in fluent text. These elements must be
+          updatable at runtime. All available libraries, for example
+          <code>MathJax</code>, use <code>JavaScript (JS)</code>. Even it is
+          feasible to run JS code from Flutter, MathJax has a minified size of
+          nearly 2 MB (would still be OK!). Furthermore, we require conditional
+          code for the JS runtime (dart:js for the web-app, flutter_js for all
+          other platforms), that results in an ugly build process (YES, we know
+          about <code>flutter_tex</code>; but it just is a shell around MathJax
+          and does not provide TextSpan integration).
         </p>
         <p>
-          This playground uses the above mentioned custom TeX typesetter! Much
-          work has to be done...
+          We will use the
+          <a href="https://pub.dev/packages/tex" target="_blank">tex</a> package
+          for equation rendering. It is extremely light-weight and entirely
+          written in the <code>Dart</code> programming language; without any
+          dependencies and maintained by the mathe:buddy software architect.
         </p>
+        <p>This playground uses the above mentioned the tex typesetter.</p>
       </div>
 
       <div class="row">
         <b>Input TeX Code:</b>&nbsp;
         <input type="text" id="tex-input" class="u-full-width" />
         <button id="runTex" type="button">typeset</button>
-        <button id="runTexWithBorder" type="button">typeset with border</button>
+        <button id="runTexWithBorder" type="button">debug</button>
         <br />
       </div>
 
@@ -967,6 +968,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1677770475"></script>
+    <script src="js/index.min.js?version=1677932085"></script>
   </body>
 </html>
