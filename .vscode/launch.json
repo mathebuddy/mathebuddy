@@ -24,13 +24,6 @@
       "console": "terminal"
     },
     {
-      "type": "dart",
-      "name": "[tex] tests",
-      "request": "launch",
-      "program": "${workspaceFolder}/lib/tex/test/test.dart",
-      "console": "terminal"
-    },
-    {
       "type": "python",
       "name": "[python] current file",
       "request": "launch",

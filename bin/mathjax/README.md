@@ -1,5 +1,0 @@
-- This directory builds file mathjax.min.js which is already available in `/app/assets/`
-- You'll probably never need to build it again
-- Compilation can be done by `./build.sh`
-- Then open `test.html` in a web browser to check, if build worked
-- The output can be found in directory `build/`
