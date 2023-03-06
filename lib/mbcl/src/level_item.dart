@@ -23,9 +23,7 @@ class MbclLevelItem {
   MbclInputFieldData? inputFieldData;
   MbclSingleOrMultipleChoiceOptionData? singleOrMultipleChoiceOptionData;
 
-  MbclLevelItem(this.type, [text = '']) {
-    this.text = text;
-  }
+  MbclLevelItem(this.type, [this.text = '']);
 
   Map<String, dynamic> toJSON() {
     Map<String, dynamic> json = {
@@ -205,8 +203,8 @@ class MbclExerciseData {
   List<String> inputForbid = [];
   String inputVariableId = '';
   int inputWidth = 0;
-  int staticVariableCounter___ = 0; // not exported
-  Map<String, String> smplOperandType___ = {}; // not exported
+  int staticVariableCounter = 0; // not exported
+  Map<String, String> smplOperandType = {}; // not exported
 
   Map<String, dynamic> toJSON() {
     // TODO: do NOT output "code" in final build
