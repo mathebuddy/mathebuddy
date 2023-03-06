@@ -1,16 +1,14 @@
-/**
- * mathe:buddy - a gamified app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import 'parse.dart';
 import 'term.dart';
 
 Term parse(String termSrc) {
-  var parser = new Parser();
+  var parser = Parser();
   return parser.parse(termSrc);
 }
 
