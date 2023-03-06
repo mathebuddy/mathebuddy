@@ -1,15 +1,13 @@
-/**
- * mathe:buddy - a gamified learning-app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import '../../mbcl/src/level_item.dart';
 
-import '../../smpl/src/parser.dart' as smplParser;
-import '../../smpl/src/interpreter.dart' as smplInterpreter;
+import '../../smpl/src/parser.dart' as smpl_parser;
+import '../../smpl/src/interpreter.dart' as smpl_interpreter;
 
 import 'compiler.dart';
 
@@ -36,120 +34,101 @@ class Block {
   List<Block> subBlocks = []; // e.g. "EQUATION ..."
   int srcLine = 0;
   List<MbclLevelItem> levelItems = [
-    new MbclLevelItem(MbclLevelItemType.error, 'block unprocessed')
+    MbclLevelItem(MbclLevelItemType.error, 'block unprocessed')
   ];
-  Compiler _compiler;
+  final Compiler _compiler;
 
   Block(this._compiler);
 
   void process() {
-    switch (this.type) {
+    switch (type) {
       case 'DEFINITION':
-        this.levelItems = [
-          this._processDefinition(MbclLevelItemType.defDefinition)
-        ];
+        levelItems = [_processDefinition(MbclLevelItemType.defDefinition)];
         break;
       case 'THEOREM':
-        this.levelItems = [
-          this._processDefinition(MbclLevelItemType.defTheorem)
-        ];
+        levelItems = [_processDefinition(MbclLevelItemType.defTheorem)];
         break;
       case 'LEMMA':
-        this.levelItems = [this._processDefinition(MbclLevelItemType.defLemma)];
+        levelItems = [_processDefinition(MbclLevelItemType.defLemma)];
         break;
       case 'COROLLARY':
-        this.levelItems = [
-          this._processDefinition(MbclLevelItemType.defCorollary)
-        ];
+        levelItems = [_processDefinition(MbclLevelItemType.defCorollary)];
         break;
       case 'PROPOSITION':
-        this.levelItems = [
-          this._processDefinition(MbclLevelItemType.defProposition)
-        ];
+        levelItems = [_processDefinition(MbclLevelItemType.defProposition)];
         break;
       case 'CONJECTURE':
-        this.levelItems = [
-          this._processDefinition(MbclLevelItemType.defConjecture)
-        ];
+        levelItems = [_processDefinition(MbclLevelItemType.defConjecture)];
         break;
       case 'AXIOM':
-        this.levelItems = [this._processDefinition(MbclLevelItemType.defAxiom)];
+        levelItems = [_processDefinition(MbclLevelItemType.defAxiom)];
         break;
       case 'CLAIM':
-        this.levelItems = [this._processDefinition(MbclLevelItemType.defClaim)];
+        levelItems = [_processDefinition(MbclLevelItemType.defClaim)];
         break;
       case 'IDENTITY':
-        this.levelItems = [
-          this._processDefinition(MbclLevelItemType.defIdentity)
-        ];
+        levelItems = [_processDefinition(MbclLevelItemType.defIdentity)];
         break;
       case 'PARADOX':
-        this.levelItems = [
-          this._processDefinition(MbclLevelItemType.defParadox)
-        ];
+        levelItems = [_processDefinition(MbclLevelItemType.defParadox)];
         break;
       case 'LEFT':
-        this.levelItems = [this._processTextAlign(MbclLevelItemType.alignLeft)];
+        levelItems = [_processTextAlign(MbclLevelItemType.alignLeft)];
         break;
       case 'CENTER':
-        this.levelItems = [
-          this._processTextAlign(MbclLevelItemType.alignCenter)
-        ];
+        levelItems = [_processTextAlign(MbclLevelItemType.alignCenter)];
         break;
       case 'RIGHT':
-        this.levelItems = [
-          this._processTextAlign(MbclLevelItemType.alignRight)
-        ];
+        levelItems = [_processTextAlign(MbclLevelItemType.alignRight)];
         break;
       case 'EQUATION':
-        this.levelItems = [this._processEquation(true)];
+        levelItems = [_processEquation(true)];
         break;
       case 'EQUATION*':
-        this.levelItems = [this._processEquation(false)];
+        levelItems = [_processEquation(false)];
         break;
       case 'EXAMPLE':
-        this.levelItems = [this._processExample()];
+        levelItems = [_processExample()];
         break;
       case 'EXERCISE':
-        this.levelItems = [this._processExercise()];
+        levelItems = [_processExercise()];
         break;
       case 'TEXT':
-        this.levelItems = this._processText();
+        levelItems = _processText();
         break;
       case 'TABLE':
-        this.levelItems = [this._processTable()];
+        levelItems = [_processTable()];
         break;
       case 'FIGURE':
-        this.levelItems = [this._processFigure()];
+        levelItems = [_processFigure()];
         break;
       case 'NEWPAGE':
-        this.levelItems = [new MbclLevelItem(MbclLevelItemType.newPage)];
+        levelItems = [MbclLevelItem(MbclLevelItemType.newPage)];
         break;
       default:
-        this.levelItems = [
-          new MbclLevelItem(
-              MbclLevelItemType.error, 'unknown block type "' + this.type + '"')
+        levelItems = [
+          MbclLevelItem(MbclLevelItemType.error, 'unknown block type "$type"')
         ];
     }
   }
 
   List<MbclLevelItem> _processText() {
     // this block has no parts
-    return this._compiler.parseParagraph(
-          this.parts[0].lines.join('\n'),
-        );
+    return _compiler.parseParagraph(
+      parts[0].lines.join('\n'),
+    );
   }
 
   MbclLevelItem _processTable() {
     int i;
-    var table = new MbclLevelItem(MbclLevelItemType.table);
-    var data = new MbclTableData();
+    var table = MbclLevelItem(MbclLevelItemType.table);
+    var data = MbclTableData();
     table.tableData = data;
-    table.title = this.title;
-    for (var part in this.parts) {
+    table.title = title;
+    for (var part in parts) {
       switch (part.name) {
         case 'global':
-          if (part.lines.join('\n').trim().length > 0) {
+          if (part.lines.join('\n').trim().isNotEmpty) {
             table.error +=
                 'Some of your code is not inside a tag (e.g. "@code" or "@text")';
           }
@@ -157,7 +136,7 @@ class Block {
         case 'options':
           for (var line in part.lines) {
             line = line.trim();
-            if (line.length == 0) continue;
+            if (line.isEmpty) continue;
             switch (line) {
               case 'align-left':
                 data.options.add(MbclTableOption.alignLeft);
@@ -169,7 +148,7 @@ class Block {
                 data.options.add(MbclTableOption.alignRight);
                 break;
               default:
-                table.error += 'unknown option "' + line + '"';
+                table.error += 'unknown option "$line"';
             }
           }
           break;
@@ -179,18 +158,18 @@ class Block {
             line = line.trim();
             // TODO: "&" may also be used in math-mode!!
             var columnStrings = line.split('&');
-            var row = new MbclTableRow();
-            if (i == 0)
+            var row = MbclTableRow();
+            if (i == 0) {
               data.head = row;
-            else
+            } else {
               data.rows.add(row);
+            }
             for (var columnString in columnStrings) {
-              var columnText = this._compiler.parseParagraph(columnString);
+              var columnText = _compiler.parseParagraph(columnString);
               if (columnText.length != 1 ||
                   columnText[0].type != MbclLevelItemType.paragraph) {
                 table.error += 'table cell is not pure text';
-                row.columns
-                    .add(new MbclLevelItem(MbclLevelItemType.text, 'error'));
+                row.columns.add(MbclLevelItem(MbclLevelItemType.text, 'error'));
               } else {
                 row.columns.add(columnText[0]);
               }
@@ -199,7 +178,7 @@ class Block {
           }
           break;
         default:
-          table.error += 'unexpected part "' + part.name + '"';
+          table.error += 'unexpected part "${part.name}"';
           break;
       }
     }
@@ -208,22 +187,23 @@ class Block {
   }
 
   MbclLevelItem _processFigure() {
-    var figure = new MbclLevelItem(MbclLevelItemType.figure);
-    var data = new MbclFigureData();
+    var figure = MbclLevelItem(MbclLevelItemType.figure);
+    var data = MbclFigureData();
     figure.figureData = data;
     Map<String, String> plotData = {};
-    for (var part in this.parts) {
+    for (var part in parts) {
       switch (part.name) {
         case 'global':
-          if (part.lines.join('\n').trim().length > 0)
+          if (part.lines.join('\n').trim().isNotEmpty) {
             figure.error +=
                 'Some of your code is not inside a tag (e.g. "@code")';
+          }
           break;
         case 'caption':
           {
-            var captionText = this._compiler.parseParagraph(
-                  part.lines.join('\n'),
-                );
+            var captionText = _compiler.parseParagraph(
+              part.lines.join('\n'),
+            );
             if (captionText.length != 1 ||
                 captionText[0].type != MbclLevelItemType.paragraph) {
             } else {
@@ -234,7 +214,7 @@ class Block {
         case 'code':
           {
             // TODO: stop in case of infinite loops after some seconds!
-            var code = part.lines.join('\n');
+            //var code = part.lines.join('\n');
             try {
               print("ERROR: _processFigure NOT IMPLEMENTED");
               /*var parser = new smplParser.Parser();
@@ -264,7 +244,7 @@ class Block {
               if (plotData.containsKey(variableId)) {
                 data.data = plotData[variableId] as String;
               } else {
-                figure.error += 'non-existing variable ' + line;
+                figure.error += 'non-existing variable $line';
               }
             } else {
               data.filePath = line;
@@ -274,7 +254,7 @@ class Block {
         case 'options':
           for (var line in part.lines) {
             line = line.trim();
-            if (line.length == 0) continue;
+            if (line.isEmpty) continue;
             switch (line) {
               case 'width-100':
                 data.options.add(MbclFigureOption.width100);
@@ -295,12 +275,12 @@ class Block {
                 data.options.add(MbclFigureOption.width25);
                 break;
               default:
-                figure.error += 'unknown option "' + line + '"';
+                figure.error += 'unknown option "$line"';
             }
           }
           break;
         default:
-          figure.error += 'unexpected part "' + part.name + '"';
+          figure.error += 'unexpected part "${part.name}"';
           break;
       }
     }
@@ -309,18 +289,18 @@ class Block {
   }
 
   MbclLevelItem _processEquation(bool numbering) {
-    var equation = new MbclLevelItem(MbclLevelItemType.equation);
-    var data = new MbclEquationData();
+    var equation = MbclLevelItem(MbclLevelItemType.equation);
+    var data = MbclEquationData();
     equation.equationData = data;
     equation.id = (numbering ? 888 : -1).toString(); // TODO: number
-    equation.title = this.title;
-    equation.label = this.label;
-    for (var part in this.parts) {
+    equation.title = title;
+    equation.label = label;
+    for (var part in parts) {
       switch (part.name) {
         case 'options':
           for (var line in part.lines) {
             line = line.trim();
-            if (line.length == 0) continue;
+            if (line.isEmpty) continue;
             switch (line) {
               case 'align-left':
                 data.options.add(MbclEquationOption.alignLeft);
@@ -336,7 +316,7 @@ class Block {
                 data.options.add(MbclEquationOption.alignEquals);
                 break;
               default:
-                equation.error += 'unknown option "' + line + '"';
+                equation.error += 'unknown option "$line"';
             }
           }
           break;
@@ -345,7 +325,7 @@ class Block {
           equation.text += part.lines.join('\\\\');
           break;
         default:
-          equation.error += 'unexpected part "' + part.name + '"';
+          equation.error += 'unexpected part "${part.name}"';
           break;
       }
     }
@@ -354,17 +334,16 @@ class Block {
   }
 
   MbclLevelItem _processExample() {
-    var example = new MbclLevelItem(MbclLevelItemType.example);
-    example.title = this.title;
-    example.label = this.label;
-    for (var part in this.parts) {
+    var example = MbclLevelItem(MbclLevelItemType.example);
+    example.title = title;
+    example.label = label;
+    for (var part in parts) {
       switch (part.name) {
         case 'global':
-          example.items
-              .addAll(this._compiler.parseParagraph(part.lines.join("\n")));
+          example.items.addAll(_compiler.parseParagraph(part.lines.join("\n")));
           break;
         default:
-          example.error += 'unexpected part "' + part.name + '"';
+          example.error += 'unexpected part "${part.name}"';
       }
     }
     _processSubblocks(example);
@@ -372,15 +351,14 @@ class Block {
   }
 
   MbclLevelItem _processTextAlign(MbclLevelItemType type) {
-    var align = new MbclLevelItem(type);
-    for (var part in this.parts) {
+    var align = MbclLevelItem(type);
+    for (var part in parts) {
       switch (part.name) {
         case 'global':
-          align.items
-              .addAll(this._compiler.parseParagraph(part.lines.join("\n")));
+          align.items.addAll(_compiler.parseParagraph(part.lines.join("\n")));
           break;
         default:
-          align.error += 'unexpected part "' + part.name + '"';
+          align.error += 'unexpected part "${part.name}"';
       }
     }
     _processSubblocks(align);
@@ -388,39 +366,39 @@ class Block {
   }
 
   MbclLevelItem _processDefinition(MbclLevelItemType type) {
-    var def = new MbclLevelItem(type);
-    def.title = this.title;
-    def.label = this.label;
-    for (var part in this.parts) {
+    var def = MbclLevelItem(type);
+    def.title = title;
+    def.label = label;
+    for (var part in parts) {
       switch (part.name) {
         case 'global':
-          def.items
-              .addAll(this._compiler.parseParagraph(part.lines.join("\n")));
+          def.items.addAll(_compiler.parseParagraph(part.lines.join("\n")));
           break;
         default:
-          def.error += 'unexpected part "' + part.name + '"';
+          def.error += 'unexpected part "${part.name}"';
       }
     }
-    this._processSubblocks(def);
+    _processSubblocks(def);
     return def;
   }
 
   MbclLevelItem _processExercise() {
-    var exercise = new MbclLevelItem(MbclLevelItemType.exercise);
-    var data = new MbclExerciseData();
+    var exercise = MbclLevelItem(MbclLevelItemType.exercise);
+    var data = MbclExerciseData();
     exercise.exerciseData = data;
-    exercise.title = this.title;
+    exercise.title = title;
     // TODO: must guarantee that no two exercises labels are same in entire course!!
-    exercise.label = this.label;
-    if (exercise.label.length == 0) {
-      exercise.label = 'ex' + this._compiler.createUniqueId().toString();
+    exercise.label = label;
+    if (exercise.label.isEmpty) {
+      exercise.label = 'ex${_compiler.createUniqueId().toString()}';
     }
-    for (var part in this.parts) {
+    for (var part in parts) {
       switch (part.name) {
         case 'global':
-          if (part.lines.join('\n').trim().length > 0)
+          if (part.lines.join('\n').trim().isNotEmpty) {
             exercise.error +=
                 'Some of your code is not inside a tag (e.g. "@code" or "@text")';
+          }
           break;
         case 'code':
           data.code = part.lines.join('\n');
@@ -430,38 +408,39 @@ class Block {
             // TODO: repeat if same instance is already drawn
             // TODO: must check for endless loops, e.g. happens if search space is restricted!
             try {
-              var parser = new smplParser.Parser();
+              var parser = smpl_parser.Parser();
               parser.parse(data.code);
-              var ic = parser.getAbstractSyntaxTree() as smplParser.AST_Node;
-              var interpreter = new smplInterpreter.Interpreter();
+              var ic = parser.getAbstractSyntaxTree() as smpl_parser.AstNode;
+              var interpreter = smpl_interpreter.Interpreter();
               var symbols = interpreter.runProgram(ic);
               if (i == 0) {
                 for (var symId in symbols.keys) {
-                  var sym = symbols[symId] as smplInterpreter.InterpreterSymbol;
+                  var sym =
+                      symbols[symId] as smpl_interpreter.InterpreterSymbol;
                   data.variables.add(symId);
-                  data.smplOperandType___[symId] = sym.value.type.name;
+                  data.smplOperandType[symId] = sym.value.type.name;
                 }
               }
               Map<String, String> instance = {};
               for (var v in data.variables) {
-                var sym = symbols[v] as smplInterpreter.InterpreterSymbol;
+                var sym = symbols[v] as smpl_interpreter.InterpreterSymbol;
                 instance[v] = sym.value.toString();
-                instance['@' + v] = sym.term.toString();
+                instance['@$v'] = sym.term.toString();
               }
               data.instances.add(instance);
             } catch (e) {
-              exercise.error += 'SMPL-Error: ' + e.toString() + '\n';
+              exercise.error += 'SMPL-Error: $e\n';
             }
           }
           break;
         case 'text':
-          exercise.items.addAll(this._compiler.parseParagraph(
-                part.lines.join('\n'),
-                exercise,
-              ));
+          exercise.items.addAll(_compiler.parseParagraph(
+            part.lines.join('\n'),
+            exercise,
+          ));
           break;
         default:
-          exercise.error += 'unknown part "' + part.name + '"';
+          exercise.error += 'unknown part "${part.name}"';
           break;
       }
     }
@@ -470,15 +449,14 @@ class Block {
   }
 
   void _processSubblocks(MbclLevelItem item) {
-    for (var sub in this.subBlocks) {
+    for (var sub in subBlocks) {
       sub.process();
       if (mbclSubBlockWhiteList.containsKey(item.type) &&
           (mbclSubBlockWhiteList[item.type] as List<MbclLevelItemType>)
               .contains(sub.levelItems[0].type)) {
         item.items.addAll(sub.levelItems);
       } else {
-        item.error += 'subblock type ' +
-            sub.levelItems[0].type.name +
+        item.error += 'subblock type ${sub.levelItems[0].type.name}'
             ' is not allowed here';
       }
     }
