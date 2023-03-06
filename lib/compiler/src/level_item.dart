@@ -1,10 +1,8 @@
-/**
- * mathe:buddy - a gamified learning-app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import '../../mbcl/src/level_item.dart';
 
@@ -39,10 +37,10 @@ void postProcessLevelItem(MbclLevelItem levelItem) {
 
 void aggregateText(List<MbclLevelItem> items) {
   // remove unnecessary line feeds
-  while (items.length > 0 && items[0].type == MbclLevelItemType.lineFeed) {
+  while (items.isNotEmpty && items[0].type == MbclLevelItemType.lineFeed) {
     items.removeAt(0);
   }
-  while (items.length > 0 &&
+  while (items.isNotEmpty &&
       items[items.length - 1].type == MbclLevelItemType.lineFeed) {
     items.removeLast();
   }
@@ -53,7 +51,7 @@ void aggregateText(List<MbclLevelItem> items) {
         items[i].type == MbclLevelItemType.text) {
       var text = items[i].text;
       if ('.,:!?'.contains(text) == false) {
-        text = ' ' + text;
+        text = ' $text';
       }
       items[i - 1].text += text;
       // TODO: next line is an ugly hack for TeX..
