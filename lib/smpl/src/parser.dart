@@ -1,48 +1,47 @@
-/**
- * mathe:buddy - a gamified learning-app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
-import '../../../ext/multila-lexer/src/lex.dart';
-import '../../../ext/multila-lexer/src/token.dart';
+import 'package:slex/slex.dart';
 
 // Note: terms are parsed at runtime.
 // This is (much) slower than parsing offline, but increases dynamics.
 
 String spaces(int n) {
   var s = '';
-  for (var i = 0; i < n; i++) s += '  ';
+  for (var i = 0; i < n; i++) {
+    s += '  ';
+  }
   return s;
 }
 
-abstract class AST_Node {
+abstract class AstNode {
   int row = -1; // src location
-  AST_Node(this.row);
+  AstNode(this.row);
 
+  @override
   String toString([int indent = 0]);
 }
 
-class StatementList extends AST_Node {
-  List<AST_Node> statements = [];
+class StatementList extends AstNode {
+  List<AstNode> statements = [];
   bool createScope;
 
   StatementList(super.row, this.createScope);
 
+  @override
   String toString([int indent = 0]) {
-    var s = spaces(indent) +
-        'STATEMENT_LIST:createScope=' +
-        this.createScope.toString() +
-        ',statements=[\n';
-    s += this.statements.map((x) => x.toString(indent + 1)).join('');
-    s += spaces(indent) + '];\n';
+    var s = '${spaces(indent)}STATEMENT_LIST:'
+        'createScope={$createScope},statements=[\n';
+    s += statements.map((x) => x.toString(indent + 1)).join('');
+    s += '${spaces(indent)}];\n';
     return s;
   }
 }
 
-class Assignment extends AST_Node {
+class Assignment extends AstNode {
   bool createSymbol = true;
   String lhs = '';
   String rhs = '';
@@ -51,148 +50,154 @@ class Assignment extends AST_Node {
 
   Assignment(super.row);
 
+  @override
   String toString([int indent = 0]) {
-    return (spaces(indent) +
-        'ASSIGNMENT:create=${this.createSymbol},' +
-        'lhs="${this.lhs}",' +
-        'rhs="${this.rhs}",' +
-        'vars=[${this.vars.join(',')}],' +
-        'independentTo=[${this.independentTo.join(',')}];\n');
+    return ('${spaces(indent)}'
+        'ASSIGNMENT:create=$createSymbol,'
+        'lhs="$lhs",'
+        'rhs="$rhs",'
+        'vars=[${vars.join(',')}],'
+        'independentTo=[${independentTo.join(',')}];\n');
   }
 }
 
-class IfCond extends AST_Node {
+class IfCond extends AstNode {
   String condition = '';
-  StatementList? statementsTrue = null;
-  StatementList? statementsFalse = null;
+  StatementList? statementsTrue;
+  StatementList? statementsFalse;
 
   IfCond(super.row);
 
+  @override
   String toString([int indent = 0]) {
-    var sT = this.statementsTrue?.toString(indent + 1);
-    var sF = this.statementsFalse == null
-        ? ''
-        : this.statementsFalse?.toString(indent + 1);
-    return (spaces(indent) +
-        'IF_COND:condition="${this.condition}",statementsTrue=[\n${sT}' +
-        spaces(indent) +
-        '],statementsFalse=[\n${sF}' +
-        spaces(indent) +
+    var sT = statementsTrue?.toString(indent + 1);
+    var sF =
+        statementsFalse == null ? '' : statementsFalse?.toString(indent + 1);
+    return ('${spaces(indent)}'
+        'IF_COND:condition="$condition",statementsTrue=[\n$sT'
+        '${spaces(indent)}'
+        '],statementsFalse=[\n$sF'
+        '${spaces(indent)}'
         '];\n');
   }
 }
 
-class WhileLoop extends AST_Node {
+class WhileLoop extends AstNode {
   String condition = '';
-  StatementList? statements = null;
+  StatementList? statements;
 
   WhileLoop(super.row);
 
+  @override
   String toString([int indent = 0]) {
-    var s = this.statements?.toString(indent + 1);
-    return (spaces(indent) +
-        'WHILE_LOOP:condition="${this.condition}",statements=[\n${s}' +
-        spaces(indent) +
+    var s = statements?.toString(indent + 1);
+    return ('${spaces(indent)}'
+        'WHILE_LOOP:condition="$condition",statements=[\n$s'
+        '${spaces(indent)}'
         '];\n');
   }
 }
 
 class Parser {
-  Lexer _lexer = new Lexer();
-  AST_Node? _program = null;
+  Lexer _lexer = Lexer();
+  AstNode? _program;
 
   void parse(String src) {
-    this._lexer = new Lexer();
-    this._lexer.enableEmitNewlines(true);
-    this._lexer.configureSingleLineComments('%');
-    this._lexer.configureMultiLineComments('/*', '*/');
-    this._lexer.enableEmitIndentation(false);
-    this._lexer.enableBackslashLineBreaks(false);
-    this._lexer.setTerminals(['&&', '||', '==', '!=', '>=', '<=', '++', '--']);
-    this._lexer.pushSource('FILE', src);
-    this._program = this._parseProgram();
+    _lexer = Lexer();
+    _lexer.enableEmitNewlines(true);
+    _lexer.configureSingleLineComments('%');
+    _lexer.configureMultiLineComments('/*', '*/');
+    _lexer.enableEmitIndentation(false);
+    _lexer.enableBackslashLineBreaks(false);
+    _lexer.setTerminals(['&&', '||', '==', '!=', '>=', '<=', '++', '--']);
+    _lexer.pushSource('FILE', src);
+    _program = _parseProgram();
   }
 
-  AST_Node? getAbstractSyntaxTree() {
-    return this._program;
+  AstNode? getAbstractSyntaxTree() {
+    return _program;
   }
 
   //G program = { statement };
   StatementList _parseProgram() {
-    var p = new StatementList(1, false);
-    while (this._lexer.isNotEND()) {
-      if (this._lexer.isTER('\n'))
-        this._lexer.next();
-      else
-        p.statements.add(this._parseStatement());
+    var p = StatementList(1, false);
+    while (_lexer.isNotEnd()) {
+      if (_lexer.isTerminal('\n')) {
+        _lexer.next();
+      } else {
+        p.statements.add(_parseStatement());
+      }
     }
     return p;
   }
 
   //G statement = assignment | ifCond | whileLoop;
-  AST_Node _parseStatement() {
-    while (this._lexer.isTER('\n')) this._lexer.next();
-    switch (this._lexer.getToken().token) {
-      case 'let':
-        return this._parseAssignment();
-      case 'if':
-        return this._parseIfCond();
-      case 'while':
-        return this._parseWhileLoop();
+  AstNode _parseStatement() {
+    while (_lexer.isTerminal('\n')) {
+      _lexer.next();
     }
-    if (this._lexer.isID()) return this._parseAssignment();
-    this._error(
-      'unexpected token "${this._lexer.getToken().token}"',
-      this._lexer.getToken(),
+    switch (_lexer.getToken().token) {
+      case 'let':
+        return _parseAssignment();
+      case 'if':
+        return _parseIfCond();
+      case 'while':
+        return _parseWhileLoop();
+    }
+    if (_lexer.isIdentifier()) return _parseAssignment();
+    _error(
+      'unexpected token "${_lexer.getToken().token}"',
+      _lexer.getToken(),
     );
     throw Exception(); // just to suppress DART warnings...
   }
 
   //G assignment = ["let"] ID { (":"|"/") ID } ["(" ID { "," ID } ")"] "=" term (";"|"\n");
-  AST_Node _parseAssignment() {
-    var row = this._lexer.getToken().row;
+  AstNode _parseAssignment() {
+    var row = _lexer.getToken().row;
     var isDeclaration = false;
-    if (this._lexer.isTER('let')) {
+    if (_lexer.isTerminal('let')) {
       isDeclaration = true;
-      this._lexer.next();
+      _lexer.next();
     }
     List<String> lhsList = [];
-    lhsList.add(this._lexer.ID());
+    lhsList.add(_lexer.identifier());
     var lhsDelimiter =
         ''; // ":" or "/" (the latter forces variable values to be different)
-    while (this._lexer.isTER(':') || this._lexer.isTER('/')) {
-      if (lhsDelimiter == '')
-        lhsDelimiter = this._lexer.getToken().token;
-      else if (lhsDelimiter != this._lexer.getToken().token)
-        this._error('mixing ":" and "/" is forbidden');
-      this._lexer.next();
-      lhsList.add(this._lexer.ID());
+    while (_lexer.isTerminal(':') || _lexer.isTerminal('/')) {
+      if (lhsDelimiter == '') {
+        lhsDelimiter = _lexer.getToken().token;
+      } else if (lhsDelimiter != _lexer.getToken().token) {
+        _error('mixing ":" and "/" is forbidden');
+      }
+      _lexer.next();
+      lhsList.add(_lexer.identifier());
     }
     List<String> variables = [];
-    if (this._lexer.isTER('(')) {
-      this._lexer.next();
-      variables.add(this._lexer.ID());
-      while (this._lexer.isTER(',')) {
-        this._lexer.next();
-        variables.add(this._lexer.ID());
+    if (_lexer.isTerminal('(')) {
+      _lexer.next();
+      variables.add(_lexer.identifier());
+      while (_lexer.isTerminal(',')) {
+        _lexer.next();
+        variables.add(_lexer.identifier());
       }
-      this._lexer.TER(')');
+      _lexer.terminal(')');
     }
-    this._lexer.TER('=');
+    _lexer.terminal('=');
     var term = '';
-    while (this._lexer.isNotEND() &&
-        this._lexer.isNotTER('\n') &&
-        this._lexer.isNotTER(';')) {
-      term += this._lexer.getToken().token + ' ';
-      this._lexer.next();
+    while (_lexer.isNotEnd() &&
+        _lexer.isNotTerminal('\n') &&
+        _lexer.isNotTerminal(';')) {
+      term += '${_lexer.getToken().token} ';
+      _lexer.next();
     }
-    if (this._lexer.isTER(';')) this._lexer.next();
-    this._consumeEOL();
+    if (_lexer.isTerminal(';')) _lexer.next();
+    _consumeEOL();
     // create AST node
     List<Assignment> assignments = [];
     for (var i = 0; i < lhsList.length; i++) {
       var lhs = lhsList[i];
-      var a = new Assignment(row);
+      var a = Assignment(row);
       assignments.add(a);
       a.lhs = lhs;
       a.vars = [...variables];
@@ -205,7 +210,7 @@ class Parser {
       }
     }
     if (assignments.length == 1) return assignments[0];
-    var s = new StatementList(row, false);
+    var s = StatementList(row, false);
     s.statements = assignments;
     return s;
   }
@@ -213,70 +218,69 @@ class Parser {
   //G ifCond = "if" cond block [ "else" block ];
   IfCond _parseIfCond() {
     // TODO: "elif"
-    var i = new IfCond(this._lexer.getToken().row);
-    this._lexer.TER('if');
-    while (this._lexer.isNotEND() &&
-        this._lexer.isNotTER('\n') &&
-        this._lexer.isNotTER('{')) {
-      i.condition += this._lexer.getToken().token + ' ';
-      this._lexer.next();
+    var i = IfCond(_lexer.getToken().row);
+    _lexer.terminal('if');
+    while (_lexer.isNotEnd() &&
+        _lexer.isNotTerminal('\n') &&
+        _lexer.isNotTerminal('{')) {
+      i.condition += '${_lexer.getToken().token} ';
+      _lexer.next();
     }
     i.condition = i.condition.trim();
-    this._consumeEOL();
-    i.statementsTrue = this._parseBlock();
-    if (this._lexer.isTER('else')) {
-      this._lexer.next();
-      this._consumeEOL();
-      i.statementsFalse = this._parseBlock();
+    _consumeEOL();
+    i.statementsTrue = _parseBlock();
+    if (_lexer.isTerminal('else')) {
+      _lexer.next();
+      _consumeEOL();
+      i.statementsFalse = _parseBlock();
     }
     return i;
   }
 
   //G whileLoop = "while" term block;
   WhileLoop _parseWhileLoop() {
-    var w = new WhileLoop(this._lexer.getToken().row);
-    this._lexer.TER('while');
-    while (this._lexer.isNotEND() &&
-        this._lexer.isNotTER('\n') &&
-        this._lexer.isNotTER('{')) {
-      w.condition += this._lexer.getToken().token + ' ';
-      this._lexer.next();
+    var w = WhileLoop(_lexer.getToken().row);
+    _lexer.terminal('while');
+    while (_lexer.isNotEnd() &&
+        _lexer.isNotTerminal('\n') &&
+        _lexer.isNotTerminal('{')) {
+      w.condition += '${_lexer.getToken().token} ';
+      _lexer.next();
     }
     w.condition = w.condition.trim();
-    this._consumeEOL();
-    w.statements = this._parseBlock();
+    _consumeEOL();
+    w.statements = _parseBlock();
     return w;
   }
 
   // block = "{" { statement } "}";
   StatementList _parseBlock() {
-    var block = new StatementList(this._lexer.getToken().row, true);
-    this._lexer.TER('{');
-    while (this._lexer.isNotEND() && this._lexer.isNotTER('}')) {
-      this._consumeEOL();
-      block.statements.add(this._parseStatement());
-      this._consumeEOL();
+    var block = StatementList(_lexer.getToken().row, true);
+    _lexer.terminal('{');
+    while (_lexer.isNotEnd() && _lexer.isNotTerminal('}')) {
+      _consumeEOL();
+      block.statements.add(_parseStatement());
+      _consumeEOL();
     }
-    this._consumeEOL();
-    this._lexer.TER('}');
-    this._consumeEOL();
+    _consumeEOL();
+    _lexer.terminal('}');
+    _consumeEOL();
     return block;
   }
 
   void _consumeEOL() {
-    while (this._lexer.isTER('\n')) this._lexer.next();
+    while (_lexer.isTerminal('\n')) {
+      _lexer.next();
+    }
   }
 
-  void _error(String message, [LexerToken? token = null]) {
+  void _error(String message, [LexerToken? token]) {
     var location = '';
-    if (token == null)
-      location = '' +
-          this._lexer.getToken().row.toString() +
-          ':' +
-          this._lexer.getToken().col.toString() +
-          ':';
-    else
-      location = '' + token.row.toString() + ':' + token.col.toString() + ':';
-    throw new Exception(location + message);
+    if (token == null) {
+      location = '${_lexer.getToken().row}:${_lexer.getToken().col}:';
+    } else {
+      location = '${token.row}:${token.col}:';
+    }
+    throw Exception(location + message);
   }
 }
