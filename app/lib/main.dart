@@ -135,32 +135,20 @@ class _CoursePageState extends State<CoursePage> {
         {
           var tex = TeX();
           var texSrc = ''; // TODO: must get this from child elements!
+          for (var subItem in item.items) {
+            switch (subItem.type) {
+              case MbclLevelItemType.text:
+                texSrc += subItem.text;
+                break;
+              default:
+                print(
+                    "ERROR: genParagraphItem(..): type '${item.type.name}' is not finally implemented");
+            }
+          }
           // TODO: if texSrc.isEmpty -> then do NOT create SVG, since flutter_svg will crash when displaying an image of width 0
           var svg = tex.tex2svg(texSrc);
           print(svg);
-          svg = ''; // TODO
 
-          // width="2.403ex" height="1.464ex"
-          /*var testSvgData =
-              """<svg style="" xmlns="http://www.w3.org/2000/svg" role="img" focusable="false" viewBox="0 -800 2000 900"
-    xmlns:xlink="http://www.w3.org/1999/xlink">
-    <defs>
-        <path id="MJX-1-TEX-I-1D465"
-            d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path>
-        <path id="MJX-1-TEX-I-1D466"
-            d="M208 74Q208 50 254 46Q272 46 272 35Q272 34 270 22Q267 8 264 4T251 0Q249 0 239 0T205 1T141 2Q70 2 50 0H42Q35 7 35 11Q37 38 48 46H62Q132 49 164 96Q170 102 345 401T523 704Q530 716 547 716H555H572Q578 707 578 706L606 383Q634 60 636 57Q641 46 701 46Q726 46 726 36Q726 34 723 22Q720 7 718 4T704 0Q701 0 690 0T651 1T578 2Q484 2 455 0H443Q437 6 437 9T439 27Q443 40 445 43L449 46H469Q523 49 533 63L521 213H283L249 155Q208 86 208 74ZM516 260Q516 271 504 416T490 562L463 519Q447 492 400 412L310 260L413 259Q516 259 516 260Z"></path>
-    </defs>
-    <g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)">
-        <g data-mml-node="math">
-            <g data-mml-node="mi">
-                <use data-c="1D465" xlink:href="#MJX-1-TEX-I-1D465"></use>
-            </g>
-            <g data-mml-node="mi" transform="translate(500,0)">
-                <use data-c="1D466" xlink:href="#MJX-1-TEX-I-1D466"></use>
-            </g>
-        </g>
-    </g>
-</svg>""";*/
           if (svg.isEmpty) {
             return TextSpan(
               text: "${tex.error} ",
@@ -170,7 +158,8 @@ class _CoursePageState extends State<CoursePage> {
             return WidgetSpan(
                 child: SvgPicture.string(
               svg,
-              height: 20,
+              //height: 20,
+              width: 75, // TODO!! must get width from tex-API
             ));
           }
         }
