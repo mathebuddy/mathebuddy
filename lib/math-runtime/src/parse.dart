@@ -1,10 +1,8 @@
-/**
- * mathe:buddy - a gamified app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import 'dart:math' as math;
 
@@ -12,8 +10,6 @@ import 'term.dart';
 
 // this file implements robust parsing of math string provided by students
 // line comments "***" indicate semantical useless lines that prevent linter warnings
-
-// TODO: add playground of mathebuddy-math-runtime on github.io + denote links on website(s)
 
 class Parser {
   List<String> _tokens = [];
@@ -25,59 +21,60 @@ class Parser {
   }
 
   List<String> getTokens() {
-    return this._tokens;
+    return _tokens;
   }
 
   Term parse(String src) {
-    this._tokens = [];
-    this._tokenIdx = 0;
+    _tokens = [];
+    _tokenIdx = 0;
     // scanning (lexing)
     var tk = ''; // token
     for (var i = 0; i < src.length; i++) {
       var ch = src[i];
       if (' \t\n'.contains(ch)) {
-        if (tk.length > 0) {
-          this._tokens.add(tk);
+        if (tk.isNotEmpty) {
+          _tokens.add(tk);
           tk = '';
         }
       } else if ('+-*/()^{},|[]<>='.contains(ch)) {
         // TODO: "<=", ... (all 2+ character tokens)
-        if (tk.length > 0) {
-          this._tokens.add(tk);
+        if (tk.isNotEmpty) {
+          _tokens.add(tk);
           tk = '';
         }
-        this._tokens.add(ch);
+        _tokens.add(ch);
       } else {
         tk += ch;
       }
     }
-    if (tk.length > 0) this._tokens.add(tk);
-    this._tokens.add('§');
+    if (tk.isNotEmpty) {
+      _tokens.add(tk);
+    }
+    _tokens.add('§');
     // post-process tokens
     List<String> procTokens = [];
-    for (var k = 0; k < this._tokens.length; k++) {
-      var token = this._tokens[k];
-      if (this._isIdentifier(token) &&
-          this._isFct1(token) == false &&
-          this._isFct2(token) == false &&
-          this._isBuiltIn(token) == false) {
+    for (var k = 0; k < _tokens.length; k++) {
+      var token = _tokens[k];
+      if (_isIdentifier(token) &&
+          _isFct1(token) == false &&
+          _isFct2(token) == false &&
+          _isBuiltIn(token) == false) {
         // split variables (e.g. "xy" -> "x y")
         for (var i = 0; i < token.length; i++) {
           var char = token[i];
           procTokens.add(char);
         }
-      } else if (token.length >= 2 &&
-          this._isNum0(token[0]) &&
-          this._isAlpha(token[1])) {
+      } else if (token.length >= 2 && _isNum0(token[0]) && _isAlpha(token[1])) {
         // split factors (e.g. "3x" -> "3 x")
         var value = '';
         var id = '';
         for (var i = 0; i < token.length; i++) {
           var ch = token[i];
-          if (id.length == 0 && this._isNum0(ch))
+          if (id.isEmpty && _isNum0(ch)) {
             value += ch;
-          else
+          } else {
             id += ch;
+          }
         }
         procTokens.add(value);
         procTokens.add(id); // TODO: split variables!!!!!
@@ -86,31 +83,31 @@ class Parser {
         procTokens.add(token);
       }
     }
-    this._tokens = procTokens;
+    _tokens = procTokens;
     // resolve randomized token selection, e.g. "1{+|-}2" -> "1+2" or "1-2"
     procTokens = [];
-    for (var i = 0; i < this._tokens.length; i++) {
-      if (this._tokens[i] == '{') {
+    for (var i = 0; i < _tokens.length; i++) {
+      if (_tokens[i] == '{') {
         List<String> op = [];
         var valid = true;
-        var k;
-        for (k = i + 1; k < this._tokens.length; k++) {
-          if (this._tokens[k] == '}') break;
-          if ('+-*/'.contains(this._tokens[k]) == false) {
+        int k;
+        for (k = i + 1; k < _tokens.length; k++) {
+          if (_tokens[k] == '}') break;
+          if ('+-*/'.contains(_tokens[k]) == false) {
             valid = false;
             break;
           }
-          op.add(this._tokens[k]);
+          op.add(_tokens[k]);
           k++;
-          if (k >= this._tokens.length) {
+          if (k >= _tokens.length) {
             valid = false;
             break;
           }
-          if (this._tokens[k] != '|' && this._tokens[k] != '}') {
+          if (_tokens[k] != '|' && _tokens[k] != '}') {
             valid = false;
             break;
           }
-          if (this._tokens[k] == '}') break;
+          if (_tokens[k] == '}') break;
         }
         if (valid) {
           i = k;
@@ -121,29 +118,29 @@ class Parser {
           procTokens.add('{');
         }
       } else {
-        procTokens.add(this._tokens[i]);
+        procTokens.add(_tokens[i]);
       }
     }
-    this._tokens = procTokens;
+    _tokens = procTokens;
     // parsing
-    this._next();
-    var term = this._parseTerm();
-    if (this._token != '§') throw new Exception('unexpected:end');
+    _next();
+    var term = _parseTerm();
+    if (_token != '§') throw Exception('unexpected:end');
     return term;
   }
 
   //G term = relational;
   Term _parseTerm() {
-    return this._parseRelational();
+    return _parseRelational();
   }
 
   //G relational = add [ ("<"|"<="|">"|">=") add ];
   Term _parseRelational() {
-    var res = this._parseAdd();
-    if (['<', '<=', '>', '>='].contains(this._token)) {
-      var op = this._token;
-      this._next();
-      res = Term.Op(op, [res, this._parseAdd()], []);
+    var res = _parseAdd();
+    if (['<', '<=', '>', '>='].contains(_token)) {
+      var op = _token;
+      _next();
+      res = Term.createOp(op, [res, _parseAdd()], []);
     }
     return res;
   }
@@ -152,23 +149,24 @@ class Parser {
   Term _parseAdd() {
     List<Term> operands = [];
     List<String> operators = [];
-    operands.add(this._parseMul());
-    while (this._token == '+' || this._token == '-') {
-      operators.add(this._token);
-      this._next();
-      operands.add(this._parseMul());
+    operands.add(_parseMul());
+    while (_token == '+' || _token == '-') {
+      operators.add(_token);
+      _next();
+      operands.add(_parseMul());
     }
     if (operators.length == 1 && operators[0] == '-') {
       // form: "o[0] - o[1]"
-      return Term.Op('-', operands, []);
-    } else if (operators.length > 0) {
+      return Term.createOp('-', operands, []);
+    } else if (operators.isNotEmpty) {
       // form: "o[0] op[0] b[1] op[1] ..."
       // -> "o[0] + o[1] + ..."  with o[i+1] := -o[i+1] for op[i]=='-'
       for (var i = 0; i < operators.length; i++) {
-        if (operators[i] == '-')
-          operands[i + 1] = Term.Op('.-', [operands[i + 1]], []);
+        if (operators[i] == '-') {
+          operands[i + 1] = Term.createOp('.-', [operands[i + 1]], []);
+        }
       }
-      return Term.Op('+', operands, []);
+      return Term.createOp('+', operands, []);
     } else {
       // form: "o[0]"
       return operands[0];
@@ -179,37 +177,38 @@ class Parser {
   Term _parseMul() {
     List<Term> operands = [];
     List<String> operators = [];
-    operands.add(this._parsePow());
-    while (this._token == '*' ||
-        this._token == '/' ||
-        (this._token != '§' &&
-            (this._isIdentifier(this._token) || this._token == '('))) {
-      var op = this._token == '/' ? '/' : '*';
+    operands.add(_parsePow());
+    while (_token == '*' ||
+        _token == '/' ||
+        (_token != '§' && (_isIdentifier(_token) || _token == '('))) {
+      var op = _token == '/' ? '/' : '*';
       operators.add(op);
-      if (this._token == '*' || this._token == '/') this._next();
-      operands.add(this._parsePow());
+      if (_token == '*' || _token == '/') _next();
+      operands.add(_parsePow());
     }
     if (operands.length == 1) {
       return operands[0];
     } else if (operators.length == 1 && operators[0] == '/') {
-      return Term.Op('/', operands, []);
+      return Term.createOp('/', operands, []);
     } else if (operators.contains('/')) {
-      throw new Exception('mixed * and / are unimplemented');
+      throw Exception('mixed * and / are unimplemented');
       // TODO: "/" (push binary operations in a sequence!!!!)
-    } else
-      return Term.Op('*', operands, []);
+    } else {
+      return Term.createOp('*', operands, []);
+    }
   }
 
   //G pow = unary [ "^" unary ];
   Term _parsePow() {
     List<Term> operands = [];
-    operands.add(this._parseUnary());
-    if (this._token == '^') {
-      this._next();
-      operands.add(this._parseUnary());
-      return Term.Op('^', operands, []);
-    } else
+    operands.add(_parseUnary());
+    if (_token == '^') {
+      _next();
+      operands.add(_parseUnary());
+      return Term.createOp('^', operands, []);
+    } else {
       return operands[0];
+    }
   }
 
   //G unary = [prefix] infix [postfix];
@@ -217,15 +216,15 @@ class Parser {
   //G postfix = "i";
   Term _parseUnary() {
     var isUnaryMinus = false;
-    if (this._token == '-') {
-      this._next();
+    if (_token == '-') {
+      _next();
       isUnaryMinus = true;
     }
-    var term = this._parseInfix();
-    if (isUnaryMinus) term = Term.Op('.-', [term], []);
-    if (this._token == 'i') {
-      this._next();
-      term = Term.Op('*', [term, Term.ConstComplex(0, 1)], []);
+    var term = _parseInfix();
+    if (isUnaryMinus) term = Term.createOp('.-', [term], []);
+    if (_token == 'i') {
+      _next();
+      term = Term.createOp('*', [term, Term.createConstComplex(0, 1)], []);
     }
     return term;
   }
@@ -238,167 +237,177 @@ class Parser {
       | matrixOrVector | set;
   */
   Term _parseInfix() {
-    if (this._isImag(this._token)) {
-      var tk = this._token;
-      this._next();
+    if (_isImag(_token)) {
+      var tk = _token;
+      _next();
       if (tk == 'i') tk = '1i';
       var im = num.parse(tk.substring(0, tk.length - 1));
-      return Term.ConstComplex(0, im);
-    } else if (this._isInteger(this._token)) {
-      var value = int.parse(this._token);
-      this._next();
-      return Term.ConstInt(value);
-    } else if (this._isReal(this._token)) {
-      var value = num.parse(this._token);
-      this._next();
-      return Term.ConstReal(value);
-    } else if (this._isBuiltIn(this._token)) {
-      var id = this._token;
-      this._next();
-      return Term.ConstIrrational(id);
-    } else if (this._isFct1(this._token) || this._isFct2(this._token)) {
-      var fctId = this._token;
-      var numParams = this._isFct1(this._token) ? 1 : 2;
+      return Term.createConstComplex(0, im);
+    } else if (_isInteger(_token)) {
+      var value = int.parse(_token);
+      _next();
+      return Term.createConstInt(value);
+    } else if (_isReal(_token)) {
+      var value = num.parse(_token);
+      _next();
+      return Term.createConstReal(value);
+    } else if (_isBuiltIn(_token)) {
+      var id = _token;
+      _next();
+      return Term.createConstIrrational(id);
+    } else if (_isFct1(_token) || _isFct2(_token)) {
+      var fctId = _token;
+      var numParams = _isFct1(_token) ? 1 : 2;
       List<Term> params = [];
       List<Term> dims = [];
-      this._next();
-      if (this._token == '<') {
-        this._next();
-        dims.add(this._parseUnary());
-        this._token += ''; // ***
-        while (this._token == ',') {
-          this._next();
-          dims.add(this._parseUnary());
+      _next();
+      if (_token == '<') {
+        _next();
+        dims.add(_parseUnary());
+        _token += ''; // ***
+        while (_token == ',') {
+          _next();
+          dims.add(_parseUnary());
         }
-        if (this._token == '>')
-          this._next();
-        else
-          throw new Exception('expected ">"');
+        if (_token == '>') {
+          _next();
+        } else {
+          throw Exception('expected ">"');
+        }
       }
-      if (this._token == '(') {
-        this._token += ''; // ***
-        this._next();
-        params.add(this._parseTerm());
-        while (this._token == ',') {
-          this._next();
-          params.add(this._parseTerm());
+      if (_token == '(') {
+        _token += ''; // ***
+        _next();
+        params.add(_parseTerm());
+        while (_token == ',') {
+          _next();
+          params.add(_parseTerm());
         }
-        if (this._token == ')')
-          this._next();
-        else
-          throw new Exception('expected ")"');
-        return Term.Op(fctId, params, dims);
-      } else if (numParams == 1 && dims.length == 0) {
-        params.add(this._parseUnary());
-        return Term.Op(fctId, params, dims);
-      } else
-        throw new Exception('expected "(" or unary function');
-    } else if (this._token == '@' || this._isIdentifier(this._token)) {
+        if (_token == ')') {
+          _next();
+        } else {
+          throw Exception('expected ")"');
+        }
+        return Term.createOp(fctId, params, dims);
+      } else if (numParams == 1 && dims.isEmpty) {
+        params.add(_parseUnary());
+        return Term.createOp(fctId, params, dims);
+      } else {
+        throw Exception('expected "(" or unary function');
+      }
+    } else if (_token == '@' || _isIdentifier(_token)) {
       var isTerm = false;
-      if (this._token == '@') {
+      if (_token == '@') {
         isTerm = true;
-        this._next();
-        if (this._isIdentifier(this._token) == false)
-          throw new Exception('expected:ID');
+        _next();
+        if (_isIdentifier(_token) == false) throw Exception('expected:ID');
       }
-      var id = (isTerm ? '@' : '') + this._token;
-      this._next();
-      return Term.Var(id);
-    } else if (this._token == '(') {
-      this._token += ''; // ***
-      this._next();
-      var t = this._parseTerm();
-      if (this._token == ')')
-        this._next();
-      else
-        throw new Exception('expected: ")"');
+      var id = (isTerm ? '@' : '') + _token;
+      _next();
+      return Term.createVar(id);
+    } else if (_token == '(') {
+      _token += ''; // ***
+      _next();
+      var t = _parseTerm();
+      if (_token == ')') {
+        _next();
+      } else {
+        throw Exception('expected: ")"');
+      }
       return t;
-    } else if (this._token == '|') {
-      this._token += ''; // ***
-      this._next();
-      var t = this._parseTerm();
-      if (this._token == '|')
-        this._next();
-      else
-        throw new Exception('expected:"|"');
-      return Term.Op('abs', [t], []);
-    } else if (this._token == '[') {
-      return this._parseMatrixOrVector();
-    } else if (this._token == '{') {
-      return this._parseSet();
+    } else if (_token == '|') {
+      _token += ''; // ***
+      _next();
+      var t = _parseTerm();
+      if (_token == '|') {
+        _next();
+      } else {
+        throw Exception('expected:"|"');
+      }
+      return Term.createOp('abs', [t], []);
+    } else if (_token == '[') {
+      return _parseMatrixOrVector();
+    } else if (_token == '{') {
+      return _parseSet();
     } else {
-      throw new Exception('unexpected:' + this._token);
+      throw Exception('unexpected:$_token');
     }
   }
 
   //G vector = "[" [ term { "," term } ] "]";
   Term _parseVector([bool parseLeftBracket = true]) {
     if (parseLeftBracket) {
-      if (this._token == '[')
-        this._next();
-      else
-        throw new Exception('expected "["');
-    }
-    this._token += ''; // ***
-    List<Term> elements = [];
-    if (this._token != ']') {
-      elements.add(this._parseTerm());
-      while (this._token == ',') {
-        this._next();
-        elements.add(this._parseTerm());
+      if (_token == '[') {
+        _next();
+      } else {
+        throw Exception('expected "["');
       }
     }
-    if (this._token == ']')
-      this._next();
-    else
-      throw new Exception('expected "]"');
-    return Term.Op('vec', elements, []);
+    _token += ''; // ***
+    List<Term> elements = [];
+    if (_token != ']') {
+      elements.add(_parseTerm());
+      while (_token == ',') {
+        _next();
+        elements.add(_parseTerm());
+      }
+    }
+    if (_token == ']') {
+      _next();
+    } else {
+      throw Exception('expected "]"');
+    }
+    return Term.createOp('vec', elements, []);
   }
 
   //G matrixOrVector = vector | "[" [ vector { "," vector } ] "]";
   Term _parseMatrixOrVector() {
-    if (this._token == '[')
-      this._next();
-    else
-      throw new Exception('expected "["');
-    if (this._token != '[') {
-      return this._parseVector(false);
+    if (_token == '[') {
+      _next();
+    } else {
+      throw Exception('expected "["');
     }
-    this._token += ''; // ***
+    if (_token != '[') {
+      return _parseVector(false);
+    }
+    _token += ''; // ***
     List<Term> elements = [];
-    if (this._token != ']') {
-      elements.add(this._parseVector());
-      while (this._token == ',') {
-        this._next();
-        elements.add(this._parseVector());
+    if (_token != ']') {
+      elements.add(_parseVector());
+      while (_token == ',') {
+        _next();
+        elements.add(_parseVector());
       }
     }
-    if (this._token == ']')
-      this._next();
-    else
-      throw new Exception('expected "]"');
-    return Term.Op('matrix', elements, []);
+    if (_token == ']') {
+      _next();
+    } else {
+      throw Exception('expected "]"');
+    }
+    return Term.createOp('matrix', elements, []);
   }
 
   //G set = "{" [ term { "," term } ] "}";
   Term _parseSet() {
     // TODO: allow empty sets
-    if (this._token == '{')
-      this._next();
-    else
-      throw new Exception('expected "{"');
-    this._token += ''; // ***
-    List<Term> elements = [];
-    elements.add(this._parseTerm());
-    while (this._token == ',') {
-      this._next();
-      elements.add(this._parseTerm());
+    if (_token == '{') {
+      _next();
+    } else {
+      throw Exception('expected "{"');
     }
-    if (this._token == '}')
-      this._next();
-    else
-      throw new Exception('expected "}"');
-    return Term.Op('set', elements, []);
+    _token += ''; // ***
+    List<Term> elements = [];
+    elements.add(_parseTerm());
+    while (_token == ',') {
+      _next();
+      elements.add(_parseTerm());
+    }
+    if (_token == '}') {
+      _next();
+    } else {
+      throw Exception('expected "}"');
+    }
+    return Term.createOp('set', elements, []);
   }
 
   /*G fct1 = "abs" | "ceil" | "cos" | "exp" | "imag" | "int" | "fac" | "floor"
@@ -442,7 +451,7 @@ class Parser {
   bool _isImag(String tk) {
     if (tk.endsWith('i') == false) return false;
     var x = tk.substring(0, tk.length - 1);
-    if (this._isReal(x) == false && this._isInteger(x) == false) return false;
+    if (_isReal(x) == false && _isInteger(x) == false) return false;
     return true;
   }
 
@@ -450,10 +459,10 @@ class Parser {
   bool _isReal(String tk) {
     var tokens = tk.split('.');
     if (tokens.length != 2) return false;
-    if (this._isInteger(tokens[0]) == false) return false;
+    if (_isInteger(tokens[0]) == false) return false;
     for (var i = 0; i < tokens[1].length; i++) {
       var ch = tokens[1][i];
-      if (this._isNum0(ch) == false) return false;
+      if (_isNum0(ch) == false) return false;
     }
     return true;
   }
@@ -463,9 +472,11 @@ class Parser {
     if (tk == '0') return true;
     for (var i = 0; i < tk.length; i++) {
       var ch = tk[i];
-      if (i == 0 && this._isNum1(ch) == false)
+      if (i == 0 && _isNum1(ch) == false) {
         return false;
-      else if (i > 0 && this._isNum0(ch) == false) return false;
+      } else if (i > 0 && _isNum0(ch) == false) {
+        return false;
+      }
     }
     return true;
   }
@@ -493,18 +504,20 @@ class Parser {
     var n = tk.length;
     for (var i = 0; i < n; i++) {
       var ch = tk[i];
-      if (i == 0 && !this._isAlpha(ch))
+      if (i == 0 && !_isAlpha(ch)) {
         return false;
-      else if (!this._isAlpha(ch) && !this._isNum0(ch)) return false;
+      } else if (!_isAlpha(ch) && !_isNum0(ch)) {
+        return false;
+      }
     }
     return true;
   }
 
   void _next() {
-    if (this._tokenIdx >= this._tokens.length) {
-      this._token = '§';
+    if (_tokenIdx >= _tokens.length) {
+      _token = '§';
       return;
     }
-    this._token = this._tokens[this._tokenIdx++];
+    _token = _tokens[_tokenIdx++];
   }
 }
