@@ -7,5 +7,7 @@
       "path": "app"
     }
   ],
-  "settings": {}
+  "settings": {
+    "cSpell.words": ["elif", "focusable", "RGBO", "slex", "smpl"]
+  }
 }
