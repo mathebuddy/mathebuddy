@@ -1,0 +1,15 @@
+name: mathebuddy_smpl
+version: 0.0.1
+description: Simple Math Programming Language (SMPL) for the mathebuddy app
+homepage: https://mathebuddy.github.io/mathebuddy/
+repository: https://github.com/mathebuddy/mathebuddy
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  slex: ^0.9.1
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
