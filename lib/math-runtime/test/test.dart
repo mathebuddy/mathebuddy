@@ -1,10 +1,8 @@
-/**
- * mathe:buddy - a gamified app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import '../src/operand.dart';
 import '../src/parse.dart';
@@ -14,7 +12,7 @@ import '../src/parse.dart';
 void main() {
   print('running mathe:buddy MATH RUNTIME tests ...');
 
-  var parser = new Parser();
+  var parser = Parser();
 
 //var term = parser.parse('randZ(-2,2)');
 //var term = parser.parse('rand<2,3>(-2,2)');
@@ -38,21 +36,21 @@ void main() {
   term = parser.parse('1/2 {+|-} 2/3');
   print(term.toString());
   value = term.eval({});
-  print('eval: ' + value.toString());
-  assert(value.type == OperandType.RATIONAL);
+  print('eval: $value');
+  assert(value.type == OperandType.rational);
 
   term = parser.parse('2 * (-3+4)');
   print(term.toString());
   value = term.eval({});
-  print('eval: ' + value.toString());
-  assert(value.type == OperandType.INT);
+  print('eval: $value');
+  assert(value.type == OperandType.int);
   assert(value.real == 2 * (-3 + 4));
 
   term = parser.parse('2(3+4.1)');
   print(term.toString());
   value = term.eval({});
-  print('eval: ' + value.toString());
-  assert(value.type == OperandType.REAL);
+  print('eval: $value');
+  assert(value.type == OperandType.real);
   assert(value.real == 2 * (3 + 4.1));
 
   term = parser.parse('x y^2');
