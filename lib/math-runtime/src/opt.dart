@@ -1,12 +1,8 @@
-/**
- * mathe:buddy - a gamified app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
-
-import 'dart:math' as math;
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import 'operand.dart';
 import 'term.dart';
@@ -28,17 +24,19 @@ Term optTerm(Term term) {
       var oi = t.o[i];
       // TODO: RATIONAL
       if (oi.op == '#' &&
-          (oi.value.type == OperandType.INT ||
-              oi.value.type == OperandType.REAL)) {
+          (oi.value.type == OperandType.int ||
+              oi.value.type == OperandType.real)) {
         c += oi.value.real;
-      } else
+      } else {
         oNew.add(oi);
+      }
     }
-    if (c.abs() > 1e-12) oNew.add(Term.ConstReal(c));
-    if (oNew.length == 1)
+    if (c.abs() > 1e-12) oNew.add(Term.createConstReal(c));
+    if (oNew.length == 1) {
       return oNew[0];
-    else
-      return Term.Op('+', oNew, []);
+    } else {
+      return Term.createOp('+', oNew, []);
+    }
   } else if (term.op == '*') {
     // aggregate all constant values
     List<Term> oNew = [];
@@ -47,23 +45,25 @@ Term optTerm(Term term) {
       var oi = t.o[i];
       // T
       if (oi.op == '#' &&
-          (oi.value.type == OperandType.INT ||
-              oi.value.type == OperandType.REAL))
+          (oi.value.type == OperandType.int ||
+              oi.value.type == OperandType.real)) {
         c *= oi.value.real;
-      else
+      } else {
         oNew.add(oi);
+      }
     }
-    if ((c - 1).abs() > 1e-12) oNew.insert(0, Term.ConstReal(c));
-    if (c.abs() < 1e-12) return Term.ConstInt(0);
-    if (oNew.length == 1)
+    if ((c - 1).abs() > 1e-12) oNew.insert(0, Term.createConstReal(c));
+    if (c.abs() < 1e-12) return Term.createConstInt(0);
+    if (oNew.length == 1) {
       return oNew[0];
-    else
-      return Term.Op('*', oNew, []);
+    } else {
+      return Term.createOp('*', oNew, []);
+    }
   } else if (term.op == '^' && term.o.length == 2) {
     // x^0 = 1
     if (term.o[1].op == '#' &&
         Operand.compareEqual(term.o[1].value, Operand.createInt(0))) {
-      return Term.ConstInt(1);
+      return Term.createConstInt(1);
     }
     // x^1 = x
     if (term.o[1].op == '#' &&
@@ -75,10 +75,10 @@ Term optTerm(Term term) {
   try {
     // result is constant, if all operands are constant
     var v = t.eval({});
-    if (v.type == OperandType.INT ||
-        v.type == OperandType.REAL ||
-        v.type == OperandType.COMPLEX) {
-      return Term.Const(v);
+    if (v.type == OperandType.int ||
+        v.type == OperandType.real ||
+        v.type == OperandType.complex) {
+      return Term.createConst(v);
     }
   } catch (e) {
     // if t contains variables, an error is thrown.
