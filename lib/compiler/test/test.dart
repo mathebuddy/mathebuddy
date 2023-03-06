@@ -1,10 +1,8 @@
-/**
- * mathe:buddy - a gamified learning-app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import 'dart:convert';
 import 'dart:io';
@@ -15,36 +13,36 @@ import '../src/compiler.dart';
 
 // load function that allows the compiler to read files dynamically by request
 String load(String path) {
-  if (File(path).existsSync() == false)
+  if (File(path).existsSync() == false) {
     return '';
-  else
+  } else {
     return File(path).readAsStringSync();
+  }
 }
 
-void compile(String path_in) {
-  var compiler = new Compiler(load);
-  compiler.compile(path_in);
+void compile(String pathIn) {
+  var compiler = Compiler(load);
+  compiler.compile(pathIn);
   var y = compiler.getCourse()?.toJSON();
   var jsonStr = JsonEncoder.withIndent("  ").convert(y);
   print(jsonStr);
-  var path_out = path_in.substring(0, path_in.length - 4) + '_COMPILED.json';
-  File(path_out).writeAsStringSync(jsonStr);
+  var pathOut = '${pathIn.substring(0, pathIn.length - 4)}_COMPILED.json';
+  File(pathOut).writeAsStringSync(jsonStr);
 
   var dec = jsonDecode(jsonStr);
-  var reimportTest = new MbclCourse();
+  var reimportTest = MbclCourse();
   try {
     reimportTest.fromJSON(dec);
     var y2 = reimportTest.toJSON();
     var jsonStr2 = JsonEncoder.withIndent("  ").convert(y2);
     print(jsonStr2);
-    var path_out =
-        path_in.substring(0, path_in.length - 4) + '_COMPILED_2.json';
-    File(path_out).writeAsStringSync(jsonStr2);
+    pathOut = '${pathIn.substring(0, pathIn.length - 4)}_COMPILED_2.json';
+    File(pathOut).writeAsStringSync(jsonStr2);
     assert(jsonStr == jsonStr2, "reimport of JSon fails!");
 
     var bp = 1337;
   } catch (e) {
-    print("ERROR: " + e.toString());
+    print("ERROR: $e");
     assert(false);
   }
 }
@@ -64,8 +62,8 @@ void main() {
     'examples.mbl'
   ];
   for (var file in files) {
-    print("******************* TESTING FILE " + file + " *******************");
-    compile('lib/compiler/test/data/demo-basic/' + file);
+    print("******************* TESTING FILE $file *******************");
+    compile('lib/compiler/test/data/demo-basic/ $file');
   }
 
   var bp = 1337;
