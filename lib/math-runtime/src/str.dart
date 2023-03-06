@@ -1,10 +1,8 @@
-/**
- * mathe:buddy - a gamified app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import 'operand.dart';
 import 'term.dart';
@@ -14,23 +12,23 @@ String term2string(Term term) {
   switch (term.op) {
     case '#':
     case '\$':
-      if (term.value.type == OperandType.INT ||
-          term.value.type == OperandType.REAL ||
-          term.value.type == OperandType.IRRATIONAL ||
-          term.value.type == OperandType.IDENTIFIER) {
-        s = '' + term.value.toString();
+      if (term.value.type == OperandType.int ||
+          term.value.type == OperandType.real ||
+          term.value.type == OperandType.irrational ||
+          term.value.type == OperandType.identifier) {
+        s = term.value.toString();
       } else {
-        s = '(' + term.value.toString() + ')';
+        s = '(${term.value})';
       }
       break;
     case '.-':
-      s += '(-(' + term.o[0].toString() + '))'; // TODO: test!!
+      s += '(-(${term.o[0]}))'; // TODO: test!!
       break;
     default:
       if (term.op.length > 2) {
         // sin, cos, exp, ...
         s += term.op;
-        if (term.dims.length > 0) {
+        if (term.dims.isNotEmpty) {
           s += '<';
           for (var i = 0; i < term.dims.length; i++) {
             if (i > 0) s += ',';
