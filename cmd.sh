@@ -19,6 +19,7 @@ python3 check.py
 cd ..
 
 # --- REPL ---
+# TODO: integrate "update grammar.txt in lib/*" to "build website"??
 while true
 do
     echo "mathe:buddy CLI. Choose option and press [ENTER]"
