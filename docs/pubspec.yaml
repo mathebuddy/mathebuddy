@@ -1,9 +1,16 @@
-name: mathebuddyWebsite
+name: mathebuddy_website
 version: 1.0.1
+description: Website of the mathebuddy:project
 homepage: https://mathebuddy.github.io/mathebuddy/
+repository: https://github.com/mathebuddy/mathebuddy
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
-  tex: ^0.0.1
+  tex: ^0.0.3
+  slex: ^0.9.1
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
