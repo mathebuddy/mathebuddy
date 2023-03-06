@@ -1,10 +1,8 @@
-/**
- * mathe:buddy - a gamified app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import 'dart:html' as html;
 
@@ -18,8 +16,8 @@ void setTextArea(String id, String value) {
 
 Future<String> readTextFile(String path) {
   return html.HttpRequest.getString(
-          path + "?ver=" + DateTime.now().millisecondsSinceEpoch.toString())
-      .catchError((e) => throw new Exception("failed to read file " + path));
+          "$path?ver=${DateTime.now().millisecondsSinceEpoch}")
+      .catchError((e) => throw Exception("failed to read file $path"));
 }
 
 Future<List<String>> getFilesFromDir(String path) async {
@@ -32,10 +30,10 @@ Future<List<String>> getFilesFromDir(String path) async {
     print('reading _fs.txt');
     // b) try to read _fs.txt
     try {
-      var data = await readTextFile(path + '_fs.txt');
+      var data = await readTextFile('${path}_fs.txt');
       res = data.split('\n');
     } catch (e) {
-      print("... failed to get files from dir '" + path + "'");
+      print("... failed to get files from dir '$path'");
     }
   }
   return Future.value(res);
