@@ -237,7 +237,7 @@ class _CoursePageState extends State<CoursePage> {
               title: Text('TODO'),
             ));
           }
-          // TODO: listview is not what we want... use two cols instead??
+          // TODO: list-view is not what we want... use two cols instead??
           return Flexible(
             fit: FlexFit.loose,
             child: ListView(
