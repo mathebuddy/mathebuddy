@@ -1,30 +1,28 @@
-/**
- * mathe:buddy - a gamified app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import 'dart:math' as math;
 
 import 'algo.dart';
 
 enum OperandType {
-  BOOLEAN,
-  INT,
-  RATIONAL,
-  REAL,
-  IRRATIONAL,
-  COMPLEX,
-  VECTOR,
-  MATRIX,
-  SET,
-  IDENTIFIER
+  boolean,
+  int,
+  rational,
+  real,
+  irrational,
+  complex,
+  vector,
+  matrix,
+  set,
+  identifier
 }
 
 class Operand {
-  OperandType type = OperandType.REAL;
+  OperandType type = OperandType.real;
   num real =
       0; // also used for type BOOLEAN, then 0 is false and true otherwise
   num denominator = 1; // used for type RATIONAL
@@ -35,16 +33,16 @@ class Operand {
   List<Operand> items = []; // vector, set, matrix elements
 
   Operand clone() {
-    var c = new Operand();
-    c.type = this.type;
-    c.real = this.real;
-    c.denominator = this.denominator;
-    c.imag = this.imag;
-    c.rows = this.rows;
-    c.cols = this.cols;
-    c.id = this.id;
-    for (var i = 0; i < this.items.length; i++) {
-      var item = this.items[i];
+    var c = Operand();
+    c.type = type;
+    c.real = real;
+    c.denominator = denominator;
+    c.imag = imag;
+    c.rows = rows;
+    c.cols = cols;
+    c.id = id;
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
       c.items.add(item.clone());
     }
     return c;
@@ -52,12 +50,12 @@ class Operand {
 
   static bool compareEqual(Operand x, Operand y, [num epsilon = 1e-12]) {
     // TODO: improve implementation of this method mathematically!
-    if ((x.type == OperandType.INT ||
-            x.type == OperandType.REAL ||
-            x.type == OperandType.COMPLEX) &&
-        (y.type == OperandType.INT ||
-            y.type == OperandType.REAL ||
-            y.type == OperandType.COMPLEX)) {
+    if ((x.type == OperandType.int ||
+            x.type == OperandType.real ||
+            x.type == OperandType.complex) &&
+        (y.type == OperandType.int ||
+            y.type == OperandType.real ||
+            y.type == OperandType.complex)) {
       if ((x.real - y.real).abs() > epsilon) return false;
       if ((x.imag - y.imag).abs() > epsilon) return false;
       return true;
@@ -65,7 +63,7 @@ class Operand {
       return false;
     }
     switch (x.type) {
-      case OperandType.SET:
+      case OperandType.set:
         if (x.items.length != y.items.length) return false;
         for (var i = 0; i < x.items.length; i++) {
           var found = false;
@@ -78,16 +76,17 @@ class Operand {
           if (found == false) return false;
         }
         break;
-      case OperandType.MATRIX:
+      case OperandType.matrix:
         if (x.rows != y.rows || x.cols != y.cols) return false;
         for (var i = 0; i < x.items.length; i++) {
-          if (Operand.compareEqual(x.items[i], y.items[i]) == false)
+          if (Operand.compareEqual(x.items[i], y.items[i]) == false) {
             return false;
+          }
         }
         break;
       default:
-        throw new Exception(
-          'Operand.compareEqual(..): unimplemented type ' + x.type.name,
+        throw Exception(
+          'Operand.compareEqual(..): unimplemented type ${x.type.name}',
         );
     }
     return true;
@@ -95,40 +94,40 @@ class Operand {
 
   static Operand createInt(num x) {
     // TODO: check, if x is integral
-    var o = new Operand();
-    o.type = OperandType.INT;
+    var o = Operand();
+    o.type = OperandType.int;
     o.real = x;
     return o;
   }
 
   static Operand createReal(num x) {
     if (x is int || x == x.roundToDouble()) return Operand.createInt(x);
-    var o = new Operand();
-    o.type = OperandType.REAL;
+    var o = Operand();
+    o.type = OperandType.real;
     o.real = x;
     return o;
   }
 
   static Operand createIrrational(String irr) {
-    var o = new Operand();
-    o.type = OperandType.IRRATIONAL;
-    if (['pi', 'e'].contains(irr) == false)
-      throw new Exception(
-          'Operand.createIrrational(..): unknown symbol ' + irr);
+    var o = Operand();
+    o.type = OperandType.irrational;
+    if (['pi', 'e'].contains(irr) == false) {
+      throw Exception('Operand.createIrrational(..): unknown symbol $irr');
+    }
     o.id = irr;
     return o;
   }
 
   static Operand createIrrationalE() {
-    var o = new Operand();
-    o.type = OperandType.IRRATIONAL;
+    var o = Operand();
+    o.type = OperandType.irrational;
     o.id = 'e';
     return o;
   }
 
   static Operand createRational(num n, num d) {
-    var o = new Operand();
-    o.type = OperandType.RATIONAL;
+    var o = Operand();
+    o.type = OperandType.rational;
     o.real = n;
     o.denominator = d;
     o._reduce();
@@ -136,8 +135,8 @@ class Operand {
   }
 
   static Operand createMatrix(int rows, int cols) {
-    var o = new Operand();
-    o.type = OperandType.MATRIX;
+    var o = Operand();
+    o.type = OperandType.matrix;
     o.rows = rows;
     o.cols = cols;
     var n = rows * cols;
@@ -148,28 +147,28 @@ class Operand {
   }
 
   void _reduce() {
-    if (this.type != OperandType.RATIONAL) return;
-    num d = gcd(this.real.round(), this.denominator.round());
-    this.real /= d;
-    this.denominator /= d;
-    if (this.denominator < 0) {
-      this.real = -this.real;
-      this.denominator = -this.denominator;
+    if (type != OperandType.rational) return;
+    num d = gcd(real.round(), denominator.round());
+    real /= d;
+    denominator /= d;
+    if (denominator < 0) {
+      real = -real;
+      denominator = -denominator;
     }
-    if (this.denominator == 1) this.type = OperandType.INT;
+    if (denominator == 1) type = OperandType.int;
   }
 
   static Operand createComplex(num x, num y) {
-    var o = new Operand();
-    o.type = OperandType.COMPLEX;
+    var o = Operand();
+    o.type = OperandType.complex;
     o.real = x;
     o.imag = y;
     return o;
   }
 
   static Operand createSet(List<Operand> elements) {
-    var o = new Operand();
-    o.type = OperandType.SET;
+    var o = Operand();
+    o.type = OperandType.set;
     for (var i = 0; i < elements.length; i++) {
       var element = elements[i];
       var found = false;
@@ -186,65 +185,63 @@ class Operand {
   }
 
   static Operand createVector(List<Operand> element) {
-    var o = new Operand();
-    o.type = OperandType.VECTOR;
+    var o = Operand();
+    o.type = OperandType.vector;
     o.items = [...element];
     return o;
   }
 
   static Operand createIdentifier(String str) {
-    var o = new Operand();
-    o.type = OperandType.IDENTIFIER;
+    var o = Operand();
+    o.type = OperandType.identifier;
     o.id = str;
     return o;
   }
 
   static Operand addSub(String operator, Operand x, Operand y) {
-    if (['+', '-'].contains(operator) == false)
-      throw new Exception('invalid operator ' + operator + ' for addSub(..)');
-    var o = new Operand();
-    if (x.type == OperandType.INT && y.type == OperandType.INT) {
-      o.type = OperandType.INT;
+    if (['+', '-'].contains(operator) == false) {
+      throw Exception('invalid operator $operator for addSub(..)');
+    }
+    var o = Operand();
+    if (x.type == OperandType.int && y.type == OperandType.int) {
+      o.type = OperandType.int;
       o.real = x.real + (operator == '+' ? y.real : -y.real);
-    } else if ((x.type == OperandType.INT || x.type == OperandType.RATIONAL) &&
-        (y.type == OperandType.INT || y.type == OperandType.RATIONAL)) {
-      o.type = OperandType.RATIONAL;
-      if (operator == '+')
+    } else if ((x.type == OperandType.int || x.type == OperandType.rational) &&
+        (y.type == OperandType.int || y.type == OperandType.rational)) {
+      o.type = OperandType.rational;
+      if (operator == '+') {
         o.real = x.real * y.denominator + y.real * x.denominator;
-      else
+      } else {
         o.real = x.real * y.denominator - y.real * x.denominator;
+      }
       o.denominator = x.denominator * y.denominator;
       o._reduce();
-    } else if ((x.type == OperandType.INT || x.type == OperandType.REAL) &&
-        (y.type == OperandType.INT || y.type == OperandType.REAL)) {
-      o.type = OperandType.REAL;
+    } else if ((x.type == OperandType.int || x.type == OperandType.real) &&
+        (y.type == OperandType.int || y.type == OperandType.real)) {
+      o.type = OperandType.real;
       o.real = x.real + (operator == '+' ? y.real : -y.real);
-    } else if ((x.type == OperandType.INT ||
-            x.type == OperandType.REAL ||
-            x.type == OperandType.COMPLEX) &&
-        (y.type == OperandType.INT ||
-            y.type == OperandType.REAL ||
-            y.type == OperandType.COMPLEX)) {
-      o.type = OperandType.COMPLEX;
+    } else if ((x.type == OperandType.int ||
+            x.type == OperandType.real ||
+            x.type == OperandType.complex) &&
+        (y.type == OperandType.int ||
+            y.type == OperandType.real ||
+            y.type == OperandType.complex)) {
+      o.type = OperandType.complex;
       o.real = x.real + (operator == '+' ? y.real : -y.real);
       o.imag = x.imag + (operator == '+' ? y.imag : -y.imag);
-    } else if (x.type == OperandType.MATRIX && y.type == OperandType.MATRIX) {
-      o.type = OperandType.MATRIX;
-      if (x.rows != y.rows || x.cols != y.cols)
-        throw new Exception('matrix dimensions not matching for +');
+    } else if (x.type == OperandType.matrix && y.type == OperandType.matrix) {
+      o.type = OperandType.matrix;
+      if (x.rows != y.rows || x.cols != y.cols) {
+        throw Exception('matrix dimensions not matching for +');
+      }
       o.rows = x.rows;
       o.cols = x.cols;
-      for (var i = 0; i < x.items.length; i++)
+      for (var i = 0; i < x.items.length; i++) {
         o.items.add(Operand.addSub(operator, x.items[i], y.items[i]));
+      }
     } else {
-      throw new Exception(
-        'cannot apply ' +
-            operator +
-            ' on ' +
-            x.type.name +
-            ' and ' +
-            y.type.name,
-      );
+      throw Exception(
+          'cannot apply $operator on ${x.type.name} and ${y.type.name}');
     }
     return o;
   }
@@ -252,38 +249,41 @@ class Operand {
   static Operand unaryMinus(Operand x) {
     var o = x.clone();
     switch (x.type) {
-      case OperandType.INT:
-      case OperandType.REAL:
-      case OperandType.RATIONAL:
+      case OperandType.int:
+      case OperandType.real:
+      case OperandType.rational:
         o.real = -o.real;
         break;
-      case OperandType.COMPLEX:
+      case OperandType.complex:
         o.real = -o.real;
         o.imag = -o.imag;
         break;
-      case OperandType.MATRIX:
-        for (var i = 0; i < o.items.length; i++)
+      case OperandType.matrix:
+        for (var i = 0; i < o.items.length; i++) {
           o.items[i] = Operand.unaryMinus(o.items[i]);
+        }
         break;
       default:
-        throw new Exception('cannot apply unary - on ' + x.type.name);
+        throw Exception('cannot apply unary - on ${x.type.name}');
     }
     return o;
   }
 
   static Operand mulDiv(String operator, Operand x, Operand y) {
-    if (['*', '/'].contains(operator) == false)
-      throw new Exception('invalid operator ' + operator + ' for mulDiv(..)');
-    var o = new Operand();
-    if (x.type == OperandType.INT && y.type == OperandType.INT) {
-      o.type = OperandType.INT;
-      if (operator == '*')
+    if (['*', '/'].contains(operator) == false) {
+      throw Exception('invalid operator $operator for mulDiv(..)');
+    }
+    var o = Operand();
+    if (x.type == OperandType.int && y.type == OperandType.int) {
+      o.type = OperandType.int;
+      if (operator == '*') {
         o.real = x.real * y.real;
-      else
+      } else {
         o = Operand.createRational(x.real, y.real);
-    } else if ((x.type == OperandType.INT || x.type == OperandType.RATIONAL) &&
-        (y.type == OperandType.INT || y.type == OperandType.RATIONAL)) {
-      o.type = OperandType.RATIONAL;
+      }
+    } else if ((x.type == OperandType.int || x.type == OperandType.rational) &&
+        (y.type == OperandType.int || y.type == OperandType.rational)) {
+      o.type = OperandType.rational;
       if (operator == '*') {
         o.real = x.real * y.real;
         o.denominator = x.denominator * y.denominator;
@@ -292,42 +292,45 @@ class Operand {
         o.denominator = x.denominator * y.real;
       }
       o._reduce();
-    } else if ((x.type == OperandType.INT || x.type == OperandType.REAL) &&
-        (y.type == OperandType.INT || y.type == OperandType.REAL)) {
-      o.type = OperandType.REAL;
-      if (operator == '*')
+    } else if ((x.type == OperandType.int || x.type == OperandType.real) &&
+        (y.type == OperandType.int || y.type == OperandType.real)) {
+      o.type = OperandType.real;
+      if (operator == '*') {
         o.real = x.real * y.real;
-      else
+      } else {
         o.real = x.real / y.real;
+      }
     } else if (operator == '*' &&
-        (x.type == OperandType.INT ||
-            x.type == OperandType.RATIONAL ||
-            x.type == OperandType.REAL ||
-            x.type == OperandType.COMPLEX) &&
-        y.type == OperandType.MATRIX) {
-      o.type = OperandType.MATRIX;
+        (x.type == OperandType.int ||
+            x.type == OperandType.rational ||
+            x.type == OperandType.real ||
+            x.type == OperandType.complex) &&
+        y.type == OperandType.matrix) {
+      o.type = OperandType.matrix;
       o.rows = y.rows;
       o.cols = y.cols;
-      for (var i = 0; i < y.items.length; i++)
+      for (var i = 0; i < y.items.length; i++) {
         o.items.add(Operand.mulDiv('*', x, y.items[i]));
+      }
     } else if (operator == '*' &&
-        x.type == OperandType.MATRIX &&
-        (y.type == OperandType.INT ||
-            y.type == OperandType.RATIONAL ||
-            y.type == OperandType.REAL ||
-            y.type == OperandType.COMPLEX)) {
-      o.type = OperandType.MATRIX;
+        x.type == OperandType.matrix &&
+        (y.type == OperandType.int ||
+            y.type == OperandType.rational ||
+            y.type == OperandType.real ||
+            y.type == OperandType.complex)) {
+      o.type = OperandType.matrix;
       o.rows = y.rows;
       o.cols = y.cols;
-      for (var i = 0; i < x.items.length; i++)
+      for (var i = 0; i < x.items.length; i++) {
         o.items.add(Operand.mulDiv('*', x.items[i], y));
-    } else if ((x.type == OperandType.INT ||
-            x.type == OperandType.REAL ||
-            x.type == OperandType.COMPLEX) &&
-        (y.type == OperandType.INT ||
-            y.type == OperandType.REAL ||
-            y.type == OperandType.COMPLEX)) {
-      o.type = OperandType.COMPLEX;
+      }
+    } else if ((x.type == OperandType.int ||
+            x.type == OperandType.real ||
+            x.type == OperandType.complex) &&
+        (y.type == OperandType.int ||
+            y.type == OperandType.real ||
+            y.type == OperandType.complex)) {
+      o.type = OperandType.complex;
       if (operator == '*') {
         o.real = x.real * y.real - x.imag * y.imag;
         o.imag = x.real * y.imag + x.imag * y.real;
@@ -342,54 +345,49 @@ class Operand {
         o.imag = n.imag / d;
       }
     } else {
-      throw new Exception(
-        'cannot apply ' +
-            operator +
-            ' on ' +
-            x.type.name +
-            ' and ' +
-            y.type.name,
-      );
+      throw Exception(
+          'cannot apply $operator on ${x.type.name} and ${y.type.name}');
     }
     return o;
   }
 
   static Operand pow(Operand x, Operand y) {
-    var o = new Operand();
-    if (x.type == OperandType.INT && y.type == OperandType.INT) {
-      o.type = OperandType.INT;
+    var o = Operand();
+    if (x.type == OperandType.int && y.type == OperandType.int) {
+      o.type = OperandType.int;
       o.real = math.pow(x.real, y.real);
-    } else if (x.type == OperandType.RATIONAL && y.type == OperandType.INT) {
-      o.type = OperandType.RATIONAL;
+    } else if (x.type == OperandType.rational && y.type == OperandType.int) {
+      o.type = OperandType.rational;
       o.real = math.pow(x.real, y.real);
       o.denominator = math.pow(x.denominator, y.real);
       o._reduce();
-    } else if ((x.type == OperandType.REAL || x.type == OperandType.COMPLEX) &&
-        (y.type == OperandType.REAL || y.type == OperandType.COMPLEX)) {
-      throw new Exception('unimplemented');
+    } else if ((x.type == OperandType.real || x.type == OperandType.complex) &&
+        (y.type == OperandType.real || y.type == OperandType.complex)) {
+      throw Exception('unimplemented');
     } else {
-      throw new Exception(
-        'cannot apply ' + '^' + ' on ' + x.type.name + ' and ' + y.type.name,
+      throw Exception(
+        'cannot apply ^ on ${x.type.name} and ${y.type.name}',
       );
     }
     return o;
   }
 
   static Operand relational(String op, Operand x, Operand y) {
-    if (['<', '<=', '>', '>='].contains(op) == false)
-      throw new Exception('invalid operator ' + op + ' for relational(..)');
-    var o = new Operand();
-    o.type = OperandType.BOOLEAN;
-    if ((x.type == OperandType.INT ||
-            x.type == OperandType.REAL ||
-            x.type == OperandType.RATIONAL) &&
-        (y.type == OperandType.INT ||
-            y.type == OperandType.REAL ||
-            y.type == OperandType.RATIONAL)) {
+    if (['<', '<=', '>', '>='].contains(op) == false) {
+      throw Exception('invalid operator $op for relational(..)');
+    }
+    var o = Operand();
+    o.type = OperandType.boolean;
+    if ((x.type == OperandType.int ||
+            x.type == OperandType.real ||
+            x.type == OperandType.rational) &&
+        (y.type == OperandType.int ||
+            y.type == OperandType.real ||
+            y.type == OperandType.rational)) {
       var u = x.real;
       var v = y.real;
-      if (x.type == OperandType.RATIONAL) u /= x.denominator;
-      if (y.type == OperandType.RATIONAL) v /= y.denominator;
+      if (x.type == OperandType.rational) u /= x.denominator;
+      if (y.type == OperandType.rational) v /= y.denominator;
       switch (op) {
         case '<':
           o.real = u < v ? 1 : 0;
@@ -405,8 +403,8 @@ class Operand {
           break;
       }
     } else {
-      throw new Exception(
-        'cannot apply ' + op + ' on ' + x.type.name + ' and ' + y.type.name,
+      throw Exception(
+        'cannot apply $op on ${x.type.name} and ${y.type.name}',
       );
     }
     return o;
@@ -414,49 +412,44 @@ class Operand {
 
   @override
   String toString() {
-    switch (this.type) {
-      case OperandType.BOOLEAN:
-        return '' + (this.real == 0 ? 'false' : 'true');
-      case OperandType.INT:
-      case OperandType.REAL:
-        return '' + this.real.toString();
-      case OperandType.RATIONAL:
-        return this.real.round().toString() +
-            '/' +
-            this.denominator.round().toString();
-      case OperandType.COMPLEX:
-        if (this.imag >= 0)
-          return '' + this.real.toString() + '+' + this.imag.toString() + 'i';
-        else
-          return '' +
-              this.real.toString() +
-              '-' +
-              (-this.imag).toString() +
-              'i';
-      case OperandType.SET:
-        return '{' + this.items.map((x) => x.toString()).join(',') + '}';
-      case OperandType.IDENTIFIER:
-      case OperandType.IRRATIONAL:
-        return this.id;
-      case OperandType.VECTOR:
+    switch (type) {
+      case OperandType.boolean:
+        return real == 0 ? 'false' : 'true';
+      case OperandType.int:
+      case OperandType.real:
+        return real.toString();
+      case OperandType.rational:
+        return '${real.round()}/${denominator.round()}';
+      case OperandType.complex:
+        if (imag >= 0) {
+          return '$real+${imag}i';
+        } else {
+          return '$real-${-imag}i';
+        }
+      case OperandType.set:
+        return '{${items.map((x) => x.toString()).join(',')}}';
+      case OperandType.identifier:
+      case OperandType.irrational:
+        return id;
+      case OperandType.vector:
         {
           var s = '[';
-          for (var i = 0; i < this.items.length; i++) {
+          for (var i = 0; i < items.length; i++) {
             if (i > 0) s += ',';
-            s += this.items[i].toString();
+            s += items[i].toString();
           }
           s += ']';
           return s;
         }
-      case OperandType.MATRIX:
+      case OperandType.matrix:
         {
           var s = '[';
-          for (var i = 0; i < this.rows; i++) {
+          for (var i = 0; i < rows; i++) {
             if (i > 0) s += ',';
             s += '[';
-            for (var j = 0; j < this.cols; j++) {
+            for (var j = 0; j < cols; j++) {
               if (j > 0) s += ',';
-              s += this.items[i * this.cols + j].toString();
+              s += items[i * cols + j].toString();
             }
             s += ']';
           }
@@ -464,8 +457,8 @@ class Operand {
           return s;
         }
       default:
-        throw new Exception(
-          'unimplemented Operand.toString() for type ' + this.type.name,
+        throw Exception(
+          'unimplemented Operand.toString() for type ${type.name}',
         );
     }
   }
