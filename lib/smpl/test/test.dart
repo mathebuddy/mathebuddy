@@ -1,10 +1,8 @@
-/**
- * mathe:buddy - a gamified learning-app for higher math
- * (c) 2022-2023 by TH Koeln
- * Author: Andreas Schwenk contact@compiler-construction.com
- * Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
- * License: GPL-3.0-or-later
- */
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
 
 import 'dart:io';
 
@@ -12,21 +10,22 @@ import '../src/interpreter.dart';
 import '../src/parser.dart';
 
 void run(String src) {
-  var parser = new Parser();
-  AST_Node? ast = null;
+  var parser = Parser();
+  AstNode? ast;
   try {
     parser.parse(src);
     ast = parser.getAbstractSyntaxTree();
-    print((ast as AST_Node).toString(0));
-    var interpreter = new Interpreter();
+    print((ast as AstNode).toString(0));
+    var interpreter = Interpreter();
     var symbols = interpreter.runProgram(ast);
     for (var id in symbols.keys) {
-      print('@${id} := ${symbols[id]?.term.toString()}');
-      if (symbols[id]?.value != null)
-        print('${id} := ${symbols[id]?.value.toString()}');
+      print('@$id := ${symbols[id]?.term}');
+      if (symbols[id]?.value != null) {
+        print('$id := ${symbols[id]?.value}');
+      }
     }
   } catch (e) {
-    print('Error:' + e.toString());
+    print('Error: $e');
     exit(-1);
   }
 }
