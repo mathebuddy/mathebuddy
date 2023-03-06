@@ -6,6 +6,7 @@
     "ARGB",
     "canvaskit",
     "cupertino",
+    "focusable",
     "FREIRAUM",
     "gamified",
     "Hochschullehre",
@@ -16,6 +17,7 @@
     "MBCL",
     "Schwenk",
     "Stiftung",
-    "wireframe"
+    "wireframe",
+    "xlink"
   ]
 }
