@@ -39,7 +39,7 @@
                   "items": [
                     {
                       "type": "text",
-                      "text": "x ^ 2 + y ^ 2 + \\sqrt ( z )"
+                      "text": "x ^ 2 + y ^ 2"
                     }
                   ]
                 },
@@ -111,10 +111,7 @@
               "text": "(x+1)^2 = (x+1)(x+1)\\\\= x^2 + x + x + 1\\\\= x^2 + 2x + 1",
               "id": "888",
               "equationData": {
-                "options": [
-                  "alignLeft",
-                  "alignEquals"
-                ],
+                "options": ["alignLeft", "alignEquals"],
                 "number": 0
               }
             },
