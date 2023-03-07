@@ -36,7 +36,7 @@ void typeset(bool paintBox) {
     /*var img =
           '<img class="" style="height:72px;" src="data:image/svg+xml;base64,${outputBase64}"/>';*/
     print(img);
-    document.getElementById('tex-term')?.innerHtml = tex.lastParsed;
+    document.getElementById('tex-term')?.innerHtml = tex.parsed;
     document.getElementById('tex-rendering')?.innerHtml = '';
     document.getElementById('tex-rendering')?.append(img);
   } else {
