@@ -89,43 +89,64 @@ class _CoursePageState extends State<CoursePage> {
     setState(() {});
   }
 
-  InlineSpan _genParagraphItem(MbclLevelItem item) {
+  InlineSpan _genParagraphItem(MbclLevelItem item,
+      {bold = false, italic = false, color = Colors.black}) {
     double fontSize = 16;
     switch (item.type) {
+      case MbclLevelItemType.reference:
+        {
+          return TextSpan(
+              text: "REFERENCES_NOT_YET_IMPLEMENTED",
+              style: TextStyle(color: Colors.red));
+        }
       case MbclLevelItemType.text:
         return TextSpan(
           text: "${item.text} ",
-          style: TextStyle(color: Colors.black, fontSize: fontSize),
+          style: TextStyle(
+              color: color,
+              fontSize: fontSize,
+              fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+              fontStyle: italic ? FontStyle.italic : FontStyle.normal),
         );
       case MbclLevelItemType.boldText:
       case MbclLevelItemType.italicText:
       case MbclLevelItemType.color:
         {
           List<InlineSpan> gen = [];
-          for (var it in item.items) {
-            gen.add(_genParagraphItem(it));
-          }
           switch (item.type) {
             case MbclLevelItemType.boldText:
-              return TextSpan(
-                  children: gen,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: fontSize));
+              {
+                for (var it in item.items) {
+                  gen.add(_genParagraphItem(it, bold: true));
+                }
+                return TextSpan(children: gen);
+              }
             case MbclLevelItemType.italicText:
-              return TextSpan(
+              {
+                for (var it in item.items) {
+                  gen.add(_genParagraphItem(it, italic: true));
+                }
+                return TextSpan(
                   children: gen,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontStyle: FontStyle.italic,
-                      fontSize: fontSize));
+                );
+              }
             case MbclLevelItemType.color:
-              // TODO: coloring does not work...
-              // TODO: color must depend on key (id entry defines a number as string)
-              return TextSpan(
-                  children: gen,
-                  style: TextStyle(color: Colors.blue, fontSize: fontSize));
+              {
+                var colorKey = int.parse(item.id);
+                var colors = [
+                  // TODO
+                  Colors.black,
+                  Colors.red,
+                  Colors.blue,
+                  Colors.purple,
+                  Colors.orange
+                ];
+                var color = colors[colorKey % colors.length];
+                for (var it in item.items) {
+                  gen.add(_genParagraphItem(it, color: color));
+                }
+                return TextSpan(children: gen);
+              }
             default:
               // this will never happen
               return TextSpan();
@@ -134,7 +155,7 @@ class _CoursePageState extends State<CoursePage> {
       case MbclLevelItemType.inlineMath:
         {
           var tex = TeX();
-          var texSrc = ''; // TODO: must get this from child elements!
+          var texSrc = '';
           for (var subItem in item.items) {
             switch (subItem.type) {
               case MbclLevelItemType.text:
@@ -145,10 +166,9 @@ class _CoursePageState extends State<CoursePage> {
                     "ERROR: genParagraphItem(..): type '${item.type.name}' is not finally implemented");
             }
           }
-          // TODO: if texSrc.isEmpty -> then do NOT create SVG, since flutter_svg will crash when displaying an image of width 0
+          tex.scalingFactor = 1.17;
           var svg = tex.tex2svg(texSrc);
-          print(svg);
-
+          var svgWidth = tex.width;
           if (svg.isEmpty) {
             return TextSpan(
               text: "${tex.error} ",
@@ -156,14 +176,13 @@ class _CoursePageState extends State<CoursePage> {
             );
           } else {
             return WidgetSpan(
+                alignment: PlaceholderAlignment.middle,
                 child: SvgPicture.string(
-              svg,
-              //height: 20,
-              width: 75, // TODO!! must get width from tex-API
-            ));
+                  svg,
+                  width: svgWidth.toDouble(),
+                ));
           }
         }
-
       default:
         print(
             "ERROR: genParagraphItem(..): type '${item.type.name}' is not implemented");
@@ -216,25 +235,86 @@ class _CoursePageState extends State<CoursePage> {
                   alignment: Alignment.topCenter,
                   child: Wrap(alignment: WrapAlignment.start, children: list)));
         }
-      /*case MbclLevelItemType.itemize:
+      case MbclLevelItemType.equation:
         {
-          List<ListTile> listTiles = [];
-          for (var item in item.items) {
-            listTiles.add(ListTile(
-              enabled: true,
-              leading: Icon(Icons.map),
-              title: Text('TODO'),
-            ));
+          var texSrc = item.text;
+          Widget equationWidget = Text('');
+          var tex = TeX();
+          tex.scalingFactor = 1.1;
+          var svg = tex.tex2svg(texSrc);
+          var svgWidth = tex.width;
+          if (svg.isEmpty) {
+            equationWidget = Text(tex.error);
+          } else {
+            var eqNumber = int.parse(item.id);
+            var eqNumberWidget = Text(eqNumber >= 0 ? '($eqNumber)' : '');
+            equationWidget = Row(
+              children: [
+                Expanded(
+                    child: SvgPicture.string(svg, width: svgWidth.toDouble())),
+                Column(children: [eqNumberWidget]),
+              ],
+            );
           }
-          // TODO: list-view is not what we want... use two cols instead??
-          return Flexible(
-            fit: FlexFit.loose,
-            child: ListView(
-              //physics: const NeverScrollableScrollPhysics(),
-              children: listTiles,
-            ),
+          return Padding(
+              padding: EdgeInsets.all(3.0),
+              child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Wrap(
+                      alignment: WrapAlignment.start,
+                      children: [equationWidget])));
+        }
+      case MbclLevelItemType.span:
+        {
+          List<InlineSpan> list = [];
+          for (var subItem in item.items) {
+            list.add(_genParagraphItem(subItem));
+          }
+          var richText = RichText(
+            text: TextSpan(children: list),
           );
-        }*/
+          return Padding(
+            padding: EdgeInsets.all(3.0),
+            child: richText,
+          );
+        }
+      case MbclLevelItemType.itemize:
+      case MbclLevelItemType.enumerate:
+      case MbclLevelItemType.enumerateAlpha:
+        {
+          List<Row> rows = [];
+          for (var i = 0; i < item.items.length; i++) {
+            var subItem = item.items[i];
+            Widget w = Icon(
+              Icons.fiber_manual_record,
+              size: 8,
+            );
+            if (item.type == MbclLevelItemType.enumerate) {
+              w = Text("${i + 1}.");
+            } else if (item.type == MbclLevelItemType.enumerateAlpha) {
+              w = Text("${String.fromCharCode("a".codeUnitAt(0) + i)})");
+            }
+            var label = Column(children: [
+              Padding(
+                  padding: EdgeInsets.only(
+                      left: 15.0, right: 3.0, top: 0.0, bottom: 0.0),
+                  child: w)
+            ]);
+            var row = Row(children: [
+              label,
+              Column(children: [_genLevelItem(subItem)])
+            ]);
+            rows.add(row);
+          }
+          return Column(children: rows);
+        }
+      case MbclLevelItemType.newPage:
+        {
+          return Text(
+            '\n--- page break will be here later ---\n',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          );
+        }
       default:
         print(
             "ERROR: genLevelItem(..): type '${item.type.name}' is not implemented");
