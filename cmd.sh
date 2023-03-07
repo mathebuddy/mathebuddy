@@ -23,6 +23,7 @@ cd ..
 while true
 do
     echo "mathe:buddy CLI. Choose option and press [ENTER]"
+    echo "[0]  update Dart dependencies"
     echo "[1]  build website"
     echo "[2]  build documentation"
     echo "[3]  build flutter web app"
@@ -36,6 +37,18 @@ do
     echo "[11] exit"
     read x
     case $x in
+    0)
+        # [0] update Dart dependencies
+        cd lib/compiler/
+        dart pub get
+        cd ../math-runtime/
+        dart pub get
+        cd ../smpl/
+        dart pub get
+        cd ../../app
+        flutter pub get
+        cd ..
+        ;;
     1)
         # [1] build website
         cd docs
