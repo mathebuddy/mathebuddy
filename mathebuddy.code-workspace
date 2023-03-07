@@ -8,6 +8,14 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["elif", "focusable", "RGBO", "slex", "smpl"]
+    "cSpell.words": ["elif", "focusable", "RGBO", "slex", "smpl"],
+    "java.configuration.updateBuildConfiguration": "interactive"
+  },
+  "extensions": {
+    "recommendations": [
+      "vscjava.vscode-java-pack",
+      "vscjava.vscode-gradle",
+      "vscjava.vscode-java-debug"
+    ]
   }
 }
