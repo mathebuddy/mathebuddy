@@ -4,6 +4,7 @@
     "dart-code.flutter",
     "streetsidesoftware.code-spell-checker-german",
     "esbenp.prettier-vscode",
-    "ms-python.python"
+    "ms-python.python",
+    "vscjava.vscode-java-pack"
   ]
 }
