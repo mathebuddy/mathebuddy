@@ -1,4 +1,5 @@
 #!/bin/bash
+
 dart pub get
 dart compile js src/index.dart -O4 -o js/index.min.js
 
