@@ -27,6 +27,7 @@
     "debian",
     "divs",
     "downarrow",
+    "elif",
     "emptyset",
     "focusable",
     "fontawesome",
@@ -73,6 +74,7 @@
     "poweroff",
     "raquo",
     "Revisionsupdates",
+    "RGBO",
     "rightarrow",
     "rightharpoondown",
     "rightharpoonup",
@@ -97,6 +99,7 @@
     "varrho",
     "varsigma",
     "vartheta",
+    "vscjava",
     "webserver",
     "xcode",
     "xlink"
@@ -105,5 +108,6 @@
     "html": {
       "background": "white"
     }
-  }
+  },
+  "cmake.sourceDirectory": "${workspaceFolder}/app/linux"
 }
