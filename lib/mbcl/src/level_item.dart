@@ -196,6 +196,7 @@ enum MbclEquationOption {
 }
 
 class MbclExerciseData {
+  // import/export
   String code = '';
   List<String> variables = [];
   List<Map<String, String>> instances = [];
@@ -203,8 +204,13 @@ class MbclExerciseData {
   List<String> inputForbid = [];
   String inputVariableId = '';
   int inputWidth = 0;
+
+  // temporary
   int staticVariableCounter = 0; // not exported
   Map<String, String> smplOperandType = {}; // not exported
+
+  // runtime variables
+  int runInstanceIdx = -1; // selected exercise instance; -1 := not chosen
 
   Map<String, dynamic> toJSON() {
     // TODO: do NOT output "code" in final build
