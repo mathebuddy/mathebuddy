@@ -5,6 +5,7 @@
 /// License: GPL-3.0-or-later
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:tex/tex.dart';
 import 'package:universal_html/html.dart' as html;
@@ -16,9 +17,9 @@ import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'color.dart';
-
-const matheBuddyRed = Color.fromARGB(0xFF, 0xAA, 0x32, 0x2C);
+import 'package:mathebuddy/color.dart';
+import 'package:mathebuddy/keyboard_layouts.dart';
+import 'package:mathebuddy/keyboard.dart';
 
 void main() {
   runApp(const MatheBuddy());
@@ -165,8 +166,27 @@ class _CoursePageState extends State<CoursePage> {
           for (var subItem in item.items) {
             switch (subItem.type) {
               case MbclLevelItemType.text:
-                texSrc += subItem.text;
-                break;
+                {
+                  texSrc += subItem.text;
+                  break;
+                }
+              case MbclLevelItemType.variableReference:
+                {
+                  var variableId = subItem.id;
+                  if (exerciseData == null) {
+                    texSrc += 'ERROR: not in exercise mode!';
+                  } else {
+                    var instance =
+                        exerciseData.instances[exerciseData.runInstanceIdx];
+                    var variableValue = instance[variableId];
+                    if (variableValue == null) {
+                      texSrc += 'ERROR: unknown exercise variable $variableId';
+                    } else {
+                      texSrc += variableValue;
+                    }
+                  }
+                  break;
+                }
               default:
                 print(
                     "ERROR: genParagraphItem(..): type '${item.type.name}' is not finally implemented");
@@ -183,11 +203,18 @@ class _CoursePageState extends State<CoursePage> {
           } else {
             return WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
-                child: SvgPicture.string(
-                  svg,
-                  width: svgWidth.toDouble(),
-                ));
+                child: SvgPicture.string(svg, width: svgWidth.toDouble()));
           }
+        }
+      case MbclLevelItemType.inputField:
+        {
+          return WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              child: Icon(
+                Icons.keyboard,
+                size: 42,
+                color: matheBuddyRed,
+              ));
         }
       default:
         {
@@ -376,6 +403,10 @@ class _CoursePageState extends State<CoursePage> {
         }
       case MbclLevelItemType.exercise:
         {
+          var data = item.exerciseData as MbclExerciseData;
+          if (data.runInstanceIdx < 0) {
+            data.runInstanceIdx = Random().nextInt(data.instances.length);
+          }
           List<Widget> list = [];
           var title = Wrap(children: [
             Padding(
@@ -420,10 +451,8 @@ class _CoursePageState extends State<CoursePage> {
             Padding(
                 padding: EdgeInsets.only(
                     left: 8.0, right: 2.0, top: 0.0, bottom: .0),
-                child: Icon(
-                  Icons.check_box_outline_blank,
-                  size: 36,
-                )),
+                child: Icon(Icons.check_box_outline_blank,
+                    size: 36, color: matheBuddyRed)),
           ]);
           var text = Column(children: [
             _genLevelItem(item.items[0], exerciseData: exerciseData)
@@ -490,6 +519,10 @@ class _CoursePageState extends State<CoursePage> {
       for (var item in level.items) {
         page.add(_genLevelItem(item));
       }
+      // add empty lines at the end; otherwise keyboard is in the way...
+      for (var i = 0; i < 10; i++) {
+        page.add(Text("\n"));
+      }
       body = SingleChildScrollView(
           padding: EdgeInsets.only(right: 2.0),
           child: Container(
@@ -508,6 +541,10 @@ class _CoursePageState extends State<CoursePage> {
       onPressed: _getCourseDataDEBUG,
       child: Text('get message'),
     ));*/
+
+    var keyboard = Keyboard();
+    var screenWidth = MediaQuery.of(context).size.width;
+    //print('screen width = $screenWidth');
 
     return Scaffold(
       appBar: AppBar(
@@ -528,13 +565,18 @@ class _CoursePageState extends State<CoursePage> {
         ],
       ),
       body: body,
-      floatingActionButton: FloatingActionButton(
+      bottomSheet: Container(
+          color: Colors.black26,
+          alignment: Alignment.bottomCenter,
+          constraints: BoxConstraints(maxHeight: 285.0),
+          child: keyboard.generateWidget(integerKeyboardLayout, screenWidth)),
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           //_selectCourse();
         },
         tooltip: 'load course',
         child: const Icon(Icons.add),
-      ),
+      ),*/
     );
   }
 }
