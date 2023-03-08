@@ -55,6 +55,7 @@ class _CoursePageState extends State<CoursePage> {
   MbclCourse? _course;
   MbclChapter? _chapter;
   MbclLevel? _level;
+  bool keyboardActive = false;
 
   @override
   void initState() {
@@ -210,11 +211,16 @@ class _CoursePageState extends State<CoursePage> {
         {
           return WidgetSpan(
               alignment: PlaceholderAlignment.middle,
-              child: Icon(
-                Icons.keyboard,
-                size: 42,
-                color: matheBuddyRed,
-              ));
+              child: GestureDetector(
+                  onTap: () {
+                    keyboardActive = true;
+                    setState(() {});
+                  },
+                  child: Icon(
+                    Icons.keyboard,
+                    size: 42,
+                    color: matheBuddyRed,
+                  )));
         }
       default:
         {
@@ -546,6 +552,15 @@ class _CoursePageState extends State<CoursePage> {
     var screenWidth = MediaQuery.of(context).size.width;
     //print('screen width = $screenWidth');
 
+    Widget bottomArea = Text('');
+    if (keyboardActive) {
+      bottomArea = Container(
+          color: Colors.black26,
+          alignment: Alignment.bottomCenter,
+          constraints: BoxConstraints(maxHeight: 285.0),
+          child: keyboard.generateWidget(integerKeyboardLayout, screenWidth));
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -555,21 +570,68 @@ class _CoursePageState extends State<CoursePage> {
           icon: Image.asset("assets/img/logoSmall.png"),
         ),
         actions: [
+          Container(
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: 25,
+              height: 25,
+              child: CircularProgressIndicator(
+                strokeWidth: 6,
+                value: 0.7,
+                semanticsLabel: "my progress",
+                color: matheBuddyRed,
+              ),
+            ),
+          ),
+          Text('    '),
+          Container(
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: 25,
+              height: 25,
+              child: CircularProgressIndicator(
+                strokeWidth: 6,
+                value: 0.9,
+                semanticsLabel: "my progress",
+                color: Colors.amber.shade800,
+              ),
+            ),
+          ),
+          Text('    '),
+          Container(
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: 25,
+              height: 25,
+              child: CircularProgressIndicator(
+                strokeWidth: 6,
+                value: 0.45,
+                semanticsLabel: "my progress",
+                color: Colors.green.shade700,
+              ),
+            ),
+          ),
+          Text('       '),
+          IconButton(
+            onPressed: () {
+              // TODO
+            },
+            icon: Icon(Icons.chat, size: 36),
+          ),
+          Text('  '),
           IconButton(
             onPressed: () {
               _level = null;
+              keyboardActive = false;
               setState(() {});
             },
-            icon: Icon(Icons.home),
-          )
+            icon: Icon(Icons.home, size: 36),
+          ),
+          Text('    ')
         ],
       ),
       body: body,
-      bottomSheet: Container(
-          color: Colors.black26,
-          alignment: Alignment.bottomCenter,
-          constraints: BoxConstraints(maxHeight: 285.0),
-          child: keyboard.generateWidget(integerKeyboardLayout, screenWidth)),
+      bottomSheet: bottomArea,
       /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           //_selectCourse();
