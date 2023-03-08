@@ -3,7 +3,7 @@
   "title": "",
   "author": "",
   "mbclVersion": 1,
-  "dateModified": 1677518299,
+  "dateModified": 1678262953,
   "chapters": [
     {
       "fileId": "",
@@ -57,12 +57,7 @@
                         "inputId": "input0",
                         "variableId": "__bool__0"
                       }
-                    }
-                  ]
-                },
-                {
-                  "type": "multipleChoice",
-                  "items": [
+                    },
                     {
                       "type": "multipleChoiceOption",
                       "items": [
@@ -80,12 +75,7 @@
                         "inputId": "input1",
                         "variableId": "__bool__1"
                       }
-                    }
-                  ]
-                },
-                {
-                  "type": "multipleChoice",
-                  "items": [
+                    },
                     {
                       "type": "multipleChoiceOption",
                       "items": [
@@ -193,28 +183,28 @@
                 ],
                 "instances": [
                   {
-                    "x": "4",
-                    "@x": "rand(1,5)",
-                    "y": "5",
-                    "@y": "rand(1,5)",
-                    "z": "9",
-                    "@z": "(4+5)"
-                  },
-                  {
                     "x": "1",
                     "@x": "rand(1,5)",
-                    "y": "2",
+                    "y": "3",
                     "@y": "rand(1,5)",
-                    "z": "3",
-                    "@z": "(1+2)"
+                    "z": "4",
+                    "@z": "(1+3)"
                   },
                   {
-                    "x": "1",
+                    "x": "2",
                     "@x": "rand(1,5)",
                     "y": "4",
                     "@y": "rand(1,5)",
-                    "z": "5",
-                    "@z": "(1+4)"
+                    "z": "6",
+                    "@z": "(2+4)"
+                  },
+                  {
+                    "x": "1",
+                    "@x": "rand(1,5)",
+                    "y": "3",
+                    "@y": "rand(1,5)",
+                    "z": "4",
+                    "@z": "(1+3)"
                   }
                 ],
                 "inputRequire": [],
