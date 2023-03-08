@@ -24,11 +24,12 @@ void postProcessLevelItem(MbclLevelItem levelItem) {
     case MbclLevelItemType.itemize:
     case MbclLevelItemType.paragraph:
     case MbclLevelItemType.span:
+    case MbclLevelItemType.exercise:
       aggregateText(levelItem.items);
-      if (levelItem.type == MbclLevelItemType.paragraph) {
-        aggregateMultipleChoice(levelItem.items);
-        aggregateSingleChoice(levelItem.items);
-      }
+      //if (levelItem.type == MbclLevelItemType.paragraph) {
+      aggregateMultipleChoice(levelItem.items);
+      aggregateSingleChoice(levelItem.items);
+      //}
       break;
     default:
       break;
