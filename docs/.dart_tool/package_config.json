@@ -249,7 +249,7 @@
     },
     {
       "name": "tex",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/tex-0.0.6",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/tex-0.0.7",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -296,7 +296,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2023-03-07T18:48:10.489092Z",
+  "generated": "2023-03-08T11:59:25.906036Z",
   "generator": "pub",
   "generatorVersion": "2.19.3"
 }
