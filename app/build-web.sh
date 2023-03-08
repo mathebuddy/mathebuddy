@@ -4,6 +4,7 @@
 
 # build web app
 flutter build web --web-renderer auto --release  # auto := html for mobile, canvaskit for desktop
+# flutter build web --web-renderer html
 
 # update website
 rm -rf ../docs/sim
