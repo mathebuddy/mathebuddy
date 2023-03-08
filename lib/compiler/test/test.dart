@@ -13,6 +13,7 @@ import '../src/compiler.dart';
 
 // load function that allows the compiler to read files dynamically by request
 String load(String path) {
+  //var pwd = Directory.current;
   if (File(path).existsSync() == false) {
     return '';
   } else {
@@ -63,7 +64,7 @@ void main() {
   ];
   for (var file in files) {
     print("******************* TESTING FILE $file *******************");
-    compile('lib/compiler/test/data/demo-basic/ $file');
+    compile('test/data/demo-basic/$file');
   }
 
   var bp = 1337;
