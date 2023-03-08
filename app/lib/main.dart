@@ -90,7 +90,10 @@ class _CoursePageState extends State<CoursePage> {
   }
 
   InlineSpan _genParagraphItem(MbclLevelItem item,
-      {bold = false, italic = false, color = Colors.black}) {
+      {bold = false,
+      italic = false,
+      color = Colors.black,
+      MbclExerciseData? exerciseData}) {
     double fontSize = 16;
     switch (item.type) {
       case MbclLevelItemType.reference:
@@ -117,14 +120,16 @@ class _CoursePageState extends State<CoursePage> {
             case MbclLevelItemType.boldText:
               {
                 for (var it in item.items) {
-                  gen.add(_genParagraphItem(it, bold: true));
+                  gen.add(_genParagraphItem(it,
+                      bold: true, exerciseData: exerciseData));
                 }
                 return TextSpan(children: gen);
               }
             case MbclLevelItemType.italicText:
               {
                 for (var it in item.items) {
-                  gen.add(_genParagraphItem(it, italic: true));
+                  gen.add(_genParagraphItem(it,
+                      italic: true, exerciseData: exerciseData));
                 }
                 return TextSpan(
                   children: gen,
@@ -143,7 +148,8 @@ class _CoursePageState extends State<CoursePage> {
                 ];
                 var color = colors[colorKey % colors.length];
                 for (var it in item.items) {
-                  gen.add(_genParagraphItem(it, color: color));
+                  gen.add(_genParagraphItem(it,
+                      color: color, exerciseData: exerciseData));
                 }
                 return TextSpan(children: gen);
               }
@@ -184,13 +190,23 @@ class _CoursePageState extends State<CoursePage> {
           }
         }
       default:
-        print(
-            "ERROR: genParagraphItem(..): type '${item.type.name}' is not implemented");
-        return TextSpan(text: "", style: TextStyle());
+        {
+          print(
+              "ERROR: genParagraphItem(..): type '${item.type.name}' is not implemented");
+          return TextSpan(
+              text: "ERROR: genParagraphItem(..): "
+                  "type '${item.type.name}' is not implemented",
+              style: TextStyle(color: Colors.red));
+        }
     }
   }
 
-  Widget _genLevelItem(MbclLevelItem item) {
+  Widget _genLevelItem(MbclLevelItem item,
+      {paragraphPaddingLeft = 3.0,
+      paragraphPaddingRight = 3.0,
+      paragraphPaddingTop = 10.0,
+      paragraphPaddingBottom = 5.0,
+      MbclExerciseData? exerciseData}) {
     switch (item.type) {
       case MbclLevelItemType.section:
         {
@@ -213,13 +229,17 @@ class _CoursePageState extends State<CoursePage> {
         {
           List<InlineSpan> list = [];
           for (var subItem in item.items) {
-            list.add(_genParagraphItem(subItem));
+            list.add(_genParagraphItem(subItem, exerciseData: exerciseData));
           }
           var richText = RichText(
             text: TextSpan(children: list),
           );
           return Padding(
-            padding: EdgeInsets.all(3.0),
+            padding: EdgeInsets.only(
+                left: paragraphPaddingLeft,
+                right: paragraphPaddingRight,
+                top: paragraphPaddingTop,
+                bottom: paragraphPaddingBottom),
             child: richText,
           );
         }
@@ -227,7 +247,7 @@ class _CoursePageState extends State<CoursePage> {
         {
           List<Widget> list = [];
           for (var subItem in item.items) {
-            list.add(_genLevelItem(subItem));
+            list.add(_genLevelItem(subItem, exerciseData: exerciseData));
           }
           return Padding(
               padding: EdgeInsets.all(3.0),
@@ -268,7 +288,7 @@ class _CoursePageState extends State<CoursePage> {
         {
           List<InlineSpan> list = [];
           for (var subItem in item.items) {
-            list.add(_genParagraphItem(subItem));
+            list.add(_genParagraphItem(subItem, exerciseData: exerciseData));
           }
           var richText = RichText(
             text: TextSpan(children: list),
@@ -302,7 +322,9 @@ class _CoursePageState extends State<CoursePage> {
             ]);
             var row = Row(children: [
               label,
-              Column(children: [_genLevelItem(subItem)])
+              Column(children: [
+                _genLevelItem(subItem, exerciseData: exerciseData)
+              ])
             ]);
             rows.add(row);
           }
@@ -315,10 +337,112 @@ class _CoursePageState extends State<CoursePage> {
             style: TextStyle(fontWeight: FontWeight.bold),
           );
         }
+      case MbclLevelItemType.defDefinition:
+      case MbclLevelItemType.defTheorem:
+        {
+          var prefix = '';
+          switch (item.type) {
+            case MbclLevelItemType.defDefinition:
+              prefix = 'Definition';
+              break;
+            case MbclLevelItemType.defTheorem:
+              prefix = 'Theorem';
+              break;
+            default:
+              prefix = 'UNIMPLEMENTED';
+              break;
+          }
+          List<Widget> list = [];
+          var title = Row(children: [
+            Padding(
+                padding: EdgeInsets.all(3.0),
+                child: Text('$prefix (${item.title})',
+                    style: TextStyle(fontWeight: FontWeight.bold)))
+          ]);
+          list.add(title);
+          for (var i = 0; i < item.items.length; i++) {
+            var subItem = item.items[i];
+            list.add(Wrap(children: [
+              _genLevelItem(subItem,
+                  paragraphPaddingLeft: 20.0,
+                  paragraphPaddingTop: i == 0 ? 0.0 : 10.0,
+                  exerciseData: exerciseData)
+            ]));
+          }
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: list);
+        }
+      case MbclLevelItemType.exercise:
+        {
+          List<Widget> list = [];
+          var title = Wrap(children: [
+            Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Row(children: [
+                  Text(' '), // TODO: use padding instead of Text(' ')
+                  Icon(Icons.play_circle_outlined),
+                  Text(' '),
+                  // TODO: wrap does not work:
+                  Text(item.title,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
+                ]))
+          ]);
+          list.add(title);
+          for (var i = 0; i < item.items.length; i++) {
+            var subItem = item.items[i];
+            list.add(Wrap(children: [
+              _genLevelItem(subItem,
+                  paragraphPaddingLeft: 10.0,
+                  paragraphPaddingTop: i == 0 ? 5.0 : 10.0,
+                  exerciseData: item.exerciseData)
+            ]));
+          }
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: list);
+        }
+      case MbclLevelItemType.multipleChoice:
+        {
+          List<Widget> mcOptions = [];
+          for (var i = 0; i < item.items.length; i++) {
+            var subItem = item.items[i];
+            mcOptions.add(_genLevelItem(subItem, exerciseData: exerciseData));
+          }
+          return Column(children: mcOptions);
+        }
+      case MbclLevelItemType.multipleChoiceOption:
+        {
+          var button = Column(children: [
+            Padding(
+                padding: EdgeInsets.only(
+                    left: 8.0, right: 2.0, top: 0.0, bottom: .0),
+                child: Icon(
+                  Icons.check_box_outline_blank,
+                  size: 36,
+                )),
+          ]);
+          var text = Column(children: [
+            _genLevelItem(item.items[0], exerciseData: exerciseData)
+          ]);
+          return GestureDetector(
+              onTap: () {
+                print('pressed MC option');
+              },
+              child: Row(children: [button, text]));
+        }
       default:
-        print(
-            "ERROR: genLevelItem(..): type '${item.type.name}' is not implemented");
-        return Text('');
+        {
+          print(
+              "ERROR: genLevelItem(..): type '${item.type.name}' is not implemented");
+          return Text(
+            "\n--- ERROR: genLevelItem(..): type '${item.type.name}' is not implemented ---\n",
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+          );
+        }
     }
   }
 
