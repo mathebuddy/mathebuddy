@@ -6,6 +6,8 @@
 
 import 'package:flutter/material.dart';
 
+const matheBuddyRed = Color.fromARGB(0xFF, 0xAA, 0x32, 0x2C);
+
 MaterialColor buildMaterialColor(Color color) {
   // method code taken from:
   // https://medium.com/@nickysong/creating-a-custom-color-swatch-in-flutter-554bcdcb27f3
