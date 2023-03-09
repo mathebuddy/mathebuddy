@@ -7,9 +7,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/color.dart';
+import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/mbcl/src/level_item.dart';
 
 class KeyboardKey {
-  var value = ''; // special values: "!BACKSPACE!", "!ENTER!"
+  var value = ''; // special values: "!B" := backspace, "!E" := enter
   var text = '';
   int rowIndex = 0;
   int columnIndex = 0;
@@ -129,18 +131,23 @@ class KeyboardLayout {
 }
 
 class Keyboard {
-  Widget generateWidget(KeyboardLayout layout, double screenWidth) {
-    const keyWidth = 65.0;
-    const keyHeight = 60.0;
-    const keyFontSize = 40.0;
+  Widget generateWidget(
+      CoursePageState state, KeyboardState keyboardState, double screenWidth) {
+    var keyboardLayout = keyboardState.layout as KeyboardLayout;
+    var keyboardInputFieldData =
+        keyboardState.inputFieldData as MbclInputFieldData;
+
+    const keyWidth = 55.0;
+    const keyHeight = 50.0;
+    const keyFontSize = 32.0;
     const keyBorderRadius = 5.0;
     const keyMargin = 4.0;
 
-    var offsetX = (screenWidth - layout.columnCount * keyWidth) / 2.0;
-    var offsetY = 20.0;
+    var offsetX = (screenWidth - keyboardLayout.columnCount * keyWidth) / 2.0;
+    var offsetY = 70.0;
 
     List<Widget> keyWidgets = [];
-    for (var key in layout.keys) {
+    for (var key in keyboardLayout.keys) {
       if (key == null) continue;
       var labelWidget = key.text.startsWith('icon:')
           ? Icon(
@@ -158,6 +165,21 @@ class Keyboard {
           child: GestureDetector(
               onTap: () {
                 print('pressed key ${key.value}');
+                if (key.value == '!B') {
+                  // backspace
+                  if (keyboardInputFieldData.studentValue.isNotEmpty) {
+                    keyboardInputFieldData.studentValue =
+                        keyboardInputFieldData.studentValue.substring(
+                            0, keyboardInputFieldData.studentValue.length - 1);
+                  }
+                } else if (key.value == '!E') {
+                  // enter
+                  keyboardState.layout = null;
+                } else {
+                  keyboardInputFieldData.studentValue += key.value;
+                }
+                // ignore: invalid_use_of_protected_member
+                state.setState(() {});
               },
               child: Container(
                   width: keyWidth * key.columnSpan.toDouble() - keyMargin,
