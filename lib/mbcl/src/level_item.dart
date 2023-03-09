@@ -21,7 +21,7 @@ class MbclLevelItem {
   MbclFigureData? figureData;
   MbclTableData? tableData;
   MbclInputFieldData? inputFieldData;
-  MbclSingleOrMultipleChoiceOptionData? singleOrMultipleChoiceOptionData;
+  //MbclSingleOrMultipleChoiceOptionData? singleOrMultipleChoiceOptionData;
 
   MbclLevelItem(this.type, [this.text = '']);
 
@@ -53,11 +53,11 @@ class MbclLevelItem {
       case MbclLevelItemType.inputField:
         json["inputFieldData"] = inputFieldData?.toJSON();
         break;
-      case MbclLevelItemType.singleChoiceOption:
+      /*case MbclLevelItemType.singleChoiceOption:
       case MbclLevelItemType.multipleChoiceOption:
         json["singleOrMultipleChoiceOptionData"] =
             singleOrMultipleChoiceOptionData?.toJSON();
-        break;
+        break;*/
       default:
         break;
     }
@@ -80,12 +80,6 @@ class MbclLevelItem {
         items.add(item);
       }
     }
-    equationData;
-    exerciseData;
-    figureData;
-    tableData;
-    inputFieldData;
-    singleOrMultipleChoiceOptionData;
     switch (type) {
       case MbclLevelItemType.equation:
         equationData = MbclEquationData();
@@ -107,13 +101,13 @@ class MbclLevelItem {
         inputFieldData = MbclInputFieldData();
         inputFieldData?.fromJSON(src["inputFieldData"]);
         break;
-      case MbclLevelItemType.singleChoiceOption:
+      /*case MbclLevelItemType.singleChoiceOption:
       case MbclLevelItemType.multipleChoiceOption:
         singleOrMultipleChoiceOptionData =
             MbclSingleOrMultipleChoiceOptionData();
         singleOrMultipleChoiceOptionData
             ?.fromJSON(src["singleOrMultipleChoiceOptionData"]);
-        break;
+        break;*/
       default:
         break;
     }
@@ -149,13 +143,13 @@ enum MbclLevelItemType {
   itemize,
   lineFeed,
   multipleChoice,
-  multipleChoiceOption,
+  //multipleChoiceOption,
   newPage,
   paragraph,
   reference,
   section,
   singleChoice,
-  singleChoiceOption,
+  //singleChoiceOption,
   span,
   subSection,
   subSubSection,
@@ -195,19 +189,25 @@ enum MbclEquationOption {
   alignEquals,
 }
 
+enum MbclExerciseFeedback { unchecked, correct, incorrect }
+
 class MbclExerciseData {
   // import/export
   String code = '';
   List<String> variables = [];
-  List<Map<String, String>> instances = [];
-  List<String> inputRequire = [];
-  List<String> inputForbid = [];
-  String inputVariableId = '';
-  int inputWidth = 0;
+  List<Map<String, String>> instances = []; // TODO: DESCRIBE!!
+
+  // TODO: the following is related to MbclInputFieldData!!
+  //List<String> inputRequire = [];
+  //List<String> inputForbid = [];
+  //String inputVariableId = '';
+  //int inputWidth = 0;
 
   // temporary
   int staticVariableCounter = 0; // not exported
   Map<String, String> smplOperandType = {}; // not exported
+  Map<String, MbclInputFieldData> inputFields = {};
+  MbclExerciseFeedback feedback = MbclExerciseFeedback.unchecked;
 
   // runtime variables
   int runInstanceIdx = -1; // selected exercise instance; -1 := not chosen
@@ -218,10 +218,10 @@ class MbclExerciseData {
       "code": code,
       "variables": variables.map((e) => e).toList(),
       "instances": instances.map((e) => e).toList(),
-      "inputRequire": inputRequire.map((e) => e).toList(),
-      "inputForbid": inputForbid.map((e) => e).toList(),
-      "inputVariableId": inputVariableId,
-      "inputWidth": inputWidth
+      //"inputRequire": inputRequire.map((e) => e).toList(),
+      //"inputForbid": inputForbid.map((e) => e).toList(),
+      //"inputVariableId": inputVariableId,
+      //"inputWidth": inputWidth
     };
   }
 
@@ -243,7 +243,7 @@ class MbclExerciseData {
       }
       instances.add(instance);
     }
-    inputRequire = [];
+    /*inputRequire = [];
     n = src["inputRequire"].length;
     for (var i = 0; i < n; i++) {
       inputRequire.add(src["inputRequire"][i]);
@@ -252,9 +252,9 @@ class MbclExerciseData {
     n = src["inputForbid"].length;
     for (var i = 0; i < n; i++) {
       inputForbid.add(src["inputForbid"][i]);
-    }
-    inputVariableId = src["inputVariableId"];
-    inputWidth = src["inputWidth"];
+    }*/
+    //inputVariableId = src["inputVariableId"];
+    //inputWidth = src["inputWidth"];
   }
 }
 
@@ -329,20 +329,30 @@ class MbclTableData {
   }
 }
 
+//enum MbclInputFieldState { unchecked, correct, incorrect }
+
 class MbclInputFieldData {
+  // import/export
   MbclInputFieldType type = MbclInputFieldType.none;
+  String variableId = '';
+  // temporary
+  String studentValue = '';
+  String expectedValue = '';
+  //MbclInputFieldState state = MbclInputFieldState.unchecked;
 
   Map<String, dynamic> toJSON() {
-    return {"type": type.name};
+    return {"type": type.name, "variableId": variableId};
   }
 
   fromJSON(Map<String, dynamic> src) {
     type = MbclInputFieldType.values.byName(src["type"]);
+    variableId = src["variableId"];
   }
 }
 
 enum MbclInputFieldType {
   none,
+  bool,
   int,
   rational,
   real,
@@ -360,7 +370,7 @@ enum MbclInputFieldType {
   term,
 }
 
-class MbclSingleOrMultipleChoiceOptionData {
+/*class MbclSingleOrMultipleChoiceOptionData {
   String inputId = '';
   String variableId = '';
 
@@ -375,7 +385,7 @@ class MbclSingleOrMultipleChoiceOptionData {
     inputId = src["inputId"];
     variableId = src["variableId"];
   }
-}
+}*/
 
 class MbclTableRow {
   List<MbclLevelItem> columns = [];
