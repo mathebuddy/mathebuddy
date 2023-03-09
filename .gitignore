@@ -11,3 +11,4 @@ build/
 *_COMPILED.json
 *_COMPILED_2.json
 !/docs/sim/assets/assets/*
+!/app/assets/*

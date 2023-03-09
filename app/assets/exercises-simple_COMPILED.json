@@ -1,0 +1,221 @@
+{
+  "debug": "level",
+  "title": "",
+  "author": "",
+  "mbclVersion": 1,
+  "dateModified": 1678262953,
+  "chapters": [
+    {
+      "fileId": "",
+      "title": "",
+      "label": "",
+      "author": "",
+      "posX": -1,
+      "posY": -1,
+      "requires": [],
+      "units": [],
+      "levels": [
+        {
+          "fileId": "",
+          "title": "Exercises",
+          "label": "",
+          "posX": -1,
+          "posY": -1,
+          "requires": [],
+          "items": [
+            {
+              "type": "exercise",
+              "title": "My Multiple Choice Exercise",
+              "label": "@ex:myMultiChoice",
+              "items": [
+                {
+                  "type": "paragraph",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "Some text here."
+                    }
+                  ]
+                },
+                {
+                  "type": "multipleChoice",
+                  "items": [
+                    {
+                      "type": "multipleChoiceOption",
+                      "items": [
+                        {
+                          "type": "span",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "This answer is correct."
+                            }
+                          ]
+                        }
+                      ],
+                      "singleOrMultipleChoiceOptionData": {
+                        "inputId": "input0",
+                        "variableId": "__bool__0"
+                      }
+                    },
+                    {
+                      "type": "multipleChoiceOption",
+                      "items": [
+                        {
+                          "type": "span",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "This answer is incorrect."
+                            }
+                          ]
+                        }
+                      ],
+                      "singleOrMultipleChoiceOptionData": {
+                        "inputId": "input1",
+                        "variableId": "__bool__1"
+                      }
+                    },
+                    {
+                      "type": "multipleChoiceOption",
+                      "items": [
+                        {
+                          "type": "span",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "This answer is correct."
+                            }
+                          ]
+                        }
+                      ],
+                      "singleOrMultipleChoiceOptionData": {
+                        "inputId": "input2",
+                        "variableId": "__bool__2"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "exerciseData": {
+                "code": "",
+                "variables": [
+                  "__bool__0",
+                  "__bool__1",
+                  "__bool__2"
+                ],
+                "instances": [
+                  {
+                    "__bool__0": "true",
+                    "__bool__1": "false",
+                    "__bool__2": "true"
+                  },
+                  {
+                    "__bool__0": "true",
+                    "__bool__1": "false",
+                    "__bool__2": "true"
+                  },
+                  {
+                    "__bool__0": "true",
+                    "__bool__1": "false",
+                    "__bool__2": "true"
+                  }
+                ],
+                "inputRequire": [],
+                "inputForbid": [],
+                "inputVariableId": "",
+                "inputWidth": 0
+              }
+            },
+            {
+              "type": "exercise",
+              "title": "Addition",
+              "label": "@ex:add",
+              "items": [
+                {
+                  "type": "paragraph",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "Calculate"
+                    },
+                    {
+                      "type": "inlineMath",
+                      "items": [
+                        {
+                          "type": "variableReference",
+                          "id": "x"
+                        },
+                        {
+                          "type": "text",
+                          "text": "+"
+                        },
+                        {
+                          "type": "variableReference",
+                          "id": "y"
+                        },
+                        {
+                          "type": "text",
+                          "text": "="
+                        }
+                      ]
+                    },
+                    {
+                      "type": "inputField",
+                      "id": "z",
+                      "inputFieldData": {
+                        "type": "int"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "text": "."
+                    }
+                  ]
+                }
+              ],
+              "exerciseData": {
+                "code": "let x/y = rand(1, 5);\nlet z = x + y;",
+                "variables": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "instances": [
+                  {
+                    "x": "1",
+                    "@x": "rand(1,5)",
+                    "y": "3",
+                    "@y": "rand(1,5)",
+                    "z": "4",
+                    "@z": "(1+3)"
+                  },
+                  {
+                    "x": "2",
+                    "@x": "rand(1,5)",
+                    "y": "4",
+                    "@y": "rand(1,5)",
+                    "z": "6",
+                    "@z": "(2+4)"
+                  },
+                  {
+                    "x": "1",
+                    "@x": "rand(1,5)",
+                    "y": "3",
+                    "@y": "rand(1,5)",
+                    "z": "4",
+                    "@z": "(1+3)"
+                  }
+                ],
+                "inputRequire": [],
+                "inputForbid": [],
+                "inputVariableId": "",
+                "inputWidth": 0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
