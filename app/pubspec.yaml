@@ -40,3 +40,5 @@ flutter:
     - assets/typography_COMPILED.json
     - assets/img/logo.png
     - assets/img/logoSmall.png
+    - assets/img/logo-large-en.png
+    - assets/img/logo-large-de.png
