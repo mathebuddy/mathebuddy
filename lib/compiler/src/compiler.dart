@@ -574,18 +574,17 @@ class Compiler {
 
   MbclLevelItem _parseInputElements(Lexer lexer, MbclLevelItem exercise) {
     lexer.next();
-    var id = '';
-    var input = MbclLevelItem(MbclLevelItemType.inputField);
+    var inputField = MbclLevelItem(MbclLevelItemType.inputField);
     var data = MbclInputFieldData();
-    input.inputFieldData = data;
-    input.id = 'input${createUniqueId()}';
+    inputField.inputFieldData = data;
+    inputField.id = 'input${createUniqueId()}';
     var exerciseData = exercise.exerciseData as MbclExerciseData;
     if (lexer.isIdentifier()) {
-      id = lexer.identifier();
-      if (exerciseData.variables.contains(id)) {
+      data.variableId = lexer.identifier();
+      if (exerciseData.variables.contains(data.variableId)) {
         var opType = OperandType.values
-            .byName(exerciseData.smplOperandType[id] as String);
-        input.id = id;
+            .byName(exerciseData.smplOperandType[data.variableId] as String);
+        //input.id = data.variableId;
         switch (opType) {
           case OperandType.int:
             data.type = MbclInputFieldType.int;
@@ -603,19 +602,18 @@ class Compiler {
             exercise.error += 'UNIMPLEMENTED input type ${opType.name}. ';
         }
       } else {
-        exercise.error = 'there is no variable "$id". ';
+        exercise.error = 'there is no variable "${data.variableId}". ';
       }
     } else {
       exercise.error = 'no variable for input field given. ';
     }
-    return input;
+    return inputField;
   }
 
   MbclLevelItem _parseSingleOrMultipleChoice(
     Lexer lexer,
     MbclLevelItem exercise,
   ) {
-    //TODO: return MbclLevelItem(MbclLevelItemType.Error, 'MC/SC is unimplemented!');
     var exerciseData = exercise.exerciseData as MbclExerciseData;
     var isMultipleChoice = lexer.isTerminal('[');
     lexer.next();
@@ -654,6 +652,15 @@ class Compiler {
       }
       root.type = MbclLevelItemType.singleChoice;
     }
+
+    var inputField = MbclLevelItem(MbclLevelItemType.inputField);
+    inputField.inputFieldData = MbclInputFieldData();
+    inputField.id = 'input${createUniqueId()}';
+    inputField.inputFieldData?.type = MbclInputFieldType.bool;
+    inputField.inputFieldData?.variableId = varId;
+    root.items.add(inputField);
+
+    /*
     var option = MbclLevelItem(MbclLevelItemType.multipleChoiceOption);
     var data = MbclSingleOrMultipleChoiceOptionData();
     option.singleOrMultipleChoiceOptionData = data;
@@ -662,9 +669,10 @@ class Compiler {
     }
     data.inputId = 'input${createUniqueId()}';
     data.variableId = varId;
-    root.items.add(option);
+    root.items.add(option);*/
+
     var span = MbclLevelItem(MbclLevelItemType.span);
-    option.items.add(span);
+    inputField.items.add(span);
     while (lexer.isNotNewline() && lexer.isNotEnd()) {
       span.items.add(_parseParagraphPart(lexer, exercise));
     }
