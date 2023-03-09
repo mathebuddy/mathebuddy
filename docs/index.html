@@ -702,20 +702,35 @@
           about <code>flutter_tex</code>; but it just is a shell around MathJax
           and does not provide TextSpan integration).
         </p>
-        <p>
-          We will use the
-          <a href="https://pub.dev/packages/tex" target="_blank">tex</a> package
-          for equation rendering. It is extremely light-weight and entirely
-          written in the <code>Dart</code> programming language; without any
-          dependencies and maintained by the mathe:buddy software architect.
-        </p>
-        <p>This playground uses the above mentioned the tex typesetter.</p>
-        <p>
-          A list of implemented glyphs, macros and examples can be found
-          <a href="https://andreas-schwenk.github.io/tex/" target="_blank"
-            >here</a
-          >.
-        </p>
+
+        <ul>
+          <li>
+            <!-- -->
+            We will use the
+            <a href="https://pub.dev/packages/tex" target="_blank">tex</a>
+            package for equation rendering. It is extremely light-weight and
+            entirely written in the <code>Dart</code> programming language;
+            without any dependencies and maintained by the mathe:buddy software
+            architect.
+          </li>
+          <li>
+            <!-- -->This playground uses the above mentioned the tex typesetter.
+          </li>
+          <li>
+            <!-- -->
+            A list of implemented glyphs, macros and examples can be found
+            <a href="https://andreas-schwenk.github.io/tex/" target="_blank"
+              >here</a
+            >.
+          </li>
+          <li>
+            <!-- -->
+            The changelog can be found
+            <a href="https://pub.dev/packages/tex/changelog" target="_blank"
+              >here</a
+            >.
+          </li>
+        </ul>
       </div>
 
       <div class="row">
@@ -733,7 +748,15 @@
 
       <div class="row" style="padding-top: 5px">
         <b>Rendering:</b>&nbsp;
-        <div id="tex-rendering"></div>
+        <div
+          id="tex-rendering"
+          style="
+            overflow-x: scroll;
+            border-style: solid;
+            border-radius: 3px;
+            border-width: 1px;
+          "
+        ></div>
       </div>
 
       <br />
@@ -974,6 +997,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1678276767"></script>
+    <script src="js/index.min.js?version=1678379698"></script>
   </body>
 </html>
