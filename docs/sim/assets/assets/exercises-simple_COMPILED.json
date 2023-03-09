@@ -3,7 +3,7 @@
   "title": "",
   "author": "",
   "mbclVersion": 1,
-  "dateModified": 1678262953,
+  "dateModified": 1678374108,
   "chapters": [
     {
       "fileId": "",
@@ -41,7 +41,8 @@
                   "type": "multipleChoice",
                   "items": [
                     {
-                      "type": "multipleChoiceOption",
+                      "type": "inputField",
+                      "id": "input0",
                       "items": [
                         {
                           "type": "span",
@@ -53,13 +54,14 @@
                           ]
                         }
                       ],
-                      "singleOrMultipleChoiceOptionData": {
-                        "inputId": "input0",
+                      "inputFieldData": {
+                        "type": "bool",
                         "variableId": "__bool__0"
                       }
                     },
                     {
-                      "type": "multipleChoiceOption",
+                      "type": "inputField",
+                      "id": "input1",
                       "items": [
                         {
                           "type": "span",
@@ -71,13 +73,14 @@
                           ]
                         }
                       ],
-                      "singleOrMultipleChoiceOptionData": {
-                        "inputId": "input1",
+                      "inputFieldData": {
+                        "type": "bool",
                         "variableId": "__bool__1"
                       }
                     },
                     {
-                      "type": "multipleChoiceOption",
+                      "type": "inputField",
+                      "id": "input2",
                       "items": [
                         {
                           "type": "span",
@@ -89,8 +92,8 @@
                           ]
                         }
                       ],
-                      "singleOrMultipleChoiceOptionData": {
-                        "inputId": "input2",
+                      "inputFieldData": {
+                        "type": "bool",
                         "variableId": "__bool__2"
                       }
                     }
@@ -120,11 +123,7 @@
                     "__bool__1": "false",
                     "__bool__2": "true"
                   }
-                ],
-                "inputRequire": [],
-                "inputForbid": [],
-                "inputVariableId": "",
-                "inputWidth": 0
+                ]
               }
             },
             {
@@ -162,9 +161,10 @@
                     },
                     {
                       "type": "inputField",
-                      "id": "z",
+                      "id": "input3",
                       "inputFieldData": {
-                        "type": "int"
+                        "type": "int",
+                        "variableId": "z"
                       }
                     },
                     {
@@ -183,14 +183,6 @@
                 ],
                 "instances": [
                   {
-                    "x": "1",
-                    "@x": "rand(1,5)",
-                    "y": "3",
-                    "@y": "rand(1,5)",
-                    "z": "4",
-                    "@z": "(1+3)"
-                  },
-                  {
                     "x": "2",
                     "@x": "rand(1,5)",
                     "y": "4",
@@ -199,18 +191,22 @@
                     "@z": "(2+4)"
                   },
                   {
-                    "x": "1",
+                    "x": "4",
                     "@x": "rand(1,5)",
-                    "y": "3",
+                    "y": "5",
                     "@y": "rand(1,5)",
-                    "z": "4",
-                    "@z": "(1+3)"
+                    "z": "9",
+                    "@z": "(4+5)"
+                  },
+                  {
+                    "x": "4",
+                    "@x": "rand(1,5)",
+                    "y": "1",
+                    "@y": "rand(1,5)",
+                    "z": "5",
+                    "@z": "(4+1)"
                   }
-                ],
-                "inputRequire": [],
-                "inputForbid": [],
-                "inputVariableId": "",
-                "inputWidth": 0
+                ]
               }
             }
           ]
