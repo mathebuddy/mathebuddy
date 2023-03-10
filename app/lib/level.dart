@@ -155,9 +155,43 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
           style: TextStyle(fontWeight: FontWeight.bold),
         );
       }
+    case MbclLevelItemType.example:
+      {
+        if (item.error.isNotEmpty) {
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(item.error, style: TextStyle(color: Colors.red))
+              ]);
+        }
+        List<Widget> list = [];
+        // TODO: icon
+        var title = Row(children: [
+          Padding(
+              padding: EdgeInsets.all(3.0),
+              child: Text('EXAMPLE: ${item.title}',
+                  style: TextStyle(fontWeight: FontWeight.bold)))
+        ]);
+        list.add(title);
+        for (var i = 0; i < item.items.length; i++) {
+          var subItem = item.items[i];
+          list.add(Wrap(children: [
+            generateLevelItem(state, subItem,
+                paragraphPaddingLeft: 20.0,
+                paragraphPaddingTop: i == 0 ? 0.0 : 10.0,
+                exerciseData: exerciseData)
+          ]));
+        }
+        return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: list);
+      }
     case MbclLevelItemType.defDefinition:
     case MbclLevelItemType.defTheorem:
       {
+        // TODO: icon
         var prefix = '';
         switch (item.type) {
           case MbclLevelItemType.defDefinition:
@@ -231,19 +265,17 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
           ]));
         }
 
-        var feedbackColor = matheBuddyRed;
+        Color feedbackColor = getFeedbackColor(exerciseData.feedback);
         Widget feedbackText = Text('');
         switch (exerciseData.feedback) {
           case MbclExerciseFeedback.unchecked:
             feedbackText =
-                Text('?', style: TextStyle(color: matheBuddyRed, fontSize: 20));
+                Text('?', style: TextStyle(color: feedbackColor, fontSize: 20));
             break;
           case MbclExerciseFeedback.correct:
-            feedbackColor = Colors.green.shade700;
             feedbackText = Icon(Icons.check, color: feedbackColor, size: 24);
             break;
           case MbclExerciseFeedback.incorrect:
-            feedbackColor = matheBuddyRed;
             feedbackText = Icon(Icons.clear, color: feedbackColor, size: 24);
             break;
         }
@@ -313,12 +345,13 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             inputFieldData.expectedValue =
                 exerciseInstance[inputFieldData.variableId] as String;
           }
+          var feedbackColor = getFeedbackColor(exerciseData?.feedback);
           // 57688 := Icons.check_box_outline_blank
           // 61254 := Icons.check_box_outlined
           var icon = Icon(
             IconData(inputFieldData.studentValue == "false" ? 57688 : 61254,
                 fontFamily: 'MaterialIcons'),
-            color: matheBuddyRed,
+            color: feedbackColor,
             size: 36,
           );
           var button = Column(children: [
@@ -336,6 +369,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                 } else {
                   inputFieldData.studentValue = "true";
                 }
+                exerciseData?.feedback = MbclExerciseFeedback.unchecked;
                 // ignore: invalid_use_of_protected_member
                 state.setState(() {});
               },
