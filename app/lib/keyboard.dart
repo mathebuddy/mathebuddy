@@ -178,6 +178,8 @@ class Keyboard {
                 } else {
                   keyboardInputFieldData.studentValue += key.value;
                 }
+                keyboardState.exerciseData?.feedback =
+                    MbclExerciseFeedback.unchecked;
                 // ignore: invalid_use_of_protected_member
                 state.setState(() {});
               },
