@@ -22,6 +22,7 @@ ln -s ../sim/favicon.png .
 ln -s ../sim/flutter_service_worker.js .
 ln -s ../sim/flutter.js .
 ln -s ../sim/icons .
+ln -s ../sim/logo.png .
 ln -s ../sim/main.dart.js .
 ln -s ../sim/manifest.json .
 ln -s ../sim/version.json .
