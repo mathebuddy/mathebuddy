@@ -147,15 +147,16 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
               exerciseInstance[inputFieldData.variableId] as String;
         }
         Widget contents;
+        Color feedbackColor = getFeedbackColor(exerciseData?.feedback);
         if (inputFieldData.studentValue.isEmpty) {
           contents = Icon(
             Icons.keyboard,
             size: 42,
-            color: matheBuddyRed,
+            color: feedbackColor,
           );
         } else {
           var tex = TeX();
-          tex.scalingFactor = 1.17;
+          tex.scalingFactor = 1.5; //1.17;
           var svg = tex.tex2svg(inputFieldData.studentValue);
           var svgWidth = tex.width;
           if (svg.isEmpty) {
@@ -164,13 +165,14 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
               style: TextStyle(color: Colors.red, fontSize: defaultFontSize),
             );
           } else {
+            // TODO: tex.setColor(...);
             contents = RichText(
                 text: WidgetSpan(
                     alignment: PlaceholderAlignment.middle,
                     child: SvgPicture.string(
                       svg,
                       width: svgWidth.toDouble(),
-                      color: matheBuddyRed,
+                      color: feedbackColor,
                     )));
           }
           /*contents = Text(inputFieldData.studentValue,
