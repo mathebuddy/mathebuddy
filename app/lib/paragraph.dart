@@ -118,9 +118,10 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
         }
         var tex = TeX();
         tex.scalingFactor = 1.17;
+        print("... tex src: $texSrc");
         var svg = tex.tex2svg(texSrc);
         var svgWidth = tex.width;
-        if (svg.isEmpty) {
+        if (texSrc.contains("\\sqrt") || svg.isEmpty) {
           return TextSpan(
             text: "${tex.error} ",
             style: TextStyle(color: Colors.red, fontSize: defaultFontSize),
@@ -166,14 +167,12 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
             );
           } else {
             // TODO: tex.setColor(...);
+            tex.setColor(
+                feedbackColor.red, feedbackColor.green, feedbackColor.blue);
             contents = RichText(
                 text: WidgetSpan(
                     alignment: PlaceholderAlignment.middle,
-                    child: SvgPicture.string(
-                      svg,
-                      width: svgWidth.toDouble(),
-                      color: feedbackColor,
-                    )));
+                    child: SvgPicture.string(svg, width: svgWidth.toDouble())));
           }
           /*contents = Text(inputFieldData.studentValue,
               style:
