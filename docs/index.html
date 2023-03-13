@@ -696,11 +696,14 @@
           updatable at runtime. All available libraries, for example
           <code>MathJax</code>, use <code>JavaScript (JS)</code>. Even it is
           feasible to run JS code from Flutter, MathJax has a minified size of
-          nearly 2 MB (would still be OK!). Furthermore, we require conditional
-          code for the JS runtime (dart:js for the web-app, flutter_js for all
-          other platforms), that results in an ugly build process (YES, we know
-          about <code>flutter_tex</code>; but it just is a shell around MathJax
-          and does not provide TextSpan integration).
+          nearly 2 MB (would still be OK!). Furthermore, we would require
+          conditional code for the JS runtime (dart:js for the web-app,
+          flutter_js for all other platforms), that results in an ugly build
+          process.
+        </p>
+        <p>
+          YES, we know about <code>flutter_tex</code>; but it just is a shell
+          around MathJax and does not provide TextSpan integration.
         </p>
 
         <ul>
@@ -997,6 +1000,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1678379698"></script>
+    <script src="js/index.min.js?version=1678703410"></script>
   </body>
 </html>
