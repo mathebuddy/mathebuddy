@@ -34,7 +34,8 @@ do
     echo "[8]  update grammar.txt in lib/*"
     echo "[9]  update file system files (_fs.txt) files in docs/demo/"
     echo "[10] show empty directories recursively"
-    echo "[11] exit"
+    echo "[11] create test bundle of test courses"
+    echo "[12] exit"
     read x
     case $x in
     0)
@@ -105,6 +106,12 @@ do
     10)
         # [10] show empty directories recursively
         find . -type d -empty -print
+        ;;
+    11)
+        # [11] create bundle of test courses
+        cd bin
+        dart bundler/src/bundler.dart bundle-test.txt ../app/assets/bundle-test.json
+        cd ..
         ;;
     *)
         # [*] exit
