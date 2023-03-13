@@ -1,0 +1,2075 @@
+{
+  "__type": {
+    "type": "mathebuddy_bundle"
+  },
+  "definitions": {
+    "debug": "level",
+    "title": "",
+    "author": "",
+    "mbclVersion": 1,
+    "dateModified": 1678735579,
+    "chapters": [
+      {
+        "fileId": "",
+        "title": "",
+        "label": "",
+        "author": "",
+        "posX": -1,
+        "posY": -1,
+        "requires": [],
+        "units": [],
+        "levels": [
+          {
+            "fileId": "",
+            "title": "Definitions",
+            "label": "",
+            "posX": -1,
+            "posY": -1,
+            "requires": [],
+            "items": [
+              {
+                "type": "defDefinition",
+                "title": "Positive",
+                "label": "@def:positive",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "For any integer"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "n"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "text": ","
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "n"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "text": "is"
+                      },
+                      {
+                        "type": "boldText",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "positive"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "text": "if"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "n > 0"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "text": "."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "defTheorem",
+                "title": "The Aristotelian Syllogism",
+                "label": "@thm:socrates",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "If every man is mortal and Socrates is a man, then Socrates is mortal."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "defDefinition",
+                "title": "My definition",
+                "label": "@def:myDef",
+                "error": "subblock type alignCenter is not allowed heresubblock type equation is not allowed heresubblock type paragraph is not allowed here",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Some paragraph text here."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "equations": {
+    "debug": "level",
+    "title": "",
+    "author": "",
+    "mbclVersion": 1,
+    "dateModified": 1678735579,
+    "chapters": [
+      {
+        "fileId": "",
+        "title": "",
+        "label": "",
+        "author": "",
+        "posX": -1,
+        "posY": -1,
+        "requires": [],
+        "units": [],
+        "levels": [
+          {
+            "fileId": "",
+            "title": "Equations",
+            "label": "",
+            "posX": -1,
+            "posY": -1,
+            "requires": [],
+            "items": [
+              {
+                "type": "section",
+                "text": "Inline Equations"
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "An inline equation"
+                  },
+                  {
+                    "type": "inlineMath",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "x ^ 2 + y ^ 2 + \\sqrt ( z )"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "."
+                  }
+                ]
+              },
+              {
+                "type": "section",
+                "text": "Equations"
+              },
+              {
+                "type": "subSection",
+                "text": "Numbered equation"
+              },
+              {
+                "type": "equation",
+                "label": "@myLabel",
+                "text": "a^2 + b^2 = c^2",
+                "id": "888",
+                "equationData": {
+                  "options": [],
+                  "number": 0
+                }
+              },
+              {
+                "type": "subSection",
+                "text": "Equation without number"
+              },
+              {
+                "type": "equation",
+                "label": "@eq:myLabel",
+                "text": "a^2 + b^2 = c^2",
+                "id": "-1",
+                "equationData": {
+                  "options": [],
+                  "number": 0
+                }
+              },
+              {
+                "type": "subSection",
+                "text": "Reference to equations"
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "Refer to"
+                  },
+                  {
+                    "type": "reference",
+                    "label": "myLabel"
+                  },
+                  {
+                    "type": "text",
+                    "text": "."
+                  }
+                ]
+              },
+              {
+                "type": "subSection",
+                "text": "Aligned equations"
+              },
+              {
+                "type": "equation",
+                "text": "(x+1)^2 = (x+1)(x+1)\\\\= x^2 + x + x + 1\\\\= x^2 + 2x + 1",
+                "id": "888",
+                "equationData": {
+                  "options": [
+                    "alignLeft",
+                    "alignEquals"
+                  ],
+                  "number": 0
+                }
+              },
+              {
+                "type": "section",
+                "text": "Abbreviations"
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "Equations may be written in plain TeX code. We introduce some ( optional ) abbreviations for simpler notation."
+                  }
+                ]
+              },
+              {
+                "type": "subSection",
+                "text": "Numbers"
+              },
+              {
+                "type": "paragraph"
+              },
+              {
+                "type": "itemize",
+                "items": [
+                  {
+                    "type": "span",
+                    "items": [
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "\\RR"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "span",
+                    "items": [
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "\\NN"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "span",
+                    "items": [
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "\\ZZ"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "span",
+                    "items": [
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "\\CC"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "subSection",
+                "text": "Matrices"
+              },
+              {
+                "type": "equation",
+                "text": "\\mat{1&1&-2&0 \\\\ -2&0&1&1} \\cdot\\\\\\mat{-3&0&1 \\\\ 0&1&0 \\\\ 1&1&1 \\\\ 2&0&1} =\\\\\\mat{-5&-1&-1 \\\\ 9&1&0}",
+                "id": "888",
+                "equationData": {
+                  "options": [],
+                  "number": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "examples": {
+    "debug": "level",
+    "title": "",
+    "author": "",
+    "mbclVersion": 1,
+    "dateModified": 1678735579,
+    "chapters": [
+      {
+        "fileId": "",
+        "title": "",
+        "label": "",
+        "author": "",
+        "posX": -1,
+        "posY": -1,
+        "requires": [],
+        "units": [],
+        "levels": [
+          {
+            "fileId": "",
+            "title": "Examples",
+            "label": "",
+            "posX": -1,
+            "posY": -1,
+            "requires": [],
+            "items": [
+              {
+                "type": "example",
+                "title": "Addition of complex numbers",
+                "label": "@ex:myExample",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "z_1 = 1 + 3 i ~ ~ z_2 = 2 + 4 i ~ ~ z_1 + z_2 = 3 + 7 i"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "example",
+                "title": "Addition of complex numbers",
+                "label": "@ex:myExample",
+                "error": "subblock type equation is not allowed here",
+                "items": [
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "exercises": {
+    "debug": "level",
+    "title": "",
+    "author": "",
+    "mbclVersion": 1,
+    "dateModified": 1678735579,
+    "chapters": [
+      {
+        "fileId": "",
+        "title": "",
+        "label": "",
+        "author": "",
+        "posX": -1,
+        "posY": -1,
+        "requires": [],
+        "units": [],
+        "levels": [
+          {
+            "fileId": "",
+            "title": "Exercises",
+            "label": "",
+            "posX": -1,
+            "posY": -1,
+            "requires": [],
+            "items": [
+              {
+                "type": "section",
+                "text": "Multiple Choice"
+              },
+              {
+                "type": "exercise",
+                "title": "My Multiple Choice Exercise",
+                "label": "@ex:myMultiChoice",
+                "items": [
+                  {
+                    "type": "multipleChoice",
+                    "items": [
+                      {
+                        "type": "inputField",
+                        "id": "input0",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "text",
+                                "text": "This answer is correct."
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__0"
+                        }
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input1",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "text",
+                                "text": "This answer is incorrect."
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__1"
+                        }
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input2",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "text",
+                                "text": "This answer is correct."
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__2"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "",
+                  "variables": [
+                    "__bool__0",
+                    "__bool__1",
+                    "__bool__2"
+                  ],
+                  "instances": [
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "exercise",
+                "title": "My Multiple Choice Exercise with static order",
+                "label": "@ex:myMultiChoice",
+                "error": "unknown part \"options\"",
+                "items": [
+                  {
+                    "type": "multipleChoice",
+                    "items": [
+                      {
+                        "type": "inputField",
+                        "id": "input3",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "text",
+                                "text": "This answer is correct."
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__0"
+                        }
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input4",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "text",
+                                "text": "This answer is incorrect."
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__1"
+                        }
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input5",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "text",
+                                "text": "This answer is correct."
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__2"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "",
+                  "variables": [
+                    "__bool__0",
+                    "__bool__1",
+                    "__bool__2"
+                  ],
+                  "instances": [
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "exercise",
+                "title": "My dynamic Multiple Choice Exercise",
+                "label": "@ex:myMultiChoice",
+                "items": [
+                  {
+                    "type": "multipleChoice",
+                    "items": [
+                      {
+                        "type": "inputField",
+                        "id": "input6",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "variableReference",
+                                    "id": "x"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "text": ">"
+                                  },
+                                  {
+                                    "type": "variableReference",
+                                    "id": "w"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "c1"
+                        }
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input7",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "variableReference",
+                                    "id": "y"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "text": ">"
+                                  },
+                                  {
+                                    "type": "variableReference",
+                                    "id": "w"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "c2"
+                        }
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input8",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "variableReference",
+                                    "id": "z"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "text": ">"
+                                  },
+                                  {
+                                    "type": "variableReference",
+                                    "id": "w"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "c3"
+                        }
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input9",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "1 > 0"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__0"
+                        }
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input10",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "1 < 0"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__1"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "let x/y/z/w = rand(10,20);    \nlet c1 = x > w;\nlet c2 = y > w;\nlet c3 = z > w;",
+                  "variables": [
+                    "x",
+                    "y",
+                    "z",
+                    "w",
+                    "c1",
+                    "c2",
+                    "c3",
+                    "__bool__0",
+                    "__bool__1"
+                  ],
+                  "instances": [
+                    {
+                      "x": "17",
+                      "@x": "rand(10,20)",
+                      "y": "20",
+                      "@y": "rand(10,20)",
+                      "z": "10",
+                      "@z": "rand(10,20)",
+                      "w": "16",
+                      "@w": "rand(10,20)",
+                      "c1": "true",
+                      "@c1": "(17>16)",
+                      "c2": "true",
+                      "@c2": "(20>16)",
+                      "c3": "false",
+                      "@c3": "(10>16)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "x": "16",
+                      "@x": "rand(10,20)",
+                      "y": "13",
+                      "@y": "rand(10,20)",
+                      "z": "17",
+                      "@z": "rand(10,20)",
+                      "w": "18",
+                      "@w": "rand(10,20)",
+                      "c1": "false",
+                      "@c1": "(16>18)",
+                      "c2": "false",
+                      "@c2": "(13>18)",
+                      "c3": "false",
+                      "@c3": "(17>18)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "x": "11",
+                      "@x": "rand(10,20)",
+                      "y": "10",
+                      "@y": "rand(10,20)",
+                      "z": "19",
+                      "@z": "rand(10,20)",
+                      "w": "18",
+                      "@w": "rand(10,20)",
+                      "c1": "false",
+                      "@c1": "(11>18)",
+                      "c2": "false",
+                      "@c2": "(10>18)",
+                      "c3": "true",
+                      "@c3": "(19>18)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "section",
+                "text": "Single Choice"
+              },
+              {
+                "type": "exercise",
+                "title": "My Single Choice Exercise",
+                "label": "@ex:mySingleChoice",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "singleChoice",
+                        "items": [
+                          {
+                            "type": "inputField",
+                            "id": "input11",
+                            "items": [
+                              {
+                                "type": "span",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "This answer is correct."
+                                  }
+                                ]
+                              }
+                            ],
+                            "inputFieldData": {
+                              "type": "bool",
+                              "variableId": "__bool__0"
+                            }
+                          },
+                          {
+                            "type": "inputField",
+                            "id": "input12",
+                            "items": [
+                              {
+                                "type": "span",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "This answer is incorrect."
+                                  }
+                                ]
+                              }
+                            ],
+                            "inputFieldData": {
+                              "type": "bool",
+                              "variableId": "__bool__1"
+                            }
+                          },
+                          {
+                            "type": "inputField",
+                            "id": "input13",
+                            "items": [
+                              {
+                                "type": "span",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "This answer is incorrect."
+                                  }
+                                ]
+                              }
+                            ],
+                            "inputFieldData": {
+                              "type": "bool",
+                              "variableId": "__bool__2"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "",
+                  "variables": [
+                    "__bool__0",
+                    "__bool__1",
+                    "__bool__2"
+                  ],
+                  "instances": [
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "false"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "false"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "false"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "section",
+                "text": "Randomized Exercises"
+              },
+              {
+                "type": "exercise",
+                "title": "Addition",
+                "label": "@ex:add",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Calculate"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "variableReference",
+                            "id": "x"
+                          },
+                          {
+                            "type": "text",
+                            "text": "+"
+                          },
+                          {
+                            "type": "variableReference",
+                            "id": "y"
+                          },
+                          {
+                            "type": "text",
+                            "text": "="
+                          }
+                        ]
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input14",
+                        "inputFieldData": {
+                          "type": "int",
+                          "variableId": "z"
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "text": "."
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "let x/y = rand(1, 5);\nlet z = x + y;",
+                  "variables": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "instances": [
+                    {
+                      "x": "5",
+                      "@x": "rand(1,5)",
+                      "y": "3",
+                      "@y": "rand(1,5)",
+                      "z": "8",
+                      "@z": "(5+3)"
+                    },
+                    {
+                      "x": "5",
+                      "@x": "rand(1,5)",
+                      "y": "1",
+                      "@y": "rand(1,5)",
+                      "z": "6",
+                      "@z": "(5+1)"
+                    },
+                    {
+                      "x": "4",
+                      "@x": "rand(1,5)",
+                      "y": "1",
+                      "@y": "rand(1,5)",
+                      "z": "5",
+                      "@z": "(4+1)"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "exercise",
+                "title": "Matrix Multiplication",
+                "label": "@ex:add-mul",
+                "error": "there is no variable \"z\". ",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Calculate"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "x \\cdot y ="
+                          }
+                        ]
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input15",
+                        "inputFieldData": {
+                          "type": "none",
+                          "variableId": "z"
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "text": "."
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "let x:y = rand<2,2>(1, 5);\nlet z = x * y;",
+                  "variables": [],
+                  "instances": []
+                }
+              },
+              {
+                "type": "section",
+                "text": "Exercise with button answers"
+              },
+              {
+                "type": "exercise",
+                "title": "Multiplication",
+                "label": "ex16",
+                "error": "unknown part \"options\"",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Calculate"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "variableReference",
+                            "id": "x"
+                          },
+                          {
+                            "type": "text",
+                            "text": "*"
+                          },
+                          {
+                            "type": "variableReference",
+                            "id": "y"
+                          },
+                          {
+                            "type": "text",
+                            "text": "="
+                          }
+                        ]
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input17",
+                        "inputFieldData": {
+                          "type": "int",
+                          "variableId": "z"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "let x/y = rand(10,20);\nlet z = x * y;",
+                  "variables": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "instances": [
+                    {
+                      "x": "11",
+                      "@x": "rand(10,20)",
+                      "y": "14",
+                      "@y": "rand(10,20)",
+                      "z": "154",
+                      "@z": "(11*14)"
+                    },
+                    {
+                      "x": "16",
+                      "@x": "rand(10,20)",
+                      "y": "15",
+                      "@y": "rand(10,20)",
+                      "z": "240",
+                      "@z": "(16*15)"
+                    },
+                    {
+                      "x": "20",
+                      "@x": "rand(10,20)",
+                      "y": "13",
+                      "@y": "rand(10,20)",
+                      "z": "260",
+                      "@z": "(20*13)"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "exercise",
+                "title": "Simple Integration",
+                "label": "@ex:intSimple",
+                "error": "there is no variable \"F\". ",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Solve"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "\\int ( x ^ 2 + 7 ) \\dx ="
+                          }
+                        ]
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input18",
+                        "inputFieldData": {
+                          "type": "none",
+                          "variableId": "F"
+                        }
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "text",
+                            "text": "+ C"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "F(x) = 1/3*x^3 + 7*x",
+                  "variables": [],
+                  "instances": []
+                }
+              },
+              {
+                "type": "section",
+                "text": "Scoring"
+              },
+              {
+                "type": "exercise",
+                "title": "Scoring example",
+                "label": "ex19",
+                "error": "unknown part \"options\"",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Calculate"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "variableReference",
+                            "id": "a"
+                          },
+                          {
+                            "type": "text",
+                            "text": "! ="
+                          }
+                        ]
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input20",
+                        "inputFieldData": {
+                          "type": "int",
+                          "variableId": "fa"
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "text": " Calculate"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "variableReference",
+                            "id": "b"
+                          },
+                          {
+                            "type": "text",
+                            "text": "! ="
+                          }
+                        ]
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input21",
+                        "inputFieldData": {
+                          "type": "int",
+                          "variableId": "fb"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "let a = rand(2,4);\nlet b = rand(5,8)\nlet fa = fac(a);\nlet fb = fac(b);",
+                  "variables": [
+                    "a",
+                    "b",
+                    "fa",
+                    "fb"
+                  ],
+                  "instances": [
+                    {
+                      "a": "3",
+                      "@a": "rand(2,4)",
+                      "b": "5",
+                      "@b": "rand(5,8)",
+                      "fa": "6",
+                      "@fa": "fac(3)",
+                      "fb": "120",
+                      "@fb": "fac(5)"
+                    },
+                    {
+                      "a": "4",
+                      "@a": "rand(2,4)",
+                      "b": "8",
+                      "@b": "rand(5,8)",
+                      "fa": "24",
+                      "@fa": "fac(4)",
+                      "fb": "40320",
+                      "@fb": "fac(8)"
+                    },
+                    {
+                      "a": "2",
+                      "@a": "rand(2,4)",
+                      "b": "8",
+                      "@b": "rand(5,8)",
+                      "fa": "2",
+                      "@fa": "fac(2)",
+                      "fb": "40320",
+                      "@fb": "fac(8)"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "section",
+                "text": "Gap Exercise"
+              },
+              {
+                "type": "exercise",
+                "title": "My Gap Exercise",
+                "label": "@ex:myLabel",
+                "error": "no variable for input field given. ",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Garfield is a"
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input22",
+                        "inputFieldData": {
+                          "type": "none",
+                          "variableId": ""
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "text": "cat. Rain is"
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input23",
+                        "inputFieldData": {
+                          "type": "none",
+                          "variableId": ""
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "text": "wet."
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "",
+                  "variables": [],
+                  "instances": []
+                }
+              },
+              {
+                "type": "section",
+                "text": "Arrangement Exercise"
+              },
+              {
+                "type": "exercise",
+                "title": "Title",
+                "label": "@ex:label",
+                "error": "no variable for input field given. ",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Arrange the following numbers to get the first numbers of the Fibonacci sequence:"
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input24",
+                        "inputFieldData": {
+                          "type": "none",
+                          "variableId": ""
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "text": ": order ( s, f )"
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "let n = rand(5,10);         \nlet f = zeros<1,n>();       \nf[1] = 1;                   \nfor (let i=2; i<n; i++) {   \nf[i] = f[i-2] + f[i-1];\n}",
+                  "variables": [],
+                  "instances": []
+                }
+              },
+              {
+                "type": "section",
+                "text": "Timed Exercise"
+              },
+              {
+                "type": "exercise",
+                "title": "Title",
+                "label": "@ex:label",
+                "error": "unknown part \"options\"",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Calculate"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "items": [
+                          {
+                            "type": "variableReference",
+                            "id": "x"
+                          },
+                          {
+                            "type": "text",
+                            "text": "+"
+                          },
+                          {
+                            "type": "variableReference",
+                            "id": "y"
+                          },
+                          {
+                            "type": "text",
+                            "text": "="
+                          }
+                        ]
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input25",
+                        "inputFieldData": {
+                          "type": "int",
+                          "variableId": "z"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "exerciseData": {
+                  "code": "let x:y = rand(20,50);\nlet z = x + y;",
+                  "variables": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "instances": [
+                    {
+                      "x": "39",
+                      "@x": "rand(20,50)",
+                      "y": "20",
+                      "@y": "rand(20,50)",
+                      "z": "59",
+                      "@z": "(39+20)"
+                    },
+                    {
+                      "x": "38",
+                      "@x": "rand(20,50)",
+                      "y": "42",
+                      "@y": "rand(20,50)",
+                      "z": "80",
+                      "@z": "(38+42)"
+                    },
+                    {
+                      "x": "39",
+                      "@x": "rand(20,50)",
+                      "y": "38",
+                      "@y": "rand(20,50)",
+                      "z": "77",
+                      "@z": "(39+38)"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "figures": {
+    "debug": "level",
+    "title": "",
+    "author": "",
+    "mbclVersion": 1,
+    "dateModified": 1678735579,
+    "chapters": [
+      {
+        "fileId": "",
+        "title": "",
+        "label": "",
+        "author": "",
+        "posX": -1,
+        "posY": -1,
+        "requires": [],
+        "units": [],
+        "levels": [
+          {
+            "fileId": "",
+            "title": "Figures",
+            "label": "",
+            "posX": -1,
+            "posY": -1,
+            "requires": [],
+            "items": [
+              {
+                "type": "section",
+                "text": "Function Plots"
+              },
+              {
+                "type": "figure",
+                "error": "non-existing variable #fig0",
+                "figureData": {
+                  "filePath": "",
+                  "data": "",
+                  "caption": [
+                    {
+                      "type": "paragraph",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "Some"
+                        },
+                        {
+                          "type": "text",
+                          "text": "functions"
+                        }
+                      ]
+                    }
+                  ],
+                  "options": [
+                    "width75"
+                  ]
+                }
+              },
+              {
+                "type": "section",
+                "text": "Figures"
+              },
+              {
+                "type": "figure",
+                "figureData": {
+                  "filePath": "images/myImage.svg",
+                  "data": "",
+                  "caption": [],
+                  "options": [
+                    "width75"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "hello": {
+    "debug": "level",
+    "title": "",
+    "author": "",
+    "mbclVersion": 1,
+    "dateModified": 1678735579,
+    "chapters": [
+      {
+        "fileId": "",
+        "title": "",
+        "label": "",
+        "author": "",
+        "posX": -1,
+        "posY": -1,
+        "requires": [],
+        "units": [],
+        "levels": [
+          {
+            "fileId": "",
+            "title": "Hello World",
+            "label": "",
+            "posX": -1,
+            "posY": -1,
+            "requires": [],
+            "items": [
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "Hello world from math buddy!"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "tables": {
+    "debug": "level",
+    "title": "",
+    "author": "",
+    "mbclVersion": 1,
+    "dateModified": 1678735579,
+    "chapters": [
+      {
+        "fileId": "",
+        "title": "",
+        "label": "",
+        "author": "",
+        "posX": -1,
+        "posY": -1,
+        "requires": [],
+        "units": [],
+        "levels": [
+          {
+            "fileId": "",
+            "title": "Tables",
+            "label": "",
+            "posX": -1,
+            "posY": -1,
+            "requires": [],
+            "items": [
+              {
+                "type": "table",
+                "title": "Negation",
+                "tableData": {
+                  "head": {
+                    "columns": [
+                      {
+                        "type": "paragraph",
+                        "items": [
+                          {
+                            "type": "inlineMath",
+                            "items": [
+                              {
+                                "type": "text",
+                                "text": "A"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "items": [
+                          {
+                            "type": "inlineMath",
+                            "items": [
+                              {
+                                "type": "text",
+                                "text": "\\"
+                              },
+                              {
+                                "type": "text",
+                                "text": "not"
+                              },
+                              {
+                                "type": "text",
+                                "text": "A"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "rows": [
+                    {
+                      "columns": [
+                        {
+                          "type": "paragraph",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "w"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "paragraph",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "f"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "columns": [
+                        {
+                          "type": "paragraph",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "f"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "paragraph",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "w"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "options": [
+                    "alignLeft"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "typography": {
+    "debug": "level",
+    "title": "",
+    "author": "",
+    "mbclVersion": 1,
+    "dateModified": 1678735579,
+    "chapters": [
+      {
+        "fileId": "",
+        "title": "",
+        "label": "",
+        "author": "",
+        "posX": -1,
+        "posY": -1,
+        "requires": [],
+        "units": [],
+        "levels": [
+          {
+            "fileId": "",
+            "title": "Typography",
+            "label": "",
+            "posX": -1,
+            "posY": -1,
+            "requires": [],
+            "items": [
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "This is text within a paragraph. Even this text stands in a new line, it is compiled to be written directly behind the last line."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "An empty line starts a new paragraph."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "This text is displayed in the output."
+                  }
+                ]
+              },
+              {
+                "type": "section",
+                "label": "sec:mySection",
+                "text": "My section"
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "Some text in"
+                  },
+                  {
+                    "type": "color",
+                    "id": "1",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "red"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "color."
+                  }
+                ]
+              },
+              {
+                "type": "subSection",
+                "label": "subsec:mySubSection",
+                "text": "My subsection"
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "Refer to"
+                  },
+                  {
+                    "type": "reference",
+                    "label": "mySection"
+                  },
+                  {
+                    "type": "text",
+                    "text": "."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "An itemization:"
+                  }
+                ]
+              },
+              {
+                "type": "itemize",
+                "items": [
+                  {
+                    "type": "span",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "first item"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "span",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "second item"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "An enumeration"
+                  }
+                ]
+              },
+              {
+                "type": "enumerate",
+                "items": [
+                  {
+                    "type": "span",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "first item"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "span",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "second item"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "An alpha enumeration"
+                  }
+                ]
+              },
+              {
+                "type": "enumerateAlpha",
+                "items": [
+                  {
+                    "type": "span",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "first item"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "span",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "second item"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "newPage"
+              },
+              {
+                "type": "subSection",
+                "text": "Bold, italic and colored text"
+              },
+              {
+                "type": "paragraph",
+                "items": [
+                  {
+                    "type": "text",
+                    "text": "Some"
+                  },
+                  {
+                    "type": "boldText",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "bold"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "text. Some"
+                  },
+                  {
+                    "type": "italicText",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "italic"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "text. The word"
+                  },
+                  {
+                    "type": "color",
+                    "id": "1",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "sky"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "is written in primary color."
+                  },
+                  {
+                    "type": "color",
+                    "id": "2",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Some text written in the secondary color."
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": ". You can also write"
+                  },
+                  {
+                    "type": "boldText",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "bold text"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "and"
+                  },
+                  {
+                    "type": "italicText",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "italic text"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "similar to color notation."
+                  }
+                ]
+              },
+              {
+                "type": "subSection",
+                "text": "Text alignment"
+              },
+              {
+                "type": "alignCenter",
+                "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "This text is centered."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
