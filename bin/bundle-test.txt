@@ -1,0 +1,11 @@
+# this file contains all test courses/levels that are copied to the simulator
+# format: "ID: PATH"
+
+definitions:../../mathebuddy-public-courses/demo-basic/definitions.mbl
+equations:../../mathebuddy-public-courses/demo-basic/equations.mbl
+examples:../../mathebuddy-public-courses/demo-basic/examples.mbl
+exercises:../../mathebuddy-public-courses/demo-basic/exercises.mbl
+figures:../../mathebuddy-public-courses/demo-basic/figures.mbl
+hello:../../mathebuddy-public-courses/demo-basic/hello.mbl
+tables:../../mathebuddy-public-courses/demo-basic/tables.mbl
+typography:../../mathebuddy-public-courses/demo-basic/typography.mbl
