@@ -54,7 +54,10 @@ class KeyboardState {
 }
 
 class CoursePageState extends State<CoursePage> {
-  String _courseData = '';
+  Map<String, dynamic> _bundleDataJson = {};
+  Map<String, dynamic> _courses = {};
+
+  //String _courseData = '';
   MbclCourse? _course;
   MbclChapter? _chapter;
   MbclLevel? _level;
@@ -64,11 +67,29 @@ class CoursePageState extends State<CoursePage> {
   @override
   void initState() {
     super.initState();
+    _reloadCourseBundle();
   }
 
   void _selectCourse(String path) async {
-    print("_getCourseDataDEBUG:");
-    if (path == "DEBUG" &&
+    var courseDataJson = Map<String, dynamic>();
+    if (path == "DEBUG") {
+      if (html.document.getElementById('course-data-span') != null &&
+          ((html.document.getElementById('course-data-span')
+                      as html.SpanElement)
+                  .innerHtml as String)
+              .isNotEmpty) {
+        var courseDataStr = html.document
+            .getElementById('course-data-span')
+            ?.innerHtml as String;
+        courseDataJson = jsonDecode(courseDataStr);
+        //print(courseDataStr);
+      } else {
+        return;
+      }
+    } else {
+      courseDataJson = _bundleDataJson[path];
+    }
+    /*if (path == "DEBUG" &&
         html.document.getElementById('course-data-span') != null &&
         ((html.document.getElementById('course-data-span') as html.SpanElement)
                 .innerHtml as String)
@@ -76,23 +97,42 @@ class CoursePageState extends State<CoursePage> {
       _courseData =
           html.document.getElementById('course-data-span')?.innerHtml as String;
     } else {
-      if (path == "DEBUG") path = "assets/hello_COMPILED.json";
-      _courseData =
-          await DefaultAssetBundle.of(context).loadString(path, cache: false);
-    }
-    print("received course: ");
-    print(_courseData);
-    if (_courseData.isNotEmpty) {
-      var courseDataJson = jsonDecode(_courseData);
-      _course = MbclCourse();
-      _course?.fromJSON(courseDataJson);
-      var course = _course as MbclCourse;
-      print("course title ${course.title}");
-      if (course.debug == MbclCourseDebug.level) {
-        _chapter = _course?.chapters[0];
-        _level = _chapter?.levels[0];
+      if (path == "DEBUG") {
+        // TODO!!
+        path = "assets/hello_COMPILED.json";
       }
+      //_courseData =
+      //    await DefaultAssetBundle.of(context).loadString(path, cache: false);
+    }*/
+    print("selected course: ");
+    print(courseDataJson);
+    //if (_courseData.isNotEmpty) {
+    //  var courseDataJson = jsonDecode(_courseData);
+    _course = MbclCourse();
+    _course?.fromJSON(courseDataJson);
+    var course = _course as MbclCourse;
+    print("course title ${course.title}");
+    if (course.debug == MbclCourseDebug.level) {
+      _chapter = _course?.chapters[0];
+      _level = _chapter?.levels[0];
     }
+    //}
+    setState(() {});
+  }
+
+  void _reloadCourseBundle() async {
+    _bundleDataJson = {};
+    var bundleDataStr = await DefaultAssetBundle.of(context)
+        .loadString('assets/bundle-test.json', cache: false);
+    _bundleDataJson = jsonDecode(bundleDataStr);
+    //print(bundleDataJson);
+    _courses = {'DEBUG': ''};
+    _bundleDataJson.forEach((key, value) {
+      if (key != '__type') {
+        _courses[key] = value;
+      }
+    });
+    print('list of courses: ${_courses.keys}');
     setState(() {});
   }
 
@@ -107,16 +147,8 @@ class CoursePageState extends State<CoursePage> {
 
     List<Widget> page = [];
     if (_level == null) {
-      var courses = [
-        'assets/definitions_COMPILED.json',
-        'assets/equations_COMPILED.json',
-        'assets/examples_COMPILED.json',
-        'assets/exercises-simple_COMPILED.json',
-        'assets/typography_COMPILED.json',
-        'DEBUG'
-      ];
       List<TableRow> tableRows = [];
-      for (var course in courses) {
+      for (var course in _courses.keys) {
         tableRows.add(TableRow(children: [
           TableCell(
             child: GestureDetector(
@@ -146,15 +178,6 @@ class CoursePageState extends State<CoursePage> {
       var contents = Column(children: [logo, coursesTable]);
 
       body = SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
-      /*Container(
-              //color: Colors.white,
-              alignment: Alignment.topLeft,
-              margin: EdgeInsets.only(left: 3.0, right: 3.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: rows,
-              ))*/
     } else {
       var level = _level as MbclLevel;
       page.add(Padding(
@@ -265,6 +288,7 @@ class CoursePageState extends State<CoursePage> {
           Text('  '),
           IconButton(
             onPressed: () {
+              _reloadCourseBundle();
               _level = null;
               keyboardState.layout = null;
               setState(() {});
