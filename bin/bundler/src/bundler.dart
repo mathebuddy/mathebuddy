@@ -13,7 +13,8 @@ String loadFile(String path) {
   try {
     return File(path).readAsStringSync();
   } catch (e) {
-    print("ERROR: file $path does not exist!");
+    print("ERROR: file '$path' does not exist"
+        " (current directory is '${Directory.current.path}')!");
     exit(-1);
   }
 }
