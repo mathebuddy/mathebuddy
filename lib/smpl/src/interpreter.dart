@@ -8,7 +8,7 @@ import '../../math-runtime/src/operand.dart';
 import '../../math-runtime/src/term.dart';
 import '../../math-runtime/src/parse.dart' as term_parser;
 
-import 'parser.dart';
+import 'node.dart';
 
 class InterpreterSymbol {
   String id = '';
@@ -17,7 +17,12 @@ class InterpreterSymbol {
 }
 
 class Interpreter {
+  /// Symbol table. The map maps identifiers to values. The list represents
+  /// scopes. Initially, there is one global scope.
+  /// For example, the declarations within a loop represent an own scope,
+  /// that is valid until the end of the loop.
   List<Map<String, InterpreterSymbol>> _symbolTable = [];
+
   final term_parser.Parser _termParser = term_parser.Parser();
 
   Interpreter() {
@@ -108,8 +113,25 @@ class Interpreter {
       } else if (ifCond.statementsFalse != null) {
         _run(ifCond.statementsFalse as StatementList);
       }
+    } else if (node is Figure) {
+      // ----- figure -----
+      var figure = node;
+      var functionIDs = figure.getReferencesFunctionIDs();
+      Map<String, InterpreterSymbol> functionSymbols = {};
+      for (var functionID in functionIDs) {
+        var symbol = _getSymbol(functionID);
+        if (symbol == null) {
+          _error('figure accesses unknown function $functionID');
+        } else {
+          functionSymbols[functionID] = symbol;
+        }
+      }
+      InterpreterSymbol? figureSymbol;
+      figureSymbol = _addSymbol('__figure');
+      var svg = figure.generateSVG(functionSymbols);
+      figureSymbol.value = Operand.createString(svg);
     } else {
-      throw Exception('unimplemented');
+      throw Exception('unimplemented AstNode type ${node.runtimeType}');
     }
   }
 
