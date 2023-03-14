@@ -101,7 +101,7 @@ Term diffTerm(Term term, String varId) {
       ], []);
       break;
     case '\$':
-      t = Term.createConstInt(term.value.id == varId ? 1 : 0);
+      t = Term.createConstInt(term.value.text == varId ? 1 : 0);
       break;
     case '#':
       if (term.value.type == OperandType.int ||
