@@ -181,7 +181,7 @@ class Term {
   }
 
   void substituteVariableByOperand(String id, Operand o) {
-    if (op == '\$' && value.id == id) {
+    if (op == '\$' && value.text == id) {
       op = '#';
       value = o.clone();
     }
@@ -192,7 +192,7 @@ class Term {
   }
 
   void substituteVariableByTerm(String id, Term t) {
-    if (op == '\$' && value.id == id) {
+    if (op == '\$' && value.text == id) {
       op = t.op;
       o = t.o;
       value = t.value.clone();
@@ -206,7 +206,7 @@ class Term {
   /// Returns the set of variable IDs that are actually used in the term.
   Set<String> getVariableIDs() {
     Set<String> vars = {};
-    if (op == '\$') vars.add(value.id);
+    if (op == '\$') vars.add(value.text);
     for (var i = 0; i < o.length; i++) {
       var oi = o[i];
       vars.addAll(oi.getVariableIDs());
