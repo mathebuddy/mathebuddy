@@ -18,7 +18,8 @@ enum OperandType {
   vector,
   matrix,
   set,
-  identifier
+  identifier,
+  string,
 }
 
 class Operand {
@@ -29,7 +30,7 @@ class Operand {
   num imag = 0;
   int rows = 1;
   int cols = 1;
-  String id = ''; // used for IDENTIFIER and IRRATIONAL ("pi","e",...)
+  String text = ''; // used for IDENTIFIER and IRRATIONAL ("pi","e",...)
   List<Operand> items = []; // vector, set, matrix elements
 
   Operand clone() {
@@ -40,7 +41,7 @@ class Operand {
     c.imag = imag;
     c.rows = rows;
     c.cols = cols;
-    c.id = id;
+    c.text = text;
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
       c.items.add(item.clone());
@@ -114,14 +115,14 @@ class Operand {
     if (['pi', 'e'].contains(irr) == false) {
       throw Exception('Operand.createIrrational(..): unknown symbol $irr');
     }
-    o.id = irr;
+    o.text = irr;
     return o;
   }
 
   static Operand createIrrationalE() {
     var o = Operand();
     o.type = OperandType.irrational;
-    o.id = 'e';
+    o.text = 'e';
     return o;
   }
 
@@ -143,6 +144,13 @@ class Operand {
     for (var i = 0; i < n; i++) {
       o.items.add(Operand.createInt(0));
     }
+    return o;
+  }
+
+  static Operand createString(String text) {
+    var o = Operand();
+    o.type = OperandType.string;
+    o.text = text;
     return o;
   }
 
@@ -194,7 +202,7 @@ class Operand {
   static Operand createIdentifier(String str) {
     var o = Operand();
     o.type = OperandType.identifier;
-    o.id = str;
+    o.text = str;
     return o;
   }
 
@@ -355,12 +363,16 @@ class Operand {
     var o = Operand();
     if (x.type == OperandType.int && y.type == OperandType.int) {
       o.type = OperandType.int;
-      o.real = math.pow(x.real, y.real);
+      o.real = math.pow(x.real, y.real).round();
     } else if (x.type == OperandType.rational && y.type == OperandType.int) {
       o.type = OperandType.rational;
       o.real = math.pow(x.real, y.real);
       o.denominator = math.pow(x.denominator, y.real);
       o._reduce();
+    } else if ((x.type == OperandType.int || x.type == OperandType.real) &&
+        (y.type == OperandType.int || y.type == OperandType.real)) {
+      o.type = OperandType.real;
+      o.real = math.pow(x.real, y.real);
     } else if ((x.type == OperandType.real || x.type == OperandType.complex) &&
         (y.type == OperandType.real || y.type == OperandType.complex)) {
       throw Exception('unimplemented');
@@ -430,7 +442,7 @@ class Operand {
         return '{${items.map((x) => x.toString()).join(',')}}';
       case OperandType.identifier:
       case OperandType.irrational:
-        return id;
+        return text;
       case OperandType.vector:
         {
           var s = '[';
@@ -455,6 +467,10 @@ class Operand {
           }
           s += ']';
           return s;
+        }
+      case OperandType.string:
+        {
+          return '"$text"';
         }
       default:
         throw Exception(
