@@ -11,28 +11,28 @@ void postProcessLevelItem(MbclLevelItem levelItem) {
     var item = levelItem.items[i];
     postProcessLevelItem(item);
   }
-  switch (levelItem.type) {
-    case MbclLevelItemType.alignCenter:
-    case MbclLevelItemType.alignLeft:
-    case MbclLevelItemType.alignRight:
-    case MbclLevelItemType.boldText:
-    case MbclLevelItemType.color:
-    case MbclLevelItemType.enumerate:
-    case MbclLevelItemType.enumerateAlpha:
-    case MbclLevelItemType.inlineMath:
-    case MbclLevelItemType.italicText:
-    case MbclLevelItemType.itemize:
-    case MbclLevelItemType.paragraph:
-    case MbclLevelItemType.span:
-    case MbclLevelItemType.exercise:
-      aggregateText(levelItem.items);
-      //if (levelItem.type == MbclLevelItemType.paragraph) {
-      aggregateMultipleChoice(levelItem.items);
-      aggregateSingleChoice(levelItem.items);
-      //}
-      break;
-    default:
-      break;
+  aggregateText(levelItem.items);
+  aggregateMultipleChoice(levelItem.items);
+  aggregateSingleChoice(levelItem.items);
+  // figure data
+  if (levelItem.figureData != null) {
+    var data = levelItem.figureData as MbclFigureData;
+    for (var captionItem in data.caption) {
+      postProcessLevelItem(captionItem);
+    }
+  }
+  // table data
+  if (levelItem.tableData != null) {
+    var data = levelItem.tableData as MbclTableData;
+    // TODO: data.caption
+    for (var column in data.head.columns) {
+      postProcessLevelItem(column);
+    }
+    for (var row in data.rows) {
+      for (var column in row.columns) {
+        postProcessLevelItem(column);
+      }
+    }
   }
 }
 
@@ -51,7 +51,7 @@ void aggregateText(List<MbclLevelItem> items) {
         items[i - 1].type == MbclLevelItemType.text &&
         items[i].type == MbclLevelItemType.text) {
       var text = items[i].text;
-      if ('.,:!?'.contains(text) == false) {
+      if ('.,:!?)'.contains(text) == false) {
         text = ' $text';
       }
       items[i - 1].text += text;
