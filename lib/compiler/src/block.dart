@@ -7,6 +7,7 @@
 import '../../mbcl/src/level_item.dart';
 
 import '../../smpl/src/parser.dart' as smpl_parser;
+import '../../smpl/src/node.dart' as smpl_node;
 import '../../smpl/src/interpreter.dart' as smpl_interpreter;
 
 import 'compiler.dart';
@@ -213,21 +214,22 @@ class Block {
           break;
         case 'code':
           {
+            data.code = part.lines.join('\n');
             // TODO: stop in case of infinite loops after some seconds!
             //var code = part.lines.join('\n');
             try {
-              print("ERROR: _processFigure NOT IMPLEMENTED");
-              /*var parser = new smplParser.Parser();
-              parser.parse(code);
-              var ic = parser.getAbstractSyntaxTree() as smplParser.AST_Node;
-              var interpreter = new smplInterpreter.Interpreter();
+              var parser = smpl_parser.Parser();
+              parser.parse(data.code);
+              var ic = parser.getAbstractSyntaxTree() as smpl_node.AstNode;
+              var interpreter = smpl_interpreter.Interpreter();
               var symbols = interpreter.runProgram(ic);
-              for (var key in symbols.keys) {
-                var sym = symbols[key] as smplInterpreter.InterpreterSymbol;
-                if (sym.value.type == OperandType.FIGURE_2D) {
-                  plotData[sym.id] = sym.value.toString();
-                }
-              }*/
+              if (symbols.containsKey('__figure') == false) {
+                figure.error += 'code does generate a figure';
+              } else {
+                var figureSymbol =
+                    symbols['__figure'] as smpl_interpreter.InterpreterSymbol;
+                data.data = figureSymbol.value.text;
+              }
             } catch (e) {
               figure.error += e.toString();
             }
@@ -237,7 +239,7 @@ class Block {
           if (part.lines.length != 1) {
             figure.error += 'invalid path';
           } else {
-            // TODO: check if path exists!
+            /*// TODO: check if path exists!
             var line = part.lines[0].trim();
             if (line.startsWith('#')) {
               var variableId = line.substring(1);
@@ -246,8 +248,12 @@ class Block {
               } else {
                 figure.error += 'non-existing variable $line';
               }
-            } else {
-              data.filePath = line;
+            } else {*/
+            data.filePath = _compiler.baseDirectory + part.lines[0].trim();
+            data.data = _compiler.loadFile(data.filePath);
+            if (data.data.isEmpty) {
+              figure.error +=
+                  'could not load image file from path "${data.filePath}"';
             }
           }
           break;
@@ -292,7 +298,12 @@ class Block {
     var equation = MbclLevelItem(MbclLevelItemType.equation);
     var data = MbclEquationData();
     equation.equationData = data;
-    equation.id = (numbering ? 888 : -1).toString(); // TODO: number
+    var equationNumber = "-1";
+    if (numbering) {
+      equationNumber = _compiler.equationNumber.toString();
+      _compiler.equationNumber++;
+    }
+    equation.id = equationNumber;
     equation.title = title;
     equation.label = label;
     for (var part in parts) {
@@ -322,7 +333,14 @@ class Block {
           break;
         case 'global':
         case 'text':
-          equation.text += part.lines.join('\\\\');
+          {
+            List<String> nonEmptyLines = [];
+            for (var line in part.lines) {
+              if (line.trim().isEmpty) continue;
+              nonEmptyLines.add(line);
+            }
+            equation.text += nonEmptyLines.join('\\\\');
+          }
           break;
         default:
           equation.error += 'unexpected part "${part.name}"';
@@ -410,7 +428,7 @@ class Block {
             try {
               var parser = smpl_parser.Parser();
               parser.parse(data.code);
-              var ic = parser.getAbstractSyntaxTree() as smpl_parser.AstNode;
+              var ic = parser.getAbstractSyntaxTree() as smpl_node.AstNode;
               var interpreter = smpl_interpreter.Interpreter();
               var symbols = interpreter.runProgram(ic);
               if (i == 0) {
@@ -451,13 +469,15 @@ class Block {
   void _processSubblocks(MbclLevelItem item) {
     for (var sub in subBlocks) {
       sub.process();
-      if (mbclSubBlockWhiteList.containsKey(item.type) &&
-          (mbclSubBlockWhiteList[item.type] as List<MbclLevelItemType>)
+      var type = item.type;
+      if (type.name.startsWith('def')) type = MbclLevelItemType.defDefinition;
+      if (mbclSubBlockWhiteList.containsKey(type) &&
+          (mbclSubBlockWhiteList[type] as List<MbclLevelItemType>)
               .contains(sub.levelItems[0].type)) {
         item.items.addAll(sub.levelItems);
       } else {
-        item.error += 'subblock type ${sub.levelItems[0].type.name}'
-            ' is not allowed here';
+        item.error += 'Error: Subblock type ${sub.levelItems[0].type.name}'
+            ' is not allowed for ${type.name}! ';
       }
     }
   }
