@@ -6,6 +6,7 @@
 
 import 'dart:math';
 
+import 'package:mathebuddy/screen.dart';
 import 'package:tex/tex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,6 +23,9 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
     paragraphPaddingTop = 10.0,
     paragraphPaddingBottom = 5.0,
     MbclExerciseData? exerciseData}) {
+  if (item.error.isNotEmpty) {
+    return generateErrorWidget(item.error);
+  }
   switch (item.type) {
     case MbclLevelItemType.section:
       {
@@ -81,7 +85,8 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         var svg = tex.tex2svg(texSrc);
         var svgWidth = tex.width;
         if (svg.isEmpty) {
-          equationWidget = Text(tex.error);
+          equationWidget = Text('TeX-ERROR: ${tex.error}',
+              style: TextStyle(color: Colors.red));
         } else {
           var eqNumber = int.parse(item.id);
           var eqNumberWidget = Text(eqNumber >= 0 ? '($eqNumber)' : '');
@@ -157,14 +162,6 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
       }
     case MbclLevelItemType.example:
       {
-        if (item.error.isNotEmpty) {
-          return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(item.error, style: TextStyle(color: Colors.red))
-              ]);
-        }
         List<Widget> list = [];
         // TODO: icon
         var title = Row(children: [
@@ -191,6 +188,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
     case MbclLevelItemType.defDefinition:
     case MbclLevelItemType.defTheorem:
       {
+        // TODO: other MbclLevelItemType.def*
         // TODO: icon
         var prefix = '';
         switch (item.type) {
@@ -207,7 +205,9 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         List<Widget> list = [];
         var title = Row(children: [
           Padding(
-              padding: EdgeInsets.all(3.0),
+              //padding: EdgeInsets.all(3.0),
+              padding: EdgeInsets.only(
+                  left: 3.0, right: 3.0, top: 12.0, bottom: 8.0),
               child: Text('$prefix (${item.title})',
                   style: TextStyle(fontWeight: FontWeight.bold)))
         ]);
@@ -226,18 +226,82 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             mainAxisAlignment: MainAxisAlignment.start,
             children: list);
       }
+    case MbclLevelItemType.figure:
+      {
+        List<Widget> rows = [];
+        var figureData = item.figureData as MbclFigureData;
+        // image
+        var width = 100;
+        for (var option in figureData.options) {
+          switch (option) {
+            case MbclFigureOption.width100:
+              width = 100;
+              break;
+            case MbclFigureOption.width75:
+              width = 75;
+              break;
+            case MbclFigureOption.width66:
+              width = 66;
+              break;
+            case MbclFigureOption.width50:
+              width = 50;
+              break;
+            case MbclFigureOption.width33:
+              width = 33;
+              break;
+            case MbclFigureOption.width25:
+              width = 25;
+              break;
+          }
+        }
+        if (figureData.data.startsWith('<svg') ||
+            figureData.data.startsWith('<?xml')) {
+          rows.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            SvgPicture.string(
+              figureData.data,
+              width: screenWidth * width / 100.0,
+            )
+          ]));
+        }
+        // caption
+        if (figureData.caption.isNotEmpty) {
+          Widget caption = generateLevelItem(state, figureData.caption[0]);
+          rows.add(Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [caption]));
+        }
+        // create column widget
+        return Column(children: rows);
+      }
+    case MbclLevelItemType.table:
+      {
+        var tableData = item.tableData as MbclTableData;
+        List<TableRow> rows = [];
+        // head
+        List<TableCell> headColumns = [];
+        for (var columnData in tableData.head.columns) {
+          var cell = generateLevelItem(state, columnData);
+          headColumns.add(TableCell(child: cell));
+        }
+        rows.add(TableRow(children: headColumns));
+        // rows
+        for (var rowData in tableData.rows) {
+          List<TableCell> columns = [];
+          for (var columnData in rowData.columns) {
+            var cell = generateLevelItem(state, columnData);
+            columns.add(TableCell(child: cell));
+          }
+          rows.add(TableRow(children: columns));
+        }
+        // create table widget
+        return Table(
+            border: TableBorder.all(),
+            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+            children: rows);
+      }
     case MbclLevelItemType.exercise:
       {
         var exerciseData = item.exerciseData as MbclExerciseData;
-        if (item.error.isNotEmpty) {
-          // TODO: check, if item.error is catched everywhere!!!!
-          return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(item.error, style: TextStyle(color: Colors.red))
-              ]);
-        }
         if (exerciseData.runInstanceIdx < 0) {
           exerciseData.runInstanceIdx =
               Random().nextInt(exerciseData.instances.length);
@@ -387,4 +451,11 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         );
       }
   }
+}
+
+Widget generateErrorWidget(String errorText) {
+  return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [Text(errorText, style: TextStyle(color: Colors.red))]);
 }
