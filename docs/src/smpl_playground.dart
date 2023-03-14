@@ -10,6 +10,8 @@ import 'dart:html';
 import '../../lib/smpl/src/interpreter.dart' as smpl_interpreter;
 // ignore: avoid_relative_lib_imports
 import '../../lib/smpl/src/parser.dart' as smpl_parser;
+// ignore: avoid_relative_lib_imports
+import '../../lib/smpl/src/node.dart' as smpl_node;
 
 import 'help.dart';
 
@@ -47,7 +49,7 @@ void runSmplCode(String src) {
     // parse
     parser.parse(src);
     // get and show intermediate code (=: ic)
-    var ast = parser.getAbstractSyntaxTree() as smpl_parser.AstNode;
+    var ast = parser.getAbstractSyntaxTree() as smpl_node.AstNode;
     String astStr = ast.toString(0);
     showIntermediateCode(astStr);
     // get and show variable values
