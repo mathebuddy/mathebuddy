@@ -25,7 +25,7 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
     case MbclLevelItemType.reference:
       {
         return TextSpan(
-            text: "REFERENCES_NOT_YET_IMPLEMENTED",
+            text: "Warning: References are not yet implemented!",
             style: TextStyle(color: Colors.red));
       }
     case MbclLevelItemType.text:
