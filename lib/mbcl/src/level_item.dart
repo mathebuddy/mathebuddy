@@ -160,7 +160,22 @@ enum MbclLevelItemType {
 
 // TODO: fill this list
 Map<MbclLevelItemType, List<MbclLevelItemType>> mbclSubBlockWhiteList = {
-  MbclLevelItemType.exercise: [MbclLevelItemType.equation]
+  MbclLevelItemType.exercise: [
+    //
+    MbclLevelItemType.equation
+  ],
+  MbclLevelItemType.defDefinition: [
+    // also applied for MbclLevelItemType.def*
+    MbclLevelItemType.alignLeft,
+    MbclLevelItemType.alignCenter,
+    MbclLevelItemType.alignRight,
+    MbclLevelItemType.equation,
+    MbclLevelItemType.paragraph,
+  ],
+  MbclLevelItemType.example: [
+    //
+    MbclLevelItemType.equation
+  ]
 };
 
 class MbclEquationData {
@@ -260,6 +275,7 @@ class MbclExerciseData {
 
 class MbclFigureData {
   String filePath = '';
+  String code = '';
   String data = '';
   List<MbclLevelItem> caption = [];
   List<MbclFigureOption> options = [];
@@ -267,6 +283,7 @@ class MbclFigureData {
   Map<String, dynamic> toJSON() {
     return {
       "filePath": filePath,
+      "code": code,
       "data": data,
       "caption": caption.map((e) => e.toJSON()).toList(),
       "options": options.map((e) => e.name).toList()
@@ -275,6 +292,7 @@ class MbclFigureData {
 
   fromJSON(Map<String, dynamic> src) {
     filePath = src["filePath"];
+    code = src["code"];
     data = src["data"];
     int n = src["caption"].length;
     for (var i = 0; i < n; i++) {
@@ -396,7 +414,7 @@ class MbclTableRow {
 
   fromJSON(Map<String, dynamic> src) {
     columns = [];
-    int n = src["columns"];
+    int n = src["columns"].length;
     for (var i = 0; i < n; i++) {
       var column = MbclLevelItem(MbclLevelItemType.error);
       column.fromJSON(src["columns"][i]);
