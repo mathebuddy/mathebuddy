@@ -6,97 +6,10 @@
 
 import 'package:slex/slex.dart';
 
+import 'node.dart';
+
 // Note: terms are parsed at runtime.
 // This is (much) slower than parsing offline, but increases dynamics.
-
-String spaces(int n) {
-  var s = '';
-  for (var i = 0; i < n; i++) {
-    s += '  ';
-  }
-  return s;
-}
-
-abstract class AstNode {
-  int row = -1; // src location
-  AstNode(this.row);
-
-  @override
-  String toString([int indent = 0]);
-}
-
-class StatementList extends AstNode {
-  List<AstNode> statements = [];
-  bool createScope;
-
-  StatementList(super.row, this.createScope);
-
-  @override
-  String toString([int indent = 0]) {
-    var s = '${spaces(indent)}STATEMENT_LIST:'
-        'createScope={$createScope},statements=[\n';
-    s += statements.map((x) => x.toString(indent + 1)).join('');
-    s += '${spaces(indent)}];\n';
-    return s;
-  }
-}
-
-class Assignment extends AstNode {
-  bool createSymbol = true;
-  String lhs = '';
-  String rhs = '';
-  List<String> vars = []; // e.g. "f(x,y)" -> vars = ["x","y"]
-  List<String> independentTo = [];
-
-  Assignment(super.row);
-
-  @override
-  String toString([int indent = 0]) {
-    return ('${spaces(indent)}'
-        'ASSIGNMENT:create=$createSymbol,'
-        'lhs="$lhs",'
-        'rhs="$rhs",'
-        'vars=[${vars.join(',')}],'
-        'independentTo=[${independentTo.join(',')}];\n');
-  }
-}
-
-class IfCond extends AstNode {
-  String condition = '';
-  StatementList? statementsTrue;
-  StatementList? statementsFalse;
-
-  IfCond(super.row);
-
-  @override
-  String toString([int indent = 0]) {
-    var sT = statementsTrue?.toString(indent + 1);
-    var sF =
-        statementsFalse == null ? '' : statementsFalse?.toString(indent + 1);
-    return ('${spaces(indent)}'
-        'IF_COND:condition="$condition",statementsTrue=[\n$sT'
-        '${spaces(indent)}'
-        '],statementsFalse=[\n$sF'
-        '${spaces(indent)}'
-        '];\n');
-  }
-}
-
-class WhileLoop extends AstNode {
-  String condition = '';
-  StatementList? statements;
-
-  WhileLoop(super.row);
-
-  @override
-  String toString([int indent = 0]) {
-    var s = statements?.toString(indent + 1);
-    return ('${spaces(indent)}'
-        'WHILE_LOOP:condition="$condition",statements=[\n$s'
-        '${spaces(indent)}'
-        '];\n');
-  }
-}
 
 class Parser {
   Lexer _lexer = Lexer();
@@ -131,7 +44,7 @@ class Parser {
     return p;
   }
 
-  //G statement = assignment | ifCond | whileLoop;
+  //G statement = assignment | ifCond | whileLoop | figure;
   AstNode _parseStatement() {
     while (_lexer.isTerminal('\n')) {
       _lexer.next();
@@ -143,6 +56,8 @@ class Parser {
         return _parseIfCond();
       case 'while':
         return _parseWhileLoop();
+      case 'figure':
+        return _parseFigure();
     }
     if (_lexer.isIdentifier()) return _parseAssignment();
     _error(
@@ -253,7 +168,7 @@ class Parser {
     return w;
   }
 
-  // block = "{" { statement } "}";
+  //G block = "{" { statement } "}";
   StatementList _parseBlock() {
     var block = StatementList(_lexer.getToken().row, true);
     _lexer.terminal('{');
@@ -266,6 +181,103 @@ class Parser {
     _lexer.terminal('}');
     _consumeEOL();
     return block;
+  }
+
+  //G figure = "figure" "{" { figureStatement } "}";
+  Figure _parseFigure() {
+    var figure = Figure(_lexer.getToken().row);
+    _lexer.terminal("figure");
+    _lexer.terminal("{");
+    while (_lexer.isNotEnd() && _lexer.isNotTerminal('}')) {
+      _consumeEOL();
+      _parseFigureStatement(figure);
+      _consumeEOL();
+    }
+    _consumeEOL();
+    _lexer.terminal("}");
+    _consumeEOL();
+    return figure;
+  }
+
+  //G figureStatement = ("x_axis"|"y_axis") "(" REAL "," REAL "," STR ")" | "function" "(" ID ")" | "color" "(" INT ")" | "circle" "(" REAL "," REAL ";" REAL ")";
+  void _parseFigureStatement(Figure figure) {
+    // TODO: line, rectangle, triangle, ...
+    switch (_lexer.getToken().token) {
+      case "x_axis":
+      case "y_axis":
+        {
+          // TODO: check for valid values! min < max, width > 0, ...
+          var isX = _lexer.getToken().token == "x_axis";
+          _lexer.next();
+          _lexer.terminal("(");
+          var min = _parseRealNumber();
+          _lexer.terminal(",");
+          var max = _parseRealNumber();
+          _lexer.terminal(",");
+          var label = _lexer.string();
+          _lexer.terminal(")");
+          _consumeEOL();
+          if (isX) {
+            figure.minX = min;
+            figure.maxX = max;
+            figure.xLabel = label;
+          } else {
+            figure.minY = min;
+            figure.maxY = max;
+            figure.yLabel = label;
+          }
+          break;
+        }
+      case "function":
+        {
+          var plot = FigurePlot(FigurePlotType.function);
+          figure.plots.add(plot);
+          _lexer.next();
+          _lexer.terminal("(");
+          plot.functionId = _lexer.identifier();
+          _lexer.terminal(")");
+          _consumeEOL();
+          break;
+        }
+      case "circle":
+        {
+          var plot = FigurePlot(FigurePlotType.circle);
+          figure.plots.add(plot);
+          _lexer.next();
+          _lexer.terminal("(");
+          plot.x = _parseRealNumber();
+          _lexer.terminal(",");
+          plot.y = _parseRealNumber();
+          _lexer.terminal(",");
+          plot.radius = _parseRealNumber();
+          _lexer.terminal(")");
+          _consumeEOL();
+          break;
+        }
+      default:
+        {
+          _error(
+            'unexpected token "${_lexer.getToken().token}"',
+            _lexer.getToken(),
+          );
+        }
+    }
+  }
+
+  //G realNumber = ["-"] INT | ["-"] REAL;
+  double _parseRealNumber() {
+    var negative = false;
+    if (_lexer.isTerminal("-")) {
+      _lexer.next();
+      negative = true;
+    }
+    double num = 0.0;
+    if (_lexer.isInteger()) {
+      num = _lexer.integer().toDouble();
+    } else {
+      num = _lexer.realNumber() as double;
+    }
+    return negative ? -num : num;
   }
 
   void _consumeEOL() {
