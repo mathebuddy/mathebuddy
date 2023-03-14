@@ -6,9 +6,11 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:mathebuddy/mbcl/src/level_item.dart';
+
 import 'package:mathebuddy/color.dart';
 import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/screen.dart';
 
 class KeyboardKey {
   var value = ''; // special values: "!B" := backspace, "!E" := enter
@@ -131,8 +133,7 @@ class KeyboardLayout {
 }
 
 class Keyboard {
-  Widget generateWidget(
-      CoursePageState state, KeyboardState keyboardState, double screenWidth) {
+  Widget generateWidget(CoursePageState state, KeyboardState keyboardState) {
     var keyboardLayout = keyboardState.layout as KeyboardLayout;
     var keyboardInputFieldData =
         keyboardState.inputFieldData as MbclInputFieldData;
