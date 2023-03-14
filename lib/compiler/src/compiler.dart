@@ -22,7 +22,10 @@ import 'help.dart';
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
 class Compiler {
-  final Function(String) _loadFile;
+  final Function(String) loadFile;
+  String baseDirectory = '';
+
+  int equationNumber = 1;
 
   MbclCourse? _course;
   MbclChapter? _chapter;
@@ -37,7 +40,7 @@ class Compiler {
 
   int _uniqueIdCounter = 0;
 
-  Compiler(this._loadFile);
+  Compiler(this.loadFile);
 
   MbclCourse? getCourse() {
     return _course;
@@ -45,6 +48,9 @@ class Compiler {
 
   //void compile(String path, loadFile: (path: string) => string) {
   void compile(String path) {
+    print("COMPILING FROM PATH '$path'");
+    // extract base directory from path
+    baseDirectory = extractDirname(path);
     // compile
     if (path.endsWith('course.mbl')) {
       // processing complete course
@@ -75,7 +81,7 @@ class Compiler {
     // create a new course
     _course = MbclCourse();
     // get course description file source
-    var src = _loadFile(path);
+    var src = loadFile(path);
     if (src.length == 0) {
       _error(
         'course description file $path does not exist or is empty',
@@ -152,7 +158,7 @@ class Compiler {
     _chapter = MbclChapter();
     _course?.chapters.add(_chapter as MbclChapter);
     // get chapter index file source
-    var src = _loadFile(path);
+    var src = loadFile(path);
     if (src.length == 0) {
       _error('chapter index file $path does not exist or is empty');
       return;
@@ -224,11 +230,12 @@ class Compiler {
 
   //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
   void compileLevel(String path) {
+    equationNumber = 1;
     // create a new level
     _level = MbclLevel();
     _chapter?.levels.add(_level as MbclLevel);
     // get level source
-    var src = _loadFile(path);
+    var src = loadFile(path);
     if (src.length == 0) {
       _error('level file $path does not exist or is empty');
     }
@@ -403,7 +410,7 @@ class Compiler {
   List<MbclLevelItem> parseParagraph(String raw, [MbclLevelItem? ex]) {
     // skip empty paragraphs
     if (raw.trim().isEmpty) {
-      return [MbclLevelItem(MbclLevelItemType.text)];
+      return [MbclLevelItem(MbclLevelItemType.paragraph)];
     }
     // create lexer
     var lexer = Lexer();
