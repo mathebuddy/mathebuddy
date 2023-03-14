@@ -6,6 +6,7 @@
 
 import 'dart:io';
 
+import '../src/node.dart';
 import '../src/interpreter.dart';
 import '../src/parser.dart';
 
@@ -30,7 +31,7 @@ void run(String src) {
   }
 }
 
-var src = '''
+/*var src = '''
 let a=3
 let b = 1/2 + 2/4
 let p(x) = 2x^2 + ax - 7
@@ -50,6 +51,19 @@ if k > 0 {
 } else {
   k = k + 1
 }*/
+''';*/
+
+var src = '''
+let f(x) = x^2
+let g(x) = 2*x
+figure {
+  x_axis(-5, 5, "x")  % x-min, y-max, label
+  y_axis(-5, 5, "y")
+  function(f)
+  function(g)
+  circle(0, 0, 0.5)   % x, y, radius
+  circle(2, 4, 0.5)
+}
 ''';
 
 void main() {
