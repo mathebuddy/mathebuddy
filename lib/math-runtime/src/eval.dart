@@ -69,7 +69,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         } else if (o.type == OperandType.rational) {
           v = o.real / o.denominator;
         } else if (o.type == OperandType.irrational) {
-          v = term.getBuiltInValue(o.id);
+          v = term.getBuiltInValue(o.text);
         } else {
           throw Exception('cannot apply ${term.op} for ${o.type.name}');
         }
@@ -319,8 +319,8 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       }
     case '\$':
       {
-        if (varValues.containsKey(term.value.id)) {
-          return varValues[term.value.id] as Operand;
+        if (varValues.containsKey(term.value.text)) {
+          return varValues[term.value.text] as Operand;
         } else {
           throw Exception('eval(..): unset variable "${term.value}"');
         }
