@@ -17,6 +17,7 @@ import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/color.dart';
 import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/screen.dart';
 
 void main() {
   runApp(const MatheBuddy());
@@ -89,25 +90,8 @@ class CoursePageState extends State<CoursePage> {
     } else {
       courseDataJson = _bundleDataJson[path];
     }
-    /*if (path == "DEBUG" &&
-        html.document.getElementById('course-data-span') != null &&
-        ((html.document.getElementById('course-data-span') as html.SpanElement)
-                .innerHtml as String)
-            .isNotEmpty) {
-      _courseData =
-          html.document.getElementById('course-data-span')?.innerHtml as String;
-    } else {
-      if (path == "DEBUG") {
-        // TODO!!
-        path = "assets/hello_COMPILED.json";
-      }
-      //_courseData =
-      //    await DefaultAssetBundle.of(context).loadString(path, cache: false);
-    }*/
     print("selected course: ");
     print(courseDataJson);
-    //if (_courseData.isNotEmpty) {
-    //  var courseDataJson = jsonDecode(_courseData);
     _course = MbclCourse();
     _course?.fromJSON(courseDataJson);
     var course = _course as MbclCourse;
@@ -116,7 +100,6 @@ class CoursePageState extends State<CoursePage> {
       _chapter = _course?.chapters[0];
       _level = _chapter?.levels[0];
     }
-    //}
     setState(() {});
   }
 
@@ -138,12 +121,12 @@ class CoursePageState extends State<CoursePage> {
 
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
+
     Widget body = Text(
       "No course was selected!!!",
       style: Theme.of(context).textTheme.headlineLarge,
     );
-
-    var screenWidth = MediaQuery.of(context).size.width;
 
     List<Widget> page = [];
     if (_level == null) {
@@ -225,7 +208,7 @@ class CoursePageState extends State<CoursePage> {
           color: Colors.black26,
           alignment: Alignment.bottomCenter,
           constraints: BoxConstraints(maxHeight: 285.0),
-          child: keyboard.generateWidget(this, keyboardState, screenWidth));
+          child: keyboard.generateWidget(this, keyboardState));
     }
 
     return Scaffold(
