@@ -342,28 +342,22 @@ We highly recommend to generate files in the `SVG` (Scalable Vector Graphics) fo
 
   ```
   ---
-  FIGURE My Plot @fig:polynomials
+  FIGURE My Plot @fig:functions
   @options
-  width-75
+    width-75
   @code
-  let f(x) = x^2;
-  let g(x) = 2*x;
-  let fig0 = figure2d();
-  figure_x_range(fig0, -5, 5);
-  figure_y_range(fig0, -5, 5);
-  figure_x_label(fig0, "x");
-  figure_y_label(fig0, "y");
-  figure_color(fig0, 1);
-  figure_plot(fig0, f);
-  figure_color(fig0, 2);
-  figure_plot(fig0, g);
-  figure_color(fig0, 0);
-  figure_plot(fig0, [0, 0]);
-  figure_plot(fig0, [2, 4]);
-  @path
-  #fig
+    let f(x) = x^2
+    let g(x) = 2*x
+    figure {
+      x_axis(-5, 5, "x")  % x-min, y-max, label
+      y_axis(-0.5, 4.5, "y")
+      function(f)
+      function(g)
+      circle(0, 0, 0.1)   % x, y, radius
+      circle(2, 4, 0.1)
+    }
   @caption
-  Some functions
+    Some functions $f$ and $g$
   ---
   ```
 
@@ -390,9 +384,9 @@ Keyword `coord X Y` renders a small circle at position $(X,Y)$.
   ---
   FIGURE My figure title @fig:myFigure
   @options
-  width-75
+    width-75
   @path
-  images/myImage.svg
+    images/myImage.svg
   ---
   ```
 
@@ -454,12 +448,12 @@ Example:
 ---
 TABLE title @tab:label
 @options
-align-left
+  align-left
 @text
-$x$ & $f(x)$
-1 & 1
-2 & 4
-3 & 9
+  $x$ & $f(x)$
+  1   & 1
+  2   & 4
+  3   & 9
 ---
 ```
 
@@ -472,7 +466,7 @@ Exercises provide interactive elements to the course.
 For example, multiple choice questions display multiple answers, from which students have to select all correct ones to gather scores.
 
 Most exercises contain a `@code` part to generate randomized variables and to calculate the sample solution.
-It is denoted in the _Simple Math Programing Language (SMPL)_.
+It is denoted in the _Simple Math Programming Language (SMPL)_.
 The documentation can be found [here](https://app.f07-its.fh-koeln.de/docs-smpl.html).
 
 The following paragraphs describe all implemented exercise types.
@@ -486,17 +480,17 @@ The following paragraphs describe all implemented exercise types.
   ---
   EXERCISE My exercise @ex:myLabel
   @code
-  let x/y = rand(1, 5);
-  let z = x + y;
-  let A/B = rand<2,3>();
-  let C = A + B;
+    let x/y = rand(1, 5)
+    let z = x + y
+    let A/B = rand<2,3>(-5,-5)
+    let C = A + B
   @text
-  Calculate $x+y=$ #z
-  Calculate $xA+B=$ #C
+    Calculate $ x+y= $ #z
+    Calculate $ xA+B= $ #C
   ---
   ```
 
-  _Note: `let x/y = rand(1, 5);` is an abbreviation for `let x = rand(1, 5); let y = rand(1, 5);` with guarantee that $x \neq y$_
+  _Note: `let x/y = rand(1, 5)` is an abbreviation for `let x = rand(1, 5); let y = rand(1, 5);` with guarantee that $x \neq y$_
 
   Part `@code` draws random variables and generates the sample solution.
 
@@ -526,12 +520,12 @@ The following paragraphs describe all implemented exercise types.
     ---
     EXERCISE Multiplication
     @options
-    choices-4
+      choices-4
     @code
-    let x/y = rand(10,20);
-    let z = x * y;
+      let x/y = rand(10,20)
+      let z = x * y
     @text
-    Calculate $x * y=$ #z
+      Calculate $x * y=$ #z
     ---
     ```
 
@@ -549,12 +543,12 @@ The following paragraphs describe all implemented exercise types.
     ---
     EXERCISE Complex addition
     @options
-    polar-form
+      polar-form
     @code
-    let x/y = complex(rand(10,20), rand(10,20));
-    let z = x + y;
+      let x/y = complex(rand(10,20), rand(10,20))
+      let z = x + y
     @text
-    Calculate $x + y=$ #z
+      Calculate $x + y=$ #z
     ---
     ```
 
@@ -572,12 +566,12 @@ The following paragraphs describe all implemented exercise types.
     ---
     EXERCISE Linear Equations
     @options
-    n-args
+      n-args
     @code
-    let s = set(-2, 2);
+      let s = {-2, 2}
     @text
-    Solve $x^2 - 4 = 0$.
-    $x=$ #s
+      Solve $x^2 - 4 = 0$.
+      $x=$ #s
     ---
     ```
 
@@ -597,13 +591,13 @@ The following paragraphs describe all implemented exercise types.
     ---
     EXERCISE Matrix Operations
     @options
-    n-rows
-    n-cols
+      n-rows
+      n-cols
     @code
-    let A/B/C = rand<3,3>(0, 5);  % 3x3-matrices
-    let D = A*B + C;
+      let A/B/C = rand<3,3>(0, 5)  % 3x3-matrices
+      let D = A*B + C
     @text
-    Calculate $A*B + C=$ #D
+      Calculate $A*B + C=$ #D
     ---
     ```
 
@@ -617,11 +611,11 @@ The following paragraphs describe all implemented exercise types.
     ---
     EXERCISE Simple Integration @ex:intSimple
     @options
-    term-tokens-1.5
+      term-tokens-1.5
     @code
-    F(x) = 1/3*x^3 + 7*x
+      F(x) = 1/3*x^3 + 7*x
     @text
-    Solve $\int (x^2+7) \dx =$  #F  $+C$
+      Solve $\int (x^2+7) \dx =$  #F  $+C$
     ---
     ```
 
@@ -654,17 +648,17 @@ The following paragraphs describe all implemented exercise types.
   ---
   EXERCISE Scoring example
   @options
-  scores-5        % total score of the exercise (5/3 for fa; 10/3 for fb)
-  score-fa-1      % relative score for solution fa
-  score-fb-2      % relative score for solution fb
+    scores-5        % total score of the exercise (5/3 for fa; 10/3 for fb)
+    score-fa-1      % relative score for solution fa
+    score-fb-2      % relative score for solution fb
   @code
-  let a = rand(2,4);
-  let b = rand(5,8)
-  let fa = fac(a);
-  let fb = fac(b);
+    let a = rand(2,4)
+    let b = rand(5,8)
+    let fa = fac(a)
+    let fb = fac(b)
   @text
-  Calculate $ a! = $ #fa
-  Calculate $ b! = $ #fb
+    Calculate $ a! = $ #fa
+    Calculate $ b! = $ #fb
   ---
   ```
 
@@ -685,11 +679,11 @@ The following paragraphs describe all implemented exercise types.
   ---
   EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
   @options
-  keep-order
+    keep-order
   @text
-  [x] This answer is correct.
-  [ ] This answer is incorrect.
-  [x] This answer is correct.
+    [x] This answer is correct.
+    [ ] This answer is incorrect.
+    [x] This answer is correct.
   ---
   ```
 
@@ -706,16 +700,16 @@ The following paragraphs describe all implemented exercise types.
   ---
   EXERCISE My dynamic Multiple Choice Exercise @ex:myMultiChoice
   @code
-  let x/y/z/w = rand(10,20);    % no pair of x, y, z, w is equal
-  let c1 = x > w;
-  let c2 = y > w;
-  let c3 = z > w;
+    let x/y/z/w = rand(10,20)    % no pair of x, y, z, w is equal
+    let c1 = x > w
+    let c2 = y > w
+    let c3 = z > w
   @text
-  [:c1] $x > w$
-  [:c2] $y > w$
-  [:c3] $z > w$
-  [x]   $1 > 0$    % statically true
-  [ ]   $1 < 0$    % statically false
+    [:c1] $x > w$
+    [:c2] $y > w$
+    [:c3] $z > w$
+    [x]   $1 > 0$    % statically true
+    [ ]   $1 < 0$    % statically false
   ---
   ```
 
@@ -735,9 +729,9 @@ The following paragraphs describe all implemented exercise types.
   ---
   EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
   @text
-  (x) This answer is correct.
-  ( ) This answer is incorrect.
-  ( ) This answer is incorrect.
+    (x) This answer is correct.
+    ( ) This answer is incorrect.
+    ( ) This answer is incorrect.
   ---
   ```
 
@@ -755,10 +749,10 @@ The following paragraphs describe all implemented exercise types.
   ---
   EXERCISE My Gap Exercise @ex:myLabel
   @options
-  show-length
-  restricted-keyboard
+    show-length
+    restricted-keyboard
   @text
-  Garfield is a #"cat". Rain is #"wet".
+    Garfield is a #"cat". Rain is #"wet".
   ---
   ```
 
@@ -777,16 +771,16 @@ The following paragraphs describe all implemented exercise types.
   ---
   EXERCISE Title @ex:label
   @options
-  accept-immediately
+    accept-immediately
   @code
-  let n = rand(5,10);         % length
-  let f = zeros<1,n>();       % row vector for the sequence
-  f[1] = 1;                   % f[0]=0, f[1]=1
-  for (let i=2; i<n; i++) {   % calc sequence iteratively
-    f[i] = f[i-2] + f[i-1];
-  }
+    let n = rand(5,10)          % length
+    let f = zeros(1,n)          % row vector for the sequence
+    f[1] = 1                    % f[0]=0, f[1]=1
+    for (let i=2; i<n; i++) {   % calc sequence iteratively
+      f[i] = f[i-2] + f[i-1]
+    }
   @text
-  Arrange the following numbers to get the first numbers of the Fibonacci sequence: #:order(s,f)
+    Arrange the following numbers to get the first numbers of the Fibonacci sequence: #:order(s,f)
   ---
   ```
 
@@ -809,15 +803,15 @@ The following paragraphs describe all implemented exercise types.
   ---
   EXERCISE Title @ex:label
   @options
-  timed-3
-  accelerate
-  multi-choice-4
-  stop-on-error-1
+    timed-3
+    accelerate
+    multi-choice-4
+    stop-on-error-1
   @code
-  let x:y = rand(20,50);
-  let z = x + y;
+    let x:y = rand(20,50)
+    let z = x + y
   @text
-  Calculate $x+y=$ #z
+    Calculate $x+y=$ #z
   ---
   ```
 
