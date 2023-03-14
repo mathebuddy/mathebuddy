@@ -8,7 +8,7 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["elif", "focusable", "RGBO", "slex", "smpl"],
+    "cSpell.words": ["cmplx", "elif", "focusable", "RGBO", "slex", "smpl"],
     "java.configuration.updateBuildConfiguration": "interactive"
   },
   "extensions": {
