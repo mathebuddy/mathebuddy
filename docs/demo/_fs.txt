@@ -1,5 +1,12 @@
 _makefs.sh
+definitions.mbl
 exercises.mbl
+figures.mbl
+tables.mbl
 hello.mbl
+equations.mbl
+examples.mbl
+exercises-simple.mbl
 typography.mbl
 test-dir/
+_fs.txt

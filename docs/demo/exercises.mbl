@@ -1,14 +1,55 @@
 Exercises
 #########
 
+Multiple Choice
+===============
+
 ---
 EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
 @text
-Some text here.
 [x] This answer is correct.
 [ ] This answer is incorrect.
 [x] This answer is correct.
 ---
+
+---
+EXERCISE My Multiple Choice Exercise with static order @ex:myMultiChoice
+@options
+keep-order
+@text
+[x] This answer is correct.
+[ ] This answer is incorrect.
+[x] This answer is correct.
+---
+
+---
+EXERCISE My dynamic Multiple Choice Exercise @ex:myMultiChoice
+@code
+let x/y/z/w = rand(10,20);    % no pair of x, y, z, w is equal
+let c1 = x > w;
+let c2 = y > w;
+let c3 = z > w;
+@text
+[:c1] $x > w$
+[:c2] $y > w$
+[:c3] $z > w$
+[x]   $1 > 0$    % statically true
+[ ]   $1 < 0$    % statically false
+---
+
+Single Choice
+=============
+
+---
+EXERCISE My Single Choice Exercise @ex:mySingleChoice
+@text
+(x) This answer is correct.
+( ) This answer is incorrect.
+( ) This answer is incorrect.
+---
+
+Randomized Exercises
+====================
 
 ---
 EXERCISE Addition @ex:add
@@ -17,4 +58,103 @@ let x/y = rand(1, 5);
 let z = x + y;
 @text
 Calculate $ x + y = $ #z.
+---
+
+---
+EXERCISE Matrix Multiplication @ex:add-mul
+@code
+let x:y = rand<2,2>(1, 5);
+let z = x * y;
+@text
+Calculate $ x \cdot y = $ #z.
+---
+
+Exercise with button answers
+============================
+
+---
+EXERCISE Multiplication
+@options
+choices-4
+@code
+let x/y = rand(10,20);
+let z = x * y;
+@text
+Calculate $x * y=$ #z
+---
+
+---
+EXERCISE Simple Integration @ex:intSimple
+@options
+term-tokens-1.5
+@code
+F(x) = 1/3*x^3 + 7*x
+@text
+Solve $\int (x^2+7) \dx =$  #F  $+C$
+---
+
+Scoring
+=======
+
+---
+EXERCISE Scoring example
+@options
+scores-5        % total score of the exercise (5/3 for fa; 10/3 for fb)
+score-fa-1      % relative score for solution fa
+score-fb-2      % relative score for solution fb
+@code
+let a = rand(2,4);
+let b = rand(5,8)
+let fa = fac(a);
+let fb = fac(b);
+@text
+Calculate $ a! = $ #fa
+Calculate $ b! = $ #fb
+---
+
+Gap Exercise
+============
+
+---
+EXERCISE My Gap Exercise @ex:myLabel
+@options
+show-length
+restricted-keyboard
+@text
+Garfield is a #"cat". Rain is #"wet".
+---
+
+Arrangement Exercise
+====================
+
+---
+EXERCISE Title @ex:label
+@options
+accept-immediately
+@code
+let n = rand(5,10);         % length
+let f = zeros<1,n>();       % row vector for the sequence
+f[1] = 1;                   % f[0]=0, f[1]=1
+for (let i=2; i<n; i++) {   % calc sequence iteratively
+  f[i] = f[i-2] + f[i-1];
+}
+@text
+Arrange the following numbers to get the first numbers of the Fibonacci sequence: #:order(s,f)
+---
+
+Timed Exercise
+==============
+
+---
+EXERCISE Title @ex:label
+@options
+timed-3
+accelerate
+multi-choice-4
+stop-on-error-1
+@code
+let x:y = rand(20,50);
+let z = x + y;
+@text
+Calculate $x+y=$ #z
 ---

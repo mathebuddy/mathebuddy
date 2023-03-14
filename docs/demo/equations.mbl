@@ -1,0 +1,74 @@
+Equations
+#########
+
+Inline Equations
+================
+
+An inline equation $x^2+y^2+\sqrt(z)$.         
+
+Equations
+=========
+
+Numbered equations
+-----------------
+
+---
+EQUATION @myLabel
+a^2 + b^2 = c^2
+---
+
+---
+EQUATION
+\sqrt{x+1}
+---
+
+Equations without number
+-----------------------
+
+---
+EQUATION* @eq:myLabel
+a^2 + b^2 = c^2
+---
+
+Reference to equations
+----------------------
+
+Refer to @myLabel.    %displayed as "Refer to Eq. (1)"
+
+Aligned equations
+-----------------
+
+---
+EQUATION
+@options
+align-left
+align-equals
+@text
+(x+1)^2 = (x+1)(x+1)
+        = x^2 + x + x + 1
+        = x^2 + 2x + 1
+---
+
+
+Abbreviations
+=============
+
+Equations may be written in plain TeX code. We introduce some (optional) abbreviations for simpler notation.
+
+Numbers
+-------
+
+- $\RR$
+- $\NN$
+- $\ZZ$
+- $\CC$
+
+Matrices
+--------
+
+---
+EQUATION
+\mat{1&1&-2&0 \\ -2&0&1&1} \cdot
+\mat{-3&0&1 \\ 0&1&0 \\ 1&1&1 \\ 2&0&1} =
+\mat{-5&-1&-1 \\ 9&1&0}
+---

@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-02-17" />
+  <meta name="dcterms.date" content="2023-03-14" />
   <title>Mathe:Buddy Language (MBL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -36,7 +36,7 @@
 [<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Mathe:Buddy Language (MBL)</h1>
 <p class="author"></p>
-<p class="date">2023-02-17</p>
+<p class="date">2023-03-14</p>
 </header>
 <!-- Mathe:Buddy Language (MBL) -->
 <hr />
@@ -382,28 +382,22 @@ Graphics) format using <a href="https://inkscape.org">Inkscape</a>).</p>
 <code>FIGURE</code>.</p>
 <p>Example:</p>
 <pre><code>---
-FIGURE My Plot @fig:polynomials
+FIGURE My Plot @fig:functions
 @options
-width-75
+  width-75
 @code
-let f(x) = x^2;
-let g(x) = 2*x;
-let fig0 = figure2d();
-figure_x_range(fig0, -5, 5);
-figure_y_range(fig0, -5, 5);
-figure_x_label(fig0, &quot;x&quot;);
-figure_y_label(fig0, &quot;y&quot;);
-figure_color(fig0, 1);
-figure_plot(fig0, f);
-figure_color(fig0, 2);
-figure_plot(fig0, g);
-figure_color(fig0, 0);
-figure_plot(fig0, [0, 0]);
-figure_plot(fig0, [2, 4]);
-@path
-#fig
+  let f(x) = x^2
+  let g(x) = 2*x
+  figure {
+    x_axis(-5, 5, &quot;x&quot;)  % x-min, y-max, label
+    y_axis(-0.5, 4.5, &quot;y&quot;)
+    function(f)
+    function(g)
+    circle(0, 0, 0.1)   % x, y, radius
+    circle(2, 4, 0.1)
+  }
 @caption
-Some functions
+  Some functions $f$ and $g$
 ---</code></pre>
 <p>Part <code>@code</code> defines two functions <span
 class="math inline">\(f(x)\)</span> anf <span
@@ -428,9 +422,9 @@ Example:</p>
 <pre><code>---
 FIGURE My figure title @fig:myFigure
 @options
-width-75
+  width-75
 @path
-images/myImage.svg
+  images/myImage.svg
 ---</code></pre>
 <p>Option <code>width-P</code> specifies the displayed width with a
 percentage value for <code>P</code>. E.g. <code>width-75</code> renders
@@ -477,12 +471,12 @@ as headline.</p>
 <pre><code>---
 TABLE title @tab:label
 @options
-align-left
+  align-left
 @text
-$x$ &amp; $f(x)$
-1 &amp; 1
-2 &amp; 4
-3 &amp; 9
+  $x$ &amp; $f(x)$
+  1   &amp; 1
+  2   &amp; 4
+  3   &amp; 9
 ---</code></pre>
 <p>The alignment option <code>align-X</code> specifies the placing of
 the table. Parameter <code>X</code> is one of <code>left</code>,
@@ -494,7 +488,7 @@ multiple choice questions display multiple answers, from which students
 have to select all correct ones to gather scores.</p>
 <p>Most exercises contain a <code>@code</code> part to generate
 randomized variables and to calculate the sample solution. It is denoted
-in the <em>Simple Math Programing Language (SMPL)</em>. The
+in the <em>Simple Math Programming Language (SMPL)</em>. The
 documentation can be found <a
 href="https://app.f07-its.fh-koeln.de/docs-smpl.html">here</a>.</p>
 <p>The following paragraphs describe all implemented exercise types.</p>
@@ -506,15 +500,15 @@ sets.</p>
 <pre><code>---
 EXERCISE My exercise @ex:myLabel
 @code
-let x/y = rand(1, 5);
-let z = x + y;
-let A/B = rand&lt;2,3&gt;();
-let C = A + B;
+  let x/y = rand(1, 5)
+  let z = x + y
+  let A/B = rand&lt;2,3&gt;(-5,-5)
+  let C = A + B
 @text
-Calculate $x+y=$ #z
-Calculate $xA+B=$ #C
+  Calculate $ x+y= $ #z
+  Calculate $ xA+B= $ #C
 ---</code></pre>
-<p><em>Note: <code>let x/y = rand(1, 5);</code> is an abbreviation for
+<p><em>Note: <code>let x/y = rand(1, 5)</code> is an abbreviation for
 <code>let x = rand(1, 5); let y = rand(1, 5);</code> with guarantee that
 <span class="math inline">\(x \neq y\)</span></em></p>
 <p>Part <code>@code</code> draws random variables and generates the
@@ -547,12 +541,12 @@ gather scoring.</p>
 <pre><code>---
 EXERCISE Multiplication
 @options
-choices-4
+  choices-4
 @code
-let x/y = rand(10,20);
-let z = x * y;
+  let x/y = rand(10,20)
+  let z = x * y
 @text
-Calculate $x * y=$ #z
+  Calculate $x * y=$ #z
 ---</code></pre></li>
 <li><p><code>complex numbers</code></p>
 <p>Per default, two input fields of the form    <code>[ ] + [ ]i</code>
@@ -566,12 +560,12 @@ one of them shows the correct solution (refer to exercise type
 <pre><code>---
 EXERCISE Complex addition
 @options
-polar-form
+  polar-form
 @code
-let x/y = complex(rand(10,20), rand(10,20));
-let z = x + y;
+  let x/y = complex(rand(10,20), rand(10,20))
+  let z = x + y
 @text
-Calculate $x + y=$ #z
+  Calculate $x + y=$ #z
 ---</code></pre></li>
 <li><p><code>sets</code></p>
 <p>Per default, if the set has length <span
@@ -587,12 +581,12 @@ one of them shows the correct solution (refer to exercise type
 <pre><code>---
 EXERCISE Linear Equations
 @options
-n-args
+  n-args
 @code
-let s = set(-2, 2);
+  let s = {-2, 2}
 @text
-Solve $x^2 - 4 = 0$.
-$x=$ #s
+  Solve $x^2 - 4 = 0$.
+  $x=$ #s
 ---</code></pre></li>
 <li><p><code>matrices</code></p>
 <p>Per default, an input matrix is shown with a text field for each
@@ -608,13 +602,13 @@ one of them shows the correct solution (refer to exercise type
 <pre><code>---
 EXERCISE Matrix Operations
 @options
-n-rows
-n-cols
+  n-rows
+  n-cols
 @code
-let A/B/C = rand&lt;3,3&gt;(0, 5);  % 3x3-matrices
-let D = A*B + C;
+  let A/B/C = rand&lt;3,3&gt;(0, 5)  % 3x3-matrices
+  let D = A*B + C
 @text
-Calculate $A*B + C=$ #D
+  Calculate $A*B + C=$ #D
 ---</code></pre></li>
 <li><p><code>vectors</code></p>
 <p>Exercises with vector solutions are technically matrix exercises with
@@ -623,11 +617,11 @@ the number of rows, or columns respectively, set to one.</p></li>
 <pre><code>---
 EXERCISE Simple Integration @ex:intSimple
 @options
-term-tokens-1.5
+  term-tokens-1.5
 @code
-F(x) = 1/3*x^3 + 7*x
+  F(x) = 1/3*x^3 + 7*x
 @text
-Solve $\int (x^2+7) \dx =$  #F  $+C$
+  Solve $\int (x^2+7) \dx =$  #F  $+C$
 ---</code></pre>
 <p>Without any option, the student is required to enter
 <code>1/3*x^3 + 7*x</code> (or an algebraic equivalent solution) on a
@@ -663,17 +657,17 @@ score per exercise is defined as sum of scores of the input fields.</p>
 <pre><code>---
 EXERCISE Scoring example
 @options
-scores-5        % total score of the exercise (5/3 for fa; 10/3 for fb)
-score-fa-1      % relative score for solution fa
-score-fb-2      % relative score for solution fb
+  scores-5        % total score of the exercise (5/3 for fa; 10/3 for fb)
+  score-fa-1      % relative score for solution fa
+  score-fb-2      % relative score for solution fb
 @code
-let a = rand(2,4);
-let b = rand(5,8)
-let fa = fac(a);
-let fb = fac(b);
+  let a = rand(2,4)
+  let b = rand(5,8)
+  let fa = fac(a)
+  let fb = fac(b)
 @text
-Calculate $ a! = $ #fa
-Calculate $ b! = $ #fb
+  Calculate $ a! = $ #fa
+  Calculate $ b! = $ #fb
 ---</code></pre>
 <p>Option <code>scores-X</code> defines that <code>X</code> is the total
 score for the exercise a student can receive at maximum.</p>
@@ -689,11 +683,11 @@ are indicated by <code>[x]</code>. Incorrect answers are indicated by
 <pre><code>---
 EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
 @options
-keep-order
+  keep-order
 @text
-[x] This answer is correct.
-[ ] This answer is incorrect.
-[x] This answer is correct.
+  [x] This answer is correct.
+  [ ] This answer is incorrect.
+  [x] This answer is correct.
 ---</code></pre>
 <p>Each correct answer is scored with 1 points, each wrong answer is
 scored with -1 points. The total score of the exercise can be weighted
@@ -707,16 +701,16 @@ answers at runtime. Example:</p>
 <pre><code>---
 EXERCISE My dynamic Multiple Choice Exercise @ex:myMultiChoice
 @code
-let x/y/z/w = rand(10,20);    % no pair of x, y, z, w is equal
-let c1 = x &gt; w;
-let c2 = y &gt; w;
-let c3 = z &gt; w;
+  let x/y/z/w = rand(10,20)    % no pair of x, y, z, w is equal
+  let c1 = x &gt; w
+  let c2 = y &gt; w
+  let c3 = z &gt; w
 @text
-[:c1] $x &gt; w$
-[:c2] $y &gt; w$
-[:c3] $z &gt; w$
-[x]   $1 &gt; 0$    % statically true
-[ ]   $1 &lt; 0$    % statically false
+  [:c1] $x &gt; w$
+  [:c2] $y &gt; w$
+  [:c3] $z &gt; w$
+  [x]   $1 &gt; 0$    % statically true
+  [ ]   $1 &lt; 0$    % statically false
 ---</code></pre>
 <p>Correctness of an answer is determined by a boolean variable
 <code>V</code>, in the form <code>[:V]</code>.</p>
@@ -732,9 +726,9 @@ displayed.</p>
 <pre><code>---
 EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
 @text
-(x) This answer is correct.
-( ) This answer is incorrect.
-( ) This answer is incorrect.
+  (x) This answer is correct.
+  ( ) This answer is incorrect.
+  ( ) This answer is incorrect.
 ---</code></pre>
 <p>The definition of single choice exercises is similar to the
 definition of multiple choice exercises. We use round parentheses
@@ -748,10 +742,10 @@ paragraph text.</p>
 <pre><code>---
 EXERCISE My Gap Exercise @ex:myLabel
 @options
-show-length
-restricted-keyboard
+  show-length
+  restricted-keyboard
 @text
-Garfield is a #&quot;cat&quot;. Rain is #&quot;wet&quot;.
+  Garfield is a #&quot;cat&quot;. Rain is #&quot;wet&quot;.
 ---</code></pre>
 <p>Option <code>show-length</code> hints the number of characters of the
 solution word.</p>
@@ -767,16 +761,16 @@ be reordered by the student.</p>
 <pre><code>---
 EXERCISE Title @ex:label
 @options
-accept-immediately
+  accept-immediately
 @code
-let n = rand(5,10);         % length
-let f = zeros&lt;1,n&gt;();       % row vector for the sequence
-f[1] = 1;                   % f[0]=0, f[1]=1
-for (let i=2; i&lt;n; i++) {   % calc sequence iteratively
-  f[i] = f[i-2] + f[i-1];
-}
+  let n = rand(5,10)          % length
+  let f = zeros(1,n)          % row vector for the sequence
+  f[1] = 1                    % f[0]=0, f[1]=1
+  for (let i=2; i&lt;n; i++) {   % calc sequence iteratively
+    f[i] = f[i-2] + f[i-1]
+  }
 @text
-Arrange the following numbers to get the first numbers of the Fibonacci sequence: #:order(s,f)
+  Arrange the following numbers to get the first numbers of the Fibonacci sequence: #:order(s,f)
 ---</code></pre>
 <p><em>Preface: The answer field <code>#f</code> would ask the student
 to type in the elements of the row vector:
@@ -795,15 +789,15 @@ specific topic.</p>
 <pre><code>---
 EXERCISE Title @ex:label
 @options
-timed-3
-accelerate
-multi-choice-4
-stop-on-error-1
+  timed-3
+  accelerate
+  multi-choice-4
+  stop-on-error-1
 @code
-let x:y = rand(20,50);
-let z = x + y;
+  let x:y = rand(20,50)
+  let z = x + y
 @text
-Calculate $x+y=$ #z
+  Calculate $x+y=$ #z
 ---</code></pre>
 <p>Option <code>timed-X</code> enables timing. The student has
 <code>X</code> seconds to give an answer.</p>

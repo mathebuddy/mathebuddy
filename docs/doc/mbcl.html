@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-02-23" />
+  <meta name="dcterms.date" content="2023-02-24" />
   <title>Mathe:Buddy Compiled Language (MBCL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -99,7 +99,7 @@
 [<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Mathe:Buddy Compiled Language (MBCL)</h1>
 <p class="author"></p>
-<p class="date">2023-02-23</p>
+<p class="date">2023-02-24</p>
 </header>
 <!-- Mathe:Buddy Compiled Language (MBCL) -->
 <hr />
@@ -221,13 +221,13 @@ above:</em></p>
 <h2 id="courses">Courses</h2>
 <p>A course represents the root of an MBCL file. It contains a set of
 chapters.</p>
-<pre><code>COURSE = {
+<pre><code>MBCL_Course = {
+  &quot;debug&quot;: &quot;No&quot; | &quot;Chapter&quot; | &quot;Level&quot;,
   &quot;title&quot;: STRING,
   &quot;author&quot;: STRING,
-  &quot;mbcl_version&quot;: INTEGER,
-  &quot;date_modified&quot;: UNIX_TIMESTAMP,
-  &quot;debug&quot;: &quot;no&quot; | &quot;chapter&quot; | &quot;level&quot;,
-  &quot;chapters&quot;: CHAPTER[]
+  &quot;mbclVersion&quot;: INTEGER,
+  &quot;dateModified&quot;: UNIX_TIMESTAMP,
+  &quot;chapters&quot;: MBCL_Chapter[]
 };</code></pre>
 <ul>
 <li>if <code>debug</code> is not <code>no</code>, then only one
@@ -237,23 +237,25 @@ purposes</li>
 <p>Example:</p>
 <div class="sourceCode" id="cb2"><pre
 class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;higher math 1&quot;</span><span class="fu">,</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;TH Koeln&quot;</span><span class="fu">,</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mbcl_version&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;date_modified&quot;</span><span class="fu">:</span> <span class="dv">1669712632</span><span class="fu">,</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;debug_level&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;debug_level&quot;</span><span class="fu">:</span> <span class="st">&quot;No&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;higher math 1&quot;</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;TH Koeln&quot;</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mbclVersion&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;dateModified&quot;</span><span class="fu">:</span> <span class="dv">1669712632</span><span class="fu">,</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;chapters&quot;</span><span class="fu">:</span> <span class="ot">[]</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <h2 id="chapters">Chapters</h2>
 <p>A chapter consists of a set of levels.</p>
-<pre><code>CHAPTER = {
-  &quot;file_id&quot;: STRING,
+<pre><code>MBCL_Chapter = {
+  &quot;fileId&quot;: STRING,
   &quot;title&quot;: STRING,
-  &quot;pos_x&quot;: INTEGER,
-  &quot;pos_y&quot;: INTEGER,
-  &quot;requires&quot;: IDENTIFIER&lt;CHAPTER.file_id&gt;[],
-  &quot;units&quot;: UNIT[],
-  &quot;levels&quot;: LEVEL[]
+  &quot;label&quot;: STRING,
+  &quot;author&quot;: STRING
+  &quot;posX&quot;: INTEGER,
+  &quot;posY&quot;: INTEGER,
+  &quot;requires&quot;: IDENTIFIER&lt;MBCL_Chapter.file_id&gt;[],
+  &quot;units&quot;: MBCL_Unit[],
+  &quot;levels&quot;: MBCL_Level[]
 };</code></pre>
 <p>Example:</p>
 <div class="sourceCode" id="cb4"><pre
@@ -261,25 +263,82 @@ class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;file_id&quot;</span><span class="fu">:</span> <span class="st">&quot;cmplx&quot;</span><span class="fu">,</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;Complex Numbers&quot;</span><span class="fu">,</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;label&quot;</span><span class="fu">:</span> <span class="st">&quot;cmplx&quot;</span><span class="fu">,</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pos_x&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pos_y&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;requires&quot;</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;units&quot;</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;levels&quot;</span><span class="fu">:</span> <span class="ot">[]</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;Knuth&quot;</span><span class="fu">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pos_x&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pos_y&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;requires&quot;</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;units&quot;</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;levels&quot;</span><span class="fu">:</span> <span class="ot">[]</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <h2 id="levels">Levels</h2>
 <p>A level defines a part of course, consisting of e.g. text, exercises
 and games.</p>
-<pre><code>LEVEL = {
-  &quot;file_id&quot;: STRING,
+<pre><code>MBCL_Level = {
+  &quot;fileId&quot;: STRING,
   &quot;title&quot;: STRING,
-  &quot;pos_x&quot;: INTEGER,
-  &quot;pos_y&quot;: INTEGER,
-  &quot;requires&quot;: IDENTIFIER&lt;LEVEL.file_id&gt;[],
-  &quot;items&quot;: LEVEL_ITEM[]
+  &quot;posX&quot;: INTEGER,
+  &quot;posY&quot;: INTEGER,
+  &quot;requires&quot;: IDENTIFIER&lt;MBCL_Level.file_id&gt;[],
+  &quot;items&quot;: MBCL_LevelItem[]
 };</code></pre>
-<pre><code>LEVEL_ITEM = SECTION | TEXT | EQUATION | DEFINITION | EXERCISE
-           | FIGURE | TABLE | NEWPAGE;</code></pre>
+<pre><code>MBCL_LevelItem = {
+  &quot;type&quot;: &quot;AlignCenter&quot;
+    | &quot;AlignLeft&quot;
+    | &quot;AlignRight&quot;
+    | &quot;BoldText&quot;
+    | &quot;Color&quot;
+    | &quot;DefAxiom&quot;
+    | &quot;DefClaim&quot;
+    | &quot;DefConjecture&quot;
+    | &quot;DefCorollary&quot;
+    | &quot;DefDefinition&quot;
+    | &quot;DefIdentity&quot;
+    | &quot;DefLemma&quot;
+    | &quot;DefParadox&quot;
+    | &quot;DefProposition&quot;
+    | &quot;DefTheorem&quot;
+    | &quot;Enumerate&quot;
+    | &quot;EnumerateAlpha&quot;
+    | &quot;Equation&quot;
+    | &quot;Error&quot;
+    | &quot;Example&quot;
+    | &quot;Exercise&quot;
+    | &quot;Figure&quot;
+    | &quot;InlineMath&quot;
+    | &quot;InputField&quot;
+    | &quot;ItalicText&quot;
+    | &quot;Itemize&quot;
+    | &quot;LineFeed&quot;
+    | &quot;MultipleChoice&quot;
+    | &quot;MultipleChoiceOption&quot;
+    | &quot;NewPage&quot;
+    | &quot;Paragraph&quot;
+    | &quot;Reference&quot;
+    | &quot;Section&quot;
+    | &quot;SingleChoice&quot;
+    | &quot;SingleChoiceOption&quot;
+    | &quot;Span&quot;
+    | &quot;SubSection&quot;
+    | &quot;SubSubSection&quot;
+    | &quot;Table&quot;
+    | &quot;Text&quot;
+    | &quot;VariableReference&quot;,
+  ?&quot;title&quot;: STRING,
+  ?&quot;label&quot;: STRING,
+  ?&quot;error&quot;: STRING,
+  ?&quot;text&quot;: STRING,
+  ?&quot;id&quot;: STRING,
+  ?&quot;equationData&quot;: MBCL_EquationData,
+  ?&quot;exerciseData&quot;: MBCL_ExerciseData,
+  ?&quot;figureData&quot;: MBCL_FigureData,
+  ?&quot;tableData&quot;: MBCL_TableData,
+  ?&quot;inputFieldData&quot;: MBCL_InputFieldData,
+  ?&quot;singleOrMultipleChoiceOptionData&quot;: MBCL_SingleOrMultipleChoiceOptionData
+};</code></pre>
+<p>Attention: <code>title</code>, <code>label</code>,
+<code>error</code>, <code>text</code> and <code>id</code> are stored
+only in case the string length is greater than zero.</p>
+<p>!!!!! TODO: MUST UPDATE DOCUMENTATION STARTING FROM HERE !!!!!</p>
 <pre><code>UNIT = {
   &quot;title&quot;: STRING,
   &quot;levels&quot;: IDENTIFIER&lt;LEVEL.file_id&gt;[]

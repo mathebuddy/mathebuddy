@@ -1,0 +1,38 @@
+Figures
+#######
+
+Function Plots
+==============
+
+---
+FIGURE My Plot @fig:functions
+@options
+  width-75
+@code
+  let f(x) = x^2
+  let g(x) = 2*x
+  figure {
+    x_axis(-5, 5, "x")  % x-min, y-max, label
+    y_axis(-0.5, 4.5, "y")
+    function(f)
+    function(g)
+    circle(0, 0, 0.1)   % x, y, radius
+    circle(2, 4, 0.1)
+  }
+@caption
+  Some functions $f$ and $g$
+---
+
+
+Figures
+=======
+
+---
+FIGURE My figure title @fig:myFigure
+@options
+    width-75
+@path
+    images/logo.svg
+@caption
+    mathe:buddy logo
+---
