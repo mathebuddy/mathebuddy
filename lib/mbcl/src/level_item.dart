@@ -211,18 +211,18 @@ class MbclExerciseData {
   String code = '';
   List<String> variables = [];
   List<Map<String, String>> instances = []; // TODO: DESCRIBE!!
-
-  // TODO: the following is related to MbclInputFieldData!!
-  //List<String> inputRequire = [];
-  //List<String> inputForbid = [];
-  //String inputVariableId = '';
-  //int inputWidth = 0;
+  bool staticOrder = false;
+  int numberOfChoices =
+      0; // if > 0 the students sees no keyboard, but a set of options; only one is correct
+  String solutionVariableId = '';
 
   // temporary
   int staticVariableCounter = 0; // not exported
   Map<String, String> smplOperandType = {}; // not exported
   Map<String, MbclInputFieldData> inputFields = {};
   MbclExerciseFeedback feedback = MbclExerciseFeedback.unchecked;
+  List<int> indexOrdering =
+      []; // e.g. used for random displayed order of multiple-choice
 
   // runtime variables
   int runInstanceIdx = -1; // selected exercise instance; -1 := not chosen
@@ -233,10 +233,9 @@ class MbclExerciseData {
       "code": code,
       "variables": variables.map((e) => e).toList(),
       "instances": instances.map((e) => e).toList(),
-      //"inputRequire": inputRequire.map((e) => e).toList(),
-      //"inputForbid": inputForbid.map((e) => e).toList(),
-      //"inputVariableId": inputVariableId,
-      //"inputWidth": inputWidth
+      "staticOrder": staticOrder,
+      "numberOfChoices": numberOfChoices,
+      "solutionVariableId": solutionVariableId,
     };
   }
 
@@ -258,18 +257,9 @@ class MbclExerciseData {
       }
       instances.add(instance);
     }
-    /*inputRequire = [];
-    n = src["inputRequire"].length;
-    for (var i = 0; i < n; i++) {
-      inputRequire.add(src["inputRequire"][i]);
-    }
-    inputForbid = [];
-    n = src["inputForbid"].length;
-    for (var i = 0; i < n; i++) {
-      inputForbid.add(src["inputForbid"][i]);
-    }*/
-    //inputVariableId = src["inputVariableId"];
-    //inputWidth = src["inputWidth"];
+    staticOrder = src["staticOrder"] as bool;
+    numberOfChoices = src["numberOfChoices"] as int;
+    solutionVariableId = src["solutionVariableId"] as String;
   }
 }
 
