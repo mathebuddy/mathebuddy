@@ -53,7 +53,7 @@ if k > 0 {
 }*/
 ''';*/
 
-var src = '''
+/*var src = '''
 let f(x) = x^2
 let g(x) = 2*x
 figure {
@@ -64,6 +64,11 @@ figure {
   circle(0, 0, 0.5)   % x, y, radius
   circle(2, 4, 0.5)
 }
+''';*/
+
+var src = '''
+let x:y = rand<2,2>(1, 5);
+let z = x * y;
 ''';
 
 void main() {
