@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-03-14" />
+  <meta name="dcterms.date" content="2023-03-15" />
   <title>Mathe:Buddy Language (MBL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -36,7 +36,7 @@
 [<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Mathe:Buddy Language (MBL)</h1>
 <p class="author"></p>
-<p class="date">2023-03-14</p>
+<p class="date">2023-03-15</p>
 </header>
 <!-- Mathe:Buddy Language (MBL) -->
 <hr />
@@ -534,9 +534,9 @@ quotes, e.g.   <code>$ "x" + "y" $</code>   (spacing is optional).</p>
 <code>@code</code>. The student has to type in the answer on a numeric
 keyboard.</p>
 <p>If option <code>choices-X</code> is given, a set of <code>X</code>
-possible answers is shown. One of theses answers correct. All other
-answers are incorrect. The student has to select the correct solution to
-gather scoring.</p>
+possible answers is shown. Only one these answers is a correct one. All
+other answers are incorrect. The student has to select the correct
+solution to gather scoring.</p>
 <p>Example:</p>
 <pre><code>---
 EXERCISE Multiplication
@@ -683,7 +683,7 @@ are indicated by <code>[x]</code>. Incorrect answers are indicated by
 <pre><code>---
 EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
 @options
-  keep-order
+  static-order
 @text
   [x] This answer is correct.
   [ ] This answer is incorrect.
@@ -694,7 +694,7 @@ scored with -1 points. The total score of the exercise can be weighted
 with option <code>scores-X</code>, where <code>X</code> is the total
 score.</p>
 <p>Answers are displayed in random order per default. Option
-<code>keep-order</code> suppresses random shuffling.</p></li>
+<code>static-order</code> suppresses random shuffling.</p></li>
 <li><p><code>Dynamic Multiple Choice Exercise</code></p>
 <p>Dynamic multiple choice exercises calculate the correctness of
 answers at runtime. Example:</p>
