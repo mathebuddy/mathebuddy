@@ -84,7 +84,7 @@ class Compiler {
     var src = loadFile(path);
     if (src.length == 0) {
       _error(
-        'course description file $path does not exist or is empty',
+        'Course description file "$path" does not exist or is empty.',
       );
       return;
     }
@@ -104,7 +104,7 @@ class Compiler {
         } else if (line.startsWith('CHAPTERS')) {
           state = 'chapter';
         } else {
-          _error('unexpected line $line');
+          _error('Unexpected line "$line".');
         }
       } else if (state == 'chapter') {
         var lexer = Lexer();
@@ -140,7 +140,7 @@ class Compiler {
         var r = chapter.requiresTmp[j];
         var requiredChapter = _course?.getChapterByFileID(r);
         if (requiredChapter == null) {
-          _error('unknown chapter $r');
+          _error('Unknown chapter "$r".');
         } else {
           chapter.requires.add(requiredChapter);
         }
@@ -160,7 +160,7 @@ class Compiler {
     // get chapter index file source
     var src = loadFile(path);
     if (src.length == 0) {
-      _error('chapter index file $path does not exist or is empty');
+      _error('Chapter index file "$path" does not exist or is empty.');
       return;
     }
     // parse
@@ -183,7 +183,7 @@ class Compiler {
           _unit?.title = unitTitle;
           _chapter?.units.add(_unit as MbclUnit);
         } else {
-          _error('unexpected line $line');
+          _error('Unexpected line "$line".');
         }
       } else if (state == 'unit') {
         var lexer = Lexer();
@@ -220,7 +220,7 @@ class Compiler {
         var r = level.requiresTmp[j];
         var requiredLevel = _chapter?.getLevelByFileID(r);
         if (requiredLevel == null) {
-          _error('unknown level $r');
+          _error('Unknown level "$r".');
         } else {
           level.requires.add(requiredLevel);
         }
@@ -237,7 +237,7 @@ class Compiler {
     // get level source
     var src = loadFile(path);
     if (src.length == 0) {
-      _error('level file $path does not exist or is empty');
+      _error('Level file $path does not exist or is empty.');
     }
     // set source, split it into lines, trim these lines and
     // filter out comments of each line
@@ -605,14 +605,17 @@ class Compiler {
           case OperandType.complex:
             data.type = MbclInputFieldType.complexNormal;
             break;
+          case OperandType.matrix:
+            data.type = MbclInputFieldType.matrix;
+            break;
           default:
-            exercise.error += 'UNIMPLEMENTED input type ${opType.name}. ';
+            exercise.error += ' UNIMPLEMENTED input type ${opType.name}. ';
         }
       } else {
-        exercise.error = 'there is no variable "${data.variableId}". ';
+        exercise.error += ' There is no variable "${data.variableId}". ';
       }
     } else {
-      exercise.error = 'no variable for input field given. ';
+      exercise.error += ' No variable for input field given. ';
     }
     return inputField;
   }
@@ -634,10 +637,10 @@ class Compiler {
       if (lexer.isIdentifier()) {
         varId = lexer.identifier();
         if (exerciseData.variables.contains(varId) == false) {
-          exercise.error = 'unknown variable $varId';
+          exercise.error += ' Unknown variable "$varId".';
         }
       } else {
-        exercise.error = 'expected ID after :';
+        exercise.error += ' Expected ID after ":".';
       }
     }
     MbclLevelItem root = MbclLevelItem(MbclLevelItemType.multipleChoice);
@@ -648,14 +651,14 @@ class Compiler {
       if (lexer.isTerminal(']')) {
         lexer.next();
       } else {
-        exercise.error = 'expected ]';
+        exercise.error += ' Expected "]".';
       }
       root.type = MbclLevelItemType.multipleChoice;
     } else {
       if (lexer.isTerminal(')')) {
         lexer.next();
       } else {
-        exercise.error = 'expected )';
+        exercise.error += ' Expected ")".';
       }
       root.type = MbclLevelItemType.singleChoice;
     }
@@ -697,12 +700,12 @@ class Compiler {
     if (lexer.isTerminal(']')) {
       lexer.next();
     } else {
-      return MbclLevelItem(MbclLevelItemType.error, 'expected ]');
+      return MbclLevelItem(MbclLevelItemType.error, ' Expected "]".');
     }
     if (lexer.isTerminal('@')) {
       lexer.next();
     } else {
-      return MbclLevelItem(MbclLevelItemType.error, 'expected @');
+      return MbclLevelItem(MbclLevelItemType.error, ' Expected "@".');
     }
     if (lexer.isIdentifier()) {
       var id = lexer.identifier();
@@ -720,10 +723,10 @@ class Compiler {
         color.items = items;
         return color;
       } else {
-        return MbclLevelItem(MbclLevelItemType.error, 'unknown property $id');
+        return MbclLevelItem(MbclLevelItemType.error, ' Unknown property $id.');
       }
     } else {
-      return MbclLevelItem(MbclLevelItemType.error, 'missing property name');
+      return MbclLevelItem(MbclLevelItemType.error, ' Missing property name. ');
     }
   }
 
