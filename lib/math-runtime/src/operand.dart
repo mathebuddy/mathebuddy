@@ -87,7 +87,7 @@ class Operand {
         break;
       default:
         throw Exception(
-          'Operand.compareEqual(..): unimplemented type ${x.type.name}',
+          'Operand.compareEqual(..): unimplemented type "${x.type.name}".',
         );
     }
     return true;
@@ -95,7 +95,7 @@ class Operand {
 
   static Operand createInt(num x) {
     // TODO: check, if x is integral
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.int;
     o.real = x;
     return o;
@@ -103,31 +103,31 @@ class Operand {
 
   static Operand createReal(num x) {
     if (x is int || x == x.roundToDouble()) return Operand.createInt(x);
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.real;
     o.real = x;
     return o;
   }
 
   static Operand createIrrational(String irr) {
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.irrational;
     if (['pi', 'e'].contains(irr) == false) {
-      throw Exception('Operand.createIrrational(..): unknown symbol $irr');
+      throw Exception('Operand.createIrrational(..): unknown symbol "$irr".');
     }
     o.text = irr;
     return o;
   }
 
   static Operand createIrrationalE() {
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.irrational;
     o.text = 'e';
     return o;
   }
 
   static Operand createRational(num n, num d) {
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.rational;
     o.real = n;
     o.denominator = d;
@@ -136,7 +136,7 @@ class Operand {
   }
 
   static Operand createMatrix(int rows, int cols) {
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.matrix;
     o.rows = rows;
     o.cols = cols;
@@ -148,7 +148,7 @@ class Operand {
   }
 
   static Operand createString(String text) {
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.string;
     o.text = text;
     return o;
@@ -167,7 +167,7 @@ class Operand {
   }
 
   static Operand createComplex(num x, num y) {
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.complex;
     o.real = x;
     o.imag = y;
@@ -175,7 +175,7 @@ class Operand {
   }
 
   static Operand createSet(List<Operand> elements) {
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.set;
     for (var i = 0; i < elements.length; i++) {
       var element = elements[i];
@@ -193,14 +193,14 @@ class Operand {
   }
 
   static Operand createVector(List<Operand> element) {
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.vector;
     o.items = [...element];
     return o;
   }
 
   static Operand createIdentifier(String str) {
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.identifier;
     o.text = str;
     return o;
@@ -208,9 +208,9 @@ class Operand {
 
   static Operand addSub(String operator, Operand x, Operand y) {
     if (['+', '-'].contains(operator) == false) {
-      throw Exception('invalid operator $operator for addSub(..)');
+      throw Exception('Invalid operator "$operator" for addSub(..).');
     }
-    var o = Operand();
+    var o = Operand(); // o := output
     if (x.type == OperandType.int && y.type == OperandType.int) {
       o.type = OperandType.int;
       o.real = x.real + (operator == '+' ? y.real : -y.real);
@@ -240,7 +240,7 @@ class Operand {
     } else if (x.type == OperandType.matrix && y.type == OperandType.matrix) {
       o.type = OperandType.matrix;
       if (x.rows != y.rows || x.cols != y.cols) {
-        throw Exception('matrix dimensions not matching for +');
+        throw Exception('Matrix dimensions not matching for operator "+".');
       }
       o.rows = x.rows;
       o.cols = x.cols;
@@ -248,14 +248,14 @@ class Operand {
         o.items.add(Operand.addSub(operator, x.items[i], y.items[i]));
       }
     } else {
-      throw Exception(
-          'cannot apply $operator on ${x.type.name} and ${y.type.name}');
+      throw Exception('Cannot apply operator "$operator" on'
+          ' ${x.type.name} and ${y.type.name}.');
     }
     return o;
   }
 
   static Operand unaryMinus(Operand x) {
-    var o = x.clone();
+    var o = x.clone(); // o := output
     switch (x.type) {
       case OperandType.int:
       case OperandType.real:
@@ -272,16 +272,16 @@ class Operand {
         }
         break;
       default:
-        throw Exception('cannot apply unary - on ${x.type.name}');
+        throw Exception('Cannot apply operator "unary -" on ${x.type.name}.');
     }
     return o;
   }
 
   static Operand mulDiv(String operator, Operand x, Operand y) {
     if (['*', '/'].contains(operator) == false) {
-      throw Exception('invalid operator $operator for mulDiv(..)');
+      throw Exception('Invalid operator "$operator" for mulDiv(..).');
     }
-    var o = Operand();
+    var o = Operand(); // o := output
     if (x.type == OperandType.int && y.type == OperandType.int) {
       o.type = OperandType.int;
       if (operator == '*') {
@@ -352,15 +352,34 @@ class Operand {
         o.real = n.real / d;
         o.imag = n.imag / d;
       }
+    } else if (x.type == OperandType.matrix && y.type == OperandType.matrix) {
+      o.type = OperandType.matrix;
+      if (x.cols != y.rows) {
+        throw Exception('Matrix dimensions not matching for operator "*".');
+      }
+      o.rows = x.rows;
+      o.cols = y.cols;
+      for (var i = 0; i < o.rows; i++) {
+        for (var j = 0; j < o.cols; j++) {
+          var idx = i * o.cols + j;
+          o.items.add(Operand.createInt(0));
+          for (var k = 0; k < x.cols; k++) {
+            int a = i * x.cols + k;
+            int b = k * y.cols + j;
+            o.items[idx] = Operand.addSub(
+                '+', o.items[idx], Operand.mulDiv('*', x.items[a], y.items[b]));
+          }
+        }
+      }
     } else {
-      throw Exception(
-          'cannot apply $operator on ${x.type.name} and ${y.type.name}');
+      throw Exception('Cannot apply operator "$operator" on "${x.type.name}"'
+          ' and "${y.type.name}".');
     }
     return o;
   }
 
   static Operand pow(Operand x, Operand y) {
-    var o = Operand();
+    var o = Operand(); // o := output
     if (x.type == OperandType.int && y.type == OperandType.int) {
       o.type = OperandType.int;
       o.real = math.pow(x.real, y.real).round();
@@ -378,7 +397,7 @@ class Operand {
       throw Exception('unimplemented');
     } else {
       throw Exception(
-        'cannot apply ^ on ${x.type.name} and ${y.type.name}',
+        'Cannot apply operator "^" on "${x.type.name}" and "${y.type.name}".',
       );
     }
     return o;
@@ -386,9 +405,9 @@ class Operand {
 
   static Operand relational(String op, Operand x, Operand y) {
     if (['<', '<=', '>', '>='].contains(op) == false) {
-      throw Exception('invalid operator $op for relational(..)');
+      throw Exception('Invalid operator $op for relational(..).');
     }
-    var o = Operand();
+    var o = Operand(); // o := output
     o.type = OperandType.boolean;
     if ((x.type == OperandType.int ||
             x.type == OperandType.real ||
@@ -416,7 +435,7 @@ class Operand {
       }
     } else {
       throw Exception(
-        'cannot apply $op on ${x.type.name} and ${y.type.name}',
+        'Cannot apply $op on ${x.type.name} and ${y.type.name}.',
       );
     }
     return o;
@@ -474,7 +493,7 @@ class Operand {
         }
       default:
         throw Exception(
-          'unimplemented Operand.toString() for type ${type.name}',
+          'Unimplemented Operand.toString() for type ${type.name}.',
         );
     }
   }
