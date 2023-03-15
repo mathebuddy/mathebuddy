@@ -55,12 +55,13 @@ void main() {
   print('=== TESTING DEMO FILES ===');
 
   var files = [
+    'exercises.mbl',
     'hello.mbl',
     'typography.mbl',
     'exercises-simple.mbl',
     'definitions.mbl',
     'equations.mbl',
-    'examples.mbl'
+    'examples.mbl',
   ];
   for (var file in files) {
     print("******************* TESTING FILE $file *******************");
