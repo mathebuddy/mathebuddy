@@ -8,7 +8,7 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
-  tex: ^0.3.0
+  tex: ^0.3.1
   slex: ^0.9.1
 
 dev_dependencies:
