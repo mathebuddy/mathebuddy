@@ -35,7 +35,7 @@ class Block {
   List<Block> subBlocks = []; // e.g. "EQUATION ..."
   int srcLine = 0;
   List<MbclLevelItem> levelItems = [
-    MbclLevelItem(MbclLevelItemType.error, 'block unprocessed')
+    MbclLevelItem(MbclLevelItemType.error, 'Block unprocessed.')
   ];
   final Compiler _compiler;
 
@@ -108,7 +108,7 @@ class Block {
         break;
       default:
         levelItems = [
-          MbclLevelItem(MbclLevelItemType.error, 'unknown block type "$type"')
+          MbclLevelItem(MbclLevelItemType.error, 'Unknown block type "$type".')
         ];
     }
   }
@@ -130,8 +130,8 @@ class Block {
       switch (part.name) {
         case 'global':
           if (part.lines.join('\n').trim().isNotEmpty) {
-            table.error +=
-                'Some of your code is not inside a tag (e.g. "@code" or "@text")';
+            table.error += 'Some of your code is not inside a tag'
+                ' (e.g. "@code" or "@text").';
           }
           break;
         case 'options':
@@ -149,7 +149,7 @@ class Block {
                 data.options.add(MbclTableOption.alignRight);
                 break;
               default:
-                table.error += 'unknown option "$line"';
+                table.error += 'Unknown option "$line".';
             }
           }
           break;
@@ -169,7 +169,7 @@ class Block {
               var columnText = _compiler.parseParagraph(columnString);
               if (columnText.length != 1 ||
                   columnText[0].type != MbclLevelItemType.paragraph) {
-                table.error += 'table cell is not pure text';
+                table.error += 'Table cell is not pure text.';
                 row.columns.add(MbclLevelItem(MbclLevelItemType.text, 'error'));
               } else {
                 row.columns.add(columnText[0]);
@@ -179,7 +179,7 @@ class Block {
           }
           break;
         default:
-          table.error += 'unexpected part "${part.name}"';
+          table.error += 'Unexpected part "${part.name}".';
           break;
       }
     }
@@ -224,7 +224,7 @@ class Block {
               var interpreter = smpl_interpreter.Interpreter();
               var symbols = interpreter.runProgram(ic);
               if (symbols.containsKey('__figure') == false) {
-                figure.error += 'code does generate a figure';
+                figure.error += 'Code does generate a figure.';
               } else {
                 var figureSymbol =
                     symbols['__figure'] as smpl_interpreter.InterpreterSymbol;
@@ -237,7 +237,7 @@ class Block {
           break;
         case 'path':
           if (part.lines.length != 1) {
-            figure.error += 'invalid path';
+            figure.error += 'Invalid figure path.';
           } else {
             /*// TODO: check if path exists!
             var line = part.lines[0].trim();
@@ -253,7 +253,7 @@ class Block {
             data.data = _compiler.loadFile(data.filePath);
             if (data.data.isEmpty) {
               figure.error +=
-                  'could not load image file from path "${data.filePath}"';
+                  'Could not load image file from path "${data.filePath}".';
             }
           }
           break;
@@ -281,12 +281,12 @@ class Block {
                 data.options.add(MbclFigureOption.width25);
                 break;
               default:
-                figure.error += 'unknown option "$line"';
+                figure.error += 'Unknown option "$line".';
             }
           }
           break;
         default:
-          figure.error += 'unexpected part "${part.name}"';
+          figure.error += 'Unexpected part "${part.name}".';
           break;
       }
     }
@@ -327,7 +327,7 @@ class Block {
                 data.options.add(MbclEquationOption.alignEquals);
                 break;
               default:
-                equation.error += 'unknown option "$line"';
+                equation.error += 'Unknown option "$line".';
             }
           }
           break;
@@ -343,7 +343,7 @@ class Block {
           }
           break;
         default:
-          equation.error += 'unexpected part "${part.name}"';
+          equation.error += 'Unexpected part "${part.name}".';
           break;
       }
     }
@@ -361,7 +361,7 @@ class Block {
           example.items.addAll(_compiler.parseParagraph(part.lines.join("\n")));
           break;
         default:
-          example.error += 'unexpected part "${part.name}"';
+          example.error += 'Unexpected part "${part.name}".';
       }
     }
     _processSubblocks(example);
@@ -376,7 +376,7 @@ class Block {
           align.items.addAll(_compiler.parseParagraph(part.lines.join("\n")));
           break;
         default:
-          align.error += 'unexpected part "${part.name}"';
+          align.error += 'Unexpected part "${part.name}".';
       }
     }
     _processSubblocks(align);
@@ -393,7 +393,7 @@ class Block {
           def.items.addAll(_compiler.parseParagraph(part.lines.join("\n")));
           break;
         default:
-          def.error += 'unexpected part "${part.name}"';
+          def.error += 'Unexpected part "${part.name}".';
       }
     }
     _processSubblocks(def);
@@ -448,6 +448,7 @@ class Block {
               data.instances.add(instance);
             } catch (e) {
               exercise.error += 'SMPL-Error: $e\n';
+              break;
             }
           }
           break;
@@ -457,8 +458,61 @@ class Block {
             exercise,
           ));
           break;
+        case 'options':
+          for (var line in part.lines) {
+            line = line.trim();
+            if (line.isEmpty) continue;
+            var tokens = line.split(':');
+            if (tokens.length != 2) {
+              exercise.error += 'Invalid option "$line".';
+              continue;
+            }
+            var optionKey = tokens[0].trim();
+            var optionValue = tokens[1].trim();
+            switch (optionKey) {
+              case 'order':
+                {
+                  if (optionValue == 'static') {
+                    data.staticOrder = true;
+                  } else {
+                    exercise.error +=
+                        'Invalid value "${data.staticOrder}" for option "value';
+                  }
+                  break;
+                }
+              case 'solution-variable':
+                {
+                  data.solutionVariableId = optionValue;
+                  break;
+                }
+              case 'choices':
+                {
+                  if (int.tryParse(optionValue) == null) {
+                    exercise.error +=
+                        'Option "choices" requires an integer value.';
+                  } else {
+                    data.numberOfChoices = int.parse(optionValue);
+                  }
+                  break;
+                }
+              default:
+                {
+                  exercise.error += 'Unknown option: "$line".';
+                  break;
+                }
+            }
+            /*if(line == 'static-order') {
+              data.staticOrder = true;
+            } else if(line.startsWith('choices-')) {
+              data.numberOfChoices = 
+              //
+            } else {
+              exercise.error += 'Unknown option "$line".';
+            }*/
+          }
+          break;
         default:
-          exercise.error += 'unknown part "${part.name}"';
+          exercise.error += 'Unknown part "${part.name}".';
           break;
       }
     }
