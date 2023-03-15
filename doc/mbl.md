@@ -511,7 +511,8 @@ The following paragraphs describe all implemented exercise types.
     The student has to type in the answer on a numeric keyboard.
 
     If option `choices-X` is given, a set of `X` possible answers is shown.
-    One of theses answers correct. All other answers are incorrect.
+    Only one these answers is a correct one.
+    All other answers are incorrect.
     The student has to select the correct solution to gather scoring.
 
     Example:
@@ -679,7 +680,7 @@ The following paragraphs describe all implemented exercise types.
   ---
   EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
   @options
-    keep-order
+    static-order
   @text
     [x] This answer is correct.
     [ ] This answer is incorrect.
@@ -690,7 +691,7 @@ The following paragraphs describe all implemented exercise types.
   Each correct answer is scored with 1 points, each wrong answer is scored with -1 points. The total score of the exercise can be weighted with option `scores-X`, where `X` is the total score.
 
   Answers are displayed in random order per default.
-  Option `keep-order` suppresses random shuffling.
+  Option `static-order` suppresses random shuffling.
 
 - `Dynamic Multiple Choice Exercise`
 
