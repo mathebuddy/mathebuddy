@@ -12,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
 import 'package:mathebuddy/color.dart';
+import 'package:mathebuddy/help.dart';
 import 'package:mathebuddy/main.dart';
 
 const double defaultFontSize = 16;
@@ -106,7 +107,7 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
                   if (variableValue == null) {
                     texSrc += 'ERROR: unknown exercise variable $variableId';
                   } else {
-                    texSrc += variableValue;
+                    texSrc += convertMath2TeX(variableValue);
                   }
                 }
                 break;
