@@ -244,10 +244,10 @@ packages:
     dependency: "direct main"
     description:
       name: tex
-      sha256: e814c32c9632c693d690f171103e79538bd7070bf785923887e77818f4567cf9
+      sha256: "472176eeefbe06fa7fe951aa4aea90cd0c5a638685006ec7c14c3fd266c1c5b1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.3.1"
   typed_data:
     dependency: transitive
     description:
