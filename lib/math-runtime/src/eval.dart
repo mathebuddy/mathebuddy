@@ -71,7 +71,8 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         } else if (o.type == OperandType.irrational) {
           v = term.getBuiltInValue(o.text);
         } else {
-          throw Exception('cannot apply ${term.op} for ${o.type.name}');
+          throw Exception(
+              'Cannot apply type ${o.type.name} for function ${term.op}.');
         }
         switch (term.op) {
           case 'sin':
@@ -91,7 +92,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
           case 'ln':
             return Operand.createReal(math.log(v));
           default:
-            throw Exception('unimplemented eval for ${term.op}');
+            throw Exception('Unimplemented eval for ${term.op}.');
         }
       }
     case 'len':
@@ -102,7 +103,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
             return Operand.createInt(x.items.length);
           default:
             throw Exception(
-              'argument type "${x.type}" of "${term.op}" is invalid',
+              'Argument type "${x.type}" of "${term.op}" is invalid.',
             );
         }
       }
@@ -137,7 +138,8 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
                     }
                   default:
                     throw Exception(
-                      'not allowed to calculate "${term.op}" for type ${i.type}',
+                      'Not allowed to calculate "${term.op}" for'
+                      ' type ${i.type}.',
                     );
                 }
               }
@@ -145,7 +147,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
             }
           default:
             throw Exception(
-              'argument type "${x.type}" of "${term.op}" is invalid',
+              'Argument type "${x.type}" of "${term.op}" is invalid.',
             );
         }
       }
@@ -174,7 +176,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
             }
           default:
             throw Exception(
-              'argument type "${x.type}" of "${term.op}" is invalid',
+              'Argument type "${x.type}" of "${term.op}" is invalid.',
             );
         }
       }
@@ -191,7 +193,8 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
               math.sqrt(v.real * v.real + v.imag * v.imag),
             );
           default:
-            throw Exception('abs(..) invalid for type ${v.type.name}');
+            throw Exception(
+                'Function "abs(..)" invalid for type "${v.type.name}".');
         }
       }
     case 'binomial':
@@ -199,7 +202,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         var n_ = term.o[0].eval(varValues);
         var k_ = term.o[1].eval(varValues);
         if (n_.type != OperandType.int || n_.type != OperandType.int) {
-          throw Exception('arguments of "${term.op}" must be integral');
+          throw Exception('Arguments of "${term.op}" must be integral.');
         }
         num n = n_.real;
         num k = k_.real;
@@ -216,7 +219,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       {
         var x_ = term.o[0].eval(varValues);
         if (x_.type != OperandType.int) {
-          throw Exception('arguments of "${term.op}" must be integral');
+          throw Exception('Arguments of "${term.op}" must be integral.');
         }
         var x = x_.real;
         var y = 1;
@@ -232,7 +235,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       {
         var x_ = term.o[0].eval(varValues);
         if (x_.type != OperandType.int && x_.type != OperandType.real) {
-          throw Exception('argument of "${term.op}" must be integral or real');
+          throw Exception('Argument of "${term.op}" must be integral or real.');
         }
         var x = x_.real;
         switch (term.op) {
@@ -253,7 +256,8 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         var y_ = term.o[1].eval(varValues);
         if ((x_.type != OperandType.int && x_.type != OperandType.real) ||
             (y_.type != OperandType.int && y_.type != OperandType.real)) {
-          throw Exception('arguments of "${term.op}" must be integral or real');
+          throw Exception(
+              'Arguments of "${term.op}" must be integral or real.');
         }
         var x = x_.real;
         var y = y_.real;
@@ -264,7 +268,8 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       {
         var c = term.o[0].eval(varValues);
         if (c.type != OperandType.complex) {
-          throw Exception('arguments of "${term.op}" must be integral or real');
+          throw Exception(
+              'arguments of "${term.op}" must be integral or real.');
         }
         switch (term.op) {
           case 'real':
@@ -281,7 +286,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         var min = term.o[0].eval(varValues);
         var max = term.o[1].eval(varValues);
         if (min.type != OperandType.int || max.type != OperandType.int) {
-          throw Exception('arguments of "${term.op}" must be integral');
+          throw Exception('arguments of "${term.op}" must be integral.');
         }
         switch (term.dims.length) {
           case 0:
@@ -292,17 +297,17 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
             }
           case 1:
             {
-              throw Exception('rand with 1 dims is unimplemented');
+              throw Exception('rand with 1 dims is unimplemented.');
             }
           case 2:
             {
               var rows = term.dims[0].eval(varValues);
               if (rows.type != OperandType.int) {
-                throw Exception('rand dimensions must be integral');
+                throw Exception('rand dimensions must be integral.');
               }
               var cols = term.dims[1].eval(varValues);
               if (cols.type != OperandType.int) {
-                throw Exception('rand dimensions must be integral');
+                throw Exception('rand dimensions must be integral.');
               }
               var o = Operand.createMatrix(rows.real as int, cols.real as int);
               var n = rows.real * cols.real;
@@ -314,7 +319,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
               return o;
             }
           default:
-            throw Exception('rand requires max two dimensions');
+            throw Exception('rand requires max two dimensions.');
         }
       }
     case '\$':
@@ -322,7 +327,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         if (varValues.containsKey(term.value.text)) {
           return varValues[term.value.text] as Operand;
         } else {
-          throw Exception('eval(..): unset variable "${term.value}"');
+          throw Exception('eval(..): unset variable "${term.value}".');
         }
       }
     case 'set':
@@ -359,7 +364,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
           if (numCols == -1) {
             numCols = row.items.length;
           } else if (numCols != row.items.length) {
-            throw Exception('eval(..): rows have different lengths');
+            throw Exception('eval(..): rows have different lengths.');
           }
         }
         var m = Operand.createMatrix(numRows, numCols);
@@ -374,6 +379,6 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         return m;
       }
     default:
-      throw Exception('eval(..): unimplemented operator "${term.op}"');
+      throw Exception('eval(..): unimplemented operator "${term.op}".');
   }
 }
