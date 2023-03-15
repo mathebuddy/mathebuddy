@@ -14,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
 import 'package:mathebuddy/color.dart';
+import 'package:mathebuddy/help.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/paragraph.dart';
 
@@ -24,7 +25,8 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
     paragraphPaddingBottom = 5.0,
     MbclExerciseData? exerciseData}) {
   if (item.error.isNotEmpty) {
-    return generateErrorWidget(item.error);
+    return generateErrorWidget(
+        'ERROR in element "${item.title}":\n${item.error}');
   }
   switch (item.type) {
     case MbclLevelItemType.section:
@@ -396,12 +398,22 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
       }
     case MbclLevelItemType.multipleChoice:
       {
+        // exerciseData is non-null in a multiple choice context
+        exerciseData as MbclExerciseData;
+        //
+        int n = item.items.length;
+        if (exerciseData.indexOrdering.isEmpty) {
+          exerciseData.indexOrdering = List<int>.generate(n, (i) => i);
+          if (exerciseData.staticOrder == false) {
+            shuffleIntegerList(exerciseData.indexOrdering);
+          }
+        }
+        // generate answers
         List<Widget> mcOptions = [];
         for (var i = 0; i < item.items.length; i++) {
-          var inputField = item.items[i];
+          var inputField = item.items[exerciseData.indexOrdering[i]];
           var inputFieldData = inputField.inputFieldData as MbclInputFieldData;
-          if (exerciseData != null &&
-              exerciseData.inputFields.containsKey(inputField.id) == false) {
+          if (exerciseData.inputFields.containsKey(inputField.id) == false) {
             exerciseData.inputFields[inputField.id] = inputFieldData;
             inputFieldData.studentValue = "false";
             var exerciseInstance =
@@ -409,7 +421,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             inputFieldData.expectedValue =
                 exerciseInstance[inputFieldData.variableId] as String;
           }
-          var feedbackColor = getFeedbackColor(exerciseData?.feedback);
+          var feedbackColor = getFeedbackColor(exerciseData.feedback);
           // 57688 := Icons.check_box_outline_blank
           // 61254 := Icons.check_box_outlined
           var icon = Icon(
@@ -433,7 +445,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                 } else {
                   inputFieldData.studentValue = "true";
                 }
-                exerciseData?.feedback = MbclExerciseFeedback.unchecked;
+                exerciseData.feedback = MbclExerciseFeedback.unchecked;
                 // ignore: invalid_use_of_protected_member
                 state.setState(() {});
               },
@@ -457,5 +469,15 @@ Widget generateErrorWidget(String errorText) {
   return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
-      children: [Text(errorText, style: TextStyle(color: Colors.red))]);
+      children: [
+        Container(
+          decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+          padding: EdgeInsets.all(5),
+          child: Text(errorText,
+              style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+        )
+      ]);
 }
