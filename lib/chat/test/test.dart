@@ -10,8 +10,15 @@ import 'dart:io';
 import '../src/chat.dart';
 
 void main() {
-  print('hello');
-  stdout.write('>> ');
-  var x = stdin.readLineSync(encoding: utf8);
-  print('.. you typed $x');
+  var chat = Chat();
+  for (var message in chat.getChatHistory()) {
+    print(message);
+  }
+  while (true) {
+    stdout.write('>> ');
+    var message = stdin.readLineSync(encoding: utf8) as String;
+    if (message == 'exit') break;
+    chat.chat(message);
+    print(chat.getChatHistory().last);
+  }
 }
