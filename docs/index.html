@@ -180,6 +180,7 @@
           </button>
           <button class="button" onclick="showPlayground('smpl')">SMPL</button>
           <button class="button" onclick="showPlayground('mbl')">MBL</button>
+          <button class="button" onclick="showPlayground('chat')">chat</button>
           <button class="button" onclick="showPlayground('tex')">TeX</button>
         </div>
         <div id="doc-list" style="text-align: center; display: none">
@@ -645,7 +646,7 @@
       <div class="row">
         <h2>MBL</h2>
         <p>
-          MBL (mathe:buddy language) is a langauge to describe randomized and
+          MBL (mathe:buddy language) is a language to describe randomized and
           gamified math online courses. The compiler is entirely written in the
           <i>Dart</i> programming language and has no dependencies, except
           "smpl" and "math-runtime", which are part of the mathe:buddy project.
@@ -679,6 +680,57 @@
       <div class="row">
         <h4>MBCL</h4>
         <div id="mbl-output">(empty)<br /><br /></div>
+      </div>
+    </div>
+
+    <!-- ===== CHAT ===== -->
+
+    <div id="chat" class="container" style="display: none">
+      <div class="row">
+        <h2>CHAT</h2>
+        <p>
+          The app will contain a chatbot. This playground provides the current
+          implementation. The language is yet only German.
+        </p>
+        <p>Examples:</p>
+        <ul>
+          <li>Wie geht's?</li>
+          <li>A=[[1,2],[3,4]]</li>
+          <li>3*A</li>
+        </ul>
+      </div>
+
+      <div class="row">
+        <h4>Playground</h4>
+        <button id="resetChat" type="button">reset</button><br />
+        Press ENTER to post messages.<br />
+      </div>
+      <div id="chat-content">
+        <div
+          style="
+            border-style: solid;
+            border-radius: 4px;
+            border-width: 2px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            width: 75%;
+            cursor: pointer;
+          "
+        >
+          &nbsp;
+          <img src="img/logo/logo.svg" style="height: 12px" />
+          Hallo! Gerne bin ich Dir behilflich beim Trainieren, erkläre Dir
+          Begriffe oder rechne.
+        </div>
+        <div style="text-align: center">
+          <input
+            type="text"
+            id="chat-input"
+            class="u-full-width"
+            value=""
+            style="width: 75%"
+          />
+        </div>
       </div>
     </div>
 
@@ -879,7 +931,7 @@
 
       // playground selection
       function showPlayground(id) {
-        let playgrounds = ["math-runtime", "smpl", "mbl", "tex"];
+        let playgrounds = ["math-runtime", "smpl", "mbl", "chat", "tex"];
         for (let d of playgrounds)
           document.getElementById(d).style.display = id == d ? "block" : "none";
       }
