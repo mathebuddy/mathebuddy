@@ -24,6 +24,13 @@
       "console": "terminal"
     },
     {
+      "type": "dart",
+      "name": "[chat] interactive test",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/chat/test/test.dart",
+      "console": "terminal"
+    },
+    {
       "type": "python",
       "name": "[python] current file",
       "request": "launch",
