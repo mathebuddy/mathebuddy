@@ -327,8 +327,8 @@ class Operand {
             y.type == OperandType.real ||
             y.type == OperandType.complex)) {
       o.type = OperandType.matrix;
-      o.rows = y.rows;
-      o.cols = y.cols;
+      o.rows = x.rows;
+      o.cols = x.cols;
       for (var i = 0; i < x.items.length; i++) {
         o.items.add(Operand.mulDiv('*', x.items[i], y));
       }
