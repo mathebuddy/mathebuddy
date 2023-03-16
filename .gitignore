@@ -1,4 +1,5 @@
 .dart_tool/
+*.lock
 
 docs/sim/assets/NOTICES
 __pycache__/
