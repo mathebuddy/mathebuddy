@@ -26,7 +26,7 @@ void typeset(bool paintBox) {
   var src = (querySelector('#tex-input') as InputElement).value as String;
   var tex = TeX();
   print(src);
-  var output = tex.tex2svg(src, paintBox);
+  var output = tex.tex2svg(src, debugMode: paintBox);
   print(output);
   if (output.isNotEmpty) {
     var outputBase64 = base64Encode(utf8.encode(output));
