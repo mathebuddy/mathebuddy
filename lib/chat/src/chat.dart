@@ -4,20 +4,67 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import '../../math-runtime/src/parse.dart' as math_parser;
+import '../../math-runtime/src/operand.dart' as math_operand;
+
 class Chat {
   /// The history of previous messages.
   /// Prefixes: 'B' := mathe buddy bot, 'U' := user/student.
-  List<String> _history = [
+  final List<String> _history = [
     'B:Hallo! Gerne bin ich Dir behilflich beim Trainieren, '
         'erkläre Dir Begriffe oder rechne.',
   ];
+  final Map<String, math_operand.Operand> _variableScope = {};
+
+  void chat(String message) {
+    var answer = '';
+    message = message.trim();
+    _history.add(message);
+    message = message.toLowerCase();
+    // try to evaluate string
+    var p = math_parser.Parser();
+    try {
+      String variableId = '';
+      var tmp = message.replaceAll(' ', '');
+      if (tmp.length > 2 && tmp[1] == '=') {
+        variableId = tmp[0];
+        message = message.split('=').sublist(1).join('=');
+      }
+      var term = p.parse(message);
+      var value = term.eval(_variableScope);
+      var valueTeX = value; // TODO!
+      answer = '\$$valueTeX\$'; // embed into TeX string
+      if (variableId.isNotEmpty) {
+        _variableScope[variableId] = value;
+        answer = 'Merke mir den Wert $answer für Variable \$$variableId\$.';
+      }
+    } catch (e) {
+      print("[debug info: $e]");
+      if (e.toString().contains("eval(..): unset variable")) {
+        answer = 'Leider sind mir nicht alle Variablen bekannt.';
+      }
+    }
+    // misc
+    if (answer.isEmpty) {
+      if (message.contains('geht') && message.endsWith('?')) {
+        answer = 'Danke, mir geht es gut!';
+      } else {
+        answer = 'Leider verstehe ich Deine Eingabe nicht.';
+      }
+    }
+    pushBotMessage(answer);
+  }
 
   void pushBotMessage(String message) {
-    this._history.add('B:$message');
+    _history.add('B:$message');
   }
 
   void pushUserMessage(String message) {
-    this._history.add('U:$message');
+    _history.add('U:$message');
+  }
+
+  List<String> getChatHistory() {
+    return _history;
   }
 }
 
