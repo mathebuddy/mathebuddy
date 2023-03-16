@@ -46,6 +46,8 @@ do
         dart pub get
         cd ../smpl/
         dart pub get
+        cd ../chat/
+        dart pub get
         cd ../../app
         flutter pub get
         cd ..
