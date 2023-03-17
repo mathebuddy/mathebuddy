@@ -156,10 +156,14 @@
       </div>
 
       <span class="text-german">
-        <img class="u-max-full-width" src="img/logo/logo-large.svg" />
+        <a href="index.html">
+          <img class="u-max-full-width" src="img/logo/logo-large.svg" />
+        </a>
       </span>
       <span class="text-english">
-        <img class="u-max-full-width" src="img/logo/logo-large-en.svg" />
+        <a href="index.html">
+          <img class="u-max-full-width" src="img/logo/logo-large-en.svg" />
+        </a>
       </span>
 
       <div class="row">
@@ -168,13 +172,16 @@
           <button class="button-primary" onclick="show('blog')">blog</button>
           <button class="button-primary" onclick="show('doc')">doc</button>
           <button class="button-primary" onclick="show('sim-info')">sim</button>
-          <button class="button-primary" onclick="show('playground-list')">
+          <button class="button-primary" onclick="show('play-info')">
             play
           </button>
           <button class="button-primary" onclick="show('road')">road</button>
         </div>
-        <div id="playground-list" style="text-align: center; display: none">
-          <b>PLAYGROUND</b><br />
+        <div id="play-list" style="text-align: center; display: none">
+          <b>PLAYGROUNDS</b><br />
+          <button class="button" onclick="showPlayground('play-info')">
+            INFO
+          </button>
           <button class="button" onclick="showPlayground('math-runtime')">
             math
           </button>
@@ -497,7 +504,17 @@
       </div>
     </div>
 
-    <!-- ===== MATH RUNTIME ===== -->
+    <!-- ===== PLAYGROUNDS ===== -->
+
+    <div id="play-info" class="container" style="display: none">
+      <div class="row">
+        <br />
+        <h2>Playgrounds</h2>
+        <div id="play-info-contents"></div>
+      </div>
+    </div>
+
+    <!-- ===== PLAYGROUND: MATH RUNTIME ===== -->
 
     <div id="math-runtime" class="container" style="display: none">
       <div class="row">
@@ -593,7 +610,7 @@
       <br />
     </div>
 
-    <!-- ===== SMPL ===== -->
+    <!-- ===== PLAYGROUND: SMPL ===== -->
 
     <div id="smpl" class="container" style="display: none">
       <div class="row">
@@ -640,7 +657,7 @@
       </div>
     </div>
 
-    <!-- ===== MBL ===== -->
+    <!-- ===== PLAYGROUND: MBL ===== -->
 
     <div id="mbl" class="container" style="display: none">
       <div class="row">
@@ -683,7 +700,7 @@
       </div>
     </div>
 
-    <!-- ===== CHAT ===== -->
+    <!-- ===== PLAYGROUND: CHAT ===== -->
 
     <div id="chat" class="container" style="display: none">
       <div class="row">
@@ -692,49 +709,34 @@
           The app will contain a chatbot. This playground provides the current
           implementation. The language is yet only German.
         </p>
-        <p>Examples:</p>
-        <ul>
-          <li>Wie geht's?</li>
-          <li>A=[[1,2],[3,4]]</li>
-          <li>3*A</li>
-        </ul>
       </div>
 
       <div class="row">
         <h4>Playground</h4>
-        <button id="resetChat" type="button">reset</button><br />
-        Press ENTER to post messages.<br />
+        Examples:
+        <ul>
+          <li><code>Wie geht's?</code></li>
+          <li><code>a=[[1,2],[3,4]]</code></li>
+          <li><code>3*a</code></li>
+        </ul>
+        <button id="chat-reset" type="button">reset</button><br />
       </div>
-      <div id="chat-content">
-        <div
-          style="
-            border-style: solid;
-            border-radius: 4px;
-            border-width: 2px;
-            margin-top: 2px;
-            margin-bottom: 2px;
-            width: 75%;
-            cursor: pointer;
-          "
-        >
-          &nbsp;
-          <img src="img/logo/logo.svg" style="height: 12px" />
-          Hallo! Gerne bin ich Dir behilflich beim Trainieren, erkläre Dir
-          Begriffe oder rechne.
-        </div>
-        <div style="text-align: center">
-          <input
-            type="text"
-            id="chat-input"
-            class="u-full-width"
-            value=""
-            style="width: 75%"
-          />
-        </div>
+      <div id="chat-content"></div>
+      <div class="row" style="text-align: right">
+        <input
+          id="chat-input"
+          type="text"
+          class="u-full-width"
+          value=""
+          style="width: 75%; text-align: right"
+        />
+      </div>
+      <div class="row" style="text-align: right">
+        Press ENTER to post messages.
       </div>
     </div>
 
-    <!-- ===== TEX ===== -->
+    <!-- ===== PLAYGROUND: TEX ===== -->
 
     <div id="tex" class="container" style="display: none">
       <div class="row">
@@ -819,6 +821,8 @@
 
     <!-- end of tex -->
 
+    <!-- ===== FOOTER ===== -->
+
     <div class="container">
       <br />
       <br />
@@ -875,6 +879,13 @@
           document.getElementById("sim-info-contents").innerHTML = data;
           refreshLanguage();
         });
+      // set playground info text
+      fetch("text/play-info.html?ver=" + Date.now())
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("play-info-contents").innerHTML = data;
+          refreshLanguage();
+        });
 
       // switch simulator device (only changes width/height)
       function setDevice(id) {
@@ -908,12 +919,12 @@
           "home",
           "blog",
           "doc",
-          "playground-list",
           "math-runtime",
           "smpl",
           "mbl",
           "road",
           "sim-info",
+          "play-info",
         ];
         for (let d of divs)
           document.getElementById(d).style.display = id == d ? "block" : "none";
@@ -921,6 +932,8 @@
           id == "doc" ? "block" : "none";
         document.getElementById("sim-list").style.display =
           id == "sim-info" ? "block" : "none";
+        document.getElementById("play-list").style.display =
+          id == "play-info" ? "block" : "none";
       }
       show("home"); // home is default
 
@@ -931,9 +944,17 @@
 
       // playground selection
       function showPlayground(id) {
-        let playgrounds = ["math-runtime", "smpl", "mbl", "chat", "tex"];
-        for (let d of playgrounds)
+        let playgrounds = [
+          "play-info",
+          "math-runtime",
+          "smpl",
+          "mbl",
+          "chat",
+          "tex",
+        ];
+        for (let d of playgrounds) {
           document.getElementById(d).style.display = id == d ? "block" : "none";
+        }
       }
 
       // language
@@ -1052,6 +1073,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1678807082"></script>
+    <script src="js/index.min.js?version=1679052515"></script>
   </body>
 </html>
