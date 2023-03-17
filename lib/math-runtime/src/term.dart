@@ -120,17 +120,6 @@ class Term {
     return evalTerm(this, varValues);
   }
 
-  num getBuiltInValue(String id) {
-    switch (id) {
-      case 'pi':
-        return math.pi;
-      case 'e':
-        return math.e;
-      default:
-        throw Exception('getBuildInValue(..): unimplemented symbol $id');
-    }
-  }
-
   /// Symbolic differentiation by a derivation variable [varId]. The resulting
   /// term is not optimized.
   ///
