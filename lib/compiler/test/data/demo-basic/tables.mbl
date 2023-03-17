@@ -4,9 +4,9 @@ Tables
 ---
 TABLE Negation
 @options
-align-left
+  align-left
 @text
-$A$ & $\not A$
-w & f
-f & w
+  $A$ & $\neg A$
+  w   & f
+  f   & w
 ---

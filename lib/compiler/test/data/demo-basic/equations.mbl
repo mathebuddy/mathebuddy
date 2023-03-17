@@ -9,7 +9,7 @@ An inline equation $x^2+y^2+\sqrt(z)$.
 Equations
 =========
 
-Numbered equation
+Numbered equations
 -----------------
 
 ---
@@ -17,7 +17,12 @@ EQUATION @myLabel
 a^2 + b^2 = c^2
 ---
 
-Equation without number
+---
+EQUATION
+\sqrt{x+1}
+---
+
+Equations without number
 -----------------------
 
 ---
@@ -56,7 +61,7 @@ Numbers
 - $\RR$
 - $\NN$
 - $\ZZ$
-- $\C$
+- $\CC$
 
 Matrices
 --------
