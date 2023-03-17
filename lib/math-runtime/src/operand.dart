@@ -271,6 +271,11 @@ class Operand {
           o.items[i] = Operand.unaryMinus(o.items[i]);
         }
         break;
+      case OperandType.irrational:
+        // TODO: this is not symbolic...
+        o.type = OperandType.real;
+        o.real = -Operand.getBuiltInValue(o.text);
+        break;
       default:
         throw Exception('Cannot apply operator "unary -" on ${x.type.name}.');
     }
@@ -439,6 +444,17 @@ class Operand {
       );
     }
     return o;
+  }
+
+  static double getBuiltInValue(String id) {
+    switch (id) {
+      case 'pi':
+        return math.pi;
+      case 'e':
+        return math.e;
+      default:
+        throw Exception('getBuildInValue(..): unimplemented symbol $id');
+    }
   }
 
   @override
