@@ -69,7 +69,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         } else if (o.type == OperandType.rational) {
           v = o.real / o.denominator;
         } else if (o.type == OperandType.irrational) {
-          v = term.getBuiltInValue(o.text);
+          v = Operand.getBuiltInValue(o.text);
         } else {
           throw Exception(
               'Cannot apply type ${o.type.name} for function ${term.op}.');
