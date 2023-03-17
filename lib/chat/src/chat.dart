@@ -4,6 +4,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'dart:math';
+
 import '../../math-runtime/src/parse.dart' as math_parser;
 import '../../math-runtime/src/operand.dart' as math_operand;
 
@@ -17,10 +19,27 @@ class Chat {
   final Map<String, math_operand.Operand> _variableScope = {};
 
   void chat(String message) {
-    var answer = '';
     message = message.trim();
-    _history.add(message);
+    pushUserMessage(message);
     message = message.toLowerCase();
+    // empty
+    if (message.isEmpty) {
+      var answers = [
+        'Du musst auch etwas schreiben, wenn ich Dir helfen soll!',
+        '?',
+        'Sag was!'
+      ];
+      var idx = Random().nextInt(answers.length);
+      pushBotMessage(answers[idx]);
+      return;
+    }
+    // ...
+    if (['fuck', 'idiot', 'dumm'].contains(message)) {
+      var answers = ['...', 'Nicht nett.', 'Lass das!'];
+      var idx = Random().nextInt(answers.length);
+      pushBotMessage(answers[idx]);
+      return;
+    }
     // try to evaluate string
     var p = math_parser.Parser();
     try {
@@ -33,26 +52,28 @@ class Chat {
       var term = p.parse(message);
       var value = term.eval(_variableScope);
       var valueTeX = value; // TODO!
-      answer = '\$$valueTeX\$'; // embed into TeX string
+      var answer = '\$$valueTeX\$'; // embed into TeX string
       if (variableId.isNotEmpty) {
         _variableScope[variableId] = value;
         answer = 'Merke mir den Wert $answer für Variable \$$variableId\$.';
       }
+      pushBotMessage(answer);
+      return;
     } catch (e) {
       print("[debug info: $e]");
       if (e.toString().contains("eval(..): unset variable")) {
-        answer = 'Leider sind mir nicht alle Variablen bekannt.';
+        pushBotMessage('Leider sind mir nicht alle Variablen bekannt.');
+        return;
       }
     }
     // misc
-    if (answer.isEmpty) {
-      if (message.contains('geht') && message.endsWith('?')) {
-        answer = 'Danke, mir geht es gut!';
-      } else {
-        answer = 'Leider verstehe ich Deine Eingabe nicht.';
-      }
+    if (message.contains('geht') && message.endsWith('?')) {
+      pushBotMessage('Danke, mir geht es gut!');
+      return;
+    } else {
+      pushBotMessage('Leider verstehe ich Deine Eingabe nicht.');
+      return;
     }
-    pushBotMessage(answer);
   }
 
   void pushBotMessage(String message) {
