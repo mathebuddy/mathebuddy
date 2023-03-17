@@ -397,6 +397,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                 children: list));
       }
     case MbclLevelItemType.multipleChoice:
+    case MbclLevelItemType.singleChoice:
       {
         // exerciseData is non-null in a multiple choice context
         exerciseData as MbclExerciseData;
@@ -422,11 +423,22 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                 exerciseInstance[inputFieldData.variableId] as String;
           }
           var feedbackColor = getFeedbackColor(exerciseData.feedback);
-          // 57688 := Icons.check_box_outline_blank
-          // 61254 := Icons.check_box_outlined
+          var iconId = 0;
+          if (inputFieldData.studentValue == "false") {
+            if (item.type == MbclLevelItemType.singleChoice) {
+              iconId = 0xe504; // Icons.radio_button_unchecked
+            } else {
+              iconId = 0xe158; // Icons.check_box_outline_blank
+            }
+          } else {
+            if (item.type == MbclLevelItemType.singleChoice) {
+              iconId = 0xe503; // Icons.radio_button_checked
+            } else {
+              iconId = 0xEF46; // Icons.check_box_outlined
+            }
+          }
           var icon = Icon(
-            IconData(inputFieldData.studentValue == "false" ? 57688 : 61254,
-                fontFamily: 'MaterialIcons'),
+            IconData(iconId, fontFamily: 'MaterialIcons'),
             color: feedbackColor,
             size: 36,
           );
@@ -440,10 +452,20 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
               exerciseData: exerciseData);
           mcOptions.add(GestureDetector(
               onTap: () {
-                if (inputFieldData.studentValue == "true") {
-                  inputFieldData.studentValue = "false";
+                if (item.type == MbclLevelItemType.multipleChoice) {
+                  // multiple choice: swap clicked answer
+                  if (inputFieldData.studentValue == "true") {
+                    inputFieldData.studentValue = "false";
+                  } else {
+                    inputFieldData.studentValue = "true";
+                  }
                 } else {
-                  inputFieldData.studentValue = "true";
+                  // single choice: mark clicked answer as true and mark all
+                  // other answers as false
+                  for (var subitem in item.items) {
+                    var ifd = subitem.inputFieldData as MbclInputFieldData;
+                    ifd.studentValue = ifd == inputFieldData ? "true" : "false";
+                  }
                 }
                 exerciseData.feedback = MbclExerciseFeedback.unchecked;
                 // ignore: invalid_use_of_protected_member
