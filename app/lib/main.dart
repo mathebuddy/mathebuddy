@@ -82,6 +82,10 @@ class CoursePageState extends State<CoursePage> {
         var courseDataStr = html.document
             .getElementById('course-data-span')
             ?.innerHtml as String;
+        courseDataStr = courseDataStr.replaceAll('&lt;', '<');
+        courseDataStr = courseDataStr.replaceAll('&gt;', '>');
+        courseDataStr = courseDataStr.replaceAll('&quot;', '"');
+        courseDataStr = courseDataStr.replaceAll('&#039;', '\'');
         courseDataJson = jsonDecode(courseDataStr);
         //print(courseDataStr);
       } else {
