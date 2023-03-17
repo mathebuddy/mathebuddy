@@ -159,6 +159,8 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
         } else {
           var tex = TeX();
           tex.scalingFactor = 1.5; //1.17;
+          tex.setColor(
+              feedbackColor.red, feedbackColor.green, feedbackColor.blue);
           var svg = tex.tex2svg(inputFieldData.studentValue);
           var svgWidth = tex.width;
           if (svg.isEmpty) {
@@ -168,8 +170,6 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
             );
           } else {
             // TODO: tex.setColor(...);
-            tex.setColor(
-                feedbackColor.red, feedbackColor.green, feedbackColor.blue);
             contents = RichText(
                 text: WidgetSpan(
                     alignment: PlaceholderAlignment.middle,
@@ -187,13 +187,19 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
                   state.keyboardState.inputFieldData = inputFieldData;
                   switch (inputFieldData.type) {
                     case MbclInputFieldType.int:
-                      state.keyboardState.layout = integerKeyboardLayout;
+                      state.keyboardState.layout = keyboardLayoutInteger;
                       break;
+                    case MbclInputFieldType.real:
+                      state.keyboardState.layout = keyboardLayoutReal;
+                      break;
+                    /*case MbclInputFieldType.choices:
+                      //inputFieldData.choices
+                      break;*/
                     default:
                       print("WARNING: generateParagraphItem():"
                           "keyboard layout for input field type"
                           " ${inputFieldData.type.name} not yet implemented");
-                      state.keyboardState.layout = termKeyboardLayout;
+                      state.keyboardState.layout = keyboardLayoutTerm;
                   }
                   // ignore: invalid_use_of_protected_member
                   state.setState(() {});
