@@ -587,6 +587,7 @@ class Compiler {
     inputField.inputFieldData = data;
     inputField.id = 'input${createUniqueId()}';
     var exerciseData = exercise.exerciseData as MbclExerciseData;
+    exerciseData.inputFields[inputField.id] = data;
     if (lexer.isIdentifier()) {
       data.variableId = lexer.identifier();
       if (exerciseData.variables.contains(data.variableId)) {
@@ -665,11 +666,13 @@ class Compiler {
     }
 
     var inputField = MbclLevelItem(MbclLevelItemType.inputField);
-    inputField.inputFieldData = MbclInputFieldData();
+    var inputFieldData = MbclInputFieldData();
+    inputField.inputFieldData = inputFieldData;
     inputField.id = 'input${createUniqueId()}';
-    inputField.inputFieldData?.type = MbclInputFieldType.bool;
-    inputField.inputFieldData?.variableId = varId;
+    inputFieldData.type = MbclInputFieldType.bool;
+    inputFieldData.variableId = varId;
     root.items.add(inputField);
+    exerciseData.inputFields[inputField.id] = inputFieldData;
 
     /*
     var option = MbclLevelItem(MbclLevelItemType.multipleChoiceOption);
