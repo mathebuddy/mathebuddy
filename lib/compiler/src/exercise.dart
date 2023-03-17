@@ -10,7 +10,7 @@ import '../../mbcl/src/level_item.dart';
 
 // TODO: move exercise related code from block.dart to here
 
-const numberOfInstances = 3; // TODO!! must be configurable
+const numberOfInstances = 5; // TODO!! must be configurable
 
 String addStaticBooleanVariable(MbclExerciseData data, bool value) {
   var varId = '__bool__${data.staticVariableCounter}';
