@@ -93,7 +93,7 @@ void resetSim() {
 
 void sendCourseToSim() {
   var e = html.document.getElementById("sim-iframe") as html.IFrameElement;
-  e.contentWindow?.postMessage(mbclData, '*');
+  e.contentWindow?.postMessage(htmlSafe(mbclData), '*');
 }
 
 void updateSimPathButtons() {
@@ -131,11 +131,21 @@ void loadMblFile(String path) {
 }
 
 void showMbl() {
-  dataArea.innerHtml = "MBL Code:<br/><pre><code>$mblData</code></pre>";
+  var tmp = htmlSafe(mblData);
+  dataArea.innerHtml = "MBL Code:<br/><pre><code>$tmp</code></pre>";
 }
 
 void showMbcl() {
-  dataArea.innerHtml = "MBCL Code:<br/><pre><code>$mbclData</code></pre>";
+  var tmp = htmlSafe(mbclData);
+  dataArea.innerHtml = "MBCL Code:<br/><pre><code>$tmp</code></pre>";
+}
+
+String htmlSafe(String s) {
+  s = s.replaceAll("<", '&lt;');
+  s = s.replaceAll(">", '&gt;');
+  s = s.replaceAll("\"", '&quot;');
+  s = s.replaceAll("'", '&#039;');
+  return s;
 }
 
 void updateSimPathButtonsCore(List<String> files) {
