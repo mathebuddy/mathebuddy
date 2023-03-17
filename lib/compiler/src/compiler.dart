@@ -425,6 +425,7 @@ class Compiler {
         case MbclLevelItemType.itemize:
         case MbclLevelItemType.enumerate:
         case MbclLevelItemType.enumerateAlpha:
+        case MbclLevelItemType.singleChoice:
         case MbclLevelItemType.multipleChoice:
           res.add(part);
           break;
