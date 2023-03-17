@@ -212,9 +212,9 @@ class MbclExerciseData {
   List<String> variables = [];
   List<Map<String, String>> instances = []; // TODO: DESCRIBE!!
   bool staticOrder = false;
-  int numberOfChoices =
-      0; // if > 0 the students sees no keyboard, but a set of options; only one is correct
-  String solutionVariableId = '';
+  int scores = 1;
+  bool showGapLength = false;
+  bool showRequiredGapLettersOnly = false;
 
   // temporary
   int staticVariableCounter = 0; // not exported
@@ -234,8 +234,9 @@ class MbclExerciseData {
       "variables": variables.map((e) => e).toList(),
       "instances": instances.map((e) => e).toList(),
       "staticOrder": staticOrder,
-      "numberOfChoices": numberOfChoices,
-      "solutionVariableId": solutionVariableId,
+      "scores": scores,
+      "showGapLength": showGapLength,
+      "showRequiredGapLettersOnly": showRequiredGapLettersOnly,
     };
   }
 
@@ -258,8 +259,9 @@ class MbclExerciseData {
       instances.add(instance);
     }
     staticOrder = src["staticOrder"] as bool;
-    numberOfChoices = src["numberOfChoices"] as int;
-    solutionVariableId = src["solutionVariableId"] as String;
+    scores = src["scores"] as int;
+    showGapLength = src["showGapLength"] as bool;
+    showRequiredGapLettersOnly = src["showRequiredGapLettersOnly"] as bool;
   }
 }
 
@@ -276,7 +278,7 @@ class MbclFigureData {
       "code": code,
       "data": data,
       "caption": caption.map((e) => e.toJSON()).toList(),
-      "options": options.map((e) => e.name).toList()
+      "options": options.map((e) => e.name).toList(),
     };
   }
 
@@ -337,24 +339,32 @@ class MbclTableData {
   }
 }
 
-//enum MbclInputFieldState { unchecked, correct, incorrect }
-
 class MbclInputFieldData {
   // import/export
   MbclInputFieldType type = MbclInputFieldType.none;
   String variableId = '';
+  int score = 1;
+  int choices =
+      0; // a nonzero value provides a "keyboard" with solutions (similar to multiple choice)
+
   // temporary
   String studentValue = '';
   String expectedValue = '';
-  //MbclInputFieldState state = MbclInputFieldState.unchecked;
 
   Map<String, dynamic> toJSON() {
-    return {"type": type.name, "variableId": variableId};
+    return {
+      "type": type.name,
+      "variableId": variableId,
+      "score": score,
+      "choices": choices,
+    };
   }
 
   fromJSON(Map<String, dynamic> src) {
     type = MbclInputFieldType.values.byName(src["type"]);
-    variableId = src["variableId"];
+    variableId = src["variableId"] as String;
+    score = src["score"] as int;
+    choices = src["choices"] as int;
   }
 }
 
@@ -376,6 +386,7 @@ enum MbclInputFieldType {
   matrixFlexCols,
   matrixFlex,
   term,
+  choices,
 }
 
 /*class MbclSingleOrMultipleChoiceOptionData {
