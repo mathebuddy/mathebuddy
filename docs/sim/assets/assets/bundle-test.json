@@ -7,7 +7,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1679049595,
+    "dateModified": 1679066083,
     "chapters": [
       {
         "fileId": "",
@@ -171,7 +171,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1679049595,
+    "dateModified": 1679066083,
     "chapters": [
       {
         "fileId": "",
@@ -400,7 +400,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1679049595,
+    "dateModified": 1679066083,
     "chapters": [
       {
         "fileId": "",
@@ -471,7 +471,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1679049595,
+    "dateModified": 1679066083,
     "chapters": [
       {
         "fileId": "",
@@ -524,7 +524,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__0"
+                          "variableId": "__bool__0",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -543,7 +545,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__1"
+                          "variableId": "__bool__1",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -562,7 +566,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__2"
+                          "variableId": "__bool__2",
+                          "score": 1,
+                          "choices": 0
                         }
                       }
                     ]
@@ -590,11 +596,22 @@
                       "__bool__0": "true",
                       "__bool__1": "false",
                       "__bool__2": "true"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
                     }
                   ],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -635,7 +652,9 @@
                         "id": "input3",
                         "inputFieldData": {
                           "type": "int",
-                          "variableId": "z"
+                          "variableId": "z",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -654,6 +673,22 @@
                   ],
                   "instances": [
                     {
+                      "x": "2",
+                      "@x": "rand(1,5)",
+                      "y": "5",
+                      "@y": "rand(1,5)",
+                      "z": "7",
+                      "@z": "(2+5)"
+                    },
+                    {
+                      "x": "4",
+                      "@x": "rand(1,5)",
+                      "y": "5",
+                      "@y": "rand(1,5)",
+                      "z": "9",
+                      "@z": "(4+5)"
+                    },
+                    {
                       "x": "1",
                       "@x": "rand(1,5)",
                       "y": "3",
@@ -662,25 +697,26 @@
                       "@z": "(1+3)"
                     },
                     {
-                      "x": "4",
-                      "@x": "rand(1,5)",
-                      "y": "3",
-                      "@y": "rand(1,5)",
-                      "z": "7",
-                      "@z": "(4+3)"
-                    },
-                    {
                       "x": "2",
                       "@x": "rand(1,5)",
-                      "y": "1",
+                      "y": "4",
                       "@y": "rand(1,5)",
-                      "z": "3",
-                      "@z": "(2+1)"
+                      "z": "6",
+                      "@z": "(2+4)"
+                    },
+                    {
+                      "x": "5",
+                      "@x": "rand(1,5)",
+                      "y": "4",
+                      "@y": "rand(1,5)",
+                      "z": "9",
+                      "@z": "(5+4)"
                     }
                   ],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               }
             ]
@@ -694,7 +730,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1679049595,
+    "dateModified": 1679066083,
     "chapters": [
       {
         "fileId": "",
@@ -751,7 +787,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__0"
+                          "variableId": "__bool__0",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -770,7 +808,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__1"
+                          "variableId": "__bool__1",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -789,7 +829,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__2"
+                          "variableId": "__bool__2",
+                          "score": 1,
+                          "choices": 0
                         }
                       }
                     ]
@@ -817,11 +859,22 @@
                       "__bool__0": "true",
                       "__bool__1": "false",
                       "__bool__2": "true"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
                     }
                   ],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -857,7 +910,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__0"
+                          "variableId": "__bool__0",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -876,7 +931,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__1"
+                          "variableId": "__bool__1",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -895,7 +952,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__2"
+                          "variableId": "__bool__2",
+                          "score": 1,
+                          "choices": 0
                         }
                       }
                     ]
@@ -923,11 +982,22 @@
                       "__bool__0": "true",
                       "__bool__1": "false",
                       "__bool__2": "true"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true"
                     }
                   ],
                   "staticOrder": true,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -976,7 +1046,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "c1"
+                          "variableId": "c1",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1008,7 +1080,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "c2"
+                          "variableId": "c2",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1040,7 +1114,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "c3"
+                          "variableId": "c3",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1064,7 +1140,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__0"
+                          "variableId": "__bool__0",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1088,7 +1166,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__1"
+                          "variableId": "__bool__1",
+                          "score": 1,
+                          "choices": 0
                         }
                       }
                     ]
@@ -1109,63 +1189,100 @@
                   ],
                   "instances": [
                     {
-                      "x": "13",
-                      "@x": "rand(10,20)",
-                      "y": "11",
-                      "@y": "rand(10,20)",
-                      "z": "12",
-                      "@z": "rand(10,20)",
-                      "w": "14",
-                      "@w": "rand(10,20)",
-                      "c1": "false",
-                      "@c1": "(13>14)",
-                      "c2": "false",
-                      "@c2": "(11>14)",
-                      "c3": "false",
-                      "@c3": "(12>14)",
-                      "__bool__0": "true",
-                      "__bool__1": "false"
-                    },
-                    {
-                      "x": "12",
-                      "@x": "rand(10,20)",
-                      "y": "20",
-                      "@y": "rand(10,20)",
-                      "z": "17",
-                      "@z": "rand(10,20)",
-                      "w": "16",
-                      "@w": "rand(10,20)",
-                      "c1": "false",
-                      "@c1": "(12>16)",
-                      "c2": "true",
-                      "@c2": "(20>16)",
-                      "c3": "true",
-                      "@c3": "(17>16)",
-                      "__bool__0": "true",
-                      "__bool__1": "false"
-                    },
-                    {
-                      "x": "13",
+                      "x": "19",
                       "@x": "rand(10,20)",
                       "y": "18",
                       "@y": "rand(10,20)",
-                      "z": "14",
+                      "z": "15",
+                      "@z": "rand(10,20)",
+                      "w": "14",
+                      "@w": "rand(10,20)",
+                      "c1": "true",
+                      "@c1": "(19>14)",
+                      "c2": "true",
+                      "@c2": "(18>14)",
+                      "c3": "true",
+                      "@c3": "(15>14)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "x": "20",
+                      "@x": "rand(10,20)",
+                      "y": "10",
+                      "@y": "rand(10,20)",
+                      "z": "15",
+                      "@z": "rand(10,20)",
+                      "w": "18",
+                      "@w": "rand(10,20)",
+                      "c1": "true",
+                      "@c1": "(20>18)",
+                      "c2": "false",
+                      "@c2": "(10>18)",
+                      "c3": "false",
+                      "@c3": "(15>18)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "x": "18",
+                      "@x": "rand(10,20)",
+                      "y": "16",
+                      "@y": "rand(10,20)",
+                      "z": "11",
                       "@z": "rand(10,20)",
                       "w": "20",
                       "@w": "rand(10,20)",
                       "c1": "false",
-                      "@c1": "(13>20)",
+                      "@c1": "(18>20)",
                       "c2": "false",
-                      "@c2": "(18>20)",
+                      "@c2": "(16>20)",
                       "c3": "false",
-                      "@c3": "(14>20)",
+                      "@c3": "(11>20)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "x": "11",
+                      "@x": "rand(10,20)",
+                      "y": "10",
+                      "@y": "rand(10,20)",
+                      "z": "15",
+                      "@z": "rand(10,20)",
+                      "w": "14",
+                      "@w": "rand(10,20)",
+                      "c1": "false",
+                      "@c1": "(11>14)",
+                      "c2": "false",
+                      "@c2": "(10>14)",
+                      "c3": "true",
+                      "@c3": "(15>14)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "x": "10",
+                      "@x": "rand(10,20)",
+                      "y": "15",
+                      "@y": "rand(10,20)",
+                      "z": "19",
+                      "@z": "rand(10,20)",
+                      "w": "16",
+                      "@w": "rand(10,20)",
+                      "c1": "false",
+                      "@c1": "(10>16)",
+                      "c2": "false",
+                      "@c2": "(15>16)",
+                      "c3": "true",
+                      "@c3": "(19>16)",
                       "__bool__0": "true",
                       "__bool__1": "false"
                     }
                   ],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -1205,7 +1322,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__0"
+                          "variableId": "__bool__0",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1224,7 +1343,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__1"
+                          "variableId": "__bool__1",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1243,7 +1364,9 @@
                         ],
                         "inputFieldData": {
                           "type": "bool",
-                          "variableId": "__bool__2"
+                          "variableId": "__bool__2",
+                          "score": 1,
+                          "choices": 0
                         }
                       }
                     ]
@@ -1271,11 +1394,22 @@
                       "__bool__0": "true",
                       "__bool__1": "false",
                       "__bool__2": "false"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "false"
+                    },
+                    {
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "false"
                     }
                   ],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -1320,7 +1454,9 @@
                         "id": "input14",
                         "inputFieldData": {
                           "type": "int",
-                          "variableId": "z"
+                          "variableId": "z",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1339,33 +1475,50 @@
                   ],
                   "instances": [
                     {
-                      "x": "3",
+                      "x": "2",
                       "@x": "rand(1,5)",
-                      "y": "2",
+                      "y": "4",
                       "@y": "rand(1,5)",
-                      "z": "5",
-                      "@z": "(3+2)"
+                      "z": "6",
+                      "@z": "(2+4)"
                     },
                     {
                       "x": "4",
                       "@x": "rand(1,5)",
-                      "y": "1",
-                      "@y": "rand(1,5)",
-                      "z": "5",
-                      "@z": "(4+1)"
-                    },
-                    {
-                      "x": "1",
-                      "@x": "rand(1,5)",
                       "y": "3",
                       "@y": "rand(1,5)",
+                      "z": "7",
+                      "@z": "(4+3)"
+                    },
+                    {
+                      "x": "3",
+                      "@x": "rand(1,5)",
+                      "y": "1",
+                      "@y": "rand(1,5)",
                       "z": "4",
-                      "@z": "(1+3)"
+                      "@z": "(3+1)"
+                    },
+                    {
+                      "x": "2",
+                      "@x": "rand(1,5)",
+                      "y": "1",
+                      "@y": "rand(1,5)",
+                      "z": "3",
+                      "@z": "(2+1)"
+                    },
+                    {
+                      "x": "2",
+                      "@x": "rand(1,5)",
+                      "y": "4",
+                      "@y": "rand(1,5)",
+                      "z": "6",
+                      "@z": "(2+4)"
                     }
                   ],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -1406,7 +1559,9 @@
                         "id": "input15",
                         "inputFieldData": {
                           "type": "matrix",
-                          "variableId": "z"
+                          "variableId": "z",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1425,33 +1580,50 @@
                   ],
                   "instances": [
                     {
-                      "x": "[[2,2],[1,4]]",
+                      "x": "[[5,5],[4,5]]",
                       "@x": "rand<2,2>(1,5)",
-                      "y": "[[5,4],[4,4]]",
+                      "y": "[[1,1],[1,4]]",
                       "@y": "rand<2,2>(1,5)",
-                      "z": "[[18,16],[21,20]]",
-                      "@z": "(([[2,2],[1,4]])*([[5,4],[4,4]]))"
+                      "z": "[[10,25],[9,24]]",
+                      "@z": "(([[5,5],[4,5]])*([[1,1],[1,4]]))"
                     },
                     {
-                      "x": "[[3,2],[5,5]]",
+                      "x": "[[1,1],[3,4]]",
                       "@x": "rand<2,2>(1,5)",
-                      "y": "[[1,3],[2,2]]",
+                      "y": "[[1,3],[1,1]]",
                       "@y": "rand<2,2>(1,5)",
-                      "z": "[[7,13],[15,25]]",
-                      "@z": "(([[3,2],[5,5]])*([[1,3],[2,2]]))"
+                      "z": "[[2,4],[7,13]]",
+                      "@z": "(([[1,1],[3,4]])*([[1,3],[1,1]]))"
                     },
                     {
-                      "x": "[[5,5],[2,5]]",
+                      "x": "[[3,4],[4,3]]",
                       "@x": "rand<2,2>(1,5)",
-                      "y": "[[4,3],[2,1]]",
+                      "y": "[[5,5],[1,1]]",
                       "@y": "rand<2,2>(1,5)",
-                      "z": "[[30,20],[18,11]]",
-                      "@z": "(([[5,5],[2,5]])*([[4,3],[2,1]]))"
+                      "z": "[[19,19],[23,23]]",
+                      "@z": "(([[3,4],[4,3]])*([[5,5],[1,1]]))"
+                    },
+                    {
+                      "x": "[[4,5],[3,1]]",
+                      "@x": "rand<2,2>(1,5)",
+                      "y": "[[4,3],[2,3]]",
+                      "@y": "rand<2,2>(1,5)",
+                      "z": "[[26,27],[14,12]]",
+                      "@z": "(([[4,5],[3,1]])*([[4,3],[2,3]]))"
+                    },
+                    {
+                      "x": "[[3,4],[5,1]]",
+                      "@x": "rand<2,2>(1,5)",
+                      "y": "[[5,4],[1,1]]",
+                      "@y": "rand<2,2>(1,5)",
+                      "z": "[[19,16],[26,21]]",
+                      "@z": "(([[3,4],[5,1]])*([[5,4],[1,1]]))"
                     }
                   ],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -1475,7 +1647,7 @@
                           },
                           {
                             "type": "text",
-                            "text": "*"
+                            "text": "\\cdot"
                           },
                           {
                             "type": "variableReference",
@@ -1486,6 +1658,16 @@
                             "text": "="
                           }
                         ]
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input17",
+                        "inputFieldData": {
+                          "type": "choices",
+                          "variableId": "z",
+                          "score": 1,
+                          "choices": 4
+                        }
                       }
                     ]
                   }
@@ -1501,38 +1683,55 @@
                     {
                       "x": "18",
                       "@x": "rand(10,20)",
+                      "y": "10",
+                      "@y": "rand(10,20)",
+                      "z": "180",
+                      "@z": "(18*10)"
+                    },
+                    {
+                      "x": "20",
+                      "@x": "rand(10,20)",
                       "y": "12",
                       "@y": "rand(10,20)",
-                      "z": "216",
-                      "@z": "(18*12)"
+                      "z": "240",
+                      "@z": "(20*12)"
+                    },
+                    {
+                      "x": "17",
+                      "@x": "rand(10,20)",
+                      "y": "16",
+                      "@y": "rand(10,20)",
+                      "z": "272",
+                      "@z": "(17*16)"
+                    },
+                    {
+                      "x": "13",
+                      "@x": "rand(10,20)",
+                      "y": "19",
+                      "@y": "rand(10,20)",
+                      "z": "247",
+                      "@z": "(13*19)"
                     },
                     {
                       "x": "14",
                       "@x": "rand(10,20)",
-                      "y": "12",
+                      "y": "10",
                       "@y": "rand(10,20)",
-                      "z": "168",
-                      "@z": "(14*12)"
-                    },
-                    {
-                      "x": "15",
-                      "@x": "rand(10,20)",
-                      "y": "14",
-                      "@y": "rand(10,20)",
-                      "z": "210",
-                      "@z": "(15*14)"
+                      "z": "140",
+                      "@z": "(14*10)"
                     }
                   ],
                   "staticOrder": false,
-                  "numberOfChoices": 4,
-                  "solutionVariableId": "z"
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
                 "type": "exercise",
                 "title": "Simple Integration",
                 "label": "@ex:intSimple",
-                "error": "Unknown option: \"build-term: true\".SMPL-Error: Exception: symbol \"F\" is unknown.\n There is no variable \"F\". ",
+                "error": "SMPL-Error: Exception: error in term \"1 / 3 * x ^ 3 + 7 * x\":Exception: mixed * and / are unimplemented\n There is no variable \"F\". Unknown option: \"build-term: true\".",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1552,10 +1751,12 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input17",
+                        "id": "input18",
                         "inputFieldData": {
                           "type": "none",
-                          "variableId": "F"
+                          "variableId": "F",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1571,12 +1772,13 @@
                   }
                 ],
                 "exerciseData": {
-                  "code": "F(x) = 1/3*x^3 + 7*x",
+                  "code": "let F(x) = 1/3*x^3 + 7*x",
                   "variables": [],
                   "instances": [],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -1586,8 +1788,7 @@
               {
                 "type": "exercise",
                 "title": "Scoring example",
-                "label": "ex18",
-                "error": "Unknown option: \"scores: 5\".Unknown option: \"score(fa): 1\".Unknown option: \"score(fb): 2\".",
+                "label": "ex19",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1611,10 +1812,12 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input19",
+                        "id": "input20",
                         "inputFieldData": {
                           "type": "int",
-                          "variableId": "fa"
+                          "variableId": "fa",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1636,10 +1839,12 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input20",
+                        "id": "input21",
                         "inputFieldData": {
                           "type": "int",
-                          "variableId": "fb"
+                          "variableId": "fb",
+                          "score": 2,
+                          "choices": 0
                         }
                       }
                     ]
@@ -1655,14 +1860,34 @@
                   ],
                   "instances": [
                     {
-                      "a": "2",
+                      "a": "4",
                       "@a": "rand(2,4)",
-                      "b": "6",
+                      "b": "5",
                       "@b": "rand(5,8)",
-                      "fa": "2",
-                      "@fa": "fac(2)",
-                      "fb": "720",
-                      "@fb": "fac(6)"
+                      "fa": "24",
+                      "@fa": "fac(4)",
+                      "fb": "120",
+                      "@fb": "fac(5)"
+                    },
+                    {
+                      "a": "4",
+                      "@a": "rand(2,4)",
+                      "b": "5",
+                      "@b": "rand(5,8)",
+                      "fa": "24",
+                      "@fa": "fac(4)",
+                      "fb": "120",
+                      "@fb": "fac(5)"
+                    },
+                    {
+                      "a": "4",
+                      "@a": "rand(2,4)",
+                      "b": "8",
+                      "@b": "rand(5,8)",
+                      "fa": "24",
+                      "@fa": "fac(4)",
+                      "fb": "40320",
+                      "@fb": "fac(8)"
                     },
                     {
                       "a": "3",
@@ -1675,19 +1900,20 @@
                       "@fb": "fac(7)"
                     },
                     {
-                      "a": "3",
+                      "a": "4",
                       "@a": "rand(2,4)",
                       "b": "7",
                       "@b": "rand(5,8)",
-                      "fa": "6",
-                      "@fa": "fac(3)",
+                      "fa": "24",
+                      "@fa": "fac(4)",
                       "fb": "5040",
                       "@fb": "fac(7)"
                     }
                   ],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 5,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -1698,7 +1924,7 @@
                 "type": "exercise",
                 "title": "My Gap Exercise",
                 "label": "@ex:myLabel",
-                "error": "Unknown option: \"show-gap-length: true\".Unknown option: \"show-required-letters-only: true\". No variable for input field given.  No variable for input field given. ",
+                "error": "Unknown option: \"show-required-letters-only: true\". No variable for input field given.  No variable for input field given. ",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1709,10 +1935,12 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input21",
+                        "id": "input22",
                         "inputFieldData": {
                           "type": "none",
-                          "variableId": ""
+                          "variableId": "",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1721,10 +1949,12 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input22",
+                        "id": "input23",
                         "inputFieldData": {
                           "type": "none",
-                          "variableId": ""
+                          "variableId": "",
+                          "score": 1,
+                          "choices": 0
                         }
                       },
                       {
@@ -1739,8 +1969,9 @@
                   "variables": [],
                   "instances": [],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": true,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -1751,7 +1982,7 @@
                 "type": "exercise",
                 "title": "Title",
                 "label": "@ex:label",
-                "error": "Unknown option: \"accept-immediately: true\".SMPL-Error: Exception: FILE:3:2: expected \"=\"\n No variable for input field given. ",
+                "error": "SMPL-Error: Exception: FILE:3:2: expected \"=\"\n There is no variable \"f\". Unknown option: \"arrangement: true\".Unknown option: \"accept-immediately: true\".",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1762,26 +1993,25 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input23",
+                        "id": "input24",
                         "inputFieldData": {
                           "type": "none",
-                          "variableId": ""
+                          "variableId": "f",
+                          "score": 1,
+                          "choices": 0
                         }
-                      },
-                      {
-                        "type": "text",
-                        "text": ": order ( s, f)"
                       }
                     ]
                   }
                 ],
                 "exerciseData": {
-                  "code": "let n = rand(5,10)         \nlet f = zeros<1,n>()       \nf[1] = 1                   \nfor (let i=2; i<n; i++) {   \nf[i] = f[i-2] + f[i-1]\n}",
+                  "code": "let n = rand(5,10)         \nlet f = zeros<1,n>()       \nf[1] = 1                   \nfor (let i=2; i<n; i++) {  \nf[i] = f[i-2] + f[i-1]\n}",
                   "variables": [],
                   "instances": [],
                   "staticOrder": false,
-                  "numberOfChoices": 0,
-                  "solutionVariableId": ""
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               },
               {
@@ -1792,7 +2022,7 @@
                 "type": "exercise",
                 "title": "Title",
                 "label": "@ex:label",
-                "error": "Unknown option: \"timer: 3\".Unknown option: \"accelerate: true\".Unknown option: \"stop-on-x-errors: 1\".",
+                "error": "Unknown option: \"timer: 3\".Unknown option: \"accelerate: true\".Unknown option: \"stop-after-x-errors: 1\".",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1824,10 +2054,12 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input24",
+                        "id": "input25",
                         "inputFieldData": {
-                          "type": "int",
-                          "variableId": "z"
+                          "type": "choices",
+                          "variableId": "z",
+                          "score": 1,
+                          "choices": 4
                         }
                       }
                     ]
@@ -1844,31 +2076,48 @@
                     {
                       "x": "24",
                       "@x": "rand(20,50)",
-                      "y": "44",
+                      "y": "30",
                       "@y": "rand(20,50)",
-                      "z": "68",
-                      "@z": "(24+44)"
+                      "z": "54",
+                      "@z": "(24+30)"
                     },
                     {
                       "x": "41",
                       "@x": "rand(20,50)",
-                      "y": "48",
+                      "y": "44",
                       "@y": "rand(20,50)",
-                      "z": "89",
-                      "@z": "(41+48)"
+                      "z": "85",
+                      "@z": "(41+44)"
                     },
                     {
-                      "x": "27",
+                      "x": "44",
                       "@x": "rand(20,50)",
-                      "y": "45",
+                      "y": "42",
                       "@y": "rand(20,50)",
-                      "z": "72",
-                      "@z": "(27+45)"
+                      "z": "86",
+                      "@z": "(44+42)"
+                    },
+                    {
+                      "x": "35",
+                      "@x": "rand(20,50)",
+                      "y": "33",
+                      "@y": "rand(20,50)",
+                      "z": "68",
+                      "@z": "(35+33)"
+                    },
+                    {
+                      "x": "35",
+                      "@x": "rand(20,50)",
+                      "y": "30",
+                      "@y": "rand(20,50)",
+                      "z": "65",
+                      "@z": "(35+30)"
                     }
                   ],
                   "staticOrder": false,
-                  "numberOfChoices": 4,
-                  "solutionVariableId": "z"
+                  "scores": 1,
+                  "showGapLength": false,
+                  "showRequiredGapLettersOnly": false
                 }
               }
             ]
@@ -1882,7 +2131,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1679049595,
+    "dateModified": 1679066083,
     "chapters": [
       {
         "fileId": "",
@@ -1987,7 +2236,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1679049595,
+    "dateModified": 1679066083,
     "chapters": [
       {
         "fileId": "",
@@ -2027,7 +2276,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1679049595,
+    "dateModified": 1679066083,
     "chapters": [
       {
         "fileId": "",
@@ -2145,7 +2394,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1679049595,
+    "dateModified": 1679066083,
     "chapters": [
       {
         "fileId": "",

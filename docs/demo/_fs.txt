@@ -2,6 +2,7 @@ _makefs.sh
 definitions.mbl
 exercises.mbl
 figures.mbl
+images/
 tables.mbl
 hello.mbl
 equations.mbl
