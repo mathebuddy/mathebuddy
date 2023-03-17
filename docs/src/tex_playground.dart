@@ -20,6 +20,7 @@ void texPlayground() {
   querySelector('#runTexWithBorder')?.onClick.listen((event) {
     typeset(true);
   });
+  typeset(false);
 }
 
 void typeset(bool paintBox) {
