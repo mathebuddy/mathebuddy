@@ -7,7 +7,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1678807325,
+    "dateModified": 1679049595,
     "chapters": [
       {
         "fileId": "",
@@ -171,7 +171,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1678807325,
+    "dateModified": 1679049595,
     "chapters": [
       {
         "fileId": "",
@@ -400,7 +400,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1678807325,
+    "dateModified": 1679049595,
     "chapters": [
       {
         "fileId": "",
@@ -471,7 +471,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1678807325,
+    "dateModified": 1679049595,
     "chapters": [
       {
         "fileId": "",
@@ -591,7 +591,10 @@
                       "__bool__1": "false",
                       "__bool__2": "true"
                     }
-                  ]
+                  ],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
@@ -651,30 +654,33 @@
                   ],
                   "instances": [
                     {
-                      "x": "3",
+                      "x": "1",
+                      "@x": "rand(1,5)",
+                      "y": "3",
+                      "@y": "rand(1,5)",
+                      "z": "4",
+                      "@z": "(1+3)"
+                    },
+                    {
+                      "x": "4",
+                      "@x": "rand(1,5)",
+                      "y": "3",
+                      "@y": "rand(1,5)",
+                      "z": "7",
+                      "@z": "(4+3)"
+                    },
+                    {
+                      "x": "2",
                       "@x": "rand(1,5)",
                       "y": "1",
                       "@y": "rand(1,5)",
-                      "z": "4",
-                      "@z": "(3+1)"
-                    },
-                    {
-                      "x": "1",
-                      "@x": "rand(1,5)",
-                      "y": "2",
-                      "@y": "rand(1,5)",
                       "z": "3",
-                      "@z": "(1+2)"
-                    },
-                    {
-                      "x": "3",
-                      "@x": "rand(1,5)",
-                      "y": "5",
-                      "@y": "rand(1,5)",
-                      "z": "8",
-                      "@z": "(3+5)"
+                      "@z": "(2+1)"
                     }
-                  ]
+                  ],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               }
             ]
@@ -688,7 +694,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1678807325,
+    "dateModified": 1679049595,
     "chapters": [
       {
         "fileId": "",
@@ -717,6 +723,15 @@
                 "title": "My Multiple Choice Exercise",
                 "label": "@ex:myMultiChoice",
                 "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Choose the right answers:"
+                      }
+                    ]
+                  },
                   {
                     "type": "multipleChoice",
                     "items": [
@@ -803,15 +818,26 @@
                       "__bool__1": "false",
                       "__bool__2": "true"
                     }
-                  ]
+                  ],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
                 "type": "exercise",
                 "title": "My Multiple Choice Exercise with static order",
                 "label": "@ex:myMultiChoice",
-                "error": "unknown part \"options\"",
                 "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Choose the right answers:"
+                      }
+                    ]
+                  },
                   {
                     "type": "multipleChoice",
                     "items": [
@@ -898,7 +924,10 @@
                       "__bool__1": "false",
                       "__bool__2": "true"
                     }
-                  ]
+                  ],
+                  "staticOrder": true,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
@@ -906,6 +935,15 @@
                 "title": "My dynamic Multiple Choice Exercise",
                 "label": "@ex:myMultiChoice",
                 "items": [
+                  {
+                    "type": "paragraph",
+                    "items": [
+                      {
+                        "type": "text",
+                        "text": "Choose the right answers:"
+                      }
+                    ]
+                  },
                   {
                     "type": "multipleChoice",
                     "items": [
@@ -1057,7 +1095,7 @@
                   }
                 ],
                 "exerciseData": {
-                  "code": "let x/y/z/w = rand(10,20);    \nlet c1 = x > w;\nlet c2 = y > w;\nlet c3 = z > w;",
+                  "code": "let x/y/z/w = rand(10, 20);    \nlet c1 = x > w;\nlet c2 = y > w;\nlet c3 = z > w;",
                   "variables": [
                     "x",
                     "y",
@@ -1071,60 +1109,63 @@
                   ],
                   "instances": [
                     {
-                      "x": "10",
+                      "x": "13",
                       "@x": "rand(10,20)",
-                      "y": "19",
+                      "y": "11",
                       "@y": "rand(10,20)",
                       "z": "12",
                       "@z": "rand(10,20)",
                       "w": "14",
                       "@w": "rand(10,20)",
                       "c1": "false",
-                      "@c1": "(10>14)",
-                      "c2": "true",
-                      "@c2": "(19>14)",
+                      "@c1": "(13>14)",
+                      "c2": "false",
+                      "@c2": "(11>14)",
                       "c3": "false",
                       "@c3": "(12>14)",
                       "__bool__0": "true",
                       "__bool__1": "false"
                     },
                     {
-                      "x": "16",
+                      "x": "12",
                       "@x": "rand(10,20)",
-                      "y": "18",
+                      "y": "20",
                       "@y": "rand(10,20)",
                       "z": "17",
                       "@z": "rand(10,20)",
-                      "w": "19",
+                      "w": "16",
                       "@w": "rand(10,20)",
                       "c1": "false",
-                      "@c1": "(16>19)",
-                      "c2": "false",
-                      "@c2": "(18>19)",
-                      "c3": "false",
-                      "@c3": "(17>19)",
+                      "@c1": "(12>16)",
+                      "c2": "true",
+                      "@c2": "(20>16)",
+                      "c3": "true",
+                      "@c3": "(17>16)",
                       "__bool__0": "true",
                       "__bool__1": "false"
                     },
                     {
-                      "x": "15",
+                      "x": "13",
                       "@x": "rand(10,20)",
-                      "y": "10",
+                      "y": "18",
                       "@y": "rand(10,20)",
-                      "z": "11",
+                      "z": "14",
                       "@z": "rand(10,20)",
-                      "w": "18",
+                      "w": "20",
                       "@w": "rand(10,20)",
                       "c1": "false",
-                      "@c1": "(15>18)",
+                      "@c1": "(13>20)",
                       "c2": "false",
-                      "@c2": "(10>18)",
+                      "@c2": "(18>20)",
                       "c3": "false",
-                      "@c3": "(11>18)",
+                      "@c3": "(14>20)",
                       "__bool__0": "true",
                       "__bool__1": "false"
                     }
-                  ]
+                  ],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
@@ -1140,66 +1181,70 @@
                     "type": "paragraph",
                     "items": [
                       {
-                        "type": "singleChoice",
+                        "type": "text",
+                        "text": "Choose the right answer:"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "singleChoice",
+                    "items": [
+                      {
+                        "type": "inputField",
+                        "id": "input11",
                         "items": [
                           {
-                            "type": "inputField",
-                            "id": "input11",
+                            "type": "span",
                             "items": [
                               {
-                                "type": "span",
-                                "items": [
-                                  {
-                                    "type": "text",
-                                    "text": "This answer is correct."
-                                  }
-                                ]
+                                "type": "text",
+                                "text": "This answer is correct."
                               }
-                            ],
-                            "inputFieldData": {
-                              "type": "bool",
-                              "variableId": "__bool__0"
-                            }
-                          },
-                          {
-                            "type": "inputField",
-                            "id": "input12",
-                            "items": [
-                              {
-                                "type": "span",
-                                "items": [
-                                  {
-                                    "type": "text",
-                                    "text": "This answer is incorrect."
-                                  }
-                                ]
-                              }
-                            ],
-                            "inputFieldData": {
-                              "type": "bool",
-                              "variableId": "__bool__1"
-                            }
-                          },
-                          {
-                            "type": "inputField",
-                            "id": "input13",
-                            "items": [
-                              {
-                                "type": "span",
-                                "items": [
-                                  {
-                                    "type": "text",
-                                    "text": "This answer is incorrect."
-                                  }
-                                ]
-                              }
-                            ],
-                            "inputFieldData": {
-                              "type": "bool",
-                              "variableId": "__bool__2"
-                            }
+                            ]
                           }
-                        ]
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__0"
+                        }
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input12",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "text",
+                                "text": "This answer is incorrect."
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__1"
+                        }
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input13",
+                        "items": [
+                          {
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "text",
+                                "text": "This answer is incorrect."
+                              }
+                            ]
+                          }
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__2"
+                        }
                       }
                     ]
                   }
@@ -1227,7 +1272,10 @@
                       "__bool__1": "false",
                       "__bool__2": "false"
                     }
-                  ]
+                  ],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
@@ -1291,37 +1339,39 @@
                   ],
                   "instances": [
                     {
-                      "x": "4",
+                      "x": "3",
                       "@x": "rand(1,5)",
                       "y": "2",
                       "@y": "rand(1,5)",
-                      "z": "6",
-                      "@z": "(4+2)"
+                      "z": "5",
+                      "@z": "(3+2)"
+                    },
+                    {
+                      "x": "4",
+                      "@x": "rand(1,5)",
+                      "y": "1",
+                      "@y": "rand(1,5)",
+                      "z": "5",
+                      "@z": "(4+1)"
                     },
                     {
                       "x": "1",
                       "@x": "rand(1,5)",
-                      "y": "5",
-                      "@y": "rand(1,5)",
-                      "z": "6",
-                      "@z": "(1+5)"
-                    },
-                    {
-                      "x": "3",
-                      "@x": "rand(1,5)",
-                      "y": "1",
+                      "y": "3",
                       "@y": "rand(1,5)",
                       "z": "4",
-                      "@z": "(3+1)"
+                      "@z": "(1+3)"
                     }
-                  ]
+                  ],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
                 "type": "exercise",
                 "title": "Matrix Multiplication",
                 "label": "@ex:add-mul",
-                "error": "there is no variable \"z\". ",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1334,8 +1384,20 @@
                         "type": "inlineMath",
                         "items": [
                           {
+                            "type": "variableReference",
+                            "id": "x"
+                          },
+                          {
                             "type": "text",
-                            "text": "x \\cdot y ="
+                            "text": "\\cdot"
+                          },
+                          {
+                            "type": "variableReference",
+                            "id": "y"
+                          },
+                          {
+                            "type": "text",
+                            "text": "="
                           }
                         ]
                       },
@@ -1343,7 +1405,7 @@
                         "type": "inputField",
                         "id": "input15",
                         "inputFieldData": {
-                          "type": "none",
+                          "type": "matrix",
                           "variableId": "z"
                         }
                       },
@@ -1356,8 +1418,40 @@
                 ],
                 "exerciseData": {
                   "code": "let x:y = rand<2,2>(1, 5);\nlet z = x * y;",
-                  "variables": [],
-                  "instances": []
+                  "variables": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "instances": [
+                    {
+                      "x": "[[2,2],[1,4]]",
+                      "@x": "rand<2,2>(1,5)",
+                      "y": "[[5,4],[4,4]]",
+                      "@y": "rand<2,2>(1,5)",
+                      "z": "[[18,16],[21,20]]",
+                      "@z": "(([[2,2],[1,4]])*([[5,4],[4,4]]))"
+                    },
+                    {
+                      "x": "[[3,2],[5,5]]",
+                      "@x": "rand<2,2>(1,5)",
+                      "y": "[[1,3],[2,2]]",
+                      "@y": "rand<2,2>(1,5)",
+                      "z": "[[7,13],[15,25]]",
+                      "@z": "(([[3,2],[5,5]])*([[1,3],[2,2]]))"
+                    },
+                    {
+                      "x": "[[5,5],[2,5]]",
+                      "@x": "rand<2,2>(1,5)",
+                      "y": "[[4,3],[2,1]]",
+                      "@y": "rand<2,2>(1,5)",
+                      "z": "[[30,20],[18,11]]",
+                      "@z": "(([[5,5],[2,5]])*([[4,3],[2,1]]))"
+                    }
+                  ],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
@@ -1368,15 +1462,10 @@
                 "type": "exercise",
                 "title": "Multiplication",
                 "label": "ex16",
-                "error": "unknown part \"options\"",
                 "items": [
                   {
                     "type": "paragraph",
                     "items": [
-                      {
-                        "type": "text",
-                        "text": "Calculate"
-                      },
                       {
                         "type": "inlineMath",
                         "items": [
@@ -1397,20 +1486,12 @@
                             "text": "="
                           }
                         ]
-                      },
-                      {
-                        "type": "inputField",
-                        "id": "input17",
-                        "inputFieldData": {
-                          "type": "int",
-                          "variableId": "z"
-                        }
                       }
                     ]
                   }
                 ],
                 "exerciseData": {
-                  "code": "let x/y = rand(10,20);\nlet z = x * y;",
+                  "code": "let x/y = rand(10, 20);\nlet z = x * y;",
                   "variables": [
                     "x",
                     "y",
@@ -1418,37 +1499,40 @@
                   ],
                   "instances": [
                     {
-                      "x": "13",
-                      "@x": "rand(10,20)",
-                      "y": "19",
-                      "@y": "rand(10,20)",
-                      "z": "247",
-                      "@z": "(13*19)"
-                    },
-                    {
                       "x": "18",
                       "@x": "rand(10,20)",
-                      "y": "10",
-                      "@y": "rand(10,20)",
-                      "z": "180",
-                      "@z": "(18*10)"
-                    },
-                    {
-                      "x": "12",
-                      "@x": "rand(10,20)",
-                      "y": "18",
+                      "y": "12",
                       "@y": "rand(10,20)",
                       "z": "216",
-                      "@z": "(12*18)"
+                      "@z": "(18*12)"
+                    },
+                    {
+                      "x": "14",
+                      "@x": "rand(10,20)",
+                      "y": "12",
+                      "@y": "rand(10,20)",
+                      "z": "168",
+                      "@z": "(14*12)"
+                    },
+                    {
+                      "x": "15",
+                      "@x": "rand(10,20)",
+                      "y": "14",
+                      "@y": "rand(10,20)",
+                      "z": "210",
+                      "@z": "(15*14)"
                     }
-                  ]
+                  ],
+                  "staticOrder": false,
+                  "numberOfChoices": 4,
+                  "solutionVariableId": "z"
                 }
               },
               {
                 "type": "exercise",
                 "title": "Simple Integration",
                 "label": "@ex:intSimple",
-                "error": "there is no variable \"F\". ",
+                "error": "Unknown option: \"build-term: true\".SMPL-Error: Exception: symbol \"F\" is unknown.\n There is no variable \"F\". ",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1468,7 +1552,7 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input18",
+                        "id": "input17",
                         "inputFieldData": {
                           "type": "none",
                           "variableId": "F"
@@ -1489,7 +1573,10 @@
                 "exerciseData": {
                   "code": "F(x) = 1/3*x^3 + 7*x",
                   "variables": [],
-                  "instances": []
+                  "instances": [],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
@@ -1499,8 +1586,8 @@
               {
                 "type": "exercise",
                 "title": "Scoring example",
-                "label": "ex19",
-                "error": "unknown part \"options\"",
+                "label": "ex18",
+                "error": "Unknown option: \"scores: 5\".Unknown option: \"score(fa): 1\".Unknown option: \"score(fb): 2\".",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1524,7 +1611,7 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input20",
+                        "id": "input19",
                         "inputFieldData": {
                           "type": "int",
                           "variableId": "fa"
@@ -1549,7 +1636,7 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input21",
+                        "id": "input20",
                         "inputFieldData": {
                           "type": "int",
                           "variableId": "fb"
@@ -1559,7 +1646,7 @@
                   }
                 ],
                 "exerciseData": {
-                  "code": "let a = rand(2,4);\nlet b = rand(5,8)\nlet fa = fac(a);\nlet fb = fac(b);",
+                  "code": "let a = rand(2, 4)\nlet b = rand(5, 8)\nlet fa = fac(a)\nlet fb = fac(b)",
                   "variables": [
                     "a",
                     "b",
@@ -1568,36 +1655,39 @@
                   ],
                   "instances": [
                     {
-                      "a": "4",
+                      "a": "2",
                       "@a": "rand(2,4)",
                       "b": "6",
                       "@b": "rand(5,8)",
-                      "fa": "24",
-                      "@fa": "fac(4)",
+                      "fa": "2",
+                      "@fa": "fac(2)",
                       "fb": "720",
                       "@fb": "fac(6)"
                     },
                     {
-                      "a": "2",
+                      "a": "3",
                       "@a": "rand(2,4)",
                       "b": "7",
                       "@b": "rand(5,8)",
-                      "fa": "2",
-                      "@fa": "fac(2)",
+                      "fa": "6",
+                      "@fa": "fac(3)",
                       "fb": "5040",
                       "@fb": "fac(7)"
                     },
                     {
-                      "a": "2",
+                      "a": "3",
                       "@a": "rand(2,4)",
                       "b": "7",
                       "@b": "rand(5,8)",
-                      "fa": "2",
-                      "@fa": "fac(2)",
+                      "fa": "6",
+                      "@fa": "fac(3)",
                       "fb": "5040",
                       "@fb": "fac(7)"
                     }
-                  ]
+                  ],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
@@ -1608,7 +1698,7 @@
                 "type": "exercise",
                 "title": "My Gap Exercise",
                 "label": "@ex:myLabel",
-                "error": "no variable for input field given. ",
+                "error": "Unknown option: \"show-gap-length: true\".Unknown option: \"show-required-letters-only: true\". No variable for input field given.  No variable for input field given. ",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1619,7 +1709,7 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input22",
+                        "id": "input21",
                         "inputFieldData": {
                           "type": "none",
                           "variableId": ""
@@ -1631,7 +1721,7 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input23",
+                        "id": "input22",
                         "inputFieldData": {
                           "type": "none",
                           "variableId": ""
@@ -1647,7 +1737,10 @@
                 "exerciseData": {
                   "code": "",
                   "variables": [],
-                  "instances": []
+                  "instances": [],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
@@ -1658,7 +1751,7 @@
                 "type": "exercise",
                 "title": "Title",
                 "label": "@ex:label",
-                "error": "no variable for input field given. ",
+                "error": "Unknown option: \"accept-immediately: true\".SMPL-Error: Exception: FILE:3:2: expected \"=\"\n No variable for input field given. ",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1669,7 +1762,7 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input24",
+                        "id": "input23",
                         "inputFieldData": {
                           "type": "none",
                           "variableId": ""
@@ -1683,9 +1776,12 @@
                   }
                 ],
                 "exerciseData": {
-                  "code": "let n = rand(5,10);         \nlet f = zeros<1,n>();       \nf[1] = 1;                   \nfor (let i=2; i<n; i++) {   \nf[i] = f[i-2] + f[i-1];\n}",
+                  "code": "let n = rand(5,10)         \nlet f = zeros<1,n>()       \nf[1] = 1                   \nfor (let i=2; i<n; i++) {   \nf[i] = f[i-2] + f[i-1]\n}",
                   "variables": [],
-                  "instances": []
+                  "instances": [],
+                  "staticOrder": false,
+                  "numberOfChoices": 0,
+                  "solutionVariableId": ""
                 }
               },
               {
@@ -1696,7 +1792,7 @@
                 "type": "exercise",
                 "title": "Title",
                 "label": "@ex:label",
-                "error": "unknown part \"options\"",
+                "error": "Unknown option: \"timer: 3\".Unknown option: \"accelerate: true\".Unknown option: \"stop-on-x-errors: 1\".",
                 "items": [
                   {
                     "type": "paragraph",
@@ -1728,7 +1824,7 @@
                       },
                       {
                         "type": "inputField",
-                        "id": "input25",
+                        "id": "input24",
                         "inputFieldData": {
                           "type": "int",
                           "variableId": "z"
@@ -1738,7 +1834,7 @@
                   }
                 ],
                 "exerciseData": {
-                  "code": "let x:y = rand(20,50);\nlet z = x + y;",
+                  "code": "let x:y = rand(20,50);\nlet z = x + y",
                   "variables": [
                     "x",
                     "y",
@@ -1746,30 +1842,33 @@
                   ],
                   "instances": [
                     {
-                      "x": "33",
+                      "x": "24",
                       "@x": "rand(20,50)",
-                      "y": "24",
+                      "y": "44",
                       "@y": "rand(20,50)",
-                      "z": "57",
-                      "@z": "(33+24)"
+                      "z": "68",
+                      "@z": "(24+44)"
                     },
                     {
-                      "x": "33",
+                      "x": "41",
                       "@x": "rand(20,50)",
-                      "y": "23",
+                      "y": "48",
                       "@y": "rand(20,50)",
-                      "z": "56",
-                      "@z": "(33+23)"
+                      "z": "89",
+                      "@z": "(41+48)"
                     },
                     {
                       "x": "27",
                       "@x": "rand(20,50)",
-                      "y": "20",
+                      "y": "45",
                       "@y": "rand(20,50)",
-                      "z": "47",
-                      "@z": "(27+20)"
+                      "z": "72",
+                      "@z": "(27+45)"
                     }
-                  ]
+                  ],
+                  "staticOrder": false,
+                  "numberOfChoices": 4,
+                  "solutionVariableId": "z"
                 }
               }
             ]
@@ -1783,7 +1882,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1678807325,
+    "dateModified": 1679049595,
     "chapters": [
       {
         "fileId": "",
@@ -1888,7 +1987,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1678807325,
+    "dateModified": 1679049595,
     "chapters": [
       {
         "fileId": "",
@@ -1928,7 +2027,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1678807325,
+    "dateModified": 1679049595,
     "chapters": [
       {
         "fileId": "",
@@ -2046,7 +2145,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1678807325,
+    "dateModified": 1679049595,
     "chapters": [
       {
         "fileId": "",
