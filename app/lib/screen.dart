@@ -4,4 +4,10 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'package:flutter/material.dart';
+
 double screenWidth = 0.0;
+SingleChildScrollView? scrollView;
+ScrollController? scrollController;
+
+GlobalKey? exerciseKey;
