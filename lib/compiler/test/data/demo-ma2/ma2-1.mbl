@@ -33,8 +33,8 @@ let c = conj(z);
 let z2 = z * c;
 @text
 Sei $"z" \in \CC$ und $"z"=z$.
-- Berechne die zu $"z"$ **komplex konjugierte** Zahl: $\bar{"z"}=$ #c
-- Berechne $"z" \cdot \bar{"z"}=$ #z2
+- Berechne die zu $"z"$ **komplex konjugierte** Zahl: $\overline{"z"}=$ #c
+- Berechne $"z" \cdot \overline{"z"}=$ #z2
 ---
 
 ---
@@ -107,7 +107,7 @@ Bestimme die ersten $3$ **Folgenglieder** der komplexen Folge $(a_n)_{n \in \NN}
 EXERCISE Komplexe Folgen
 @code
 let c = rand(2,4);
-let z = 1/c + 1/c * 1i;
+let z = 1/c + (1/c) * 1i;
 let	a1 = z^1;
 let a2 = z^2;
 @text
