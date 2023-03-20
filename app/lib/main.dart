@@ -126,6 +126,7 @@ class CoursePageState extends State<CoursePage> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
+    scrollController = ScrollController();
 
     Widget body = Text(
       "No course was selected!!!",
@@ -182,9 +183,11 @@ class CoursePageState extends State<CoursePage> {
       }
       // add empty lines at the end; otherwise keyboard is in the way...
       for (var i = 0; i < 10; i++) {
+        // TODO
         page.add(Text("\n"));
       }
-      body = SingleChildScrollView(
+      scrollView = SingleChildScrollView(
+          controller: scrollController,
           padding: EdgeInsets.only(right: 2.0),
           child: Container(
               alignment: Alignment.topLeft,
@@ -193,6 +196,7 @@ class CoursePageState extends State<CoursePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: page)));
+      body = scrollView as Widget;
     }
 
     /*page.add(TextButton(
@@ -209,9 +213,14 @@ class CoursePageState extends State<CoursePage> {
     Widget bottomArea = Text('');
     if (keyboardState.layout != null) {
       bottomArea = Container(
-          color: Colors.black26,
+          decoration: BoxDecoration(
+              color: Color.fromARGB(255, 240, 240, 240),
+              border: Border.all(width: 2.0, color: Colors.black54),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          //color: Colors.black12,
           alignment: Alignment.bottomCenter,
-          constraints: BoxConstraints(maxHeight: 285.0),
+          constraints: BoxConstraints(maxHeight: 235.0),
           child: keyboard.generateWidget(this, keyboardState));
     }
 
