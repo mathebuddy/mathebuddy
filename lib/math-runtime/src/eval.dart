@@ -52,6 +52,11 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       );
     case '#':
       return term.value;
+    case 'conj':
+      {
+        var o = term.o[0].eval(varValues);
+        return Operand.createComplex(o.real, -o.imag);
+      }
     case 'sin':
     case 'cos':
     case 'tan':
@@ -61,7 +66,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
     case 'exp':
     case 'ln':
       {
-        // TODO: tabular!
+        // TODO: tabular for symbolic results!
         var o = term.o[0].eval(varValues);
         num v = 0;
         if (o.type == OperandType.int || o.type == OperandType.real) {
