@@ -1,0 +1,60 @@
+{
+  "programs": [
+    {
+      "title": "Addition",
+      "code": "let a = rand(1,5) + rand(1,5)*1i;\nlet b = randZ(-1,1)*rand(1,5) + rand(1,5)*1i;\nlet c = a + b;\n"
+    },
+    {
+      "title": "Multiplikation",
+      "code": "let a = rand(1,5) + rand(1,5)*1i;\nlet b = randZ(-1,1)*rand(1,5) + rand(1,5)*1i;\nlet c = a + b;\n"
+    },
+    {
+      "title": "Komplex konjugierte Zahl",
+      "code": "let z = rand(1,5) + rand(1,5)*1i;\nlet c = conj(z);\nlet z2 = z * c;\n"
+    },
+    {
+      "title": "Betrag einer komplexen Zahl",
+      "code": "let a:b = rand(1,3);\nlet x = a^2 - b^2;\nlet y = 2 * a * b;\nlet z = complex(x,y);\nlet r = abs(z);\n"
+    },
+    {
+      "title": "Inverse einer komplexen Zahl",
+      "code": "let a:b = rand(2,5);\nlet c = a^2 + b^2;\nlet r = complex(a,b);\n"
+    },
+    {
+      "title": "Division",
+      "code": "let a:b:c:d = rand(1,5);\na = randZ(-1,1) * a;\nlet z2 = complex(a,b);\nlet r = complex(c,d);\nlet z1 = z2 * r;\n"
+    },
+    {
+      "title": "Komplexe Terme",
+      "code": "let a:b:c:d = rand(1,3);\nlet pow = 2;\nlet z1 = complex(a,b);\nlet z2 = complex(c,d);\nlet res = z1^pow + z2;\n"
+    },
+    {
+      "title": "Komplexe Folgen",
+      "code": "let z = rand(2,4) * 1i;\nlet a1 = z^1;\nlet a2 = z^2;\nlet a3 = z^3;\n"
+    },
+    {
+      "title": "Komplexe Folgen",
+      "code": "let c = rand(2,4);\nlet z = 1/c + (1/c) * 1i;\nlet\ta1 = z^1;\nlet a2 = z^2;\n"
+    },
+    {
+      "title": "Komplexe Reihen",
+      "code": "let a:b = rand(2,6);\n"
+    },
+    {
+      "title": "Komplexe Nullstellen",
+      "code": "let a = rand(2,8)^2;\nlet z1 = sqrt(a) * 1i;\nlet z2 = -z1;\nlet res = {z1,z2};\n"
+    },
+    {
+      "title": "Quotienten von Polynomen",
+      "code": "let a:b:c:d = rand(2,8);\nlet ee = rand(2,9)^2;\nlet A = 0*1i;\nlet B = sqrt(ee)*1i;\nlet C = -sqrt(ee)*1i;\nlet res = {A,B,C};\n"
+    },
+    {
+      "title": "Konvergenzradius",
+      "code": "let a:b = rand(2,10);\nlet z1 = complex(a,b);\nlet res = 1;\n"
+    },
+    {
+      "title": "Komplexe Potenzen",
+      "code": "let a = rand(1,2);\nlet c = rand(4,8);\nlet z = complex(a,a);\nlet res = z^c;\n"
+    }
+  ]
+}
