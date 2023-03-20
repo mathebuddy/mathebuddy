@@ -25,8 +25,11 @@ class Interpreter {
 
   final term_parser.Parser _termParser = term_parser.Parser();
 
-  Interpreter() {
+  bool _verbose = false;
+
+  Interpreter({verbose = false}) {
     // TODO: term parser splits variable names of length > 1
+    _verbose = verbose;
   }
 
   Map<String, InterpreterSymbol> runProgram(AstNode program) {
@@ -82,10 +85,12 @@ class Interpreter {
               );
             }
           } while (isOK == false);
-          print(
-            '>> assigned ${symbol.id}'
-            ' := ${symbol.value} (${symbol.value.type.name})',
-          );
+          if (_verbose) {
+            print(
+              '>> assigned ${symbol.id}'
+              ' := ${symbol.value} (${symbol.value.type.name})',
+            );
+          }
         }
       }
     } else if (node is WhileLoop) {
@@ -159,7 +164,7 @@ class Interpreter {
   Term _processTerm(String src, List<String> keepVariables) {
     Term? term;
     try {
-      term = _termParser.parse(src);
+      term = _termParser.parse(src, splitIdentifiers: false);
     } catch (e) {
       _error('error in term "$src":$e'); // TODO: location
     }
@@ -179,7 +184,9 @@ class Interpreter {
         }
       }
     }
-    print('>> ${term.toString()}');
+    if (_verbose) {
+      print('>> ${term.toString()}');
+    }
     return term;
   }
 
