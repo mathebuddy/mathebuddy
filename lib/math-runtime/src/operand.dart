@@ -102,7 +102,10 @@ class Operand {
   }
 
   static Operand createReal(num x) {
-    if (x is int || x == x.roundToDouble()) return Operand.createInt(x);
+    var eps = 1e-14; // TODO
+    if (x is int || (x - x.round()).abs() < eps) {
+      return Operand.createInt(x.round());
+    }
     var o = Operand(); // o := output
     o.type = OperandType.real;
     o.real = x;
@@ -167,6 +170,7 @@ class Operand {
   }
 
   static Operand createComplex(num x, num y) {
+    // TODO: create int or real, if applicable!
     var o = Operand(); // o := output
     o.type = OperandType.complex;
     o.real = x;
@@ -237,6 +241,11 @@ class Operand {
       o.type = OperandType.complex;
       o.real = x.real + (operator == '+' ? y.real : -y.real);
       o.imag = x.imag + (operator == '+' ? y.imag : -y.imag);
+    } else if (operator == '+' &&
+        x.type == OperandType.rational &&
+        y.type == OperandType.complex) {
+      o = Operand.addSub(
+          operator, Operand.createReal(o.real / o.denominator), y);
     } else if (x.type == OperandType.matrix && y.type == OperandType.matrix) {
       o.type = OperandType.matrix;
       if (x.rows != y.rows || x.cols != y.cols) {
@@ -313,6 +322,11 @@ class Operand {
       } else {
         o.real = x.real / y.real;
       }
+    } else if (operator == '*' &&
+        x.type == OperandType.rational &&
+        y.type == OperandType.complex) {
+      o = Operand.mulDiv(
+          operator, Operand.createReal(o.real / o.denominator), y);
     } else if (operator == '*' &&
         (x.type == OperandType.int ||
             x.type == OperandType.rational ||
@@ -397,9 +411,15 @@ class Operand {
         (y.type == OperandType.int || y.type == OperandType.real)) {
       o.type = OperandType.real;
       o.real = math.pow(x.real, y.real);
-    } else if ((x.type == OperandType.real || x.type == OperandType.complex) &&
-        (y.type == OperandType.real || y.type == OperandType.complex)) {
-      throw Exception('unimplemented');
+    } else if (x.type == OperandType.complex &&
+        (y.type == OperandType.int || y.type == OperandType.real)) {
+      var r = math.sqrt(x.real * x.real + x.imag * x.imag);
+      var phi = math.atan2(x.imag, x.real);
+      r = math.pow(r, y.real).toDouble();
+      phi *= y.real;
+      var re = r * math.cos(phi);
+      var im = r * math.sin(phi);
+      o = Operand.createComplex(re, im);
     } else {
       throw Exception(
         'Cannot apply operator "^" on "${x.type.name}" and "${y.type.name}".',
@@ -468,10 +488,14 @@ class Operand {
       case OperandType.rational:
         return '${real.round()}/${denominator.round()}';
       case OperandType.complex:
-        if (imag >= 0) {
-          return '$real+${imag}i';
-        } else {
-          return '$real-${-imag}i';
+        {
+          var imagAbsStr = imag.abs().toString();
+          if (imagAbsStr == "1") imagAbsStr = "";
+          if (imag >= 0) {
+            return '$real+${imagAbsStr}i';
+          } else {
+            return '$real-${imagAbsStr}i';
+          }
         }
       case OperandType.set:
         return '{${items.map((x) => x.toString()).join(',')}}';
