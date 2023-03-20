@@ -93,6 +93,9 @@ do
         cd lib/compiler/test/
         ./update-testdata.sh
         cd ../../..
+        cd lib/smpl/test/
+        ./update-testdata.sh
+        cd ../../..
         ;;
     8)  
         # [8] update grammar.txt in lib/*
