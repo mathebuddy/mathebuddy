@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/math-runtime/src/parse.dart' as term_parser;
 
 import 'package:mathebuddy/color.dart';
 import 'package:mathebuddy/help.dart';
@@ -118,16 +119,17 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         var richText = RichText(
           text: TextSpan(children: list),
         );
-        return Padding(
+        /*return Padding(
           padding: EdgeInsets.all(3.0),
           child: richText,
-        );
+        );*/
+        return richText;
       }
     case MbclLevelItemType.itemize:
     case MbclLevelItemType.enumerate:
     case MbclLevelItemType.enumerateAlpha:
       {
-        List<Row> rows = [];
+        List<Widget> rows = [];
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           Widget w = Icon(
@@ -145,15 +147,80 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                     left: 15.0, right: 3.0, top: 0.0, bottom: 0.0),
                 child: w)
           ]);
-          var row = Row(children: [
-            label,
-            Column(children: [
-              generateLevelItem(state, subItem, exerciseData: exerciseData)
-            ])
-          ]);
+          var content =
+              generateLevelItem(state, subItem, exerciseData: exerciseData);
+
+          /*content = Wrap(
+              alignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              children: [
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: '0123456789123456789 ',
+                      style: TextStyle(color: Colors.black)),
+                  TextSpan(
+                      text: '0123456789123456789 ',
+                      style: TextStyle(color: Colors.black)),
+                  TextSpan(
+                      text: '0123456789123456789 ',
+                      style: TextStyle(color: Colors.black)),
+                  TextSpan(
+                      text: '0123456789123456789 ',
+                      style: TextStyle(color: Colors.black)),
+                ]))
+              ]);*/
+          /*content = Column(
+            children: [content],
+          );*/
+
+          /*var row = Column(children: [
+            Row(children: [
+              w, //label,
+              Column(children: [content])
+            ]),
+            //Column(children: [content])
+          ]);*/
+
+          var row = Padding(
+              padding: EdgeInsets.only(left: 30.0, top: 5, bottom: 5),
+              child: content);
+
           rows.add(row);
+          //rows.add(row);
         }
-        return Column(children: rows);
+        //return Column(children: rows);
+
+        /*return Column(children: [
+          Row(children: [
+            Text('1. '),
+            Row(children: [
+              Wrap(
+                alignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                children: [
+                  RichText(
+                      text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: [
+                        TextSpan(text: 'my very long texttt '),
+                        TextSpan(text: 'my very long text '),
+                        TextSpan(text: 'my very long text '),
+                        TextSpan(text: 'my very long text '),
+                        TextSpan(text: 'my very long text '),
+                      ]))
+                ],
+              )
+            ]),
+          ]),
+          Row(children: [Text('2. '), Text('my text')]),
+          Row(children: [Text('3. '), Text('my text')]),
+        ]);*/
+
+        return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: rows);
       }
     case MbclLevelItemType.newPage:
       {
@@ -303,6 +370,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
       }
     case MbclLevelItemType.exercise:
       {
+        exerciseKey = GlobalKey();
         var exerciseData = item.exerciseData as MbclExerciseData;
         if (exerciseData.runInstanceIdx < 0) {
           exerciseData.runInstanceIdx =
@@ -311,14 +379,15 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         List<Widget> list = [];
         var title = Wrap(children: [
           Container(
+              key: exerciseKey,
               child: Row(children: [
-            Text(' '), // TODO: use padding instead of Text(' ')
-            Icon(Icons.play_circle_outlined),
-            Text(' '),
-            // TODO: wrap does not work:
-            Text(item.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
-          ]))
+                Text(' '), // TODO: use padding instead of Text(' ')
+                Icon(Icons.play_circle_outlined),
+                Text(' '),
+                // TODO: wrap does not work:
+                Text(item.title,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
+              ]))
         ]);
         list.add(title);
         for (var i = 0; i < item.items.length; i++) {
@@ -348,17 +417,33 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
 
         list.add(GestureDetector(
             onTap: () {
+              print("----- evaluating exercise -----");
+              state.keyboardState.layout = null;
               // check exercise: TODO must implement in e.g. new file exercise.dart
               var allCorrect = true;
               for (var inputFieldId in exerciseData.inputFields.keys) {
                 var inputField = exerciseData.inputFields[inputFieldId]
                     as MbclInputFieldData;
-                // TODO: must use math-runtime for checks!
-                if (inputField.studentValue == inputField.expectedValue) {
+
+                var ok = false;
+                try {
+                  var studentTerm =
+                      term_parser.Parser().parse(inputField.studentValue);
+                  var expectedTerm =
+                      term_parser.Parser().parse(inputField.expectedValue);
+                  print("comparing $studentTerm to $expectedTerm");
+                  ok = expectedTerm.compareNumerically(studentTerm);
+                } catch (e) {
+                  // TODO: give GUI feedback, that term is not well formed, ...
+                  print("evaluating answer failed: $e");
+                  ok = false;
+                }
+                if (ok) {
                   print("answer OK");
                 } else {
                   allCorrect = false;
-                  print("answer wrong");
+                  print("answer wrong: expected ${inputField.expectedValue},"
+                      " got ${inputField.studentValue}");
                 }
               }
               if (allCorrect) {
@@ -368,6 +453,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                 print("... at least one answer is incorrect!");
                 exerciseData.feedback = MbclExerciseFeedback.incorrect;
               }
+              print("----- end of exercise evaluation -----");
               // ignore: invalid_use_of_protected_member
               state.setState(() {});
             },
