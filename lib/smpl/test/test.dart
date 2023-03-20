@@ -4,6 +4,7 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'dart:convert';
 import 'dart:io';
 
 import '../src/node.dart';
@@ -13,21 +14,16 @@ import '../src/parser.dart';
 void run(String src) {
   var parser = Parser();
   AstNode? ast;
-  try {
-    parser.parse(src);
-    ast = parser.getAbstractSyntaxTree();
-    print((ast as AstNode).toString(0));
-    var interpreter = Interpreter();
-    var symbols = interpreter.runProgram(ast);
-    for (var id in symbols.keys) {
-      print('@$id := ${symbols[id]?.term}');
-      if (symbols[id]?.value != null) {
-        print('$id := ${symbols[id]?.value}');
-      }
+  parser.parse(src);
+  ast = parser.getAbstractSyntaxTree();
+  print((ast as AstNode).toString(0).trim());
+  var interpreter = Interpreter();
+  var symbols = interpreter.runProgram(ast);
+  for (var id in symbols.keys) {
+    print('@$id := ${symbols[id]?.term}');
+    if (symbols[id]?.value != null) {
+      print('$id := ${symbols[id]?.value}');
     }
-  } catch (e) {
-    print('Error: $e');
-    exit(-1);
   }
 }
 
@@ -72,7 +68,35 @@ let z = x * y;
 ''';
 
 void main() {
-  run(src);
+  /*
+  try {
+    run(src);
+  } catch(e) {
+    print(e);
+    exit(-1);
+  }
+  */
+
+  var dataSrc = File("test/data/smpl-tests.json").readAsStringSync();
+  var data = jsonDecode(dataSrc)['programs'];
+  var n = data.length as int;
+  for (var i = 0; i < n; i++) {
+    var title = data[i]['title'] as String;
+    var code = data[i]['code'] as String;
+    print('######## running test "$title" ########');
+    print('--- code ---');
+    print(code.trim());
+    print('--- result ---');
+    try {
+      run(code);
+    } catch (e) {
+      print(e);
+      exit(-1);
+    }
+    print('\n\n');
+    var bp = 1337;
+  }
+  print('... end!');
 
   // TODO
   /*var path_list = glob.sync('examples/test_*.txt');
