@@ -28,5 +28,12 @@ String convertMath2TeX(String s) {
     s = s.replaceAll('],[', ' \\\\');
     s = s.replaceAll(',', '&');
   }
+  s = s.replaceAll("*", "\\cdot");
+  s = s.replaceAll("sin", "\\sin");
+  s = s.replaceAll("cos", "\\cos");
+  s = s.replaceAll("tan", "\\tan");
+  s = s.replaceAll("exp", "\\exp");
+  s = s.replaceAll("ln", "\\ln");
+  s = s.replaceAll("pi", "\\pi");
   return s;
 }
