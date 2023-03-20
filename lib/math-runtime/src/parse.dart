@@ -24,7 +24,7 @@ class Parser {
     return _tokens;
   }
 
-  Term parse(String src) {
+  Term parse(String src, {splitIdentifiers = true}) {
     _tokens = [];
     _tokenIdx = 0;
     // scanning (lexing)
@@ -55,7 +55,8 @@ class Parser {
     List<String> procTokens = [];
     for (var k = 0; k < _tokens.length; k++) {
       var token = _tokens[k];
-      if (_isIdentifier(token) &&
+      if (splitIdentifiers &&
+          _isIdentifier(token) &&
           _isFct1(token) == false &&
           _isFct2(token) == false &&
           _isBuiltIn(token) == false) {
@@ -416,16 +417,17 @@ class Parser {
     var fct1 = [
       'abs',
       'ceil',
+      'conj',
       'cos',
       'exp',
-      'imag',
-      'int',
       'fac',
       'floor',
-      'max',
-      'min',
+      'imag',
+      'int',
       'len',
       'ln',
+      'max',
+      'min',
       'real',
       'round',
       'sin',
