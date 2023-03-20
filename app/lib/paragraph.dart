@@ -14,6 +14,7 @@ import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/color.dart';
 import 'package:mathebuddy/help.dart';
 import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/screen.dart';
 
 const double defaultFontSize = 16;
 
@@ -119,25 +120,28 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
         }
         var tex = TeX();
         tex.scalingFactor = 1.17;
-        print("... tex src: $texSrc");
+        //print("... tex src: $texSrc");
         var svg = tex.tex2svg(texSrc);
         var svgWidth = tex.width;
         if (texSrc.contains("\\sqrt") || svg.isEmpty) {
           return TextSpan(
-            text: "${tex.error} ",
+            text: "${tex.error}. TEX-INPUT: $texSrc",
             style: TextStyle(color: Colors.red, fontSize: defaultFontSize),
           );
         } else {
           return WidgetSpan(
               alignment: PlaceholderAlignment.middle,
-              child: SvgPicture.string(
-                svg,
-                width: svgWidth.toDouble(),
-              ));
+              child: Container(
+                  padding: EdgeInsets.only(right: 4.0),
+                  child: SvgPicture.string(
+                    svg,
+                    width: svgWidth.toDouble(),
+                  )));
         }
       }
     case MbclLevelItemType.inputField:
       {
+        // TODO: debug-show expected solution
         var inputFieldData = item.inputFieldData as MbclInputFieldData;
         if (exerciseData != null &&
             exerciseData.inputFields.containsKey(item.id) == false) {
@@ -151,17 +155,29 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
         Widget contents;
         Color feedbackColor = getFeedbackColor(exerciseData?.feedback);
         if (inputFieldData.studentValue.isEmpty) {
-          contents = Icon(
-            Icons.keyboard,
-            size: 42,
-            color: feedbackColor,
-          );
+          contents = RichText(
+              text: TextSpan(children: [
+            WidgetSpan(
+                child: Icon(
+              Icons.keyboard,
+              size: 42,
+              color: feedbackColor,
+            )),
+            WidgetSpan(
+                child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        border: Border.all(color: Colors.black, width: 1)),
+                    child: Text(' ${inputFieldData.expectedValue}  ',
+                        style: TextStyle(
+                            color: Colors.black, fontStyle: FontStyle.italic))))
+          ]));
         } else {
           var tex = TeX();
           tex.scalingFactor = 1.5; //1.17;
           tex.setColor(
               feedbackColor.red, feedbackColor.green, feedbackColor.blue);
-          var svg = tex.tex2svg(inputFieldData.studentValue);
+          var svg = tex.tex2svg(convertMath2TeX(inputFieldData.studentValue));
           var svgWidth = tex.width;
           if (svg.isEmpty) {
             contents = Text(
@@ -179,27 +195,42 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
               style:
                   TextStyle(color: matheBuddyRed, fontSize: defaultFontSize));*/
         }
+        var key = exerciseKey;
         return WidgetSpan(
             alignment: PlaceholderAlignment.middle,
             child: GestureDetector(
                 onTap: () {
-                  state.keyboardState.exerciseData = exerciseData;
-                  state.keyboardState.inputFieldData = inputFieldData;
-                  switch (inputFieldData.type) {
-                    case MbclInputFieldType.int:
-                      state.keyboardState.layout = keyboardLayoutInteger;
-                      break;
-                    case MbclInputFieldType.real:
-                      state.keyboardState.layout = keyboardLayoutReal;
-                      break;
-                    /*case MbclInputFieldType.choices:
+                  if (key != null) {
+                    Scrollable.ensureVisible(key.currentContext!,
+                        duration: Duration(milliseconds: 250));
+                  }
+                  if (state.keyboardState.layout != null) {
+                    state.keyboardState.layout = null;
+                  } else {
+                    //scrollController?.jumpTo(10);
+
+                    state.keyboardState.exerciseData = exerciseData;
+                    state.keyboardState.inputFieldData = inputFieldData;
+                    switch (inputFieldData.type) {
+                      case MbclInputFieldType.int:
+                        state.keyboardState.layout = keyboardLayoutInteger;
+                        break;
+                      case MbclInputFieldType.real:
+                        state.keyboardState.layout = keyboardLayoutReal;
+                        break;
+                      case MbclInputFieldType.complexNormal:
+                        state.keyboardState.layout =
+                            keyboardLayoutComplexNormalForm;
+                        break;
+                      /*case MbclInputFieldType.choices:
                       //inputFieldData.choices
                       break;*/
-                    default:
-                      print("WARNING: generateParagraphItem():"
-                          "keyboard layout for input field type"
-                          " ${inputFieldData.type.name} not yet implemented");
-                      state.keyboardState.layout = keyboardLayoutTerm;
+                      default:
+                        print("WARNING: generateParagraphItem():"
+                            "keyboard layout for input field type"
+                            " ${inputFieldData.type.name} not yet implemented");
+                        state.keyboardState.layout = keyboardLayoutTerm;
+                    }
                   }
                   // ignore: invalid_use_of_protected_member
                   state.setState(() {});
