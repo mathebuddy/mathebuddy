@@ -110,18 +110,19 @@ class KeyboardLayout {
     // hex-icon codes from
     // https://api.flutter.dev/flutter/material/Icons-class.html
     switch (value) {
-      case '*':
-        key.text = '*';
-        break;
       case '!B': // backspace
         key.text = 'icon:E0C5';
         break;
       case '!E': // enter
         key.text = 'icon:E156';
         break;
-      case 'pi':
-        key.text = '&pi;';
+      // TODO: TeX keys
+      /*case '*':
+        key.text = '\${}\\cdot{}\$';
         break;
+      case 'pi':
+        key.text = '\$pi\$';
+        break;*/
       default:
         key.text = value;
     }
@@ -138,14 +139,15 @@ class Keyboard {
     var keyboardInputFieldData =
         keyboardState.inputFieldData as MbclInputFieldData;
 
-    const keyWidth = 55.0;
+    var keyWidth = screenWidth < 350 ? 45.0 : 55.0;
     const keyHeight = 50.0;
-    const keyFontSize = 32.0;
+    const keyFontSize = 24.0;
+    const keyFontSizeSmall = 18.0;
     const keyBorderRadius = 5.0;
     const keyMargin = 4.0;
 
     var offsetX = (screenWidth - keyboardLayout.columnCount * keyWidth) / 2.0;
-    var offsetY = 70.0;
+    var offsetY = 20.0;
 
     List<Widget> keyWidgets = [];
     for (var key in keyboardLayout.keys) {
@@ -158,20 +160,43 @@ class Keyboard {
               size: keyFontSize,
             )
           : Text(key.text,
-              style: TextStyle(color: matheBuddyRed, fontSize: keyFontSize));
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize:
+                      key.text.length >= 3 ? keyFontSizeSmall : keyFontSize));
 
       var keyWidget = Positioned(
           left: offsetX + key.columnIndex * keyWidth,
           top: offsetY + key.rowIndex * keyHeight,
           child: GestureDetector(
               onTap: () {
-                print('pressed key ${key.value}');
+                //print('pressed key ${key.value}');
                 if (key.value == '!B') {
                   // backspace
                   if (keyboardInputFieldData.studentValue.isNotEmpty) {
-                    keyboardInputFieldData.studentValue =
-                        keyboardInputFieldData.studentValue.substring(
-                            0, keyboardInputFieldData.studentValue.length - 1);
+                    var oldValue = keyboardInputFieldData.studentValue;
+                    var newValue = "";
+                    var specialKeys = [
+                      "pi",
+                      "sin(",
+                      "cos(",
+                      "tan(",
+                      "exp(",
+                      "ln("
+                    ];
+                    var isSpecialKey = false;
+                    for (var specialKey in specialKeys) {
+                      if (oldValue.endsWith(specialKey)) {
+                        newValue = oldValue.substring(
+                            0, oldValue.length - specialKey.length);
+                        isSpecialKey = true;
+                        break;
+                      }
+                    }
+                    if (isSpecialKey == false) {
+                      newValue = oldValue.substring(0, oldValue.length - 1);
+                    }
+                    keyboardInputFieldData.studentValue = newValue;
                   }
                 } else if (key.value == '!E') {
                   // enter
@@ -190,7 +215,7 @@ class Keyboard {
                   //margin: EdgeInsets.all(keyMargin),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(width: 1, color: Colors.white),
+                    border: Border.all(width: 1.5, color: Colors.black),
                     borderRadius:
                         BorderRadius.all(Radius.circular(keyBorderRadius)),
                   ),
