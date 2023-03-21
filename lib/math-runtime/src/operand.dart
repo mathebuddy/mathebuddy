@@ -51,10 +51,13 @@ class Operand {
 
   static bool compareEqual(Operand x, Operand y, [num epsilon = 1e-12]) {
     // TODO: improve implementation of this method mathematically!
-    if ((x.type == OperandType.int ||
+
+    if ((x.type == OperandType.boolean ||
+            x.type == OperandType.int ||
             x.type == OperandType.real ||
             x.type == OperandType.complex) &&
-        (y.type == OperandType.int ||
+        (y.type == OperandType.boolean ||
+            y.type == OperandType.int ||
             y.type == OperandType.real ||
             y.type == OperandType.complex)) {
       if ((x.real - y.real).abs() > epsilon) return false;
@@ -91,6 +94,13 @@ class Operand {
         );
     }
     return true;
+  }
+
+  static Operand createBoolean(bool value) {
+    var o = Operand(); // o := output
+    o.type = OperandType.boolean;
+    o.real = value ? 1 : 0;
+    return o;
   }
 
   static Operand createInt(num x) {
