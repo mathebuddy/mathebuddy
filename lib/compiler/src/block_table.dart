@@ -14,7 +14,12 @@ MbclLevelItem processTable(Block block) {
   var data = MbclTableData();
   table.tableData = data;
   table.title = block.title;
-  for (var part in block.parts) {
+  for (var blockItem in block.items) {
+    if (blockItem.type == BlockItemType.subBlock) {
+      block.processSubblock(table, blockItem.subBlock!);
+      continue;
+    }
+    var part = blockItem.part!;
     switch (part.name) {
       case 'global':
         if (part.lines.join('\n').trim().isNotEmpty) {
@@ -71,6 +76,5 @@ MbclLevelItem processTable(Block block) {
         break;
     }
   }
-  block.processSubblocks(table);
   return table;
 }
