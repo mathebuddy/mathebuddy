@@ -7,10 +7,10 @@ Multiple Choice
 ---
 EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
 @text
-  Choose the right answers:
-  [x] This answer is correct.
-  [ ] This answer is incorrect.
-  [x] This answer is correct.
+Choose the right answers:
+[x] This answer is correct.
+[ ] This answer is incorrect.
+[x] This answer is correct.
 ---
 
 ---
@@ -18,10 +18,10 @@ EXERCISE My Multiple Choice Exercise with static order @ex:myMultiChoice
 @options
   order: static
 @text
-  Choose the right answers:
-  [x] This answer is correct.
-  [ ] This answer is incorrect.
-  [x] This answer is correct.
+Choose the right answers:
+[x] This answer is correct.
+[ ] This answer is incorrect.
+[x] This answer is correct.
 ---
 
 ---
@@ -32,12 +32,12 @@ EXERCISE My dynamic Multiple Choice Exercise @ex:myMultiChoice
   let c2 = y > w;
   let c3 = z > w;
 @text
-  Choose the right answers:
-  [:c1] $x > w$
-  [:c2] $y > w$
-  [:c3] $z > w$
-  [x]   $1 > 0$    % statically true
-  [ ]   $1 < 0$    % statically false
+Choose the right answers:
+[:c1] $x > w$
+[:c2] $y > w$
+[:c3] $z > w$
+[x]   $1 > 0$    % statically true
+[ ]   $1 < 0$    % statically false
 ---
 
 Single Choice
@@ -46,10 +46,10 @@ Single Choice
 ---
 EXERCISE My Single Choice Exercise @ex:mySingleChoice
 @text
-  Choose the right answer:
-  (x) This answer is correct.
-  ( ) This answer is incorrect.
-  ( ) This answer is incorrect.
+Choose the right answer:
+(x) This answer is correct.
+( ) This answer is incorrect.
+( ) This answer is incorrect.
 ---
 
 Randomized Exercises
@@ -61,7 +61,7 @@ EXERCISE Addition @ex:add
   let x/y = rand(1, 5);
   let z = x + y;
 @text
-  Calculate $ x + y = $ #z.
+Calculate $ x + y = $ #z.
 ---
 
 ---
@@ -70,7 +70,7 @@ EXERCISE Matrix Multiplication @ex:add-mul
   let x:y = rand<2,2>(1, 5);
   let z = x * y;
 @text
-  Calculate $ x \cdot y = $ #z.
+Calculate $ x \cdot y = $ #z.
 ---
 
 Exercise with button answers
@@ -82,7 +82,7 @@ EXERCISE Multiplication
   let x/y = rand(10, 20);
   let z = x * y;
 @text
-  $x \cdot y=$ #z
+$x \cdot y=$ #z
 @solution-z
   choices: 4
 ---
@@ -90,9 +90,9 @@ EXERCISE Multiplication
 ---
 EXERCISE Simple Integration @ex:intSimple
 @code
-  let F(x) = 1/3*x^3 + 7*x
+  let F(x) = (1/3) * x^3 + 7*x
 @text
-  Solve $\int (x^2+7) \dx =$  #F  $+C$
+Solve $\int (x^2+7) \dx =$  #F  $+C$
 @solution-F
   build-term: true
 ---
@@ -106,12 +106,13 @@ EXERCISE Scoring example
   scores: 5       % total score of the exercise (5/3 for fa; 10/3 for fb)
 @code
   let a = rand(2, 4)
-  let b = rand(5, 8)
+  let b = rand(5, 6)
   let fa = fac(a)
   let fb = fac(b)
 @text
-  Calculate $ a! = $ #fa
-  Calculate $ b! = $ #fb
+Calculate
+-) $ a! = $ #fa
+-) $ b! = $ #fb
 @solution-fb     % if scores are not given for a solution, the
   score: 2       % value 1 is taken.
 ---
@@ -125,7 +126,7 @@ EXERCISE My Gap Exercise @ex:myLabel
   show-gap-length: true
   show-required-letters-only: true
 @text
-  Garfield is a #"cat". Rain is #"wet".
+Garfield is a #"cat". Rain is #"wet".
 ---
 
 Arrangement Exercise
@@ -141,7 +142,7 @@ EXERCISE Title @ex:label
     f[i] = f[i-2] + f[i-1]
   }
 @text
-  Arrange the following numbers to get the first numbers of the Fibonacci sequence: #f
+Arrange the following numbers to get the first numbers of the Fibonacci sequence: #f
 @solution-f
   arrangement: true
   accept-immediately: true
@@ -156,7 +157,7 @@ EXERCISE Title @ex:label
   let x:y = rand(20,50);
   let z = x + y
 @text
-  Calculate $x+y=$ #z
+Calculate $x+y=$ #z
 @solution-z
   timer: 3
   accelerate: true
