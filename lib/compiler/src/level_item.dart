@@ -14,16 +14,24 @@ void postProcessLevelItem(MbclLevelItem levelItem) {
   aggregateText(levelItem.items);
   aggregateMultipleChoice(levelItem.items);
   aggregateSingleChoice(levelItem.items);
+  removeEmptyParagraphs(levelItem.items);
+  // equation data
+  if (levelItem.equationData != null) {
+    var data = levelItem.equationData!;
+    if (data.math != null) {
+      postProcessLevelItem(data.math!);
+    }
+  }
   // figure data
   if (levelItem.figureData != null) {
-    var data = levelItem.figureData as MbclFigureData;
+    var data = levelItem.figureData!;
     for (var captionItem in data.caption) {
       postProcessLevelItem(captionItem);
     }
   }
   // table data
   if (levelItem.tableData != null) {
-    var data = levelItem.tableData as MbclTableData;
+    var data = levelItem.tableData!;
     // TODO: data.caption
     for (var column in data.head.columns) {
       postProcessLevelItem(column);
@@ -31,6 +39,17 @@ void postProcessLevelItem(MbclLevelItem levelItem) {
     for (var row in data.rows) {
       for (var column in row.columns) {
         postProcessLevelItem(column);
+      }
+    }
+  }
+}
+
+void removeEmptyParagraphs(List<MbclLevelItem> items) {
+  for (var i = 0; i < items.length; i++) {
+    if (items[i].type == MbclLevelItemType.paragraph) {
+      if (items[i].items.isEmpty) {
+        items.removeAt(i);
+        i--;
       }
     }
   }
