@@ -11,6 +11,6 @@ import 'block.dart';
 List<MbclLevelItem> processText(Block block) {
   // this block has no parts
   return block.compiler.parseParagraph(
-    block.parts[0].lines.join('\n'),
-  );
+      //block.parts[0].lines.join('\n'),
+      block.items[0].part!.lines.join('\n'));
 }
