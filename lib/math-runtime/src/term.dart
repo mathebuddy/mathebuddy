@@ -59,6 +59,13 @@ class Term {
     return t;
   }
 
+  /// Creates a boolean constant (scalar).
+  static Term createConstBoolean(bool value) {
+    var t = Term('#', [], []);
+    t.value = Operand.createBoolean(value);
+    return t;
+  }
+
   /// Creates an integral constant term (scalar).
   static Term createConstInt(num value) {
     var t = Term('#', [], []);
@@ -73,6 +80,7 @@ class Term {
     return t;
   }
 
+  // Creates a constant irrational number (scalar).
   static Term createConstIrrational(String irr) {
     var t = Term('#', [], []);
     t.value = Operand.createIrrational(irr);
