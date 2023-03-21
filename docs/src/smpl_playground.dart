@@ -25,7 +25,7 @@ let f(x) = x^2
 
 var example = '''let a = rand(2,5)
 let b = 1/2 + 2/4
-let p(x) = 2x^2 + ax - 7
+let p(x) = 2x^2 + a x - 7
 let k=3
 while k > 0 {
   k = k - 1;
