@@ -59,21 +59,31 @@ class MbclChapter {
     author = src["author"];
     posX = src["posX"];
     posY = src["posY"];
-    // units
-    units = [];
-    int n = src["units"].length;
-    for (var i = 0; i < n; i++) {
-      var unit = MbclUnit();
-      unit.fromJSON(src["units"][i]);
-      units.add(unit);
-    }
     // levels
     levels = [];
-    n = src["levels"].length;
+    int n = src["levels"].length;
     for (var i = 0; i < n; i++) {
       var level = MbclLevel();
       level.fromJSON(src["levels"][i]);
       levels.add(level);
+    }
+    // reconstruct required levels
+    for (var level in levels) {
+      for (var requiresId in level.requiresTmp) {
+        level.requires.add(getLevelByFileID(requiresId)!);
+      }
+    }
+    // units
+    units = [];
+    n = src["units"].length;
+    for (var i = 0; i < n; i++) {
+      var unit = MbclUnit();
+      unit.fromJSON(src["units"][i]);
+      units.add(unit);
+      // reconstruct levels
+      for (var levelFileId in unit.levelFileIDs) {
+        unit.levels.add(getLevelByFileID(levelFileId)!);
+      }
     }
     // requires
     requires = [];
