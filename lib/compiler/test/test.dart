@@ -55,17 +55,19 @@ void main() {
   print('=== TESTING DEMO FILES ===');
 
   var files = [
-    'exercises.mbl',
-    /*'hello.mbl',
-    'typography.mbl',
-    'exercises-simple.mbl',
-    'definitions.mbl',
-    'equations.mbl',
-    'examples.mbl',*/
+    'demo-course/basics/index.mbl'
+    //'demo-basic/exercises.mbl',
+    //'demo-basic/hello.mbl',
+    //'typography.mbl',
+    //'demo-basic/exercises-simple.mbl',
+    //'demo-basic/definitions.mbl',
+    //'demo-basic/equations.mbl',
+    //'demo-basic/examples.mbl',
+    //'demo-ma2/ma2-1.mbl',
   ];
   for (var file in files) {
     print("******************* TESTING FILE $file *******************");
-    compile('test/data/demo-basic/$file');
+    compile('test/data/$file');
   }
 
   var bp = 1337;
