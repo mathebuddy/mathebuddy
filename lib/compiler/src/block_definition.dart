@@ -12,7 +12,12 @@ MbclLevelItem processDefinition(Block block, MbclLevelItemType type) {
   var def = MbclLevelItem(type);
   def.title = block.title;
   def.label = block.label;
-  for (var part in block.parts) {
+  for (var blockItem in block.items) {
+    if (blockItem.type == BlockItemType.subBlock) {
+      block.processSubblock(def, blockItem.subBlock!);
+      continue;
+    }
+    var part = blockItem.part!;
     switch (part.name) {
       case 'global':
         def.items.addAll(block.compiler.parseParagraph(part.lines.join("\n")));
@@ -21,6 +26,5 @@ MbclLevelItem processDefinition(Block block, MbclLevelItemType type) {
         def.error += 'Unexpected part "${part.name}".';
     }
   }
-  block.processSubblocks(def);
   return def;
 }
