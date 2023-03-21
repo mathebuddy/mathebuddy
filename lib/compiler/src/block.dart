@@ -32,12 +32,22 @@ class BlockPart {
   List<String> lines = [];
 }
 
+enum BlockItemType { subBlock, part }
+
+class BlockItem {
+  BlockItemType type;
+  BlockPart? part;
+  Block? subBlock;
+  BlockItem(this.type);
+}
+
 class Block {
   String type = '';
   String title = '';
   String label = '';
-  List<BlockPart> parts = []; // e.g. "@options ..."
-  List<Block> subBlocks = []; // e.g. "EQUATION ..."
+  //List<BlockPart> parts = []; // e.g. "@options ..."
+  //List<Block> subBlocks = []; // e.g. "EQUATION ..."
+  List<BlockItem> items = [];
   int srcLine = 0;
   List<MbclLevelItem> levelItems = [
     MbclLevelItem(MbclLevelItemType.error, 'Block unprocessed.')
@@ -46,7 +56,19 @@ class Block {
 
   Block(this.compiler);
 
-  void process() {
+  void addBlockPart(BlockPart part) {
+    var blockItem = BlockItem(BlockItemType.part);
+    blockItem.part = part;
+    items.add(blockItem);
+  }
+
+  void addSubBlock(Block subBlock) {
+    var blockItem = BlockItem(BlockItemType.subBlock);
+    blockItem.subBlock = subBlock;
+    items.add(blockItem);
+  }
+
+  void process([MbclLevelItem? exercise]) {
     switch (type) {
       case 'DEFINITION':
         levelItems = [processDefinition(this, MbclLevelItemType.defDefinition)];
@@ -90,10 +112,10 @@ class Block {
         levelItems = [processTextAlign(this, MbclLevelItemType.alignRight)];
         break;
       case 'EQUATION':
-        levelItems = [processEquation(this, true)];
+        levelItems = [processEquation(this, true, exercise)];
         break;
       case 'EQUATION*':
-        levelItems = [processEquation(this, false)];
+        levelItems = [processEquation(this, false, exercise)];
         break;
       case 'EXAMPLE':
         levelItems = [
@@ -124,19 +146,17 @@ class Block {
     }
   }
 
-  void processSubblocks(MbclLevelItem item) {
-    for (var sub in subBlocks) {
-      sub.process();
-      var type = item.type;
-      if (type.name.startsWith('def')) type = MbclLevelItemType.defDefinition;
-      if (mbclSubBlockWhiteList.containsKey(type) &&
-          (mbclSubBlockWhiteList[type] as List<MbclLevelItemType>)
-              .contains(sub.levelItems[0].type)) {
-        item.items.addAll(sub.levelItems);
-      } else {
-        item.error += 'Error: Subblock type ${sub.levelItems[0].type.name}'
-            ' is not allowed for ${type.name}! ';
-      }
+  void processSubblock(MbclLevelItem item, Block sub) {
+    sub.process(item.type == MbclLevelItemType.exercise ? item : null);
+    var type = item.type;
+    if (type.name.startsWith('def')) type = MbclLevelItemType.defDefinition;
+    if (mbclSubBlockWhiteList.containsKey(type) &&
+        (mbclSubBlockWhiteList[type] as List<MbclLevelItemType>)
+            .contains(sub.levelItems[0].type)) {
+      item.items.addAll(sub.levelItems);
+    } else {
+      item.error += 'Error: Subblock type ${sub.levelItems[0].type.name}'
+          ' is not allowed for ${type.name}! ';
     }
   }
 }
