@@ -9,6 +9,7 @@
 import 'level_item.dart';
 
 class MbclLevel {
+  // import/export
   String fileId =
       ''; // all references go here; label is only used for searching
   String title = '';
@@ -16,8 +17,10 @@ class MbclLevel {
   int posX = -1;
   int posY = -1;
   List<MbclLevel> requires = [];
-  List<String> requiresTmp = []; // only used while compiling
   List<MbclLevelItem> items = [];
+
+  // tmporary
+  List<String> requiresTmp = [];
 
   Map<String, dynamic> toJSON() {
     return {
@@ -42,7 +45,6 @@ class MbclLevel {
     int n = src["requires"].length;
     for (var i = 0; i < n; i++) {
       requiresTmp.add(src["requires"][i]);
-      // TODO: requires!!!
     }
     // items
     items = [];
