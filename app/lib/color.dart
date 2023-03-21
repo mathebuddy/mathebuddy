@@ -15,7 +15,8 @@ Color getFeedbackColor(MbclExerciseFeedback? feedback) {
   if (feedback == null) return matheBuddyYellow;
   switch (feedback) {
     case MbclExerciseFeedback.unchecked:
-      return matheBuddyYellow;
+      //return matheBuddyYellow;
+      return matheBuddyRed;
     case MbclExerciseFeedback.correct:
       return matheBuddyGreen;
     case MbclExerciseFeedback.incorrect:
