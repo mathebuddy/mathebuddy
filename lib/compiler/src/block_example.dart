@@ -12,7 +12,12 @@ MbclLevelItem processExample(Block block) {
   var example = MbclLevelItem(MbclLevelItemType.example);
   example.title = block.title;
   example.label = block.label;
-  for (var part in block.parts) {
+  for (var blockItem in block.items) {
+    if (blockItem.type == BlockItemType.subBlock) {
+      block.processSubblock(example, blockItem.subBlock!);
+      continue;
+    }
+    var part = blockItem.part!;
     switch (part.name) {
       case 'global':
         example.items
@@ -22,6 +27,5 @@ MbclLevelItem processExample(Block block) {
         example.error += 'Unexpected part "${part.name}".';
     }
   }
-  block.processSubblocks(example);
   return example;
 }
