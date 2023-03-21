@@ -23,7 +23,12 @@ MbclLevelItem processExercise(Block block) {
   if (exercise.label.isEmpty) {
     exercise.label = 'ex${block.compiler.createUniqueId().toString()}';
   }
-  for (var part in block.parts) {
+  for (var blockItem in block.items) {
+    if (blockItem.type == BlockItemType.subBlock) {
+      block.processSubblock(exercise, blockItem.subBlock!);
+      continue;
+    }
+    var part = blockItem.part!;
     switch (part.name) {
       case 'global':
         if (part.lines.join('\n').trim().isNotEmpty) {
@@ -188,6 +193,5 @@ MbclLevelItem processExercise(Block block) {
         break;
     }
   }
-  block.processSubblocks(exercise);
   return exercise;
 }
