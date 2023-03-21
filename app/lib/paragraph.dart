@@ -119,11 +119,11 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
           }
         }
         var tex = TeX();
-        tex.scalingFactor = 1.17;
+        tex.scalingFactor = 1.0; //1.17;
         //print("... tex src: $texSrc");
         var svg = tex.tex2svg(texSrc);
         var svgWidth = tex.width;
-        if (texSrc.contains("\\sqrt") || svg.isEmpty) {
+        if (svg.isEmpty) {
           return TextSpan(
             text: "${tex.error}. TEX-INPUT: $texSrc",
             style: TextStyle(color: Colors.red, fontSize: defaultFontSize),
@@ -159,22 +159,26 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
               text: TextSpan(children: [
             WidgetSpan(
                 child: Icon(
-              Icons.keyboard,
+              //Icons.keyboard,
+              Icons.code,
               size: 42,
               color: feedbackColor,
             )),
-            WidgetSpan(
+            // solution:
+            /*WidgetSpan(
                 child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(3.0)),
                         border: Border.all(color: Colors.black, width: 1)),
-                    child: Text(' ${inputFieldData.expectedValue}  ',
+                    child: Text('  ${inputFieldData.expectedValue}  ',
                         style: TextStyle(
-                            color: Colors.black, fontStyle: FontStyle.italic))))
+                            color: Colors.black,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 12.0)))),*/
           ]));
         } else {
           var tex = TeX();
-          tex.scalingFactor = 1.5; //1.17;
+          tex.scalingFactor = 1.33; //1.17;
           tex.setColor(
               feedbackColor.red, feedbackColor.green, feedbackColor.blue);
           var svg = tex.tex2svg(convertMath2TeX(inputFieldData.studentValue));
@@ -204,34 +208,32 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
                     Scrollable.ensureVisible(key.currentContext!,
                         duration: Duration(milliseconds: 250));
                   }
-                  if (state.keyboardState.layout != null) {
+                  /*if (state.keyboardState.layout != null) {
                     state.keyboardState.layout = null;
-                  } else {
-                    //scrollController?.jumpTo(10);
-
-                    state.keyboardState.exerciseData = exerciseData;
-                    state.keyboardState.inputFieldData = inputFieldData;
-                    switch (inputFieldData.type) {
-                      case MbclInputFieldType.int:
-                        state.keyboardState.layout = keyboardLayoutInteger;
-                        break;
-                      case MbclInputFieldType.real:
-                        state.keyboardState.layout = keyboardLayoutReal;
-                        break;
-                      case MbclInputFieldType.complexNormal:
-                        state.keyboardState.layout =
-                            keyboardLayoutComplexNormalForm;
-                        break;
-                      /*case MbclInputFieldType.choices:
+                  } else {*/
+                  state.keyboardState.exerciseData = exerciseData;
+                  state.keyboardState.inputFieldData = inputFieldData;
+                  switch (inputFieldData.type) {
+                    case MbclInputFieldType.int:
+                      state.keyboardState.layout = keyboardLayoutInteger;
+                      break;
+                    case MbclInputFieldType.real:
+                      state.keyboardState.layout = keyboardLayoutReal;
+                      break;
+                    case MbclInputFieldType.complexNormal:
+                      state.keyboardState.layout =
+                          keyboardLayoutComplexNormalForm;
+                      break;
+                    /*case MbclInputFieldType.choices:
                       //inputFieldData.choices
                       break;*/
-                      default:
-                        print("WARNING: generateParagraphItem():"
-                            "keyboard layout for input field type"
-                            " ${inputFieldData.type.name} not yet implemented");
-                        state.keyboardState.layout = keyboardLayoutTerm;
-                    }
+                    default:
+                      print("WARNING: generateParagraphItem():"
+                          "keyboard layout for input field type"
+                          " ${inputFieldData.type.name} not yet implemented");
+                      state.keyboardState.layout = keyboardLayoutTerm;
                   }
+                  //}
                   // ignore: invalid_use_of_protected_member
                   state.setState(() {});
                 },
