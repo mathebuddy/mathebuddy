@@ -18,6 +18,7 @@ import 'block.dart';
 import 'course.dart';
 import 'exercise.dart';
 import 'help.dart';
+import 'math.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
@@ -243,7 +244,8 @@ class Compiler {
     // filter out comments of each line
     _srcLines = src.split('\n');
     for (var k = 0; k < _srcLines.length; k++) {
-      var line = _srcLines[k].trim();
+      var line = _srcLines[
+          k]; // .trim(); TODO: OK to entirely remove trimming?? NOT allowed for itemize
       var tokens = line.split('%');
       _srcLines[k] = tokens[0];
     }
@@ -355,11 +357,11 @@ class Compiler {
     _next();
     BlockPart part = BlockPart();
     part.name = 'global';
-    block.parts.add(part);
+    block.addBlockPart(part);
     while (_line != '---' && _line != '§END') {
       if (_line.startsWith('@')) {
         part = BlockPart();
-        block.parts.add(part);
+        block.addBlockPart(part);
         part.name = _line.substring(1).trim();
         _next();
       } else if (_line.length >= 3 &&
@@ -367,9 +369,12 @@ class Compiler {
           _line.codeUnitAt(0) <= 'Z'.codeUnitAt(0) &&
           _line.substring(0, 3) == _line.toUpperCase().substring(0, 3)) {
         if (parseSubBlock) {
+          if (_line.startsWith('END')) {
+            _next();
+          }
           break;
         } else {
-          block.subBlocks.add(_parseBlock(true));
+          block.addSubBlock(_parseBlock(true));
         }
       } else {
         part.lines.add(_line);
@@ -466,7 +471,7 @@ class Compiler {
       return _parseItalicText(lexer, exercise);
     } else if (lexer.isTerminal('\$')) {
       // inline math
-      return _parseInlineMath(lexer, exercise);
+      return parseInlineMath(lexer, exercise);
     } else if (lexer.isTerminal('@')) {
       // reference
       return _parseReference(lexer);
@@ -515,14 +520,35 @@ class Compiler {
         break;
     }
     var itemize = MbclLevelItem(type);
-    while (lexer.getToken().col == 1 && lexer.isTerminal(typeStr)) {
+    int rowIdx;
+    while (lexer.getToken().col == 1 &&
+        lexer.isTerminal(typeStr) &&
+        lexer.isNotEnd()) {
+      rowIdx = lexer.getToken().row;
       lexer.next();
       var span = MbclLevelItem(MbclLevelItemType.span);
       itemize.items.add(span);
       while (lexer.isNotNewline() && lexer.isNotEnd()) {
         span.items.add(_parseParagraphPart(lexer, exercise));
       }
-      if (lexer.isNewline()) lexer.newline();
+      if (lexer.isNewline()) {
+        lexer.newline();
+      }
+      // parse all consecutive lines, that belong to the item. These lines
+      // are indicated by preceding spaces.
+      while (lexer.getToken().col > 1 && lexer.isNotEnd()) {
+        if (lexer.getToken().row - rowIdx > 1) {
+          span.items.add(MbclLevelItem(MbclLevelItemType.text, '\n'));
+        }
+        rowIdx = lexer.getToken().row;
+        while (lexer.isNotNewline() && lexer.isNotEnd()) {
+          var p = _parseParagraphPart(lexer, exercise);
+          span.items.add(p);
+        }
+        if (lexer.isNewline()) {
+          lexer.newline();
+        }
+      }
     }
     return itemize;
   }
@@ -545,29 +571,6 @@ class Compiler {
     }
     if (lexer.isTerminal('*')) lexer.next();
     return italic;
-  }
-
-  MbclLevelItem _parseInlineMath(Lexer lexer, MbclLevelItem? exercise) {
-    lexer.next();
-    var inlineMath = MbclLevelItem(MbclLevelItemType.inlineMath);
-    while (lexer.isNotTerminal('\$') && lexer.isNotEnd()) {
-      var tk = lexer.getToken().token;
-      var isId = lexer.getToken().type == LexerTokenType.id;
-      lexer.next();
-      if (isId &&
-          exercise != null &&
-          (exercise.exerciseData as MbclExerciseData).variables.contains(tk)) {
-        var v = MbclLevelItem(MbclLevelItemType.variableReference);
-        v.id = tk;
-        inlineMath.items.add(v);
-      } else {
-        var text = MbclLevelItem(MbclLevelItemType.text);
-        text.text = tk;
-        inlineMath.items.add(text);
-      }
-    }
-    if (lexer.isTerminal('\$')) lexer.next();
-    return inlineMath;
   }
 
   MbclLevelItem _parseReference(Lexer lexer) {
