@@ -19,7 +19,9 @@ My subsection @subsec:mySubSection
 Refer to @mySection.
 
 An itemization:
-- first item
+- first item. This is some very long text that is wrapped over multiple lines. This is some very long text that is wrapped over multiple lines. This is some very long text that is wrapped over multiple lines.
+
+  This line belongs to the first item, but stands in a new line.
 - second item
 
 An enumeration
