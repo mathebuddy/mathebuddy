@@ -13,4 +13,5 @@ void postProcessLevel(MbclLevel level) {
     var item = level.items[i];
     postProcessLevelItem(item);
   }
+  removeEmptyParagraphs(level.items);
 }
