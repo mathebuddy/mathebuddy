@@ -182,7 +182,7 @@ class CoursePageState extends State<CoursePage> {
         page.add(generateLevelItem(this, item));
       }
       // add empty lines at the end; otherwise keyboard is in the way...
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < 20; i++) {
         // TODO
         page.add(Text("\n"));
       }
