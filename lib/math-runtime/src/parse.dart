@@ -56,6 +56,8 @@ class Parser {
     for (var k = 0; k < _tokens.length; k++) {
       var token = _tokens[k];
       if (splitIdentifiers &&
+          token != "true" &&
+          token != "false" &&
           _isIdentifier(token) &&
           _isFct1(token) == false &&
           _isFct2(token) == false &&
@@ -238,7 +240,13 @@ class Parser {
       | matrixOrVector | set;
   */
   Term _parseInfix() {
-    if (_isImag(_token)) {
+    if (_token == 'true') {
+      _next();
+      return Term.createConstBoolean(true);
+    } else if (_token == 'false') {
+      _next();
+      return Term.createConstBoolean(false);
+    } else if (_isImag(_token)) {
       var tk = _token;
       _next();
       if (tk == 'i') tk = '1i';
