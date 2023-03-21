@@ -4,11 +4,17 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'package:slex/slex.dart';
+
 import '../../mbcl/src/level_item.dart';
 
 import 'block.dart';
+import 'math.dart';
 
-MbclLevelItem processEquation(Block block, bool numbering) {
+MbclLevelItem processEquation(
+    Block block, bool numbering, MbclLevelItem? exercise) {
+  var aligned = false;
+
   var equation = MbclLevelItem(MbclLevelItemType.equation);
   var data = MbclEquationData();
   equation.equationData = data;
@@ -20,25 +26,21 @@ MbclLevelItem processEquation(Block block, bool numbering) {
   equation.id = equationNumber;
   equation.title = block.title;
   equation.label = block.label;
-  for (var part in block.parts) {
+  for (var blockItem in block.items) {
+    if (blockItem.type == BlockItemType.subBlock) {
+      block.processSubblock(equation, blockItem.subBlock!);
+      continue;
+    }
+    var part = blockItem.part!;
     switch (part.name) {
       case 'options':
         for (var line in part.lines) {
           line = line.trim();
           if (line.isEmpty) continue;
           switch (line) {
-            case 'align-left':
-              data.options.add(MbclEquationOption.alignLeft);
-              break;
-            case 'align-center':
-              data.options.add(MbclEquationOption.alignCenter);
-              break;
-            case 'align-right':
-              data.options.add(MbclEquationOption.alignRight);
-              break;
-            case 'align-equals':
-              // TODO: do NOT store. create LaTeX-code instead!
-              data.options.add(MbclEquationOption.alignEquals);
+            case 'aligned':
+              //data.options.add(MbclEquationOption.aligned);
+              aligned = true;
               break;
             default:
               equation.error += 'Unknown option "$line".';
@@ -53,7 +55,10 @@ MbclLevelItem processEquation(Block block, bool numbering) {
             if (line.trim().isEmpty) continue;
             nonEmptyLines.add(line);
           }
-          equation.text += nonEmptyLines.join('\\\\');
+          equation.text += nonEmptyLines.join('\n');
+          if (aligned) {
+            equation.text = '\\begin{matrix}[ll]${equation.text}\\end{matrix}';
+          }
         }
         break;
       default:
@@ -61,6 +66,11 @@ MbclLevelItem processEquation(Block block, bool numbering) {
         break;
     }
   }
-  block.processSubblocks(equation);
+  // compile math
+  var lexer = Lexer();
+  lexer.pushSource('', equation.text);
+  data.math = parseInlineMath(lexer, exercise);
+  equation.text = '';
+
   return equation;
 }
