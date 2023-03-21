@@ -10,7 +10,12 @@ import 'block.dart';
 
 MbclLevelItem processTextAlign(Block block, MbclLevelItemType type) {
   var align = MbclLevelItem(type);
-  for (var part in block.parts) {
+  for (var blockItem in block.items) {
+    if (blockItem.type == BlockItemType.subBlock) {
+      block.processSubblock(align, blockItem.subBlock!);
+      continue;
+    }
+    var part = blockItem.part!;
     switch (part.name) {
       case 'global':
         align.items
@@ -20,6 +25,5 @@ MbclLevelItem processTextAlign(Block block, MbclLevelItemType type) {
         align.error += 'Unexpected part "${part.name}".';
     }
   }
-  block.processSubblocks(align);
   return align;
 }
