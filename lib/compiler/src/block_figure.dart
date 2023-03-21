@@ -16,7 +16,12 @@ MbclLevelItem processFigure(Block block) {
   var figure = MbclLevelItem(MbclLevelItemType.figure);
   var data = MbclFigureData();
   figure.figureData = data;
-  for (var part in block.parts) {
+  for (var blockItem in block.items) {
+    if (blockItem.type == BlockItemType.subBlock) {
+      block.processSubblock(figure, blockItem.subBlock!);
+      continue;
+    }
+    var part = blockItem.part!;
     switch (part.name) {
       case 'global':
         if (part.lines.join('\n').trim().isNotEmpty) {
@@ -114,6 +119,5 @@ MbclLevelItem processFigure(Block block) {
         break;
     }
   }
-  block.processSubblocks(figure);
   return figure;
 }
