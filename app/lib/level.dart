@@ -81,33 +81,16 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
       }
     case MbclLevelItemType.equation:
       {
-        var texSrc = item.text;
-        Widget equationWidget = Text('');
-        var tex = TeX();
-        tex.scalingFactor = 1.1;
-        var svg = tex.tex2svg(texSrc);
-        var svgWidth = tex.width;
-        if (svg.isEmpty) {
-          equationWidget = Text('TeX-ERROR: ${tex.error}',
-              style: TextStyle(color: Colors.red));
-        } else {
-          var eqNumber = int.parse(item.id);
-          var eqNumberWidget = Text(eqNumber >= 0 ? '($eqNumber)' : '');
-          equationWidget = Row(
-            children: [
-              Expanded(
-                  child: SvgPicture.string(svg, width: svgWidth.toDouble())),
-              Column(children: [eqNumberWidget]),
-            ],
-          );
-        }
-        return Padding(
-            padding: EdgeInsets.all(3.0),
-            child: Align(
-                alignment: Alignment.topCenter,
-                child: Wrap(
-                    alignment: WrapAlignment.start,
-                    children: [equationWidget])));
+        var data = item.equationData!;
+        var eq = generateParagraphItem(state, data.math!,
+            exerciseData: exerciseData);
+        var equationWidget = RichText(text: TextSpan(children: [eq]));
+        var eqNumber = int.parse(item.id);
+        var eqNumberWidget = Text(eqNumber >= 0 ? '($eqNumber)' : '');
+        return ListTile(
+          title: Center(child: equationWidget),
+          trailing: eqNumberWidget,
+        );
       }
     case MbclLevelItemType.span:
       {
@@ -129,98 +112,38 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
     case MbclLevelItemType.enumerate:
     case MbclLevelItemType.enumerateAlpha:
       {
-        List<Widget> rows = [];
+        List<ListTile> tiles = [];
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
-          Widget w = Icon(
-            Icons.fiber_manual_record,
-            size: 8,
-          );
+          Widget leading = Padding(
+              padding: EdgeInsets.only(left: 6.0),
+              child: Icon(
+                Icons.fiber_manual_record,
+                size: 8,
+              ));
           if (item.type == MbclLevelItemType.enumerate) {
-            w = Text("${i + 1}.");
+            leading = Text("${i + 1}.");
           } else if (item.type == MbclLevelItemType.enumerateAlpha) {
-            w = Text("${String.fromCharCode("a".codeUnitAt(0) + i)})");
+            leading = Text("${String.fromCharCode("a".codeUnitAt(0) + i)})");
           }
-          var label = Column(children: [
-            Padding(
-                padding: EdgeInsets.only(
-                    left: 15.0, right: 3.0, top: 0.0, bottom: 0.0),
-                child: w)
-          ]);
           var content =
               generateLevelItem(state, subItem, exerciseData: exerciseData);
-
-          /*content = Wrap(
-              alignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              children: [
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: '0123456789123456789 ',
-                      style: TextStyle(color: Colors.black)),
-                  TextSpan(
-                      text: '0123456789123456789 ',
-                      style: TextStyle(color: Colors.black)),
-                  TextSpan(
-                      text: '0123456789123456789 ',
-                      style: TextStyle(color: Colors.black)),
-                  TextSpan(
-                      text: '0123456789123456789 ',
-                      style: TextStyle(color: Colors.black)),
-                ]))
-              ]);*/
-          /*content = Column(
-            children: [content],
-          );*/
-
-          /*var row = Column(children: [
-            Row(children: [
-              w, //label,
-              Column(children: [content])
-            ]),
-            //Column(children: [content])
-          ]);*/
-
-          var row = Padding(
-              padding: EdgeInsets.only(left: 30.0, top: 5, bottom: 5),
-              child: content);
-
-          rows.add(row);
-          //rows.add(row);
+          tiles.add(ListTile(
+              leading: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [leading],
+              ),
+              title: content,
+              minVerticalPadding: 0.0,
+              minLeadingWidth: 10.0,
+              horizontalTitleGap: 15.0,
+              contentPadding:
+                  EdgeInsets.only(left: 10.0, top: 0.0, bottom: 0.0)));
         }
-        //return Column(children: rows);
-
-        /*return Column(children: [
-          Row(children: [
-            Text('1. '),
-            Row(children: [
-              Wrap(
-                alignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.start,
-                children: [
-                  RichText(
-                      text: TextSpan(
-                          style: TextStyle(color: Colors.black),
-                          children: [
-                        TextSpan(text: 'my very long texttt '),
-                        TextSpan(text: 'my very long text '),
-                        TextSpan(text: 'my very long text '),
-                        TextSpan(text: 'my very long text '),
-                        TextSpan(text: 'my very long text '),
-                      ]))
-                ],
-              )
-            ]),
-          ]),
-          Row(children: [Text('2. '), Text('my text')]),
-          Row(children: [Text('3. '), Text('my text')]),
-        ]);*/
-
         return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: rows);
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: tiles);
       }
     case MbclLevelItemType.newPage:
       {
@@ -370,6 +293,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
       }
     case MbclLevelItemType.exercise:
       {
+        // TODO: must report error, if "exerciseData.instances.length" == 0!!
         exerciseKey = GlobalKey();
         var exerciseData = item.exerciseData as MbclExerciseData;
         if (exerciseData.runInstanceIdx < 0) {
@@ -378,15 +302,18 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         }
         List<Widget> list = [];
         var title = Wrap(children: [
-          Container(
+          Padding(
+              padding: EdgeInsets.only(bottom: 5.0),
               key: exerciseKey,
               child: Row(children: [
                 Text(' '), // TODO: use padding instead of Text(' ')
                 Icon(Icons.play_circle_outlined),
                 Text(' '),
                 // TODO: wrap does not work:
-                Text(item.title,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
+                Flexible(
+                    child: Text(item.title,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20)))
               ]))
         ]);
         list.add(title);
@@ -459,7 +386,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             },
             child: Center(
                 child: Container(
-                    margin: EdgeInsets.only(left: 20, top: 10, right: 20),
+                    margin: EdgeInsets.only(left: 20, top: 0, right: 20),
                     child: Container(
                       width: 75, //double.infinity,
                       //padding: EdgeInsets.only(left: 15, right: 5),
