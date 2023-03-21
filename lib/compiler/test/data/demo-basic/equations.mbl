@@ -4,7 +4,7 @@ Equations
 Inline Equations
 ================
 
-An inline equation $x^2+y^2+\sqrt(z)$.         
+An inline equation $x^2+y^2+\sqrt z$.         
 
 Equations
 =========
@@ -41,12 +41,11 @@ Aligned equations
 ---
 EQUATION
 @options
-align-left
-align-equals
+aligned
 @text
-(x+1)^2 = (x+1)(x+1)
-        = x^2 + x + x + 1
-        = x^2 + 2x + 1
+(x+1)^2 &= (x+1)(x+1) \\
+        &= x^2 + x + x + 1 \\
+        &= x^2 + 2x + 1 \\
 ---
 
 
@@ -68,7 +67,9 @@ Matrices
 
 ---
 EQUATION
-\mat{1&1&-2&0 \\ -2&0&1&1} \cdot
-\mat{-3&0&1 \\ 0&1&0 \\ 1&1&1 \\ 2&0&1} =
-\mat{-5&-1&-1 \\ 9&1&0}
+\begin{pmatrix}
+  1 & 2 & 3 \\
+  4 & 5 & 6 \\
+  7 & 8 & 9 \\
+\end{pmatrix}
 ---
