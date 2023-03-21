@@ -179,30 +179,34 @@ Map<MbclLevelItemType, List<MbclLevelItemType>> mbclSubBlockWhiteList = {
 };
 
 class MbclEquationData {
-  List<MbclEquationOption> options = [];
+  //List<MbclEquationOption> options = [];
+  MbclLevelItem? math;
   int number = 0;
 
   Map<String, dynamic> toJSON() {
-    return {"options": options.map((o) => o.name).toList(), "number": number};
+    return {
+      //"options": options.map((o) => o.name).toList(),
+      "math": math?.toJSON(),
+      "number": number
+    };
   }
 
   fromJSON(Map<String, dynamic> src) {
-    options = [];
+    /*options = [];
     int n = src["options"].length;
     for (var i = 0; i < n; i++) {
       var option = MbclEquationOption.values.byName(src["options"][i]);
       options.add(option);
-    }
+    }*/
+    math = MbclLevelItem(MbclLevelItemType.error);
+    math?.fromJSON(src["math"]);
     number = src["number"];
   }
 }
 
-enum MbclEquationOption {
-  alignLeft,
-  alignCenter,
-  alignRight,
-  alignEquals,
-}
+/*enum MbclEquationOption {
+  aligned,
+}*/
 
 enum MbclExerciseFeedback { unchecked, correct, incorrect }
 
