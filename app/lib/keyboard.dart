@@ -114,7 +114,7 @@ class KeyboardLayout {
         key.text = 'icon:E0C5';
         break;
       case '!E': // enter
-        key.text = 'icon:E156';
+        key.text = 'icon:E1f7'; // done_all
         break;
       // TODO: TeX keys
       /*case '*':
@@ -149,14 +149,14 @@ class Keyboard {
     var offsetX = (screenWidth - keyboardLayout.columnCount * keyWidth) / 2.0;
     var offsetY = 20.0;
 
-    List<Widget> keyWidgets = [];
+    List<Widget> widgets = [];
     for (var key in keyboardLayout.keys) {
       if (key == null) continue;
       var labelWidget = key.text.startsWith('icon:')
           ? Icon(
               IconData(int.parse(key.text.split(':')[1], radix: 16),
                   fontFamily: 'MaterialIcons'),
-              color: matheBuddyRed,
+              color: Colors.black, // matheBuddyRed,
               size: keyFontSize,
             )
           : Text(key.text,
@@ -222,11 +222,18 @@ class Keyboard {
                   child: Center(
                     child: labelWidget,
                   ))));
-      keyWidgets.add(keyWidget);
+      widgets.add(keyWidget);
     }
+
+    widgets.add(Positioned(
+        left: 25,
+        top: 0,
+        child:
+            Text('solution: ${keyboardState.inputFieldData?.expectedValue}')));
+
     Widget widget = Container(
         //margin: EdgeInsets.only(bottom: 20.0),
-        child: Stack(children: keyWidgets));
+        child: Stack(children: widgets));
     return widget;
   }
 
