@@ -380,7 +380,7 @@ enum MbclInputFieldType {
   real,
   complexNormal,
   complexPolar,
-  complexSet,
+  complexIntSet,
   intSet,
   intSetNArts,
   vector,
