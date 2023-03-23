@@ -155,7 +155,7 @@ class Term {
     return optTerm(this);
   }
 
-  bool compareNumerically(Term t, [num epsilon = 1e-12]) {
+  bool compareNumerically(Term t, [num epsilon = 1e-9]) {
     // TODO: only use variable values that result in "small" eval values
     Set<String> varIds = {};
     varIds.addAll(getVariableIDs());
