@@ -353,7 +353,7 @@ class Operand {
         x.type == OperandType.rational &&
         y.type == OperandType.complex) {
       o = Operand.mulDiv(
-          operator, Operand.createReal(o.real / o.denominator), y);
+          operator, Operand.createReal(x.real / x.denominator), y);
     } else if (operator == '*' &&
         (x.type == OperandType.int ||
             x.type == OperandType.rational ||
