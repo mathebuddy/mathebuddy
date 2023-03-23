@@ -24,7 +24,8 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       {
         var res = term.o[0].eval(varValues);
         for (var i = 1; i < term.o.length; i++) {
-          res = Operand.addSub(term.op, res, term.o[i].eval(varValues));
+          var o = term.o[i].eval(varValues);
+          res = Operand.addSub(term.op, res, o);
         }
         return res;
       }
