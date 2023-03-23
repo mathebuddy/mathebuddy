@@ -49,19 +49,31 @@ class Operand {
     return c;
   }
 
-  static bool compareEqual(Operand x, Operand y, [num epsilon = 1e-12]) {
+  static bool compareEqual(Operand x, Operand y, [num epsilon = 1e-9]) {
     // TODO: improve implementation of this method mathematically!
 
     if ((x.type == OperandType.boolean ||
             x.type == OperandType.int ||
+            x.type == OperandType.rational ||
             x.type == OperandType.real ||
             x.type == OperandType.complex) &&
         (y.type == OperandType.boolean ||
             y.type == OperandType.int ||
+            y.type == OperandType.rational ||
             y.type == OperandType.real ||
             y.type == OperandType.complex)) {
-      if ((x.real - y.real).abs() > epsilon) return false;
-      if ((x.imag - y.imag).abs() > epsilon) return false;
+      var xReal = x.real;
+      var xImag = x.imag;
+      var yReal = y.real;
+      var yImag = y.imag;
+      if (x.type == OperandType.rational) {
+        xReal /= x.denominator;
+      }
+      if (y.type == OperandType.rational) {
+        yReal /= y.denominator;
+      }
+      if ((xReal - yReal).abs() > epsilon) return false;
+      if ((xImag - yImag).abs() > epsilon) return false;
       return true;
     } else if (x.type != y.type) {
       return false;
@@ -255,7 +267,12 @@ class Operand {
         x.type == OperandType.rational &&
         y.type == OperandType.complex) {
       o = Operand.addSub(
-          operator, Operand.createReal(o.real / o.denominator), y);
+          operator, Operand.createReal(x.real / x.denominator), y);
+    } else if (operator == '+' &&
+        x.type == OperandType.complex &&
+        y.type == OperandType.rational) {
+      o = Operand.addSub(
+          operator, x, Operand.createReal(y.real / y.denominator));
     } else if (x.type == OperandType.matrix && y.type == OperandType.matrix) {
       o.type = OperandType.matrix;
       if (x.rows != y.rows || x.cols != y.cols) {
@@ -487,6 +504,17 @@ class Operand {
     }
   }
 
+  String _num2String(num real) {
+    var str = real.toStringAsFixed(13); // TODO!!
+    while (str.endsWith('0')) {
+      str = str.substring(0, str.length - 1);
+    }
+    if (str.endsWith('.')) {
+      str = str.substring(0, str.length - 1);
+    }
+    return str;
+  }
+
   @override
   String toString() {
     switch (type) {
@@ -494,17 +522,21 @@ class Operand {
         return real == 0 ? 'false' : 'true';
       case OperandType.int:
       case OperandType.real:
-        return real.toString();
+        return _num2String(real);
       case OperandType.rational:
-        return '${real.round()}/${denominator.round()}';
+        return '${_num2String(real)}/${_num2String(denominator)}';
       case OperandType.complex:
         {
-          var imagAbsStr = imag.abs().toString();
-          if (imagAbsStr == "1") imagAbsStr = "";
-          if (imag >= 0) {
-            return '$real+${imagAbsStr}i';
+          var realPart = _num2String(real);
+          var imagPart = _num2String(imag);
+          if (imagPart == "0") {
+            return realPart;
+          } else if (realPart == "0" || realPart == "-0") {
+            return '${imagPart}i';
+          } else if (imag > 0) {
+            return '$realPart+${imagPart}i';
           } else {
-            return '$real-${imagAbsStr}i';
+            return '$realPart${imagPart}i';
           }
         }
       case OperandType.set:
