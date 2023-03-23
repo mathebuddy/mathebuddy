@@ -86,8 +86,10 @@ void showSim(String location) {
 }
 
 void resetSim() {
-  (html.document.getElementById("sim-iframe") as html.IFrameElement).src =
-      simURL;
+  if (simURL.isNotEmpty) {
+    (html.document.getElementById("sim-iframe") as html.IFrameElement).src =
+        simURL;
+  }
   Timer(Duration(milliseconds: 500), () => sendCourseToSim());
 }
 
