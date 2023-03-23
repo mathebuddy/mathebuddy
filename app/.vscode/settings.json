@@ -10,6 +10,7 @@
     "FREIRAUM",
     "gamified",
     "Hochschullehre",
+    "imag",
     "Koeln",
     "mathe",
     "mathebuddy",
@@ -20,5 +21,6 @@
     "Stiftung",
     "wireframe",
     "xlink"
-  ]
+  ],
+  "cmake.configureOnOpen": true
 }
