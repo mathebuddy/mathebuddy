@@ -141,7 +141,6 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
       }
     case MbclLevelItemType.inputField:
       {
-        // TODO: debug-show expected solution
         var inputFieldData = item.inputFieldData as MbclInputFieldData;
         if (exerciseData != null &&
             exerciseData.inputFields.containsKey(item.id) == false) {
@@ -164,17 +163,6 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
               size: 42,
               color: feedbackColor,
             )),
-            // solution:
-            /*WidgetSpan(
-                child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
-                        border: Border.all(color: Colors.black, width: 1)),
-                    child: Text('  ${inputFieldData.expectedValue}  ',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 12.0)))),*/
           ]));
         } else {
           var tex = TeX();
@@ -223,6 +211,13 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
                     case MbclInputFieldType.complexNormal:
                       state.keyboardState.layout =
                           keyboardLayoutComplexNormalForm;
+                      break;
+                    case MbclInputFieldType.intSet:
+                      state.keyboardState.layout = keyboardLayoutIntegerSet;
+                      break;
+                    case MbclInputFieldType.complexIntSet:
+                      state.keyboardState.layout =
+                          keyboardLayoutComplexIntegerSet;
                       break;
                     /*case MbclInputFieldType.choices:
                       //inputFieldData.choices
