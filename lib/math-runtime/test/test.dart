@@ -28,7 +28,8 @@ void main() {
 //var term = parser.parse('[[1+2*3,2],[3,4]]'); // matrix
 //var term = parser.parse('(1/3) * [[1+2*3,2],[3,4]]+[[5,6],[7,8]]'); // TODO: without "()"
   //var term = parser.parse('sqrt(1/9)');
-  var term = parser.parse('cos(-pi)');
+  //var term = parser.parse('cos(-pi)');
+  var term = parser.parse('((1/2)+((1/2)*(1*(0+i))))');
 
   var value = term.eval({});
   print(term.toString());
