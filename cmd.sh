@@ -34,8 +34,10 @@ do
     echo "[8]  update grammar.txt in lib/*"
     echo "[9]  update file system files (_fs.txt) files in docs/demo/"
     echo "[10] show empty directories recursively"
-    echo "[11] create test bundle of test courses"
-    echo "[12] exit"
+    echo "[11] create bundle of test courses"
+    echo "[12] create bundle for alpha course"
+    echo "[13] update https://github.com/mathebuddy/alpha (must build web app + create bundle first)"
+    echo "[14] exit"
     read x
     case $x in
     0)
@@ -117,6 +119,25 @@ do
         cd bin
         dart bundler/src/bundler.dart bundle-test.txt ../app/assets/bundle-test.json
         cd ..
+        ;;
+    12)
+        # [12] create bundle for alpha course
+        cd bin
+        dart bundler/src/bundler.dart bundle-alpha.txt ../app/assets/bundle-alpha.json
+        cd ..
+        ;;
+    13)
+        # [13] update https://github.com/mathebuddy/alpha
+        DIR="../alpha/"
+        if [ -d "$DIR" ]; then
+            rm -rf ../alpha/docs/
+            mkdir -p ../alpha/docs/
+            cp -r app/build/web/* ../alpha/docs/
+            sed -i.bak 's/<base href="\/" \/>/<base href="\/alpha\/" \/>/g' ../alpha/docs/index.html
+            sed -i.bak 's/bundle-test.json/bundle-alpha.json/g' ../alpha/docs/index.html
+        else
+            echo "ERROR: alpha-repository must be placed next to mathebuddy repo"
+        fi
         ;;
     *)
         # [*] exit
