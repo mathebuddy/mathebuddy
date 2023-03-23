@@ -19,6 +19,8 @@ import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/level.dart';
 import 'package:mathebuddy/screen.dart';
 
+var bundleName = 'assets/bundle-test.json';
+
 void main() {
   runApp(const MatheBuddy());
 }
@@ -72,7 +74,7 @@ class CoursePageState extends State<CoursePage> {
   }
 
   void _selectCourse(String path) async {
-    var courseDataJson = Map<String, dynamic>();
+    Map<String, dynamic> courseDataJson = {};
     if (path == "DEBUG") {
       if (html.document.getElementById('course-data-span') != null &&
           ((html.document.getElementById('course-data-span')
@@ -108,12 +110,19 @@ class CoursePageState extends State<CoursePage> {
   }
 
   void _reloadCourseBundle() async {
+    if (html.document.getElementById('bundle-id') != null) {
+      bundleName = html.document.getElementById('bundle-id')!.innerHtml!;
+    }
+
     _bundleDataJson = {};
     var bundleDataStr = await DefaultAssetBundle.of(context)
-        .loadString('assets/bundle-test.json', cache: false);
+        .loadString(bundleName, cache: false);
     _bundleDataJson = jsonDecode(bundleDataStr);
     //print(bundleDataJson);
-    _courses = {'DEBUG': ''};
+    _courses = {};
+    if (bundleName.contains('bundle-test.json')) {
+      _courses = {'DEBUG': ''};
+    }
     _bundleDataJson.forEach((key, value) {
       if (key != '__type') {
         _courses[key] = value;
