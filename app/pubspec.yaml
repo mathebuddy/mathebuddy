@@ -32,8 +32,9 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/bundle-test.json
     - assets/img/logo.png
     - assets/img/logoSmall.png
     - assets/img/logo-large-en.png
     - assets/img/logo-large-de.png
+    - assets/bundle-test.json
+    - assets/bundle-alpha.json
