@@ -614,8 +614,8 @@ class Compiler {
             data.type = MbclInputFieldType.matrix;
             break;
           case OperandType.set:
-            // TODO: realSet, termSet, complexSet, ...
-            data.type = MbclInputFieldType.intSet;
+            // TODO: intSet, realSet, termSet, complexIntSet, ...
+            data.type = MbclInputFieldType.complexIntSet;
             break;
           default:
             exercise.error += ' UNIMPLEMENTED input type ${opType.name}. ';
