@@ -194,8 +194,11 @@ class Parser {
     } else if (operators.length == 1 && operators[0] == '/') {
       return Term.createOp('/', operands, []);
     } else if (operators.contains('/')) {
-      throw Exception('mixed * and / are unimplemented');
-      // TODO: "/" (push binary operations in a sequence!!!!)
+      Term o = operands[0];
+      for (var i = 0; i < operators.length; i++) {
+        o = Term.createOp(operators[i], [o, operands[i + 1]], []);
+      }
+      return o;
     } else {
       return Term.createOp('*', operands, []);
     }
@@ -216,7 +219,7 @@ class Parser {
 
   //G unary = [prefix] infix [postfix];
   //G prefix = "-";
-  //G postfix = "i";
+  //G postfix = "i"; <--- TODO: remove that here!!
   Term _parseUnary() {
     var isUnaryMinus = false;
     if (_token == '-') {
@@ -225,10 +228,10 @@ class Parser {
     }
     var term = _parseInfix();
     if (isUnaryMinus) term = Term.createOp('.-', [term], []);
-    if (_token == 'i') {
+    /*if (_token == 'i') {
       _next();
       term = Term.createOp('*', [term, Term.createConstComplex(0, 1)], []);
-    }
+    }*/
     return term;
   }
 
