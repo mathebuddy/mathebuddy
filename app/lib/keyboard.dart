@@ -225,11 +225,13 @@ class Keyboard {
       widgets.add(keyWidget);
     }
 
-    widgets.add(Positioned(
-        left: 25,
-        top: 0,
-        child:
-            Text('solution: ${keyboardState.inputFieldData?.expectedValue}')));
+    if (bundleName.contains('bundle-test.json')) {
+      widgets.add(Positioned(
+          left: 25,
+          top: 0,
+          child: Text(
+              'solution: ${keyboardState.inputFieldData?.expectedValue}')));
+    }
 
     Widget widget = Container(
         //margin: EdgeInsets.only(bottom: 20.0),
