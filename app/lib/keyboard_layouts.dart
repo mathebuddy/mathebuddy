@@ -40,8 +40,8 @@ var keyboardLayoutRealWithOperators = KeyboardLayout.parse('''
 var keyboardLayoutComplexNormalForm = KeyboardLayout.parse('''
 7 8 9 + !B
 4 5 6 - !B
-1 2 3 i !E
-0 0 0 . !E
+1 2 3 / !E
+0 0 0 i !E
 ''');
 
 var keyboardLayoutIntegerSet = KeyboardLayout.parse('''
