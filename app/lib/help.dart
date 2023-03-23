@@ -28,6 +28,8 @@ String convertMath2TeX(String s) {
     s = s.replaceAll('],[', ' \\\\');
     s = s.replaceAll(',', '&');
   }
+  s = s.replaceAll("{", "\\{");
+  s = s.replaceAll("}", "\\}");
   s = s.replaceAll("*", "\\cdot");
   s = s.replaceAll("sin", "\\sin");
   s = s.replaceAll("cos", "\\cos");
