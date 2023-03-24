@@ -529,6 +529,11 @@ class Operand {
         {
           var realPart = _num2String(real);
           var imagPart = _num2String(imag);
+          if (imagPart == "1") {
+            imagPart = "";
+          } else if (imagPart == "-1") {
+            imagPart = "-";
+          }
           if (imagPart == "0") {
             return realPart;
           } else if (realPart == "0" || realPart == "-0") {
