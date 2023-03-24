@@ -64679,6 +64679,8 @@ case 1:case 3:return n.nD(n.b)
 case 2:return n.nD(n.b)+"/"+n.nD(n.c)
 case 5:s=n.nD(n.b)
 r=n.nD(n.d)
+if(r==="1")r=""
+else if(r==="-1")r="-"
 if(r==="0")return s
 else if(s==="0"||s==="-0")return r+"i"
 else if(n.d>0)return s+"+"+r+"i"
