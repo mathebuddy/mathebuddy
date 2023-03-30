@@ -266,7 +266,8 @@
       </div>
 
       <div class="row">
-        <div id="road-items"></div>
+        <br /><br />
+        <div id="upcoming-features"></div>
       </div>
     </div>
 
@@ -886,6 +887,14 @@
           document.getElementById("play-info-contents").innerHTML = data;
           refreshLanguage();
         });
+      // set upcoming features info
+      fetch("text/upcoming-features.txt?ver=" + Date.now())
+        .then((response) => response.text())
+        .then((data) => {
+          data = data.replace(/\n/g, "<br/>");
+          document.getElementById("upcoming-features").innerHTML = data;
+          refreshLanguage();
+        });
 
       // switch simulator device (only changes width/height)
       function setDevice(id) {
@@ -1073,6 +1082,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1679606401"></script>
+    <script src="js/index.min.js?version=1680164971"></script>
   </body>
 </html>
