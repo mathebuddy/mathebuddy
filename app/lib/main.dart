@@ -7,6 +7,7 @@
 import 'dart:convert';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/mbcl/src/unit.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:flutter/material.dart';
 
@@ -56,13 +57,17 @@ class KeyboardState {
   MbclInputFieldData? inputFieldData;
 }
 
+enum ViewState { selectCourse, selectUnit, selectLevel, level }
+
 class CoursePageState extends State<CoursePage> {
   Map<String, dynamic> _bundleDataJson = {};
   Map<String, dynamic> _courses = {};
 
-  //String _courseData = '';
+  ViewState _viewState = ViewState.selectCourse;
+
   MbclCourse? _course;
   MbclChapter? _chapter;
+  MbclUnit? _unit;
   MbclLevel? _level;
 
   KeyboardState keyboardState = KeyboardState();
@@ -105,6 +110,10 @@ class CoursePageState extends State<CoursePage> {
     if (course.debug == MbclCourseDebug.level) {
       _chapter = _course?.chapters[0];
       _level = _chapter?.levels[0];
+      _viewState = ViewState.level;
+    } else if (course.debug == MbclCourseDebug.chapter) {
+      _chapter = _course?.chapters[0];
+      _viewState = ViewState.selectUnit;
     }
     setState(() {});
   }
@@ -143,7 +152,9 @@ class CoursePageState extends State<CoursePage> {
     );
 
     List<Widget> page = [];
-    if (_level == null) {
+
+    if (_viewState == ViewState.selectCourse) {
+      // ----- course list -----
       List<TableRow> tableRows = [];
       for (var course in _courses.keys) {
         tableRows.add(TableRow(children: [
@@ -165,7 +176,6 @@ class CoursePageState extends State<CoursePage> {
       }
 
       var coursesTable = Table(
-        //border: TableBorder.all(),
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: tableRows,
       );
@@ -175,7 +185,106 @@ class CoursePageState extends State<CoursePage> {
       var contents = Column(children: [logo, coursesTable]);
 
       body = SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
-    } else {
+    } else if (_viewState == ViewState.selectUnit) {
+      // ----- unit list -----
+      List<TableRow> tableRows = [];
+      for (var unit in _chapter!.units) {
+        tableRows.add(TableRow(children: [
+          TableCell(
+            child: GestureDetector(
+                onTap: () {
+                  _unit = unit;
+                  _viewState = ViewState.selectLevel;
+                  setState(() {});
+                },
+                child: Container(
+                    margin: EdgeInsets.all(2.0),
+                    height: 40.0,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 2.0, color: Color.fromARGB(255, 81, 81, 81)),
+                        borderRadius: BorderRadius.circular(100.0)),
+                    child: Center(child: Text(unit.title)))),
+          )
+        ]));
+      }
+
+      var unitsTable = Table(
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        children: tableRows,
+      );
+
+      var contents = Column(children: [unitsTable]);
+
+      body = SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
+    } else if (_viewState == ViewState.selectLevel) {
+      var unit = _unit!;
+
+      var title = Padding(
+          padding: EdgeInsets.only(top: 20.0),
+          child: Text(unit.title,
+              style: TextStyle(color: matheBuddyRed, fontSize: 42.0)));
+
+      //print(_unit!.title);
+      var numRows = 1;
+      var numCols = 1;
+      for (var level in unit.levels) {
+        if (level.posX + 1 > numCols) {
+          numCols = level.posX + 1;
+        }
+        if (level.posY + 1 > numRows) {
+          numRows = level.posY + 1;
+        }
+      }
+      var maxTileWidth = 100.0;
+
+      var tileWidth = screenWidth / (numCols + 1);
+      if (tileWidth > maxTileWidth) tileWidth = maxTileWidth;
+      var tileHeight = tileWidth;
+      //print('num rows: $numRows');
+      //print('num cols: $numCols');
+
+      var spacing = 10.0;
+      var offsetX = (screenWidth - (tileWidth + spacing) * numCols) / 2;
+      var offsetY = 20.0;
+
+      List<Widget> widgets = [];
+      // Container is required for SingleChildScrollView
+      widgets
+          .add(Container(height: offsetY + (tileHeight + spacing) * numRows));
+
+      for (var level in unit.levels) {
+        var x = offsetX + level.posX * (tileWidth + spacing);
+        var y = offsetY + level.posY * (tileHeight + spacing);
+        var widget = Positioned(
+            left: x,
+            top: y,
+            child: GestureDetector(
+                onTap: () {
+                  _level = level;
+                  _viewState = ViewState.level;
+                  //print('clicked on ${level.fileId}');
+                  setState(() {});
+                },
+                child: Container(
+                    width: tileWidth,
+                    height: tileHeight,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: matheBuddyGreen,
+                        border: Border.all(width: 1.5, color: matheBuddyGreen),
+                        borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                    child: Text(
+                      level.title,
+                      style: TextStyle(color: Colors.white),
+                    ))));
+        widgets.add(widget);
+      }
+
+      body = SingleChildScrollView(
+          child: Column(children: [title, Stack(children: widgets)]));
+    } else if (_viewState == ViewState.level) {
+      // ----- level -----
       var level = _level as MbclLevel;
       page.add(Padding(
           padding:
@@ -205,7 +314,11 @@ class CoursePageState extends State<CoursePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: page)));
-      body = scrollView as Widget;
+      //body = scrollView as Widget;
+      body = Scrollbar(
+          thumbVisibility: true,
+          controller: scrollController,
+          child: scrollView!);
     }
 
     /*page.add(TextButton(
@@ -294,9 +407,44 @@ class CoursePageState extends State<CoursePage> {
           IconButton(
             onPressed: () {
               _reloadCourseBundle();
-              _level = null;
-              keyboardState.layout = null;
-              setState(() {});
+              switch (_viewState) {
+                case ViewState.selectCourse:
+                  {
+                    // do nothing
+                    break;
+                  }
+                case ViewState.selectUnit:
+                  {
+                    _viewState = ViewState.selectCourse;
+                    _chapter = null;
+                    _level = null;
+                    keyboardState.layout = null;
+                    setState(() {});
+                    break;
+                  }
+                case ViewState.selectLevel:
+                  {
+                    _viewState = ViewState.selectUnit;
+                    keyboardState.layout = null;
+                    setState(() {});
+                    break;
+                  }
+                case ViewState.level:
+                  {
+                    if (_course!.debug == MbclCourseDebug.chapter) {
+                      _viewState = ViewState.selectLevel;
+                      keyboardState.layout = null;
+                      setState(() {});
+                    } else {
+                      _viewState = ViewState.selectCourse;
+                      _chapter = null;
+                      _level = null;
+                      keyboardState.layout = null;
+                      setState(() {});
+                    }
+                    break;
+                  }
+              }
             },
             icon: Icon(Icons.home, size: 36),
           ),
