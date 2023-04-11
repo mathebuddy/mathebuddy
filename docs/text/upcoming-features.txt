@@ -1,12 +1,8 @@
 <b>Features that will be added in the next weeks:</b>
-- support for chapters (currently only levels are supported)
-- show current position of vertical scrolling
 - distinct color for the currently selected exercise input field
-- hide/opacity non-active exercises
 - word wrapping for single/multiple choice answers
 - allow input field editing at arbitrary cursor positions
 - simulator website: enable typing answers on host keyboard
-- keyboard key press animation
 - show preview for fractions while typing exercise answers
 - itemize/enumerate/... dot/number/letter is incorrectly aligned vertically 
 - control colored progress bars in top bar by student success
@@ -18,3 +14,9 @@
 - indexing bug for more than one multiple/single choice answer in one exercise
 - SMPL: cos(pi/2) fails
 - ... (not everything is listed here!)
+
+<b>Recently fixed/added (newest first):</b>
+- hide/opacity non-active exercises &#9989;
+- keyboard key press animation &#9989;
+- show current position of vertical scrolling &#9989;
+- support for chapters (currently only levels are supported) &#9989;
