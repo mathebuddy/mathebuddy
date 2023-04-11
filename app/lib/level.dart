@@ -7,7 +7,6 @@
 import 'dart:math';
 
 import 'package:mathebuddy/screen.dart';
-import 'package:tex/tex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -402,12 +401,18 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                               topRight: Radius.circular(20))),
                       child: Center(child: feedbackText),
                     )))));
-        return Container(
-            margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: list));
+        var opacity = 1.0;
+        if (state.activeExercise != null) {
+          opacity = item == state.activeExercise ? 1.0 : 0.3;
+        }
+        return Opacity(
+            opacity: opacity,
+            child: Container(
+                margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: list)));
       }
     case MbclLevelItemType.multipleChoice:
     case MbclLevelItemType.singleChoice:
