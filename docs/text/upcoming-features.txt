@@ -1,8 +1,9 @@
+<b>Features that are Work-in-Progress:</b>
+- simulator website: enable typing answers on host keyboard
+- allow input field editing at arbitrary cursor positions (TODO: distinguish editing view on top of keyboard vs TeX rendering in exercise!)
+
 <b>Features that will be added in the next weeks:</b>
 - distinct color for the currently selected exercise input field
-- word wrapping for single/multiple choice answers
-- allow input field editing at arbitrary cursor positions
-- simulator website: enable typing answers on host keyboard
 - show preview for fractions while typing exercise answers
 - itemize/enumerate/... dot/number/letter is incorrectly aligned vertically 
 - control colored progress bars in top bar by student success
@@ -16,6 +17,7 @@
 - ... (not everything is listed here!)
 
 <b>Recently fixed/added (newest first):</b>
+- word wrapping for single/multiple choice answers &#9989;
 - hide/opacity non-active exercises &#9989;
 - keyboard key press animation &#9989;
 - show current position of vertical scrolling &#9989;
