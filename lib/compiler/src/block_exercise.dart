@@ -15,7 +15,7 @@ import 'exercise.dart';
 
 MbclLevelItem processExercise(Block block) {
   var exercise = MbclLevelItem(MbclLevelItemType.exercise);
-  var data = MbclExerciseData();
+  var data = MbclExerciseData(exercise);
   exercise.exerciseData = data;
   exercise.title = block.title;
   // TODO: must guarantee that no two exercises labels are same in entire course!!
