@@ -8,12 +8,17 @@ import 'package:mathebuddy/keyboard.dart';
 
 /// !B := backspace
 /// !E := enter
+/// !L := left arrow
+/// !R := right arrow
+/// # := empty
+
+// TODO: add !L, !R and # for every layout
 
 var keyboardLayoutInteger = KeyboardLayout.parse('''
-7 8 9 !B
-4 5 6 !B
-1 2 3 !E
-0 0 - !E
+!L 7 8 9 !B !R
+!L 4 5 6 !B !R
+!L 1 2 3 !E !R
+!L 0 0 - !E !R
 ''');
 
 var keyboardLayoutIntegerWithOperators = KeyboardLayout.parse('''
@@ -38,10 +43,10 @@ var keyboardLayoutRealWithOperators = KeyboardLayout.parse('''
 ''');
 
 var keyboardLayoutComplexNormalForm = KeyboardLayout.parse('''
-7 8 9 + !B
-4 5 6 - !B
-1 2 3 / !E
-0 0 0 i !E
+!L 7 8 9 + !B !R
+!L 4 5 6 - !B !R
+!L 1 2 3 / !E !R
+!L 0 0 0 i !E !R
 ''');
 
 var keyboardLayoutIntegerSet = KeyboardLayout.parse('''
