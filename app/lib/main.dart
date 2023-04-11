@@ -70,6 +70,8 @@ class CoursePageState extends State<CoursePage> {
   MbclUnit? _unit;
   MbclLevel? _level;
 
+  MbclLevelItem? activeExercise; // TODO: must be private!
+
   KeyboardState keyboardState = KeyboardState();
 
   @override
