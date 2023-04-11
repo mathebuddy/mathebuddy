@@ -23,6 +23,9 @@ class MbclLevelItem {
   MbclInputFieldData? inputFieldData;
   //MbclSingleOrMultipleChoiceOptionData? singleOrMultipleChoiceOptionData;
 
+  // temporary data
+  //bool active = true;
+
   MbclLevelItem(this.type, [this.text = '']);
 
   Map<String, dynamic> toJSON() {
@@ -86,7 +89,7 @@ class MbclLevelItem {
         equationData?.fromJSON(src["equationData"]);
         break;
       case MbclLevelItemType.exercise:
-        exerciseData = MbclExerciseData();
+        exerciseData = MbclExerciseData(this);
         exerciseData?.fromJSON(src["exerciseData"]);
         break;
       case MbclLevelItemType.figure:
@@ -221,6 +224,7 @@ class MbclExerciseData {
   bool showRequiredGapLettersOnly = false;
 
   // temporary
+  MbclLevelItem exercise;
   int staticVariableCounter = 0; // not exported
   Map<String, String> smplOperandType = {}; // not exported
   Map<String, MbclInputFieldData> inputFields = {};
@@ -230,6 +234,8 @@ class MbclExerciseData {
 
   // runtime variables
   int runInstanceIdx = -1; // selected exercise instance; -1 := not chosen
+
+  MbclExerciseData(this.exercise);
 
   Map<String, dynamic> toJSON() {
     // TODO: do NOT output "code" in final build
@@ -352,6 +358,7 @@ class MbclInputFieldData {
       0; // a nonzero value provides a "keyboard" with solutions (similar to multiple choice)
 
   // temporary
+  MbclExerciseData? exerciseData;
   String studentValue = '';
   String expectedValue = '';
 
