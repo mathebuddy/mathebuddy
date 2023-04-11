@@ -149,6 +149,8 @@ class Keyboard {
     var offsetX = (screenWidth - keyboardLayout.columnCount * keyWidth) / 2.0;
     var offsetY = 20.0;
 
+    //double opacity = 0.5;
+
     List<Widget> widgets = [];
     for (var key in keyboardLayout.keys) {
       if (key == null) continue;
@@ -164,12 +166,18 @@ class Keyboard {
                   color: Colors.black87,
                   fontSize:
                       key.text.length >= 3 ? keyFontSizeSmall : keyFontSize));
-
+      var buttonWidth = keyWidth * key.columnSpan.toDouble() - keyMargin;
+      var buttonHeight = keyHeight * key.rowSpan.toDouble() - keyMargin;
       var keyWidget = Positioned(
           left: offsetX + key.columnIndex * keyWidth,
           top: offsetY + key.rowIndex * keyHeight,
-          child: GestureDetector(
-              onTap: () {
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  elevation: 5.0,
+                  shadowColor: Colors.grey,
+                  minimumSize: Size(buttonWidth, buttonHeight),
+                  maximumSize: Size(buttonWidth, buttonHeight)),
+              onPressed: () {
                 //print('pressed key ${key.value}');
                 if (key.value == '!B') {
                   // backspace
@@ -200,28 +208,20 @@ class Keyboard {
                   }
                 } else if (key.value == '!E') {
                   // enter
+                  state.activeExercise = null;
                   keyboardState.layout = null;
                 } else {
                   keyboardInputFieldData.studentValue += key.value;
                 }
                 keyboardState.exerciseData?.feedback =
                     MbclExerciseFeedback.unchecked;
+
                 // ignore: invalid_use_of_protected_member
                 state.setState(() {});
               },
-              child: Container(
-                  width: keyWidth * key.columnSpan.toDouble() - keyMargin,
-                  height: keyHeight * key.rowSpan.toDouble() - keyMargin,
-                  //margin: EdgeInsets.all(keyMargin),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(width: 1.5, color: Colors.black),
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(keyBorderRadius)),
-                  ),
-                  child: Center(
-                    child: labelWidget,
-                  ))));
+              child: Center(
+                child: labelWidget,
+              )));
       widgets.add(keyWidget);
     }
 
