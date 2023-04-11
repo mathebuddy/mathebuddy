@@ -6,6 +6,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/unit.dart';
 import 'package:universal_html/html.dart' as html;
@@ -74,10 +75,20 @@ class CoursePageState extends State<CoursePage> {
 
   KeyboardState keyboardState = KeyboardState();
 
+  bool _onKey(KeyEvent event) {
+    // TODO: connect to app keyboard
+    print(event);
+    print(event.character);
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
     _reloadCourseBundle();
+
+    // TODO: only activate for desktop and web app (NOT mobile)
+    ServicesBinding.instance.keyboard.addHandler(_onKey);
   }
 
   void _selectCourse(String path) async {
@@ -321,6 +332,9 @@ class CoursePageState extends State<CoursePage> {
           thumbVisibility: true,
           controller: scrollController,
           child: scrollView!);
+      //body = Shortcuts(shortcuts: <ShortcutActivator,Intent>{
+      //  SingleActivator()
+      //}, child: body);
     }
 
     /*page.add(TextButton(
