@@ -359,6 +359,7 @@ class MbclInputFieldData {
 
   // temporary
   MbclExerciseData? exerciseData;
+  int cursorPos = 0;
   String studentValue = '';
   String expectedValue = '';
 
