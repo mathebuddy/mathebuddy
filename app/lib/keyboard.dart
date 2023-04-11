@@ -63,7 +63,7 @@ class KeyboardLayout {
           for (var l = j; l < numCols; l++) {
             var data2 = rowData[k][l];
             var idx2 = '$k,$l';
-            if (data == data2) {
+            if (data != '#' && data == data2) {
               processedIndices.add(idx2);
               if (k - i + 1 > rowSpan) rowSpan = k - i + 1;
               if (l - j + 1 > colSpan) colSpan = l - j + 1;
@@ -116,6 +116,12 @@ class KeyboardLayout {
       case '!E': // enter
         key.text = 'icon:E1f7'; // done_all
         break;
+      case '!L': // left arrow
+        key.text = 'icon:F05BC';
+        break;
+      case '!R': // right arrow
+        key.text = 'icon:F05BD';
+        break;
       // TODO: TeX keys
       /*case '*':
         key.text = '\${}\\cdot{}\$';
@@ -143,7 +149,6 @@ class Keyboard {
     const keyHeight = 50.0;
     const keyFontSize = 24.0;
     const keyFontSizeSmall = 18.0;
-    const keyBorderRadius = 5.0;
     const keyMargin = 4.0;
 
     var offsetX = (screenWidth - keyboardLayout.columnCount * keyWidth) / 2.0;
@@ -153,27 +158,36 @@ class Keyboard {
 
     List<Widget> widgets = [];
     for (var key in keyboardLayout.keys) {
-      if (key == null) continue;
+      if (key == null || key.value == '#') continue;
+
+      var isArrowKey = key.value == '!L' || key.value == '!R';
+      var textColor =
+          isArrowKey ? Colors.black54 : matheBuddyRed; //Colors.black87;
+      var backgroundColor =
+          isArrowKey ? Color.fromARGB(0xFF, 0xd0, 0xd0, 0xD0) : Colors.white;
+
       var labelWidget = key.text.startsWith('icon:')
           ? Icon(
               IconData(int.parse(key.text.split(':')[1], radix: 16),
                   fontFamily: 'MaterialIcons'),
-              color: Colors.black, // matheBuddyRed,
+              color: textColor, // matheBuddyRed,
               size: keyFontSize,
             )
           : Text(key.text,
               style: TextStyle(
-                  color: Colors.black87,
+                  color: textColor,
                   fontSize:
                       key.text.length >= 3 ? keyFontSizeSmall : keyFontSize));
       var buttonWidth = keyWidth * key.columnSpan.toDouble() - keyMargin;
       var buttonHeight = keyHeight * key.rowSpan.toDouble() - keyMargin;
+
       var keyWidget = Positioned(
           left: offsetX + key.columnIndex * keyWidth,
           top: offsetY + key.rowIndex * keyHeight,
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  elevation: 5.0,
+                  backgroundColor: backgroundColor,
+                  elevation: 1.0,
                   shadowColor: Colors.grey,
                   minimumSize: Size(buttonWidth, buttonHeight),
                   maximumSize: Size(buttonWidth, buttonHeight)),
@@ -205,13 +219,33 @@ class Keyboard {
                       newValue = oldValue.substring(0, oldValue.length - 1);
                     }
                     keyboardInputFieldData.studentValue = newValue;
+                    // TODO: must take care for special keys!
+                    keyboardInputFieldData.cursorPos--;
                   }
                 } else if (key.value == '!E') {
                   // enter
                   state.activeExercise = null;
                   keyboardState.layout = null;
+                } else if (key.value == '!L') {
+                  if (keyboardInputFieldData.cursorPos > 0) {
+                    keyboardInputFieldData.cursorPos--;
+                  }
+                } else if (key.value == '!R') {
+                  if (keyboardInputFieldData.cursorPos <
+                      keyboardInputFieldData.studentValue.length) {
+                    keyboardInputFieldData.cursorPos++;
+                  }
                 } else {
-                  keyboardInputFieldData.studentValue += key.value;
+                  //keyboardInputFieldData.studentValue += key.value;
+                  var beforeCursor = keyboardInputFieldData.studentValue
+                      .substring(0, keyboardInputFieldData.cursorPos);
+                  var afterCursor = keyboardInputFieldData.studentValue
+                      .substring(keyboardInputFieldData.cursorPos);
+
+                  keyboardInputFieldData.studentValue =
+                      beforeCursor + key.value + afterCursor;
+
+                  keyboardInputFieldData.cursorPos++;
                 }
                 keyboardState.exerciseData?.feedback =
                     MbclExerciseFeedback.unchecked;
@@ -233,144 +267,6 @@ class Keyboard {
               'solution: ${keyboardState.inputFieldData?.expectedValue}')));
     }
 
-    Widget widget = Container(
-        //margin: EdgeInsets.only(bottom: 20.0),
-        child: Stack(children: widgets));
-    return widget;
+    return Stack(children: widgets);
   }
-
-  // TODO: remove old mathebuddy-sim src:
-
-  /*private parent: HTMLElement = null;
-
-  private inputText = '';
-  private inputTextHTMLElement: HTMLSpanElement = null;
-  private solutionHTMLElement: HTMLSpanElement = null;
-
-  private listener: (text: string) => void;
-
-  constructor(parent: HTMLElement) {
-    this.parent = parent;
-  }
-
-  hide(): void {
-    this.parent.style.display = 'none';
-  }
-
-  setInputText(inputText: string): void {
-    this.inputText = inputText;
-  }
-
-  setSolutionText(solution: string): void {
-    if (this.solutionHTMLElement == null) {
-      console.log('called Keyboard.setSolutionText(..) before show()');
-      return;
-    }
-    this.solutionHTMLElement.innerHTML = solution;
-  }
-
-  setListener(fct: (text: string) => void): void {
-    this.listener = fct;
-  }
-
-  show(layout: KeyboardLayout, showPreview: boolean): void {
-    this.parent.innerHTML = '';
-    // div row
-    var row = document.createElement('div');
-    row.classList.add('row');
-    this.parent.appendChild(row);
-    // div column
-    var col = document.createElement('div');
-    row.appendChild(col);
-    col.classList.add('col', 'text-center');
-    // typed input
-    this.inputTextHTMLElement = document.createElement('span');
-    this.inputTextHTMLElement.innerHTML = this.inputText;
-    this.inputTextHTMLElement.style.color = 'white';
-    this.inputTextHTMLElement.style.fontSize = '18pt';
-    //this.inputTextHTMLElement.style.borderBottomStyle = 'solid';
-    //this.inputTextHTMLElement.style.borderColor = 'white';
-    //this.inputTextHTMLElement.style.borderWidth = '2px';
-    this.inputTextHTMLElement.style.marginTop = '8px';
-    this.inputTextHTMLElement.style.paddingLeft = '3px';
-    this.inputTextHTMLElement.style.paddingRight = '3px';
-    col.appendChild(this.inputTextHTMLElement);
-    if (showPreview == false) {
-      var br = document.createElement('br');
-      col.appendChild(br);
-      this.inputTextHTMLElement.style.display = 'none';
-    }
-    // table
-    var table = document.createElement('table');
-    table.style.margin = '0 auto';
-    table.style.padding = '0 0 0 0';
-    var cells: HTMLTableCellElement[] = [];
-    for (var i = 0; i < layout.rows; i++) {
-      var tr = document.createElement('tr');
-      table.appendChild(tr);
-      for (var j = 0; j < layout.cols; j++) {
-        var key = layout.keys[i * layout.cols + j];
-        if (key == null) continue;
-        var td = document.createElement('td');
-        cells.push(td);
-        tr.appendChild(td);
-        td.style.backgroundColor = 'white';
-        td.style.borderRadius = '6px';
-        td.style.borderWidth = '4px';
-        td.style.borderStyle = 'solid';
-        td.style.borderColor = '#b1c752';
-        td.style.color = '#b1c752';
-        td.style.paddingLeft = '7px';
-        td.style.paddingTop = '0px';
-        td.style.paddingRight = '7px';
-        td.style.paddingBottom = '0px';
-        td.style.minWidth = '32px';
-        //td.style.maxHeight = '14px';
-        td.style.fontSize = '17pt';
-        td.style.cursor = 'crosshair';
-        if (key.rows > 1) td.rowSpan = key.rows;
-        if (key.cols > 1) td.colSpan = key.cols;
-        td.innerHTML = key.text;
-        {
-          var _value = key.value;
-          td.addEventListener('click', () => {
-            switch (_value) {
-              case '!B': // backspace
-                if (this.inputText.length > 0) {
-                  this.inputText = this.inputText.substring(
-                    0,
-                    this.inputText.length - 1,
-                  );
-                }
-                break;
-              case '!E': // enter
-                this.hide();
-                break;
-              default:
-                this.inputText += _value;
-            }
-            this.listener(this.inputText);
-            this.inputTextHTMLElement.innerHTML = this.inputText;
-          });
-        }
-      }
-    }
-    col.appendChild(table);
-    // solution preview (for debugging purposes)
-    row = document.createElement('div');
-    row.classList.add('row');
-    this.parent.appendChild(row);
-    col = document.createElement('div');
-    col.classList.add('col', 'text-start');
-    row.appendChild(col);
-    this.solutionHTMLElement = document.createElement('span');
-    this.solutionHTMLElement.innerHTML = '';
-    this.solutionHTMLElement.style.marginTop = '0pt';
-    this.solutionHTMLElement.style.paddingTop = '0pt';
-    this.solutionHTMLElement.style.fontSize = '11pt';
-    this.solutionHTMLElement.style.color = 'white';
-    col.appendChild(this.solutionHTMLElement);
-    // make keyboard visible
-    this.parent.style.display = 'block';
-  }*/
 }
