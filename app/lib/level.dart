@@ -468,6 +468,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
           ]);
           var text = generateLevelItem(state, inputField.items[0],
               exerciseData: exerciseData);
+          text = Flexible(child: text);
           mcOptions.add(GestureDetector(
               onTap: () {
                 if (item.type == MbclLevelItemType.multipleChoice) {
@@ -489,7 +490,9 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                 // ignore: invalid_use_of_protected_member
                 state.setState(() {});
               },
-              child: Row(children: [button, text])));
+              child: Padding(
+                  padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                  child: Row(children: [button, text]))));
         }
         return Column(children: mcOptions);
       }
