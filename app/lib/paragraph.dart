@@ -142,6 +142,7 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
     case MbclLevelItemType.inputField:
       {
         var inputFieldData = item.inputFieldData as MbclInputFieldData;
+        inputFieldData.exerciseData = exerciseData;
         if (exerciseData != null &&
             exerciseData.inputFields.containsKey(item.id) == false) {
           exerciseData.inputFields[item.id] = inputFieldData;
@@ -192,6 +193,7 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
             alignment: PlaceholderAlignment.middle,
             child: GestureDetector(
                 onTap: () {
+                  state.activeExercise = exerciseData?.exercise;
                   if (key != null) {
                     Scrollable.ensureVisible(key.currentContext!,
                         duration: Duration(milliseconds: 250));
