@@ -1,6 +1,5 @@
 <b>Features that are Work-in-Progress:</b>
 - simulator website: enable typing answers on host keyboard
-- allow input field editing at arbitrary cursor positions (TODO: distinguish editing view on top of keyboard vs TeX rendering in exercise!)
 
 <b>Features that will be added in the next weeks:</b>
 - distinct color for the currently selected exercise input field
@@ -17,6 +16,7 @@
 - ... (not everything is listed here!)
 
 <b>Recently fixed/added (newest first):</b>
+- allow input field editing at arbitrary cursor positions &#9989;
 - word wrapping for single/multiple choice answers &#9989;
 - hide/opacity non-active exercises &#9989;
 - keyboard key press animation &#9989;
