@@ -5,6 +5,7 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
@@ -111,17 +112,19 @@ class KeyboardLayout {
     // https://api.flutter.dev/flutter/material/Icons-class.html
     switch (value) {
       case '!B': // backspace
-        key.text = 'icon:E0C5';
+        //key.text = 'icon:E0C5'; // backspace
+        key.text = 'icon:EEB5'; // backspace_outlined
         break;
       case '!E': // enter
-        key.text = 'icon:E1f7'; // done_all
+        //key.text = 'icon:E1F7'; // done_all
+        key.text = 'icon:E614'; // subdirectory_arrow_left
         break;
-      case '!L': // left arrow
+      /*case '!L': // left arrow
         key.text = 'icon:F05BC';
         break;
       case '!R': // right arrow
         key.text = 'icon:F05BD';
-        break;
+        break;*/
       // TODO: TeX keys
       /*case '*':
         key.text = '\${}\\cdot{}\$';
@@ -139,6 +142,8 @@ class KeyboardLayout {
   }
 }
 
+// TODO: move "KeyboardState keyboardState" to attributes here!
+
 class Keyboard {
   Widget generateWidget(CoursePageState state, KeyboardState keyboardState) {
     var keyboardLayout = keyboardState.layout as KeyboardLayout;
@@ -152,7 +157,7 @@ class Keyboard {
     const keyMargin = 4.0;
 
     var offsetX = (screenWidth - keyboardLayout.columnCount * keyWidth) / 2.0;
-    var offsetY = 20.0;
+    var offsetY = 65.0;
 
     //double opacity = 0.5;
 
@@ -160,11 +165,8 @@ class Keyboard {
     for (var key in keyboardLayout.keys) {
       if (key == null || key.value == '#') continue;
 
-      var isArrowKey = key.value == '!L' || key.value == '!R';
-      var textColor =
-          isArrowKey ? Colors.black54 : matheBuddyRed; //Colors.black87;
-      var backgroundColor =
-          isArrowKey ? Color.fromARGB(0xFF, 0xd0, 0xd0, 0xD0) : Colors.white;
+      var textColor = matheBuddyRed; //Colors.black87;
+      var backgroundColor = Colors.white;
 
       var labelWidget = key.text.startsWith('icon:')
           ? Icon(
@@ -187,18 +189,20 @@ class Keyboard {
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: backgroundColor,
-                  elevation: 1.0,
-                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  shadowColor: Color.fromARGB(255, 229, 229, 229),
                   minimumSize: Size(buttonWidth, buttonHeight),
                   maximumSize: Size(buttonWidth, buttonHeight)),
               onPressed: () {
                 //print('pressed key ${key.value}');
                 if (key.value == '!B') {
                   // backspace
-                  if (keyboardInputFieldData.studentValue.isNotEmpty) {
+                  if (keyboardInputFieldData.studentValue.isNotEmpty &&
+                      keyboardInputFieldData.cursorPos > 0) {
                     var oldValue = keyboardInputFieldData.studentValue;
                     var newValue = "";
-                    var specialKeys = [
+                    // TODO: must take care for special keys!
+                    /*var specialKeys = [
                       "pi",
                       "sin(",
                       "cos(",
@@ -217,16 +221,20 @@ class Keyboard {
                     }
                     if (isSpecialKey == false) {
                       newValue = oldValue.substring(0, oldValue.length - 1);
-                    }
+                    }*/
+                    newValue = oldValue.substring(
+                        0, keyboardInputFieldData.cursorPos - 1);
+                    newValue +=
+                        oldValue.substring(keyboardInputFieldData.cursorPos);
+                    //print(newValue);
                     keyboardInputFieldData.studentValue = newValue;
-                    // TODO: must take care for special keys!
                     keyboardInputFieldData.cursorPos--;
                   }
                 } else if (key.value == '!E') {
                   // enter
                   state.activeExercise = null;
                   keyboardState.layout = null;
-                } else if (key.value == '!L') {
+                  /*} else if (key.value == '!L') {
                   if (keyboardInputFieldData.cursorPos > 0) {
                     keyboardInputFieldData.cursorPos--;
                   }
@@ -234,7 +242,7 @@ class Keyboard {
                   if (keyboardInputFieldData.cursorPos <
                       keyboardInputFieldData.studentValue.length) {
                     keyboardInputFieldData.cursorPos++;
-                  }
+                  }*/
                 } else {
                   //keyboardInputFieldData.studentValue += key.value;
                   var beforeCursor = keyboardInputFieldData.studentValue
@@ -259,14 +267,103 @@ class Keyboard {
       widgets.add(keyWidget);
     }
 
+    // render typed text
+    var studentValue = keyboardInputFieldData.studentValue;
+    var cursorPos = keyboardInputFieldData.cursorPos;
+    var charWidth = 16.8;
+
+    widgets.add(Positioned(
+        left: 10,
+        top: 10,
+        child: GestureDetector(
+            onTapDown: (TapDownDetails d) {
+              // tap to change cursor position
+              var x = d.globalPosition.dx;
+              //print("x=$x");
+              var newCursorPos =
+                  ((x - (screenWidth - charWidth * studentValue.length) / 2) /
+                          charWidth)
+                      .round();
+              if (newCursorPos < 0) {
+                newCursorPos = 0;
+              } else if (newCursorPos > studentValue.length) {
+                newCursorPos = studentValue.length;
+              }
+              //print("newCursorPos=$newCursorPos");
+              keyboardInputFieldData.cursorPos = newCursorPos;
+              // ignore: invalid_use_of_protected_member
+              state.setState(() {});
+            },
+            child: Container(
+                width: screenWidth - 20,
+                height: 45,
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 245, 245, 245),
+                    border: Border.all(
+                        color: Color.fromARGB(255, 197, 197, 197), width: 1.0),
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color.fromARGB(255, 192, 192, 192),
+                          blurRadius: 3.0)
+                    ]),
+                child: Padding(
+                    padding: EdgeInsets.only(top: 3.0),
+                    child: Center(
+                        child: Text(studentValue,
+                            style: GoogleFonts.robotoMono(
+                                fontSize: 28, color: matheBuddyRed)
+                            //style: TextStyle(
+                            //    fontSize: 28,
+                            //    fontFamily: "Courier",
+                            //    color: matheBuddyRed),
+                            )))))));
+
+    // render cursor
+    widgets.add(Positioned(
+        left: (screenWidth - charWidth * studentValue.length) / 2 +
+            charWidth * cursorPos,
+        top: 15,
+        child: Container(
+          width: 2.5,
+          height: 35,
+          decoration: BoxDecoration(
+              color: Colors.black,
+              border: Border.all(color: Colors.black, width: 1.0),
+              borderRadius: BorderRadius.all(Radius.circular(1.0))),
+        )));
+
+    // render solution
     if (bundleName.contains('bundle-test.json')) {
+      var solution = keyboardState.inputFieldData!.expectedValue;
       widgets.add(Positioned(
-          left: 25,
-          top: 0,
-          child: Text(
-              'solution: ${keyboardState.inputFieldData?.expectedValue}')));
+          left: 10,
+          top: 254,
+          child: RichText(
+              text: TextSpan(children: [
+            WidgetSpan(
+                child: Icon(Icons.lightbulb_outlined,
+                    size: 18, color: matheBuddyGreen)),
+            TextSpan(text: "  "),
+            TextSpan(
+              text: solution,
+              style: TextStyle(color: matheBuddyGreen),
+            )
+          ]))));
     }
 
-    return Stack(children: widgets);
+    return Container(
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 240, 240, 240),
+          border:
+              Border.all(width: 0.5, color: Color.fromARGB(135, 190, 190, 190)),
+          //borderRadius: BorderRadius.only(
+          //    topLeft: Radius.elliptical(screenWidth / 2, 5),
+          //    topRight: Radius.elliptical(screenWidth / 2, 5))
+        ),
+        //color: Colors.black12,
+        alignment: Alignment.bottomCenter,
+        constraints: BoxConstraints(maxHeight: 275.0),
+        child: Stack(children: widgets));
   }
 }
