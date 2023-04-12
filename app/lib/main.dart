@@ -6,7 +6,9 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/unit.dart';
 import 'package:universal_html/html.dart' as html;
@@ -24,6 +26,13 @@ import 'package:mathebuddy/screen.dart';
 var bundleName = 'assets/bundle-test.json';
 
 void main() {
+  GoogleFonts.config.allowRuntimeFetching = false;
+  LicenseRegistry.addLicense(() async* {
+    final license =
+        await rootBundle.loadString('assets/google_fonts/LICENSE.txt');
+    yield LicenseEntryWithLineBreaks(['assets/google_fonts'], license);
+  });
+
   runApp(const MatheBuddy());
 }
 
@@ -350,16 +359,7 @@ class CoursePageState extends State<CoursePage> {
 
     Widget bottomArea = Text('');
     if (keyboardState.layout != null) {
-      bottomArea = Container(
-          decoration: BoxDecoration(
-              color: Color.fromARGB(255, 240, 240, 240),
-              border: Border.all(width: 2.0, color: Colors.black54),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-          //color: Colors.black12,
-          alignment: Alignment.bottomCenter,
-          constraints: BoxConstraints(maxHeight: 235.0),
-          child: keyboard.generateWidget(this, keyboardState));
+      bottomArea = keyboard.generateWidget(this, keyboardState);
     }
 
     return Scaffold(
