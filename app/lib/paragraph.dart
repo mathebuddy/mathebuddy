@@ -174,77 +174,21 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
 
           List<InlineSpan> parts = [];
 
-          // text before cursor
-          var texBeforeCursor = inputFieldData.studentValue
-              .substring(0, inputFieldData.cursorPos);
-          if (texBeforeCursor.isNotEmpty) {
-            var svgData = tex.tex2svg(convertMath2TeX(texBeforeCursor));
-            if (tex.error.isEmpty) {
-              parts.add(WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child:
-                      SvgPicture.string(svgData, width: tex.width.toDouble())));
-            } else {
-              parts.add(TextSpan(
-                  text: tex.error,
-                  style:
-                      TextStyle(color: Colors.red, fontSize: defaultFontSize)));
-            }
-          }
-          // cursor
-          // TODO: show cursor only if keyboard is active!
-          parts.add(WidgetSpan(
-              alignment: PlaceholderAlignment.bottom,
-              child: Icon(
-                  //Icons.keyboard_arrow_up,
-                  Icons.more_vert,
-                  size: 14,
-                  color: Colors.black)));
-          // text after cursor
-          var texAfterCursor =
-              inputFieldData.studentValue.substring(inputFieldData.cursorPos);
-          if (texAfterCursor.isNotEmpty) {
-            var svgData = tex.tex2svg(convertMath2TeX(texAfterCursor));
-            if (tex.error.isEmpty) {
-              parts.add(WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child:
-                      SvgPicture.string(svgData, width: tex.width.toDouble())));
-            } else {
-              parts.add(TextSpan(
-                  text: tex.error,
-                  style:
-                      TextStyle(color: Colors.red, fontSize: defaultFontSize)));
-            }
+          var svgData =
+              tex.tex2svg(convertMath2TeX(inputFieldData.studentValue));
+          if (tex.error.isEmpty) {
+            parts.add(WidgetSpan(
+                alignment: PlaceholderAlignment.middle,
+                child:
+                    SvgPicture.string(svgData, width: tex.width.toDouble())));
+          } else {
+            parts.add(TextSpan(
+                text: tex.error,
+                style:
+                    TextStyle(color: Colors.red, fontSize: defaultFontSize)));
           }
 
           contents = RichText(text: TextSpan(children: parts));
-
-          /*if (error.isNotEmpty) {
-            contents = Text(
-              "$error ",
-              style: TextStyle(color: Colors.red, fontSize: defaultFontSize),
-            );
-          } else {
-            contents = RichText(
-                text: TextSpan(children: [
-              WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child: SvgPicture.string(svgBeforeCursor,
-                      width: svgBeforeCursorWidth.toDouble())),
-              WidgetSpan(
-                  alignment: PlaceholderAlignment.bottom,
-                  child: Icon(Icons.keyboard_arrow_up,
-                      size: 18, color: Colors.black)),
-              WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child: SvgPicture.string(svgAfterCursor,
-                      width: svgAfterCursorWidth.toDouble())),
-            ]));
-          }*/
-          /*contents = Text(inputFieldData.studentValue,
-              style:
-                  TextStyle(color: matheBuddyRed, fontSize: defaultFontSize));*/
         }
         var key = exerciseKey;
         return WidgetSpan(
