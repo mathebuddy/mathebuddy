@@ -23,7 +23,8 @@ import 'math.dart';
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
 class Compiler {
-  final Function(String) loadFile;
+  //final Function(String) loadFile;
+  final String Function(String) loadFile;
   String baseDirectory = '';
 
   int equationNumber = 1;
@@ -83,7 +84,7 @@ class Compiler {
     _course = MbclCourse();
     // get course description file source
     var src = loadFile(path);
-    if (src.length == 0) {
+    if (src.isEmpty) {
       _error(
         'Course description file "$path" does not exist or is empty.',
       );
@@ -96,7 +97,7 @@ class Compiler {
     for (var rowIdx = 0; rowIdx < lines.length; rowIdx++) {
       var line = lines[rowIdx];
       line = line.split('%')[0];
-      if (line.trim().length == 0) continue;
+      if (line.trim().isEmpty) continue;
       if (state == 'global') {
         if (line.startsWith('TITLE')) {
           _course?.title = line.substring('TITLE'.length).trim();
@@ -160,7 +161,7 @@ class Compiler {
     _course?.chapters.add(_chapter as MbclChapter);
     // get chapter index file source
     var src = loadFile(path);
-    if (src.length == 0) {
+    if (src.isEmpty) {
       _error('Chapter index file "$path" does not exist or is empty.');
       return;
     }
@@ -170,7 +171,7 @@ class Compiler {
     for (var rowIdx = 0; rowIdx < lines.length; rowIdx++) {
       var line = lines[rowIdx];
       line = line.split('%')[0];
-      if (line.trim().length == 0) continue;
+      if (line.trim().isEmpty) continue;
       if (state == 'global' || line.startsWith('UNIT')) {
         if (line.startsWith('TITLE')) {
           _chapter?.title = line.substring('TITLE'.length).trim();
@@ -237,7 +238,7 @@ class Compiler {
     _chapter?.levels.add(_level as MbclLevel);
     // get level source
     var src = loadFile(path);
-    if (src.length == 0) {
+    if (src.isEmpty) {
       _error('Level file $path does not exist or is empty.');
     }
     // set source, split it into lines, trim these lines and
