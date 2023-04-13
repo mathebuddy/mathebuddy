@@ -15,6 +15,9 @@ import '../../lib/compiler/src/compiler.dart';
 import 'help.dart';
 
 // TODO: comment variables and methods!!
+
+String currentMblPath = "";
+
 List<String> simPath = [];
 var simURL = "";
 var simBaseDir = "demo/";
@@ -88,6 +91,10 @@ void showSim(String location) {
 }
 
 void resetSim() {
+  if (currentMblPath.isNotEmpty) {
+    loadMblFile(currentMblPath);
+  }
+
   if (simURL.isNotEmpty) {
     (html.document.getElementById("sim-iframe") as html.IFrameElement).src =
         simURL;
@@ -125,6 +132,7 @@ void updateSimPathButtons() {
 }
 
 void loadMblFile(String path) {
+  currentMblPath = path;
   //path = path.replaceAll('//', '/');
   readTextFile(path).then((text) async {
     mblData = text;
