@@ -190,6 +190,9 @@ class CoursePageState extends State<CoursePage> {
                     margin: EdgeInsets.all(2.0),
                     height: 40.0,
                     decoration: BoxDecoration(
+                        color: course == 'DEBUG'
+                            ? Color.fromARGB(255, 255, 210, 210)
+                            : Colors.white,
                         border: Border.all(
                             width: 2.0, color: Color.fromARGB(255, 81, 81, 81)),
                         borderRadius: BorderRadius.circular(100.0)),
