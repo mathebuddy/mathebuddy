@@ -22,7 +22,6 @@ dependencies:
   cupertino_icons: ^1.0.5
   flutter_svg: ^2.0.2
   tex: ^0.4.3
-  google_fonts: ^4.0.3
 
 dev_dependencies:
   flutter_test:
@@ -32,6 +31,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  fonts:
+    - family: RobotoMono
+      fonts:
+        - asset: fonts/RobotoMono-Regular.ttf
+
   assets:
     - assets/img/logo.png
     - assets/img/logoSmall.png
@@ -39,4 +43,3 @@ flutter:
     - assets/img/logo-large-de.png
     - assets/bundle-test.json
     - assets/bundle-alpha.json
-    - assets/google_fonts/
