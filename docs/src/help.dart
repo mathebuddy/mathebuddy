@@ -4,6 +4,7 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'dart:async';
 import 'dart:html' as html;
 
 void setTextInput(String elementId, String value) {
@@ -37,6 +38,22 @@ Future<List<String>> getFilesFromDir(String path) async {
     }
   }
   return Future.value(res);
+}
+
+Future<void> readDirRecursively(Map<String, String> fs, String path) async {
+  path = path.replaceAll("//", "/").replaceAll("http:/", "http://");
+
+  var fileList = await getFilesFromDir(path);
+  for (var file in fileList) {
+    print("readDirRecursively: $path, $file");
+    if (file.endsWith("/")) {
+      await readDirRecursively(fs, "$path/$file");
+    } else {
+      var p = "$path/$file";
+      p = p.replaceAll("//", "/").replaceAll("http:/", "http://");
+      fs[p] = await readTextFile("$path/$file");
+    }
+  }
 }
 
 List<String> extractFilesFromDirectoryListingHtml(String data) {
