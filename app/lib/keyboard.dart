@@ -5,7 +5,6 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
@@ -310,14 +309,13 @@ class Keyboard {
                 child: Padding(
                     padding: EdgeInsets.only(top: 3.0),
                     child: Center(
-                        child: Text(studentValue,
-                            style: GoogleFonts.robotoMono(
-                                fontSize: 28, color: matheBuddyRed)
-                            //style: TextStyle(
-                            //    fontSize: 28,
-                            //    fontFamily: "Courier",
-                            //    color: matheBuddyRed),
-                            )))))));
+                        child: Text(
+                      studentValue,
+                      style: TextStyle(
+                          fontSize: 28,
+                          fontFamily: 'RobotoMono',
+                          color: matheBuddyRed),
+                    )))))));
 
     // render cursor
     widgets.add(Positioned(
