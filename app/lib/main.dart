@@ -6,17 +6,18 @@
 
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mathebuddy/mbcl/src/level_item.dart';
-import 'package:mathebuddy/mbcl/src/unit.dart';
+//import 'package:google_fonts/google_fonts.dart';
+
 import 'package:universal_html/html.dart' as html;
+
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
+import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/mbcl/src/unit.dart';
 
 import 'package:mathebuddy/color.dart';
 import 'package:mathebuddy/keyboard.dart';
@@ -26,12 +27,12 @@ import 'package:mathebuddy/screen.dart';
 var bundleName = 'assets/bundle-test.json';
 
 void main() {
-  GoogleFonts.config.allowRuntimeFetching = false;
+  /*GoogleFonts.config.allowRuntimeFetching = false;
   LicenseRegistry.addLicense(() async* {
     final license =
         await rootBundle.loadString('assets/google_fonts/LICENSE.txt');
     yield LicenseEntryWithLineBreaks(['assets/google_fonts'], license);
-  });
+  });*/
 
   runApp(const MatheBuddy());
 }
