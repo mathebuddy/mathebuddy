@@ -10,4 +10,5 @@ examples.mbl
 exercises-simple.mbl
 typography.mbl
 test-dir/
+demo-course/
 _fs.txt
