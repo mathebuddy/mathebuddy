@@ -40,7 +40,8 @@ Steps:
     <!-- -->
     Start the simulator by pressing on the power on button
     <img src="img/fontawesome/power-off-solid.svg" style="height: 12px" />. The
-    current course (or level) is simulated.
+    current course (or level) can be opened in the simulator window by selecting
+    <code>DEBUG</code>.
   </li>
   <li>
     <!-- -->
@@ -52,8 +53,9 @@ Steps:
 
 <h4>Create own courses</h4>
 <p style="font-size: large; font-style: italic">
-  Remark: The following guide will currently not work with all browsers. As a
-  workaround, you may run this website locally on your computer, as described
+  Remark: The following guide will currently not work with all browsers (e.g.
+  not in Apple Safari). As a workaround, use another browser (e.g. Firefox) or
+  run this website locally on your computer, as described
   <a href="https://github.com/mathebuddy" target="_blank">here</a> in the readme
   file.
 </p>
@@ -67,29 +69,51 @@ Steps:
 <ol>
   <li>
     <!-- -->
-    Download an extract the example template from
+    Change to the directory, where you like to store your course data (or
+    download and extract the example course form
     <a
       href="https://github.com/mathebuddy/mathebuddy-public-courses/archive/refs/heads/main.zip"
+      target="_blank"
       >here</a
-    >. Alternatively, run the following command from a terminal window:
-    <code
-      >git clone
-      https://github.com/mathebuddy/mathebuddy-public-courses.git</code
     >
+    and change into the extracted directory).
   </li>
   <li>
     <!-- -->
-    Change into the <code>mathebuddy-public-courses</code> directory and run
-    <code>server.py</code>. The script runs a local webserver at port
-    <code>8271</code>.
+    The example course already contains the file <code>server.py</code>. Run
+    <code>python3 server.py</code>. The script runs a local webserver at port
+    <code>8271</code>. (If you created your own directory, get the server file
+    from
+    <a
+      href="https://raw.githubusercontent.com/mathebuddy/mathebuddy-public-courses/main/server.py"
+      target="_blank"
+      >here</a
+    >).
   </li>
   <li>
     <!-- -->
     On this website, click on the
-    <code>[HTTP://LOCALHOST:8271]</code> button above.
+    <code>[HTTP://LOCALHOST:8271]</code> button above. You should see all
+    <code>*.mbl</code> files and directories.
   </li>
   <li>
     <!-- -->
-    The remaining steps are similar to working with the DEMO course (above).
+    Start the simulator by pressing on the power on button
+    <img src="img/fontawesome/power-off-solid.svg" style="height: 12px" />. The
+    current course (or level) can be opened in the simulator window by selecting
+    <code>DEBUG</code>.
+  </li>
+  <li>
+    <!-- -->
+    Edit the course files on your local computer and press
+    <img src="img/fontawesome/power-off-solid.svg" style="height: 12px" /> again
+    to observe the changes.
+  </li>
+  <li>
+    <!-- -->
+    <i
+      >Hint: you should debug level files first, and then debug complete
+      chapters afterwards!</i
+    >
   </li>
 </ol>
