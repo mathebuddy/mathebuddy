@@ -7,6 +7,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html' as html;
+import 'package:path/path.dart' as path_lib;
 
 // ignore: avoid_relative_lib_imports
 import '../../lib/compiler/src/compiler.dart';
@@ -52,6 +53,7 @@ void init() {
 Map<String, String> fs = {};
 
 String loadFunction(String path) {
+  path = path.replaceAll('//', '/').replaceAll("http:/", "http://");
   if (fs.containsKey(path)) {
     return fs[path] as String;
   } else {
@@ -59,11 +61,11 @@ String loadFunction(String path) {
   }
 }
 
-String compileMblCode(String src) {
+String compileMblCode(String path /*, String src*/) {
+  print("compiling the following MBL code at path $path");
   var compiler = Compiler(loadFunction);
   try {
-    fs["test.mbl"] = src;
-    compiler.compile('test.mbl');
+    compiler.compile(path);
     var y = compiler.getCourse()?.toJSON();
     var jsonStr = JsonEncoder.withIndent("  ").convert(y);
     logArea.innerHtml = '... compilation to MBCL was successful!';
@@ -123,12 +125,21 @@ void updateSimPathButtons() {
 }
 
 void loadMblFile(String path) {
-  readTextFile(path).then((text) {
+  //path = path.replaceAll('//', '/');
+  readTextFile(path).then((text) async {
     mblData = text;
     updateSimPathButtonsCore(simPath.isNotEmpty ? [".."] : []);
     showMbl();
     // compile
-    mbclData = compileMblCode(mblData);
+    fs[path] = mblData;
+
+    readDirRecursively(fs, path_lib.dirname(path)).then((value) {
+      print("FILE_SYSTEM:");
+      print(fs);
+      print("... END OF FILE_SYSTEM");
+
+      mbclData = compileMblCode(path);
+    });
   });
 }
 
