@@ -17,8 +17,20 @@ Berechne die folgende **Summe** und gebe das Ergebnis in Normalform an:
 EXERCISE Multiplikation
 @code
   let a = rand(1,5) + rand(1,5)*1i;
+  let b = rand(-5,5)*1i;
+  let c = a * b;
+@text
+Seien $z_1=a$ und $z_2=b$ komplexe Zahlen.
+Berechne das folgende **Produkt** und gebe das Ergebnis in Normalform an:
+- $z_1 \cdot z_2=$ #c
+---
+
+---
+EXERCISE Multiplikation
+@code
+  let a = rand(1,5) + rand(1,5)*1i;
   let b = randZ(-1,1)*rand(1,5) + rand(1,5)*1i;
-  let c = a + b;
+  let c = a * b;
 @text
 Seien $z_1=a$ und $z_2=b$ komplexe Zahlen.
 Berechne das folgende **Produkt** und gebe das Ergebnis in Normalform an:
@@ -67,6 +79,20 @@ Sei $"z" \in \CC$ und $z=\frac{a}{c}-\frac{b}{c} \cdot i $.
 ---
 EXERCISE Division
 @code
+  let a:b:c:d = rand(2,5);
+  a = randZ(-1,1) * a;
+  let z2 = complex(0,b);
+  let r = complex(c,d);
+  let z1 = z2 * r;
+@text
+Seien $z_1=z1$ und $z_2=z2$ komplexe Zahlen.
+Berechne den folgenden **Quotienten** und gebe das Ergebnis in Normalform an:
+- $\frac{z_1}{z_2}=$ #r
+---
+
+---
+EXERCISE Division
+@code
   let a:b:c:d = rand(1,5);
   a = randZ(-1,1) * a;
   let z2 = complex(a,b);
@@ -74,7 +100,8 @@ EXERCISE Division
   let z1 = z2 * r;
 @text
 Seien $z_1=z1$ und $z_2=z2$ komplexe Zahlen.
-- Berechne den folgenden **Quotienten** und gebe das Ergebnis in Normalform an: $\frac{z_1}{z_2}=$ #r
+Berechne den folgenden **Quotienten** und gebe das Ergebnis in Normalform an:
+- $\frac{z_1}{z_2}=$ #r
 ---
 
 ---
@@ -87,7 +114,25 @@ EXERCISE Komplexe Terme
   let res = z1^pow + z2;
 @text
 Berechne den folgenden **komplexen Term** und gebe das Ergebnis in Normalform an:
-- $ {z1}^{pow} + z2 = $ #res
+- $ (z1)^{pow} + z2 = $ #res
+---
+
+---
+EXERCISE Umrechnung zwischen kartesischen Koordinaten und Polarkoordinaten
+@text
+Die kartesische Form $z=x+yi \in \CC$ lässt sich aus den Polarkoordinaten $(r,\varphi)$ wie folgt berechnen:
+(x) $x = r \cdot \cos(\varphi)$ und $y=r \cdot \sin(\varphi)$
+( ) $x = r \cdot \sin(\varphi)$ und $y=r \cdot \cos(\varphi)$
+---
+
+---
+EXERCISE Umrechnung zwischen kartesischen Koordinaten und Polarkoordinaten
+@text
+Kreuze die richtigen Antworten zur Berechnung von $\varphi$ an:
+[x] Sei $x>0,~ y\geq 0$. Dann gilt: $\varphi=\arctan(\frac y x)$
+[x] Sei $x=0,~ y> 0$. Dann gilt: $\varphi=\frac{\pi}2$
+[ ] Sei $x>0,~ y\geq 0$. Dann gilt: $\varphi=\arctan(\frac x y)$
+[ ] Sei $x=0,~ y< 0$. Dann gilt: $\varphi=\frac{\pi}2$
 ---
 
 ---
@@ -129,7 +174,7 @@ EXERCISE Komplexe Reihen
 @text
 Ist die folgende geometrische Reihe **absolut konvergent**?
 
-EQUATION
+EQUATION*
 \sum_{k=0}^{\infty} \left( \frac{1}{a} + \frac{1}{b} \cdot i \right)^k
 END
 
