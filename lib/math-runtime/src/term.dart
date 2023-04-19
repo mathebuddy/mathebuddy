@@ -111,7 +111,7 @@ class Term {
   /// Creates an exact copy of the object.
   Term clone() {
     var c = Term(op, [], []);
-    c.value = value;
+    c.value = value.clone();
     for (var i = 0; i < o.length; i++) {
       var oi = o[i];
       c.o.add(oi.clone());
@@ -209,6 +209,83 @@ class Term {
       vars.addAll(oi.getVariableIDs());
     }
     return vars;
+  }
+
+  /// Splits the term into summands.
+  ///
+  /// Example: "2*x^2 + 5*x + 7"
+  ///    is split into ["2*x^2", "5*x", "7"]
+  List<Term> splitSummands() {
+    List<Term> s = [];
+    if (op == '+' || op == '-') {
+      s = o;
+    } else {
+      s.add(this);
+    }
+    return s;
+  }
+
+  /// Generates a list of summands plus an overhead of incorrect summands.
+  /// The resulting list does NOT contain two elements that are equal.
+  ///
+  /// Example: "2*x^2 + 5*x + 7" with overhead factor 1.5:
+  ///
+  /// Correct summands are ["2*x^2", "5*x", "7"], i.e. 3 summands.
+  /// The result consists of round(3*1.5)=5 elements, for example
+  /// ["2*x^2", "5*x", "7", "3*x^4", "6*x"];
+  List<Term> generateCorrectAndIncorrectSummands(
+      [double overheadFactor = 1.5, int maxDelta = 2]) {
+    var maxIterations = 100;
+    List<Term> correct = splitSummands();
+    correct = Term.removeDuplicates(correct);
+    var n = (correct.length * overheadFactor).round();
+    List<Term> all = [];
+    all.addAll(correct);
+    var iteration = 0;
+    while (all.length < n) {
+      if (iteration > maxIterations) {
+        throw Exception("generateCorrectAndIncorrectSummands "
+            "exceeded max number of iterations");
+      }
+      for (var item in correct) {
+        var newItem = item.clone();
+        newItem.randomlyChangeIntegerOperands(maxDelta);
+        all.add(newItem);
+      }
+      all = Term.removeDuplicates(all);
+      iteration++;
+    }
+    all = all.sublist(0, n);
+    return all;
+  }
+
+  static List<Term> removeDuplicates(List<Term> list) {
+    List<Term> output = [];
+    for (var item in list) {
+      var found = false;
+      for (var item2 in output) {
+        if (item.compareNumerically(item2)) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) output.add(item);
+    }
+    return output;
+  }
+
+  void randomlyChangeIntegerOperands(int maxDelta) {
+    _randomlyChangeIntegerOperandsRecursively(this, maxDelta);
+  }
+
+  void _randomlyChangeIntegerOperandsRecursively(Term term, int maxDelta) {
+    for (var i = 0; i < term.o.length; i++) {
+      _randomlyChangeIntegerOperandsRecursively(term.o[i], maxDelta);
+      if (term.o[i].value.type == OperandType.int) {
+        var rand = math.Random();
+        term.o[i].value.real += rand.nextInt(maxDelta);
+      }
+    }
   }
 
   /// Converts the term object to a string.
