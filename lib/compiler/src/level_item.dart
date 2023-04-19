@@ -15,6 +15,12 @@ void postProcessLevelItem(MbclLevelItem levelItem) {
   aggregateMultipleChoice(levelItem.items);
   aggregateSingleChoice(levelItem.items);
   removeEmptyParagraphs(levelItem.items);
+  // remove spaces
+  for (var item in levelItem.items) {
+    if (item.type == MbclLevelItemType.text) {
+      item.text = item.text.replaceAll("\n ", "\n");
+    }
+  }
   // equation data
   if (levelItem.equationData != null) {
     var data = levelItem.equationData!;
