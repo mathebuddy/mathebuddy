@@ -19,6 +19,7 @@ import 'course.dart';
 import 'exercise.dart';
 import 'help.dart';
 import 'math.dart';
+import 'references.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
@@ -72,6 +73,9 @@ class Compiler {
     }
     // post processing
     postProcessCourse(_course as MbclCourse);
+    // solve references
+    ReferenceSolver rs = ReferenceSolver(_course as MbclCourse);
+    rs.run();
   }
 
   //G course = courseTitle courseAuthor courseChapters;
@@ -349,7 +353,7 @@ class Compiler {
       if (k == 0) {
         block.type = tokens[k];
       } else if (tokens[k].startsWith('@')) {
-        block.label = tokens[k];
+        block.label = tokens[k].substring(1);
       } else {
         block.title += '${tokens[k]} ';
       }
@@ -575,12 +579,22 @@ class Compiler {
   }
 
   MbclLevelItem _parseReference(Lexer lexer) {
-    lexer.next();
+    lexer.next(); // skip '@'
     var ref = MbclLevelItem(MbclLevelItemType.reference);
+    var label = '';
     if (lexer.isIdentifier()) {
-      ref.label = lexer.getToken().token;
+      label = lexer.getToken().token;
       lexer.next();
     }
+    if (lexer.isTerminal(":")) {
+      label += lexer.getToken().token;
+      lexer.next();
+    }
+    if (lexer.isIdentifier()) {
+      label += lexer.getToken().token;
+      lexer.next();
+    }
+    ref.label = label;
     return ref;
   }
 
