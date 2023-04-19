@@ -285,7 +285,7 @@ class Operand {
       }
     } else {
       throw Exception('Cannot apply operator "$operator" on'
-          ' ${x.type.name} and ${y.type.name}.');
+          ' ${x.type.name} and ${y.type.name} with values $x and $y');
     }
     return o;
   }
@@ -348,6 +348,14 @@ class Operand {
         o.real = x.real * y.real;
       } else {
         o.real = x.real / y.real;
+      }
+    } else if ((x.type == OperandType.rational) &&
+        (y.type == OperandType.real)) {
+      o.type = OperandType.real;
+      if (operator == '*') {
+        o.real = (x.real / x.denominator) * y.real;
+      } else {
+        o.real = (x.real / x.denominator) / y.real;
       }
     } else if (operator == '*' &&
         x.type == OperandType.rational &&
@@ -418,8 +426,8 @@ class Operand {
         }
       }
     } else {
-      throw Exception('Cannot apply operator "$operator" on "${x.type.name}"'
-          ' and "${y.type.name}".');
+      throw Exception('Cannot apply operator "$operator" on'
+          ' ${x.type.name} and ${y.type.name} with values $x and $y');
     }
     return o;
   }
