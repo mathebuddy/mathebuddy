@@ -1,0 +1,12 @@
+Smoke test
+##########
+
+---
+EXERCISE Simple Integration @ex:intSimple
+@code
+  let F(x) = (1/3) * x^3 + 7*x
+@text
+Solve $\int (x^2+7) \dx =$  #F  $+C$
+@solution-F
+    build-term: true
+---
