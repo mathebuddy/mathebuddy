@@ -13,6 +13,21 @@ void main() {
   print('running mathe:buddy MATH RUNTIME tests ...');
 
   var parser = Parser();
+  var term = parser.parse("(((1/3)*(x^3))+(7*x)-2)");
+  /*var summands = term.splitSummands();
+  for (var i = 0; i < summands.length; i++) {
+    print(summands[i]);
+    summands[i].randomlyChangeIntegerOperands(2);
+    print(summands[i]);
+  }*/
+  try {
+    var xx = term.generateCorrectAndIncorrectSummands();
+    var bp = 1337;
+  } catch (e) {
+    print(e);
+  }
+
+  return;
 
 //var term = parser.parse('randZ(-2,2)');
 //var term = parser.parse('rand<2,3>(-2,2)');
@@ -31,7 +46,7 @@ void main() {
   //var term = parser.parse('cos(-pi)');
   //var term = parser.parse('((1/2)+((1/2)*(1*(0+i))))');
   //var term = parser.parse('1/3*i');
-  var term = parser.parse('1/3 i');
+  term = parser.parse('1/3 i');
 
   var value = term.eval({});
   print(term.toString());
