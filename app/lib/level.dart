@@ -111,38 +111,42 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
     case MbclLevelItemType.enumerate:
     case MbclLevelItemType.enumerateAlpha:
       {
-        List<ListTile> tiles = [];
+        List<Row> rows = [];
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           Widget leading = Padding(
-              padding: EdgeInsets.only(left: 6.0),
+              padding: EdgeInsets.only(top: 8.5),
               child: Icon(
                 Icons.fiber_manual_record,
                 size: 8,
               ));
           if (item.type == MbclLevelItemType.enumerate) {
-            leading = Text("${i + 1}.");
+            leading = Padding(
+                padding: EdgeInsets.only(top: 4.0, left: 7.0),
+                child: Text("${i + 1}."));
           } else if (item.type == MbclLevelItemType.enumerateAlpha) {
-            leading = Text("${String.fromCharCode("a".codeUnitAt(0) + i)})");
+            leading = Padding(
+                padding: EdgeInsets.only(top: 4.0, left: 7.0),
+                child: Text("${String.fromCharCode("a".codeUnitAt(0) + i)})"));
           }
           var content =
               generateLevelItem(state, subItem, exerciseData: exerciseData);
-          tiles.add(ListTile(
-              leading: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [leading],
-              ),
-              title: content,
-              minVerticalPadding: 0.0,
-              minLeadingWidth: 10.0,
-              horizontalTitleGap: 15.0,
-              contentPadding:
-                  EdgeInsets.only(left: 10.0, top: 0.0, bottom: 0.0)));
+          var row = Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [SizedBox(width: 30, child: leading)]),
+                Expanded(
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
+                        child: content)),
+              ]);
+          rows.add(row);
         }
-        return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: tiles);
+        return Column(children: rows);
       }
     case MbclLevelItemType.newPage:
       {
