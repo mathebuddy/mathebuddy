@@ -10,6 +10,9 @@ import '../../smpl/src/parser.dart' as smpl_parser;
 import '../../smpl/src/node.dart' as smpl_node;
 import '../../smpl/src/interpreter.dart' as smpl_interpreter;
 
+import '../../math-runtime/src/parse.dart' as math_runtime_parse;
+import '../../math-runtime/src/term.dart' as math_runtime_term;
+
 import 'block.dart';
 import 'exercise.dart';
 
@@ -175,10 +178,29 @@ MbclLevelItem processExercise(Block block) {
                     }
                     break;
                   }
-                /*case 'build-term':
+                case 'build-term':
                   {
+                    for (var instance in data.instances) {
+                      var termStr = instance["@$solutionVariableId"] as String;
+                      var parser = math_runtime_parse.Parser();
+                      var term = math_runtime_term.Term.createConstInt(0);
+                      try {
+                        term = parser.parse(termStr);
+                        var output = term.generateCorrectAndIncorrectSummands(
+                            2); // TODO: constant
+                        instance["\$$solutionVariableId.n"] =
+                            output.length.toString();
+                        for (var i = 0; i < output.length; i++) {
+                          var o = output[i];
+                          instance["\$$solutionVariableId.$i"] = o.toString();
+                        }
+                      } catch (e) {
+                        exercise.error += "build-term failed";
+                      }
+                      var bp = 1337;
+                    }
                     break;
-                  }*/
+                  }
                 default:
                   {
                     exercise.error += 'Unknown option: "$line".';
