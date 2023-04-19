@@ -26,9 +26,19 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
   switch (item.type) {
     case MbclLevelItemType.reference:
       {
-        return TextSpan(
-            text: "Warning: References are not yet implemented!",
-            style: TextStyle(color: Colors.red));
+        var text = TextSpan(
+            text: item.text, //
+            style: TextStyle(
+              color: matheBuddyGreen,
+              fontSize: defaultFontSize,
+              fontWeight: FontWeight.bold,
+            ));
+        if (item.error.isNotEmpty) {
+          text = TextSpan(
+              text: item.error, //
+              style: TextStyle(color: Colors.red));
+        }
+        return text;
       }
     case MbclLevelItemType.text:
       return TextSpan(
@@ -69,9 +79,9 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
               var colors = [
                 // TODO
                 Colors.black,
-                Colors.red,
-                Colors.blue,
-                Colors.purple,
+                matheBuddyRed,
+                matheBuddyYellow,
+                matheBuddyGreen,
                 Colors.orange
               ];
               var color = colors[colorKey % colors.length];
