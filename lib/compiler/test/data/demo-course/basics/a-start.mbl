@@ -2,3 +2,13 @@ Start
 ###########
 
 Some text here.
+
+---
+FIGURE My figure title @fig:myFigure
+@options
+    width-75
+@path
+    img/logo.svg
+@caption
+    mathe:buddy logo
+---

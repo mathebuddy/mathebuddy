@@ -13,7 +13,7 @@ Numbered equations
 -----------------
 
 ---
-EQUATION @myLabel
+EQUATION @eq:pythagoras
 a^2 + b^2 = c^2
 ---
 
@@ -26,14 +26,14 @@ Equations without number
 -----------------------
 
 ---
-EQUATION* @eq:myLabel
+EQUATION*
 a^2 + b^2 = c^2
 ---
 
 Reference to equations
 ----------------------
 
-Refer to @myLabel.    %displayed as "Refer to Eq. (1)"
+Refer to @eq:pythagoras.    %displayed as "Refer to Eq. (1)"
 
 Aligned equations
 -----------------

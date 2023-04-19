@@ -52,6 +52,7 @@ Choose the right answer:
 ( ) This answer is incorrect.
 ---
 
+
 Randomized Exercises
 ====================
 
@@ -73,6 +74,28 @@ EXERCISE Matrix Multiplication @ex:add-mul
 Calculate $ x \cdot y = $ #z.
 ---
 
+Mixed Exercises
+===============
+
+---
+EXERCISE Mixed
+@text
+@code
+  let x/y = rand(1, 5);
+  let z = x + y;
+@text
+Calculate $ x + y = $ #z.
+
+Choose the right answers:
+[x] This answer is correct.
+[ ] This answer is incorrect.
+[x] This answer is correct.
+Choose the right answers:
+[x] True.
+[x] True.
+[ ] False.
+---
+
 Exercise with button answers
 ============================
 
@@ -92,7 +115,7 @@ EXERCISE Simple Integration @ex:intSimple
 @code
   let F(x) = (1/3) * x^3 + 7*x
 @text
-Solve $\int (x^2+7) \dx =$  #F  $+C$
+Solve $\int (x^2+7) dx =$  #F  $+C$
 @solution-F
   build-term: true
 ---

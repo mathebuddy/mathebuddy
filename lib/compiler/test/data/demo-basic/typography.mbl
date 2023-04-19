@@ -16,7 +16,7 @@ Some text in [red]@color1 color.
 My subsection @subsec:mySubSection
 -------------
 
-Refer to @mySection.
+Refer to @sec:mySection.
 
 An itemization:
 - first item. This is some very long text that is wrapped over multiple lines. This is some very long text that is wrapped over multiple lines. This is some very long text that is wrapped over multiple lines.
