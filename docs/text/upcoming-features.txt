@@ -1,21 +1,28 @@
 <b>Features that are Work-in-Progress:</b>
 - simulator website: enable typing answers on host keyboard
+- support for "build-term: true" in exercises (front end)
 
 <b>Features that will be added in the next weeks:</b>
 - distinct color for the currently selected exercise input field
 - show preview for fractions while typing exercise answers
-- itemize/enumerate/... dot/number/letter is incorrectly aligned vertically 
 - control colored progress bars in top bar by student success
 - solutions hints: e.g. number of correct element in a set, or feedback which part solutions are correct in exercises with multiple input fields
 - chatbot integration
+- compiler: output warning/error for duplicate labels
+- support for multiple course languages in MBL
 - ... (not everything is listed here!)
 
 <b>Known bugs:</b>
-- indexing bug for more than one multiple/single choice answer in one exercise
+- "\" in TeX strings is corrupted by MBL in some cases (e.g. "x \ dx"): must emit spaces by Lexer while parsing paragraphs
 - SMPL: cos(pi/2) fails
 - ... (not everything is listed here!)
 
 <b>Recently fixed/added (newest first):</b>
+- support for "build-term: true" in exercises (back end) &#9989;
+- references to equations, sections, ... &#9989;
+- web application has blue (not red) background when loading &#9989;
+- indexing bug for more than one multiple/single choice answer in one exercise &#9989;
+- itemize/enumerate/... dot/number/letter is incorrectly aligned vertically  &#9989;
 - allow input field editing at arbitrary cursor positions &#9989;
 - word wrapping for single/multiple choice answers &#9989;
 - hide/opacity non-active exercises &#9989;
