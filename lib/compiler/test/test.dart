@@ -55,19 +55,20 @@ void main() {
   print('=== TESTING DEMO FILES ===');
 
   var files = [
-    'demo-course/basics/index.mbl'
-    //'demo-basic/exercises.mbl',
-    //'demo-basic/hello.mbl',
-    //'typography.mbl',
-    //'demo-basic/exercises-simple.mbl',
-    //'demo-basic/definitions.mbl',
-    //'demo-basic/equations.mbl',
-    //'demo-basic/examples.mbl',
-    //'demo-ma2/ma2-1.mbl',
+    'smoke-test.mbl',
+    //'data/demo-course/basics/index.mbl'
+    //'data/demo-basic/exercises.mbl',
+    //'data/demo-basic/hello.mbl',
+    //'data/demo-basic/typography.mbl',
+    //'data/demo-basic/exercises-simple.mbl',
+    //'data/demo-basic/definitions.mbl',
+    //'data/demo-basic/equations.mbl',
+    //'data/demo-basic/examples.mbl',
+    //'data/demo-ma2/ma2-1.mbl',
   ];
   for (var file in files) {
     print("******************* TESTING FILE $file *******************");
-    compile('test/data/$file');
+    compile('test/$file');
   }
 
   var bp = 1337;
