@@ -6,8 +6,6 @@
 
 import 'dart:convert';
 
-//import 'package:google_fonts/google_fonts.dart';
-
 import 'package:universal_html/html.dart' as html;
 
 import 'package:flutter/services.dart';
@@ -27,13 +25,6 @@ import 'package:mathebuddy/screen.dart';
 var bundleName = 'assets/bundle-test.json';
 
 void main() {
-  /*GoogleFonts.config.allowRuntimeFetching = false;
-  LicenseRegistry.addLicense(() async* {
-    final license =
-        await rootBundle.loadString('assets/google_fonts/LICENSE.txt');
-    yield LicenseEntryWithLineBreaks(['assets/google_fonts'], license);
-  });*/
-
   runApp(const MatheBuddy());
 }
 
