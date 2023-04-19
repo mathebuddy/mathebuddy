@@ -22,12 +22,6 @@ String convertMath2TeX(String s) {
   //   '[[2,4],[1,5]]'
   // is converted to
   //   '\begin{pmatrix} 2 & 4 \\ 1 & 5 \\ \end{pmatrix}
-  if (s.startsWith('[[')) {
-    s = s.replaceAll('[[', '\\begin{pmatrix}');
-    s = s.replaceAll(']]', '\\end{pmatrix}');
-    s = s.replaceAll('],[', ' \\\\');
-    s = s.replaceAll(',', '&');
-  }
   s = s.replaceAll("{", "\\{");
   s = s.replaceAll("}", "\\}");
   s = s.replaceAll("*", "\\cdot");
@@ -37,5 +31,11 @@ String convertMath2TeX(String s) {
   s = s.replaceAll("exp", "\\exp");
   s = s.replaceAll("ln", "\\ln");
   s = s.replaceAll("pi", "\\pi");
+  if (s.startsWith('[[')) {
+    s = s.replaceAll('[[', '\\begin{pmatrix}');
+    s = s.replaceAll(']]', '\\end{pmatrix}');
+    s = s.replaceAll('],[', ' \\\\');
+    s = s.replaceAll(',', '&');
+  }
   return s;
 }
