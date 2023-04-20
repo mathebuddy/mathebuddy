@@ -7,6 +7,8 @@
   For a simulation of parts of the app, choose "PLAY" from the main menu.
 </p>
 
+<hr />
+
 <h4>Explore the demo course</h4>
 <p style="font-size: large; font-style: italic">
   Remark: The demo course is currently not editable.
@@ -51,13 +53,18 @@ Steps:
   </li>
 </ol>
 
+<hr />
+
 <h4>Create own courses</h4>
 <p style="font-size: large; font-style: italic">
-  Remark: The following guide will currently not work with all browsers (e.g.
+  Remark 1: The following guide will currently not work with all browsers (e.g.
   not in Apple Safari). As a workaround, use another browser (e.g. Firefox) or
   run this website locally on your computer, as described
   <a href="https://github.com/mathebuddy" target="_blank">here</a> in the readme
   file.
+</p>
+<p style="font-size: large; font-style: italic">
+  Remark 2: Windows Users may find more detailed instructions below.
 </p>
 <p style="font-size: large">
   Creating and editing own courses requires to store MBL files locally on your
@@ -117,3 +124,167 @@ Steps:
     >
   </li>
 </ol>
+
+<hr />
+
+<h4>Create own courses in an Windows Environment</h4>
+<p style="font-size: large; font-style: italic">
+  The following workflow describes how to edit courses in Windows (... using an
+  UNIXoid operating system is more recommended). We use "GitHub Desktop" to
+  synchronize course data, Visual Studio Code as editor and Python as file
+  server.
+</p>
+<p>
+  Other toolchains may also work, e.g. using Git on the command line. Used
+  Editors MUST save files as plain text, i.e. without formatting (whoever tries
+  to edit course description files with Microsoft Word is disqualified to
+  contribute to mathe:buddy for at least a life time...).
+</p>
+
+<h5><b>(I.) Installation of Dependencies</b></h5>
+
+<i>Note: You may need to run installers with admin rights.</i><br />
+
+<br />
+<b>Python</b>
+<ul>
+  <li>
+    <!-- -->
+    Download Python from
+    <a href="https://www.python.org/downloads/" target="_blank"
+      >https://www.python.org/downloads/</a
+    >
+    and run the installer.
+  </li>
+  <li>
+    <!-- -->
+    Choose "add python.exe to PATH" in the installer.
+  </li>
+  <li>
+    <!-- -->
+    Choose "disable path length limit" at the end of the installation (last
+    installer panel).
+  </li>
+</ul>
+
+<b>Visual Studio Code</b>
+<ul>
+  <li>
+    <!-- -->
+    Download Visual Studio code from
+    <a href="https://code.visualstudio.com/Download" target="_blank"
+      >https://code.visualstudio.com/Download</a
+    >
+    and run the installer.
+  </li>
+</ul>
+
+<b>GitHub Desktop</b><br />
+<ul>
+  <li>
+    <!-- -->
+    Download GitHub Desktop from
+    <a href="https://desktop.github.com/" target="_blank"
+      >https://desktop.github.com/</a
+    >
+    and run the installer.
+  </li>
+  <li>
+    <!-- -->
+    Click on "sign in to github.com".
+  </li>
+</ul>
+
+<h5><b>(II.) First Run</b></h5>
+
+<b>Github Desktop:</b>
+<ul>
+  <li>
+    <!-- -->
+    On the start page, you see all repositories with granted access (access must
+    be given by the owner of the corresponding repository first).
+  </li>
+  <li>
+    <!-- -->
+    Clone e.g. <code>github.com:mathebuddy/mathebuddy-public-courses</code> or
+    <code>github.com:mathebuddy/mathebuddy-private-courses</code>.
+  </li>
+
+  <li>
+    <!-- -->
+    After cloning, click on "open in visual studio code".
+  </li>
+  <li>
+    <!-- -->
+    In Visual Studio Code, click on "trust the authors" (if asked).
+  </li>
+</ul>
+
+<b>Visual Studio Code:</b>
+<ol>
+  <li>Open the cloned repository (if not already done in the last step).</li>
+  <li>Install the recommended extensions (must only be done once):</li>
+  <ol>
+    <li>
+      <!-- -->
+      Open the extensions menu on the left panel (the "blocks" icon;
+      alternatively press [Ctrl]+[Shift]+[x]).
+    </li>
+    <li>
+      <!-- -->
+      In text field named by "search extensions in marketplace", type in
+      "@recommended".
+    </li>
+    <li>
+      <!-- -->
+      Then install the recommended extensions (Spell-Checker + Python).
+    </li>
+  </ol>
+  <li>
+    <!-- -->
+    Start the file server by either pressing [F5] or choosing [run] ->
+    [debugging] in the main menu.
+  </li>
+  <li>
+    <!-- -->
+    You may grant access to Python to communicate within your local network.
+  </li>
+  <li>
+    <!-- -->
+    Check the installation: Open the address
+    <a href="http://localhost:8271/" target="_blank">http://localhost:8271/</a>
+    in your browser. If you see the directory listing of your course repository,
+    then everything works as expected.
+  </li>
+  <li>
+    <!-- -->
+    Open
+    <a href="https://mathebuddy.github.io/mathebuddy/" target="_blank"
+      >https://mathebuddy.github.io/mathebuddy/</a
+    >
+    in your browser (Firefox was tested; other browsers may not yet work), click
+    on [SIM], and then on the button [http://localhost:8271].
+  </li>
+</ol>
+
+<h5><b>(III.) Daily Work</b></h5>
+
+<ul>
+  <li>
+    <!-- -->
+    Edit courses with Visual Studio Code and run the file server with shortcut
+    [F5].
+  </li>
+  <li>
+    <!-- -->
+    Test your course data at
+    <a href="https://mathebuddy.github.io" target="_blank"
+      >https://mathebuddy.github.io</a
+    >
+    on page [SIM], [http://localhost:8271].
+  </li>
+  <li>
+    <!-- -->
+    Commit your own contributions with GitHub Desktop.
+  </li>
+</ul>
