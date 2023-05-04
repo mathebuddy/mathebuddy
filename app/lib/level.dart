@@ -25,10 +25,23 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
     paragraphPaddingBottom = 5.0,
     MbclExerciseData? exerciseData}) {
   if (item.error.isNotEmpty) {
-    return generateErrorWidget(
-        'ERROR in element "${item.title}":\n${item.error}');
+    var title = item.title;
+    if (title.isEmpty) {
+      title = "(no title)";
+    }
+    return generateErrorWidget('ERROR in element "$title":\n${item.error}');
   }
   switch (item.type) {
+    case MbclLevelItemType.error:
+      {
+        return Padding(
+            padding:
+                EdgeInsets.only(left: 3.0, right: 3.0, top: 10.0, bottom: 5.0),
+            child: Text(
+              item.text,
+              style: TextStyle(fontSize: 14, color: Colors.red),
+            ));
+      }
     case MbclLevelItemType.section:
       {
         return Padding(
