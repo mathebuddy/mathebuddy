@@ -155,8 +155,8 @@ class Block {
             .contains(sub.levelItems[0].type)) {
       item.items.addAll(sub.levelItems);
     } else {
-      item.error += 'Error: Subblock type ${sub.levelItems[0].type.name}'
-          ' is not allowed for ${type.name}! ';
+      item.error += 'Error: Subblock type "${sub.levelItems[0].type.name}"'
+          ' is not allowed for "${type.name}"! ';
     }
   }
 }
