@@ -267,7 +267,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
           rows.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             SvgPicture.string(
               figureData.data,
-              width: screenWidth * width / 100.0,
+              width: screenWidth * width / 100.0 - 15.0,
             )
           ]));
         }
