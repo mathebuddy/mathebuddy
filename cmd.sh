@@ -36,8 +36,9 @@ do
     echo "[10] show empty directories recursively"
     echo "[11] create bundle of test courses"
     echo "[12] create bundle for alpha course"
-    echo "[13] update https://github.com/mathebuddy/alpha (must build web app + create bundle first)"
-    echo "[14] exit"
+    echo "[13] create bundle for complex numbers"
+    echo "[14] update https://github.com/mathebuddy/alpha (must build web app + create bundle first)"
+    echo "[15] exit"
     read x
     case $x in
     0)
@@ -127,7 +128,13 @@ do
         cd ..
         ;;
     13)
-        # [13] update https://github.com/mathebuddy/alpha
+        # [13] create bundle for complex numbers
+        cd bin
+        dart bundler/src/bundler.dart bundle-complex.txt ../app/assets/bundle-complex.json
+        cd ..
+        ;;
+    14)
+        # [14] update https://github.com/mathebuddy/alpha
         DIR="../alpha/"
         if [ -d "$DIR" ]; then
             rm -rf ../alpha/docs/
