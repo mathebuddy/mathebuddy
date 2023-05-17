@@ -56,14 +56,15 @@ class Interpreter {
       var assignment = node;
       InterpreterSymbol? symbol;
       if (assignment.createSymbol) {
-        symbol = _addSymbol(assignment.lhs);
+        symbol = _addSymbol(assignment.lhs, assignment.row);
       } else {
         symbol = _getSymbol(assignment.lhs);
       }
       if (symbol == null) {
-        _error('symbol "${assignment.lhs}" is unknown.'); // TODO: location
+        _error(node.row, 'symbol "${assignment.lhs}" is unknown.');
       } else {
-        symbol.term = _processTerm(assignment.rhs, assignment.vars);
+        symbol.term =
+            _processTerm(assignment.rhs, assignment.vars, assignment.row);
         if (assignment.vars.isEmpty) {
           var isOK = true;
           var k = 0;
@@ -81,6 +82,7 @@ class Interpreter {
             k++;
             if (k >= 50) {
               _error(
+                assignment.row,
                 'failed to create different variable values for "${symbol.id}"',
               );
             }
@@ -97,10 +99,10 @@ class Interpreter {
       // ----- while loop -----
       var whileLoop = node;
       for (;;) {
-        var condition = _processTerm(whileLoop.condition, [])
+        var condition = _processTerm(whileLoop.condition, [], whileLoop.row)
             .eval({}); // TODO: error handling
         if (condition.type != OperandType.boolean) {
-          _error('while loop expects a boolean condition'); // TODO: location
+          _error(whileLoop.row, 'while-loop expects a boolean condition');
         }
         if (condition.real == 0) break;
         _run(whileLoop.statements as StatementList);
@@ -108,10 +110,10 @@ class Interpreter {
     } else if (node is IfCond) {
       // ----- if condition -----
       var ifCond = node;
-      var condition =
-          _processTerm(ifCond.condition, []).eval({}); // TODO: error handling
+      var condition = _processTerm(ifCond.condition, [], ifCond.row)
+          .eval({}); // TODO: error handling
       if (condition.type != OperandType.boolean) {
-        _error('while loop expects a boolean condition'); // TODO: location
+        _error(ifCond.row, 'if-statement expects a boolean condition');
       }
       if (condition.real != 0) {
         _run(ifCond.statementsTrue as StatementList);
@@ -126,13 +128,13 @@ class Interpreter {
       for (var functionID in functionIDs) {
         var symbol = _getSymbol(functionID);
         if (symbol == null) {
-          _error('figure accesses unknown function $functionID');
+          _error(figure.row, 'figure accesses unknown function $functionID');
         } else {
           functionSymbols[functionID] = symbol;
         }
       }
       InterpreterSymbol? figureSymbol;
-      figureSymbol = _addSymbol('__figure');
+      figureSymbol = _addSymbol('__figure', figure.row);
       var svg = figure.generateSVG(functionSymbols);
       figureSymbol.value = Operand.createString(svg);
     } else {
@@ -140,10 +142,10 @@ class Interpreter {
     }
   }
 
-  InterpreterSymbol _addSymbol(String id) {
+  InterpreterSymbol _addSymbol(String id, int srcRow) {
     var scope = _symbolTable[_symbolTable.length - 1];
     if (scope.containsKey(id)) {
-      _error('symbol "$id" already exists.'); // TODO: location
+      _error(srcRow, 'symbol "$id" already exists.');
     }
     var symbol = InterpreterSymbol();
     symbol.id = id;
@@ -161,12 +163,12 @@ class Interpreter {
     return null;
   }
 
-  Term _processTerm(String src, List<String> keepVariables) {
+  Term _processTerm(String src, List<String> keepVariables, int srcRow) {
     Term? term;
     try {
       term = _termParser.parse(src, splitIdentifiers: false);
     } catch (e) {
-      _error('error in term "$src":$e'); // TODO: location
+      _error(srcRow, 'error in term "$src":$e');
     }
     term = term as Term;
     var variables = term.getVariableIDs();
@@ -174,8 +176,7 @@ class Interpreter {
       if (keepVariables.contains(id)) continue;
       var symbol = _getSymbol(id);
       if (symbol == null) {
-        _error(
-            'error in term "$src": variable $id is unknown!'); // TODO: location
+        _error(srcRow, 'error in term "$src": variable $id is unknown!');
       } else {
         if (id.startsWith('@')) {
           term.substituteVariableByTerm(id, symbol.term.clone());
@@ -190,7 +191,7 @@ class Interpreter {
     return term;
   }
 
-  void _error(String message) {
-    throw Exception(message); // TODO: location
+  void _error(int srcRow, String message) {
+    throw Exception('[Line $srcRow] $message\n');
   }
 }
