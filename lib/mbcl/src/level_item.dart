@@ -165,7 +165,16 @@ enum MbclLevelItemType {
 Map<MbclLevelItemType, List<MbclLevelItemType>> mbclSubBlockWhiteList = {
   MbclLevelItemType.exercise: [
     //
-    MbclLevelItemType.equation
+    MbclLevelItemType.equation,
+    MbclLevelItemType.figure,
+    MbclLevelItemType.error,
+    MbclLevelItemType.paragraph,
+  ],
+  MbclLevelItemType.example: [
+    //
+    MbclLevelItemType.paragraph,
+    MbclLevelItemType.equation,
+    MbclLevelItemType.figure,
   ],
   MbclLevelItemType.defDefinition: [
     // also applied for MbclLevelItemType.def*
@@ -174,11 +183,8 @@ Map<MbclLevelItemType, List<MbclLevelItemType>> mbclSubBlockWhiteList = {
     MbclLevelItemType.alignRight,
     MbclLevelItemType.equation,
     MbclLevelItemType.paragraph,
+    MbclLevelItemType.figure,
   ],
-  MbclLevelItemType.example: [
-    //
-    MbclLevelItemType.equation
-  ]
 };
 
 class MbclEquationData {
