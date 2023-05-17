@@ -65,10 +65,11 @@ MbclLevelItem processFigure(Block block) {
         }
         break;
       case 'path':
-        if (part.lines.length != 1) {
-          figure.error += 'Invalid figure path.';
-        } else {
-          /*// TODO: check if path exists!
+        {
+          if (part.lines.isEmpty) {
+            figure.error += 'Invalid figure path.';
+          } else {
+            /*// TODO: check if path exists!
             var line = part.lines[0].trim();
             if (line.startsWith('#')) {
               var variableId = line.substring(1);
@@ -78,14 +79,15 @@ MbclLevelItem processFigure(Block block) {
                 figure.error += 'non-existing variable $line';
               }
             } else {*/
-          data.filePath = block.compiler.baseDirectory + part.lines[0].trim();
-          data.data = block.compiler.loadFile(data.filePath);
-          if (data.data.isEmpty) {
-            figure.error +=
-                'Could not load image file from path "${data.filePath}".';
+            data.filePath = block.compiler.baseDirectory + part.lines[0].trim();
+            data.data = block.compiler.loadFile(data.filePath);
+            if (data.data.isEmpty) {
+              figure.error +=
+                  'Could not load image file from path "${data.filePath}".';
+            }
           }
+          break;
         }
-        break;
       case 'options':
         for (var line in part.lines) {
           line = line.trim();
