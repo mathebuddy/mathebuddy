@@ -20,7 +20,7 @@ dependencies:
   english_words: ^4.0.0
   universal_html: ^2.0.9
   cupertino_icons: ^1.0.5
-  flutter_svg: ^2.0.2
+  flutter_svg: ^2.0.5
   tex: ^0.4.3
 
 dev_dependencies:
@@ -43,3 +43,4 @@ flutter:
     - assets/img/logo-large-de.png
     - assets/bundle-test.json
     - assets/bundle-alpha.json
+    - assets/bundle-complex.json
