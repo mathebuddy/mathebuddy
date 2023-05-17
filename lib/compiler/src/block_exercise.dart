@@ -215,5 +215,10 @@ MbclLevelItem processExercise(Block block) {
         break;
     }
   }
+
+  if (data.instances.isEmpty) {
+    exercise.error += 'Exercise has no instances';
+  }
+
   return exercise;
 }
