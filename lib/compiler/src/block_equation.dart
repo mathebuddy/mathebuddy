@@ -70,6 +70,7 @@ MbclLevelItem processEquation(
   var lexer = Lexer();
   lexer.pushSource('', equation.text);
   data.math = parseInlineMath(lexer, exercise);
+  data.math!.type = MbclLevelItemType.displayMath;
   equation.text = '';
 
   return equation;

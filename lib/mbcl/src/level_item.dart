@@ -133,6 +133,7 @@ enum MbclLevelItemType {
   defParadox,
   defProposition,
   defTheorem,
+  displayMath,
   enumerate,
   enumerateAlpha,
   equation,
@@ -217,7 +218,12 @@ class MbclEquationData {
   aligned,
 }*/
 
-enum MbclExerciseFeedback { unchecked, correct, incorrect }
+enum MbclExerciseFeedback {
+  //
+  unchecked,
+  correct,
+  incorrect
+}
 
 class MbclExerciseData {
   // import/export

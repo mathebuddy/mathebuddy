@@ -7,7 +7,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -218,7 +218,7 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -275,7 +275,7 @@
                     "id": "5",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -300,7 +300,7 @@
                     "id": "6",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -400,28 +400,28 @@
                       "@b": "(9^2)"
                     },
                     {
-                      "a": "5",
-                      "@a": "rand(4,9)",
-                      "b": "25",
-                      "@b": "(5^2)"
-                    },
-                    {
                       "a": "6",
                       "@a": "rand(4,9)",
                       "b": "36",
                       "@b": "(6^2)"
                     },
                     {
-                      "a": "6",
+                      "a": "7",
                       "@a": "rand(4,9)",
-                      "b": "36",
-                      "@b": "(6^2)"
+                      "b": "49",
+                      "@b": "(7^2)"
                     },
                     {
-                      "a": "8",
+                      "a": "9",
                       "@a": "rand(4,9)",
-                      "b": "64",
-                      "@b": "(8^2)"
+                      "b": "81",
+                      "@b": "(9^2)"
+                    },
+                    {
+                      "a": "7",
+                      "@a": "rand(4,9)",
+                      "b": "49",
+                      "@b": "(7^2)"
                     }
                   ],
                   "staticOrder": false,
@@ -441,7 +441,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -464,17 +464,39 @@
               {
                 "type": "exercise",
                 "label": "ex:gaussscheZahlenebene1",
-                "error": "Exercise has no instances",
                 "items": [
                   {
                     "type": "error",
-                    "text": "Unknown block type \"TODO\"."
+                    "text": "Unknown block type \"TODO:\"."
                   }
                 ],
                 "exerciseData": {
-                  "code": "",
-                  "variables": [],
-                  "instances": [],
+                  "code": "let z3 = 1+2*1i;\n",
+                  "variables": [
+                    "z3"
+                  ],
+                  "instances": [
+                    {
+                      "z3": "1+2i",
+                      "@z3": "(1+(2*1*(i)))"
+                    },
+                    {
+                      "z3": "1+2i",
+                      "@z3": "(1+(2*1*(i)))"
+                    },
+                    {
+                      "z3": "1+2i",
+                      "@z3": "(1+(2*1*(i)))"
+                    },
+                    {
+                      "z3": "1+2i",
+                      "@z3": "(1+(2*1*(i)))"
+                    },
+                    {
+                      "z3": "1+2i",
+                      "@z3": "(1+(2*1*(i)))"
+                    }
+                  ],
                   "staticOrder": false,
                   "scores": 1,
                   "showGapLength": false,
@@ -680,7 +702,7 @@
                       },
                       {
                         "type": "text",
-                        "text": ", d. h. die El emente der"
+                        "text": ", d. h. die Elemente der"
                       },
                       {
                         "type": "inlineMath",
@@ -792,7 +814,7 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -876,6 +898,16 @@
                         "text": "."
                       }
                     ]
+                  },
+                  {
+                    "type": "figure",
+                    "figureData": {
+                      "filePath": "../../mathebuddy-private-courses/hm1/complex/img/u1-gausscheZahlenebeneExa.svg",
+                      "code": "",
+                      "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"146.709pt\" height=\"104.013pt\" viewBox=\"0 0 146.709 104.013\">\n<g enable-background=\"new\">\n<path transform=\"matrix(1,0,0,-1,125.399,89.439)\" stroke-width=\".79701\" stroke-linecap=\"butt\" stroke-miterlimit=\"10\" stroke-linejoin=\"miter\" fill=\"none\" stroke=\"#000000\" d=\"M -99.21382 0 L 9.51091 0 \"/>\n<path transform=\"matrix(1,0,0,-1,134.90991,89.439)\" d=\"M 4.66248 0 C 3.28098 .25902 1.0361 1.0361 -.51805 1.94269 L -.51805 -1.94269 C 1.0361 -1.0361 3.28098 -.25902 4.66248 0 \"/>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 0 104.013)\" font-size=\"9.9626\" font-family=\"CMMI10\" font-style=\"italic\"><tspan y=\"-3.781\" x=\"133.432 141.07332\">Re</tspan></text>\n<path transform=\"matrix(1,0,0,-1,125.399,89.439)\" stroke-width=\".79701\" stroke-linecap=\"butt\" stroke-miterlimit=\"10\" stroke-linejoin=\"miter\" fill=\"none\" stroke=\"#000000\" d=\"M 0 0 L 0 80.37794 \"/>\n<path transform=\"matrix(0,-1,-1,-0,125.399,9.061066)\" d=\"M 4.66248 0 C 3.28098 .25902 1.0361 1.0361 -.51805 1.94269 L -.51805 -1.94269 C 1.0361 -1.0361 3.28098 -.25902 4.66248 0 \"/>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 .0000076293949 104.013)\" font-size=\"9.9626\" font-family=\"CMMI10\" font-style=\"italic\"><tspan y=\"-96.209\" x=\"107.505 112.66563\">Im</tspan></text>\n<path transform=\"matrix(1,0,0,-1,125.399,89.439)\" stroke-width=\".3985\" stroke-linecap=\"butt\" stroke-miterlimit=\"10\" stroke-linejoin=\"miter\" fill=\"none\" stroke=\"#808080\" d=\"M -99.21382 0 L 0 0 M -99.21382 28.3468 L 0 28.3468 M -99.21382 56.69362 L 0 56.69362 M -85.04042 0 L -85.04042 70.867 M -56.69362 0 L -56.69362 70.867 M -28.3468 0 L -28.3468 70.867 M -.00995 0 L -.00995 70.867 M 0 70.867 \"/>\n<path transform=\"matrix(1,0,0,-1,125.399,89.439)\" stroke-width=\"1.19553\" stroke-linecap=\"butt\" stroke-dasharray=\"2.98883,2.98883\" stroke-miterlimit=\"10\" stroke-linejoin=\"miter\" fill=\"none\" stroke=\"#000000\" d=\"M 0 56.69362 L -85.04042 56.69362 \"/>\n<path transform=\"matrix(1,0,0,-1,125.399,89.439)\" stroke-width=\"1.19553\" stroke-linecap=\"butt\" stroke-dasharray=\"2.98883,2.98883\" stroke-miterlimit=\"10\" stroke-linejoin=\"miter\" fill=\"none\" stroke=\"#000000\" d=\"M -85.04042 0 L -85.04042 56.69362 \"/>\n<path transform=\"matrix(1,0,0,-1,125.399,89.439)\" stroke-width=\"1.19553\" stroke-linecap=\"butt\" stroke-miterlimit=\"10\" stroke-linejoin=\"miter\" fill=\"none\" stroke=\"#0066cc\" d=\"M 0 0 L -80.26585 53.5106 \"/>\n<path transform=\"matrix(-.83202,-.55467,-.55467,.83202,45.133157,35.928415)\" d=\"M 5.73854 0 C 4.0382 .31879 1.27522 1.27522 -.6376 2.39105 L -.6376 -2.39105 C 1.27522 -1.27522 4.0382 -.31879 5.73854 0 \" fill=\"#0066cc\"/>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 .0000076293949 104.013)\" font-size=\"9.9626\" font-family=\"CMR10\"><tspan y=\"-4.151\" x=\"122.908\">0</tspan></text>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 0 104.013)\" font-size=\"9.9626\" font-family=\"CMSY10\" font-style=\"italic\"><tspan y=\"-4.151\" x=\"90.688\">&#x2212;</tspan></text>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 0 104.013)\" font-size=\"9.9626\" font-family=\"CMR10\"><tspan y=\"-4.151\" x=\"98.436008\">1</tspan></text>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 .0000038146974 104.013)\" font-size=\"9.9626\" font-family=\"CMSY10\" font-style=\"italic\"><tspan y=\"-4.151\" x=\"62.341\">&#x2212;</tspan></text>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 .0000038146974 104.013)\" font-size=\"9.9626\" font-family=\"CMR10\"><tspan y=\"-4.151\" x=\"70.09\">2</tspan></text>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 .0000038146974 104.013)\" font-size=\"9.9626\" font-family=\"CMSY10\" font-style=\"italic\"><tspan y=\"-4.151\" x=\"33.995\">&#x2212;</tspan></text>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 .0000038146974 104.013)\" font-size=\"9.9626\" font-family=\"CMR10\"><tspan y=\"-4.151\" x=\"41.743\">3</tspan></text>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 .000015258789 104.013)\" font-size=\"9.9626\" font-family=\"CMMI10\" font-style=\"italic\"><tspan y=\"-39.635\" x=\"129.402\">i</tspan></text>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 .000015258789 104.013)\" font-size=\"9.9626\" font-family=\"CMR10\"><tspan y=\"-67.981\" x=\"129.402\">2</tspan></text>\n<text xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 .000015258789 104.013)\" font-size=\"9.9626\" font-family=\"CMMI10\" font-style=\"italic\"><tspan y=\"-67.981\" x=\"134.383\">i</tspan></text>\n<text fill=\"#cc6600\" xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 -.0000009536743 104.013)\" font-size=\"9.9626\" font-family=\"CMSY10\" font-style=\"italic\"><tspan y=\"-75.816\" x=\"3.321\">&#x2212;</tspan></text>\n<text fill=\"#cc6600\" xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 -.0000009536743 104.013)\" font-size=\"9.9626\" font-family=\"CMR10\"><tspan y=\"-75.816\" x=\"11.069 18.261998 28.224598\">3+2</tspan></text>\n<text fill=\"#cc6600\" xml:space=\"preserve\" transform=\"matrix(1 0 -0 1 -.0000009536743 104.013)\" font-size=\"9.9626\" font-family=\"CMMI10\" font-style=\"italic\"><tspan y=\"-75.816\" x=\"33.208\">i</tspan></text>\n</g>\n</svg>\n",
+                      "caption": [],
+                      "options": []
+                    }
                   }
                 ]
               },
@@ -941,44 +973,44 @@
                   ],
                   "instances": [
                     {
-                      "a": "-5",
+                      "a": "5",
                       "@a": "(randZ((-(1)),1)*5)",
+                      "b": "6",
+                      "@b": "(randZ((-(1)),1)*6)",
+                      "z": "5+6i",
+                      "@z": "complex(5,6)"
+                    },
+                    {
+                      "a": "-6",
+                      "@a": "(randZ((-(1)),1)*6)",
                       "b": "4",
                       "@b": "(randZ((-(1)),1)*4)",
-                      "z": "-5+4i",
-                      "@z": "complex(-5,4)"
+                      "z": "-6+4i",
+                      "@z": "complex(-6,4)"
                     },
                     {
-                      "a": "-7",
+                      "a": "-5",
+                      "@a": "(randZ((-(1)),1)*5)",
+                      "b": "-2",
+                      "@b": "(randZ((-(1)),1)*2)",
+                      "z": "-5-2i",
+                      "@z": "complex(-5,-2)"
+                    },
+                    {
+                      "a": "7",
                       "@a": "(randZ((-(1)),1)*7)",
-                      "b": "-4",
-                      "@b": "(randZ((-(1)),1)*4)",
-                      "z": "-7-4i",
-                      "@z": "complex(-7,-4)"
+                      "b": "-2",
+                      "@b": "(randZ((-(1)),1)*2)",
+                      "z": "7-2i",
+                      "@z": "complex(7,-2)"
                     },
                     {
-                      "a": "-7",
-                      "@a": "(randZ((-(1)),1)*7)",
-                      "b": "-4",
-                      "@b": "(randZ((-(1)),1)*4)",
-                      "z": "-7-4i",
-                      "@z": "complex(-7,-4)"
-                    },
-                    {
-                      "a": "-4",
-                      "@a": "(randZ((-(1)),1)*4)",
+                      "a": "6",
+                      "@a": "(randZ((-(1)),1)*6)",
                       "b": "3",
                       "@b": "(randZ((-(1)),1)*3)",
-                      "z": "-4+3i",
-                      "@z": "complex(-4,3)"
-                    },
-                    {
-                      "a": "3",
-                      "@a": "(randZ((-(1)),1)*3)",
-                      "b": "-5",
-                      "@b": "(randZ((-(1)),1)*5)",
-                      "z": "3-5i",
-                      "@z": "complex(3,-5)"
+                      "z": "6+3i",
+                      "@z": "complex(6,3)"
                     }
                   ],
                   "staticOrder": false,
@@ -998,7 +1030,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -1083,14 +1115,24 @@
                   ],
                   "instances": [
                     {
-                      "a": "5",
+                      "a": "6",
                       "@a": "rand(5,7)",
                       "b": "4",
                       "@b": "rand(2,4)",
-                      "z": "5+4i",
-                      "@z": "complex(5,4)",
-                      "c": "5-4i",
-                      "@c": "conj((5+4i))"
+                      "z": "6+4i",
+                      "@z": "complex(6,4)",
+                      "c": "6-4i",
+                      "@c": "conj((6+4i))"
+                    },
+                    {
+                      "a": "6",
+                      "@a": "rand(5,7)",
+                      "b": "4",
+                      "@b": "rand(2,4)",
+                      "z": "6+4i",
+                      "@z": "complex(6,4)",
+                      "c": "6-4i",
+                      "@c": "conj((6+4i))"
                     },
                     {
                       "a": "7",
@@ -1103,34 +1145,24 @@
                       "@c": "conj((7+2i))"
                     },
                     {
-                      "a": "7",
+                      "a": "6",
                       "@a": "rand(5,7)",
-                      "b": "2",
+                      "b": "3",
                       "@b": "rand(2,4)",
-                      "z": "7+2i",
-                      "@z": "complex(7,2)",
-                      "c": "7-2i",
-                      "@c": "conj((7+2i))"
+                      "z": "6+3i",
+                      "@z": "complex(6,3)",
+                      "c": "6-3i",
+                      "@c": "conj((6+3i))"
                     },
                     {
-                      "a": "5",
+                      "a": "6",
                       "@a": "rand(5,7)",
-                      "b": "2",
+                      "b": "4",
                       "@b": "rand(2,4)",
-                      "z": "5+2i",
-                      "@z": "complex(5,2)",
-                      "c": "5-2i",
-                      "@c": "conj((5+2i))"
-                    },
-                    {
-                      "a": "5",
-                      "@a": "rand(5,7)",
-                      "b": "2",
-                      "@b": "rand(2,4)",
-                      "z": "5+2i",
-                      "@z": "complex(5,2)",
-                      "c": "5-2i",
-                      "@c": "conj((5+2i))"
+                      "z": "6+4i",
+                      "@z": "complex(6,4)",
+                      "c": "6-4i",
+                      "@c": "conj((6+4i))"
                     }
                   ],
                   "staticOrder": false,
@@ -1206,11 +1238,11 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
-                            "text": "\\overline { z } = x - iy \\in \\C"
+                            "text": "\\overline { z } = x - iy \\in \\CC"
                           }
                         ]
                       },
@@ -1286,7 +1318,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -1397,7 +1429,7 @@
                         "items": [
                           {
                             "type": "text",
-                            "text": "z = x + yi \\in \\C"
+                            "text": "z = x + yi \\in \\CC"
                           }
                         ]
                       },
@@ -1410,7 +1442,7 @@
                         "items": [
                           {
                             "type": "text",
-                            "text": "\\begin { pmatrix } x \\\\y \\end { pmatrix } \\in \\R ^ 2"
+                            "text": "\\begin { pmatrix } x \\\\y \\end { pmatrix } \\in \\RR ^ 2"
                           }
                         ]
                       },
@@ -1426,7 +1458,7 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -1449,7 +1481,7 @@
                     "id": "4",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -1798,7 +1830,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -1864,7 +1896,7 @@
                     "id": "3",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -1927,7 +1959,7 @@
                         "items": [
                           {
                             "type": "text",
-                            "text": "z \\in \\C"
+                            "text": "z \\in \\CC"
                           }
                         ]
                       },
@@ -1942,7 +1974,7 @@
                     "id": "4",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -2021,7 +2053,7 @@
                     "id": "7",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -2073,7 +2105,7 @@
                     "id": "8",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -2111,7 +2143,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -2230,44 +2262,44 @@
                   ],
                   "instances": [
                     {
-                      "a": "4+2i",
+                      "a": "3+3i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "4+2i",
+                      "b": "-2+5i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "8+4i",
-                      "@c": "((4+2i)+(4+2i))"
+                      "c": "1+8i",
+                      "@c": "((3+3i)+(-2+5i))"
                     },
                     {
-                      "a": "5+4i",
+                      "a": "5+5i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "-5+5i",
+                      "b": "2+i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "9i",
-                      "@c": "((5+4i)+(-5+5i))"
+                      "c": "7+6i",
+                      "@c": "((5+5i)+(2+i))"
                     },
                     {
-                      "a": "5+2i",
+                      "a": "2+2i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "1+3i",
+                      "b": "2+4i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "6+5i",
-                      "@c": "((5+2i)+(1+3i))"
+                      "c": "4+6i",
+                      "@c": "((2+2i)+(2+4i))"
                     },
                     {
-                      "a": "4+4i",
+                      "a": "5+i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "5+3i",
+                      "b": "2+i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "9+7i",
-                      "@c": "((4+4i)+(5+3i))"
+                      "c": "7+2i",
+                      "@c": "((5+i)+(2+i))"
                     },
                     {
-                      "a": "1+2i",
+                      "a": "3+4i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "-5+i",
+                      "b": "-1+i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "-4+3i",
-                      "@c": "((1+2i)+(-5+i))"
+                      "c": "2+5i",
+                      "@c": "((3+4i)+(-1+i))"
                     }
                   ],
                   "staticOrder": false,
@@ -2581,44 +2613,44 @@
                   ],
                   "instances": [
                     {
+                      "a": "4+i",
+                      "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
+                      "b": "4+2i",
+                      "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
+                      "c": "8+3i",
+                      "@c": "((4+i)+(4+2i))"
+                    },
+                    {
                       "a": "2+3i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "-1+2i",
+                      "b": "-4+3i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "1+5i",
-                      "@c": "((2+3i)+(-1+2i))"
+                      "c": "-2+6i",
+                      "@c": "((2+3i)+(-4+3i))"
                     },
                     {
-                      "a": "3+3i",
+                      "a": "4+3i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "3+4i",
+                      "b": "1+5i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "6+7i",
-                      "@c": "((3+3i)+(3+4i))"
+                      "c": "5+8i",
+                      "@c": "((4+3i)+(1+5i))"
                     },
                     {
-                      "a": "5+i",
+                      "a": "5+2i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "1+3i",
+                      "b": "-1+3i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "6+4i",
-                      "@c": "((5+i)+(1+3i))"
+                      "c": "4+5i",
+                      "@c": "((5+2i)+(-1+3i))"
                     },
                     {
                       "a": "3+2i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "-2+4i",
+                      "b": "1+5i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "1+6i",
-                      "@c": "((3+2i)+(-2+4i))"
-                    },
-                    {
-                      "a": "3+3i",
-                      "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "3+i",
-                      "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "6+4i",
-                      "@c": "((3+3i)+(3+i))"
+                      "c": "4+7i",
+                      "@c": "((3+2i)+(1+5i))"
                     }
                   ],
                   "staticOrder": false,
@@ -2638,7 +2670,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -2738,10 +2770,16 @@
                   ],
                   "instances": [
                     {
-                      "z": "1+2i",
+                      "z": "1+3i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "1-2i",
-                      "@c": "conj((1+2i))"
+                      "c": "1-3i",
+                      "@c": "conj((1+3i))"
+                    },
+                    {
+                      "z": "3+3i",
+                      "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
+                      "c": "3-3i",
+                      "@c": "conj((3+3i))"
                     },
                     {
                       "z": "5+2i",
@@ -2750,22 +2788,16 @@
                       "@c": "conj((5+2i))"
                     },
                     {
-                      "z": "5+2i",
+                      "z": "3+3i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "5-2i",
-                      "@c": "conj((5+2i))"
+                      "c": "3-3i",
+                      "@c": "conj((3+3i))"
                     },
                     {
                       "z": "1+2i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
                       "c": "1-2i",
                       "@c": "conj((1+2i))"
-                    },
-                    {
-                      "z": "2+5i",
-                      "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "2-5i",
-                      "@c": "conj((2+5i))"
                     }
                   ],
                   "staticOrder": false,
@@ -2807,7 +2839,7 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -3063,44 +3095,44 @@
                   ],
                   "instances": [
                     {
-                      "z": "2+4i",
+                      "z": "4+3i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "2-4i",
-                      "@c": "conj((2+4i))",
+                      "c": "4-3i",
+                      "@c": "conj((4+3i))",
+                      "z2": "25",
+                      "@z2": "((4+3i)*(4-3i))"
+                    },
+                    {
+                      "z": "2+5i",
+                      "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
+                      "c": "2-5i",
+                      "@c": "conj((2+5i))",
+                      "z2": "29",
+                      "@z2": "((2+5i)*(2-5i))"
+                    },
+                    {
+                      "z": "4+2i",
+                      "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
+                      "c": "4-2i",
+                      "@c": "conj((4+2i))",
                       "z2": "20",
-                      "@z2": "((2+4i)*(2-4i))"
+                      "@z2": "((4+2i)*(4-2i))"
                     },
                     {
-                      "z": "3+i",
+                      "z": "4+5i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "3-i",
-                      "@c": "conj((3+i))",
-                      "z2": "10",
-                      "@z2": "((3+i)*(3-i))"
+                      "c": "4-5i",
+                      "@c": "conj((4+5i))",
+                      "z2": "41",
+                      "@z2": "((4+5i)*(4-5i))"
                     },
                     {
-                      "z": "5+5i",
+                      "z": "5+2i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "5-5i",
-                      "@c": "conj((5+5i))",
-                      "z2": "50",
-                      "@z2": "((5+5i)*(5-5i))"
-                    },
-                    {
-                      "z": "5+5i",
-                      "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "5-5i",
-                      "@c": "conj((5+5i))",
-                      "z2": "50",
-                      "@z2": "((5+5i)*(5-5i))"
-                    },
-                    {
-                      "z": "4+i",
-                      "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "4-i",
-                      "@c": "conj((4+i))",
-                      "z2": "17",
-                      "@z2": "((4+i)*(4-i))"
+                      "c": "5-2i",
+                      "@c": "conj((5+2i))",
+                      "z2": "29",
+                      "@z2": "((5+2i)*(5-2i))"
                     }
                   ],
                   "staticOrder": false,
@@ -3120,7 +3152,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -3247,34 +3279,34 @@
                   ],
                   "instances": [
                     {
-                      "z": "5+3i",
+                      "z": "2+3i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "5-3i",
-                      "@c": "conj((5+3i))"
+                      "c": "2-3i",
+                      "@c": "conj((2+3i))"
                     },
                     {
-                      "z": "3+i",
+                      "z": "1+i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "3-i",
-                      "@c": "conj((3+i))"
+                      "c": "1-i",
+                      "@c": "conj((1+i))"
                     },
                     {
-                      "z": "1+5i",
+                      "z": "5+i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "1-5i",
-                      "@c": "conj((1+5i))"
+                      "c": "5-i",
+                      "@c": "conj((5+i))"
                     },
                     {
-                      "z": "5+5i",
+                      "z": "4+5i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "5-5i",
-                      "@c": "conj((5+5i))"
+                      "c": "4-5i",
+                      "@c": "conj((4+5i))"
                     },
                     {
-                      "z": "1+5i",
+                      "z": "1+i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "1-5i",
-                      "@c": "conj((1+5i))"
+                      "c": "1-i",
+                      "@c": "conj((1+i))"
                     }
                   ],
                   "staticOrder": false,
@@ -3300,7 +3332,7 @@
                         "items": [
                           {
                             "type": "text",
-                            "text": "z, z_1, z_2 \\in \\C"
+                            "text": "z, z_1, z_2 \\in \\CC"
                           }
                         ]
                       },
@@ -3404,7 +3436,7 @@
                             "items": [
                               {
                                 "type": "text",
-                                "text": "z = \\overline { z } \\Longleftrightarrow z \\in \\R"
+                                "text": "z = \\overline { z } \\Longleftrightarrow z \\in \\RR"
                               }
                             ]
                           }
@@ -3433,7 +3465,7 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -3561,7 +3593,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -3762,7 +3794,7 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -3807,7 +3839,7 @@
                     "id": "4",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -3893,32 +3925,18 @@
                   ],
                   "instances": [
                     {
-                      "a": "3",
-                      "@a": "rand(1,3)",
-                      "b": "3",
-                      "@b": "rand(1,3)",
-                      "x": "0",
-                      "@x": "((3^2)-(3^2))",
-                      "y": "18",
-                      "@y": "(2*3*3)",
-                      "z": "18i",
-                      "@z": "complex(0,18)",
-                      "r": "18",
-                      "@r": "abs((18i))"
-                    },
-                    {
                       "a": "2",
                       "@a": "rand(1,3)",
-                      "b": "1",
+                      "b": "2",
                       "@b": "rand(1,3)",
-                      "x": "3",
-                      "@x": "((2^2)-(1^2))",
-                      "y": "4",
-                      "@y": "(2*2*1)",
-                      "z": "3+4i",
-                      "@z": "complex(3,4)",
-                      "r": "5",
-                      "@r": "abs((3+4i))"
+                      "x": "0",
+                      "@x": "((2^2)-(2^2))",
+                      "y": "8",
+                      "@y": "(2*2*2)",
+                      "z": "8i",
+                      "@z": "complex(0,8)",
+                      "r": "8",
+                      "@r": "abs((8i))"
                     },
                     {
                       "a": "1",
@@ -3951,16 +3969,30 @@
                     {
                       "a": "2",
                       "@a": "rand(1,3)",
-                      "b": "2",
+                      "b": "1",
                       "@b": "rand(1,3)",
-                      "x": "0",
-                      "@x": "((2^2)-(2^2))",
-                      "y": "8",
-                      "@y": "(2*2*2)",
-                      "z": "8i",
-                      "@z": "complex(0,8)",
-                      "r": "8",
-                      "@r": "abs((8i))"
+                      "x": "3",
+                      "@x": "((2^2)-(1^2))",
+                      "y": "4",
+                      "@y": "(2*2*1)",
+                      "z": "3+4i",
+                      "@z": "complex(3,4)",
+                      "r": "5",
+                      "@r": "abs((3+4i))"
+                    },
+                    {
+                      "a": "2",
+                      "@a": "rand(1,3)",
+                      "b": "1",
+                      "@b": "rand(1,3)",
+                      "x": "3",
+                      "@x": "((2^2)-(1^2))",
+                      "y": "4",
+                      "@y": "(2*2*1)",
+                      "z": "3+4i",
+                      "@z": "complex(3,4)",
+                      "r": "5",
+                      "@r": "abs((3+4i))"
                     }
                   ],
                   "staticOrder": false,
@@ -3980,7 +4012,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -4173,7 +4205,7 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -4478,7 +4510,7 @@
                     "id": "4",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -4585,6 +4617,24 @@
                   ],
                   "instances": [
                     {
+                      "r": "10",
+                      "@r": "rand(6,12)",
+                      "z": "-10i",
+                      "@z": "((-(10))*1*(i))"
+                    },
+                    {
+                      "r": "12",
+                      "@r": "rand(6,12)",
+                      "z": "-12i",
+                      "@z": "((-(12))*1*(i))"
+                    },
+                    {
+                      "r": "8",
+                      "@r": "rand(6,12)",
+                      "z": "-8i",
+                      "@z": "((-(8))*1*(i))"
+                    },
+                    {
                       "r": "11",
                       "@r": "rand(6,12)",
                       "z": "-11i",
@@ -4595,24 +4645,6 @@
                       "@r": "rand(6,12)",
                       "z": "-8i",
                       "@z": "((-(8))*1*(i))"
-                    },
-                    {
-                      "r": "10",
-                      "@r": "rand(6,12)",
-                      "z": "-10i",
-                      "@z": "((-(10))*1*(i))"
-                    },
-                    {
-                      "r": "10",
-                      "@r": "rand(6,12)",
-                      "z": "-10i",
-                      "@z": "((-(10))*1*(i))"
-                    },
-                    {
-                      "r": "6",
-                      "@r": "rand(6,12)",
-                      "z": "-6i",
-                      "@z": "((-(6))*1*(i))"
                     }
                   ],
                   "staticOrder": false,
@@ -4632,7 +4664,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -4918,7 +4950,7 @@
                     "id": "3",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -4956,7 +4988,7 @@
                     "id": "4",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -5000,7 +5032,7 @@
                     "id": "6",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -5016,7 +5048,7 @@
               {
                 "type": "exercise",
                 "label": "ex:expform2",
-                "error": "Invalid option \"polar-form\".SMPL-Error: Exception: [Line 5] error in term \"arg ( z )\": variable arg is unknown!\n\n There is no variable \"z\". Exercise has no instances",
+                "error": "SMPL-Error: Exception: [Line 5] error in term \"arg ( z )\": variable arg is unknown!\n\n There is no variable \"z\". Exercise has no instances",
                 "items": [
                   {
                     "type": "paragraph",
@@ -5030,42 +5062,32 @@
                         "items": [
                           {
                             "type": "text",
-                            "text": "z = r e ^ { \\phi }"
+                            "text": "z = r e ^ { phi i }"
                           }
                         ]
                       },
                       {
                         "type": "text",
-                        "text": "in Exponentialform an"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "itemize",
-                    "items": [
+                        "text": "in Normalform an"
+                      },
                       {
-                        "type": "span",
+                        "type": "inlineMath",
                         "items": [
                           {
-                            "type": "inlineMath",
-                            "items": [
-                              {
-                                "type": "text",
-                                "text": "z ="
-                              }
-                            ]
-                          },
-                          {
-                            "type": "inputField",
-                            "id": "input5",
-                            "inputFieldData": {
-                              "type": "none",
-                              "variableId": "z",
-                              "score": 1,
-                              "choices": 0
-                            }
+                            "type": "text",
+                            "text": "z ="
                           }
                         ]
+                      },
+                      {
+                        "type": "inputField",
+                        "id": "input5",
+                        "inputFieldData": {
+                          "type": "none",
+                          "variableId": "z",
+                          "score": 1,
+                          "choices": 0
+                        }
                       }
                     ]
                   }
@@ -5091,7 +5113,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -5225,72 +5247,72 @@
                     {
                       "a": "6",
                       "@a": "rand(2,6)",
-                      "b": "4",
+                      "b": "3",
                       "@b": "rand(2,6)",
-                      "z1": "6+4i",
-                      "@z1": "complex(6,4)",
+                      "z1": "6+3i",
+                      "@z1": "complex(6,3)",
                       "z2": "i",
                       "@z2": "complex(0,1)",
-                      "z3": "-4+6i",
-                      "@z3": "((6+4i)*(i))",
-                      "z4": "4-6i",
-                      "@z4": "((6+4i)/(i))"
+                      "z3": "-3+6i",
+                      "@z3": "((6+3i)*(i))",
+                      "z4": "3-6i",
+                      "@z4": "((6+3i)/(i))"
+                    },
+                    {
+                      "a": "5",
+                      "@a": "rand(2,6)",
+                      "b": "4",
+                      "@b": "rand(2,6)",
+                      "z1": "5+4i",
+                      "@z1": "complex(5,4)",
+                      "z2": "i",
+                      "@z2": "complex(0,1)",
+                      "z3": "-4+5i",
+                      "@z3": "((5+4i)*(i))",
+                      "z4": "4-5i",
+                      "@z4": "((5+4i)/(i))"
                     },
                     {
                       "a": "4",
                       "@a": "rand(2,6)",
-                      "b": "5",
-                      "@b": "rand(2,6)",
-                      "z1": "4+5i",
-                      "@z1": "complex(4,5)",
-                      "z2": "i",
-                      "@z2": "complex(0,1)",
-                      "z3": "-5+4i",
-                      "@z3": "((4+5i)*(i))",
-                      "z4": "5-4i",
-                      "@z4": "((4+5i)/(i))"
-                    },
-                    {
-                      "a": "6",
-                      "@a": "rand(2,6)",
                       "b": "2",
                       "@b": "rand(2,6)",
-                      "z1": "6+2i",
-                      "@z1": "complex(6,2)",
+                      "z1": "4+2i",
+                      "@z1": "complex(4,2)",
                       "z2": "i",
                       "@z2": "complex(0,1)",
-                      "z3": "-2+6i",
-                      "@z3": "((6+2i)*(i))",
-                      "z4": "2-6i",
-                      "@z4": "((6+2i)/(i))"
+                      "z3": "-2+4i",
+                      "@z3": "((4+2i)*(i))",
+                      "z4": "2-4i",
+                      "@z4": "((4+2i)/(i))"
                     },
                     {
-                      "a": "3",
+                      "a": "2",
                       "@a": "rand(2,6)",
                       "b": "4",
                       "@b": "rand(2,6)",
-                      "z1": "3+4i",
-                      "@z1": "complex(3,4)",
+                      "z1": "2+4i",
+                      "@z1": "complex(2,4)",
                       "z2": "i",
                       "@z2": "complex(0,1)",
-                      "z3": "-4+3i",
-                      "@z3": "((3+4i)*(i))",
-                      "z4": "4-3i",
-                      "@z4": "((3+4i)/(i))"
+                      "z3": "-4+2i",
+                      "@z3": "((2+4i)*(i))",
+                      "z4": "4-2i",
+                      "@z4": "((2+4i)/(i))"
                     },
                     {
-                      "a": "6",
+                      "a": "2",
                       "@a": "rand(2,6)",
-                      "b": "5",
+                      "b": "6",
                       "@b": "rand(2,6)",
-                      "z1": "6+5i",
-                      "@z1": "complex(6,5)",
+                      "z1": "2+6i",
+                      "@z1": "complex(2,6)",
                       "z2": "i",
                       "@z2": "complex(0,1)",
-                      "z3": "-5+6i",
-                      "@z3": "((6+5i)*(i))",
-                      "z4": "5-6i",
-                      "@z4": "((6+5i)/(i))"
+                      "z3": "-6+2i",
+                      "@z3": "((2+6i)*(i))",
+                      "z4": "6-2i",
+                      "@z4": "((2+6i)/(i))"
                     }
                   ],
                   "staticOrder": false,
@@ -5481,7 +5503,7 @@
               {
                 "type": "exercise",
                 "label": "ex:expformMultiDiv2",
-                "error": "SMPL-Error: Exception: Cannot apply operator \"/\" on irrational and int with values pi and 2\nExercise has no instances",
+                "error": "SMPL-Error: Exception: Cannot apply operator \"/\" on irrational and int with values pi and 4\n",
                 "items": [
                   {
                     "type": "paragraph",
@@ -5513,125 +5535,321 @@
                         ]
                       },
                       {
-                        "type": "inlineMath",
-                        "items": [
-                          {
-                            "type": "text",
-                            "text": "gilt \n[ ]"
-                          }
-                        ]
-                      },
-                      {
                         "type": "text",
-                        "text": "\\frac { z_1 } { z_2 }"
-                      },
+                        "text": "gilt"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "multipleChoice",
+                    "items": [
                       {
-                        "type": "inlineMath",
+                        "type": "inputField",
+                        "id": "input2",
                         "items": [
                           {
-                            "type": "text",
-                            "text": "hat den Betrag r6. \n[ x ]"
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "\\frac { z_1 } { z_2 }"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "text",
+                                "text": "hat den Betrag r6."
+                              }
+                            ]
                           }
-                        ]
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__0",
+                          "score": 1,
+                          "choices": 0
+                        }
                       },
                       {
-                        "type": "text",
-                        "text": "\\frac { z_1 } { z_2 }"
-                      },
-                      {
-                        "type": "inlineMath",
+                        "type": "inputField",
+                        "id": "input3",
                         "items": [
                           {
-                            "type": "text",
-                            "text": "hat den Betrag r4. \n[ x ]"
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "\\frac { z_1 } { z_2 }"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "text",
+                                "text": "hat den Betrag r4."
+                              }
+                            ]
                           }
-                        ]
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__1",
+                          "score": 1,
+                          "choices": 0
+                        }
                       },
                       {
-                        "type": "text",
-                        "text": "\\frac { z_1 } { z_2 }"
-                      },
-                      {
-                        "type": "inlineMath",
+                        "type": "inputField",
+                        "id": "input4",
                         "items": [
                           {
-                            "type": "text",
-                            "text": "hat das Argument b4. \n[ ]"
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "\\frac { z_1 } { z_2 }"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "text",
+                                "text": "hat das Argument b4."
+                              }
+                            ]
                           }
-                        ]
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__2",
+                          "score": 1,
+                          "choices": 0
+                        }
                       },
                       {
-                        "type": "text",
-                        "text": "\\frac { z_1 } { z_2 }"
-                      },
-                      {
-                        "type": "inlineMath",
+                        "type": "inputField",
+                        "id": "input5",
                         "items": [
                           {
-                            "type": "text",
-                            "text": "hat das Argument b5. \n[ x ]"
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "\\frac { z_1 } { z_2 }"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "text",
+                                "text": "hat das Argument b5."
+                              }
+                            ]
                           }
-                        ]
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__3",
+                          "score": 1,
+                          "choices": 0
+                        }
                       },
                       {
-                        "type": "text",
-                        "text": "z_1 z_2"
-                      },
-                      {
-                        "type": "inlineMath",
+                        "type": "inputField",
+                        "id": "input6",
                         "items": [
                           {
-                            "type": "text",
-                            "text": "hat den Betrag r3. \n[ ]"
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "z_1 z_2"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "text",
+                                "text": "hat den Betrag r3."
+                              }
+                            ]
                           }
-                        ]
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__4",
+                          "score": 1,
+                          "choices": 0
+                        }
                       },
                       {
-                        "type": "text",
-                        "text": "z_1 z_2"
-                      },
-                      {
-                        "type": "inlineMath",
+                        "type": "inputField",
+                        "id": "input7",
                         "items": [
                           {
-                            "type": "text",
-                            "text": "hat den Betrag r5. \n[ x ]"
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "z_1 z_2"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "text",
+                                "text": "hat den Betrag r5."
+                              }
+                            ]
                           }
-                        ]
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__5",
+                          "score": 1,
+                          "choices": 0
+                        }
                       },
                       {
-                        "type": "text",
-                        "text": "z_1 z_2"
-                      },
-                      {
-                        "type": "inlineMath",
+                        "type": "inputField",
+                        "id": "input8",
                         "items": [
                           {
-                            "type": "text",
-                            "text": "hat das Argument b3. \n[ ]"
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "z_1 z_2"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "text",
+                                "text": "hat das Argument b3."
+                              }
+                            ]
                           }
-                        ]
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__6",
+                          "score": 1,
+                          "choices": 0
+                        }
                       },
                       {
-                        "type": "text",
-                        "text": "z_1 z_2"
-                      },
-                      {
-                        "type": "inlineMath",
+                        "type": "inputField",
+                        "id": "input9",
                         "items": [
                           {
-                            "type": "text",
-                            "text": "hat das Argument b6."
+                            "type": "span",
+                            "items": [
+                              {
+                                "type": "inlineMath",
+                                "items": [
+                                  {
+                                    "type": "text",
+                                    "text": "z_1 z_2"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "text",
+                                "text": "hat das Argument b6."
+                              }
+                            ]
                           }
-                        ]
+                        ],
+                        "inputFieldData": {
+                          "type": "bool",
+                          "variableId": "__bool__7",
+                          "score": 1,
+                          "choices": 0
+                        }
                       }
                     ]
                   }
                 ],
                 "exerciseData": {
                   "code": "let r1/r2=rand(2,9);\nlet a1/a2= rand(2,4);\nlet b1= pi/a1;\nlet b2= pi/a2;\n\nlet r3= r1*r2;\nlet r4= r1/r2;\nlet r5= r2/r1;\nlet r6= r1-r2;\nlet b3= b1+b2;\nlet b4= b1-b2;\nlet b5= b2-b1;\nlet b6= b1*b2;\n",
-                  "variables": [],
-                  "instances": [],
+                  "variables": [
+                    "__bool__0",
+                    "__bool__1",
+                    "__bool__2",
+                    "__bool__3",
+                    "__bool__4",
+                    "__bool__5",
+                    "__bool__6",
+                    "__bool__7"
+                  ],
+                  "instances": [
+                    {
+                      "__bool__0": "false",
+                      "__bool__1": "true",
+                      "__bool__2": "true",
+                      "__bool__3": "false",
+                      "__bool__4": "true",
+                      "__bool__5": "false",
+                      "__bool__6": "true",
+                      "__bool__7": "false"
+                    },
+                    {
+                      "__bool__0": "false",
+                      "__bool__1": "true",
+                      "__bool__2": "true",
+                      "__bool__3": "false",
+                      "__bool__4": "true",
+                      "__bool__5": "false",
+                      "__bool__6": "true",
+                      "__bool__7": "false"
+                    },
+                    {
+                      "__bool__0": "false",
+                      "__bool__1": "true",
+                      "__bool__2": "true",
+                      "__bool__3": "false",
+                      "__bool__4": "true",
+                      "__bool__5": "false",
+                      "__bool__6": "true",
+                      "__bool__7": "false"
+                    },
+                    {
+                      "__bool__0": "false",
+                      "__bool__1": "true",
+                      "__bool__2": "true",
+                      "__bool__3": "false",
+                      "__bool__4": "true",
+                      "__bool__5": "false",
+                      "__bool__6": "true",
+                      "__bool__7": "false"
+                    },
+                    {
+                      "__bool__0": "false",
+                      "__bool__1": "true",
+                      "__bool__2": "true",
+                      "__bool__3": "false",
+                      "__bool__4": "true",
+                      "__bool__5": "false",
+                      "__bool__6": "true",
+                      "__bool__7": "false"
+                    }
+                  ],
                   "staticOrder": false,
                   "scores": 1,
                   "showGapLength": false,
@@ -5649,7 +5867,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -5672,161 +5890,15 @@
               {
                 "type": "exercise",
                 "label": "ex:koordinaten1",
-                "error": "SMPL-Error: Exception: Cannot apply operator \"/\" on irrational and int with values pi and 3\n There is no variable \"x\".  There is no variable \"y\".  There is no variable \"r\".  There is no variable \"phi\". Exercise has no instances",
+                "error": "SMPL-Error: Exception: Cannot apply operator \"*\" on int and irrational with values 1 and pi\nExercise has no instances",
                 "items": [
                   {
-                    "type": "paragraph",
-                    "items": [
-                      {
-                        "type": "text",
-                        "text": "ToDo: PLOT"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "itemize",
-                    "items": [
-                      {
-                        "type": "span",
-                        "items": [
-                          {
-                            "type": "text",
-                            "text": "Die kartesischen Koordinaten von"
-                          },
-                          {
-                            "type": "inlineMath",
-                            "items": [
-                              {
-                                "type": "text",
-                                "text": "z"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "text",
-                            "text": "sind"
-                          },
-                          {
-                            "type": "inlineMath",
-                            "items": [
-                              {
-                                "type": "text",
-                                "text": "( x, y) = ("
-                              }
-                            ]
-                          },
-                          {
-                            "type": "inputField",
-                            "id": "input0",
-                            "inputFieldData": {
-                              "type": "none",
-                              "variableId": "x",
-                              "score": 1,
-                              "choices": 0
-                            }
-                          },
-                          {
-                            "type": "text",
-                            "text": ","
-                          },
-                          {
-                            "type": "inputField",
-                            "id": "input1",
-                            "inputFieldData": {
-                              "type": "none",
-                              "variableId": "y",
-                              "score": 1,
-                              "choices": 0
-                            }
-                          },
-                          {
-                            "type": "inlineMath",
-                            "items": [
-                              {
-                                "type": "text",
-                                "text": ")"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "text",
-                            "text": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "span",
-                        "items": [
-                          {
-                            "type": "text",
-                            "text": "Die Polaroordinaten von"
-                          },
-                          {
-                            "type": "inlineMath",
-                            "items": [
-                              {
-                                "type": "text",
-                                "text": "z"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "text",
-                            "text": "sind"
-                          },
-                          {
-                            "type": "inlineMath",
-                            "items": [
-                              {
-                                "type": "text",
-                                "text": "( r, phi) = ("
-                              }
-                            ]
-                          },
-                          {
-                            "type": "inputField",
-                            "id": "input2",
-                            "inputFieldData": {
-                              "type": "none",
-                              "variableId": "r",
-                              "score": 1,
-                              "choices": 0
-                            }
-                          },
-                          {
-                            "type": "text",
-                            "text": ","
-                          },
-                          {
-                            "type": "inputField",
-                            "id": "input3",
-                            "inputFieldData": {
-                              "type": "none",
-                              "variableId": "phi",
-                              "score": 1,
-                              "choices": 0
-                            }
-                          },
-                          {
-                            "type": "inlineMath",
-                            "items": [
-                              {
-                                "type": "text",
-                                "text": ")"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "text",
-                            "text": "."
-                          }
-                        ]
-                      }
-                    ]
+                    "type": "error",
+                    "text": "Unknown block type \"TODO:\"."
                   }
                 ],
                 "exerciseData": {
-                  "code": "let r=rand(2,5);\nlet phi= pi/rand(2,4);\n\nlet x= r*cos(phi);\nlet y= r*sin(phi);\n",
+                  "code": "let r=rand(2,5);\nlet phi= randZ(-1,1)*pi/rand(2,4);\n\nlet x= r*cos(phi);\nlet y= r*sin(phi);\n",
                   "variables": [],
                   "instances": [],
                   "staticOrder": false,
@@ -6281,7 +6353,7 @@
                           },
                           {
                             "type": "inputField",
-                            "id": "input4",
+                            "id": "input0",
                             "inputFieldData": {
                               "type": "none",
                               "variableId": "r1",
@@ -6300,7 +6372,7 @@
                           },
                           {
                             "type": "inputField",
-                            "id": "input5",
+                            "id": "input1",
                             "inputFieldData": {
                               "type": "none",
                               "variableId": "phi1",
@@ -6332,7 +6404,7 @@
                           },
                           {
                             "type": "inputField",
-                            "id": "input6",
+                            "id": "input2",
                             "inputFieldData": {
                               "type": "none",
                               "variableId": "x1",
@@ -6351,7 +6423,7 @@
                           },
                           {
                             "type": "inputField",
-                            "id": "input7",
+                            "id": "input3",
                             "inputFieldData": {
                               "type": "none",
                               "variableId": "y1",
@@ -6405,7 +6477,7 @@
                           },
                           {
                             "type": "inputField",
-                            "id": "input8",
+                            "id": "input4",
                             "inputFieldData": {
                               "type": "none",
                               "variableId": "x2",
@@ -6424,7 +6496,7 @@
                           },
                           {
                             "type": "inputField",
-                            "id": "input9",
+                            "id": "input5",
                             "inputFieldData": {
                               "type": "none",
                               "variableId": "y2",
@@ -6456,7 +6528,7 @@
                           },
                           {
                             "type": "inputField",
-                            "id": "input10",
+                            "id": "input6",
                             "inputFieldData": {
                               "type": "none",
                               "variableId": "r2",
@@ -6475,7 +6547,7 @@
                           },
                           {
                             "type": "inputField",
-                            "id": "input11",
+                            "id": "input7",
                             "inputFieldData": {
                               "type": "none",
                               "variableId": "phi2",
@@ -6522,7 +6594,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -6623,54 +6695,54 @@
                   ],
                   "instances": [
                     {
-                      "a": "-4",
+                      "a": "5",
                       "@a": "randZ((-(5)),5)",
-                      "b": "5",
+                      "b": "3",
                       "@b": "randZ((-(5)),5)",
-                      "z": "-4+5i",
-                      "@z": "complex(-4,5)",
-                      "z2": "-9-40i",
-                      "@z2": "((-4+5i)^2)"
+                      "z": "5+3i",
+                      "@z": "complex(5,3)",
+                      "z2": "16+30i",
+                      "@z2": "((5+3i)^2)"
                     },
                     {
                       "a": "-5",
                       "@a": "randZ((-(5)),5)",
-                      "b": "-3",
+                      "b": "1",
                       "@b": "randZ((-(5)),5)",
-                      "z": "-5-3i",
-                      "@z": "complex(-5,-3)",
-                      "z2": "16+30i",
-                      "@z2": "((-5-3i)^2)"
+                      "z": "-5+i",
+                      "@z": "complex(-5,1)",
+                      "z2": "24-10i",
+                      "@z2": "((-5+i)^2)"
                     },
                     {
-                      "a": "-1",
-                      "@a": "randZ((-(5)),5)",
-                      "b": "3",
-                      "@b": "randZ((-(5)),5)",
-                      "z": "-1+3i",
-                      "@z": "complex(-1,3)",
-                      "z2": "-8-6i",
-                      "@z2": "((-1+3i)^2)"
-                    },
-                    {
-                      "a": "4",
+                      "a": "-3",
                       "@a": "randZ((-(5)),5)",
                       "b": "2",
                       "@b": "randZ((-(5)),5)",
-                      "z": "4+2i",
-                      "@z": "complex(4,2)",
-                      "z2": "12+16i",
-                      "@z2": "((4+2i)^2)"
+                      "z": "-3+2i",
+                      "@z": "complex(-3,2)",
+                      "z2": "5-12i",
+                      "@z2": "((-3+2i)^2)"
+                    },
+                    {
+                      "a": "3",
+                      "@a": "randZ((-(5)),5)",
+                      "b": "-5",
+                      "@b": "randZ((-(5)),5)",
+                      "z": "3-5i",
+                      "@z": "complex(3,-5)",
+                      "z2": "-16-30i",
+                      "@z2": "((3-5i)^2)"
                     },
                     {
                       "a": "-2",
                       "@a": "randZ((-(5)),5)",
-                      "b": "1",
+                      "b": "5",
                       "@b": "randZ((-(5)),5)",
-                      "z": "-2+i",
-                      "@z": "complex(-2,1)",
-                      "z2": "3-4i",
-                      "@z2": "((-2+i)^2)"
+                      "z": "-2+5i",
+                      "@z": "complex(-2,5)",
+                      "z2": "-21-20i",
+                      "@z2": "((-2+5i)^2)"
                     }
                   ],
                   "staticOrder": false,
@@ -6708,7 +6780,7 @@
                         "items": [
                           {
                             "type": "text",
-                            "text": "n \\in \\N"
+                            "text": "n \\in \\NN"
                           }
                         ]
                       },
@@ -6736,7 +6808,7 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -6814,7 +6886,7 @@
                     "id": "7",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -6839,7 +6911,7 @@
                     "id": "8",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -6864,7 +6936,7 @@
                     "id": "9",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -6889,7 +6961,7 @@
                     "id": "10",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -6973,12 +7045,12 @@
                     {
                       "a": "2",
                       "@a": "rand(1,2)",
-                      "c": "4",
+                      "c": "6",
                       "@c": "rand(4,8)",
                       "z": "2+2i",
                       "@z": "complex(2,2)",
-                      "res": "-64",
-                      "@res": "((2+2i)^4)"
+                      "res": "-0.0000000000001-512.0000000000002i",
+                      "@res": "((2+2i)^6)"
                     },
                     {
                       "a": "2",
@@ -6991,34 +7063,34 @@
                       "@res": "((2+2i)^7)"
                     },
                     {
-                      "a": "1",
+                      "a": "2",
+                      "@a": "rand(1,2)",
+                      "c": "7",
+                      "@c": "rand(4,8)",
+                      "z": "2+2i",
+                      "@z": "complex(2,2)",
+                      "res": "1024.0000000000002-1024.0000000000007i",
+                      "@res": "((2+2i)^7)"
+                    },
+                    {
+                      "a": "2",
                       "@a": "rand(1,2)",
                       "c": "8",
                       "@c": "rand(4,8)",
-                      "z": "1+i",
-                      "@z": "complex(1,1)",
-                      "res": "16-0i",
-                      "@res": "((1+i)^8)"
+                      "z": "2+2i",
+                      "@z": "complex(2,2)",
+                      "res": "4096.0000000000018-0.000000000001i",
+                      "@res": "((2+2i)^8)"
                     },
                     {
-                      "a": "1",
+                      "a": "2",
                       "@a": "rand(1,2)",
-                      "c": "4",
+                      "c": "5",
                       "@c": "rand(4,8)",
-                      "z": "1+i",
-                      "@z": "complex(1,1)",
-                      "res": "-4",
-                      "@res": "((1+i)^4)"
-                    },
-                    {
-                      "a": "1",
-                      "@a": "rand(1,2)",
-                      "c": "6",
-                      "@c": "rand(4,8)",
-                      "z": "1+i",
-                      "@z": "complex(1,1)",
-                      "res": "-8i",
-                      "@res": "((1+i)^6)"
+                      "z": "2+2i",
+                      "@z": "complex(2,2)",
+                      "res": "-128.0000000000001-128i",
+                      "@res": "((2+2i)^5)"
                     }
                   ],
                   "staticOrder": false,
@@ -7038,7 +7110,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -7060,9 +7132,8 @@
             "items": [
               {
                 "type": "exercise",
-                "title": "ToDo: Unpassend, eventuell tauschen (Quadratische Gleichung)",
                 "label": "ex:wurzel1",
-                "error": "Invalid option \"n-args\".SMPL-Error: Exception: [Line 2] error in term \"( z - a * 1 i ) * ( z - b * 1 i )\": variable z is unknown!\n\n There is no variable \"L\". Exercise has no instances",
+                "error": "Invalid option \"n-args\".SMPL-Error: Exception: [Line 1] error in term \"rand ( set ( 4 , 9 ) )\":Exception: expected: \")\"\n\n There is no variable \"L\". Exercise has no instances",
                 "items": [
                   {
                     "type": "paragraph",
@@ -7076,13 +7147,13 @@
                         "items": [
                           {
                             "type": "text",
-                            "text": "0 = f"
+                            "text": "z ^ 2 = - a"
                           }
                         ]
                       },
                       {
                         "type": "text",
-                        "text": "mit Hilfe der p - q - Formel und der Eigenschaft"
+                        "text": "mit Hilfe der Eigenschaft"
                       },
                       {
                         "type": "inlineMath",
@@ -7120,7 +7191,7 @@
                   }
                 ],
                 "exerciseData": {
-                  "code": "let a/b=randZ(-4,4);\nlet f= (z-a*1i)*(z-b*1i);\nlet L=set(a*1i, b*1i);\n",
+                  "code": "let a=rand(set(4,9));\nlet L=set(-sqrt(a)*1i, sqrt(a)*1i);\n",
                   "variables": [],
                   "instances": [],
                   "staticOrder": false,
@@ -7187,7 +7258,7 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -7345,7 +7416,7 @@
                     "id": "4",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -7508,7 +7579,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1684322147,
+    "dateModified": 1684850453,
     "chapters": [
       {
         "fileId": "",
@@ -7694,7 +7765,7 @@
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",

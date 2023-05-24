@@ -97,6 +97,7 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
         }
       }
     case MbclLevelItemType.inlineMath:
+    case MbclLevelItemType.displayMath:
       {
         var texSrc = '';
         for (var subItem in item.items) {
@@ -131,7 +132,8 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
         var tex = TeX();
         tex.scalingFactor = 1.0; //1.17;
         //print("... tex src: $texSrc");
-        var svg = tex.tex2svg(texSrc);
+        var svg = tex.tex2svg(texSrc,
+            displayStyle: item.type == MbclLevelItemType.displayMath);
         var svgWidth = tex.width;
         if (svg.isEmpty) {
           return TextSpan(
@@ -184,8 +186,9 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
 
           List<InlineSpan> parts = [];
 
-          var svgData =
-              tex.tex2svg(convertMath2TeX(inputFieldData.studentValue));
+          var svgData = tex.tex2svg(
+              convertMath2TeX(inputFieldData.studentValue),
+              displayStyle: true);
           if (tex.error.isEmpty) {
             parts.add(WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
