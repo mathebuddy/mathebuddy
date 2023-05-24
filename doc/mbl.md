@@ -482,11 +482,11 @@ The following paragraphs describe all implemented exercise types.
   @code
     let x/y = rand(1, 5)
     let z = x + y
-    let A/B = rand<2,3>(-5,-5)
+    let A/B = rand<2,3>(-5,5)
     let C = A + B
   @text
     Calculate $ x+y= $ #z
-    Calculate $ xA+B= $ #C
+    Calculate $ A+B= $ #C
   ---
   ```
 
