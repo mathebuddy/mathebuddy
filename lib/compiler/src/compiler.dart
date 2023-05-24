@@ -268,7 +268,7 @@ class Compiler {
       } else if (_line2.startsWith('-----')) {
         _pushParagraph();
         _level?.items.add(_parseSubSectionTitle());
-      } else if (_line == '---') {
+      } else if (_line.startsWith('---')) {
         _pushParagraph();
         var block = _parseBlock(false);
         _level?.items.addAll(block.levelItems);
@@ -363,7 +363,7 @@ class Compiler {
     BlockPart part = BlockPart();
     part.name = 'global';
     block.addBlockPart(part);
-    while (_line != '---' && _line != '§END') {
+    while (_line.startsWith('---') == false && _line != '§END') {
       if (_line.startsWith('@')) {
         part = BlockPart();
         block.addBlockPart(part);
@@ -387,7 +387,7 @@ class Compiler {
       }
     }
     if (!parseSubBlock) {
-      if (_line == '---') {
+      if (_line.startsWith('---')) {
         _next();
       } else {
         _error(
