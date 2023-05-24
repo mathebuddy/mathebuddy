@@ -16,9 +16,11 @@ void setTextArea(String id, String value) {
 }
 
 Future<String> readTextFile(String path) {
-  return html.HttpRequest.getString(
+  var contents = html.HttpRequest.getString(
           "$path?ver=${DateTime.now().millisecondsSinceEpoch}")
-      .catchError((e) => throw Exception("failed to read file $path"));
+      .catchError((e) => throw Exception("failed to read file $path"))
+      .then((value) => value.replaceAll("\r", "")); // Windows.... :-(
+  return contents;
 }
 
 Future<List<String>> getFilesFromDir(String path) async {
