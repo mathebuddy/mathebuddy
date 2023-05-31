@@ -242,6 +242,22 @@ This section describes the text structuring and text formatting features.
   Inner blocks do not use `---` as separator.
   Note in the example, that `TEXT` is used to leave equation mode.
 
+  **Warning:** Attributes (for example `@options` in exercises) refer to the innermost declared subblock. To explicitly end a subblock, use the `END` keyword. Example:
+
+  ```
+  ---
+  EXERCISE Test
+
+  FIGURE
+  @path
+  img/my-figure.svg
+  END
+
+  @text            % The following lines belong to 'EXERCISE'
+  (x) correct answer
+  ( ) incorrect answer
+  ```
+
 ## Equations
 
 We distinguish two kinds of equations:
