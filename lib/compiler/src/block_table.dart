@@ -10,7 +10,7 @@ import 'block.dart';
 
 MbclLevelItem processTable(Block block) {
   int i;
-  var table = MbclLevelItem(MbclLevelItemType.table);
+  var table = MbclLevelItem(MbclLevelItemType.table, block.srcLine);
   var data = MbclTableData();
   table.tableData = data;
   table.title = block.title;
@@ -63,7 +63,8 @@ MbclLevelItem processTable(Block block) {
             if (columnText.length != 1 ||
                 columnText[0].type != MbclLevelItemType.paragraph) {
               table.error += 'Table cell is not pure text.';
-              row.columns.add(MbclLevelItem(MbclLevelItemType.text, 'error'));
+              row.columns
+                  .add(MbclLevelItem(MbclLevelItemType.text, -1, 'error'));
             } else {
               row.columns.add(columnText[0]);
             }

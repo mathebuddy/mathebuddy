@@ -13,7 +13,7 @@ import '../../smpl/src/interpreter.dart' as smpl_interpreter;
 import 'block.dart';
 
 MbclLevelItem processFigure(Block block) {
-  var figure = MbclLevelItem(MbclLevelItemType.figure);
+  var figure = MbclLevelItem(MbclLevelItemType.figure, block.srcLine);
   var data = MbclFigureData();
   figure.figureData = data;
   for (var blockItem in block.items) {

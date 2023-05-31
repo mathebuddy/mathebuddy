@@ -9,7 +9,7 @@ import '../../mbcl/src/level_item.dart';
 import 'block.dart';
 
 MbclLevelItem processExample(Block block) {
-  var example = MbclLevelItem(MbclLevelItemType.example);
+  var example = MbclLevelItem(MbclLevelItemType.example, block.srcLine);
   example.title = block.title;
   example.label = block.label;
   for (var blockItem in block.items) {

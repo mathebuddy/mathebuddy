@@ -9,7 +9,7 @@ import '../../mbcl/src/level_item.dart';
 import 'block.dart';
 
 MbclLevelItem processTextAlign(Block block, MbclLevelItemType type) {
-  var align = MbclLevelItem(type);
+  var align = MbclLevelItem(type, block.srcLine);
   for (var blockItem in block.items) {
     if (blockItem.type == BlockItemType.subBlock) {
       block.processSubblock(align, blockItem.subBlock!);

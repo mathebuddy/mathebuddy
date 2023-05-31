@@ -17,7 +17,7 @@ import 'block.dart';
 import 'exercise.dart';
 
 MbclLevelItem processExercise(Block block) {
-  var exercise = MbclLevelItem(MbclLevelItemType.exercise);
+  var exercise = MbclLevelItem(MbclLevelItemType.exercise, block.srcLine);
   var data = MbclExerciseData(exercise);
   exercise.exerciseData = data;
   exercise.title = block.title;

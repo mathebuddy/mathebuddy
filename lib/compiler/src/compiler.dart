@@ -270,7 +270,7 @@ class Compiler {
         _level?.items.add(_parseSubSectionTitle());
       } else if (_line.startsWith('---')) {
         _pushParagraph();
-        var block = _parseBlock(false);
+        var block = _parseBlock(false, _i);
         _level?.items.addAll(block.levelItems);
       } else {
         _paragraph += '$_line\n';
@@ -318,7 +318,7 @@ class Compiler {
 
   //G sectionTitle = { CHAR } "@" { ID } NEWLINE "==.." { "#" } NEWLINE;
   MbclLevelItem _parseSectionTitle() {
-    var section = MbclLevelItem(MbclLevelItemType.section);
+    var section = MbclLevelItem(MbclLevelItemType.section, _i);
     var tokens = _line.split('@');
     section.text = tokens[0].trim();
     if (tokens.length > 1) {
@@ -331,7 +331,7 @@ class Compiler {
 
   //G subSectionTitle = { CHAR } "@" { ID } NEWLINE "-----.." { "#" } NEWLINE;
   MbclLevelItem _parseSubSectionTitle() {
-    var subSection = MbclLevelItem(MbclLevelItemType.subSection);
+    var subSection = MbclLevelItem(MbclLevelItemType.subSection, _i);
     var tokens = _line.split('@');
     subSection.text = tokens[0].trim();
     if (tokens.length > 1) {
@@ -344,9 +344,9 @@ class Compiler {
 
   //G block = "---" NEWLINE { "@" ID NEWLINE | LINE | subBlock } "---" NEWLINE;
   //G subBlock = UPPERCASE_LINE NEWLINE { "@" ID NEWLINE | LINE | subBlock };
-  Block _parseBlock(bool parseSubBlock) {
+  Block _parseBlock(bool parseSubBlock, int srcLine) {
     var block = Block(this);
-    block.srcLine = _i;
+    block.srcLine = srcLine;
     if (!parseSubBlock) _next(); // skip "---"
     var tokens = _line.split(' ');
     for (var k = 0; k < tokens.length; k++) {
@@ -379,7 +379,7 @@ class Compiler {
           }
           break;
         } else {
-          block.addSubBlock(_parseBlock(true));
+          block.addSubBlock(_parseBlock(true, srcLine));
         }
       } else {
         part.lines.add(_line);
@@ -420,7 +420,7 @@ class Compiler {
   List<MbclLevelItem> parseParagraph(String raw, [MbclLevelItem? ex]) {
     // skip empty paragraphs
     if (raw.trim().isEmpty) {
-      return [MbclLevelItem(MbclLevelItemType.paragraph)];
+      return [MbclLevelItem(MbclLevelItemType.paragraph, _i)];
     }
     // create lexer
     var lexer = Lexer();
@@ -440,13 +440,13 @@ class Compiler {
           res.add(part);
           break;
         case MbclLevelItemType.lineFeed:
-          res.add(MbclLevelItem(MbclLevelItemType.paragraph));
+          res.add(MbclLevelItem(MbclLevelItemType.paragraph, _i));
           break;
         default:
           if (res.isNotEmpty && res.last.type == MbclLevelItemType.paragraph) {
             res.last.items.add(part);
           } else {
-            var paragraph = MbclLevelItem(MbclLevelItemType.paragraph);
+            var paragraph = MbclLevelItem(MbclLevelItemType.paragraph, _i);
             res.add(paragraph);
             paragraph.items.add(part);
           }
@@ -493,16 +493,16 @@ class Compiler {
       var isNewParagraph = lexer.getToken().col == 1;
       lexer.next();
       if (isNewParagraph) {
-        return MbclLevelItem(MbclLevelItemType.lineFeed);
+        return MbclLevelItem(MbclLevelItemType.lineFeed, _i);
       } else {
-        return MbclLevelItem(MbclLevelItemType.text);
+        return MbclLevelItem(MbclLevelItemType.text, _i);
       }
     } else if (lexer.isTerminal('[')) {
       // text properties: e.g. "[text in red color]@color1"
       return _parseTextProperty(lexer, exercise);
     } else {
       // text tokens (... or yet unimplemented paragraph items)
-      var text = MbclLevelItem(MbclLevelItemType.text);
+      var text = MbclLevelItem(MbclLevelItemType.text, _i);
       text.text = lexer.getToken().token;
       lexer.next();
       return text;
@@ -524,14 +524,14 @@ class Compiler {
         type = MbclLevelItemType.enumerateAlpha;
         break;
     }
-    var itemize = MbclLevelItem(type);
+    var itemize = MbclLevelItem(type, _i);
     int rowIdx;
     while (lexer.getToken().col == 1 &&
         lexer.isTerminal(typeStr) &&
         lexer.isNotEnd()) {
       rowIdx = lexer.getToken().row;
       lexer.next();
-      var span = MbclLevelItem(MbclLevelItemType.span);
+      var span = MbclLevelItem(MbclLevelItemType.span, _i);
       itemize.items.add(span);
       while (lexer.isNotNewline() && lexer.isNotEnd()) {
         span.items.add(_parseParagraphPart(lexer, exercise));
@@ -543,7 +543,7 @@ class Compiler {
       // are indicated by preceding spaces.
       while (lexer.getToken().col > 1 && lexer.isNotEnd()) {
         if (lexer.getToken().row - rowIdx > 1) {
-          span.items.add(MbclLevelItem(MbclLevelItemType.text, '\n'));
+          span.items.add(MbclLevelItem(MbclLevelItemType.text, _i, '\n'));
         }
         rowIdx = lexer.getToken().row;
         while (lexer.isNotNewline() && lexer.isNotEnd()) {
@@ -560,7 +560,7 @@ class Compiler {
 
   MbclLevelItem _parseBoldText(Lexer lexer, MbclLevelItem? exercise) {
     lexer.next();
-    var bold = MbclLevelItem(MbclLevelItemType.boldText);
+    var bold = MbclLevelItem(MbclLevelItemType.boldText, _i);
     while (lexer.isNotTerminal('**') && lexer.isNotEnd()) {
       bold.items.add(_parseParagraphPart(lexer, exercise));
     }
@@ -570,7 +570,7 @@ class Compiler {
 
   MbclLevelItem _parseItalicText(Lexer lexer, MbclLevelItem? exercise) {
     lexer.next();
-    var italic = MbclLevelItem(MbclLevelItemType.italicText);
+    var italic = MbclLevelItem(MbclLevelItemType.italicText, _i);
     while (lexer.isNotTerminal('*') && lexer.isNotEnd()) {
       italic.items.add(_parseParagraphPart(lexer, exercise));
     }
@@ -580,7 +580,7 @@ class Compiler {
 
   MbclLevelItem _parseReference(Lexer lexer) {
     lexer.next(); // skip '@'
-    var ref = MbclLevelItem(MbclLevelItemType.reference);
+    var ref = MbclLevelItem(MbclLevelItemType.reference, _i);
     var label = '';
     if (lexer.isIdentifier()) {
       label = lexer.getToken().token;
@@ -600,7 +600,7 @@ class Compiler {
 
   MbclLevelItem _parseInputElements(Lexer lexer, MbclLevelItem exercise) {
     lexer.next();
-    var inputField = MbclLevelItem(MbclLevelItemType.inputField);
+    var inputField = MbclLevelItem(MbclLevelItemType.inputField, _i);
     var data = MbclInputFieldData();
     inputField.inputFieldData = data;
     inputField.id = 'input${createUniqueId()}';
@@ -667,7 +667,7 @@ class Compiler {
         exercise.error += ' Expected ID after ":".';
       }
     }
-    MbclLevelItem root = MbclLevelItem(MbclLevelItemType.multipleChoice);
+    MbclLevelItem root = MbclLevelItem(MbclLevelItemType.multipleChoice, _i);
     if (varId.isEmpty) {
       varId = addStaticBooleanVariable(exerciseData, staticallyCorrect);
     }
@@ -687,7 +687,7 @@ class Compiler {
       root.type = MbclLevelItemType.singleChoice;
     }
 
-    var inputField = MbclLevelItem(MbclLevelItemType.inputField);
+    var inputField = MbclLevelItem(MbclLevelItemType.inputField, _i);
     var inputFieldData = MbclInputFieldData();
     inputField.inputFieldData = inputFieldData;
     inputField.id = 'input${createUniqueId()}';
@@ -707,7 +707,7 @@ class Compiler {
     data.variableId = varId;
     root.items.add(option);*/
 
-    var span = MbclLevelItem(MbclLevelItemType.span);
+    var span = MbclLevelItem(MbclLevelItemType.span, _i);
     inputField.items.add(span);
     while (lexer.isNotNewline() && lexer.isNotEnd()) {
       span.items.add(_parseParagraphPart(lexer, exercise));
@@ -726,33 +726,35 @@ class Compiler {
     if (lexer.isTerminal(']')) {
       lexer.next();
     } else {
-      return MbclLevelItem(MbclLevelItemType.error, ' Expected "]".');
+      return MbclLevelItem(MbclLevelItemType.error, _i, ' Expected "]".');
     }
     if (lexer.isTerminal('@')) {
       lexer.next();
     } else {
-      return MbclLevelItem(MbclLevelItemType.error, ' Expected "@".');
+      return MbclLevelItem(MbclLevelItemType.error, _i, ' Expected "@".');
     }
     if (lexer.isIdentifier()) {
       var id = lexer.identifier();
       if (id == 'bold') {
-        var bold = MbclLevelItem(MbclLevelItemType.boldText);
+        var bold = MbclLevelItem(MbclLevelItemType.boldText, _i);
         bold.items = items;
         return bold;
       } else if (id == 'italic') {
-        var italic = MbclLevelItem(MbclLevelItemType.italicText);
+        var italic = MbclLevelItem(MbclLevelItemType.italicText, _i);
         italic.items = items;
         return italic;
       } else if (id.startsWith('color')) {
-        var color = MbclLevelItem(MbclLevelItemType.color);
+        var color = MbclLevelItem(MbclLevelItemType.color, _i);
         color.id = id.substring(5); // TODO: check if INT
         color.items = items;
         return color;
       } else {
-        return MbclLevelItem(MbclLevelItemType.error, ' Unknown property $id.');
+        return MbclLevelItem(
+            MbclLevelItemType.error, _i, ' Unknown property $id.');
       }
     } else {
-      return MbclLevelItem(MbclLevelItemType.error, ' Missing property name. ');
+      return MbclLevelItem(
+          MbclLevelItemType.error, _i, ' Missing property name. ');
     }
   }
 

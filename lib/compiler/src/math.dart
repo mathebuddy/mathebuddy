@@ -10,7 +10,7 @@ import '../../mbcl/src/level_item.dart';
 
 MbclLevelItem parseInlineMath(Lexer lexer, MbclLevelItem? exercise) {
   if (lexer.isTerminal('\$')) lexer.next();
-  var inlineMath = MbclLevelItem(MbclLevelItemType.inlineMath);
+  var inlineMath = MbclLevelItem(MbclLevelItemType.inlineMath, -1);
   while (lexer.isNotTerminal('\$') && lexer.isNotEnd()) {
     var tk = lexer.getToken().token;
     var isId = lexer.getToken().type == LexerTokenType.id;
@@ -18,11 +18,11 @@ MbclLevelItem parseInlineMath(Lexer lexer, MbclLevelItem? exercise) {
     if (isId &&
         exercise != null &&
         (exercise.exerciseData as MbclExerciseData).variables.contains(tk)) {
-      var v = MbclLevelItem(MbclLevelItemType.variableReference);
+      var v = MbclLevelItem(MbclLevelItemType.variableReference, -1);
       v.id = tk;
       inlineMath.items.add(v);
     } else {
-      var text = MbclLevelItem(MbclLevelItemType.text);
+      var text = MbclLevelItem(MbclLevelItemType.text, -1);
       text.text = tk;
       inlineMath.items.add(text);
     }

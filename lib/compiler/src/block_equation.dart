@@ -15,7 +15,7 @@ MbclLevelItem processEquation(
     Block block, bool numbering, MbclLevelItem? exercise) {
   var aligned = false;
 
-  var equation = MbclLevelItem(MbclLevelItemType.equation);
+  var equation = MbclLevelItem(MbclLevelItemType.equation, block.srcLine);
   var data = MbclEquationData();
   equation.equationData = data;
   var equationNumber = "-1";

@@ -50,7 +50,7 @@ class Block {
   List<BlockItem> items = [];
   int srcLine = 0;
   List<MbclLevelItem> levelItems = [
-    MbclLevelItem(MbclLevelItemType.error, 'Block unprocessed.')
+    MbclLevelItem(MbclLevelItemType.error, -1, 'Block unprocessed.')
   ];
   final Compiler compiler;
 
@@ -137,11 +137,12 @@ class Block {
         levelItems = [processFigure(this)];
         break;
       case 'NEWPAGE':
-        levelItems = [MbclLevelItem(MbclLevelItemType.newPage)];
+        levelItems = [MbclLevelItem(MbclLevelItemType.newPage, srcLine)];
         break;
       default:
         levelItems = [
-          MbclLevelItem(MbclLevelItemType.error, 'Unknown block type "$type".')
+          MbclLevelItem(
+              MbclLevelItemType.error, srcLine, 'Unknown block type "$type".')
         ];
     }
   }
