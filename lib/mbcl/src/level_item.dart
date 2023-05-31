@@ -8,6 +8,7 @@
 
 class MbclLevelItem {
   MbclLevelItemType type;
+  int srcLine = -1; // line number in MBL input file
   String title = '';
   String label = '';
   String error = '';
@@ -26,12 +27,13 @@ class MbclLevelItem {
   // temporary data
   //bool active = true;
 
-  MbclLevelItem(this.type, [this.text = '']);
+  MbclLevelItem(this.type, this.srcLine, [this.text = '']);
 
   Map<String, dynamic> toJSON() {
     Map<String, dynamic> json = {
       "type": type.name,
     };
+    if (srcLine != -1) json["srcLine"] = srcLine;
     if (title.isNotEmpty) json["title"] = title;
     if (label.isNotEmpty) json["label"] = label;
     if (error.isNotEmpty) json["error"] = error;
@@ -69,6 +71,7 @@ class MbclLevelItem {
 
   fromJSON(Map<String, dynamic> src) {
     type = MbclLevelItemType.values.byName(src["type"]);
+    srcLine = src.containsKey("srcLine") ? src["srcLine"] : -1;
     title = src.containsKey("title") ? src["title"] : "";
     label = src.containsKey("label") ? src["label"] : "";
     error = src.containsKey("error") ? src["error"] : "";
@@ -78,7 +81,7 @@ class MbclLevelItem {
     if (src.containsKey("items")) {
       int n = src["items"].length;
       for (var i = 0; i < n; i++) {
-        var item = MbclLevelItem(MbclLevelItemType.error);
+        var item = MbclLevelItem(MbclLevelItemType.error, srcLine);
         item.fromJSON(src["items"][i]);
         items.add(item);
       }
@@ -208,7 +211,7 @@ class MbclEquationData {
       var option = MbclEquationOption.values.byName(src["options"][i]);
       options.add(option);
     }*/
-    math = MbclLevelItem(MbclLevelItemType.error);
+    math = MbclLevelItem(MbclLevelItemType.error, -1);
     math?.fromJSON(src["math"]);
     number = src["number"];
   }
@@ -310,7 +313,7 @@ class MbclFigureData {
     data = src["data"];
     int n = src["caption"].length;
     for (var i = 0; i < n; i++) {
-      var cap = MbclLevelItem(MbclLevelItemType.error);
+      var cap = MbclLevelItem(MbclLevelItemType.error, -1);
       cap.fromJSON(src["caption"][i]);
       caption.add(cap);
     }
@@ -441,7 +444,7 @@ class MbclTableRow {
     columns = [];
     int n = src["columns"].length;
     for (var i = 0; i < n; i++) {
-      var column = MbclLevelItem(MbclLevelItemType.error);
+      var column = MbclLevelItem(MbclLevelItemType.error, -1);
       column.fromJSON(src["columns"][i]);
       columns.add(column);
     }
