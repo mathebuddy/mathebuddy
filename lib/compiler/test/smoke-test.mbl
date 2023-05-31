@@ -2,11 +2,24 @@ Smoke test
 ##########
 
 ---
-EXERCISE Simple Integration @ex:intSimple
+EXERCISE @ex:konjGeo1
+
 @code
-  let F(x) = (1/3) * x^3 + 7*x
+let a=rand(5,7);
+let b= rand(2,4)
+let z=complex(a,b);
+let c=conj(z);
+
+FIGURE
+@path
+img/u1-konjGeoEx1.svg
+END
+
 @text
-Solve $\int (x^2+7) \dx =$  #F  $+C$
-@solution-F
-    build-term: true
+Man erhält die komplexe Zahl $c$, wenn man die komplexe Zahl $z$
+
+( ) verdoppelt.
+( ) am Ursprung spiegelt.
+(x) an der reellen Achse spiegelt.
+( ) an der imaginären Achse spiegelt.
 ---
