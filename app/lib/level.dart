@@ -29,7 +29,9 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
     if (title.isEmpty) {
       title = "(no title)";
     }
-    return generateErrorWidget('ERROR in element "$title":\n${item.error}');
+    return generateErrorWidget(
+        'ERROR in element "$title" in/near source line ${item.srcLine + 1}:\n'
+        '${item.error}');
   }
   switch (item.type) {
     case MbclLevelItemType.error:
