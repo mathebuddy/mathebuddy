@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-03-15" />
+  <meta name="dcterms.date" content="2023-05-31" />
   <title>Mathe:Buddy Language (MBL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -36,7 +36,7 @@
 [<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Mathe:Buddy Language (MBL)</h1>
 <p class="author"></p>
-<p class="date">2023-03-15</p>
+<p class="date">2023-05-31</p>
 </header>
 <!-- Mathe:Buddy Language (MBL) -->
 <hr />
@@ -266,7 +266,22 @@ TEXT
 Another paragraph here.
 ---</code></pre>
 <p>Inner blocks do not use <code>---</code> as separator. Note in the
-example, that <code>TEXT</code> is used to leave equation mode.</p></li>
+example, that <code>TEXT</code> is used to leave equation mode.</p>
+<p><strong>Warning:</strong> Attributes (for example
+<code>@options</code> in exercises) refer to the innermost declared
+subblock. To explicitly end a subblock, use the <code>END</code>
+keyword. Example:</p>
+<pre><code>---
+EXERCISE Test
+
+FIGURE
+@path
+img/my-figure.svg
+END
+
+@text            % The following lines belong to &#39;EXERCISE&#39;
+(x) correct answer
+( ) incorrect answer</code></pre></li>
 </ul>
 <h2 id="equations">Equations</h2>
 <p>We distinguish two kinds of equations: <em>inline equations</em> are
@@ -502,11 +517,11 @@ EXERCISE My exercise @ex:myLabel
 @code
   let x/y = rand(1, 5)
   let z = x + y
-  let A/B = rand&lt;2,3&gt;(-5,-5)
+  let A/B = rand&lt;2,3&gt;(-5,5)
   let C = A + B
 @text
   Calculate $ x+y= $ #z
-  Calculate $ xA+B= $ #C
+  Calculate $ A+B= $ #C
 ---</code></pre>
 <p><em>Note: <code>let x/y = rand(1, 5)</code> is an abbreviation for
 <code>let x = rand(1, 5); let y = rand(1, 5);</code> with guarantee that
