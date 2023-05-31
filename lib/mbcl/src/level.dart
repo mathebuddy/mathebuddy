@@ -50,7 +50,7 @@ class MbclLevel {
     items = [];
     n = src["items"].length;
     for (var i = 0; i < n; i++) {
-      var item = MbclLevelItem(MbclLevelItemType.error);
+      var item = MbclLevelItem(MbclLevelItemType.error, -1);
       item.fromJSON(src["items"][i]);
       items.add(item);
     }
