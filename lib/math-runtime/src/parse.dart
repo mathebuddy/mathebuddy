@@ -90,7 +90,9 @@ class Parser {
     // resolve randomized token selection, e.g. "1{+|-}2" -> "1+2" or "1-2"
     procTokens = [];
     for (var i = 0; i < _tokens.length; i++) {
-      if (_tokens[i] == '{') {
+      if (_tokens[i] == '{' &&
+          i + 1 < _tokens.length &&
+          _tokens[i + 1] != '}') {
         List<String> op = [];
         var valid = true;
         int k;
@@ -409,10 +411,12 @@ class Parser {
     }
     _token += ''; // ***
     List<Term> elements = [];
-    elements.add(_parseTerm());
-    while (_token == ',') {
-      _next();
+    if (_token != '}') {
       elements.add(_parseTerm());
+      while (_token == ',') {
+        _next();
+        elements.add(_parseTerm());
+      }
     }
     if (_token == '}') {
       _next();
