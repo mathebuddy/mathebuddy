@@ -1,25 +1,52 @@
-Smoke test
+Betrag
 ##########
 
 ---
-EXERCISE @ex:konjGeo1
+EXERCISE @ex:betrag1
 
-@code
-let a=rand(5,7);
-let b= rand(2,4)
-let z=complex(a,b);
-let c=conj(z);
+@code 
 
-FIGURE
-@path
-img/u1-konjGeoEx1.svg
-END
+let a/b = rand(3,4);
+a = randZ(1,-1)*a;
+b= randZ(1,-1)*b;
+let z= complex(a,b);
+let r2= a^2+b^2;
+let r= 5
 
 @text
-Man erhält die komplexe Zahl $c$, wenn man die komplexe Zahl $z$
+Berechne für die komplexe Zahl $"z"=z$:
+- Den Realanteil $Re("z")=$ #a
+- Den Imaginäranteil $Im("z")=$ #b
+- Den Term $\sqrt{Re("z")^2 + Im("z")^2}=$ #r
+---
 
-( ) verdoppelt.
-( ) am Ursprung spiegelt.
-(x) an der reellen Achse spiegelt.
-( ) an der imaginären Achse spiegelt.
+---
+DEFINITION Betrag @def:betrag
+
+Der **Betrag** $|z|$ einer komplexen Zahl $z=x+yi$ ist
+definiert als 
+EQUATION 
+|z| = \sqrt{z \overline{z}}=\sqrt{x^2+y^2} . 
+---
+
+---
+EXAMPLE Komplexe Zahlen Betrag @exa:betrag
+
+Für die komplexe Zahl $z=-1+2i$ erhalten wir den Betrag mit 
+EQUATION
+|-1+2i|=\sqrt{(-1)^2+2^2}=\sqrt{5}
+---
+
+---
+EXERCISE Betrag einer komplexen Zahl @ex:betrag2
+
+@code
+let a:b = rand(1,3);
+let x = a^2 - b^2;
+let y = 2 * a * b;
+let z = complex(x,y);
+let r = abs(z);
+@text
+Berechne für $"z"=z$ den Betrag.
+- $\abs{"z"}=$ #r
 ---
