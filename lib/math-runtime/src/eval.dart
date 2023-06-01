@@ -295,6 +295,10 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         if (min.type != OperandType.int || max.type != OperandType.int) {
           throw Exception('arguments of "${term.op}" must be integral.');
         }
+        if (max.real < min.real) {
+          throw Exception(
+              'arguments of "${term.op}" must be in order (MIN,MAX).');
+        }
         switch (term.dims.length) {
           case 0:
             {
