@@ -188,6 +188,7 @@ Map<MbclLevelItemType, List<MbclLevelItemType>> mbclSubBlockWhiteList = {
     MbclLevelItemType.equation,
     MbclLevelItemType.paragraph,
     MbclLevelItemType.figure,
+    MbclLevelItemType.table,
   ],
 };
 
