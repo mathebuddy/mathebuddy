@@ -35,8 +35,9 @@ MbclLevelItem processExercise(Block block) {
     switch (part.name) {
       case 'global':
         if (part.lines.join('\n').trim().isNotEmpty) {
-          exercise.error +=
-              'Some of your code is not inside a tag (e.g. "@code" or "@text")';
+          exercise.error += 'Some of your code '
+              '("${part.lines.join('\n').trim().substring(0, 10)}...")'
+              ' is not inside a tag (e.g. "@code" or "@text").';
         }
         break;
       case 'code':
