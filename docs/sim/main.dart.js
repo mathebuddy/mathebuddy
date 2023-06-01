@@ -65499,47 +65499,49 @@ A.a0J.prototype={
 $1(a){return a.k(0)},
 $S:372}
 A.Hd.prototype={
-KH(a,b){var s,r,q,p,o,n,m,l,k,j,i,h,g,f=this,e=t.s
-f.a=A.a([],e)
-f.b=0
+KH(a,b){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d=this,c=t.s
+d.a=A.a([],c)
+d.b=0
 for(s=b.length,r="",q=0;q<s;++q){p=b[q]
-if(A.te(" \t\n",p,0)){if(r.length!==0){f.a.push(r)
-r=""}}else if(A.te("+-*/()^{},|[]<>=",p,0)){if(r.length!==0){f.a.push(r)
-r=""}f.a.push(p)}else r+=p}if(r.length!==0)f.a.push(r)
-f.a.push("\xa7")
-o=A.a([],e)
-for(n=0;s=f.a,n<s.length;++n){m=s[n]
-if(m!=="true"&&m!=="false"&&f.qx(m)&&!B.b.v(A.a(["abs","ceil","conj","cos","exp","fac","floor","imag","int","len","ln","max","min","real","round","sin","sqrt","tan"],e),m)&&!B.b.v(A.a(["binomial","complex","rand","randZ"],e),m)&&!B.b.v(A.a(["pi","e"],e),m))for(s=m.length,q=0;q<s;++q)o.push(m[q])
+if(A.te(" \t\n",p,0)){if(r.length!==0){d.a.push(r)
+r=""}}else if(A.te("+-*/()^{},|[]<>=",p,0)){if(r.length!==0){d.a.push(r)
+r=""}d.a.push(p)}else r+=p}if(r.length!==0)d.a.push(r)
+d.a.push("\xa7")
+o=A.a([],c)
+for(n=0;s=d.a,n<s.length;++n){m=s[n]
+if(m!=="true"&&m!=="false"&&d.qx(m)&&!B.b.v(A.a(["abs","ceil","conj","cos","exp","fac","floor","imag","int","len","ln","max","min","real","round","sin","sqrt","tan"],c),m)&&!B.b.v(A.a(["binomial","complex","rand","randZ"],c),m)&&!B.b.v(A.a(["pi","e"],c),m))for(s=m.length,q=0;q<s;++q)o.push(m[q])
 else{s=m.length
 if(s>=2){l=B.c.a4(m[0],0)
-l=l>=48&&l<=57&&f.wG(m[1])}else l=!1
+l=l>=48&&l<=57&&d.wG(m[1])}else l=!1
 if(l){for(k="",j="",q=0;q<s;++q){p=m[q]
 if(j.length===0){l=B.c.a4(p,0)
 l=l>=48&&l<=57}else l=!1
 if(l)k+=p
 else j+=p}o.push(k)
-o.push(j)}else o.push(m)}}f.a=o
-o=A.a([],e)
-for(q=0;s=f.a,q<s.length;++q){s=s[q]
-if(s==="{"){i=A.a([],e)
+o.push(j)}else o.push(m)}}d.a=o
+o=A.a([],c)
+for(q=0;s=d.a,l=s.length,q<l;++q){i=s[q]
+if(i==="{"){h=q+1
+s=h<l&&s[h]!=="}"}else s=!1
+if(s){g=A.a([],c)
 n=q+1
-while(!0){s=f.a
-if(!(n<s.length)){h=!0
+while(!0){s=d.a
+if(!(n<s.length)){f=!0
 break}s=s[n]
-if(s==="}"){h=!0
-break}if(!A.te("+-*/",s,0)){h=!1
-break}i.push(f.a[n]);++n
-s=f.a
-if(n>=s.length){h=!1
+if(s==="}"){f=!0
+break}if(!A.te("+-*/",s,0)){f=!1
+break}g.push(d.a[n]);++n
+s=d.a
+if(n>=s.length){f=!1
 break}s=s[n]
-if(s!=="|"&&s!=="}"){h=!1
-break}if(s==="}"){h=!0
-break}++n}if(h){o.push(i[B.d.cf(B.bB.tI()*i.length)])
-q=n}else o.push("{")}else o.push(s)}f.a=o
-f.bB()
-g=f.ip()
-if(f.c!=="\xa7")throw A.c(A.ac("unexpected:end"))
-return g},
+if(s!=="|"&&s!=="}"){f=!1
+break}if(s==="}"){f=!0
+break}++n}if(f){o.push(g[B.d.cf(B.bB.tI()*g.length)])
+q=n}else o.push("{")}else o.push(i)}d.a=o
+d.bB()
+e=d.ip()
+if(d.c!=="\xa7")throw A.c(A.ac("unexpected:end"))
+return e},
 ip(){var s,r,q,p=this,o=p.Fu()
 if(B.b.v(A.a(["<","<=",">",">="],t.s),p.c)){s=p.c
 p.bB()
@@ -65713,9 +65715,10 @@ if(p.c==="{")p.bB()
 else throw A.c(A.ac('expected "{"'))
 s=t.r
 r=A.a([],s)
-r.push(p.ip())
+q=p.c
+if(q!=="}"){r.push(p.ip())
 for(;q=p.c,q===",";){p.bB()
-r.push(p.ip())}if(q==="}")p.bB()
+r.push(p.ip())}}if(q==="}")p.bB()
 else throw A.c(A.ac('expected "}"'))
 s=A.a([],s)
 return new A.cF("set",new A.bd(B.l,A.a([],t.Y)),r,s)},
