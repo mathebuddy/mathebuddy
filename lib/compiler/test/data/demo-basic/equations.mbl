@@ -39,15 +39,11 @@ Aligned equations
 -----------------
 
 ---
-EQUATION
-@options
-aligned
-@text
+ALIGNED-EQUATION
 (x+1)^2 &= (x+1)(x+1) \\
         &= x^2 + x + x + 1 \\
         &= x^2 + 2x + 1 \\
 ---
-
 
 Abbreviations
 =============
