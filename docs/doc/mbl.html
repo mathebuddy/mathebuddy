@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-05-31" />
+  <meta name="dcterms.date" content="2023-06-07" />
   <title>Mathe:Buddy Language (MBL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -36,7 +36,7 @@
 [<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Mathe:Buddy Language (MBL)</h1>
 <p class="author"></p>
-<p class="date">2023-05-31</p>
+<p class="date">2023-06-07</p>
 </header>
 <!-- Mathe:Buddy Language (MBL) -->
 <hr />
@@ -311,24 +311,21 @@ a^2 + b^2 = c^2
 <p>Equations can be labeled with <code>@</code>. For example,
 <code>@eq:myLabel</code> is displayed <span
 class="math inline">\(Eq~(1)\)</span> (depends on the runtime
-environment).</p></li>
-<li><p>Options</p>
-<p>Equations can be configured with the following options:</p>
-<p>Option <code>align-left</code> left aligns the equation.</p>
-<p>Option <code>align-equals</code> renders each specified line of the
-equation in a separate line and aligns it to the first equal sign
-(<code>=</code>) of each row.</p>
+environment).</p>
+<p><strong>Aligned equations</strong> improve readability. For example
+you may stack equal signs vertically.</p>
+<p>Each row must contains an ampersand character (<code>&amp;</code>)
+for the alignment, and must end with a line feed <code>\\</code>.</p>
 <p>Example:</p>
 <pre><code>---
-EQUATION
-@options
-align-left
-align-equals
-@text
-(x+1)^2 = (x+1)(x+1)
-        = x^2 + x + x + 1
-        = x^2 + 2x + 1
----</code></pre></li>
+ALIGNED-EQUATION
+(x+1)^2 &amp;= (x+1)(x+1) \\
+        &amp;= x^2 + x + x + 1 \\
+        &amp;= x^2 + 2x + 1 \\
+---</code></pre>
+<p><em>Remarks: The last linefeed via <code>\\</code> is optional. The
+spacing before <code>&amp;</code> is optional, but highly suggested to
+improve readability.</em></p></li>
 <li><p>Abbreviations</p>
 <p>Equations are written in plain <code>TeX</code> code. In some cases,
 the notation is rather long. We introduce some abbreviations for a

@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-02-24" />
+  <meta name="dcterms.date" content="2023-06-07" />
   <title>Simple Math Programming Language (SMPL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -100,7 +100,7 @@
 [<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Simple Math Programming Language (SMPL)</h1>
 <p class="author"></p>
-<p class="date">2023-02-24</p>
+<p class="date">2023-06-07</p>
 </header>
 <!-- Simple Math Programming Language (SMPL) -->
 <hr />
@@ -393,13 +393,14 @@ let phi = arg(x);
 let r = abs(x);
 let z = r * exp(phi);</code></pre></li>
 <li><p>set (<code>SET</code>)</p>
-<p>A set variable stores a set of integer numbers. A set is
-initialized</p>
-<pre><code>let x = set(3, 4, 5);      // x := {3,4,5}
-add(x, 4);                 // x := {3,4,5}
-add(x, 6);                 // x := {3,4,5,6}
-remove(x, 3);              // x := {4,5,6}
-let y = iselement(x, 4);   // true</code></pre>
+<p>A set variable stores a set of elements. We use curly brackets to
+declare sets.</p>
+<p>Examples:</p>
+<pre><code>let y = {}                % an empty set
+let x = {3, 4, 5}
+add(x, {4,6});            % x := {3,4,5,6}
+remove(x, 3);             % x := {4,5,6}
+let y = iselement(x, 4);  % true</code></pre>
 <blockquote>
 <p>Note: set of non-integers will be supported later.</p>
 </blockquote></li>
@@ -481,15 +482,15 @@ else {
 <p>TODO:</p>
 <p>Example:</p>
 <pre><code>while (x &gt; 0) {
-  // body
+  % body
 }</code></pre>
 <p>Example:</p>
 <pre><code>do {
-  // body
+  % body
 } while (x &gt; 0);</code></pre>
 <p>Example:</p>
 <pre><code>for (let i = 0; i &lt; 5; i++) {
-  // body
+  % body
 }</code></pre>
 <h2 id="functions">Functions</h2>
 <p>A function consists of a <strong>header</strong> and a
@@ -524,6 +525,8 @@ integer a real value or complex value. The function returns a real
 value.</p>
 <p>Some function also require dimensions. These are embedded into
 <code>&lt;...&gt;</code>.</p>
+<p>Notation: We write data type <code>VOID</code> for functions that do
+not return any value.</p>
 <ul>
 <li><p><strong><code>abs ( x : INT|REAL|COMPLEX ) : REAL</code></strong></p>
 <p>Returns the absolute values of <code>x</code>.</p>
@@ -535,6 +538,10 @@ value.</p>
 <p>Calculates <span class="math inline">\(\cos^{-1}(x)\)</span>.</p>
 <p><em>Example: <code>acos(0)</code> returns <span
 class="math inline">\(1.57079...\)</span>.</em></p></li>
+<li><p><strong><code>add ( x : SET, y : SET ) : VOID</code></strong></p>
+<p>Adds all elements of set <code>y</code> to set <code>x</code>.</p>
+<p><em>Example: <code>let x={1,2,3}; add(x,{4,7})</code></em> changes x
+to <code>{1,2,3,4,7}</code>.</p></li>
 <li><p><strong><code>asin ( x : REAL ) : REAL</code></strong></p>
 <p>Calculates <span class="math inline">\(\sin^{-1}(x)\)</span>.</p>
 <p><em>Example: <code>asin(0)</code> returns <span
@@ -752,6 +759,11 @@ class="math inline">\(x\)</span>.</p>
 <li><p><strong><code>real ( x : COMPLEX ) : REAL</code></strong></p>
 <p>Returns the real part of a complex number.</p>
 <p><em>Example: <code>real(3+4i)</code> returns 3.</em></p></li>
+<li><p><strong><code>remove ( x : SET, y : SET ) : VOID</code></strong></p>
+<p>Removes all elements of set <code>y</code> from set
+<code>x</code>.</p>
+<p><em>Example: <code>let x={1,2,3}; remove(x,{2,3})</code></em> changes
+x to <code>{1}</code>.</p></li>
 <li><p><strong><code>row ( x : MATRIX, r : INT ): VECTOR</code></strong></p>
 <p>Returns the <code>c</code>-th row of matrix <code>x</code> as vector.
 The first row has index 0.</p>

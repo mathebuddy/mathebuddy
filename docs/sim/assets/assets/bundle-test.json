@@ -7,7 +7,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128898,
     "chapters": [
       {
         "fileId": "",
@@ -29,14 +29,17 @@
             "items": [
               {
                 "type": "defDefinition",
+                "srcLine": 3,
                 "title": "Positive",
                 "label": "def:positive",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 7,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 7,
                         "text": "For any integer"
                       },
                       {
@@ -50,6 +53,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 7,
                         "text": ","
                       },
                       {
@@ -63,19 +67,23 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 7,
                         "text": "is"
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 7,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 7,
                             "text": "positive"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 7,
                         "text": "if"
                       },
                       {
@@ -89,6 +97,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 7,
                         "text": "."
                       }
                     ]
@@ -97,14 +106,17 @@
               },
               {
                 "type": "defTheorem",
+                "srcLine": 8,
                 "title": "The Aristotelian Syllogism",
                 "label": "thm:socrates",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 12,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 12,
                         "text": "If every man is mortal and Socrates is a man, then Socrates is mortal."
                       }
                     ]
@@ -113,26 +125,32 @@
               },
               {
                 "type": "defDefinition",
+                "srcLine": 13,
                 "title": "My definition",
                 "label": "def:myDef",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 26,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 26,
                         "text": "Some paragraph text here."
                       }
                     ]
                   },
                   {
                     "type": "alignCenter",
+                    "srcLine": 13,
                     "items": [
                       {
                         "type": "paragraph",
+                        "srcLine": 26,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 26,
                             "text": "This text is center aligned."
                           }
                         ]
@@ -141,11 +159,12 @@
                   },
                   {
                     "type": "equation",
+                    "srcLine": 13,
                     "label": "myEquation",
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -158,9 +177,11 @@
                   },
                   {
                     "type": "paragraph",
+                    "srcLine": 26,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 26,
                         "text": "Another paragraph here."
                       }
                     ]
@@ -178,7 +199,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128898,
     "chapters": [
       {
         "fileId": "",
@@ -200,13 +221,16 @@
             "items": [
               {
                 "type": "section",
+                "srcLine": 3,
                 "text": "Inline Equations"
               },
               {
                 "type": "paragraph",
+                "srcLine": 8,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 8,
                     "text": "An inline equation"
                   },
                   {
@@ -220,25 +244,29 @@
                   },
                   {
                     "type": "text",
+                    "srcLine": 8,
                     "text": "."
                   }
                 ]
               },
               {
                 "type": "section",
+                "srcLine": 8,
                 "text": "Equations"
               },
               {
                 "type": "subSection",
+                "srcLine": 11,
                 "text": "Numbered equations"
               },
               {
                 "type": "equation",
+                "srcLine": 14,
                 "label": "eq:pythagoras",
                 "id": "1",
                 "equationData": {
                   "math": {
-                    "type": "inlineMath",
+                    "type": "displayMath",
                     "items": [
                       {
                         "type": "text",
@@ -251,10 +279,11 @@
               },
               {
                 "type": "equation",
+                "srcLine": 19,
                 "id": "2",
                 "equationData": {
                   "math": {
-                    "type": "inlineMath",
+                    "type": "displayMath",
                     "items": [
                       {
                         "type": "text",
@@ -267,14 +296,16 @@
               },
               {
                 "type": "subSection",
+                "srcLine": 24,
                 "text": "Equations without number"
               },
               {
                 "type": "equation",
+                "srcLine": 27,
                 "id": "-1",
                 "equationData": {
                   "math": {
-                    "type": "inlineMath",
+                    "type": "displayMath",
                     "items": [
                       {
                         "type": "text",
@@ -287,36 +318,43 @@
               },
               {
                 "type": "subSection",
+                "srcLine": 32,
                 "text": "Reference to equations"
               },
               {
                 "type": "paragraph",
+                "srcLine": 37,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 37,
                     "text": "Refer to"
                   },
                   {
                     "type": "reference",
+                    "srcLine": 37,
                     "label": "eq:pythagoras",
                     "text": "Eq. (1)"
                   },
                   {
                     "type": "text",
+                    "srcLine": 37,
                     "text": "."
                   }
                 ]
               },
               {
                 "type": "subSection",
+                "srcLine": 37,
                 "text": "Aligned equations"
               },
               {
                 "type": "equation",
+                "srcLine": 40,
                 "id": "3",
                 "equationData": {
                   "math": {
-                    "type": "inlineMath",
+                    "type": "displayMath",
                     "items": [
                       {
                         "type": "text",
@@ -329,26 +367,32 @@
               },
               {
                 "type": "section",
+                "srcLine": 47,
                 "text": "Abbreviations"
               },
               {
                 "type": "paragraph",
+                "srcLine": 52,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 52,
                     "text": "Equations may be written in plain TeX code. We introduce some ( optional) abbreviations for simpler notation."
                   }
                 ]
               },
               {
                 "type": "subSection",
+                "srcLine": 52,
                 "text": "Numbers"
               },
               {
                 "type": "itemize",
+                "srcLine": 60,
                 "items": [
                   {
                     "type": "span",
+                    "srcLine": 60,
                     "items": [
                       {
                         "type": "inlineMath",
@@ -363,6 +407,7 @@
                   },
                   {
                     "type": "span",
+                    "srcLine": 60,
                     "items": [
                       {
                         "type": "inlineMath",
@@ -377,6 +422,7 @@
                   },
                   {
                     "type": "span",
+                    "srcLine": 60,
                     "items": [
                       {
                         "type": "inlineMath",
@@ -391,6 +437,7 @@
                   },
                   {
                     "type": "span",
+                    "srcLine": 60,
                     "items": [
                       {
                         "type": "inlineMath",
@@ -407,14 +454,16 @@
               },
               {
                 "type": "subSection",
+                "srcLine": 60,
                 "text": "Matrices"
               },
               {
                 "type": "equation",
+                "srcLine": 63,
                 "id": "4",
                 "equationData": {
                   "math": {
-                    "type": "inlineMath",
+                    "type": "displayMath",
                     "items": [
                       {
                         "type": "text",
@@ -436,7 +485,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128898,
     "chapters": [
       {
         "fileId": "",
@@ -458,11 +507,13 @@
             "items": [
               {
                 "type": "example",
+                "srcLine": 3,
                 "title": "Addition of complex numbers",
                 "label": "ex:myExample",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 7,
                     "items": [
                       {
                         "type": "inlineMath",
@@ -479,15 +530,17 @@
               },
               {
                 "type": "example",
+                "srcLine": 8,
                 "title": "Addition of complex numbers",
                 "label": "ex:myExample",
                 "items": [
                   {
                     "type": "equation",
+                    "srcLine": 8,
                     "id": "2",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -511,7 +564,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128898,
     "chapters": [
       {
         "fileId": "",
@@ -533,30 +586,37 @@
             "items": [
               {
                 "type": "exercise",
+                "srcLine": 3,
                 "title": "My Multiple Choice Exercise",
                 "label": "ex:myMultiChoice",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 11,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 11,
                         "text": "Some text here."
                       }
                     ]
                   },
                   {
                     "type": "multipleChoice",
+                    "srcLine": 11,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 11,
                         "id": "input0",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 11,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 11,
                                 "text": "This answer is correct."
                               }
                             ]
@@ -571,13 +631,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 11,
                         "id": "input1",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 11,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 11,
                                 "text": "This answer is incorrect."
                               }
                             ]
@@ -592,13 +655,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 11,
                         "id": "input2",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 11,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 11,
                                 "text": "This answer is correct."
                               }
                             ]
@@ -656,14 +722,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 12,
                 "title": "Addition",
                 "label": "ex:add",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 20,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 20,
                         "text": "Calculate"
                       },
                       {
@@ -689,6 +758,7 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 20,
                         "id": "input3",
                         "inputFieldData": {
                           "type": "int",
@@ -699,6 +769,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 20,
                         "text": "."
                       }
                     ]
@@ -713,28 +784,36 @@
                   ],
                   "instances": [
                     {
-                      "x": "3",
+                      "x": "5",
                       "@x": "rand(1,5)",
                       "y": "1",
                       "@y": "rand(1,5)",
-                      "z": "4",
-                      "@z": "(3+1)"
+                      "z": "6",
+                      "@z": "(5+1)"
                     },
                     {
-                      "x": "5",
+                      "x": "3",
+                      "@x": "rand(1,5)",
+                      "y": "5",
+                      "@y": "rand(1,5)",
+                      "z": "8",
+                      "@z": "(3+5)"
+                    },
+                    {
+                      "x": "4",
+                      "@x": "rand(1,5)",
+                      "y": "1",
+                      "@y": "rand(1,5)",
+                      "z": "5",
+                      "@z": "(4+1)"
+                    },
+                    {
+                      "x": "2",
                       "@x": "rand(1,5)",
                       "y": "4",
                       "@y": "rand(1,5)",
-                      "z": "9",
-                      "@z": "(5+4)"
-                    },
-                    {
-                      "x": "5",
-                      "@x": "rand(1,5)",
-                      "y": "2",
-                      "@y": "rand(1,5)",
-                      "z": "7",
-                      "@z": "(5+2)"
+                      "z": "6",
+                      "@z": "(2+4)"
                     },
                     {
                       "x": "1",
@@ -743,14 +822,6 @@
                       "@y": "rand(1,5)",
                       "z": "4",
                       "@z": "(1+3)"
-                    },
-                    {
-                      "x": "1",
-                      "@x": "rand(1,5)",
-                      "y": "5",
-                      "@y": "rand(1,5)",
-                      "z": "6",
-                      "@z": "(1+5)"
                     }
                   ],
                   "staticOrder": false,
@@ -770,7 +841,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128898,
     "chapters": [
       {
         "fileId": "",
@@ -792,34 +863,42 @@
             "items": [
               {
                 "type": "section",
+                "srcLine": 3,
                 "text": "Multiple Choice"
               },
               {
                 "type": "exercise",
+                "srcLine": 6,
                 "title": "My Multiple Choice Exercise",
                 "label": "ex:myMultiChoice",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 14,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 14,
                         "text": "Choose the right answers:"
                       }
                     ]
                   },
                   {
                     "type": "multipleChoice",
+                    "srcLine": 14,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 14,
                         "id": "input0",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 14,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 14,
                                 "text": "This answer is correct."
                               }
                             ]
@@ -834,13 +913,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 14,
                         "id": "input1",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 14,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 14,
                                 "text": "This answer is incorrect."
                               }
                             ]
@@ -855,13 +937,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 14,
                         "id": "input2",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 14,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 14,
                                 "text": "This answer is correct."
                               }
                             ]
@@ -919,30 +1004,37 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 15,
                 "title": "My Multiple Choice Exercise with static order",
                 "label": "ex:myMultiChoice",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 25,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 25,
                         "text": "Choose the right answers:"
                       }
                     ]
                   },
                   {
                     "type": "multipleChoice",
+                    "srcLine": 25,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 25,
                         "id": "input3",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 25,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 25,
                                 "text": "This answer is correct."
                               }
                             ]
@@ -957,13 +1049,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 25,
                         "id": "input4",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 25,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 25,
                                 "text": "This answer is incorrect."
                               }
                             ]
@@ -978,13 +1073,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 25,
                         "id": "input5",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 25,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 25,
                                 "text": "This answer is correct."
                               }
                             ]
@@ -1042,27 +1140,33 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 26,
                 "title": "My dynamic Multiple Choice Exercise",
                 "label": "ex:myMultiChoice",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 41,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 41,
                         "text": "Choose the right answers:"
                       }
                     ]
                   },
                   {
                     "type": "multipleChoice",
+                    "srcLine": 41,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 41,
                         "id": "input6",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 41,
                             "items": [
                               {
                                 "type": "inlineMath",
@@ -1093,10 +1197,12 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 41,
                         "id": "input7",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 41,
                             "items": [
                               {
                                 "type": "inlineMath",
@@ -1127,10 +1233,12 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 41,
                         "id": "input8",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 41,
                             "items": [
                               {
                                 "type": "inlineMath",
@@ -1161,10 +1269,12 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 41,
                         "id": "input9",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 41,
                             "items": [
                               {
                                 "type": "inlineMath",
@@ -1187,10 +1297,12 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 41,
                         "id": "input10",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 41,
                             "items": [
                               {
                                 "type": "inlineMath",
@@ -1229,92 +1341,92 @@
                   ],
                   "instances": [
                     {
-                      "x": "11",
+                      "x": "12",
                       "@x": "rand(10,20)",
                       "y": "13",
                       "@y": "rand(10,20)",
+                      "z": "18",
+                      "@z": "rand(10,20)",
+                      "w": "10",
+                      "@w": "rand(10,20)",
+                      "c1": "true",
+                      "@c1": "(12>10)",
+                      "c2": "true",
+                      "@c2": "(13>10)",
+                      "c3": "true",
+                      "@c3": "(18>10)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "x": "14",
+                      "@x": "rand(10,20)",
+                      "y": "20",
+                      "@y": "rand(10,20)",
+                      "z": "10",
+                      "@z": "rand(10,20)",
+                      "w": "13",
+                      "@w": "rand(10,20)",
+                      "c1": "true",
+                      "@c1": "(14>13)",
+                      "c2": "true",
+                      "@c2": "(20>13)",
+                      "c3": "false",
+                      "@c3": "(10>13)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "x": "14",
+                      "@x": "rand(10,20)",
+                      "y": "10",
+                      "@y": "rand(10,20)",
                       "z": "16",
                       "@z": "rand(10,20)",
-                      "w": "12",
+                      "w": "11",
                       "@w": "rand(10,20)",
-                      "c1": "false",
-                      "@c1": "(11>12)",
-                      "c2": "true",
-                      "@c2": "(13>12)",
+                      "c1": "true",
+                      "@c1": "(14>11)",
+                      "c2": "false",
+                      "@c2": "(10>11)",
                       "c3": "true",
-                      "@c3": "(16>12)",
+                      "@c3": "(16>11)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "x": "17",
+                      "@x": "rand(10,20)",
+                      "y": "13",
+                      "@y": "rand(10,20)",
+                      "z": "15",
+                      "@z": "rand(10,20)",
+                      "w": "16",
+                      "@w": "rand(10,20)",
+                      "c1": "true",
+                      "@c1": "(17>16)",
+                      "c2": "false",
+                      "@c2": "(13>16)",
+                      "c3": "false",
+                      "@c3": "(15>16)",
                       "__bool__0": "true",
                       "__bool__1": "false"
                     },
                     {
                       "x": "16",
                       "@x": "rand(10,20)",
-                      "y": "15",
+                      "y": "18",
                       "@y": "rand(10,20)",
                       "z": "12",
                       "@z": "rand(10,20)",
-                      "w": "19",
-                      "@w": "rand(10,20)",
-                      "c1": "false",
-                      "@c1": "(16>19)",
-                      "c2": "false",
-                      "@c2": "(15>19)",
-                      "c3": "false",
-                      "@c3": "(12>19)",
-                      "__bool__0": "true",
-                      "__bool__1": "false"
-                    },
-                    {
-                      "x": "20",
-                      "@x": "rand(10,20)",
-                      "y": "15",
-                      "@y": "rand(10,20)",
-                      "z": "16",
-                      "@z": "rand(10,20)",
-                      "w": "17",
+                      "w": "14",
                       "@w": "rand(10,20)",
                       "c1": "true",
-                      "@c1": "(20>17)",
-                      "c2": "false",
-                      "@c2": "(15>17)",
+                      "@c1": "(16>14)",
+                      "c2": "true",
+                      "@c2": "(18>14)",
                       "c3": "false",
-                      "@c3": "(16>17)",
-                      "__bool__0": "true",
-                      "__bool__1": "false"
-                    },
-                    {
-                      "x": "16",
-                      "@x": "rand(10,20)",
-                      "y": "13",
-                      "@y": "rand(10,20)",
-                      "z": "14",
-                      "@z": "rand(10,20)",
-                      "w": "20",
-                      "@w": "rand(10,20)",
-                      "c1": "false",
-                      "@c1": "(16>20)",
-                      "c2": "false",
-                      "@c2": "(13>20)",
-                      "c3": "false",
-                      "@c3": "(14>20)",
-                      "__bool__0": "true",
-                      "__bool__1": "false"
-                    },
-                    {
-                      "x": "11",
-                      "@x": "rand(10,20)",
-                      "y": "12",
-                      "@y": "rand(10,20)",
-                      "z": "16",
-                      "@z": "rand(10,20)",
-                      "w": "19",
-                      "@w": "rand(10,20)",
-                      "c1": "false",
-                      "@c1": "(11>19)",
-                      "c2": "false",
-                      "@c2": "(12>19)",
-                      "c3": "false",
-                      "@c3": "(16>19)",
+                      "@c3": "(12>14)",
                       "__bool__0": "true",
                       "__bool__1": "false"
                     }
@@ -1327,34 +1439,42 @@
               },
               {
                 "type": "section",
+                "srcLine": 42,
                 "text": "Single Choice"
               },
               {
                 "type": "exercise",
+                "srcLine": 45,
                 "title": "My Single Choice Exercise",
                 "label": "ex:mySingleChoice",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 53,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 53,
                         "text": "Choose the right answer:"
                       }
                     ]
                   },
                   {
                     "type": "singleChoice",
+                    "srcLine": 53,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 53,
                         "id": "input11",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 53,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 53,
                                 "text": "This answer is correct."
                               }
                             ]
@@ -1369,13 +1489,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 53,
                         "id": "input12",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 53,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 53,
                                 "text": "This answer is incorrect."
                               }
                             ]
@@ -1390,13 +1513,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 53,
                         "id": "input13",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 53,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 53,
                                 "text": "This answer is incorrect."
                               }
                             ]
@@ -1454,18 +1580,22 @@
               },
               {
                 "type": "section",
+                "srcLine": 55,
                 "text": "Randomized Exercises"
               },
               {
                 "type": "exercise",
+                "srcLine": 58,
                 "title": "Addition",
                 "label": "ex:add",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 66,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 66,
                         "text": "Calculate"
                       },
                       {
@@ -1491,6 +1621,7 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 66,
                         "id": "input14",
                         "inputFieldData": {
                           "type": "int",
@@ -1501,6 +1632,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 66,
                         "text": "."
                       }
                     ]
@@ -1515,12 +1647,12 @@
                   ],
                   "instances": [
                     {
-                      "x": "1",
+                      "x": "5",
                       "@x": "rand(1,5)",
-                      "y": "5",
+                      "y": "3",
                       "@y": "rand(1,5)",
-                      "z": "6",
-                      "@z": "(1+5)"
+                      "z": "8",
+                      "@z": "(5+3)"
                     },
                     {
                       "x": "3",
@@ -1531,28 +1663,28 @@
                       "@z": "(3+2)"
                     },
                     {
-                      "x": "5",
+                      "x": "3",
                       "@x": "rand(1,5)",
-                      "y": "1",
+                      "y": "5",
                       "@y": "rand(1,5)",
-                      "z": "6",
-                      "@z": "(5+1)"
+                      "z": "8",
+                      "@z": "(3+5)"
+                    },
+                    {
+                      "x": "4",
+                      "@x": "rand(1,5)",
+                      "y": "5",
+                      "@y": "rand(1,5)",
+                      "z": "9",
+                      "@z": "(4+5)"
                     },
                     {
                       "x": "2",
                       "@x": "rand(1,5)",
-                      "y": "1",
+                      "y": "5",
                       "@y": "rand(1,5)",
-                      "z": "3",
-                      "@z": "(2+1)"
-                    },
-                    {
-                      "x": "2",
-                      "@x": "rand(1,5)",
-                      "y": "1",
-                      "@y": "rand(1,5)",
-                      "z": "3",
-                      "@z": "(2+1)"
+                      "z": "7",
+                      "@z": "(2+5)"
                     }
                   ],
                   "staticOrder": false,
@@ -1563,14 +1695,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 67,
                 "title": "Matrix Multiplication",
                 "label": "ex:add-mul",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 75,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 75,
                         "text": "Calculate"
                       },
                       {
@@ -1596,6 +1731,7 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 75,
                         "id": "input15",
                         "inputFieldData": {
                           "type": "matrix",
@@ -1606,6 +1742,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 75,
                         "text": "."
                       }
                     ]
@@ -1620,44 +1757,44 @@
                   ],
                   "instances": [
                     {
+                      "x": "[[5,3],[3,5]]",
+                      "@x": "rand<2,2>(1,5)",
+                      "y": "[[1,2],[5,4]]",
+                      "@y": "rand<2,2>(1,5)",
+                      "z": "[[20,22],[28,26]]",
+                      "@z": "(([[5,3],[3,5]])*([[1,2],[5,4]]))"
+                    },
+                    {
+                      "x": "[[2,2],[5,3]]",
+                      "@x": "rand<2,2>(1,5)",
+                      "y": "[[4,2],[5,5]]",
+                      "@y": "rand<2,2>(1,5)",
+                      "z": "[[18,14],[35,25]]",
+                      "@z": "(([[2,2],[5,3]])*([[4,2],[5,5]]))"
+                    },
+                    {
+                      "x": "[[5,5],[3,4]]",
+                      "@x": "rand<2,2>(1,5)",
+                      "y": "[[1,2],[3,3]]",
+                      "@y": "rand<2,2>(1,5)",
+                      "z": "[[20,25],[15,18]]",
+                      "@z": "(([[5,5],[3,4]])*([[1,2],[3,3]]))"
+                    },
+                    {
+                      "x": "[[5,5],[2,1]]",
+                      "@x": "rand<2,2>(1,5)",
+                      "y": "[[1,1],[4,3]]",
+                      "@y": "rand<2,2>(1,5)",
+                      "z": "[[25,20],[6,5]]",
+                      "@z": "(([[5,5],[2,1]])*([[1,1],[4,3]]))"
+                    },
+                    {
                       "x": "[[5,5],[2,3]]",
                       "@x": "rand<2,2>(1,5)",
-                      "y": "[[5,1],[4,2]]",
+                      "y": "[[3,3],[3,2]]",
                       "@y": "rand<2,2>(1,5)",
-                      "z": "[[45,15],[22,8]]",
-                      "@z": "(([[5,5],[2,3]])*([[5,1],[4,2]]))"
-                    },
-                    {
-                      "x": "[[1,3],[2,3]]",
-                      "@x": "rand<2,2>(1,5)",
-                      "y": "[[4,3],[5,2]]",
-                      "@y": "rand<2,2>(1,5)",
-                      "z": "[[19,9],[23,12]]",
-                      "@z": "(([[1,3],[2,3]])*([[4,3],[5,2]]))"
-                    },
-                    {
-                      "x": "[[3,3],[4,4]]",
-                      "@x": "rand<2,2>(1,5)",
-                      "y": "[[2,2],[4,2]]",
-                      "@y": "rand<2,2>(1,5)",
-                      "z": "[[18,12],[24,16]]",
-                      "@z": "(([[3,3],[4,4]])*([[2,2],[4,2]]))"
-                    },
-                    {
-                      "x": "[[1,5],[5,2]]",
-                      "@x": "rand<2,2>(1,5)",
-                      "y": "[[1,2],[5,5]]",
-                      "@y": "rand<2,2>(1,5)",
-                      "z": "[[26,27],[15,20]]",
-                      "@z": "(([[1,5],[5,2]])*([[1,2],[5,5]]))"
-                    },
-                    {
-                      "x": "[[4,3],[5,4]]",
-                      "@x": "rand<2,2>(1,5)",
-                      "y": "[[5,5],[2,3]]",
-                      "@y": "rand<2,2>(1,5)",
-                      "z": "[[26,29],[33,37]]",
-                      "@z": "(([[4,3],[5,4]])*([[5,5],[2,3]]))"
+                      "z": "[[30,25],[15,12]]",
+                      "@z": "(([[5,5],[2,3]])*([[3,3],[3,2]]))"
                     }
                   ],
                   "staticOrder": false,
@@ -1668,18 +1805,22 @@
               },
               {
                 "type": "section",
+                "srcLine": 76,
                 "text": "Mixed Exercises"
               },
               {
                 "type": "exercise",
+                "srcLine": 79,
                 "title": "Mixed",
                 "label": "ex16",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 97,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 97,
                         "text": "Calculate"
                       },
                       {
@@ -1705,6 +1846,7 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 97,
                         "id": "input17",
                         "inputFieldData": {
                           "type": "int",
@@ -1715,31 +1857,38 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 97,
                         "text": "."
                       }
                     ]
                   },
                   {
                     "type": "paragraph",
+                    "srcLine": 97,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 97,
                         "text": "Choose the right answers:"
                       }
                     ]
                   },
                   {
                     "type": "multipleChoice",
+                    "srcLine": 97,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 97,
                         "id": "input18",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 97,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 97,
                                 "text": "This answer is correct."
                               }
                             ]
@@ -1754,13 +1903,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 97,
                         "id": "input19",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 97,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 97,
                                 "text": "This answer is incorrect."
                               }
                             ]
@@ -1775,13 +1927,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 97,
                         "id": "input20",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 97,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 97,
                                 "text": "This answer is correct."
                               }
                             ]
@@ -1798,25 +1953,31 @@
                   },
                   {
                     "type": "paragraph",
+                    "srcLine": 97,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 97,
                         "text": "Choose the right answers:"
                       }
                     ]
                   },
                   {
                     "type": "multipleChoice",
+                    "srcLine": 97,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 97,
                         "id": "input21",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 97,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 97,
                                 "text": "True."
                               }
                             ]
@@ -1831,13 +1992,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 97,
                         "id": "input22",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 97,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 97,
                                 "text": "True."
                               }
                             ]
@@ -1852,13 +2016,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 97,
                         "id": "input23",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 97,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 97,
                                 "text": "False."
                               }
                             ]
@@ -1889,6 +2056,20 @@
                   ],
                   "instances": [
                     {
+                      "x": "5",
+                      "@x": "rand(1,5)",
+                      "y": "4",
+                      "@y": "rand(1,5)",
+                      "z": "9",
+                      "@z": "(5+4)",
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true",
+                      "__bool__3": "true",
+                      "__bool__4": "true",
+                      "__bool__5": "false"
+                    },
+                    {
                       "x": "2",
                       "@x": "rand(1,5)",
                       "y": "5",
@@ -1903,54 +2084,40 @@
                       "__bool__5": "false"
                     },
                     {
-                      "x": "4",
-                      "@x": "rand(1,5)",
-                      "y": "3",
-                      "@y": "rand(1,5)",
-                      "z": "7",
-                      "@z": "(4+3)",
-                      "__bool__0": "true",
-                      "__bool__1": "false",
-                      "__bool__2": "true",
-                      "__bool__3": "true",
-                      "__bool__4": "true",
-                      "__bool__5": "false"
-                    },
-                    {
-                      "x": "4",
-                      "@x": "rand(1,5)",
-                      "y": "5",
-                      "@y": "rand(1,5)",
-                      "z": "9",
-                      "@z": "(4+5)",
-                      "__bool__0": "true",
-                      "__bool__1": "false",
-                      "__bool__2": "true",
-                      "__bool__3": "true",
-                      "__bool__4": "true",
-                      "__bool__5": "false"
-                    },
-                    {
-                      "x": "1",
-                      "@x": "rand(1,5)",
-                      "y": "3",
-                      "@y": "rand(1,5)",
-                      "z": "4",
-                      "@z": "(1+3)",
-                      "__bool__0": "true",
-                      "__bool__1": "false",
-                      "__bool__2": "true",
-                      "__bool__3": "true",
-                      "__bool__4": "true",
-                      "__bool__5": "false"
-                    },
-                    {
-                      "x": "2",
+                      "x": "3",
                       "@x": "rand(1,5)",
                       "y": "4",
                       "@y": "rand(1,5)",
+                      "z": "7",
+                      "@z": "(3+4)",
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true",
+                      "__bool__3": "true",
+                      "__bool__4": "true",
+                      "__bool__5": "false"
+                    },
+                    {
+                      "x": "4",
+                      "@x": "rand(1,5)",
+                      "y": "2",
+                      "@y": "rand(1,5)",
                       "z": "6",
-                      "@z": "(2+4)",
+                      "@z": "(4+2)",
+                      "__bool__0": "true",
+                      "__bool__1": "false",
+                      "__bool__2": "true",
+                      "__bool__3": "true",
+                      "__bool__4": "true",
+                      "__bool__5": "false"
+                    },
+                    {
+                      "x": "3",
+                      "@x": "rand(1,5)",
+                      "y": "1",
+                      "@y": "rand(1,5)",
+                      "z": "4",
+                      "@z": "(3+1)",
                       "__bool__0": "true",
                       "__bool__1": "false",
                       "__bool__2": "true",
@@ -1967,15 +2134,18 @@
               },
               {
                 "type": "section",
+                "srcLine": 98,
                 "text": "Exercise with button answers"
               },
               {
                 "type": "exercise",
+                "srcLine": 101,
                 "title": "Multiplication",
                 "label": "ex24",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 111,
                     "items": [
                       {
                         "type": "inlineMath",
@@ -2000,6 +2170,7 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 111,
                         "id": "input25",
                         "inputFieldData": {
                           "type": "choices",
@@ -2020,44 +2191,44 @@
                   ],
                   "instances": [
                     {
-                      "x": "20",
+                      "x": "18",
                       "@x": "rand(10,20)",
-                      "y": "11",
+                      "y": "13",
                       "@y": "rand(10,20)",
-                      "z": "220",
-                      "@z": "(20*11)"
-                    },
-                    {
-                      "x": "10",
-                      "@x": "rand(10,20)",
-                      "y": "20",
-                      "@y": "rand(10,20)",
-                      "z": "200",
-                      "@z": "(10*20)"
-                    },
-                    {
-                      "x": "16",
-                      "@x": "rand(10,20)",
-                      "y": "14",
-                      "@y": "rand(10,20)",
-                      "z": "224",
-                      "@z": "(16*14)"
+                      "z": "234",
+                      "@z": "(18*13)"
                     },
                     {
                       "x": "19",
                       "@x": "rand(10,20)",
-                      "y": "17",
+                      "y": "18",
                       "@y": "rand(10,20)",
-                      "z": "323",
-                      "@z": "(19*17)"
+                      "z": "342",
+                      "@z": "(19*18)"
                     },
                     {
-                      "x": "17",
+                      "x": "11",
                       "@x": "rand(10,20)",
-                      "y": "13",
+                      "y": "10",
                       "@y": "rand(10,20)",
-                      "z": "221",
-                      "@z": "(17*13)"
+                      "z": "110",
+                      "@z": "(11*10)"
+                    },
+                    {
+                      "x": "10",
+                      "@x": "rand(10,20)",
+                      "y": "17",
+                      "@y": "rand(10,20)",
+                      "z": "170",
+                      "@z": "(10*17)"
+                    },
+                    {
+                      "x": "20",
+                      "@x": "rand(10,20)",
+                      "y": "15",
+                      "@y": "rand(10,20)",
+                      "z": "300",
+                      "@z": "(20*15)"
                     }
                   ],
                   "staticOrder": false,
@@ -2068,14 +2239,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 112,
                 "title": "Simple Integration",
                 "label": "ex:intSimple",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 121,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 121,
                         "text": "Solve"
                       },
                       {
@@ -2089,6 +2263,7 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 121,
                         "id": "input26",
                         "inputFieldData": {
                           "type": "int",
@@ -2121,7 +2296,16 @@
                       "$F.n": "4",
                       "$F.0": "((1/3)*(x^3))",
                       "$F.1": "(7*x)",
-                      "$F.2": "((2/3)*(x^3))",
+                      "$F.2": "(8*x)",
+                      "$F.3": "((2/3)*(x^3))"
+                    },
+                    {
+                      "F": "0",
+                      "@F": "(((1/3)*(x^3))+(7*x))",
+                      "$F.n": "4",
+                      "$F.0": "((1/3)*(x^3))",
+                      "$F.1": "(7*x)",
+                      "$F.2": "((1/3)*(x^4))",
                       "$F.3": "(8*x)"
                     },
                     {
@@ -2130,25 +2314,16 @@
                       "$F.n": "4",
                       "$F.0": "((1/3)*(x^3))",
                       "$F.1": "(7*x)",
+                      "$F.2": "((2/3)*(x^3))",
+                      "$F.3": "((2/4)*(x^4))"
+                    },
+                    {
+                      "F": "0",
+                      "@F": "(((1/3)*(x^3))+(7*x))",
+                      "$F.n": "4",
+                      "$F.0": "((1/3)*(x^3))",
+                      "$F.1": "(7*x)",
                       "$F.2": "((2/4)*(x^3))",
-                      "$F.3": "((2/3)*(x^4))"
-                    },
-                    {
-                      "F": "0",
-                      "@F": "(((1/3)*(x^3))+(7*x))",
-                      "$F.n": "4",
-                      "$F.0": "((1/3)*(x^3))",
-                      "$F.1": "(7*x)",
-                      "$F.2": "((1/4)*(x^3))",
-                      "$F.3": "((1/3)*(x^4))"
-                    },
-                    {
-                      "F": "0",
-                      "@F": "(((1/3)*(x^3))+(7*x))",
-                      "$F.n": "4",
-                      "$F.0": "((1/3)*(x^3))",
-                      "$F.1": "(7*x)",
-                      "$F.2": "((1/4)*(x^4))",
                       "$F.3": "(8*x)"
                     },
                     {
@@ -2169,27 +2344,33 @@
               },
               {
                 "type": "section",
+                "srcLine": 122,
                 "text": "Scoring"
               },
               {
                 "type": "exercise",
+                "srcLine": 125,
                 "title": "Scoring example",
                 "label": "ex27",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 141,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 141,
                         "text": "Calculate"
                       }
                     ]
                   },
                   {
                     "type": "enumerateAlpha",
+                    "srcLine": 141,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 141,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -2206,6 +2387,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 141,
                             "id": "input28",
                             "inputFieldData": {
                               "type": "int",
@@ -2218,6 +2400,7 @@
                       },
                       {
                         "type": "span",
+                        "srcLine": 141,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -2234,6 +2417,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 141,
                             "id": "input29",
                             "inputFieldData": {
                               "type": "int",
@@ -2257,52 +2441,52 @@
                   ],
                   "instances": [
                     {
-                      "a": "4",
-                      "@a": "rand(2,4)",
-                      "b": "6",
-                      "@b": "rand(5,6)",
-                      "fa": "24",
-                      "@fa": "fac(4)",
-                      "fb": "720",
-                      "@fb": "fac(6)"
-                    },
-                    {
-                      "a": "4",
-                      "@a": "rand(2,4)",
-                      "b": "6",
-                      "@b": "rand(5,6)",
-                      "fa": "24",
-                      "@fa": "fac(4)",
-                      "fb": "720",
-                      "@fb": "fac(6)"
-                    },
-                    {
-                      "a": "3",
-                      "@a": "rand(2,4)",
-                      "b": "6",
-                      "@b": "rand(5,6)",
-                      "fa": "6",
-                      "@fa": "fac(3)",
-                      "fb": "720",
-                      "@fb": "fac(6)"
-                    },
-                    {
-                      "a": "2",
-                      "@a": "rand(2,4)",
-                      "b": "6",
-                      "@b": "rand(5,6)",
-                      "fa": "2",
-                      "@fa": "fac(2)",
-                      "fb": "720",
-                      "@fb": "fac(6)"
-                    },
-                    {
                       "a": "2",
                       "@a": "rand(2,4)",
                       "b": "5",
                       "@b": "rand(5,6)",
                       "fa": "2",
                       "@fa": "fac(2)",
+                      "fb": "120",
+                      "@fb": "fac(5)"
+                    },
+                    {
+                      "a": "4",
+                      "@a": "rand(2,4)",
+                      "b": "5",
+                      "@b": "rand(5,6)",
+                      "fa": "24",
+                      "@fa": "fac(4)",
+                      "fb": "120",
+                      "@fb": "fac(5)"
+                    },
+                    {
+                      "a": "4",
+                      "@a": "rand(2,4)",
+                      "b": "5",
+                      "@b": "rand(5,6)",
+                      "fa": "24",
+                      "@fa": "fac(4)",
+                      "fb": "120",
+                      "@fb": "fac(5)"
+                    },
+                    {
+                      "a": "4",
+                      "@a": "rand(2,4)",
+                      "b": "5",
+                      "@b": "rand(5,6)",
+                      "fa": "24",
+                      "@fa": "fac(4)",
+                      "fb": "120",
+                      "@fb": "fac(5)"
+                    },
+                    {
+                      "a": "4",
+                      "@a": "rand(2,4)",
+                      "b": "5",
+                      "@b": "rand(5,6)",
+                      "fa": "24",
+                      "@fa": "fac(4)",
                       "fb": "120",
                       "@fb": "fac(5)"
                     }
@@ -2315,23 +2499,28 @@
               },
               {
                 "type": "section",
+                "srcLine": 142,
                 "text": "Gap Exercise"
               },
               {
                 "type": "exercise",
+                "srcLine": 145,
                 "title": "My Gap Exercise",
                 "label": "ex:myLabel",
-                "error": "Unknown option: \"show-required-letters-only: true\". No variable for input field given.  No variable for input field given. ",
+                "error": "Unknown option: \"show-required-letters-only: true\". No variable for input field given.  No variable for input field given. Exercise has no instances",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 153,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 153,
                         "text": "Garfield is a"
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 153,
                         "id": "input30",
                         "inputFieldData": {
                           "type": "none",
@@ -2342,10 +2531,12 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 153,
                         "text": "cat. Rain is"
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 153,
                         "id": "input31",
                         "inputFieldData": {
                           "type": "none",
@@ -2356,6 +2547,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 153,
                         "text": "wet."
                       }
                     ]
@@ -2373,23 +2565,28 @@
               },
               {
                 "type": "section",
+                "srcLine": 154,
                 "text": "Arrangement Exercise"
               },
               {
                 "type": "exercise",
+                "srcLine": 157,
                 "title": "Title",
                 "label": "ex:label",
-                "error": "SMPL-Error: Exception: FILE:3:4: expected \"=\"\n There is no variable \"f\". Unknown option: \"arrangement: true\".Unknown option: \"accept-immediately: true\".",
+                "error": "SMPL-Error: Exception: FILE:3:4: expected \"=\"\n There is no variable \"f\". Unknown option: \"arrangement: true\".Unknown option: \"accept-immediately: true\".Exercise has no instances",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 172,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 172,
                         "text": "Arrange the following numbers to get the first numbers of the Fibonacci sequence:"
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 172,
                         "id": "input32",
                         "inputFieldData": {
                           "type": "none",
@@ -2413,19 +2610,23 @@
               },
               {
                 "type": "section",
+                "srcLine": 173,
                 "text": "Timed Exercise"
               },
               {
                 "type": "exercise",
+                "srcLine": 176,
                 "title": "Title",
                 "label": "ex:label",
                 "error": "Unknown option: \"timer: 3\".Unknown option: \"accelerate: true\".Unknown option: \"stop-after-x-errors: 1\".",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 189,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 189,
                         "text": "Calculate"
                       },
                       {
@@ -2451,6 +2652,7 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 189,
                         "id": "input33",
                         "inputFieldData": {
                           "type": "choices",
@@ -2471,44 +2673,44 @@
                   ],
                   "instances": [
                     {
-                      "x": "44",
+                      "x": "37",
                       "@x": "rand(20,50)",
-                      "y": "21",
+                      "y": "24",
                       "@y": "rand(20,50)",
-                      "z": "65",
-                      "@z": "(44+21)"
+                      "z": "61",
+                      "@z": "(37+24)"
                     },
                     {
-                      "x": "36",
+                      "x": "40",
                       "@x": "rand(20,50)",
-                      "y": "41",
+                      "y": "29",
                       "@y": "rand(20,50)",
-                      "z": "77",
-                      "@z": "(36+41)"
+                      "z": "69",
+                      "@z": "(40+29)"
+                    },
+                    {
+                      "x": "30",
+                      "@x": "rand(20,50)",
+                      "y": "22",
+                      "@y": "rand(20,50)",
+                      "z": "52",
+                      "@z": "(30+22)"
+                    },
+                    {
+                      "x": "45",
+                      "@x": "rand(20,50)",
+                      "y": "24",
+                      "@y": "rand(20,50)",
+                      "z": "69",
+                      "@z": "(45+24)"
                     },
                     {
                       "x": "42",
                       "@x": "rand(20,50)",
-                      "y": "49",
+                      "y": "46",
                       "@y": "rand(20,50)",
-                      "z": "91",
-                      "@z": "(42+49)"
-                    },
-                    {
-                      "x": "25",
-                      "@x": "rand(20,50)",
-                      "y": "50",
-                      "@y": "rand(20,50)",
-                      "z": "75",
-                      "@z": "(25+50)"
-                    },
-                    {
-                      "x": "21",
-                      "@x": "rand(20,50)",
-                      "y": "42",
-                      "@y": "rand(20,50)",
-                      "z": "63",
-                      "@z": "(21+42)"
+                      "z": "88",
+                      "@z": "(42+46)"
                     }
                   ],
                   "staticOrder": false,
@@ -2528,7 +2730,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128898,
     "chapters": [
       {
         "fileId": "",
@@ -2550,10 +2752,12 @@
             "items": [
               {
                 "type": "section",
+                "srcLine": 3,
                 "text": "Function Plots"
               },
               {
                 "type": "figure",
+                "srcLine": 6,
                 "figureData": {
                   "filePath": "",
                   "code": "  let f(x) = x^2\n  let g(x) = 2*x\n  figure {\n    x_axis(-5, 5, \"x\")  \n    y_axis(-0.5, 4.5, \"y\")\n    function(f)\n    function(g)\n    circle(0, 0, 0.1)   \n    circle(2, 4, 0.1)\n  }",
@@ -2561,9 +2765,11 @@
                   "caption": [
                     {
                       "type": "paragraph",
+                      "srcLine": 24,
                       "items": [
                         {
                           "type": "text",
+                          "srcLine": 24,
                           "text": "Some functions"
                         },
                         {
@@ -2577,6 +2783,7 @@
                         },
                         {
                           "type": "text",
+                          "srcLine": 24,
                           "text": "and"
                         },
                         {
@@ -2598,10 +2805,12 @@
               },
               {
                 "type": "section",
+                "srcLine": 26,
                 "text": "Figures"
               },
               {
                 "type": "figure",
+                "srcLine": 29,
                 "figureData": {
                   "filePath": "../../mathebuddy-public-courses/demo-basic/images/logo.svg",
                   "code": "",
@@ -2609,9 +2818,11 @@
                   "caption": [
                     {
                       "type": "paragraph",
+                      "srcLine": 38,
                       "items": [
                         {
                           "type": "text",
+                          "srcLine": 38,
                           "text": "mathe: buddy logo"
                         }
                       ]
@@ -2633,7 +2844,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128898,
     "chapters": [
       {
         "fileId": "",
@@ -2655,9 +2866,11 @@
             "items": [
               {
                 "type": "paragraph",
+                "srcLine": 7,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 7,
                     "text": "Hello world from math buddy!"
                   }
                 ]
@@ -2673,7 +2886,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128898,
     "chapters": [
       {
         "fileId": "",
@@ -2695,12 +2908,14 @@
             "items": [
               {
                 "type": "table",
+                "srcLine": 3,
                 "title": "Negation",
                 "tableData": {
                   "head": {
                     "columns": [
                       {
                         "type": "paragraph",
+                        "srcLine": 12,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -2715,6 +2930,7 @@
                       },
                       {
                         "type": "paragraph",
+                        "srcLine": 12,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -2734,18 +2950,22 @@
                       "columns": [
                         {
                           "type": "paragraph",
+                          "srcLine": 12,
                           "items": [
                             {
                               "type": "text",
+                              "srcLine": 12,
                               "text": "w"
                             }
                           ]
                         },
                         {
                           "type": "paragraph",
+                          "srcLine": 12,
                           "items": [
                             {
                               "type": "text",
+                              "srcLine": 12,
                               "text": "f"
                             }
                           ]
@@ -2756,18 +2976,22 @@
                       "columns": [
                         {
                           "type": "paragraph",
+                          "srcLine": 12,
                           "items": [
                             {
                               "type": "text",
+                              "srcLine": 12,
                               "text": "f"
                             }
                           ]
                         },
                         {
                           "type": "paragraph",
+                          "srcLine": 12,
                           "items": [
                             {
                               "type": "text",
+                              "srcLine": 12,
                               "text": "w"
                             }
                           ]
@@ -2791,7 +3015,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128898,
     "chapters": [
       {
         "fileId": "",
@@ -2813,108 +3037,132 @@
             "items": [
               {
                 "type": "paragraph",
+                "srcLine": 10,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 10,
                     "text": "This is text within a paragraph. Even this text stands in a new line, it is compiled to be written directly behind the last line."
                   }
                 ]
               },
               {
                 "type": "paragraph",
+                "srcLine": 10,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 10,
                     "text": "An empty line starts a new paragraph."
                   }
                 ]
               },
               {
                 "type": "paragraph",
+                "srcLine": 10,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 10,
                     "text": "This text is displayed in the output."
                   }
                 ]
               },
               {
                 "type": "section",
+                "srcLine": 10,
                 "label": "sec:mySection",
                 "text": "My section"
               },
               {
                 "type": "paragraph",
+                "srcLine": 15,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 15,
                     "text": "Some text in"
                   },
                   {
                     "type": "color",
+                    "srcLine": 15,
                     "id": "1",
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 15,
                         "text": "red"
                       }
                     ]
                   },
                   {
                     "type": "text",
+                    "srcLine": 15,
                     "text": "color."
                   }
                 ]
               },
               {
                 "type": "subSection",
+                "srcLine": 15,
                 "label": "subsec:mySubSection",
                 "text": "My subsection"
               },
               {
                 "type": "paragraph",
+                "srcLine": 34,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 34,
                     "text": "Refer to"
                   },
                   {
                     "type": "reference",
+                    "srcLine": 34,
                     "label": "sec:mySection",
                     "text": "My section"
                   },
                   {
                     "type": "text",
+                    "srcLine": 34,
                     "text": "."
                   }
                 ]
               },
               {
                 "type": "paragraph",
+                "srcLine": 34,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 34,
                     "text": "An itemization:"
                   }
                 ]
               },
               {
                 "type": "itemize",
+                "srcLine": 34,
                 "items": [
                   {
                     "type": "span",
+                    "srcLine": 34,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 34,
                         "text": "first item. This is some very long text that is wrapped over multiple lines. This is some very long text that is wrapped over multiple lines. This is some very long text that is wrapped over multiple lines. \nThis line belongs to the first item, but stands in a new line."
                       }
                     ]
                   },
                   {
                     "type": "span",
+                    "srcLine": 34,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 34,
                         "text": "second item"
                       }
                     ]
@@ -2923,30 +3171,37 @@
               },
               {
                 "type": "paragraph",
+                "srcLine": 34,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 34,
                     "text": "An enumeration"
                   }
                 ]
               },
               {
                 "type": "enumerate",
+                "srcLine": 34,
                 "items": [
                   {
                     "type": "span",
+                    "srcLine": 34,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 34,
                         "text": "first item"
                       }
                     ]
                   },
                   {
                     "type": "span",
+                    "srcLine": 34,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 34,
                         "text": "second item"
                       }
                     ]
@@ -2955,30 +3210,37 @@
               },
               {
                 "type": "paragraph",
+                "srcLine": 34,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 34,
                     "text": "An alpha enumeration"
                   }
                 ]
               },
               {
                 "type": "enumerateAlpha",
+                "srcLine": 34,
                 "items": [
                   {
                     "type": "span",
+                    "srcLine": 34,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 34,
                         "text": "first item"
                       }
                     ]
                   },
                   {
                     "type": "span",
+                    "srcLine": 34,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 34,
                         "text": "second item"
                       }
                     ]
@@ -2986,113 +3248,139 @@
                 ]
               },
               {
-                "type": "newPage"
+                "type": "newPage",
+                "srcLine": 34
               },
               {
                 "type": "subSection",
+                "srcLine": 38,
                 "text": "Bold, italic and colored text"
               },
               {
                 "type": "paragraph",
+                "srcLine": 46,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 46,
                     "text": "Some"
                   },
                   {
                     "type": "boldText",
+                    "srcLine": 46,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 46,
                         "text": "bold"
                       }
                     ]
                   },
                   {
                     "type": "text",
+                    "srcLine": 46,
                     "text": "text. Some"
                   },
                   {
                     "type": "italicText",
+                    "srcLine": 46,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 46,
                         "text": "italic"
                       }
                     ]
                   },
                   {
                     "type": "text",
+                    "srcLine": 46,
                     "text": "text. The word"
                   },
                   {
                     "type": "color",
+                    "srcLine": 46,
                     "id": "1",
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 46,
                         "text": "sky"
                       }
                     ]
                   },
                   {
                     "type": "text",
+                    "srcLine": 46,
                     "text": "is written in primary color."
                   },
                   {
                     "type": "color",
+                    "srcLine": 46,
                     "id": "2",
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 46,
                         "text": "Some text written in the secondary color."
                       }
                     ]
                   },
                   {
                     "type": "text",
+                    "srcLine": 46,
                     "text": ". You can also write"
                   },
                   {
                     "type": "boldText",
+                    "srcLine": 46,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 46,
                         "text": "bold text"
                       }
                     ]
                   },
                   {
                     "type": "text",
+                    "srcLine": 46,
                     "text": "and"
                   },
                   {
                     "type": "italicText",
+                    "srcLine": 46,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 46,
                         "text": "italic text"
                       }
                     ]
                   },
                   {
                     "type": "text",
+                    "srcLine": 46,
                     "text": "similar to color notation."
                   }
                 ]
               },
               {
                 "type": "subSection",
+                "srcLine": 46,
                 "text": "Text alignment"
               },
               {
                 "type": "alignCenter",
+                "srcLine": 49,
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 53,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 53,
                         "text": "This text is centered."
                       }
                     ]
@@ -3110,7 +3398,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128898,
     "chapters": [
       {
         "fileId": "",
@@ -3132,14 +3420,17 @@
             "items": [
               {
                 "type": "exercise",
+                "srcLine": 3,
                 "title": "Addition",
                 "label": "ex0",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 14,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 14,
                         "text": "Seien"
                       },
                       {
@@ -3157,6 +3448,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 14,
                         "text": "und"
                       },
                       {
@@ -3174,28 +3466,34 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 14,
                         "text": "komplexe Zahlen. Berechne die folgende"
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 14,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 14,
                             "text": "Summe"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 14,
                         "text": "und gebe das Ergebnis in Normalform an:"
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 14,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 14,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -3208,6 +3506,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 14,
                             "id": "input1",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -3230,44 +3529,44 @@
                   ],
                   "instances": [
                     {
-                      "a": "1+3i",
+                      "a": "5+4i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "-2+3i",
+                      "b": "-1+3i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "-1+6i",
-                      "@c": "((1+3i)+(-2+3i))"
-                    },
-                    {
-                      "a": "5+3i",
-                      "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "2+3i",
-                      "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "7+6i",
-                      "@c": "((5+3i)+(2+3i))"
+                      "c": "4+7i",
+                      "@c": "((5+4i)+(-1+3i))"
                     },
                     {
                       "a": "4+3i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "3+i",
+                      "b": "2+4i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "7+4i",
-                      "@c": "((4+3i)+(3+i))"
+                      "c": "6+7i",
+                      "@c": "((4+3i)+(2+4i))"
                     },
                     {
-                      "a": "5+5i",
+                      "a": "3+4i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "-4+i",
+                      "b": "1+i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "1+6i",
-                      "@c": "((5+5i)+(-4+i))"
+                      "c": "4+5i",
+                      "@c": "((3+4i)+(1+i))"
                     },
                     {
-                      "a": "5+i",
+                      "a": "3+i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "5+5i",
+                      "b": "-1+2i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "10+6i",
-                      "@c": "((5+i)+(5+5i))"
+                      "c": "2+3i",
+                      "@c": "((3+i)+(-1+2i))"
+                    },
+                    {
+                      "a": "1+2i",
+                      "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
+                      "b": "-4+5i",
+                      "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
+                      "c": "-3+7i",
+                      "@c": "((1+2i)+(-4+5i))"
                     }
                   ],
                   "staticOrder": false,
@@ -3278,14 +3577,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 15,
                 "title": "Multiplikation",
                 "label": "ex2",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 26,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 26,
                         "text": "Seien"
                       },
                       {
@@ -3303,6 +3605,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 26,
                         "text": "und"
                       },
                       {
@@ -3320,28 +3623,34 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 26,
                         "text": "komplexe Zahlen. Berechne das folgende"
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 26,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 26,
                             "text": "Produkt"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 26,
                         "text": "und gebe das Ergebnis in Normalform an:"
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 26,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 26,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -3354,6 +3663,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 26,
                             "id": "input3",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -3376,44 +3686,44 @@
                   ],
                   "instances": [
                     {
+                      "a": "3+4i",
+                      "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
+                      "b": "-4i",
+                      "@b": "(rand((-(5)),5)*1*(i))",
+                      "c": "16-12i",
+                      "@c": "((3+4i)*(-4i))"
+                    },
+                    {
                       "a": "2+5i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "-5i",
+                      "b": "-i",
                       "@b": "(rand((-(5)),5)*1*(i))",
-                      "c": "25-10i",
-                      "@c": "((2+5i)*(-5i))"
+                      "c": "5-2i",
+                      "@c": "((2+5i)*(-i))"
                     },
                     {
-                      "a": "4+4i",
-                      "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "5i",
-                      "@b": "(rand((-(5)),5)*1*(i))",
-                      "c": "-20+20i",
-                      "@c": "((4+4i)*(5i))"
-                    },
-                    {
-                      "a": "2+3i",
-                      "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "3i",
-                      "@b": "(rand((-(5)),5)*1*(i))",
-                      "c": "-9+6i",
-                      "@c": "((2+3i)*(3i))"
-                    },
-                    {
-                      "a": "3+3i",
+                      "a": "1+2i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
                       "b": "i",
                       "@b": "(rand((-(5)),5)*1*(i))",
-                      "c": "-3+3i",
-                      "@c": "((3+3i)*(i))"
+                      "c": "-2+i",
+                      "@c": "((1+2i)*(i))"
                     },
                     {
-                      "a": "5+5i",
+                      "a": "2+i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "4i",
+                      "b": "i",
                       "@b": "(rand((-(5)),5)*1*(i))",
-                      "c": "-20+20i",
-                      "@c": "((5+5i)*(4i))"
+                      "c": "-1+2i",
+                      "@c": "((2+i)*(i))"
+                    },
+                    {
+                      "a": "2+i",
+                      "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
+                      "b": "i",
+                      "@b": "(rand((-(5)),5)*1*(i))",
+                      "c": "-1+2i",
+                      "@c": "((2+i)*(i))"
                     }
                   ],
                   "staticOrder": false,
@@ -3424,14 +3734,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 27,
                 "title": "Multiplikation",
                 "label": "ex4",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 38,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 38,
                         "text": "Seien"
                       },
                       {
@@ -3449,6 +3762,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 38,
                         "text": "und"
                       },
                       {
@@ -3466,28 +3780,34 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 38,
                         "text": "komplexe Zahlen. Berechne das folgende"
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 38,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 38,
                             "text": "Produkt"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 38,
                         "text": "und gebe das Ergebnis in Normalform an:"
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 38,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 38,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -3500,6 +3820,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 38,
                             "id": "input5",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -3522,44 +3843,44 @@
                   ],
                   "instances": [
                     {
+                      "a": "3+3i",
+                      "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
+                      "b": "-3+4i",
+                      "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
+                      "c": "-21+3i",
+                      "@c": "((3+3i)*(-3+4i))"
+                    },
+                    {
                       "a": "2+5i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "-5+3i",
+                      "b": "5+4i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "-25-19i",
-                      "@c": "((2+5i)*(-5+3i))"
+                      "c": "-10+33i",
+                      "@c": "((2+5i)*(5+4i))"
                     },
                     {
                       "a": "4+4i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "3+i",
+                      "b": "1+4i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "8+16i",
-                      "@c": "((4+4i)*(3+i))"
+                      "c": "-12+20i",
+                      "@c": "((4+4i)*(1+4i))"
                     },
                     {
-                      "a": "1+5i",
+                      "a": "4+3i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "-3+2i",
+                      "b": "2+5i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "-13-13i",
-                      "@c": "((1+5i)*(-3+2i))"
+                      "c": "-7+26i",
+                      "@c": "((4+3i)*(2+5i))"
                     },
                     {
-                      "a": "3+4i",
+                      "a": "4+3i",
                       "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "3+2i",
+                      "b": "2+5i",
                       "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "1+18i",
-                      "@c": "((3+4i)*(3+2i))"
-                    },
-                    {
-                      "a": "1+2i",
-                      "@a": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "b": "4+5i",
-                      "@b": "((randZ((-(1)),1)*rand(1,5))+(rand(1,5)*1*(i)))",
-                      "c": "-6+13i",
-                      "@c": "((1+2i)*(4+5i))"
+                      "c": "-7+26i",
+                      "@c": "((4+3i)*(2+5i))"
                     }
                   ],
                   "staticOrder": false,
@@ -3570,14 +3891,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 39,
                 "title": "Komplex konjugierte Zahl",
                 "label": "ex6",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 52,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 52,
                         "text": "Sei"
                       },
                       {
@@ -3591,6 +3915,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 52,
                         "text": "und"
                       },
                       {
@@ -3608,18 +3933,22 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 52,
                         "text": "."
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 52,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 52,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 52,
                             "text": "Berechne die zu"
                           },
                           {
@@ -3633,15 +3962,18 @@
                           },
                           {
                             "type": "boldText",
+                            "srcLine": 52,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 52,
                                 "text": "komplex konjugierte"
                               }
                             ]
                           },
                           {
                             "type": "text",
+                            "srcLine": 52,
                             "text": "Zahl: \n"
                           },
                           {
@@ -3655,6 +3987,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 52,
                             "id": "input7",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -3667,9 +4000,11 @@
                       },
                       {
                         "type": "span",
+                        "srcLine": 52,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 52,
                             "text": "Berechne"
                           },
                           {
@@ -3683,6 +4018,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 52,
                             "id": "input8",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -3705,44 +4041,44 @@
                   ],
                   "instances": [
                     {
-                      "z": "1+5i",
+                      "z": "4+4i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "1-5i",
-                      "@c": "conj((1+5i))",
-                      "z2": "26",
-                      "@z2": "((1+5i)*(1-5i))"
+                      "c": "4-4i",
+                      "@c": "conj((4+4i))",
+                      "z2": "32",
+                      "@z2": "((4+4i)*(4-4i))"
                     },
                     {
-                      "z": "3+4i",
+                      "z": "1+3i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "3-4i",
-                      "@c": "conj((3+4i))",
-                      "z2": "25",
-                      "@z2": "((3+4i)*(3-4i))"
-                    },
-                    {
-                      "z": "3+i",
-                      "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "3-i",
-                      "@c": "conj((3+i))",
+                      "c": "1-3i",
+                      "@c": "conj((1+3i))",
                       "z2": "10",
-                      "@z2": "((3+i)*(3-i))"
+                      "@z2": "((1+3i)*(1-3i))"
                     },
                     {
-                      "z": "2+i",
+                      "z": "1+3i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "2-i",
-                      "@c": "conj((2+i))",
+                      "c": "1-3i",
+                      "@c": "conj((1+3i))",
+                      "z2": "10",
+                      "@z2": "((1+3i)*(1-3i))"
+                    },
+                    {
+                      "z": "1+2i",
+                      "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
+                      "c": "1-2i",
+                      "@c": "conj((1+2i))",
                       "z2": "5",
-                      "@z2": "((2+i)*(2-i))"
+                      "@z2": "((1+2i)*(1-2i))"
                     },
                     {
-                      "z": "1+i",
+                      "z": "3+2i",
                       "@z": "(rand(1,5)+(rand(1,5)*1*(i)))",
-                      "c": "1-i",
-                      "@c": "conj((1+i))",
-                      "z2": "2",
-                      "@z2": "((1+i)*(1-i))"
+                      "c": "3-2i",
+                      "@c": "conj((3+2i))",
+                      "z2": "13",
+                      "@z2": "((3+2i)*(3-2i))"
                     }
                   ],
                   "staticOrder": false,
@@ -3753,14 +4089,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 53,
                 "title": "Betrag einer komplexen Zahl",
                 "label": "ex9",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 65,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 65,
                         "text": "Sei"
                       },
                       {
@@ -3774,6 +4113,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 65,
                         "text": "und"
                       },
                       {
@@ -3791,18 +4131,22 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 65,
                         "text": "."
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 65,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 65,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 65,
                             "text": "Berechne"
                           },
                           {
@@ -3816,6 +4160,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 65,
                             "id": "input10",
                             "inputFieldData": {
                               "type": "int",
@@ -3841,32 +4186,32 @@
                   ],
                   "instances": [
                     {
-                      "a": "2",
+                      "a": "3",
                       "@a": "rand(2,4)",
                       "b": "3",
                       "@b": "rand(2,4)",
-                      "x": "-5",
-                      "@x": "((2^2)-(3^2))",
-                      "y": "12",
-                      "@y": "(2*2*3)",
-                      "z": "-5+12i",
-                      "@z": "complex(-5,12)",
-                      "r": "13",
-                      "@r": "abs((-5+12i))"
+                      "x": "0",
+                      "@x": "((3^2)-(3^2))",
+                      "y": "18",
+                      "@y": "(2*3*3)",
+                      "z": "18i",
+                      "@z": "complex(0,18)",
+                      "r": "18",
+                      "@r": "abs((18i))"
                     },
                     {
-                      "a": "3",
+                      "a": "2",
                       "@a": "rand(2,4)",
                       "b": "2",
                       "@b": "rand(2,4)",
-                      "x": "5",
-                      "@x": "((3^2)-(2^2))",
-                      "y": "12",
-                      "@y": "(2*3*2)",
-                      "z": "5+12i",
-                      "@z": "complex(5,12)",
-                      "r": "13",
-                      "@r": "abs((5+12i))"
+                      "x": "0",
+                      "@x": "((2^2)-(2^2))",
+                      "y": "8",
+                      "@y": "(2*2*2)",
+                      "z": "8i",
+                      "@z": "complex(0,8)",
+                      "r": "8",
+                      "@r": "abs((8i))"
                     },
                     {
                       "a": "4",
@@ -3885,30 +4230,30 @@
                     {
                       "a": "3",
                       "@a": "rand(2,4)",
-                      "b": "4",
+                      "b": "2",
                       "@b": "rand(2,4)",
-                      "x": "-7",
-                      "@x": "((3^2)-(4^2))",
-                      "y": "24",
-                      "@y": "(2*3*4)",
-                      "z": "-7+24i",
-                      "@z": "complex(-7,24)",
-                      "r": "25",
-                      "@r": "abs((-7+24i))"
+                      "x": "5",
+                      "@x": "((3^2)-(2^2))",
+                      "y": "12",
+                      "@y": "(2*3*2)",
+                      "z": "5+12i",
+                      "@z": "complex(5,12)",
+                      "r": "13",
+                      "@r": "abs((5+12i))"
                     },
                     {
-                      "a": "3",
+                      "a": "2",
                       "@a": "rand(2,4)",
                       "b": "3",
                       "@b": "rand(2,4)",
-                      "x": "0",
-                      "@x": "((3^2)-(3^2))",
-                      "y": "18",
-                      "@y": "(2*3*3)",
-                      "z": "18i",
-                      "@z": "complex(0,18)",
-                      "r": "18",
-                      "@r": "abs((18i))"
+                      "x": "-5",
+                      "@x": "((2^2)-(3^2))",
+                      "y": "12",
+                      "@y": "(2*2*3)",
+                      "z": "-5+12i",
+                      "@z": "complex(-5,12)",
+                      "r": "13",
+                      "@r": "abs((-5+12i))"
                     }
                   ],
                   "staticOrder": false,
@@ -3919,14 +4264,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 67,
                 "title": "Inverse einer komplexen Zahl",
                 "label": "ex11",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 77,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 77,
                         "text": "Sei"
                       },
                       {
@@ -3940,6 +4288,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 77,
                         "text": "und"
                       },
                       {
@@ -3985,18 +4334,22 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 77,
                         "text": "."
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 77,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 77,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 77,
                             "text": "Berechne"
                           },
                           {
@@ -4010,6 +4363,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 77,
                             "id": "input12",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -4033,54 +4387,54 @@
                   ],
                   "instances": [
                     {
-                      "a": "5",
+                      "a": "2",
                       "@a": "rand(2,5)",
-                      "b": "4",
+                      "b": "2",
                       "@b": "rand(2,5)",
-                      "c": "41",
-                      "@c": "((5^2)+(4^2))",
-                      "r": "5+4i",
-                      "@r": "complex(5,4)"
-                    },
-                    {
-                      "a": "4",
-                      "@a": "rand(2,5)",
-                      "b": "3",
-                      "@b": "rand(2,5)",
-                      "c": "25",
-                      "@c": "((4^2)+(3^2))",
-                      "r": "4+3i",
-                      "@r": "complex(4,3)"
+                      "c": "8",
+                      "@c": "((2^2)+(2^2))",
+                      "r": "2+2i",
+                      "@r": "complex(2,2)"
                     },
                     {
                       "a": "2",
                       "@a": "rand(2,5)",
-                      "b": "3",
+                      "b": "4",
                       "@b": "rand(2,5)",
-                      "c": "13",
-                      "@c": "((2^2)+(3^2))",
-                      "r": "2+3i",
-                      "@r": "complex(2,3)"
+                      "c": "20",
+                      "@c": "((2^2)+(4^2))",
+                      "r": "2+4i",
+                      "@r": "complex(2,4)"
                     },
                     {
-                      "a": "5",
+                      "a": "2",
                       "@a": "rand(2,5)",
-                      "b": "3",
+                      "b": "2",
                       "@b": "rand(2,5)",
-                      "c": "34",
-                      "@c": "((5^2)+(3^2))",
-                      "r": "5+3i",
-                      "@r": "complex(5,3)"
+                      "c": "8",
+                      "@c": "((2^2)+(2^2))",
+                      "r": "2+2i",
+                      "@r": "complex(2,2)"
                     },
                     {
-                      "a": "4",
+                      "a": "2",
                       "@a": "rand(2,5)",
-                      "b": "5",
+                      "b": "2",
                       "@b": "rand(2,5)",
-                      "c": "41",
-                      "@c": "((4^2)+(5^2))",
-                      "r": "4+5i",
-                      "@r": "complex(4,5)"
+                      "c": "8",
+                      "@c": "((2^2)+(2^2))",
+                      "r": "2+2i",
+                      "@r": "complex(2,2)"
+                    },
+                    {
+                      "a": "2",
+                      "@a": "rand(2,5)",
+                      "b": "4",
+                      "@b": "rand(2,5)",
+                      "c": "20",
+                      "@c": "((2^2)+(4^2))",
+                      "r": "2+4i",
+                      "@r": "complex(2,4)"
                     }
                   ],
                   "staticOrder": false,
@@ -4091,14 +4445,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 78,
                 "title": "Division",
                 "label": "ex13",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 91,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 91,
                         "text": "Seien"
                       },
                       {
@@ -4116,6 +4473,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 91,
                         "text": "und"
                       },
                       {
@@ -4133,28 +4491,34 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 91,
                         "text": "komplexe Zahlen. Berechne den folgenden"
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 91,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 91,
                             "text": "Quotienten"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 91,
                         "text": "und gebe das Ergebnis in Normalform an:"
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 91,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 91,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -4167,6 +4531,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 91,
                             "id": "input14",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -4193,56 +4558,40 @@
                   ],
                   "instances": [
                     {
-                      "a": "-3",
-                      "@a": "(randZ((-(1)),1)*3)",
-                      "b": "5",
+                      "a": "-4",
+                      "@a": "(randZ((-(1)),1)*4)",
+                      "b": "4",
                       "@b": "rand(2,5)",
                       "c": "2",
                       "@c": "rand(2,5)",
-                      "d": "3",
+                      "d": "4",
                       "@d": "rand(2,5)",
-                      "z2": "5i",
-                      "@z2": "complex(0,5)",
-                      "r": "2+3i",
-                      "@r": "complex(2,3)",
-                      "z1": "-15+10i",
-                      "@z1": "((5i)*(2+3i))"
+                      "z2": "4i",
+                      "@z2": "complex(0,4)",
+                      "r": "2+4i",
+                      "@r": "complex(2,4)",
+                      "z1": "-16+8i",
+                      "@z1": "((4i)*(2+4i))"
                     },
                     {
                       "a": "2",
                       "@a": "(randZ((-(1)),1)*2)",
                       "b": "5",
                       "@b": "rand(2,5)",
-                      "c": "2",
+                      "c": "4",
                       "@c": "rand(2,5)",
                       "d": "2",
                       "@d": "rand(2,5)",
                       "z2": "5i",
                       "@z2": "complex(0,5)",
-                      "r": "2+2i",
-                      "@r": "complex(2,2)",
-                      "z1": "-10+10i",
-                      "@z1": "((5i)*(2+2i))"
+                      "r": "4+2i",
+                      "@r": "complex(4,2)",
+                      "z1": "-10+20i",
+                      "@z1": "((5i)*(4+2i))"
                     },
                     {
-                      "a": "-2",
-                      "@a": "(randZ((-(1)),1)*2)",
-                      "b": "5",
-                      "@b": "rand(2,5)",
-                      "c": "5",
-                      "@c": "rand(2,5)",
-                      "d": "4",
-                      "@d": "rand(2,5)",
-                      "z2": "5i",
-                      "@z2": "complex(0,5)",
-                      "r": "5+4i",
-                      "@r": "complex(5,4)",
-                      "z1": "-20+25i",
-                      "@z1": "((5i)*(5+4i))"
-                    },
-                    {
-                      "a": "4",
-                      "@a": "(randZ((-(1)),1)*4)",
+                      "a": "3",
+                      "@a": "(randZ((-(1)),1)*3)",
                       "b": "3",
                       "@b": "rand(2,5)",
                       "c": "4",
@@ -4257,20 +4606,36 @@
                       "@z1": "((3i)*(4+5i))"
                     },
                     {
+                      "a": "-4",
+                      "@a": "(randZ((-(1)),1)*4)",
+                      "b": "3",
+                      "@b": "rand(2,5)",
+                      "c": "4",
+                      "@c": "rand(2,5)",
+                      "d": "3",
+                      "@d": "rand(2,5)",
+                      "z2": "3i",
+                      "@z2": "complex(0,3)",
+                      "r": "4+3i",
+                      "@r": "complex(4,3)",
+                      "z1": "-9+12i",
+                      "@z1": "((3i)*(4+3i))"
+                    },
+                    {
                       "a": "-2",
                       "@a": "(randZ((-(1)),1)*2)",
                       "b": "2",
                       "@b": "rand(2,5)",
-                      "c": "2",
+                      "c": "4",
                       "@c": "rand(2,5)",
-                      "d": "5",
+                      "d": "4",
                       "@d": "rand(2,5)",
                       "z2": "2i",
                       "@z2": "complex(0,2)",
-                      "r": "2+5i",
-                      "@r": "complex(2,5)",
-                      "z1": "-10+4i",
-                      "@z1": "((2i)*(2+5i))"
+                      "r": "4+4i",
+                      "@r": "complex(4,4)",
+                      "z1": "-8+8i",
+                      "@z1": "((2i)*(4+4i))"
                     }
                   ],
                   "staticOrder": false,
@@ -4281,14 +4646,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 92,
                 "title": "Division",
                 "label": "ex15",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 105,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 105,
                         "text": "Seien"
                       },
                       {
@@ -4306,6 +4674,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 105,
                         "text": "und"
                       },
                       {
@@ -4323,28 +4692,34 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 105,
                         "text": "komplexe Zahlen. Berechne den folgenden"
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 105,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 105,
                             "text": "Quotienten"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 105,
                         "text": "und gebe das Ergebnis in Normalform an:"
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 105,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 105,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -4357,6 +4732,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 105,
                             "id": "input16",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -4383,84 +4759,84 @@
                   ],
                   "instances": [
                     {
-                      "a": "2",
-                      "@a": "(randZ((-(1)),1)*2)",
-                      "b": "3",
-                      "@b": "rand(1,5)",
-                      "c": "5",
-                      "@c": "rand(1,5)",
-                      "d": "1",
-                      "@d": "rand(1,5)",
-                      "z2": "2+3i",
-                      "@z2": "complex(2,3)",
-                      "r": "5+i",
-                      "@r": "complex(5,1)",
-                      "z1": "7+17i",
-                      "@z1": "((2+3i)*(5+i))"
-                    },
-                    {
-                      "a": "-2",
-                      "@a": "(randZ((-(1)),1)*2)",
-                      "b": "3",
+                      "a": "-4",
+                      "@a": "(randZ((-(1)),1)*4)",
+                      "b": "4",
                       "@b": "rand(1,5)",
                       "c": "1",
                       "@c": "rand(1,5)",
-                      "d": "5",
+                      "d": "4",
                       "@d": "rand(1,5)",
-                      "z2": "-2+3i",
-                      "@z2": "complex(-2,3)",
-                      "r": "1+5i",
-                      "@r": "complex(1,5)",
-                      "z1": "-17-7i",
-                      "@z1": "((-2+3i)*(1+5i))"
+                      "z2": "-4+4i",
+                      "@z2": "complex(-4,4)",
+                      "r": "1+4i",
+                      "@r": "complex(1,4)",
+                      "z1": "-20-12i",
+                      "@z1": "((-4+4i)*(1+4i))"
                     },
                     {
-                      "a": "-3",
-                      "@a": "(randZ((-(1)),1)*3)",
+                      "a": "-1",
+                      "@a": "(randZ((-(1)),1)*1)",
+                      "b": "5",
+                      "@b": "rand(1,5)",
+                      "c": "3",
+                      "@c": "rand(1,5)",
+                      "d": "4",
+                      "@d": "rand(1,5)",
+                      "z2": "-1+5i",
+                      "@z2": "complex(-1,5)",
+                      "r": "3+4i",
+                      "@r": "complex(3,4)",
+                      "z1": "-23+11i",
+                      "@z1": "((-1+5i)*(3+4i))"
+                    },
+                    {
+                      "a": "-1",
+                      "@a": "(randZ((-(1)),1)*1)",
                       "b": "2",
                       "@b": "rand(1,5)",
                       "c": "4",
                       "@c": "rand(1,5)",
-                      "d": "5",
+                      "d": "1",
                       "@d": "rand(1,5)",
-                      "z2": "-3+2i",
-                      "@z2": "complex(-3,2)",
-                      "r": "4+5i",
-                      "@r": "complex(4,5)",
-                      "z1": "-22-7i",
-                      "@z1": "((-3+2i)*(4+5i))"
+                      "z2": "-1+2i",
+                      "@z2": "complex(-1,2)",
+                      "r": "4+i",
+                      "@r": "complex(4,1)",
+                      "z1": "-6+7i",
+                      "@z1": "((-1+2i)*(4+i))"
                     },
                     {
-                      "a": "-2",
-                      "@a": "(randZ((-(1)),1)*2)",
-                      "b": "4",
+                      "a": "3",
+                      "@a": "(randZ((-(1)),1)*3)",
+                      "b": "2",
                       "@b": "rand(1,5)",
-                      "c": "2",
+                      "c": "1",
                       "@c": "rand(1,5)",
                       "d": "1",
                       "@d": "rand(1,5)",
-                      "z2": "-2+4i",
-                      "@z2": "complex(-2,4)",
-                      "r": "2+i",
-                      "@r": "complex(2,1)",
-                      "z1": "-8+6i",
-                      "@z1": "((-2+4i)*(2+i))"
+                      "z2": "3+2i",
+                      "@z2": "complex(3,2)",
+                      "r": "1+i",
+                      "@r": "complex(1,1)",
+                      "z1": "1+5i",
+                      "@z1": "((3+2i)*(1+i))"
                     },
                     {
-                      "a": "2",
-                      "@a": "(randZ((-(1)),1)*2)",
-                      "b": "5",
+                      "a": "-3",
+                      "@a": "(randZ((-(1)),1)*3)",
+                      "b": "3",
                       "@b": "rand(1,5)",
-                      "c": "5",
+                      "c": "2",
                       "@c": "rand(1,5)",
-                      "d": "2",
+                      "d": "3",
                       "@d": "rand(1,5)",
-                      "z2": "2+5i",
-                      "@z2": "complex(2,5)",
-                      "r": "5+2i",
-                      "@r": "complex(5,2)",
-                      "z1": "29i",
-                      "@z1": "((2+5i)*(5+2i))"
+                      "z2": "-3+3i",
+                      "@z2": "complex(-3,3)",
+                      "r": "2+3i",
+                      "@r": "complex(2,3)",
+                      "z1": "-15-3i",
+                      "@z1": "((-3+3i)*(2+3i))"
                     }
                   ],
                   "staticOrder": false,
@@ -4471,36 +4847,44 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 106,
                 "title": "Komplexe Terme",
                 "label": "ex17",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 118,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 118,
                         "text": "Berechne den folgenden"
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 118,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 118,
                             "text": "komplexen Term"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 118,
                         "text": "und gebe das Ergebnis in Normalform an:"
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 118,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 118,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -4537,6 +4921,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 118,
                             "id": "input18",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -4582,25 +4967,61 @@
                       "@res": "(((2+i)^2)+(1+2i))"
                     },
                     {
-                      "a": "3",
+                      "a": "1",
                       "@a": "rand(1,3)",
-                      "b": "1",
+                      "b": "3",
                       "@b": "rand(1,3)",
                       "c": "2",
                       "@c": "rand(1,3)",
-                      "d": "3",
+                      "d": "2",
                       "@d": "rand(1,3)",
                       "pow": "2",
                       "@pow": "2",
-                      "z1": "3+i",
-                      "@z1": "complex(3,1)",
-                      "z2": "2+3i",
-                      "@z2": "complex(2,3)",
-                      "res": "10+9i",
-                      "@res": "(((3+i)^2)+(2+3i))"
+                      "z1": "1+3i",
+                      "@z1": "complex(1,3)",
+                      "z2": "2+2i",
+                      "@z2": "complex(2,2)",
+                      "res": "-6+8i",
+                      "@res": "(((1+3i)^2)+(2+2i))"
+                    },
+                    {
+                      "a": "3",
+                      "@a": "rand(1,3)",
+                      "b": "2",
+                      "@b": "rand(1,3)",
+                      "c": "2",
+                      "@c": "rand(1,3)",
+                      "d": "1",
+                      "@d": "rand(1,3)",
+                      "pow": "2",
+                      "@pow": "2",
+                      "z1": "3+2i",
+                      "@z1": "complex(3,2)",
+                      "z2": "2+i",
+                      "@z2": "complex(2,1)",
+                      "res": "7+13i",
+                      "@res": "(((3+2i)^2)+(2+i))"
                     },
                     {
                       "a": "1",
+                      "@a": "rand(1,3)",
+                      "b": "2",
+                      "@b": "rand(1,3)",
+                      "c": "1",
+                      "@c": "rand(1,3)",
+                      "d": "1",
+                      "@d": "rand(1,3)",
+                      "pow": "2",
+                      "@pow": "2",
+                      "z1": "1+2i",
+                      "@z1": "complex(1,2)",
+                      "z2": "1+i",
+                      "@z2": "complex(1,1)",
+                      "res": "-2+5i",
+                      "@res": "(((1+2i)^2)+(1+i))"
+                    },
+                    {
+                      "a": "3",
                       "@a": "rand(1,3)",
                       "b": "3",
                       "@b": "rand(1,3)",
@@ -4610,48 +5031,12 @@
                       "@d": "rand(1,3)",
                       "pow": "2",
                       "@pow": "2",
-                      "z1": "1+3i",
-                      "@z1": "complex(1,3)",
+                      "z1": "3+3i",
+                      "@z1": "complex(3,3)",
                       "z2": "1+2i",
                       "@z2": "complex(1,2)",
-                      "res": "-7+8i",
-                      "@res": "(((1+3i)^2)+(1+2i))"
-                    },
-                    {
-                      "a": "2",
-                      "@a": "rand(1,3)",
-                      "b": "2",
-                      "@b": "rand(1,3)",
-                      "c": "2",
-                      "@c": "rand(1,3)",
-                      "d": "2",
-                      "@d": "rand(1,3)",
-                      "pow": "2",
-                      "@pow": "2",
-                      "z1": "2+2i",
-                      "@z1": "complex(2,2)",
-                      "z2": "2+2i",
-                      "@z2": "complex(2,2)",
-                      "res": "2+10i",
-                      "@res": "(((2+2i)^2)+(2+2i))"
-                    },
-                    {
-                      "a": "1",
-                      "@a": "rand(1,3)",
-                      "b": "3",
-                      "@b": "rand(1,3)",
-                      "c": "3",
-                      "@c": "rand(1,3)",
-                      "d": "3",
-                      "@d": "rand(1,3)",
-                      "pow": "2",
-                      "@pow": "2",
-                      "z1": "1+3i",
-                      "@z1": "complex(1,3)",
-                      "z2": "3+3i",
-                      "@z2": "complex(3,3)",
-                      "res": "-5+9i",
-                      "@res": "(((1+3i)^2)+(3+3i))"
+                      "res": "1+20i",
+                      "@res": "(((3+3i)^2)+(1+2i))"
                     }
                   ],
                   "staticOrder": false,
@@ -4662,14 +5047,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 119,
                 "title": "Umrechnung zwischen kartesischen Koordinaten und Polarkoordinaten",
                 "label": "ex19",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 126,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 126,
                         "text": "Die kartesische Form"
                       },
                       {
@@ -4683,6 +5071,7 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 126,
                         "text": "lässt sich aus den Polarkoordinaten"
                       },
                       {
@@ -4696,19 +5085,23 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 126,
                         "text": "wie folgt berechnen:"
                       }
                     ]
                   },
                   {
                     "type": "singleChoice",
+                    "srcLine": 126,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 126,
                         "id": "input20",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 126,
                             "items": [
                               {
                                 "type": "inlineMath",
@@ -4721,6 +5114,7 @@
                               },
                               {
                                 "type": "text",
+                                "srcLine": 126,
                                 "text": "und"
                               },
                               {
@@ -4744,10 +5138,12 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 126,
                         "id": "input21",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 126,
                             "items": [
                               {
                                 "type": "inlineMath",
@@ -4760,6 +5156,7 @@
                               },
                               {
                                 "type": "text",
+                                "srcLine": 126,
                                 "text": "und"
                               },
                               {
@@ -4820,14 +5217,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 127,
                 "title": "Umrechnung zwischen kartesischen Koordinaten und Polarkoordinaten",
                 "label": "ex22",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 136,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 136,
                         "text": "Kreuze die richtigen Antworten zur Berechnung von"
                       },
                       {
@@ -4841,22 +5241,27 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 136,
                         "text": "an:"
                       }
                     ]
                   },
                   {
                     "type": "multipleChoice",
+                    "srcLine": 136,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 136,
                         "id": "input23",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 136,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 136,
                                 "text": "Sei"
                               },
                               {
@@ -4870,6 +5275,7 @@
                               },
                               {
                                 "type": "text",
+                                "srcLine": 136,
                                 "text": ". Dann gilt:"
                               },
                               {
@@ -4893,13 +5299,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 136,
                         "id": "input24",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 136,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 136,
                                 "text": "Sei"
                               },
                               {
@@ -4913,6 +5322,7 @@
                               },
                               {
                                 "type": "text",
+                                "srcLine": 136,
                                 "text": ". Dann gilt:"
                               },
                               {
@@ -4936,13 +5346,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 136,
                         "id": "input25",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 136,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 136,
                                 "text": "Sei"
                               },
                               {
@@ -4956,6 +5369,7 @@
                               },
                               {
                                 "type": "text",
+                                "srcLine": 136,
                                 "text": ". Dann gilt:"
                               },
                               {
@@ -4979,13 +5393,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 136,
                         "id": "input26",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 136,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 136,
                                 "text": "Sei"
                               },
                               {
@@ -4999,6 +5416,7 @@
                               },
                               {
                                 "type": "text",
+                                "srcLine": 136,
                                 "text": ". Dann gilt:"
                               },
                               {
@@ -5071,14 +5489,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 137,
                 "title": "Komplexe Folgen",
                 "label": "ex27",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 153,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 153,
                         "text": "Bestimme die ersten"
                       },
                       {
@@ -5092,15 +5513,18 @@
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 153,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 153,
                             "text": "Folgenglieder"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 153,
                         "text": "der komplexen Folge"
                       },
                       {
@@ -5121,15 +5545,18 @@
                         ]
                       },
                       {
-                        "type": "text"
+                        "type": "text",
+                        "srcLine": 153
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 153,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 153,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -5142,6 +5569,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 153,
                             "id": "input28",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -5154,6 +5582,7 @@
                       },
                       {
                         "type": "span",
+                        "srcLine": 153,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -5166,6 +5595,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 153,
                             "id": "input29",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -5178,6 +5608,7 @@
                       },
                       {
                         "type": "span",
+                        "srcLine": 153,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -5190,6 +5621,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 153,
                             "id": "input30",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -5204,23 +5636,29 @@
                   },
                   {
                     "type": "singleChoice",
+                    "srcLine": 153,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 153,
                         "id": "input31",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 153,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 153,
                                 "text": "Die Folge ist"
                               },
                               {
                                 "type": "boldText",
+                                "srcLine": 153,
                                 "items": [
                                   {
                                     "type": "text",
+                                    "srcLine": 153,
                                     "text": "konvergent"
                                   }
                                 ]
@@ -5237,20 +5675,25 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 153,
                         "id": "input32",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 153,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 153,
                                 "text": "Die Folge ist"
                               },
                               {
                                 "type": "boldText",
+                                "srcLine": 153,
                                 "items": [
                                   {
                                     "type": "text",
+                                    "srcLine": 153,
                                     "text": "divergent"
                                   }
                                 ]
@@ -5295,30 +5738,16 @@
                       "__bool__1": "true"
                     },
                     {
-                      "c": "2",
+                      "c": "4",
                       "@c": "rand(2,4)",
-                      "z": "2i",
-                      "@z": "(2*1*(i))",
-                      "a1": "2i",
-                      "@a1": "((2i)^1)",
-                      "a2": "-4",
-                      "@a2": "((2i)^2)",
-                      "a3": "-8i",
-                      "@a3": "((2i)^3)",
-                      "__bool__0": "false",
-                      "__bool__1": "true"
-                    },
-                    {
-                      "c": "3",
-                      "@c": "rand(2,4)",
-                      "z": "3i",
-                      "@z": "(3*1*(i))",
-                      "a1": "3i",
-                      "@a1": "((3i)^1)",
-                      "a2": "-9",
-                      "@a2": "((3i)^2)",
-                      "a3": "-27i",
-                      "@a3": "((3i)^3)",
+                      "z": "4i",
+                      "@z": "(4*1*(i))",
+                      "a1": "4i",
+                      "@a1": "((4i)^1)",
+                      "a2": "-16",
+                      "@a2": "((4i)^2)",
+                      "a3": "-64i",
+                      "@a3": "((4i)^3)",
                       "__bool__0": "false",
                       "__bool__1": "true"
                     },
@@ -5349,6 +5778,20 @@
                       "@a3": "((2i)^3)",
                       "__bool__0": "false",
                       "__bool__1": "true"
+                    },
+                    {
+                      "c": "4",
+                      "@c": "rand(2,4)",
+                      "z": "4i",
+                      "@z": "(4*1*(i))",
+                      "a1": "4i",
+                      "@a1": "((4i)^1)",
+                      "a2": "-16",
+                      "@a2": "((4i)^2)",
+                      "a3": "-64i",
+                      "@a3": "((4i)^3)",
+                      "__bool__0": "false",
+                      "__bool__1": "true"
                     }
                   ],
                   "staticOrder": false,
@@ -5359,14 +5802,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 154,
                 "title": "Komplexe Folgen",
                 "label": "ex33",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 168,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 168,
                         "text": "Bestimme die ersten"
                       },
                       {
@@ -5380,15 +5826,18 @@
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 168,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 168,
                             "text": "Folgenglieder"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 168,
                         "text": "der komplexen Folge"
                       },
                       {
@@ -5417,15 +5866,18 @@
                         ]
                       },
                       {
-                        "type": "text"
+                        "type": "text",
+                        "srcLine": 168
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 168,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 168,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -5438,6 +5890,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 168,
                             "id": "input34",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -5450,6 +5903,7 @@
                       },
                       {
                         "type": "span",
+                        "srcLine": 168,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -5462,6 +5916,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 168,
                             "id": "input35",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -5476,23 +5931,29 @@
                   },
                   {
                     "type": "singleChoice",
+                    "srcLine": 168,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 168,
                         "id": "input36",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 168,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 168,
                                 "text": "Die Folge ist"
                               },
                               {
                                 "type": "boldText",
+                                "srcLine": 168,
                                 "items": [
                                   {
                                     "type": "text",
+                                    "srcLine": 168,
                                     "text": "konvergent"
                                   }
                                 ]
@@ -5509,20 +5970,25 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 168,
                         "id": "input37",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 168,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 168,
                                 "text": "Die Folge ist"
                               },
                               {
                                 "type": "boldText",
+                                "srcLine": 168,
                                 "items": [
                                   {
                                     "type": "text",
+                                    "srcLine": 168,
                                     "text": "divergent"
                                   }
                                 ]
@@ -5552,30 +6018,6 @@
                   ],
                   "instances": [
                     {
-                      "c": "3",
-                      "@c": "rand(2,4)",
-                      "z": "0.3333333333333+0.3333333333333i",
-                      "@z": "((1/3)+((1/3)*1*(i)))",
-                      "a1": "0.3333333333333+0.3333333333333i",
-                      "@a1": "((0.3333333333333+0.3333333333333i)^1)",
-                      "a2": "0.2222222222222i",
-                      "@a2": "((0.3333333333333+0.3333333333333i)^2)",
-                      "__bool__0": "true",
-                      "__bool__1": "false"
-                    },
-                    {
-                      "c": "3",
-                      "@c": "rand(2,4)",
-                      "z": "0.3333333333333+0.3333333333333i",
-                      "@z": "((1/3)+((1/3)*1*(i)))",
-                      "a1": "0.3333333333333+0.3333333333333i",
-                      "@a1": "((0.3333333333333+0.3333333333333i)^1)",
-                      "a2": "0.2222222222222i",
-                      "@a2": "((0.3333333333333+0.3333333333333i)^2)",
-                      "__bool__0": "true",
-                      "__bool__1": "false"
-                    },
-                    {
                       "c": "2",
                       "@c": "rand(2,4)",
                       "z": "0.5+0.5i",
@@ -5608,6 +6050,30 @@
                       "@a1": "((0.5+0.5i)^1)",
                       "a2": "0.5i",
                       "@a2": "((0.5+0.5i)^2)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "c": "3",
+                      "@c": "rand(2,4)",
+                      "z": "0.3333333333333+0.3333333333333i",
+                      "@z": "((1/3)+((1/3)*1*(i)))",
+                      "a1": "0.3333333333333+0.3333333333333i",
+                      "@a1": "((0.3333333333333+0.3333333333333i)^1)",
+                      "a2": "0.2222222222222i",
+                      "@a2": "((0.3333333333333+0.3333333333333i)^2)",
+                      "__bool__0": "true",
+                      "__bool__1": "false"
+                    },
+                    {
+                      "c": "4",
+                      "@c": "rand(2,4)",
+                      "z": "0.25+0.25i",
+                      "@z": "((1/4)+((1/4)*1*(i)))",
+                      "a1": "0.25+0.25i",
+                      "@a1": "((0.25+0.25i)^1)",
+                      "a2": "0.125i",
+                      "@a2": "((0.25+0.25i)^2)",
                       "__bool__0": "true",
                       "__bool__1": "false"
                     }
@@ -5620,37 +6086,44 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 169,
                 "title": "Komplexe Reihen",
                 "label": "ex38",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 184,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 184,
                         "text": "Ist die folgende geometrische Reihe"
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 184,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 184,
                             "text": "absolut konvergent"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 184,
                         "text": "?"
                       }
                     ]
                   },
                   {
                     "type": "equation",
+                    "srcLine": 169,
                     "id": "-1",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -5679,16 +6152,20 @@
                   },
                   {
                     "type": "singleChoice",
+                    "srcLine": 184,
                     "items": [
                       {
                         "type": "inputField",
+                        "srcLine": 184,
                         "id": "input39",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 184,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 184,
                                 "text": "ja"
                               }
                             ]
@@ -5703,13 +6180,16 @@
                       },
                       {
                         "type": "inputField",
+                        "srcLine": 184,
                         "id": "input40",
                         "items": [
                           {
                             "type": "span",
+                            "srcLine": 184,
                             "items": [
                               {
                                 "type": "text",
+                                "srcLine": 184,
                                 "text": "nein"
                               }
                             ]
@@ -5735,9 +6215,9 @@
                   ],
                   "instances": [
                     {
-                      "a": "5",
+                      "a": "6",
                       "@a": "rand(2,6)",
-                      "b": "2",
+                      "b": "6",
                       "@b": "rand(2,6)",
                       "__bool__0": "true",
                       "__bool__1": "false"
@@ -5745,15 +6225,15 @@
                     {
                       "a": "4",
                       "@a": "rand(2,6)",
-                      "b": "3",
+                      "b": "4",
                       "@b": "rand(2,6)",
                       "__bool__0": "true",
                       "__bool__1": "false"
                     },
                     {
-                      "a": "5",
+                      "a": "3",
                       "@a": "rand(2,6)",
-                      "b": "6",
+                      "b": "2",
                       "@b": "rand(2,6)",
                       "__bool__0": "true",
                       "__bool__1": "false"
@@ -5761,15 +6241,15 @@
                     {
                       "a": "6",
                       "@a": "rand(2,6)",
-                      "b": "4",
+                      "b": "3",
                       "@b": "rand(2,6)",
                       "__bool__0": "true",
                       "__bool__1": "false"
                     },
                     {
-                      "a": "5",
+                      "a": "2",
                       "@a": "rand(2,6)",
-                      "b": "6",
+                      "b": "5",
                       "@b": "rand(2,6)",
                       "__bool__0": "true",
                       "__bool__1": "false"
@@ -5783,14 +6263,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 185,
                 "title": "Komplexe Nullstellen",
                 "label": "ex41",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 197,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 197,
                         "text": "Gegeben sei das Polynom"
                       },
                       {
@@ -5808,28 +6291,34 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 197,
                         "text": ". Bestimme die beiden"
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 197,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 197,
                             "text": "Nullstellen"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 197,
                         "text": ":"
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 197,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 197,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -5842,6 +6331,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 197,
                             "id": "input42",
                             "inputFieldData": {
                               "type": "complexIntSet",
@@ -5865,26 +6355,6 @@
                   ],
                   "instances": [
                     {
-                      "a": "36",
-                      "@a": "(rand(2,8)^2)",
-                      "z1": "6i",
-                      "@z1": "(sqrt(36)*1*(i))",
-                      "z2": "-6i",
-                      "@z2": "(-((6i)))",
-                      "res": "{6i,-6i}",
-                      "@res": "set((6i),(-6i))"
-                    },
-                    {
-                      "a": "36",
-                      "@a": "(rand(2,8)^2)",
-                      "z1": "6i",
-                      "@z1": "(sqrt(36)*1*(i))",
-                      "z2": "-6i",
-                      "@z2": "(-((6i)))",
-                      "res": "{6i,-6i}",
-                      "@res": "set((6i),(-6i))"
-                    },
-                    {
                       "a": "4",
                       "@a": "(rand(2,8)^2)",
                       "z1": "2i",
@@ -5895,6 +6365,36 @@
                       "@res": "set((2i),(-2i))"
                     },
                     {
+                      "a": "49",
+                      "@a": "(rand(2,8)^2)",
+                      "z1": "7i",
+                      "@z1": "(sqrt(49)*1*(i))",
+                      "z2": "-7i",
+                      "@z2": "(-((7i)))",
+                      "res": "{7i,-7i}",
+                      "@res": "set((7i),(-7i))"
+                    },
+                    {
+                      "a": "49",
+                      "@a": "(rand(2,8)^2)",
+                      "z1": "7i",
+                      "@z1": "(sqrt(49)*1*(i))",
+                      "z2": "-7i",
+                      "@z2": "(-((7i)))",
+                      "res": "{7i,-7i}",
+                      "@res": "set((7i),(-7i))"
+                    },
+                    {
+                      "a": "49",
+                      "@a": "(rand(2,8)^2)",
+                      "z1": "7i",
+                      "@z1": "(sqrt(49)*1*(i))",
+                      "z2": "-7i",
+                      "@z2": "(-((7i)))",
+                      "res": "{7i,-7i}",
+                      "@res": "set((7i),(-7i))"
+                    },
+                    {
                       "a": "16",
                       "@a": "(rand(2,8)^2)",
                       "z1": "4i",
@@ -5903,16 +6403,6 @@
                       "@z2": "(-((4i)))",
                       "res": "{4i,-4i}",
                       "@res": "set((4i),(-4i))"
-                    },
-                    {
-                      "a": "36",
-                      "@a": "(rand(2,8)^2)",
-                      "z1": "6i",
-                      "@z1": "(sqrt(36)*1*(i))",
-                      "z2": "-6i",
-                      "@z2": "(-((6i)))",
-                      "res": "{6i,-6i}",
-                      "@res": "set((6i),(-6i))"
                     }
                   ],
                   "staticOrder": false,
@@ -5923,23 +6413,28 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 198,
                 "title": "Quotienten von Polynomen",
                 "label": "ex43",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 213,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 213,
                         "text": "Gegeben sei die folgende rationale Funktion:"
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 213,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 213,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -5996,9 +6491,11 @@
                   },
                   {
                     "type": "paragraph",
+                    "srcLine": 213,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 213,
                         "text": "Bestimme den Definitionsbereich"
                       },
                       {
@@ -6011,15 +6508,18 @@
                         ]
                       },
                       {
-                        "type": "text"
+                        "type": "text",
+                        "srcLine": 213
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 213,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 213,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -6032,6 +6532,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 213,
                             "id": "input44",
                             "inputFieldData": {
                               "type": "complexIntSet",
@@ -6062,102 +6563,102 @@
                     {
                       "a": "7",
                       "@a": "rand(2,8)",
-                      "b": "6",
+                      "b": "4",
+                      "@b": "rand(2,8)",
+                      "c": "7",
+                      "@c": "rand(2,8)",
+                      "d": "5",
+                      "@d": "rand(2,8)",
+                      "ee": "49",
+                      "@ee": "(rand(2,9)^2)",
+                      "A": "0",
+                      "@A": "(0*1*(i))",
+                      "B": "7i",
+                      "@B": "(sqrt(49)*1*(i))",
+                      "C": "-7i",
+                      "@C": "((-(sqrt(49)))*1*(i))",
+                      "res": "{0,7i,-7i}",
+                      "@res": "set((0),(7i),(-7i))"
+                    },
+                    {
+                      "a": "8",
+                      "@a": "rand(2,8)",
+                      "b": "5",
                       "@b": "rand(2,8)",
                       "c": "6",
                       "@c": "rand(2,8)",
-                      "d": "3",
+                      "d": "5",
                       "@d": "rand(2,8)",
-                      "ee": "49",
+                      "ee": "64",
                       "@ee": "(rand(2,9)^2)",
                       "A": "0",
                       "@A": "(0*1*(i))",
-                      "B": "7i",
-                      "@B": "(sqrt(49)*1*(i))",
-                      "C": "-7i",
-                      "@C": "((-(sqrt(49)))*1*(i))",
-                      "res": "{0,7i,-7i}",
-                      "@res": "set((0),(7i),(-7i))"
+                      "B": "8i",
+                      "@B": "(sqrt(64)*1*(i))",
+                      "C": "-8i",
+                      "@C": "((-(sqrt(64)))*1*(i))",
+                      "res": "{0,8i,-8i}",
+                      "@res": "set((0),(8i),(-8i))"
                     },
                     {
-                      "a": "4",
+                      "a": "5",
                       "@a": "rand(2,8)",
-                      "b": "7",
+                      "b": "5",
                       "@b": "rand(2,8)",
                       "c": "2",
                       "@c": "rand(2,8)",
-                      "d": "7",
+                      "d": "6",
                       "@d": "rand(2,8)",
-                      "ee": "49",
+                      "ee": "16",
                       "@ee": "(rand(2,9)^2)",
                       "A": "0",
                       "@A": "(0*1*(i))",
-                      "B": "7i",
-                      "@B": "(sqrt(49)*1*(i))",
-                      "C": "-7i",
-                      "@C": "((-(sqrt(49)))*1*(i))",
-                      "res": "{0,7i,-7i}",
-                      "@res": "set((0),(7i),(-7i))"
+                      "B": "4i",
+                      "@B": "(sqrt(16)*1*(i))",
+                      "C": "-4i",
+                      "@C": "((-(sqrt(16)))*1*(i))",
+                      "res": "{0,4i,-4i}",
+                      "@res": "set((0),(4i),(-4i))"
                     },
                     {
-                      "a": "2",
+                      "a": "8",
                       "@a": "rand(2,8)",
-                      "b": "6",
+                      "b": "8",
                       "@b": "rand(2,8)",
-                      "c": "8",
+                      "c": "7",
                       "@c": "rand(2,8)",
-                      "d": "3",
+                      "d": "5",
                       "@d": "rand(2,8)",
-                      "ee": "25",
+                      "ee": "81",
                       "@ee": "(rand(2,9)^2)",
                       "A": "0",
                       "@A": "(0*1*(i))",
-                      "B": "5i",
-                      "@B": "(sqrt(25)*1*(i))",
-                      "C": "-5i",
-                      "@C": "((-(sqrt(25)))*1*(i))",
-                      "res": "{0,5i,-5i}",
-                      "@res": "set((0),(5i),(-5i))"
-                    },
-                    {
-                      "a": "7",
-                      "@a": "rand(2,8)",
-                      "b": "6",
-                      "@b": "rand(2,8)",
-                      "c": "3",
-                      "@c": "rand(2,8)",
-                      "d": "7",
-                      "@d": "rand(2,8)",
-                      "ee": "4",
-                      "@ee": "(rand(2,9)^2)",
-                      "A": "0",
-                      "@A": "(0*1*(i))",
-                      "B": "2i",
-                      "@B": "(sqrt(4)*1*(i))",
-                      "C": "-2i",
-                      "@C": "((-(sqrt(4)))*1*(i))",
-                      "res": "{0,2i,-2i}",
-                      "@res": "set((0),(2i),(-2i))"
+                      "B": "9i",
+                      "@B": "(sqrt(81)*1*(i))",
+                      "C": "-9i",
+                      "@C": "((-(sqrt(81)))*1*(i))",
+                      "res": "{0,9i,-9i}",
+                      "@res": "set((0),(9i),(-9i))"
                     },
                     {
                       "a": "2",
                       "@a": "rand(2,8)",
                       "b": "2",
                       "@b": "rand(2,8)",
-                      "c": "2",
+                      "c": "6",
                       "@c": "rand(2,8)",
                       "d": "5",
                       "@d": "rand(2,8)",
-                      "ee": "9",
+                      "ee": "49",
                       "@ee": "(rand(2,9)^2)",
                       "A": "0",
                       "@A": "(0*1*(i))",
-                      "B": "3i",
-                      "@B": "(sqrt(9)*1*(i))",
-                      "C": "-3i",
-                      "@C": "((-(sqrt(9)))*1*(i))",
-                      "res": "{0,3i,-3i}",
-                      "@res": "set((0),(3i),(-3i))"
+                      "B": "7i",
+                      "@B": "(sqrt(49)*1*(i))",
+                      "C": "-7i",
+                      "@C": "((-(sqrt(49)))*1*(i))",
+                      "res": "{0,7i,-7i}",
+                      "@res": "set((0),(7i),(-7i))"
                     }
                   ],
                   "staticOrder": false,
@@ -6168,37 +6669,44 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 214,
                 "title": "Konvergenzradius",
                 "label": "ex45",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 230,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 230,
                         "text": "Bestimme den"
                       },
                       {
                         "type": "boldText",
+                        "srcLine": 230,
                         "items": [
                           {
                             "type": "text",
+                            "srcLine": 230,
                             "text": "Konvergenzradius"
                           }
                         ]
                       },
                       {
                         "type": "text",
+                        "srcLine": 230,
                         "text": "der Potenzreihe"
                       }
                     ]
                   },
                   {
                     "type": "equation",
+                    "srcLine": 214,
                     "id": "-1",
                     "equationData": {
                       "math": {
-                        "type": "inlineMath",
+                        "type": "displayMath",
                         "items": [
                           {
                             "type": "text",
@@ -6219,9 +6727,11 @@
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 230,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 230,
                         "items": [
                           {
                             "type": "inlineMath",
@@ -6234,6 +6744,7 @@
                           },
                           {
                             "type": "inputField",
+                            "srcLine": 230,
                             "id": "input46",
                             "inputFieldData": {
                               "type": "int",
@@ -6257,52 +6768,52 @@
                   ],
                   "instances": [
                     {
-                      "a": "10",
+                      "a": "3",
                       "@a": "rand(2,10)",
-                      "b": "3",
+                      "b": "2",
                       "@b": "rand(2,10)",
-                      "z1": "10+3i",
-                      "@z1": "complex(10,3)",
+                      "z1": "3+2i",
+                      "@z1": "complex(3,2)",
                       "res": "1",
                       "@res": "1"
                     },
                     {
-                      "a": "10",
+                      "a": "6",
                       "@a": "rand(2,10)",
                       "b": "4",
                       "@b": "rand(2,10)",
-                      "z1": "10+4i",
-                      "@z1": "complex(10,4)",
+                      "z1": "6+4i",
+                      "@z1": "complex(6,4)",
                       "res": "1",
                       "@res": "1"
                     },
                     {
-                      "a": "5",
+                      "a": "8",
                       "@a": "rand(2,10)",
-                      "b": "3",
+                      "b": "5",
                       "@b": "rand(2,10)",
-                      "z1": "5+3i",
-                      "@z1": "complex(5,3)",
+                      "z1": "8+5i",
+                      "@z1": "complex(8,5)",
                       "res": "1",
                       "@res": "1"
                     },
                     {
-                      "a": "10",
+                      "a": "6",
                       "@a": "rand(2,10)",
-                      "b": "2",
+                      "b": "5",
                       "@b": "rand(2,10)",
-                      "z1": "10+2i",
-                      "@z1": "complex(10,2)",
+                      "z1": "6+5i",
+                      "@z1": "complex(6,5)",
                       "res": "1",
                       "@res": "1"
                     },
                     {
-                      "a": "7",
+                      "a": "6",
                       "@a": "rand(2,10)",
-                      "b": "2",
+                      "b": "5",
                       "@b": "rand(2,10)",
-                      "z1": "7+2i",
-                      "@z1": "complex(7,2)",
+                      "z1": "6+5i",
+                      "@z1": "complex(6,5)",
                       "res": "1",
                       "@res": "1"
                     }
@@ -6315,14 +6826,17 @@
               },
               {
                 "type": "exercise",
+                "srcLine": 231,
                 "title": "Komplexe Potenzen",
                 "label": "ex47",
                 "items": [
                   {
                     "type": "paragraph",
+                    "srcLine": 242,
                     "items": [
                       {
                         "type": "text",
+                        "srcLine": 242,
                         "text": "Berechne"
                       },
                       {
@@ -6348,18 +6862,22 @@
                       },
                       {
                         "type": "text",
+                        "srcLine": 242,
                         "text": "unter Verwendung der Exponentialform:"
                       }
                     ]
                   },
                   {
                     "type": "itemize",
+                    "srcLine": 242,
                     "items": [
                       {
                         "type": "span",
+                        "srcLine": 242,
                         "items": [
                           {
                             "type": "inputField",
+                            "srcLine": 242,
                             "id": "input48",
                             "inputFieldData": {
                               "type": "complexNormal",
@@ -6385,12 +6903,22 @@
                     {
                       "a": "1",
                       "@a": "rand(1,2)",
-                      "c": "7",
+                      "c": "6",
                       "@c": "rand(4,8)",
                       "z": "1+i",
                       "@z": "complex(1,1)",
-                      "res": "8-8i",
-                      "@res": "((1+i)^7)"
+                      "res": "-8i",
+                      "@res": "((1+i)^6)"
+                    },
+                    {
+                      "a": "2",
+                      "@a": "rand(1,2)",
+                      "c": "5",
+                      "@c": "rand(4,8)",
+                      "z": "2+2i",
+                      "@z": "complex(2,2)",
+                      "res": "-128.0000000000001-128i",
+                      "@res": "((2+2i)^5)"
                     },
                     {
                       "a": "2",
@@ -6405,32 +6933,22 @@
                     {
                       "a": "1",
                       "@a": "rand(1,2)",
-                      "c": "6",
+                      "c": "7",
                       "@c": "rand(4,8)",
                       "z": "1+i",
                       "@z": "complex(1,1)",
-                      "res": "-8i",
-                      "@res": "((1+i)^6)"
+                      "res": "8-8i",
+                      "@res": "((1+i)^7)"
                     },
                     {
                       "a": "2",
                       "@a": "rand(1,2)",
-                      "c": "6",
+                      "c": "7",
                       "@c": "rand(4,8)",
                       "z": "2+2i",
                       "@z": "complex(2,2)",
-                      "res": "-0.0000000000001-512.0000000000002i",
-                      "@res": "((2+2i)^6)"
-                    },
-                    {
-                      "a": "1",
-                      "@a": "rand(1,2)",
-                      "c": "6",
-                      "@c": "rand(4,8)",
-                      "z": "1+i",
-                      "@z": "complex(1,1)",
-                      "res": "-8i",
-                      "@res": "((1+i)^6)"
+                      "res": "1024.0000000000002-1024.0000000000007i",
+                      "@res": "((2+2i)^7)"
                     }
                   ],
                   "staticOrder": false,
@@ -6450,7 +6968,7 @@
     "title": "",
     "author": "",
     "mbclVersion": 1,
-    "dateModified": 1681992259,
+    "dateModified": 1686128899,
     "chapters": [
       {
         "fileId": "",
@@ -6488,15 +7006,18 @@
             "items": [
               {
                 "type": "paragraph",
+                "srcLine": 5,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 5,
                     "text": "Some text here."
                   }
                 ]
               },
               {
                 "type": "figure",
+                "srcLine": 5,
                 "figureData": {
                   "filePath": "../../mathebuddy-public-courses/demo-course/basics/img/logo.svg",
                   "code": "",
@@ -6504,9 +7025,11 @@
                   "caption": [
                     {
                       "type": "paragraph",
+                      "srcLine": 14,
                       "items": [
                         {
                           "type": "text",
+                          "srcLine": 14,
                           "text": "mathe: buddy logo"
                         }
                       ]
@@ -6531,9 +7054,11 @@
             "items": [
               {
                 "type": "paragraph",
+                "srcLine": 5,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 5,
                     "text": "Some text here."
                   }
                 ]
@@ -6552,9 +7077,11 @@
             "items": [
               {
                 "type": "paragraph",
+                "srcLine": 5,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 5,
                     "text": "Some text here."
                   }
                 ]
@@ -6571,9 +7098,11 @@
             "items": [
               {
                 "type": "paragraph",
+                "srcLine": 5,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 5,
                     "text": "Some text here."
                   }
                 ]
@@ -6592,9 +7121,11 @@
             "items": [
               {
                 "type": "paragraph",
+                "srcLine": 5,
                 "items": [
                   {
                     "type": "text",
+                    "srcLine": 5,
                     "text": "Some text here."
                   }
                 ]
