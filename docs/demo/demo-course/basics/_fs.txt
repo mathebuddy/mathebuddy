@@ -2,6 +2,7 @@ a-start.mbl
 a-bla.mbl
 img/
 a-fun.mbl
+icons/
 b-hey.mbl
 b-you.mbl
 index.mbl
