@@ -16,6 +16,7 @@ class MbclLevel {
   String label = '';
   int posX = -1;
   int posY = -1;
+  String iconData = '';
   List<MbclLevel> requires = [];
   List<MbclLevelItem> items = [];
 
@@ -29,6 +30,7 @@ class MbclLevel {
       "label": label,
       "posX": posX,
       "posY": posY,
+      "iconData": iconData,
       "requires": requires.map((req) => req.fileId).toList(),
       "items": items.map((item) => item.toJSON()).toList(),
     };
@@ -40,6 +42,7 @@ class MbclLevel {
     label = src["label"];
     posX = src["posX"];
     posY = src["posY"];
+    iconData = src.containsKey("iconData") ? src["iconData"] : "";
     // requires
     requires = [];
     int n = src["requires"].length;
