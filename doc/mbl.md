@@ -301,28 +301,22 @@ Equations are encoded in `TeX` notation.
   Equations can be labeled with `@`.
   For example, `@eq:myLabel` is displayed $Eq~(1)$ (depends on the runtime environment).
 
-- Options
+  **Aligned equations** improve readability. For example you may stack equal signs vertically.
 
-  Equations can be configured with the following options:
-
-  Option `align-left` left aligns the equation.
-
-  Option `align-equals` renders each specified line of the equation in a separate line and aligns it to the first equal sign (`=`) of each row.
+  Each row must contains an ampersand character (`&`) for the alignment, and must end with a line feed `\\`.
 
   Example:
 
   ```
   ---
-  EQUATION
-  @options
-  align-left
-  align-equals
-  @text
-  (x+1)^2 = (x+1)(x+1)
-          = x^2 + x + x + 1
-          = x^2 + 2x + 1
+  ALIGNED-EQUATION
+  (x+1)^2 &= (x+1)(x+1) \\
+          &= x^2 + x + x + 1 \\
+          &= x^2 + 2x + 1 \\
   ---
   ```
+
+  _Remarks: The last linefeed via `\\` is optional. The spacing before `&` is optional, but highly suggested to improve readability._
 
 - Abbreviations
 
