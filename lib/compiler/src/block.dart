@@ -112,9 +112,11 @@ class Block {
         levelItems = [processTextAlign(this, MbclLevelItemType.alignRight)];
         break;
       case 'EQUATION':
+      case 'ALIGNED-EQUATION':
         levelItems = [processEquation(this, true, exercise)];
         break;
       case 'EQUATION*':
+      case 'ALIGNED-EQUATION*':
         levelItems = [processEquation(this, false, exercise)];
         break;
       case 'EXAMPLE':

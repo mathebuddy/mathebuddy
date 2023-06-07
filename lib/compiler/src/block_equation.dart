@@ -13,7 +13,7 @@ import 'math.dart';
 
 MbclLevelItem processEquation(
     Block block, bool numbering, MbclLevelItem? exercise) {
-  var aligned = false;
+  var aligned = block.type.startsWith("ALIGNED-");
 
   var equation = MbclLevelItem(MbclLevelItemType.equation, block.srcLine);
   var data = MbclEquationData();
@@ -33,7 +33,7 @@ MbclLevelItem processEquation(
     }
     var part = blockItem.part!;
     switch (part.name) {
-      case 'options':
+      /*case 'options':
         for (var line in part.lines) {
           line = line.trim();
           if (line.isEmpty) continue;
@@ -46,7 +46,7 @@ MbclLevelItem processEquation(
               equation.error += 'Unknown option "$line".';
           }
         }
-        break;
+        break;*/
       case 'global':
       case 'text':
         {
