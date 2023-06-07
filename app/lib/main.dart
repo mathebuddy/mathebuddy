@@ -108,6 +108,7 @@ class CoursePageState extends State<CoursePage> {
         courseDataStr = courseDataStr.replaceAll('&gt;', '>');
         courseDataStr = courseDataStr.replaceAll('&quot;', '"');
         courseDataStr = courseDataStr.replaceAll('&#039;', '\'');
+        courseDataStr = courseDataStr.replaceAll('&amp;', '&');
         courseDataJson = jsonDecode(courseDataStr);
         //print(courseDataStr);
       } else {
