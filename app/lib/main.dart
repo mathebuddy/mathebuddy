@@ -6,6 +6,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:universal_html/html.dart' as html;
 
 import 'package:flutter/services.dart';
@@ -237,6 +238,7 @@ class CoursePageState extends State<CoursePage> {
 
       body = SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
     } else if (_viewState == ViewState.selectLevel) {
+      // ----- level list -----
       var unit = _unit!;
 
       var title = Padding(
@@ -275,6 +277,19 @@ class CoursePageState extends State<CoursePage> {
       for (var level in unit.levels) {
         var x = offsetX + level.posX * (tileWidth + spacing);
         var y = offsetY + level.posY * (tileHeight + spacing);
+
+        Widget content = Text(
+          level.title,
+          style: TextStyle(color: Colors.white),
+        );
+        if (level.iconData.isNotEmpty) {
+          content = SvgPicture.string(
+            level.iconData,
+            width: tileWidth * 0.7,
+            color: Colors.white,
+          );
+        }
+
         var widget = Positioned(
             left: x,
             top: y,
@@ -290,13 +305,18 @@ class CoursePageState extends State<CoursePage> {
                     height: tileHeight,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: matheBuddyGreen,
-                        border: Border.all(width: 1.5, color: matheBuddyGreen),
-                        borderRadius: BorderRadius.all(Radius.circular(25.0))),
-                    child: Text(
-                      level.title,
-                      style: TextStyle(color: Colors.white),
-                    ))));
+                        color: matheBuddyRed,
+                        border: Border.all(width: 1.5, color: matheBuddyRed),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2.5,
+                              blurRadius: 5,
+                              offset: Offset(1.5, 3.0)),
+                        ],
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(tileWidth * 0.4))),
+                    child: content)));
         widgets.add(widget);
       }
 
