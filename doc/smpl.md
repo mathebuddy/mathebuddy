@@ -252,14 +252,16 @@ SMPL supports the following data types:
 
 - set (`SET`)
 
-  A set variable stores a set of integer numbers. A set is initialized
+  A set variable stores a set of elements. We use curly brackets to declare sets.
+
+  Examples:
 
   ```
-  let x = set(3, 4, 5);      // x := {3,4,5}
-  add(x, 4);                 // x := {3,4,5}
-  add(x, 6);                 // x := {3,4,5,6}
-  remove(x, 3);              // x := {4,5,6}
-  let y = iselement(x, 4);   // true
+  let y = {}                % an empty set
+  let x = {3, 4, 5}
+  add(x, {4,6});            % x := {3,4,5,6}
+  remove(x, 3);             % x := {4,5,6}
+  let y = iselement(x, 4);  % true
   ```
 
   > Note: set of non-integers will be supported later.
@@ -347,7 +349,7 @@ Example:
 
 ```
 while (x > 0) {
-  // body
+  % body
 }
 ```
 
@@ -355,7 +357,7 @@ Example:
 
 ```
 do {
-  // body
+  % body
 } while (x > 0);
 ```
 
@@ -363,7 +365,7 @@ Example:
 
 ```
 for (let i = 0; i < 5; i++) {
-  // body
+  % body
 }
 ```
 
@@ -400,6 +402,8 @@ The function returns a real value.
 
 Some function also require dimensions. These are embedded into `<...>`.
 
+Notation: We write data type `VOID` for functions that do not return any value.
+
 - **`abs ( x : INT|REAL|COMPLEX ) : REAL`**
 
   Returns the absolute values of `x`.
@@ -413,6 +417,12 @@ Some function also require dimensions. These are embedded into `<...>`.
   Calculates $\cos^{-1}(x)$.
 
   _Example: `acos(0)` returns $1.57079...$._
+
+- **`add ( x : SET, y : SET ) : VOID`**
+
+  Adds all elements of set `y` to set `x`.
+
+  _Example: `let x={1,2,3}; add(x,{4,7})`_ changes x to `{1,2,3,4,7}`.
 
 - **`asin ( x : REAL ) : REAL`**
 
@@ -695,6 +705,12 @@ Some function also require dimensions. These are embedded into `<...>`.
   Returns the real part of a complex number.
 
   _Example: `real(3+4i)` returns 3._
+
+- **`remove ( x : SET, y : SET ) : VOID`**
+
+  Removes all elements of set `y` from set `x`.
+
+  _Example: `let x={1,2,3}; remove(x,{2,3})`_ changes x to `{1}`.
 
 - **`row ( x : MATRIX, r : INT ): VECTOR`**
 
