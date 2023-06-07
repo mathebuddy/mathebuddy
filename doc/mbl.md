@@ -886,8 +886,8 @@ TITLE Complex Numbers
 AUTHOR TH Koeln
 
 UNIT Complex Basics
-(2,0) start
-(1,0) gauss       !start
+(2,0) start                   ICON icons/start.svg
+(1,0) gauss       !start      ICON icons/gauss.svg
 (3,1) normal      !start
 (3,2) conj        !normal
 (4,2) conj-props  !conj
@@ -917,6 +917,8 @@ Each level is described in the form: `(X,Y) A !B !C !D ...`.
 - Files `!B`, `!C`, ... (with `!`-prefix) represent the requirements of `A`, i.e. level `A` depends on levels `B`, `C`, ....
 
 - Requirements for other course chapters can be denoted by relative paths, e.g. `!../basics/sets` requires level `sets.mbl` in chapter `basics`.
+
+- (Optional) Icons in SVG format can be inserted by keyword `ICON`.
 
 Since all units are stored in the same file directory, prefixes to file names may be helpful.
 
