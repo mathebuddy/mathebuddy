@@ -13,7 +13,7 @@ Numbered equations
 -----------------
 
 ---
-EQUATION @myLabel
+EQUATION @eq:pythagoras
 a^2 + b^2 = c^2
 ---
 
@@ -26,28 +26,24 @@ Equations without number
 -----------------------
 
 ---
-EQUATION* @eq:myLabel
+EQUATION*
 a^2 + b^2 = c^2
 ---
 
 Reference to equations
 ----------------------
 
-Refer to @myLabel.    %displayed as "Refer to Eq. (1)"
+Refer to @eq:pythagoras.    %displayed as "Refer to Eq. (1)"
 
 Aligned equations
 -----------------
 
 ---
-EQUATION
-@options
-aligned
-@text
+ALIGNED-EQUATION
 (x+1)^2 &= (x+1)(x+1) \\
         &= x^2 + x + x + 1 \\
         &= x^2 + 2x + 1 \\
 ---
-
 
 Abbreviations
 =============
