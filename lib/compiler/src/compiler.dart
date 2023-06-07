@@ -206,6 +206,16 @@ class Compiler {
           lexer.next();
           requirements.add(lexer.identifier());
         }
+        var iconData = '';
+        if (lexer.isTerminal("ICON")) {
+          lexer.next();
+          var path = baseDirectory;
+          while (lexer.getToken().type != LexerTokenType.end) {
+            path += lexer.getToken().token.trim();
+            lexer.next();
+          }
+          iconData = loadFile(path);
+        }
         lexer.end();
         // compile level
         var dirname = extractDirname(path);
@@ -217,6 +227,7 @@ class Compiler {
         _level?.posX = posX;
         _level?.posY = posY;
         _level?.requiresTmp.addAll(requirements);
+        _level?.iconData = iconData;
       }
     }
     // build dependency graph
@@ -226,7 +237,7 @@ class Compiler {
         var r = level.requiresTmp[j];
         var requiredLevel = _chapter?.getLevelByFileID(r);
         if (requiredLevel == null) {
-          _error('Unknown level "$r".');
+          _error('Unknown dependency-level "$r".');
         } else {
           level.requires.add(requiredLevel);
         }
