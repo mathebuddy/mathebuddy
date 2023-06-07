@@ -18,6 +18,14 @@
 - ... (not everything is listed here!)
 
 <b>Recently fixed/added (newest first):</b>
+- smpl doc: define sets as "{...}"; "set(..)" is forbidden now, ...
+- TeX: $e^{\frac12}$
+- output source row number for SMPL-errors
+- report error for exercises that have no instances
+- some figures are rendered too wide (overflow)
+- support for new glyphs in TeX: "?", "\Longleftrightarrow"
+- inline math support for the TeX engine
+- enable switch display/inline TeX support in compiler and app
 - support for "build-term: true" in exercises (back end) &#9989;
 - references to equations, sections, ... &#9989;
 - web application has blue (not red) background when loading &#9989;
