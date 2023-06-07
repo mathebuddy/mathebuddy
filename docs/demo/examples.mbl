@@ -11,3 +11,9 @@ EXAMPLE Addition of complex numbers @ex:myExample
 EQUATION
 z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i
 ---
+
+---
+EXAMPLE
+- an item
+- another item
+---
