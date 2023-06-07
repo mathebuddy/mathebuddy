@@ -162,6 +162,7 @@ void showMbcl() {
 }
 
 String htmlSafe(String s) {
+  s = s.replaceAll("&", "&amp;");
   s = s.replaceAll("<", '&lt;');
   s = s.replaceAll(">", '&gt;');
   s = s.replaceAll("\"", '&quot;');
