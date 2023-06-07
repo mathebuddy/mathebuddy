@@ -8,6 +8,7 @@ hello.mbl
 equations.mbl
 examples.mbl
 exercises-simple.mbl
+icons/
 typography.mbl
 test-dir/
 demo-course/
