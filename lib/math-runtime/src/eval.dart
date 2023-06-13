@@ -17,6 +17,15 @@ num rand(num min, num max, [bool excludeZero = false]) {
   return v;
 }
 
+Operand applyOperationPerItem(
+    String op, Operand x_, Map<String, Operand> varValues) {
+  for (var i = 0; i < x_.items.length; i++) {
+    x_.items[i] =
+        Term.createOp(op, [Term.createConst(x_.items[i])], []).eval(varValues);
+  }
+  return x_;
+}
+
 Operand evalTerm(Term term, Map<String, Operand> varValues) {
   switch (term.op) {
     case '+':
@@ -43,11 +52,13 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       return Operand.unaryMinus(term.o[0].eval(varValues));
     case '^':
       return Operand.pow(term.o[0].eval(varValues), term.o[1].eval(varValues));
+    case '==':
+    case '!=':
     case '<':
     case '<=':
     case '>':
     case '>=':
-      return Operand.relational(
+      return Operand.relationalOrEqual(
         term.op,
         term.o[0].eval(varValues),
         term.o[1].eval(varValues),
@@ -241,8 +252,11 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
     case 'round':
       {
         var x_ = term.o[0].eval(varValues);
-        if (x_.type != OperandType.int && x_.type != OperandType.real) {
-          throw Exception('Argument of "${term.op}" must be integral or real.');
+        if (x_.type == OperandType.vector || x_.type == OperandType.matrix) {
+          return applyOperationPerItem(term.op, x_, varValues);
+        } else if (x_.type != OperandType.int && x_.type != OperandType.real) {
+          throw Exception('Argument of "${term.op}" must be integral or real,'
+              ' but is of type "${x_.type}".');
         }
         var x = x_.real;
         switch (term.op) {
