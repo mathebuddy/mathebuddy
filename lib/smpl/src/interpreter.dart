@@ -93,6 +93,37 @@ class Interpreter {
               ' := ${symbol.value} (${symbol.value.type.name})',
             );
           }
+          if (assignment.expectedRhs.isNotEmpty) {
+            var expectedType = OperandType.int;
+            try {
+              expectedType = OperandType.values.byName(assignment.expectedType);
+            } catch (e) {
+              _error(assignment.row,
+                  'unknown/unimplemented type "${assignment.expectedType}".');
+            }
+            if (symbol.value.type != expectedType) {
+              _error(
+                  assignment.row,
+                  'TEST FAILED: expected type "$expectedType",'
+                  ' but got type "${symbol.value.type}".');
+            }
+            Operand? expectedValue;
+            try {
+              var expectedTerm = _termParser.parse(assignment.expectedRhs,
+                  splitIdentifiers: false);
+              expectedValue = expectedTerm.eval({});
+            } catch (e) {
+              _error(assignment.row,
+                  'error in expected-term "$assignment.expectedRhs":$e.');
+            }
+
+            if (Operand.compareEqual(expectedValue!, symbol.value) == false) {
+              _error(
+                  assignment.row,
+                  'expected value "${expectedValue.toString()}",'
+                  ' but got value "${symbol.value.toString()}".');
+            }
+          }
         }
       }
     } else if (node is WhileLoop) {
@@ -104,7 +135,7 @@ class Interpreter {
         if (condition.type != OperandType.boolean) {
           _error(whileLoop.row, 'while-loop expects a boolean condition');
         }
-        if (condition.real == 0) break;
+        if (condition.real == 0 /* 0 := false */) break;
         _run(whileLoop.statements as StatementList);
       }
     } else if (node is IfCond) {
