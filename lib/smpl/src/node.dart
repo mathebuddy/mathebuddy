@@ -37,6 +37,8 @@ class Assignment extends AstNode {
   bool createSymbol = true;
   String lhs = '';
   String rhs = '';
+  String expectedType = ''; // used for test cases
+  String expectedRhs = ''; // used for test cases
   List<String> vars = []; // e.g. "f(x,y)" -> vars = ["x","y"]
   List<String> independentTo = [];
 
@@ -49,6 +51,7 @@ class Assignment extends AstNode {
         'lhs="$lhs",'
         'rhs="$rhs",'
         'vars=[${vars.join(',')}],'
+        'expected=[$expectedType,${expectedRhs.trim()}],'
         'independentTo=[${independentTo.join(',')}];\n');
   }
 }
