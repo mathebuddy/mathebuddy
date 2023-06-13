@@ -80,30 +80,46 @@ class Operand {
     }
     switch (x.type) {
       case OperandType.set:
-        if (x.items.length != y.items.length) return false;
-        for (var i = 0; i < x.items.length; i++) {
-          var found = false;
-          for (var j = 0; j < y.items.length; j++) {
-            if (Operand.compareEqual(x.items[i], y.items[j])) {
-              found = true;
-              break;
+        {
+          if (x.items.length != y.items.length) return false;
+          for (var i = 0; i < x.items.length; i++) {
+            var found = false;
+            for (var j = 0; j < y.items.length; j++) {
+              if (Operand.compareEqual(x.items[i], y.items[j])) {
+                found = true;
+                break;
+              }
+            }
+            if (found == false) return false;
+          }
+          break;
+        }
+      case OperandType.vector:
+        {
+          if (x.items.length != y.items.length) return false;
+          for (var i = 0; i < x.items.length; i++) {
+            if (Operand.compareEqual(x.items[i], y.items[i]) == false) {
+              return false;
             }
           }
-          if (found == false) return false;
+          break;
         }
-        break;
       case OperandType.matrix:
-        if (x.rows != y.rows || x.cols != y.cols) return false;
-        for (var i = 0; i < x.items.length; i++) {
-          if (Operand.compareEqual(x.items[i], y.items[i]) == false) {
-            return false;
+        {
+          if (x.rows != y.rows || x.cols != y.cols) return false;
+          for (var i = 0; i < x.items.length; i++) {
+            if (Operand.compareEqual(x.items[i], y.items[i]) == false) {
+              return false;
+            }
           }
+          break;
         }
-        break;
       default:
-        throw Exception(
-          'Operand.compareEqual(..): unimplemented type "${x.type.name}".',
-        );
+        {
+          throw Exception(
+            'Operand.compareEqual(..): unimplemented type "${x.type.name}".',
+          );
+        }
     }
     return true;
   }
@@ -125,8 +141,10 @@ class Operand {
 
   static Operand createReal(num x) {
     var eps = 1e-14; // TODO
-    if (x is int || (x - x.round()).abs() < eps) {
-      return Operand.createInt(x.round());
+    if (x != double.infinity && x != double.negativeInfinity) {
+      if (x is int || (x - x.round()).abs() < eps) {
+        return Operand.createInt(x.round());
+      }
     }
     var o = Operand(); // o := output
     o.type = OperandType.real;
@@ -463,9 +481,9 @@ class Operand {
     return o;
   }
 
-  static Operand relational(String op, Operand x, Operand y) {
-    if (['<', '<=', '>', '>='].contains(op) == false) {
-      throw Exception('Invalid operator $op for relational(..).');
+  static Operand relationalOrEqual(String op, Operand x, Operand y) {
+    if (['<', '<=', '>', '>=', '==', '!='].contains(op) == false) {
+      throw Exception('Invalid operator $op for relationalOrEqual(..).');
     }
     var o = Operand(); // o := output
     o.type = OperandType.boolean;
@@ -480,6 +498,12 @@ class Operand {
       if (x.type == OperandType.rational) u /= x.denominator;
       if (y.type == OperandType.rational) v /= y.denominator;
       switch (op) {
+        case '==':
+          o.real = u == v ? 1 : 0;
+          break;
+        case '!=':
+          o.real = u != v ? 1 : 0;
+          break;
         case '<':
           o.real = u < v ? 1 : 0;
           break;
@@ -487,7 +511,7 @@ class Operand {
           o.real = u <= v ? 1 : 0;
           break;
         case '>':
-          o.real = u >= v ? 1 : 0;
+          o.real = u > v ? 1 : 0;
           break;
         case '>=':
           o.real = u >= v ? 1 : 0;
