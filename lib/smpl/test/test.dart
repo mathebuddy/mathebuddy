@@ -62,22 +62,48 @@ figure {
 }
 ''';*/
 
-var src = '''
-let x:y = rand<2,2>(1, 5);
-let z = x * y;
-''';
+/*var src = '''
+let x = 1+2    >>> int >>> 3
+''';*/
 
 void main() {
-  /*
-  try {
+  /*try {
+    print("running the following src:\n%%%%%%%%\n$src\n%%%%%%%%\n");
     run(src);
-  } catch(e) {
+  } catch (e) {
     print(e);
     exit(-1);
-  }
-  */
+  }*/
 
-  var dataSrc = File("test/data/smpl-tests.json").readAsStringSync();
+  var allSrc = File("../../docs/tests/smpl-tests.txt").readAsStringSync();
+  var lines = allSrc.replaceAll("\r", "").split("\n");
+  var src = '';
+  for (var line in lines) {
+    if (line.trim().startsWith("%")) continue;
+    if (line.startsWith("---")) {
+      src = src.trim();
+      if (src.isNotEmpty) {
+        print("----- running test -----");
+        print(src);
+        print("-----");
+
+        try {
+          run(src);
+        } catch (e) {
+          print(e);
+          exit(-1);
+        }
+
+        src = "";
+      }
+    } else {
+      src += "$line\n";
+    }
+  }
+
+  var bp = 1337;
+
+  /*var dataSrc = File("test/data/smpl-tests.json").readAsStringSync();
   var data = jsonDecode(dataSrc)['programs'];
   var n = data.length as int;
   for (var i = 0; i < n; i++) {
@@ -95,7 +121,8 @@ void main() {
     }
     print('\n\n');
     var bp = 1337;
-  }
+  }*/
+
   print('... end!');
 
   // TODO
