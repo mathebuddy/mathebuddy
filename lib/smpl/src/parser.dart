@@ -22,7 +22,8 @@ class Parser {
     _lexer.configureMultiLineComments('/*', '*/');
     _lexer.enableEmitIndentation(false);
     _lexer.enableBackslashLineBreaks(false);
-    _lexer.setTerminals(['&&', '||', '==', '!=', '>=', '<=', '++', '--']);
+    _lexer
+        .setTerminals(['>>>', '&&', '||', '==', '!=', '>=', '<=', '++', '--']);
     _lexer.pushSource('FILE', src);
     _program = _parseProgram();
   }
@@ -67,7 +68,7 @@ class Parser {
     throw Exception(); // just to suppress DART warnings...
   }
 
-  //G assignment = ["let"] ID { (":"|"/") ID } ["(" ID { "," ID } ")"] "=" term (";"|"\n");
+  //G assignment = ["let"] ID { (":"|"/") ID } ["(" ID { "," ID } ")"] "=" term [">>>" ID ">>>" term] (";"|"\n");
   AstNode _parseAssignment() {
     var row = _lexer.getToken().row;
     var isDeclaration = false;
@@ -102,11 +103,27 @@ class Parser {
     var term = '';
     while (_lexer.isNotEnd() &&
         _lexer.isNotTerminal('\n') &&
-        _lexer.isNotTerminal(';')) {
+        _lexer.isNotTerminal(';') &&
+        _lexer.isNotTerminal('>>>')) {
       term += '${_lexer.getToken().token} ';
       _lexer.next();
     }
-    if (_lexer.isTerminal(';')) _lexer.next();
+    var expectedType = '';
+    var expectedRhs = '';
+    if (_lexer.isTerminal('>>>')) {
+      _lexer.next();
+      expectedType = _lexer.identifier();
+      _lexer.terminal('>>>');
+      while (_lexer.isNotEnd() &&
+          _lexer.isNotTerminal('\n') &&
+          _lexer.isNotTerminal(';')) {
+        expectedRhs += '${_lexer.getToken().token} ';
+        _lexer.next();
+      }
+    }
+    if (_lexer.isTerminal(';')) {
+      _lexer.next();
+    }
     _consumeEOL();
     // create AST node
     List<Assignment> assignments = [];
@@ -118,6 +135,8 @@ class Parser {
       a.vars = [...variables];
       a.rhs = term.trim();
       a.createSymbol = isDeclaration;
+      a.expectedType = expectedType;
+      a.expectedRhs = expectedRhs;
       if (lhsDelimiter == '/') {
         for (var j = 0; j < i; j++) {
           a.independentTo.add(lhsList[j]);
