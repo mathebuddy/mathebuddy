@@ -31,18 +31,25 @@ class Parser {
     var tk = ''; // token
     for (var i = 0; i < src.length; i++) {
       var ch = src[i];
+      var ch2 = i + 1 < src.length ? src[i + 1] : '';
       if (' \t\n'.contains(ch)) {
         if (tk.isNotEmpty) {
           _tokens.add(tk);
           tk = '';
         }
-      } else if ('+-*/()^{},|[]<>='.contains(ch)) {
-        // TODO: "<=", ... (all 2+ character tokens)
+      } else if ('+-*/()^{},|[]<>=!'.contains(ch)) {
         if (tk.isNotEmpty) {
           _tokens.add(tk);
           tk = '';
         }
         _tokens.add(ch);
+        if ((ch == '>' && ch2 == '=') ||
+            (ch == '<' && ch2 == '=') ||
+            (ch == '=' && ch2 == '=') ||
+            (ch == '!' && ch2 == '=')) {
+          _tokens[_tokens.length - 1] += ch2;
+          i++;
+        }
       } else {
         tk += ch;
       }
@@ -134,9 +141,20 @@ class Parser {
     return term;
   }
 
-  //G term = relational;
+  //G term = equal;
   Term _parseTerm() {
-    return _parseRelational();
+    return _parseEqual();
+  }
+
+  //G equal = relational [ ("=="|"!=") relational ];
+  Term _parseEqual() {
+    var res = _parseRelational();
+    if (['==', '!='].contains(_token)) {
+      var op = _token;
+      _next();
+      res = Term.createOp(op, [res, _parseRelational()], []);
+    }
+    return res;
   }
 
   //G relational = add [ ("<"|"<="|">"|">=") add ];
