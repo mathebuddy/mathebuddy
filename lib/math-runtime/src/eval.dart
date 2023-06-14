@@ -50,6 +50,8 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       }
     case '.-':
       return Operand.unaryMinus(term.o[0].eval(varValues));
+    case '!':
+      return Operand.logicalNot(term.o[0].eval(varValues));
     case '^':
       return Operand.pow(term.o[0].eval(varValues), term.o[1].eval(varValues));
     case '==':
@@ -63,6 +65,12 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         term.o[0].eval(varValues),
         term.o[1].eval(varValues),
       );
+    case '&&':
+      return Operand.logicalAnd(
+          term.o[0].eval(varValues), term.o[1].eval(varValues));
+    case '||':
+      return Operand.logicalOr(
+          term.o[0].eval(varValues), term.o[1].eval(varValues));
     case '#':
       return term.value;
     case 'conj':
@@ -79,7 +87,6 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
     case 'exp':
     case 'ln':
       {
-        // TODO: tabular for symbolic results!
         var o = term.o[0].eval(varValues);
         num v = 0;
         if (o.type == OperandType.int || o.type == OperandType.real) {
