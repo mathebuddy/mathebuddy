@@ -17,17 +17,50 @@
 %        
 % ===============================================================
 % TODO: add tests that must fail
+% TODO: exp, ...
 % ===============================================================
 
-let x = 3               >>> int >>> 3
-x = 2/3                 >>> rational >>> 2/3
-x = 3.14                >>> real >>> 3.14
-x = [1,2,3]             >>> vector >>> [1,2,3]
-x = [[1,2,3],[1,2,3]]   >>> matrix >>> [[1,2,3],[1,2,3]]
-x = true                >>> boolean >>> true
-x = false               >>> boolean >>> false
+let _int = 3                   >>> int >>> 3
+let _rat = 2/3                 >>> rational >>> 2/3
+let _real = 3.14               >>> real >>> 3.14
+let _irr = pi                  >>> irrational >>> pi
+let _vec = [1,2,3]             >>> vector >>> [1,2,3]
+let _mat = [[1,2],[3,4]]       >>> matrix >>> [[1,2],[3,4]]
+let _bool = true               >>> boolean >>> true
 
-% TODO: boolean operators
+let z = 0
+
+% == add ==
+z = _int + _int         >>> int >>> 6
+z = _int + _rat         >>> rational >>> 11/3
+z = _int + _real        >>> real >>> 6.14
+z = _int + _irr         >>> irrational >>> 6.1415926536
+z = _real + _int        >>> real >>> 6.14
+z = _real + _rat        >>> real >>> 3.806666666666667
+z = _real + _real       >>> real >>> 6.28
+z = _real + _irr        >>> real >>> 6.2815926536
+z = _irr + _int         >>> irrational >>> 6.1415926536
+z = _irr + _rat         >>> irrational >>> 3.8082593203
+z = _irr + _real        >>> irrational >>> 6.2815926536
+z = _irr + _irr         >>> irrational >>> 6.283185307179586
+z = _vec + _vec         >>> vector >>> [2,4,6]
+z = _mat + _mat         >>> matrix >>> [[2,4],[6,8]]
+
+% == subtract ==
+% TODO
+
+% == multiply  ==
+% TODO
+
+% == divide ==
+% TODO
+
+% == pow ==
+% TODO
+
+% == logical operators ==
+z = true && true       >> boolean >> true
+% TODO
 
 ---
 
@@ -54,6 +87,8 @@ let z = {20, 10, 30+1}  >>> set >>> {10,20,31}
 let w = len(z)          >>> int >>> 3
 let m1 = min(z)         >>> int >>> 10
 let m2 = max(z)         >>> int >>> 31
+
+% TODO: add, remove, elements...
 
 ---
 
@@ -88,8 +123,22 @@ let output = y     >>> int >>> 1
 
 ---
 
-let f(x) = x^2
+let a = 4
+let f(x) = a x^2 + 1
+let y = f(5)
+
+!STOP
+
+---
+
+let f(x) = x^2        >>> term >>> x^2
+let y = f(5)          >>> int >>> 25
+
 let g(x) = @f + 1     >>> term >>> x^2+1 + 888
+
+% TODO: f(x,y) ...
+
+!STOP
 
 ---
 
