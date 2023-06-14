@@ -68,7 +68,14 @@ class Parser {
     throw Exception(); // just to suppress DART warnings...
   }
 
-  //G assignment = ["let"] ID { (":"|"/") ID } ["(" ID { "," ID } ")"] "=" term [">>>" ID ">>>" term] (";"|"\n");
+  /*G assignment = 
+        ["let"] 
+        ID { (":"|"/") ID } 
+        ["(" ID { "," ID } ")"] 
+        "=" term 
+        [">>>" ID ">>>" term [">>>" term]]
+        (";"|"\n"); 
+  */
   AstNode _parseAssignment() {
     var row = _lexer.getToken().row;
     var isDeclaration = false;
@@ -110,15 +117,27 @@ class Parser {
     }
     var expectedType = '';
     var expectedRhs = '';
+    var expectedStringifiedTerm = '';
     if (_lexer.isTerminal('>>>')) {
       _lexer.next();
       expectedType = _lexer.identifier();
       _lexer.terminal('>>>');
       while (_lexer.isNotEnd() &&
           _lexer.isNotTerminal('\n') &&
-          _lexer.isNotTerminal(';')) {
+          _lexer.isNotTerminal(';') &&
+          _lexer.isNotTerminal('>>>')) {
         expectedRhs += '${_lexer.getToken().token} ';
         _lexer.next();
+      }
+      if (_lexer.isTerminal('>>>')) {
+        _lexer.next();
+        while (_lexer.isNotEnd() &&
+            _lexer.isNotTerminal('\n') &&
+            _lexer.isNotTerminal(';') &&
+            _lexer.isNotTerminal('>>>')) {
+          expectedStringifiedTerm += _lexer.getToken().token;
+          _lexer.next();
+        }
       }
     }
     if (_lexer.isTerminal(';')) {
@@ -137,6 +156,7 @@ class Parser {
       a.createSymbol = isDeclaration;
       a.expectedType = expectedType;
       a.expectedRhs = expectedRhs;
+      a.expectedStringifiedTerm = expectedStringifiedTerm;
       if (lhsDelimiter == '/') {
         for (var j = 0; j < i; j++) {
           a.independentTo.add(lhsList[j]);
