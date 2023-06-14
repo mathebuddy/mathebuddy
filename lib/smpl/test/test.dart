@@ -4,7 +4,6 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
-import 'dart:convert';
 import 'dart:io';
 
 import '../src/node.dart';
@@ -103,7 +102,7 @@ void main() {
 
         if (stop) break;
       }
-    } else {
+    } else if (!stop) {
       src += "$line\n";
     }
   }
