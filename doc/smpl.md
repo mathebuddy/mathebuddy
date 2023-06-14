@@ -277,7 +277,7 @@ SMPL supports the following data types:
   let y = f(3);
   let g(x,y) = 2 * exp(-x) * sin(y);
   let h(x,y) = diff(g, x);
-  let i = int(f, 0, 3);
+  let i = integrate(f, 0, 3);
   ```
 
   The example calculates $f(x)=x^2$, $y=9$, $g(x)=2\cdot\exp(x)\cdot\sin(y)$, $h(x,y)=-2 \cdot \exp(x) \cdot \sin(y)$, $i=21.3333...$.
@@ -574,13 +574,6 @@ Notation: We write data type `VOID` for functions that do not return any value.
   Returns the imaginary part of a complex number.
 
   _Example: `imag(3+4i)` returns 4._
-
-- **`int ( x : REAL ) : INT`**
-
-  Typecast from type real to type integer.
-  Same behavior as function `floor`.
-
-  _Example: `int(3.0)` returns `3`. &nbsp; &nbsp; `int(2.71)` returns `2`._
 
 - **`is_invertible ( x : MATRIX ) : BOOL`**
 
