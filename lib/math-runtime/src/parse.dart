@@ -456,7 +456,6 @@ class Parser {
       'fac',
       'floor',
       'imag',
-      'int',
       'len',
       'ln',
       'max',
