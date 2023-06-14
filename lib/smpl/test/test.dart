@@ -78,8 +78,13 @@ void main() {
   var allSrc = File("../../docs/tests/smpl-tests.txt").readAsStringSync();
   var lines = allSrc.replaceAll("\r", "").split("\n");
   var src = '';
+  var stop = false;
   for (var line in lines) {
     if (line.trim().startsWith("%")) continue;
+    if (line.startsWith("!STOP")) {
+      stop = true;
+      continue;
+    }
     if (line.startsWith("---")) {
       src = src.trim();
       if (src.isNotEmpty) {
@@ -95,6 +100,8 @@ void main() {
         }
 
         src = "";
+
+        if (stop) break;
       }
     } else {
       src += "$line\n";
