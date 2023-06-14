@@ -39,6 +39,7 @@ class Assignment extends AstNode {
   String rhs = '';
   String expectedType = ''; // used for test cases
   String expectedRhs = ''; // used for test cases
+  String expectedStringifiedTerm = ''; // used for test cases
   List<String> vars = []; // e.g. "f(x,y)" -> vars = ["x","y"]
   List<String> independentTo = [];
 
