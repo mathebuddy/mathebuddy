@@ -6,15 +6,14 @@
 %
 %   - Distinct tests are separated by '---'.
 %
-%   - Pattern '>>> TYPE >>> VALUE' checks
-%      whether the left-hand side has type TYPE
-%      and whether it is numerically equivalent to VALUE.
+%   - The pattern '>>> TYPE >>> VALUE >>> TERM' checks
+%      (a) if the left-hand side has type TYPE
+%      (b) if the left-hand side is numerically equivalent to VALUE
+%      (c) if the left-hand sides stringified (and fully parenthesized)
+%          term representation is equivalent to TERM (except white spaces).
 %
-%   - Pattern '>>> TYPE >>> "VALUE"' checks
-%      whether the left-hand side has type TYPE
-%      and whether its stringified representation is 
-%      (except white spaces) equivalent to VALUE.
-%        
+%     NOTE: The part '>>> TERM' is optional.
+%
 % ===============================================================
 % TODO: add tests that must fail
 % TODO: exp, ...
@@ -27,6 +26,25 @@
 %            !!must use terms explicitly!!
 % ===============================================================
 
+
+% ---WIP: term output---
+
+let x = 3 + 4         >>> int >>> 7 >>> (3+4)
+let y = x + 5         >>> int >>> 12 >>> (7+5)
+let z = @x + 5        >>> int >>> 12 >>> ((3+4)+5)
+
+let a = sin(pi/4)     >>> real >>> 0.7071067812 >>> sin((pi/4))
+let b = @a            >>> real >>> 0.7071067812 >>> sin((pi/4))
+let c = a             >>> real >>> 0.7071067812 >>> 0.7071067811865
+let d = simplify(@a)  >>> real >>> 0.7071067812 >>> (sqrt(2)/2)
+
+!STOP
+
+% TODO:
+let f(x) = x^2
+let g(x) = f(x) + 5
+
+---
 let _int = 3                   >>> int >>> 3
 let _rat = 2/3                 >>> rational >>> 2/3
 let _real = 3.14               >>> real >>> 3.14
@@ -123,7 +141,7 @@ z = _mat * _mat         >>> matrix >>> [[7,10],[15,22]]
 % TODO
 
 % == pow ==
-% TODO
+% TODO  (must reimplement pow!!)
 
 % TODO _mat^T
 
@@ -151,7 +169,11 @@ a = round(2.71)         >>> int >>> 3
 
 ---
 
-let x = sin(0)         >>> int >>> 0
+let y1 = sin(0)          >>> int >>> 0
+let y2 = sin(pi/4)       >>> real >>> sqrt(2)/2
+
+
+!STOP
 
 % TODO: use "..." for expected term values
 
