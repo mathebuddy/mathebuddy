@@ -104,8 +104,8 @@ class Interpreter {
             if (symbol.value.type != expectedType) {
               _error(
                   assignment.row,
-                  'TEST FAILED: expected type "$expectedType",'
-                  ' but got type "${symbol.value.type}".');
+                  'TEST FAILED: expected type "${expectedType.name}",'
+                  ' but got type "${symbol.value.type.name}".');
             }
             Operand? expectedValue;
             try {
