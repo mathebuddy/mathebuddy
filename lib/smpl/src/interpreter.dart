@@ -116,12 +116,21 @@ class Interpreter {
               _error(assignment.row,
                   'error in expected-term "$assignment.expectedRhs":$e.');
             }
-
             if (Operand.compareEqual(expectedValue!, symbol.value) == false) {
               _error(
                   assignment.row,
                   'expected value "${expectedValue.toString()}",'
                   ' but got value "${symbol.value.toString()}".');
+            }
+            if (assignment.expectedStringifiedTerm.isNotEmpty) {
+              var expected = assignment.expectedStringifiedTerm;
+              var actual = symbol.term.toString();
+              if (expected.replaceAll(' ', '') != actual.replaceAll(' ', '')) {
+                _error(
+                    assignment.row,
+                    'expected stringified term "$expected",'
+                    ' but got "$actual"');
+              }
             }
           }
         }
