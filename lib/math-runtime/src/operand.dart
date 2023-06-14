@@ -56,12 +56,14 @@ class Operand {
             x.type == OperandType.int ||
             x.type == OperandType.rational ||
             x.type == OperandType.real ||
-            x.type == OperandType.complex) &&
+            x.type == OperandType.complex ||
+            x.type == OperandType.irrational) &&
         (y.type == OperandType.boolean ||
             y.type == OperandType.int ||
             y.type == OperandType.rational ||
             y.type == OperandType.real ||
-            y.type == OperandType.complex)) {
+            y.type == OperandType.complex ||
+            x.type == OperandType.irrational)) {
       var xReal = x.real;
       var xImag = x.imag;
       var yReal = y.real;
