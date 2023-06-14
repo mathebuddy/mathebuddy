@@ -248,7 +248,6 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       }
     case 'ceil':
     case 'floor':
-    case 'int':
     case 'round':
       {
         var x_ = term.o[0].eval(varValues);
@@ -263,7 +262,6 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
           case 'ceil':
             return Operand.createInt(x.ceil());
           case 'floor':
-          case 'int':
             return Operand.createInt(x.floor());
           case 'round':
             return Operand.createInt(x.round());
