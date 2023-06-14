@@ -475,8 +475,10 @@ class Parser {
     return Term.createOp('set', elements, []);
   }
 
-  /*G fct1 = "abs" | "ceil" | "cos" | "exp" | "imag" | "int" | "fac" | "floor"
-      | "max" | "min" | "len" | "ln" | "real" | "round" | "sin" | "sqrt" | "tan"; */
+  /*G fct1 = "abs" | "ceil" | "conj" | "cos" | "exp" | "fac" | "floor" | 
+             "imag" | "len" | "ln" | "max" | "min" | "real" | "round" | 
+             "simplify" | "sin" | "sqrt" | "tan"; 
+  */
   bool _isFct1(String tk) {
     var fct1 = [
       'abs',
@@ -493,6 +495,7 @@ class Parser {
       'min',
       'real',
       'round',
+      'simplify',
       'sin',
       'sqrt',
       'tan',
