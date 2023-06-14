@@ -4,6 +4,7 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'operand.dart';
@@ -28,6 +29,14 @@ Operand applyOperationPerItem(
 
 Operand evalTerm(Term term, Map<String, Operand> varValues) {
   switch (term.op) {
+    case 'simplify':
+      {
+        print("evalTerm:simplify(..) is UNIMPLEMENTED");
+        exit(-1);
+        /*var res = term.clone();
+        res.optimize();
+        return res;*/
+      }
     case '+':
     case '-':
       {
