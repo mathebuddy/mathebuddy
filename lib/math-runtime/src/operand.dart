@@ -4,6 +4,12 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+/// NOTE: Symbolic computing is limited in the math engine.
+///       Only constants (like PI) may have type IRRATIONAL.
+///       All numeric computations result in type REAL instead of IRRATIONAL.
+///       For symbolic computing, we use type TERM (e.g. "2*PI") or just
+///       the approximate value 6.2831853072.
+
 import 'dart:math' as math;
 
 import 'algo.dart';
@@ -161,6 +167,7 @@ class Operand {
       throw Exception('Operand.createIrrational(..): unknown symbol "$irr".');
     }
     o.text = irr;
+    o.real = getBuiltInValue(o.text);
     return o;
   }
 
@@ -252,60 +259,195 @@ class Operand {
     return o;
   }
 
+  static void _binOpError(String operator, Operand x, Operand y) {
+    throw Exception('Cannot apply operator "$operator" on types'
+        ' "${x.type.name}" and "${y.type.name}" with values "$x" and "$y"');
+  }
+
+  static Operand logicalAnd(Operand x, Operand y) {
+    if (x.type != OperandType.boolean || y.type != OperandType.boolean) {
+      _binOpError("&&", x, y);
+    }
+    return Operand.createBoolean(x.real == 1 && y.real == 1);
+  }
+
+  static Operand logicalOr(Operand x, Operand y) {
+    if (x.type != OperandType.boolean || y.type != OperandType.boolean) {
+      _binOpError("||", x, y);
+    }
+    return Operand.createBoolean(x.real == 1 || y.real == 1);
+  }
+
+  static Operand logicalNot(Operand x) {
+    if (x.type != OperandType.boolean) {
+      throw Exception('Cannot apply operator "!" on type ' '${x.type.name}.');
+    }
+    return Operand.createBoolean(x.real == 0);
+  }
+
   static Operand addSub(String operator, Operand x, Operand y) {
     if (['+', '-'].contains(operator) == false) {
       throw Exception('Invalid operator "$operator" for addSub(..).');
     }
     var o = Operand(); // o := output
-    if (x.type == OperandType.int && y.type == OperandType.int) {
-      o.type = OperandType.int;
-      o.real = x.real + (operator == '+' ? y.real : -y.real);
-    } else if ((x.type == OperandType.int || x.type == OperandType.rational) &&
-        (y.type == OperandType.int || y.type == OperandType.rational)) {
-      o.type = OperandType.rational;
-      if (operator == '+') {
-        o.real = x.real * y.denominator + y.real * x.denominator;
-      } else {
-        o.real = x.real * y.denominator - y.real * x.denominator;
-      }
-      o.denominator = x.denominator * y.denominator;
-      o._reduce();
-    } else if ((x.type == OperandType.int || x.type == OperandType.real) &&
-        (y.type == OperandType.int || y.type == OperandType.real)) {
-      o.type = OperandType.real;
-      o.real = x.real + (operator == '+' ? y.real : -y.real);
-    } else if ((x.type == OperandType.int ||
-            x.type == OperandType.real ||
-            x.type == OperandType.complex) &&
-        (y.type == OperandType.int ||
-            y.type == OperandType.real ||
-            y.type == OperandType.complex)) {
-      o.type = OperandType.complex;
-      o.real = x.real + (operator == '+' ? y.real : -y.real);
-      o.imag = x.imag + (operator == '+' ? y.imag : -y.imag);
-    } else if (operator == '+' &&
-        x.type == OperandType.rational &&
-        y.type == OperandType.complex) {
-      o = Operand.addSub(
-          operator, Operand.createReal(x.real / x.denominator), y);
-    } else if (operator == '+' &&
-        x.type == OperandType.complex &&
-        y.type == OperandType.rational) {
-      o = Operand.addSub(
-          operator, x, Operand.createReal(y.real / y.denominator));
-    } else if (x.type == OperandType.matrix && y.type == OperandType.matrix) {
-      o.type = OperandType.matrix;
-      if (x.rows != y.rows || x.cols != y.cols) {
-        throw Exception('Matrix dimensions not matching for operator "+".');
-      }
-      o.rows = x.rows;
-      o.cols = x.cols;
-      for (var i = 0; i < x.items.length; i++) {
-        o.items.add(Operand.addSub(operator, x.items[i], y.items[i]));
-      }
-    } else {
-      throw Exception('Cannot apply operator "$operator" on'
-          ' ${x.type.name} and ${y.type.name} with values $x and $y');
+    switch (x.type) {
+      // -- first operator is int --
+      case OperandType.int:
+        switch (y.type) {
+          case OperandType.int:
+            // int OP int -> int
+            o.type = OperandType.int;
+            o.real = x.real + (operator == '+' ? y.real : -y.real);
+            break;
+          case OperandType.rational:
+            // int OP rational -> rational
+            o.type = OperandType.rational;
+            if (operator == '+') {
+              o.real = x.real * y.denominator + y.real * x.denominator;
+            } else {
+              o.real = x.real * y.denominator - y.real * x.denominator;
+            }
+            o.denominator = x.denominator * y.denominator;
+            o._reduce();
+            break;
+          case OperandType.real:
+          case OperandType.irrational:
+            // int OP real -> real
+            // int OP REAL(irrational) -> real
+            o.type = OperandType.real;
+            o.real = x.real + (operator == '+' ? y.real : -y.real);
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- first operator is rational --
+      case OperandType.rational:
+        switch (y.type) {
+          case OperandType.int:
+          case OperandType.rational:
+            // rational OP int -> rational
+            // rational OP rational -> rational
+            o.type = OperandType.rational;
+            if (operator == '+') {
+              o.real = x.real * y.denominator + y.real * x.denominator;
+            } else {
+              o.real = x.real * y.denominator - y.real * x.denominator;
+            }
+            o.denominator = x.denominator * y.denominator;
+            o._reduce();
+            break;
+          case OperandType.real:
+          case OperandType.irrational:
+            // rational OP real -> real
+            // rational OP REAL(irrational) -> real
+            o.type = OperandType.real;
+            o.real =
+                x.real / x.denominator + (operator == '+' ? y.real : -y.real);
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- first operator is real --
+      case OperandType.real:
+        switch (y.type) {
+          case OperandType.int:
+            // real OP int -> real
+            o.type = OperandType.real;
+            o.real = x.real + (operator == '+' ? y.real : -y.real);
+            break;
+          case OperandType.rational:
+            // real OP rational -> real
+            o.type = OperandType.real;
+            o.real = x.real +
+                (operator == '+'
+                    ? y.real / y.denominator
+                    : -y.real / y.denominator);
+            break;
+          case OperandType.real:
+          case OperandType.irrational:
+            // real OP real -> real
+            // real OP REAL(irrational) -> real
+            o.type = OperandType.real;
+            o.real = x.real + (operator == '+' ? y.real : -y.real);
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- first operator is irrational --
+      case OperandType.irrational:
+        switch (y.type) {
+          case OperandType.int:
+            // REAL(irrational) OP int -> real
+            o.type = OperandType.real;
+            o.real = x.real + (operator == '+' ? y.real : -y.real);
+            break;
+          case OperandType.rational:
+            // REAL(irrational) OP rational -> real
+            o.type = OperandType.real;
+            o.real = x.real +
+                (operator == '+'
+                    ? y.real / y.denominator
+                    : -y.real / y.denominator);
+            break;
+          case OperandType.real:
+          case OperandType.irrational:
+            // REAL(irrational) OP real -> real
+            // REAL(irrational) OP REAL(irrational) -> real
+            o.type = OperandType.real;
+            o.real = x.real + (operator == '+' ? y.real : -y.real);
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- first operator is vector --
+      case OperandType.vector:
+        switch (y.type) {
+          case OperandType.vector:
+            // vector OP vector -> vector
+            o.type = OperandType.vector;
+            if (x.items.length != y.items.length) {
+              throw Exception(
+                  'Vector dimensions not matching for operator "$operator".');
+            }
+            for (var i = 0; i < x.items.length; i++) {
+              o.items.add(Operand.addSub(operator, x.items[i], y.items[i]));
+            }
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- first operator is matrix --
+      case OperandType.matrix:
+        switch (y.type) {
+          case OperandType.matrix:
+            // matrix OP matrix -> matrix
+            o.type = OperandType.matrix;
+            if (x.rows != y.rows || x.cols != y.cols) {
+              throw Exception(
+                  'Matrix dimensions not matching for operator "$operator".');
+            }
+            o.rows = x.rows;
+            o.cols = x.cols;
+            for (var i = 0; i < x.items.length; i++) {
+              o.items.add(Operand.addSub(operator, x.items[i], y.items[i]));
+            }
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- other --
+      default:
+        _binOpError(operator, x, y);
+    }
+    if (o.type == OperandType.real) {
+      // change type real to type int, if applicable
+      o = Operand.createReal(o.real);
     }
     return o;
   }
@@ -322,18 +464,24 @@ class Operand {
         o.real = -o.real;
         o.imag = -o.imag;
         break;
+      case OperandType.vector:
       case OperandType.matrix:
         for (var i = 0; i < o.items.length; i++) {
           o.items[i] = Operand.unaryMinus(o.items[i]);
         }
         break;
       case OperandType.irrational:
-        // TODO: this is not symbolic...
+        // - REAL(irrational) -> real
         o.type = OperandType.real;
         o.real = -Operand.getBuiltInValue(o.text);
         break;
       default:
-        throw Exception('Cannot apply operator "unary -" on ${x.type.name}.');
+        throw Exception(
+            'Cannot apply operator "unary -" on type ' '${x.type.name}.');
+    }
+    if (o.type == OperandType.real) {
+      // change type real to type int, if applicable
+      o = Operand.createReal(o.real);
     }
     return o;
   }
@@ -343,111 +491,274 @@ class Operand {
       throw Exception('Invalid operator "$operator" for mulDiv(..).');
     }
     var o = Operand(); // o := output
-    if (x.type == OperandType.int && y.type == OperandType.int) {
-      o.type = OperandType.int;
-      if (operator == '*') {
-        o.real = x.real * y.real;
-      } else {
-        o = Operand.createRational(x.real, y.real);
-      }
-    } else if ((x.type == OperandType.int || x.type == OperandType.rational) &&
-        (y.type == OperandType.int || y.type == OperandType.rational)) {
-      o.type = OperandType.rational;
-      if (operator == '*') {
-        o.real = x.real * y.real;
-        o.denominator = x.denominator * y.denominator;
-      } else {
-        o.real = x.real * y.denominator;
-        o.denominator = x.denominator * y.real;
-      }
-      o._reduce();
-    } else if ((x.type == OperandType.int || x.type == OperandType.real) &&
-        (y.type == OperandType.int || y.type == OperandType.real)) {
-      o.type = OperandType.real;
-      if (operator == '*') {
-        o.real = x.real * y.real;
-      } else {
-        o.real = x.real / y.real;
-      }
-    } else if ((x.type == OperandType.rational) &&
-        (y.type == OperandType.real)) {
-      o.type = OperandType.real;
-      if (operator == '*') {
-        o.real = (x.real / x.denominator) * y.real;
-      } else {
-        o.real = (x.real / x.denominator) / y.real;
-      }
-    } else if (operator == '*' &&
-        x.type == OperandType.rational &&
-        y.type == OperandType.complex) {
-      o = Operand.mulDiv(
-          operator, Operand.createReal(x.real / x.denominator), y);
-    } else if (operator == '*' &&
-        (x.type == OperandType.int ||
-            x.type == OperandType.rational ||
-            x.type == OperandType.real ||
-            x.type == OperandType.complex) &&
-        y.type == OperandType.matrix) {
-      o.type = OperandType.matrix;
-      o.rows = y.rows;
-      o.cols = y.cols;
-      for (var i = 0; i < y.items.length; i++) {
-        o.items.add(Operand.mulDiv('*', x, y.items[i]));
-      }
-    } else if (operator == '*' &&
-        x.type == OperandType.matrix &&
-        (y.type == OperandType.int ||
-            y.type == OperandType.rational ||
-            y.type == OperandType.real ||
-            y.type == OperandType.complex)) {
-      o.type = OperandType.matrix;
-      o.rows = x.rows;
-      o.cols = x.cols;
-      for (var i = 0; i < x.items.length; i++) {
-        o.items.add(Operand.mulDiv('*', x.items[i], y));
-      }
-    } else if ((x.type == OperandType.int ||
-            x.type == OperandType.real ||
-            x.type == OperandType.complex) &&
-        (y.type == OperandType.int ||
-            y.type == OperandType.real ||
-            y.type == OperandType.complex)) {
-      o.type = OperandType.complex;
-      if (operator == '*') {
-        o.real = x.real * y.real - x.imag * y.imag;
-        o.imag = x.real * y.imag + x.imag * y.real;
-      } else {
-        var n = Operand.mulDiv(
-          '*',
-          x,
-          Operand.createComplex(y.real, -y.imag),
-        );
-        var d = y.real * y.real + y.imag * y.imag;
-        o.real = n.real / d;
-        o.imag = n.imag / d;
-      }
-    } else if (x.type == OperandType.matrix && y.type == OperandType.matrix) {
-      o.type = OperandType.matrix;
-      if (x.cols != y.rows) {
-        throw Exception('Matrix dimensions not matching for operator "*".');
-      }
-      o.rows = x.rows;
-      o.cols = y.cols;
-      for (var i = 0; i < o.rows; i++) {
-        for (var j = 0; j < o.cols; j++) {
-          var idx = i * o.cols + j;
-          o.items.add(Operand.createInt(0));
-          for (var k = 0; k < x.cols; k++) {
-            int a = i * x.cols + k;
-            int b = k * y.cols + j;
-            o.items[idx] = Operand.addSub(
-                '+', o.items[idx], Operand.mulDiv('*', x.items[a], y.items[b]));
-          }
+    switch (x.type) {
+      // -- first operator is int --
+      case OperandType.int:
+        switch (y.type) {
+          case OperandType.int:
+            // int * int -> int
+            // int / int -> rational
+            o.type = OperandType.int;
+            if (operator == '*') {
+              o.real = x.real * y.real;
+            } else {
+              o = Operand.createRational(x.real, y.real);
+            }
+            break;
+          case OperandType.rational:
+            // int OP rational -> rational
+            o.type = OperandType.rational;
+            if (operator == '*') {
+              o.real = x.real * y.real;
+              o.denominator = x.denominator * y.denominator;
+            } else {
+              o.real = x.real * y.denominator;
+              o.denominator = x.denominator * y.real;
+            }
+            o._reduce();
+            break;
+          case OperandType.real:
+          case OperandType.irrational:
+            // int OP real -> real
+            // int OP REAL(irrational) -> real
+            o.type = OperandType.real;
+            if (operator == '*') {
+              o.real = x.real * y.real;
+            } else {
+              o.real = x.real / y.real;
+            }
+            break;
+          case OperandType.vector:
+            // int OP vector -> vector
+            o.type = OperandType.vector;
+            for (var item in y.items) {
+              o.items.add(Operand.mulDiv(operator, x, item));
+            }
+            break;
+          case OperandType.matrix:
+            // int OP matrix -> matrix
+            o.type = OperandType.matrix;
+            o.rows = y.rows;
+            o.cols = y.cols;
+            for (var item in y.items) {
+              o.items.add(Operand.mulDiv(operator, x, item));
+            }
+            break;
+          default:
+            _binOpError(operator, x, y);
         }
-      }
-    } else {
-      throw Exception('Cannot apply operator "$operator" on'
-          ' ${x.type.name} and ${y.type.name} with values $x and $y');
+        break;
+      // -- first operator is rational --
+      case OperandType.rational:
+        switch (y.type) {
+          case OperandType.int:
+          case OperandType.rational:
+            // rational OP int -> rational
+            // rational OP rational -> rational
+            o.type = OperandType.rational;
+            if (operator == '*') {
+              o.real = x.real * y.real;
+              o.denominator = x.denominator * y.denominator;
+            } else {
+              o.real = x.real * y.denominator;
+              o.denominator = x.denominator * y.real;
+            }
+            o._reduce();
+            break;
+          case OperandType.real:
+          case OperandType.irrational:
+            // rational OP real -> real
+            // rational OP REAL(irrational) -> real
+            o.type = OperandType.real;
+            if (operator == '*') {
+              o.real = (x.real / x.denominator) * y.real;
+            } else {
+              o.real = (x.real / x.denominator) / y.real;
+            }
+            break;
+          case OperandType.vector:
+            // int OP vector -> vector
+            o.type = OperandType.vector;
+            for (var item in y.items) {
+              o.items.add(Operand.mulDiv(operator, x, item));
+            }
+            break;
+          case OperandType.matrix:
+            // int OP matrix -> matrix
+            o.type = OperandType.matrix;
+            o.rows = y.rows;
+            o.cols = y.cols;
+            for (var item in y.items) {
+              o.items.add(Operand.mulDiv(operator, x, item));
+            }
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- first operator is real --
+      case OperandType.real:
+        switch (y.type) {
+          case OperandType.int:
+            // real OP int -> real
+            o.type = OperandType.real;
+            if (operator == '*') {
+              o.real = x.real * y.real;
+            } else {
+              o.real = x.real / y.real;
+            }
+            break;
+          case OperandType.rational:
+            // real OP rational -> real
+            o.type = OperandType.real;
+            if (operator == '*') {
+              o.real = x.real * y.real / y.denominator;
+            } else {
+              o.real = x.real * y.denominator / y.real;
+            }
+            break;
+          case OperandType.real:
+          case OperandType.irrational:
+            // real OP real -> real
+            // real OP REAL(irrational) -> real
+            o.type = OperandType.real;
+            if (operator == '*') {
+              o.real = x.real * y.real;
+            } else {
+              o.real = x.real / y.real;
+            }
+            break;
+          case OperandType.vector:
+            // int OP vector -> vector
+            o.type = OperandType.vector;
+            for (var item in y.items) {
+              o.items.add(Operand.mulDiv(operator, x, item));
+            }
+            break;
+          case OperandType.matrix:
+            // int OP matrix -> matrix
+            o.type = OperandType.matrix;
+            o.rows = y.rows;
+            o.cols = y.cols;
+            for (var item in y.items) {
+              o.items.add(Operand.mulDiv(operator, x, item));
+            }
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- first operator is irrational --
+      case OperandType.irrational:
+        switch (y.type) {
+          case OperandType.int:
+            // REAL(irrational) OP int -> real
+            o.type = OperandType.real;
+            if (operator == '*') {
+              o.real = x.real * y.real;
+            } else {
+              o.real = x.real / y.real;
+            }
+            break;
+          case OperandType.rational:
+            // REAL(irrational) OP rational -> real
+            o.type = OperandType.real;
+            if (operator == '*') {
+              o.real = x.real * y.real / y.denominator;
+            } else {
+              o.real = x.real * y.denominator / y.real;
+            }
+            break;
+          case OperandType.real:
+          case OperandType.irrational:
+            // REAL(irrational) OP real -> real
+            // REAL(irrational) OP REAL(irrational) -> real
+            o.type = OperandType.real;
+            if (operator == '*') {
+              o.real = x.real * y.real;
+            } else {
+              o.real = x.real / y.real;
+            }
+            break;
+          case OperandType.vector:
+            // int OP vector -> vector
+            o.type = OperandType.vector;
+            for (var item in y.items) {
+              o.items.add(Operand.mulDiv(operator, x, item));
+            }
+            break;
+          case OperandType.matrix:
+            // int OP matrix -> matrix
+            o.type = OperandType.matrix;
+            o.rows = y.rows;
+            o.cols = y.cols;
+            for (var item in y.items) {
+              o.items.add(Operand.mulDiv(operator, x, item));
+            }
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- first operator is vector --
+      case OperandType.vector:
+        switch (y.type) {
+          case OperandType.int:
+          case OperandType.rational:
+          case OperandType.real:
+          case OperandType.irrational:
+            // int OP vector -> vector
+            // rational OP vector -> vector
+            // real OP vector -> vector
+            // irrational OP vector -> vector
+            o.type = OperandType.vector;
+            for (var item in x.items) {
+              o.items.add(Operand.mulDiv(operator, item, y));
+            }
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- first operator is matrix --
+      case OperandType.matrix:
+        switch (y.type) {
+          case OperandType.matrix:
+            // matrix OP matrix -> matrix
+            if (operator == '/') {
+              throw Exception('Matrix division is not allowed.');
+            }
+            o.type = OperandType.matrix;
+            if (x.cols != y.rows) {
+              throw Exception(
+                  'Matrix dimensions not matching for operator "*".');
+            }
+            o.rows = x.rows;
+            o.cols = y.cols;
+            for (var i = 0; i < o.rows; i++) {
+              for (var j = 0; j < o.cols; j++) {
+                var idx = i * o.cols + j;
+                o.items.add(Operand.createInt(0));
+                for (var k = 0; k < x.cols; k++) {
+                  int a = i * x.cols + k;
+                  int b = k * y.cols + j;
+                  o.items[idx] = Operand.addSub('+', o.items[idx],
+                      Operand.mulDiv('*', x.items[a], y.items[b]));
+                }
+              }
+            }
+            break;
+          default:
+            _binOpError(operator, x, y);
+        }
+        break;
+      // -- other --
+      default:
+        _binOpError(operator, x, y);
+    }
+    if (o.type == OperandType.real) {
+      // change type real to type int, if applicable
+      o = Operand.createReal(o.real);
     }
     return o;
   }
@@ -479,6 +790,10 @@ class Operand {
       throw Exception(
         'Cannot apply operator "^" on "${x.type.name}" and "${y.type.name}".',
       );
+    }
+    if (o.type == OperandType.real) {
+      // change type real to type int, if applicable
+      o = Operand.createReal(o.real);
     }
     return o;
   }
