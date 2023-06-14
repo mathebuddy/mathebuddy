@@ -37,13 +37,15 @@ class Parser {
           _tokens.add(tk);
           tk = '';
         }
-      } else if ('+-*/()^{},|[]<>=!'.contains(ch)) {
+      } else if ('+-*/()^{},|[]<>=!&'.contains(ch)) {
         if (tk.isNotEmpty) {
           _tokens.add(tk);
           tk = '';
         }
         _tokens.add(ch);
-        if ((ch == '>' && ch2 == '=') ||
+        if ((ch == '&' && ch2 == '&') ||
+            (ch == '|' && ch2 == '|') ||
+            (ch == '>' && ch2 == '=') ||
             (ch == '<' && ch2 == '=') ||
             (ch == '=' && ch2 == '=') ||
             (ch == '!' && ch2 == '=')) {
@@ -141,9 +143,31 @@ class Parser {
     return term;
   }
 
-  //G term = equal;
+  //G term = lor;
   Term _parseTerm() {
-    return _parseEqual();
+    return _parseLor();
+  }
+
+  //G lor = land [ "||" land ];
+  Term _parseLor() {
+    var res = _parseLand();
+    if (_token == '||') {
+      var op = _token;
+      _next();
+      res = Term.createOp(op, [res, _parseLand()], []);
+    }
+    return res;
+  }
+
+  //G land = equal [ "&&" equal ];
+  Term _parseLand() {
+    var res = _parseEqual();
+    if (_token == '&&') {
+      var op = _token;
+      _next();
+      res = Term.createOp(op, [res, _parseEqual()], []);
+    }
+    return res;
   }
 
   //G equal = relational [ ("=="|"!=") relational ];
@@ -238,24 +262,31 @@ class Parser {
   }
 
   //G unary = [prefix] infix [postfix];
-  //G prefix = "-";
+  //G prefix = "-" | "!";
   //G postfix = "i"; <--- TODO: remove that here!!
   Term _parseUnary() {
     var isUnaryMinus = false;
+    var isLogicalNot = false;
     if (_token == '-') {
       _next();
       isUnaryMinus = true;
+    } else if (_token == '!') {
+      _next();
+      isLogicalNot = true;
     }
     var term = _parseInfix();
     if (isUnaryMinus) term = Term.createOp('.-', [term], []);
-    /*if (_token == 'i') {
-      _next();
-      term = Term.createOp('*', [term, Term.createConstComplex(0, 1)], []);
-    }*/
+    if (isLogicalNot) term = Term.createOp('!', [term], []);
     return term;
   }
 
-  /*G infix = IMAG | REAL | INT | builtin
+  /*G infix = 
+        "true"
+      | "false"
+      | IMAG
+      | REAL 
+      | INT 
+      | builtin
       | fct1 unary
       | fct "<" unary {"," unary} ">" "(" term {"," term} ")"
       | ID
