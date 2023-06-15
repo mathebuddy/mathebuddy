@@ -29,6 +29,12 @@
 
 % ---WIP: term output---
 
+let f(x) = 3 x^2   >>> term >>> 3 x^2 >>> (3*(x^2))
+
+% TODO:
+% let f(x) = x^2
+% let g(x) = f(x) + 5
+
 let x = 3 + 4         >>> int >>>  7 >>> (3+4)
 let y = x + 5         >>> int >>> 12 >>> (7+5)
 let z = @x + 5        >>> int >>> 12 >>> ((3+4)+5)
@@ -40,23 +46,19 @@ let d = @a + 1        >>> real >>> 1.7071067812 >>> (sin((pi/4))+1)
 let e = @@a + 1       >>> real >>> 1.7071067812 >>> ((sqrt(2)/2)+1)
 
 let xxx = sin(pi/6)
+let yyy = @@xxx       >>> rational >>> 1/2
 
 
 %     x      numerical value of x
 %     @x     term of x
 %     @@x    optimized term of x
 
-!STOP
-
-% TODO:
-let f(x) = x^2
-let g(x) = f(x) + 5
-
 ---
 let _int = 3                   >>> int >>> 3
 let _rat = 2/3                 >>> rational >>> 2/3
 let _real = 3.14               >>> real >>> 3.14
 let _irr = pi                  >>> irrational >>> pi
+let _cmplx = 2 + 3i            >>> complex >>> 2+3.1i
 let _vec = [1,2]               >>> vector >>> [1,2]
 let _mat = [[1,2],[3,4]]       >>> matrix >>> [[1,2],[3,4]]
 let _bool = true               >>> boolean >>> true
@@ -68,18 +70,27 @@ z = _int + _int         >>> int >>> 6
 z = _int + _rat         >>> rational >>> 11/3
 z = _int + _real        >>> real >>> 6.14
 z = _int + _irr         >>> real >>> 6.1415926536
+z = _int + _cmplx       >>> complex >>> 5+3i
 z = _rat + _int         >>> rational >>> 11/3
 z = _rat + _rat         >>> rational >>> 4/3
 z = _rat + _real        >>> real >>> 3.8066666667
 z = _rat + _irr         >>> real >>> 3.8082593203
+z = _rat + _cmplx       >>> complex >>> 3i+8/3
 z = _real + _int        >>> real >>> 6.14
 z = _real + _rat        >>> real >>> 3.806666666666667
 z = _real + _real       >>> real >>> 6.28
 z = _real + _irr        >>> real >>> 6.2815926536
+z = _real + _cmplx      >>> complex >>> 5.14+3i
 z = _irr + _int         >>> real >>> 6.1415926536
 z = _irr + _rat         >>> real >>> 3.8082593203
 z = _irr + _real        >>> real >>> 6.2815926536
 z = _irr + _irr         >>> real >>> 6.283185307179586
+z = _irr + _cmplx       >>> complex >>> 3i+5.141592653589793
+z = _cmplx + _int       >>> complex >>> 5+3i
+z = _cmplx + _rat       >>> complex >>> 3i+8/3
+z = _cmplx + _real      >>> complex >>> 5.14+3i
+z = _cmplx + _irr       >>> complex >>> 3i+5.141592653589793
+z = _cmplx + _cmplx     >>> complex >>> 4+6i
 z = _vec + _vec         >>> vector >>> [2,4]
 z = _mat + _mat         >>> matrix >>> [[2,4],[6,8]]
 
@@ -89,6 +100,7 @@ z = - _int              >>> int >>> -3
 z = - _rat              >>> rational >>> -2/3
 z = - _real             >>> real >>> -3.14
 z = - _irr              >>> real >>> -3.141592653589793
+z = - _cmplx            >>> complex >>> -2-3i
 z = - _vec              >>> vector >>> [-1,-2]
 z = - _mat              >>> matrix >>> [[-1,-2],[-3,-4]]
 
@@ -99,18 +111,27 @@ z = _int - _int         >>> int >>> 0
 z = _int - _rat         >>> rational >>> 7/3
 z = _int - _real        >>> real >>> -0.14
 z = _int - _irr         >>> real >>> -0.1415926536
+z = _int - _cmplx       >>> complex >>> 888
 z = _rat - _int         >>> rational >>> -7/3
 z = _rat - _rat         >>> int >>> 0
 z = _rat - _real        >>> real >>> -2.4733333333
 z = _rat - _irr         >>> real >>> -2.4749259869
+z = _rat - _cmplx       >>> complex >>> 888
 z = _real - _int        >>> real >>> 0.14
 z = _real - _rat        >>> real >>> 2.4733333333
 z = _real - _real       >>> int >>> 0
 z = _real - _irr        >>> real >>> -0.00159265359
+z = _real - _cmplx      >>> complex >>> 888
 z = _irr - _int         >>> real >>> 0.1415926536
 z = _irr - _rat         >>> real >>> 2.4749259869
 z = _irr - _real        >>> real >>> 0.00159265359
 z = _irr - _irr         >>> int >>> 0
+z = _irr - _cmplx       >>> complex >>> 888
+z = _cmplx - _int       >>> complex >>> 888
+z = _cmplx - _rat       >>> complex >>> 888
+z = _cmplx - _real      >>> complex >>> 888
+z = _cmplx - _irr       >>> complex >>> 888
+z = _cmplx - _cmplx     >>> complex >>> 888
 z = _vec - _vec         >>> vector >>> [0,0]
 z = _mat - _mat         >>> matrix >>> [[0,0],[0,0]]
 
@@ -119,30 +140,40 @@ z = _int * _int         >>> int >>> 9
 z = _int * _rat         >>> int >>> 2
 z = _int * _real        >>> real >>> 9.42
 z = _int * _irr         >>> real >>> 9.4247779608
+z = _int * _complex     >>> complex >>> 888
 z = _int * _vec         >>> vector >>> [3,6]
 z = _int * _mat         >>> matrix >>> [[3,6],[9,12]]
 z = _rat * _int         >>> int >>> 2
 z = _rat * _rat         >>> rational >>> 4/9
 z = _rat * _real        >>> real >>> 2.09333333333
 z = _rat * _irr         >>> real >>> 2.09439510239
+z = _rat * _complex     >>> complex >>> 888
 z = _rat * _vec         >>> vector >>> [2/3,4/3]
 z = _rat * _mat         >>> matrix >>> [[2/3,4/3],[2,8/3]]
 z = _real * _int        >>> real >>> 9.42
 z = _real * _rat        >>> real >>> 2.09333333333
 z = _real * _real       >>> real >>> 9.8596
 z = _real * _irr        >>> real >>> 9.8646009323
+z = _real * _complex    >>> complex >>> 888
 z = _real * _vec        >>> vector >>> [3.14,6.28]
 z = _real * _mat        >>> matrix >>> [[3.14,6.28],[9.42,12.56]]
 z = _irr * _int         >>> real >>> 9.4247779608
 z = _irr * _rat         >>> real >>> 2.09439510239
 z = _irr * _real        >>> real >>> 9.8646009323
 z = _irr * _irr         >>> real >>> 9.8696044011
+z = _irr * _complex     >>> complex >>> 888
 z = _irr * _vec         >>> vector >>> [pi, 2 pi]
 z = _irr * _mat         >>> matrix >>> [[pi, 2 pi],[3 pi, 4 pi]]
+z = _cmplx * _int       >>> complex >>> 888
+z = _cmplx * _rat       >>> complex >>> 888
+z = _cmplx * _real      >>> complex >>> 888
+z = _cmplx * _irr       >>> complex >>> 888
+z = _cmplx * _cmplx     >>> complex >>> 888
 z = _vec * _int         >>> vector >>> [3, 6]
 z = _vec * _rat         >>> vector >>> [2/3, 4/3]
 z = _vec * _real        >>> vector >>> [3.14, 6.28]
 z = _vec * _irr         >>> vector >>> [pi, 2 pi]
+z = _vec * _complex     >>> complex >>> 888
 z = _mat * _mat         >>> matrix >>> [[7,10],[15,22]]
 
 % == divide ==
