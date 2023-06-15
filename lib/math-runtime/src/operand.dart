@@ -13,6 +13,7 @@
 import 'dart:math' as math;
 
 import 'algo.dart';
+import 'help.dart';
 
 enum OperandType {
   boolean,
@@ -148,11 +149,8 @@ class Operand {
   }
 
   static Operand createReal(num x) {
-    var eps = 1e-14; // TODO
-    if (x != double.infinity && x != double.negativeInfinity) {
-      if (x is int || (x - x.round()).abs() < eps) {
-        return Operand.createInt(x.round());
-      }
+    if (isInteger(x)) {
+      return Operand.createInt(x.round());
     }
     var o = Operand(); // o := output
     o.type = OperandType.real;
