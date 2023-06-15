@@ -37,7 +37,7 @@ class Parser {
           _tokens.add(tk);
           tk = '';
         }
-      } else if ('+-*/()^{},|[]<>=!&'.contains(ch)) {
+      } else if ('+-*/()^{},|[]<>=!&@'.contains(ch)) {
         if (tk.isNotEmpty) {
           _tokens.add(tk);
           tk = '';
@@ -48,7 +48,8 @@ class Parser {
             (ch == '>' && ch2 == '=') ||
             (ch == '<' && ch2 == '=') ||
             (ch == '=' && ch2 == '=') ||
-            (ch == '!' && ch2 == '=')) {
+            (ch == '!' && ch2 == '=') ||
+            (ch == '@' && ch2 == '@')) {
           _tokens[_tokens.length - 1] += ch2;
           i++;
         }
@@ -289,7 +290,7 @@ class Parser {
       | builtin
       | fct1 unary
       | fct "<" unary {"," unary} ">" "(" term {"," term} ")"
-      | ID
+      | ["@"|"@@"] ID
       | "|" term "|"
       | matrixOrVector | set;
   */
@@ -358,14 +359,16 @@ class Parser {
       } else {
         throw Exception('expected "(" or unary function');
       }
-    } else if (_token == '@' || _isIdentifier(_token)) {
-      var isTerm = false;
-      if (_token == '@') {
-        isTerm = true;
+    } else if (_token == '@' || _token == '@@' || _isIdentifier(_token)) {
+      var id = '';
+      if (_token == '@' || _token == '@@') {
+        id += _token;
         _next();
-        if (_isIdentifier(_token) == false) throw Exception('expected:ID');
       }
-      var id = (isTerm ? '@' : '') + _token;
+      if (_isIdentifier(_token) == false) {
+        throw Exception('expected:ID');
+      }
+      id += _token;
       _next();
       return Term.createVar(id);
     } else if (_token == '(') {
