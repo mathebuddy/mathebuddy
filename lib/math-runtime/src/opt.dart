@@ -5,6 +5,7 @@
 /// License: GPL-3.0-or-later
 
 import 'operand.dart';
+import 'tab.dart';
 import 'term.dart';
 
 Term optTerm(Term term) {
@@ -70,14 +71,16 @@ Term optTerm(Term term) {
         Operand.compareEqual(term.o[1].value, Operand.createInt(1))) {
       return term.o[0];
     }
+  } else if (term.op == 'sin') {
+    var arg = term.eval({}).real;
+    var newTerm = number2Term(arg);
+    if (newTerm != null) return newTerm;
   }
   // try to evaluate term
   try {
     // result is constant, if all operands are constant
     var v = t.eval({});
-    if (v.type == OperandType.int ||
-        v.type == OperandType.real ||
-        v.type == OperandType.complex) {
+    if (v.type == OperandType.int || v.type == OperandType.rational) {
       return Term.createConst(v);
     }
   } catch (e) {
