@@ -229,7 +229,7 @@ class Interpreter {
             term.substituteVariableByTerm(
                 '@$id', symbol.term.clone().optimize());
           } else {
-            term.substituteVariableByTerm(id, optTerm(symbol.term.clone()));
+            term.substituteVariableByTerm(id, symbol.term.clone());
           }
         } else {
           term.substituteVariableByOperand(id, symbol.value.clone());
