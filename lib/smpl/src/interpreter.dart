@@ -6,6 +6,7 @@
 
 import '../../math-runtime/src/operand.dart';
 import '../../math-runtime/src/term.dart';
+import '../../math-runtime/src/opt.dart';
 import '../../math-runtime/src/parse.dart' as term_parser;
 
 import 'node.dart';
@@ -213,13 +214,23 @@ class Interpreter {
     term = term as Term;
     var variables = term.getVariableIDs();
     for (var id in variables) {
+      var optimizeTerm = false;
+      if (id.startsWith('@@')) {
+        optimizeTerm = true;
+        id = id.substring(1);
+      }
       if (keepVariables.contains(id)) continue;
       var symbol = _getSymbol(id);
       if (symbol == null) {
         _error(srcRow, 'error in term "$src": variable $id is unknown!');
       } else {
         if (id.startsWith('@')) {
-          term.substituteVariableByTerm(id, symbol.term.clone());
+          if (optimizeTerm) {
+            term.substituteVariableByTerm(
+                '@$id', symbol.term.clone().optimize());
+          } else {
+            term.substituteVariableByTerm(id, optTerm(symbol.term.clone()));
+          }
         } else {
           term.substituteVariableByOperand(id, symbol.value.clone());
         }
