@@ -39,6 +39,8 @@ let c = a             >>> real >>> 0.7071067812 >>> 0.7071067811865
 let d = @a + 1        >>> real >>> 1.7071067812 >>> (sin((pi/4))+1)
 let e = @@a + 1       >>> real >>> 1.7071067812 >>> ((sqrt(2)/2)+1)
 
+let xxx = sin(pi/6)
+
 
 %     x      numerical value of x
 %     @x     term of x
