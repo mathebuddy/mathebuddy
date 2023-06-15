@@ -29,14 +29,20 @@
 
 % ---WIP: term output---
 
-let x = 3 + 4         >>> int >>> 7 >>> (3+4)
+let x = 3 + 4         >>> int >>>  7 >>> (3+4)
 let y = x + 5         >>> int >>> 12 >>> (7+5)
 let z = @x + 5        >>> int >>> 12 >>> ((3+4)+5)
 
 let a = sin(pi/4)     >>> real >>> 0.7071067812 >>> sin((pi/4))
 let b = @a            >>> real >>> 0.7071067812 >>> sin((pi/4))
 let c = a             >>> real >>> 0.7071067812 >>> 0.7071067811865
-let d = simplify(@a)  >>> real >>> 0.7071067812 >>> (sqrt(2)/2)
+let d = @a + 1        >>> real >>> 1.7071067812 >>> (sin((pi/4))+1)
+let e = @@a + 1       >>> real >>> 1.7071067812 >>> ((sqrt(2)/2)+1)
+
+
+%     x      numerical value of x
+%     @x     term of x
+%     @@x    optimized term of x
 
 !STOP
 
