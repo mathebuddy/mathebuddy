@@ -22,8 +22,8 @@ class Parser {
     _lexer.configureMultiLineComments('/*', '*/');
     _lexer.enableEmitIndentation(false);
     _lexer.enableBackslashLineBreaks(false);
-    _lexer
-        .setTerminals(['>>>', '&&', '||', '==', '!=', '>=', '<=', '++', '--']);
+    _lexer.setTerminals(
+        ['>>>', '&&', '||', '==', '!=', '>=', '<=', '++', '--', '@@']);
     _lexer.pushSource('FILE', src);
     _program = _parseProgram();
   }
@@ -108,10 +108,12 @@ class Parser {
     }
     _lexer.terminal('=');
     var term = '';
+    //TODO: _lexer.enableEmitSpaces();
     while (_lexer.isNotEnd() &&
         _lexer.isNotTerminal('\n') &&
         _lexer.isNotTerminal(';') &&
         _lexer.isNotTerminal('>>>')) {
+      // TODO: remove space, as soon as when emitSpaces is active
       term += '${_lexer.getToken().token} ';
       _lexer.next();
     }
