@@ -29,14 +29,6 @@ Operand applyOperationPerItem(
 
 Operand evalTerm(Term term, Map<String, Operand> varValues) {
   switch (term.op) {
-    case 'simplify':
-      {
-        print("evalTerm:simplify(..) is UNIMPLEMENTED");
-        exit(-1);
-        /*var res = term.clone();
-        res.optimize();
-        return res;*/
-      }
     case '+':
     case '-':
       {
@@ -85,7 +77,13 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
     case 'conj':
       {
         var o = term.o[0].eval(varValues);
-        return Operand.createComplex(o.real, -o.imag);
+        if (o.type == OperandType.complex) {
+          //return Operand.createComplex(o.real, -o.imag);
+          return Operand.createComplex(
+              o.items[0], Operand.unaryMinus(o.items[1]));
+        } else {
+          return o;
+        }
       }
     case 'sin':
     case 'cos':
@@ -223,9 +221,10 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
           case OperandType.real:
             return Operand.createReal(v.real.abs());
           case OperandType.complex:
-            return Operand.createReal(
+            throw Exception("unimplemented eval abs complex!");
+          /*return Operand.createReal(
               math.sqrt(v.real * v.real + v.imag * v.imag),
-            );
+            );*/
           default:
             throw Exception(
                 'Function "abs(..)" invalid for type "${v.type.name}".');
@@ -287,22 +286,31 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       }
     case 'complex':
       {
-        var x_ = term.o[0].eval(varValues);
-        var y_ = term.o[1].eval(varValues);
-        if ((x_.type != OperandType.int && x_.type != OperandType.real) ||
+        var x = term.o[0].eval(varValues);
+        var y = term.o[1].eval(varValues);
+        return Operand.createComplex(x, y);
+        /*if ((x_.type != OperandType.int && x_.type != OperandType.real) ||
             (y_.type != OperandType.int && y_.type != OperandType.real)) {
           throw Exception(
               'Arguments of "${term.op}" must be integral or real.');
         }
         var x = x_.real;
         var y = y_.real;
-        return Operand.createComplex(x, y);
+        return Operand.createComplex(x, y);*/
       }
     case 'real':
     case 'imag':
       {
         var c = term.o[0].eval(varValues);
-        if (c.type != OperandType.complex) {
+        if (c.type == OperandType.complex) {
+          if (term.op == 'real') {
+            return c.items[0];
+          } else {
+            return c.items[1];
+          }
+        }
+        return c;
+        /*if (c.type != OperandType.complex) {
           throw Exception(
               'arguments of "${term.op}" must be integral or real.');
         }
@@ -313,7 +321,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
             return Operand.createReal(c.imag);
           default:
             throw Exception('unimplemented');
-        }
+        }*/
       }
     case 'rand':
     case 'randZ':
