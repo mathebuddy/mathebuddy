@@ -97,7 +97,8 @@ class Term {
   /// Creates an rational constant term (scalar).
   static Term createConstComplex(num re, num im) {
     var t = Term('#', [], []);
-    t.value = Operand.createComplex(re, im);
+    t.value =
+        Operand.createComplex(Operand.createReal(re), Operand.createReal(im));
     return t;
   }
 
