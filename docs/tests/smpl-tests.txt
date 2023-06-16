@@ -29,9 +29,7 @@
 
 % ---WIP: term output---
 
-let z = -2 - 3i       >>> complex >>> (-2) + (-3)*i
-!STOP
-
+%let z = -2 - 3i       >>> complex >>> (-2) + (-3)*i
 %let z = 1/2 + 1/5i    >>> complex >>> 0.5 + 0.2*i
 
 
@@ -117,7 +115,7 @@ z = _int - _int         >>> int >>> 0
 z = _int - _rat         >>> rational >>> 7/3
 z = _int - _real        >>> real >>> -0.14
 z = _int - _irr         >>> real >>> -0.1415926536
-z = _int - _cmplx       >>> complex >>> 888
+z = _int - _cmplx       >>> complex >>> 1-3i
 z = _rat - _int         >>> rational >>> -7/3
 z = _rat - _rat         >>> int >>> 0
 z = _rat - _real        >>> real >>> -2.4733333333
