@@ -292,7 +292,8 @@ class Parser {
       | fct "<" unary {"," unary} ">" "(" term {"," term} ")"
       | ["@"|"@@"] ID
       | "|" term "|"
-      | matrixOrVector | set;
+      | matrixOrVector 
+      | set;
   */
   Term _parseInfix() {
     if (_token == 'true') {
