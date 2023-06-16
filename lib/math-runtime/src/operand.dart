@@ -303,6 +303,9 @@ class Operand {
       // * OP complex -> complex
       o = y.clone();
       o.items[0] = Operand.addSub(operator, x, y.items[0]);
+      if (operator == '-') {
+        o.items[1] = Operand.unaryMinus(y.items[1]);
+      }
       return o;
     } else if (x.type == OperandType.complex && y.type != OperandType.complex) {
       // complex OP * -> complex
