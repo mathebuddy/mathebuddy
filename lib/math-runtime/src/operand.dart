@@ -34,18 +34,18 @@ class Operand {
   num real =
       0; // also used for type BOOLEAN, then 0 is false and true otherwise
   num denominator = 1; // used for type RATIONAL
-  num imag = 0;
-  int rows = 1;
-  int cols = 1;
+  //num imag = 0;
+  int rows = 1; // used for type MATRIX
+  int cols = 1; // used for type MATRIX
   String text = ''; // used for IDENTIFIER and IRRATIONAL ("pi","e",...)
-  List<Operand> items = []; // vector, set, matrix elements
+  List<Operand> items = []; // vector, set, matrix elements; real+imag for cmplx
 
   Operand clone() {
     var c = Operand();
     c.type = type;
     c.real = real;
     c.denominator = denominator;
-    c.imag = imag;
+    //c.imag = imag;
     c.rows = rows;
     c.cols = cols;
     c.text = text;
@@ -63,18 +63,18 @@ class Operand {
             x.type == OperandType.int ||
             x.type == OperandType.rational ||
             x.type == OperandType.real ||
-            x.type == OperandType.complex ||
+            //x.type == OperandType.complex ||
             x.type == OperandType.irrational) &&
         (y.type == OperandType.boolean ||
             y.type == OperandType.int ||
             y.type == OperandType.rational ||
             y.type == OperandType.real ||
-            y.type == OperandType.complex ||
+            //y.type == OperandType.complex ||
             x.type == OperandType.irrational)) {
       var xReal = x.real;
-      var xImag = x.imag;
+      //var xImag = x.imag;
       var yReal = y.real;
-      var yImag = y.imag;
+      //var yImag = y.imag;
       if (x.type == OperandType.rational) {
         xReal /= x.denominator;
       }
@@ -82,7 +82,7 @@ class Operand {
         yReal /= y.denominator;
       }
       if ((xReal - yReal).abs() > epsilon) return false;
-      if ((xImag - yImag).abs() > epsilon) return false;
+      //if ((xImag - yImag).abs() > epsilon) return false;
       return true;
     } else if (x.type != y.type) {
       return false;
@@ -103,6 +103,7 @@ class Operand {
           }
           break;
         }
+      case OperandType.complex:
       case OperandType.vector:
         {
           if (x.items.length != y.items.length) return false;
@@ -216,12 +217,21 @@ class Operand {
     if (denominator == 1) type = OperandType.int;
   }
 
-  static Operand createComplex(num x, num y) {
+  /*static Operand createComplex(num x, num y) {
     // TODO: create int or real, if applicable!
     var o = Operand(); // o := output
     o.type = OperandType.complex;
     o.real = x;
     o.imag = y;
+    return o;
+  }*/
+
+  static Operand createComplex(Operand x, Operand y) {
+    // TODO: create int or real, if applicable!
+    var o = Operand(); // o := output
+    o.type = OperandType.complex;
+    o.items.add(x);
+    o.items.add(y);
     return o;
   }
 
@@ -288,6 +298,25 @@ class Operand {
       throw Exception('Invalid operator "$operator" for addSub(..).');
     }
     var o = Operand(); // o := output
+
+    if (x.type != OperandType.complex && y.type == OperandType.complex) {
+      // * OP complex -> complex
+      o = y.clone();
+      o.items[0] = Operand.addSub(operator, x, y.items[0]);
+      return o;
+    } else if (x.type == OperandType.complex && y.type != OperandType.complex) {
+      // complex OP * -> complex
+      o = x.clone();
+      o.items[0] = Operand.addSub(operator, x.items[0], y);
+      return o;
+    } else if (x.type == OperandType.complex && y.type == OperandType.complex) {
+      // complex OP complex -> complex
+      o.type = OperandType.complex;
+      o.items.add(Operand.addSub(operator, x.items[0], y.items[0]));
+      o.items.add(Operand.addSub(operator, x.items[1], y.items[1]));
+      return o;
+    }
+
     switch (x.type) {
       // -- first operator is int --
       case OperandType.int:
@@ -452,6 +481,7 @@ class Operand {
 
   static Operand unaryMinus(Operand x) {
     var o = x.clone(); // o := output
+
     switch (x.type) {
       case OperandType.int:
       case OperandType.real:
@@ -459,8 +489,8 @@ class Operand {
         o.real = -o.real;
         break;
       case OperandType.complex:
-        o.real = -o.real;
-        o.imag = -o.imag;
+        o.items[0] = Operand.unaryMinus(o.items[0]); // real
+        o.items[1] = Operand.unaryMinus(o.items[1]); // imag
         break;
       case OperandType.vector:
       case OperandType.matrix:
@@ -489,6 +519,54 @@ class Operand {
       throw Exception('Invalid operator "$operator" for mulDiv(..).');
     }
     var o = Operand(); // o := output
+
+    if (x.type != OperandType.complex && y.type == OperandType.complex) {
+      // * OP complex -> complex
+      o.type = OperandType.complex;
+      if (operator == '*') {
+        // o.real = x * y.real
+        // o.imag = x * y.imag
+        o.items.add(Operand.mulDiv('*', x, y.items[0]));
+        o.items.add(Operand.mulDiv('*', x, y.items[1]));
+      } else {
+        throw Exception("eval complex division is unimplemented");
+        // TODO
+      }
+      return o;
+    } else if (x.type == OperandType.complex && y.type != OperandType.complex) {
+      // complex OP * -> complex
+      o.type = OperandType.complex;
+      if (operator == '*') {
+        // o.real = x.real * y
+        // o.imag = x.imag * y
+        o.items.add(Operand.mulDiv('*', x.items[0], y));
+        o.items.add(Operand.mulDiv('*', x.items[1], y));
+      } else {
+        throw Exception("eval complex division is unimplemented");
+        // TODO
+      }
+      return o;
+    } else if (x.type == OperandType.complex && y.type == OperandType.complex) {
+      // complex OP complex -> complex
+      o.type = OperandType.complex;
+      if (operator == '*') {
+        // o.real = x.real * y.real - x.imag * y.imag;
+        // o.imag = x.real * y.imag + x.imag * y.real;
+        o.items.add(Operand.addSub(
+            '-', //
+            Operand.mulDiv('*', x.items[0], y.items[0]),
+            Operand.mulDiv('*', x.items[1], y.items[1])));
+        o.items.add(Operand.addSub(
+            '+', //
+            Operand.mulDiv('*', x.items[0], y.items[1]),
+            Operand.mulDiv('*', x.items[1], y.items[0])));
+      } else {
+        throw Exception("eval complex division is unimplemented");
+        // TODO
+      }
+      return o;
+    }
+
     switch (x.type) {
       // -- first operator is int --
       case OperandType.int:
@@ -777,13 +855,14 @@ class Operand {
       o.real = math.pow(x.real, y.real);
     } else if (x.type == OperandType.complex &&
         (y.type == OperandType.int || y.type == OperandType.real)) {
-      var r = math.sqrt(x.real * x.real + x.imag * x.imag);
+      throw Exception("TODO: pow with complex");
+      /*var r = math.sqrt(x.real * x.real + x.imag * x.imag);
       var phi = math.atan2(x.imag, x.real);
       r = math.pow(r, y.real).toDouble();
       phi *= y.real;
       var re = r * math.cos(phi);
       var im = r * math.sin(phi);
-      o = Operand.createComplex(re, im);
+      o = Operand.createComplex(re, im);*/
     } else {
       throw Exception(
         'Cannot apply operator "^" on "${x.type.name}" and "${y.type.name}".',
@@ -874,7 +953,12 @@ class Operand {
         return '${_num2String(real)}/${_num2String(denominator)}';
       case OperandType.complex:
         {
-          var realPart = _num2String(real);
+          // TODO!!
+          var s = '';
+          s +=
+              "(" + items[0].toString() + ') + (' + items[1].toString() + ')*i';
+          return s;
+          /*var realPart = _num2String(real);
           var imagPart = _num2String(imag);
           if (imagPart == "1") {
             imagPart = "";
@@ -889,7 +973,7 @@ class Operand {
             return '$realPart+${imagPart}i';
           } else {
             return '$realPart${imagPart}i';
-          }
+          }*/
         }
       case OperandType.set:
         return '{${items.map((x) => x.toString()).join(',')}}';
