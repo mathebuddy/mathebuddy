@@ -22,12 +22,18 @@
 % TODO: vec / int, ..., mat / int, ...
 
 % NOTE: irrational is ONLY used for constants (e.g. pi)
-%       e.g. "2 pi" is evaluated to type "real"
-%            !!must use terms explicitly!!
+%       e.g. "2 pi" technically evaluates to "2*REAL(pi)", 
+%             which is of type REAL
 % ===============================================================
 
 
 % ---WIP: term output---
+
+let z = -2 - 3i       >>> complex >>> (-2) + (-3)*i
+!STOP
+
+%let z = 1/2 + 1/5i    >>> complex >>> 0.5 + 0.2*i
+
 
 let f(x) = 3 x^2   >>> term >>> 3 x^2 >>> (3*(x^2))
 
@@ -58,7 +64,7 @@ let _int = 3                   >>> int >>> 3
 let _rat = 2/3                 >>> rational >>> 2/3
 let _real = 3.14               >>> real >>> 3.14
 let _irr = pi                  >>> irrational >>> pi
-let _cmplx = 2 + 3i            >>> complex >>> 2+3.1i
+let _cmplx = 2 + 3i            >>> complex >>> 2+3i
 let _vec = [1,2]               >>> vector >>> [1,2]
 let _mat = [[1,2],[3,4]]       >>> matrix >>> [[1,2],[3,4]]
 let _bool = true               >>> boolean >>> true
