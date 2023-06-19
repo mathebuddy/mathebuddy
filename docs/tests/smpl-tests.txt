@@ -27,6 +27,7 @@
 % ===============================================================
 
 
+
 % ---WIP: term output---
 
 %let z = -2 - 3i       >>> complex >>> (-2) + (-3)*i
@@ -120,22 +121,22 @@ z = _rat - _int         >>> rational >>> -7/3
 z = _rat - _rat         >>> int >>> 0
 z = _rat - _real        >>> real >>> -2.4733333333
 z = _rat - _irr         >>> real >>> -2.4749259869
-z = _rat - _cmplx       >>> complex >>> 888
+z = _rat - _cmplx       >>> complex >>> -4/3 - 3i
 z = _real - _int        >>> real >>> 0.14
 z = _real - _rat        >>> real >>> 2.4733333333
 z = _real - _real       >>> int >>> 0
 z = _real - _irr        >>> real >>> -0.00159265359
-z = _real - _cmplx      >>> complex >>> 888
+z = _real - _cmplx      >>> complex >>> 1.14 -3i
 z = _irr - _int         >>> real >>> 0.1415926536
 z = _irr - _rat         >>> real >>> 2.4749259869
 z = _irr - _real        >>> real >>> 0.00159265359
 z = _irr - _irr         >>> int >>> 0
-z = _irr - _cmplx       >>> complex >>> 888
-z = _cmplx - _int       >>> complex >>> 888
-z = _cmplx - _rat       >>> complex >>> 888
-z = _cmplx - _real      >>> complex >>> 888
-z = _cmplx - _irr       >>> complex >>> 888
-z = _cmplx - _cmplx     >>> complex >>> 888
+z = _irr - _cmplx       >>> complex >>> 1.1415926536 -3i
+z = _cmplx - _int       >>> complex >>> -1 + 3i
+z = _cmplx - _rat       >>> complex >>> 4/3 + 3i
+z = _cmplx - _real      >>> complex >>> -1.14 + 3i
+z = _cmplx - _irr       >>> complex >>> -1.1415926536 + 3i
+z = _cmplx - _cmplx     >>> int >>> 0
 z = _vec - _vec         >>> vector >>> [0,0]
 z = _mat - _mat         >>> matrix >>> [[0,0],[0,0]]
 
@@ -144,47 +145,87 @@ z = _int * _int         >>> int >>> 9
 z = _int * _rat         >>> int >>> 2
 z = _int * _real        >>> real >>> 9.42
 z = _int * _irr         >>> real >>> 9.4247779608
-z = _int * _complex     >>> complex >>> 888
+z = _int * _cmplx       >>> complex >>> 6+9i
 z = _int * _vec         >>> vector >>> [3,6]
 z = _int * _mat         >>> matrix >>> [[3,6],[9,12]]
 z = _rat * _int         >>> int >>> 2
 z = _rat * _rat         >>> rational >>> 4/9
 z = _rat * _real        >>> real >>> 2.09333333333
 z = _rat * _irr         >>> real >>> 2.09439510239
-z = _rat * _complex     >>> complex >>> 888
+z = _rat * _cmplx       >>> complex >>> 4/3+2i
 z = _rat * _vec         >>> vector >>> [2/3,4/3]
 z = _rat * _mat         >>> matrix >>> [[2/3,4/3],[2,8/3]]
 z = _real * _int        >>> real >>> 9.42
 z = _real * _rat        >>> real >>> 2.09333333333
 z = _real * _real       >>> real >>> 9.8596
 z = _real * _irr        >>> real >>> 9.8646009323
-z = _real * _complex    >>> complex >>> 888
+z = _real * _cmplx      >>> complex >>> 6.28 + 9.42i
 z = _real * _vec        >>> vector >>> [3.14,6.28]
 z = _real * _mat        >>> matrix >>> [[3.14,6.28],[9.42,12.56]]
 z = _irr * _int         >>> real >>> 9.4247779608
 z = _irr * _rat         >>> real >>> 2.09439510239
 z = _irr * _real        >>> real >>> 9.8646009323
 z = _irr * _irr         >>> real >>> 9.8696044011
-z = _irr * _complex     >>> complex >>> 888
+z = _irr * _cmplx       >>> complex >>> 6.2831853072+9.4247779608i
 z = _irr * _vec         >>> vector >>> [pi, 2 pi]
 z = _irr * _mat         >>> matrix >>> [[pi, 2 pi],[3 pi, 4 pi]]
-z = _cmplx * _int       >>> complex >>> 888
-z = _cmplx * _rat       >>> complex >>> 888
-z = _cmplx * _real      >>> complex >>> 888
-z = _cmplx * _irr       >>> complex >>> 888
-z = _cmplx * _cmplx     >>> complex >>> 888
+z = _cmplx * _int       >>> complex >>> 6+9i
+z = _cmplx * _rat       >>> complex >>> 4/3+2i
+z = _cmplx * _real      >>> complex >>> 6.28 + 9.42i
+z = _cmplx * _irr       >>> complex >>> 6.2831853072+9.4247779608i
+z = _cmplx * _cmplx     >>> complex >>> -5+12i
+z = _cmplx * _vec       >>> vector >>> [2+3i,4+6i]
+z = _cmplx * _mat       >>> matrix >>> [[2+3i,4+6i],[6+9i,8+12i]]
 z = _vec * _int         >>> vector >>> [3, 6]
 z = _vec * _rat         >>> vector >>> [2/3, 4/3]
 z = _vec * _real        >>> vector >>> [3.14, 6.28]
 z = _vec * _irr         >>> vector >>> [pi, 2 pi]
-z = _vec * _complex     >>> complex >>> 888
+z = _vec * _cmplx       >>> vector >>> [2+3i,4+6i]
 z = _mat * _mat         >>> matrix >>> [[7,10],[15,22]]
 
 % == divide ==
 % TODO
 
 % == pow ==
-% TODO  (must reimplement pow!!)
+z = _int ^ _int         >>> int >>> 27
+z = _int ^ _rat         >>> real >>> 2.08008382305
+z = _int ^ _real        >>> real >>> 31.4891356525
+z = _int ^ _irr         >>> real >>> 31.5442807002
+z = _int ^ _cmplx     >>> complex >>> 888
+z = _int ^ _vec         >>> vector >>> [3,6]
+z = _int ^ _mat         >>> matrix >>> [[3,6],[9,12]]
+z = _rat ^ _int         >>> int >>> 2
+z = _rat ^ _rat         >>> rational >>> 4/9
+z = _rat ^ _real        >>> real >>> 2.09333333333
+z = _rat ^ _irr         >>> real >>> 2.09439510239
+z = _rat ^ _cmplx     >>> complex >>> 888
+z = _rat ^ _vec         >>> vector >>> [2/3,4/3]
+z = _rat ^ _mat         >>> matrix >>> [[2/3,4/3],[2,8/3]]
+z = _real ^ _int        >>> real >>> 9.42
+z = _real ^ _rat        >>> real >>> 2.09333333333
+z = _real ^ _real       >>> real >>> 9.8596
+z = _real ^ _irr        >>> real >>> 9.8646009323
+z = _real ^ _cmplx    >>> complex >>> 888
+z = _real ^ _vec        >>> vector >>> [3.14,6.28]
+z = _real ^ _mat        >>> matrix >>> [[3.14,6.28],[9.42,12.56]]
+z = _irr ^ _int         >>> real >>> 9.4247779608
+z = _irr ^ _rat         >>> real >>> 2.09439510239
+z = _irr ^ _real        >>> real >>> 9.8646009323
+z = _irr ^ _irr         >>> real >>> 9.8696044011
+z = _irr ^ _cmplx     >>> complex >>> 888
+z = _irr ^ _vec         >>> vector >>> [pi, 2 pi]
+z = _irr ^ _mat         >>> matrix >>> [[pi, 2 pi],[3 pi, 4 pi]]
+z = _cmplx ^ _int       >>> complex >>> 888
+z = _cmplx ^ _rat       >>> complex >>> 888
+z = _cmplx ^ _real      >>> complex >>> 888
+z = _cmplx ^ _irr       >>> complex >>> 888
+z = _cmplx ^ _cmplx     >>> complex >>> 888
+z = _vec ^ _int         >>> vector >>> [3, 6]
+z = _vec ^ _rat         >>> vector >>> [2/3, 4/3]
+z = _vec ^ _real        >>> vector >>> [3.14, 6.28]
+z = _vec ^ _irr         >>> vector >>> [pi, 2 pi]
+z = _vec ^ _complex     >>> complex >>> 888
+z = _mat ^ _mat         >>> matrix >>> [[7,10],[15,22]]
 
 % TODO _mat^T
 
@@ -216,19 +257,17 @@ let y1 = sin(0)          >>> int >>> 0
 let y2 = sin(pi/4)       >>> real >>> sqrt(2)/2
 
 
-!STOP
-
 % TODO: use "..." for expected term values
 
-let x1 = sin(pi/6)        >>> real >>> 0.5
-let y() = x1 + 5          >>> term >>> 0.5 + 5
-y() = @x1 + 5             >>> term >>> sin(pi/6) + 5
-y() = simplify(@x1) + 5   >>> term >>> 1/2 + 5
-y() = simplify(@x1 + 5)   >>> term >>> 11/2
+%   let x1 = sin(pi/6)        >>> real >>> 0.5
+%   let y() = x1 + 5          >>> term >>> 0.5 + 5
+%   y() = @x1 + 5             >>> term >>> sin(pi/6) + 5
+%   y() = simplify(@x1) + 5   >>> term >>> 1/2 + 5
+%   y() = simplify(@x1 + 5)   >>> term >>> 11/2
 
-let x2 = sin(pi/3)        >>> real >>> 0.8660254038
-y() = @x2 + 5             >>> term >>> sin(pi/3) + 5
-y() = simplify(@x2) + 5   >>> term >>> sqrt(3)/2 + 5
+%   let x2 = sin(pi/3)        >>> real >>> 0.8660254038
+%   y() = @x2 + 5             >>> term >>> sin(pi/3) + 5
+%   y() = simplify(@x2) + 5   >>> term >>> sqrt(3)/2 + 5
 
 ---
 
@@ -245,6 +284,12 @@ let z = 2 - 3i*2       >>> complex >>> 2-6i
 let w = 2z             >>> complex >>> 4-12i
 let r = real(w)        >>> int >>> 4
 let i = imag(w)        >>> int >>> -12
+
+let x = 2 - 2i;
+let phi = arg(x);
+r = abs(x);
+z = r * exp(i*phi);
+!STOP
 
 ---
 
@@ -324,3 +369,6 @@ A = eye(3)            >>> matrix >>> [[1,0,0],[0,1,0],[0,0,1]]
 let f = fac(2+1)        >>> int >>> 1*2*3
 
 ---
+
+let s = {1,4,8}
+let x = rand(s)
