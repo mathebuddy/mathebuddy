@@ -9,7 +9,6 @@ import '../../mbcl/src/level_item.dart';
 import 'block.dart';
 
 MbclLevelItem processTable(Block block) {
-  int i;
   var table = MbclLevelItem(MbclLevelItemType.table, block.srcLine);
   var data = MbclTableData();
   table.tableData = data;
@@ -48,31 +47,39 @@ MbclLevelItem processTable(Block block) {
         }
         break;
       case 'text':
-        i = 0;
-        for (var line in part.lines) {
-          line = line.trim();
-          // TODO: "&" may also be used in math-mode!!
-          var columnStrings = line.split('&');
-          var row = MbclTableRow();
-          if (i == 0) {
-            data.head = row;
-          } else {
-            data.rows.add(row);
-          }
-          for (var columnString in columnStrings) {
-            var columnText = block.compiler.parseParagraph(columnString);
-            if (columnText.length != 1 ||
-                columnText[0].type != MbclLevelItemType.paragraph) {
-              table.error += 'Table cell is not pure text.';
-              row.columns
-                  .add(MbclLevelItem(MbclLevelItemType.text, -1, 'error'));
-            } else {
-              row.columns.add(columnText[0]);
+        {
+          int i = 0;
+          int numColumns = -1;
+          for (var line in part.lines) {
+            line = line.trim();
+            // TODO: "&" may also be used in math-mode!!
+            var columnStrings = line.split('&');
+            if (numColumns < 0) {
+              numColumns = columnStrings.length;
+            } else if (numColumns != columnStrings.length) {
+              table.error += 'Number of table columns is chaotic!';
             }
+            var row = MbclTableRow();
+            if (i == 0) {
+              data.head = row;
+            } else {
+              data.rows.add(row);
+            }
+            for (var columnString in columnStrings) {
+              var columnText = block.compiler.parseParagraph(columnString);
+              if (columnText.length != 1 ||
+                  columnText[0].type != MbclLevelItemType.paragraph) {
+                table.error += 'Table cell is not pure text.';
+                row.columns
+                    .add(MbclLevelItem(MbclLevelItemType.text, -1, 'error'));
+              } else {
+                row.columns.add(columnText[0]);
+              }
+            }
+            i++;
           }
-          i++;
+          break;
         }
-        break;
       default:
         table.error += 'Unexpected part "${part.name}".';
         break;
