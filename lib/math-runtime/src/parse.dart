@@ -322,7 +322,8 @@ class Parser {
       return Term.createConstIrrational(id);
     } else if (_isFct1(_token) || _isFct2(_token)) {
       var fctId = _token;
-      var numParams = _isFct1(_token) ? 1 : 2;
+      var isUnary = _isFct1(_token);
+      var isBinary = _isFct2(_token);
       List<Term> params = [];
       List<Term> dims = [];
       _next();
@@ -353,8 +354,13 @@ class Parser {
         } else {
           throw Exception('expected ")"');
         }
+        if (isUnary && params.length == 1 || isBinary && params.length == 2) {
+          // OK
+        } else {
+          throw Exception('function $fctId got wrong number of arguments');
+        }
         return Term.createOp(fctId, params, dims);
-      } else if (numParams == 1 && dims.isEmpty) {
+      } else if (isUnary && dims.isEmpty) {
         params.add(_parseUnary());
         return Term.createOp(fctId, params, dims);
       } else {
@@ -486,6 +492,7 @@ class Parser {
   bool _isFct1(String tk) {
     var fct1 = [
       'abs',
+      'arg',
       'ceil',
       'conj',
       'cos',
@@ -497,6 +504,7 @@ class Parser {
       'ln',
       'max',
       'min',
+      'rand',
       'real',
       'round',
       'sin',
