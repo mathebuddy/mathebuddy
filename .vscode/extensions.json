@@ -5,6 +5,7 @@
     "streetsidesoftware.code-spell-checker-german",
     "esbenp.prettier-vscode",
     "ms-python.python",
-    "vscjava.vscode-java-pack"
+    "vscjava.vscode-java-pack",
+    "mathebuddy.mbl-language-extension"
   ]
 }
