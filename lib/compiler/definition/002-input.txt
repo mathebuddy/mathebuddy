@@ -1,0 +1,13 @@
+My Test file
+############
+
+EXERCISE Polar form  @ex:polar-form
+    CODE
+        let a = rand(2,4)
+        let z = a(-1+1i)
+    TEXT
+        Write $z$ in polar form: #polar(z),score=2
+        FIGURE
+            PATH=img/polar.svg
+            WIDTH=75
+            What a beautiful figure.
