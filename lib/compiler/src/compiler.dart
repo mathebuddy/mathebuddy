@@ -70,7 +70,7 @@ class Compiler {
       _course?.debug = MbclCourseDebug.level;
       _chapter = MbclChapter();
       _course?.chapters.add(_chapter as MbclChapter);
-      compileLevel_NEW(path);
+      compileLevel_NEW(path); // compileLevel(path);
     }
     // post processing
     postProcessCourse(_course as MbclCourse);
@@ -296,15 +296,28 @@ class Compiler {
       indentation += 1; // add one for root element
 
       var keyword = "";
+      // A keyword is fully uppercase; also "_", "-" and "*" are allowed
+      // characters.
+      // If "=" is followed (directly or after some spaces), we are actually
+      // parsing an attribute and NOT a keyword.
       for (int i = 0; i < trimmed.length; i++) {
         var ch = trimmed[i];
         var isValid = ch.codeUnitAt(0) >= 'A'.codeUnitAt(0) &&
                 ch.codeUnitAt(0) <= 'Z'.codeUnitAt(0) ||
-            ch == '_' ||
-            ch == '*';
+            (i > 0 && ch == '_') ||
+            (i > 0 && ch == '-') ||
+            (i > 0 && ch == '*');
         if (isValid) {
           keyword += ch;
         } else {
+          for (int j = i; j < trimmed.length; j++) {
+            if (ch == " " || ch == "\t") continue;
+            if (ch == "=") {
+              // attribute!
+              keyword = "";
+            }
+          }
+          // require at least length 3
           if (keyword.length < 3) {
             keyword = "";
           }
@@ -353,11 +366,8 @@ class Compiler {
             var key = l.uppercaseIdentifier();
             var value = "";
             l.terminal("=");
-            if (l.isIdentifier() ||
-                l.isInteger() ||
-                l.isTerminal("true") ||
-                l.isTerminal("false")) {
-              value = l.getToken().token;
+            while (l.isNotEnd()) {
+              value += l.getToken().token;
               l.next();
             }
             l.end();
@@ -384,6 +394,8 @@ class Compiler {
     rootBlock.postProcess();
 
     print(rootBlock);
+
+    rootBlock.parse(this, _level!, null, 0);
 
     var bp = 1337;
   }
