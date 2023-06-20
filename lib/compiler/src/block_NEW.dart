@@ -1,9 +1,20 @@
-// TODO: rename file, add meta data to file header, ...
+/// mathe:buddy - a gamified learning-app for higher math
+/// (c) 2022-2023 by TH Koeln
+/// Author: Andreas Schwenk contact@compiler-construction.com
+/// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+/// License: GPL-3.0-or-later
+
+// TODO: rename file
 
 import 'package:slex/slex.dart';
 
 import '../../mbcl/src/level.dart';
 import '../../mbcl/src/level_item.dart';
+
+import '../../smpl/src/parser.dart' as smpl_parser;
+import '../../smpl/src/node.dart' as smpl_node;
+import '../../smpl/src/interpreter.dart' as smpl_interpreter;
+
 import 'compiler.dart';
 import 'math.dart';
 import 'paragraph_NEW.dart';
@@ -18,14 +29,9 @@ class Block_NEW {
   List<Block_NEW> children = [];
   int srcLine = -1;
 
-  MbclLevelItem? levelItem;
+  //MbclLevelItem? levelItem;
 
   Block_NEW(this.id, this.indent, this.srcLine);
-
-  void _error(String message) {
-    // TODO: include file path!
-    throw Exception('ERROR:$srcLine: $message');
-  }
 
   void _setChildrenDefaultType(String type) {
     for (var child in children) {
@@ -35,8 +41,8 @@ class Block_NEW {
     }
   }
 
-  void parse(
-      Compiler compiler, MbclLevel level, MbclLevelItem? parent, int depth) {
+  void parse(Compiler compiler, MbclLevel level, MbclLevelItem? parent,
+      int depth, MbclLevelItem? exercise) {
     // TODO: check compatibilty, e.g. TABLE may not contain a TABLE etc...
 
     switch (id) {
@@ -44,7 +50,9 @@ class Block_NEW {
         {
           _setChildrenDefaultType("STRUCTURED_PARAGRAPH");
           for (var child in children) {
-            child.parse(compiler, level, null, depth + 1);
+            var pseudoParent = MbclLevelItem(MbclLevelItemType.error, -1);
+            child.parse(compiler, level, pseudoParent, depth + 1, exercise);
+            level.items.addAll(pseudoParent.items);
           }
           break;
         }
@@ -98,11 +106,12 @@ class Block_NEW {
               type = MbclLevelItemType.defParadox;
               break;
           }
-          levelItem = MbclLevelItem(type, srcLine);
-          levelItem!.title = title;
-          levelItem!.label = label;
+          var levelItem = MbclLevelItem(type, srcLine);
+          parent?.items.add(levelItem);
+          levelItem.title = title;
+          levelItem.label = label;
           for (var child in children) {
-            child.parse(compiler, level, levelItem, depth + 1);
+            child.parse(compiler, level, levelItem, depth + 1, exercise);
           }
           //print(levelItem!.toJSON());
           break;
@@ -125,9 +134,10 @@ class Block_NEW {
               type = MbclLevelItemType.alignCenter;
               break;
           }
-          levelItem = MbclLevelItem(type, srcLine);
+          var align = MbclLevelItem(type, srcLine);
+          parent?.items.add(align);
           for (var child in children) {
-            child.parse(compiler, level, levelItem, depth + 1);
+            child.parse(compiler, level, align, depth + 1, exercise);
           }
           //print(levelItem!.toJSON());
           break;
@@ -138,16 +148,18 @@ class Block_NEW {
       case "ALIGNED-EQUATION":
       case "ALIGNED-EQUATION*":
         {
+          var equation = MbclLevelItem(MbclLevelItemType.equation, srcLine);
+          parent?.items.add(equation);
           if (children.length != 1 || children[0].id != "DEFAULT") {
-            _error("Expected equation code. "
-                "No other kinds of input is allowed here.");
+            equation.error += "Expected equation code. "
+                "No other kinds of input is allowed here.";
+            break;
           }
-          levelItem = MbclLevelItem(MbclLevelItemType.equation, srcLine);
           var texCode = children[0].data;
-          levelItem!.title = title;
-          levelItem!.label = label;
+          equation.title = title;
+          equation.label = label;
           var data = MbclEquationData();
-          levelItem!.equationData = data;
+          equation.equationData = data;
 
           if (id.endsWith("*")) {
             data.number = -1;
@@ -160,31 +172,34 @@ class Block_NEW {
             if (line.trim().isEmpty) continue;
             nonEmptyLines.add(line);
           }
-          levelItem!.text += nonEmptyLines.join('\n');
+          equation.text += nonEmptyLines.join('\n');
           if (id == "ALIGNED-EQUATION") {
-            levelItem!.text =
-                '\\begin{matrix}[ll]${levelItem!.text}\\end{matrix}';
+            equation.text = '\\begin{matrix}[ll]${equation.text}\\end{matrix}';
           }
           // compile math
           var lexer = Lexer();
-          lexer.pushSource('', levelItem!.text);
-          data.math = parseInlineMath(lexer, null); // TODO: exercise
+          lexer.pushSource('', equation.text);
+          data.math = parseInlineMath(lexer, exercise);
           data.math!.type = MbclLevelItemType.displayMath;
-          levelItem!.text = "";
-          //print(levelItem!.toJSON());
+          equation.text = "";
+          //print(equation.toJSON());
           break;
         }
 
       case 'TABLE':
         {
-          // TODO: arguments (align, ...)
-          if (children.length != 1 || children[0].id != "DEFAULT") {
-            _error("Expected table description. "
-                "No other kinds of input is allowed here.");
-          }
-          levelItem = MbclLevelItem(MbclLevelItemType.table, srcLine);
+          // TODO: attributes (align, ...)
+          var table = MbclLevelItem(MbclLevelItemType.table, srcLine);
+          parent?.items.add(table);
+          table.title = title;
+          table.label = label;
           var data = MbclTableData();
-          levelItem!.tableData = data;
+          table.tableData = data;
+          if (children.length != 1 || children[0].id != "DEFAULT") {
+            table.error += "Expected table description. "
+                "No other kinds of input is allowed here.";
+            break;
+          }
           var src = children[0].data;
           // parse table cells
           int i = 0;
@@ -197,7 +212,7 @@ class Block_NEW {
             if (numColumns < 0) {
               numColumns = columnStrings.length;
             } else if (numColumns != columnStrings.length) {
-              levelItem!.error += 'Number of table columns is chaotic!';
+              table.error += 'Number of table columns is chaotic!';
             }
             var row = MbclTableRow();
             if (i == 0) {
@@ -207,10 +222,11 @@ class Block_NEW {
             }
             for (var columnString in columnStrings) {
               var p = Paragraph(compiler);
-              var columnText = p.parseParagraph(columnString, srcLine, null);
+              var columnText =
+                  p.parseParagraph(columnString, srcLine, exercise);
               if (columnText.length != 1 ||
                   columnText[0].type != MbclLevelItemType.paragraph) {
-                levelItem!.error += 'Table cell is not pure text.';
+                table.error += 'Table cell is not pure text.';
                 row.columns
                     .add(MbclLevelItem(MbclLevelItemType.text, -1, 'error'));
               } else {
@@ -223,12 +239,43 @@ class Block_NEW {
           break;
         }
 
+      case 'FIGURE':
+        {
+          _setChildrenDefaultType("CAPTION");
+          var figure = MbclLevelItem(MbclLevelItemType.figure, srcLine);
+          parent?.items.add(figure);
+          var data = MbclFigureData();
+          figure.figureData = data;
+          for (var key in attributes.keys) {
+            var value = attributes[key]!;
+            switch (key) {
+              case "PATH":
+                data.filePath = value;
+                break;
+              case "WIDTH":
+                data.options.add(MbclFigureOption.width75); // TODO!!
+                break;
+              default:
+                figure.error += 'Unknown attribute "$key".';
+                break;
+            }
+          }
+          for (var child in children) {
+            if (child.id == "CAPTION") {
+              var p = Paragraph(compiler);
+              data.caption = p.parseParagraph(child.data, srcLine, null);
+            }
+          }
+          //print(figure.toJSON());
+          break;
+        }
+
       case 'EXERCISE':
         {
           // TODO: must guarantee that no two exercises labels are same in entire course!!
           _setChildrenDefaultType("PARAGRAPH");
-          var exercise = MbclLevelItem(MbclLevelItemType.table, srcLine);
-          levelItem = exercise;
+          var exercise = MbclLevelItem(MbclLevelItemType.exercise, srcLine);
+          parent?.items.add(exercise);
           exercise.title = title;
           exercise.label = label;
           var data = MbclExerciseData(exercise);
@@ -236,8 +283,33 @@ class Block_NEW {
           if (exercise.label.isEmpty) {
             exercise.label = 'ex${compiler.createUniqueId().toString()}';
           }
+          for (var child in children) {
+            // TODO: provide exercise
+            child.parse(compiler, level, exercise, depth + 1, exercise);
+          }
+          //print(exercise.toJSON());
+          break;
+        }
 
-          print(exercise.toJSON());
+      case 'CODE':
+        {
+          if (exercise != null && children.isNotEmpty) {
+            if (children.length != 1 || children[0].id != "DEFAULT") {
+              exercise.error += "Expected code.";
+              break;
+            }
+            exercise.exerciseData!.code = children[0].data;
+            processExerciseCode(exercise);
+          }
+          break;
+        }
+
+      case 'TEXT':
+        {
+          _setChildrenDefaultType("PARAGRAPH");
+          for (var child in children) {
+            child.parse(compiler, level, parent, depth + 1, exercise);
+          }
           break;
         }
 
@@ -259,13 +331,16 @@ class Block_NEW {
 
       case 'NEWPAGE':
         {
-          // TODO
+          var newPage = MbclLevelItem(MbclLevelItemType.newPage, srcLine);
+          parent?.items.add(newPage);
           break;
         }
 
       default:
         {
-          _error('unknown keyword "$id"');
+          var error = MbclLevelItem(MbclLevelItemType.error, srcLine);
+          parent?.items.add(error);
+          error.error += 'unknown keyword "$id"';
         }
     }
   }
@@ -314,6 +389,39 @@ class Block_NEW {
         lines[i] = line.substring(minSpaces);
       }
       data = lines.join("\n");
+    }
+  }
+
+  void processExerciseCode(MbclLevelItem exercise) {
+    const numberOfInstances = 5; // TODO!! must be configurable
+    var data = exercise.exerciseData!;
+    for (var i = 0; i < numberOfInstances; i++) {
+      // TODO: repeat if same instance is already drawn
+      // TODO: must check for endless loops, e.g. happens if search space is restricted!
+      try {
+        var parser = smpl_parser.Parser();
+        parser.parse(data.code);
+        var ic = parser.getAbstractSyntaxTree() as smpl_node.AstNode;
+        var interpreter = smpl_interpreter.Interpreter();
+        var symbols = interpreter.runProgram(ic);
+        if (i == 0) {
+          for (var symId in symbols.keys) {
+            var sym = symbols[symId] as smpl_interpreter.InterpreterSymbol;
+            data.variables.add(symId);
+            data.smplOperandType[symId] = sym.value.type.name;
+          }
+        }
+        Map<String, String> instance = {};
+        for (var v in data.variables) {
+          var sym = symbols[v] as smpl_interpreter.InterpreterSymbol;
+          instance[v] = sym.value.toString();
+          instance['@$v'] = sym.term.toString();
+        }
+        data.instances.add(instance);
+      } catch (e) {
+        exercise.error += 'SMPL-Error: $e\n';
+        break;
+      }
     }
   }
 
