@@ -1,0 +1,577 @@
+{
+  "debug": "level",
+  "title": "",
+  "author": "",
+  "mbclVersion": 1,
+  "dateModified": 1687266749,
+  "chapters": [
+    {
+      "fileId": "",
+      "title": "",
+      "label": "",
+      "author": "",
+      "posX": -1,
+      "posY": -1,
+      "requires": [],
+      "units": [],
+      "levels": [
+        {
+          "fileId": "",
+          "title": "Typography",
+          "label": "",
+          "posX": -1,
+          "posY": -1,
+          "iconData": "",
+          "requires": [],
+          "items": [
+            {
+              "type": "paragraph",
+              "srcLine": 10,
+              "items": [
+                {
+                  "type": "text",
+                  "srcLine": 10,
+                  "text": "This is text within a paragraph. Even this text stands in a new line, it is compiled to be written directly behind the last line."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "srcLine": 10,
+              "items": [
+                {
+                  "type": "text",
+                  "srcLine": 10,
+                  "text": "An empty line starts a new paragraph."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "srcLine": 10,
+              "items": [
+                {
+                  "type": "text",
+                  "srcLine": 10,
+                  "text": "This text is displayed in the output."
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "srcLine": 10,
+              "label": "sec:mySection",
+              "text": "My section"
+            },
+            {
+              "type": "paragraph",
+              "srcLine": 17,
+              "items": [
+                {
+                  "type": "text",
+                  "srcLine": 17,
+                  "text": "An enumeration"
+                }
+              ]
+            },
+            {
+              "type": "enumerate",
+              "srcLine": 17,
+              "items": [
+                {
+                  "type": "span",
+                  "srcLine": 17,
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 17,
+                      "text": "first item"
+                    }
+                  ]
+                },
+                {
+                  "type": "span",
+                  "srcLine": 17,
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 17,
+                      "text": "second item"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "newPage",
+              "srcLine": 17
+            },
+            {
+              "type": "subSection",
+              "srcLine": 21,
+              "text": "Bold, italic and colored text"
+            },
+            {
+              "type": "paragraph",
+              "srcLine": 29,
+              "items": [
+                {
+                  "type": "text",
+                  "srcLine": 29,
+                  "text": "Some"
+                },
+                {
+                  "type": "boldText",
+                  "srcLine": 29,
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 29,
+                      "text": "bold"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "srcLine": 29,
+                  "text": "text. Some"
+                },
+                {
+                  "type": "italicText",
+                  "srcLine": 29,
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 29,
+                      "text": "italic"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "srcLine": 29,
+                  "text": "text. The word"
+                },
+                {
+                  "type": "color",
+                  "srcLine": 29,
+                  "id": "1",
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 29,
+                      "text": "sky"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "srcLine": 29,
+                  "text": "is written in primary color."
+                },
+                {
+                  "type": "color",
+                  "srcLine": 29,
+                  "id": "2",
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 29,
+                      "text": "Some text written in the secondary color."
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "srcLine": 29,
+                  "text": ". You can also write"
+                },
+                {
+                  "type": "boldText",
+                  "srcLine": 29,
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 29,
+                      "text": "bold text"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "srcLine": 29,
+                  "text": "and"
+                },
+                {
+                  "type": "italicText",
+                  "srcLine": 29,
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 29,
+                      "text": "italic text"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "srcLine": 29,
+                  "text": "similar to color notation."
+                }
+              ]
+            },
+            {
+              "type": "example",
+              "srcLine": 29,
+              "title": "Addition of complex numbers",
+              "label": "ex:myExample",
+              "items": [
+                {
+                  "type": "paragraph",
+                  "srcLine": 33,
+                  "items": [
+                    {
+                      "type": "inlineMath",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "z_1 = 1 + 3 i ~ ~ z_2 = 2 + 4 i ~ ~ z_1 + z_2 = 3 + 7 i"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "defDefinition",
+              "srcLine": 34,
+              "title": "My definition",
+              "label": "def:myDef",
+              "items": [
+                {
+                  "type": "paragraph",
+                  "srcLine": 47,
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 47,
+                      "text": "Some paragraph text here."
+                    }
+                  ]
+                },
+                {
+                  "type": "alignCenter",
+                  "srcLine": 34,
+                  "items": [
+                    {
+                      "type": "paragraph",
+                      "srcLine": 47,
+                      "items": [
+                        {
+                          "type": "text",
+                          "srcLine": 47,
+                          "text": "This text is center aligned."
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "equation",
+                  "srcLine": 34,
+                  "label": "myEquation",
+                  "id": "2",
+                  "equationData": {
+                    "math": {
+                      "type": "displayMath",
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "x ^ 2 + y ^ 2 = z ^ 2"
+                        }
+                      ]
+                    },
+                    "number": 0
+                  }
+                },
+                {
+                  "type": "paragraph",
+                  "srcLine": 47,
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 47,
+                      "text": "Another paragraph here."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "equation",
+              "srcLine": 48,
+              "label": "eq:pythagoras",
+              "id": "3",
+              "equationData": {
+                "math": {
+                  "type": "displayMath",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "a ^ 2 + b ^ 2 = c ^ 2"
+                    }
+                  ]
+                },
+                "number": 0
+              }
+            },
+            {
+              "type": "table",
+              "srcLine": 53,
+              "title": "Negation",
+              "tableData": {
+                "head": {
+                  "columns": [
+                    {
+                      "type": "paragraph",
+                      "srcLine": 62,
+                      "items": [
+                        {
+                          "type": "inlineMath",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "A"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "paragraph",
+                      "srcLine": 62,
+                      "items": [
+                        {
+                          "type": "inlineMath",
+                          "items": [
+                            {
+                              "type": "text",
+                              "text": "\\neg A"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "rows": [
+                  {
+                    "columns": [
+                      {
+                        "type": "paragraph",
+                        "srcLine": 62,
+                        "items": [
+                          {
+                            "type": "text",
+                            "srcLine": 62,
+                            "text": "w"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "srcLine": 62,
+                        "items": [
+                          {
+                            "type": "text",
+                            "srcLine": 62,
+                            "text": "f"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "columns": [
+                      {
+                        "type": "paragraph",
+                        "srcLine": 62,
+                        "items": [
+                          {
+                            "type": "text",
+                            "srcLine": 62,
+                            "text": "f"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "srcLine": 62,
+                        "items": [
+                          {
+                            "type": "text",
+                            "srcLine": 62,
+                            "text": "w"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "options": ["alignLeft"]
+              }
+            },
+            {
+              "type": "subSection",
+              "srcLine": 64,
+              "label": "subsec:mySubSection",
+              "text": "My subsection"
+            },
+            {
+              "type": "example",
+              "srcLine": 67,
+              "items": [
+                {
+                  "type": "itemize",
+                  "srcLine": 72,
+                  "items": [
+                    {
+                      "type": "span",
+                      "srcLine": 72,
+                      "items": [
+                        {
+                          "type": "text",
+                          "srcLine": 72,
+                          "text": "an item"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "span",
+                      "srcLine": 72,
+                      "items": [
+                        {
+                          "type": "text",
+                          "srcLine": 72,
+                          "text": "another item"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "exercise",
+              "srcLine": 73,
+              "title": "Polar form",
+              "label": "ex:polar-form",
+              "error": " There is no variable \"polar\". ",
+              "items": [
+                {
+                  "type": "paragraph",
+                  "srcLine": 88,
+                  "items": [
+                    {
+                      "type": "text",
+                      "srcLine": 88,
+                      "text": "Write"
+                    },
+                    {
+                      "type": "inlineMath",
+                      "items": [
+                        {
+                          "type": "variableReference",
+                          "id": "z"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "srcLine": 88,
+                      "text": "in polar form:"
+                    },
+                    {
+                      "type": "inputField",
+                      "srcLine": 88,
+                      "id": "input0",
+                      "inputFieldData": {
+                        "type": "none",
+                        "variableId": "polar",
+                        "score": 1,
+                        "choices": 0
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "srcLine": 88,
+                      "text": "( z), score = 2"
+                    }
+                  ]
+                },
+                {
+                  "type": "figure",
+                  "srcLine": 73,
+                  "error": "Invalid figure path.",
+                  "figureData": {
+                    "filePath": "",
+                    "code": "",
+                    "data": "",
+                    "caption": [],
+                    "options": ["width75"]
+                  }
+                },
+                {
+                  "type": "error",
+                  "srcLine": 73,
+                  "text": "Unknown block type \"PATH=img/polar.svg\"."
+                }
+              ],
+              "exerciseData": {
+                "code": "let a = rand(2,4)\nlet z = a(-1+1i)",
+                "variables": ["a", "z"],
+                "instances": [
+                  {
+                    "a": "4",
+                    "@a": "rand(2,4)",
+                    "z": "(-4) + (4)*i",
+                    "@z": "(4*((-(1))+(1*((0) + (1)*i))))"
+                  },
+                  {
+                    "a": "2",
+                    "@a": "rand(2,4)",
+                    "z": "(-2) + (2)*i",
+                    "@z": "(2*((-(1))+(1*((0) + (1)*i))))"
+                  },
+                  {
+                    "a": "3",
+                    "@a": "rand(2,4)",
+                    "z": "(-3) + (3)*i",
+                    "@z": "(3*((-(1))+(1*((0) + (1)*i))))"
+                  },
+                  {
+                    "a": "2",
+                    "@a": "rand(2,4)",
+                    "z": "(-2) + (2)*i",
+                    "@z": "(2*((-(1))+(1*((0) + (1)*i))))"
+                  },
+                  {
+                    "a": "2",
+                    "@a": "rand(2,4)",
+                    "z": "(-2) + (2)*i",
+                    "@z": "(2*((-(1))+(1*((0) + (1)*i))))"
+                  }
+                ],
+                "staticOrder": false,
+                "scores": 1,
+                "showGapLength": false,
+                "showRequiredGapLettersOnly": false
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
