@@ -52,6 +52,11 @@ EXAMPLE
     - an item
     - another item
 
+FIGURE
+    PATH=img/polar.svg
+    WIDTH=75
+    What a beautiful figure.
+
 EXERCISE Polar form  @ex:polar-form
     CODE
         let a = rand(2,4)
