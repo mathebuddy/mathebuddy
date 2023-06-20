@@ -1,0 +1,68 @@
+--------
+ID="ROOT"
+SRC_LINE="-1"
+TITLE=""
+LABEL=""
+ATTRIBUTES=[]
+DATA=""
+CHILDREN:
+    --------
+    ID="DEFAULT"
+    SRC_LINE="1"
+    TITLE=""
+    LABEL=""
+    ATTRIBUTES=[]
+    DATA="My Test file\n############\n"
+    --------
+    ID="EXERCISE"
+    SRC_LINE="4"
+    TITLE="Polar form"
+    LABEL="ex:polar-form"
+    ATTRIBUTES=[]
+    DATA=""
+    CHILDREN:
+        --------
+        ID="CODE"
+        SRC_LINE="5"
+        TITLE=""
+        LABEL=""
+        ATTRIBUTES=[]
+        DATA=""
+        CHILDREN:
+            --------
+            ID="DEFAULT"
+            SRC_LINE="6"
+            TITLE=""
+            LABEL=""
+            ATTRIBUTES=[]
+            DATA="let a = rand(2,4)\nlet z = a(-1+1i)\n"
+        --------
+        ID="TEXT"
+        SRC_LINE="8"
+        TITLE=""
+        LABEL=""
+        ATTRIBUTES=[]
+        DATA=""
+        CHILDREN:
+            --------
+            ID="DEFAULT"
+            SRC_LINE="9"
+            TITLE=""
+            LABEL=""
+            ATTRIBUTES=[]
+            DATA="Write $z$ in polar form: #polar(z),score=2\n"
+            --------
+            ID="FIGURE"
+            SRC_LINE="10"
+            TITLE=""
+            LABEL=""
+            ATTRIBUTES=[PATH=img/polar.svg,WIDTH=75,]
+            DATA=""
+            CHILDREN:
+                --------
+                ID="DEFAULT"
+                SRC_LINE="13"
+                TITLE=""
+                LABEL=""
+                ATTRIBUTES=[]
+                DATA="What a beautiful figure.\n"
