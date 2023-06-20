@@ -15,6 +15,7 @@ import '../../mbcl/src/level.dart';
 import '../../mbcl/src/unit.dart';
 
 import 'block.dart';
+import 'block_NEW.dart';
 import 'course.dart';
 import 'exercise.dart';
 import 'help.dart';
@@ -69,7 +70,7 @@ class Compiler {
       _course?.debug = MbclCourseDebug.level;
       _chapter = MbclChapter();
       _course?.chapters.add(_chapter as MbclChapter);
-      compileLevel(path);
+      compileLevel_NEW(path);
     }
     // post processing
     postProcessCourse(_course as MbclCourse);
@@ -243,6 +244,148 @@ class Compiler {
         }
       }
     }
+  }
+
+  //G level = TODO
+  void compileLevel_NEW(String path) {
+    equationNumber = 1;
+    // create a new level
+    _level = MbclLevel();
+    _chapter?.levels.add(_level as MbclLevel);
+    // get level source
+    var src = loadFile(path);
+    if (src.isEmpty) {
+      _error('Level file $path does not exist or is empty.');
+    }
+    // set source, split it into lines, trim these lines and
+    // filter out comments of each line
+    _srcLines = src.split('\n');
+    for (var k = 0; k < _srcLines.length; k++) {
+      var line = _srcLines[k];
+      var tokens = line.split('%');
+      _srcLines[k] = tokens[0];
+    }
+    // init lexer
+    _i = -1;
+    _next();
+    // parse
+    var depthList = List<Block_NEW?>.filled(0, null,
+        growable: true); // TODO: write comment!!
+    var rootBlock = Block_NEW("ROOT", 0, -1);
+    depthList.length = 1;
+    depthList[0] = rootBlock;
+    var currentBlock = rootBlock;
+
+    while (_line != '§END') {
+      var trimmed = _line.trim();
+      if (trimmed.isEmpty) {
+        _next();
+        continue;
+      }
+      var spaces = 0;
+      for (var k = 0; k < _line.length; k++) {
+        if (_line[k] == ' ') {
+          spaces++;
+        } else if (_line[k] == '\t') {
+          spaces += 4;
+        } else {
+          break;
+        }
+      }
+      int indentation = spaces ~/ 4;
+      indentation += 1; // add one for root element
+
+      var keyword = "";
+      for (int i = 0; i < trimmed.length; i++) {
+        var ch = trimmed[i];
+        var isValid = ch.codeUnitAt(0) >= 'A'.codeUnitAt(0) &&
+                ch.codeUnitAt(0) <= 'Z'.codeUnitAt(0) ||
+            ch == '_' ||
+            ch == '*';
+        if (isValid) {
+          keyword += ch;
+        } else {
+          if (keyword.length < 3) {
+            keyword = "";
+          }
+          break;
+        }
+      }
+
+      if (keyword.isNotEmpty) {
+        if ((spaces % 4) != 0) {
+          _error('bad spacing before "$keyword".');
+        }
+        var srcLine = _i + 1;
+        currentBlock = Block_NEW(keyword, indentation, srcLine);
+        depthList.length = indentation + 1;
+        var parent = depthList[indentation - 1];
+        if (parent == null) {
+          _error('bad indentation before "$keyword".');
+        } else {
+          parent.children.add(currentBlock);
+        }
+        depthList[indentation] = currentBlock;
+        // parse TITLE [ "@" ID ]
+        var tokens = trimmed.substring(keyword.length).split("@");
+        if (tokens.isNotEmpty) {
+          currentBlock.title = tokens[0].trim();
+          if (tokens.length >= 2) {
+            currentBlock.label = tokens[1].trim();
+            if (currentBlock.label.contains(' ')) {
+              _error('bad label (must be one word)');
+            }
+          }
+        }
+      } else {
+        // not a keyword
+        if (indentation <= currentBlock.indent) {
+          currentBlock = depthList[indentation - 1]!;
+        }
+        var line = _line.replaceAll('\t', '    ');
+        var isAttribute = false;
+
+        if (line.contains("=")) {
+          isAttribute = true;
+          var l = Lexer();
+          l.pushSource("", line);
+          try {
+            var key = l.uppercaseIdentifier();
+            var value = "";
+            l.terminal("=");
+            if (l.isIdentifier() ||
+                l.isInteger() ||
+                l.isTerminal("true") ||
+                l.isTerminal("false")) {
+              value = l.getToken().token;
+              l.next();
+            }
+            l.end();
+            // parsing of attribute succeeded
+            currentBlock.attributes[key] = value;
+          } catch (e) {
+            isAttribute = false;
+          }
+          if (isAttribute && currentBlock.children.isNotEmpty) {
+            _error('Attributes must be first. '
+                'Hint: Move line ${_i + 1} to line ${currentBlock.srcLine + 1}');
+          }
+        }
+        if (isAttribute == false) {
+          var b = Block_NEW("DEFAULT", indentation, _i + 1);
+          b.data = '$line\n';
+          currentBlock.children.add(b);
+        }
+      }
+      var bp = 1337;
+
+      _next();
+    }
+    rootBlock.postProcess();
+
+    print(rootBlock);
+
+    var bp = 1337;
   }
 
   //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
