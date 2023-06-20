@@ -395,7 +395,7 @@ class Compiler {
 
     print(rootBlock);
 
-    rootBlock.parse(this, _level!, null, 0);
+    rootBlock.parse(this, _level!, null, 0, null);
 
     var bp = 1337;
   }
