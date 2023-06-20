@@ -1,0 +1,103 @@
+--------
+ID="ROOT"
+SRC_LINE="-1"
+TITLE=""
+LABEL=""
+ATTRIBUTES=[]
+DATA=""
+CHILDREN:
+    --------
+    ID="DEFAULT"
+    SRC_LINE="1"
+    TITLE=""
+    LABEL=""
+    ATTRIBUTES=[]
+    DATA="my headline\n===========\nsome text here\n- bla\n- blub\n"
+    --------
+    ID="XXX"
+    SRC_LINE="8"
+    TITLE="my title"
+    LABEL="label1"
+    ATTRIBUTES=[A=a,B=b,C=c,]
+    DATA=""
+    CHILDREN:
+        --------
+        ID="DEFAULT"
+        SRC_LINE="12"
+        TITLE=""
+        LABEL=""
+        ATTRIBUTES=[]
+        DATA="abc def ghi\n"
+        --------
+        ID="YYY*"
+        SRC_LINE="13"
+        TITLE=""
+        LABEL="label2"
+        ATTRIBUTES=[]
+        DATA=""
+        CHILDREN:
+            --------
+            ID="DEFAULT"
+            SRC_LINE="14"
+            TITLE=""
+            LABEL=""
+            ATTRIBUTES=[]
+            DATA="blub\n    bla\nxyz\n"
+            --------
+            ID="WWW"
+            SRC_LINE="17"
+            TITLE=""
+            LABEL=""
+            ATTRIBUTES=[]
+            DATA=""
+            CHILDREN:
+                --------
+                ID="DEFAULT"
+                SRC_LINE="18"
+                TITLE=""
+                LABEL=""
+                ATTRIBUTES=[]
+                DATA="abc\n"
+            --------
+            ID="DEFAULT"
+            SRC_LINE="19"
+            TITLE=""
+            LABEL=""
+            ATTRIBUTES=[]
+            DATA="uvw\n"
+        --------
+        ID="ZZZ"
+        SRC_LINE="20"
+        TITLE=""
+        LABEL=""
+        ATTRIBUTES=[U=u,V=v,]
+        DATA=""
+        --------
+        ID="DEFAULT"
+        SRC_LINE="23"
+        TITLE=""
+        LABEL=""
+        ATTRIBUTES=[]
+        DATA="jkl\n"
+    --------
+    ID="DEFAULT"
+    SRC_LINE="25"
+    TITLE=""
+    LABEL=""
+    ATTRIBUTES=[]
+    DATA="more text here\n"
+    --------
+    ID="YYY"
+    SRC_LINE="27"
+    TITLE=""
+    LABEL=""
+    ATTRIBUTES=[]
+    DATA=""
+    CHILDREN:
+        --------
+        ID="DEFAULT"
+        SRC_LINE="28"
+        TITLE=""
+        LABEL=""
+        ATTRIBUTES=[]
+        DATA="bla\n"
