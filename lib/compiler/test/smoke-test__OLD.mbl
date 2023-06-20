@@ -1,0 +1,88 @@
+Typography
+##########
+
+This is text within a paragraph.
+Even this text stands in a new line, it is compiled to be written directly behind the last line.
+
+An empty line starts a new paragraph.
+
+This text is displayed in the output. % only a course developer can read this.
+
+My section @sec:mySection
+=====================
+
+An enumeration
+#. first item
+#. second item
+
+---
+NEWPAGE
+---
+
+Bold, italic and colored text
+-----------------------------
+
+Some **bold** text. Some *italic* text.
+The word [sky]@color1 is written in primary color.
+[Some text written in the secondary color.]@color2.
+You can also write [bold text]@bold and [italic text]@italic similar to color notation.
+
+---
+EXAMPLE Addition of complex numbers  @ex:myExample
+$z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i$
+---
+
+---
+DEFINITION My definition @def:myDef
+Some paragraph text here.
+
+CENTER
+This text is center aligned.
+
+EQUATION @myEquation
+x^2 + y^2 = z^2
+
+TEXT
+Another paragraph here.
+---
+
+--- 
+EQUATION @eq:pythagoras
+a^2 + b^2 = c^2
+---
+
+---
+TABLE Negation @tab:label
+@options
+  align-left
+@text
+  $A$ & $\neg A$
+  w   & f
+  f   & w
+---
+
+
+My subsection @subsec:mySubSection
+-------------
+
+---
+EXAMPLE
+- an item
+- another item
+---
+
+---
+EXERCISE Polar form  @ex:polar-form
+@code
+let a = rand(2,4)
+let z = a(-1+1i)
+@text
+Write $z$ in polar form: #polar(z),score=2
+FIGURE
+@options
+width-75
+@path
+PATH=img/polar.svg
+@caption
+What a beautiful figure.
+---
