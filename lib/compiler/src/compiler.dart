@@ -278,10 +278,10 @@ class Compiler {
 
     while (_line != '§END') {
       var trimmed = _line.trim();
-      if (trimmed.isEmpty) {
+      /*if (trimmed.isEmpty) {
         _next();
         continue;
-      }
+      }*/
       var spaces = 0;
       for (var k = 0; k < _line.length; k++) {
         if (_line[k] == ' ') {
