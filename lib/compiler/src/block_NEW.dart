@@ -263,7 +263,7 @@ class Block_NEW {
           for (var child in children) {
             if (child.id == "CAPTION") {
               var p = Paragraph(compiler);
-              data.caption = p.parseParagraph(child.data, srcLine, null);
+              data.caption = p.parseParagraph(child.data, srcLine, exercise);
             }
           }
           //print(figure.toJSON());
@@ -284,7 +284,6 @@ class Block_NEW {
             exercise.label = 'ex${compiler.createUniqueId().toString()}';
           }
           for (var child in children) {
-            // TODO: provide exercise
             child.parse(compiler, level, exercise, depth + 1, exercise);
           }
           //print(exercise.toJSON());
@@ -316,15 +315,77 @@ class Block_NEW {
       case 'STRUCTURED_PARAGRAPH':
         {
           // also contains sections, subsections, page breaks, ...
-          // TODO
-          var bp = 1337;
+          var lines = data.split("\n");
+          var paragraphSrc = "";
+          var paragraphLine = 0;
+          for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            var line2 = i + 1 < lines.length ? lines[i + 1] : "";
+            if (line2.startsWith('####') ||
+                line2.startsWith('====') ||
+                line2.startsWith('----')) {
+              // --- level title | section | subsection---
+              if (paragraphSrc.trim().isNotEmpty) {
+                var p = Paragraph(compiler);
+                var levelItems =
+                    p.parseParagraph(paragraphSrc, paragraphLine, exercise);
+                parent?.items.addAll(levelItems);
+                paragraphSrc = '';
+              }
+              var tokens = line.split('@');
+              var name = tokens[0].trim();
+              var label = "";
+              if (tokens.length > 1) {
+                label = tokens[1].trim();
+              }
+              switch (line2[0]) {
+                case '#':
+                  {
+                    level.title = name;
+                    level.label = label;
+                    break;
+                  }
+                case '=':
+                  {
+                    var sec =
+                        MbclLevelItem(MbclLevelItemType.section, srcLine + i);
+                    parent?.items.add(sec);
+                    sec.text = name;
+                    sec.label = label;
+                    break;
+                  }
+                case '-':
+                  {
+                    var subSec = MbclLevelItem(
+                        MbclLevelItemType.subSection, srcLine + i);
+                    parent?.items.add(subSec);
+                    subSec.text = name;
+                    subSec.label = label;
+                    break;
+                  }
+              }
+              i++; // move forward
+            } else {
+              if (paragraphSrc.isEmpty) {
+                paragraphLine = srcLine + i;
+              }
+              paragraphSrc += '$line\n';
+            }
+          }
+          if (paragraphSrc.trim().isNotEmpty) {
+            var p = Paragraph(compiler);
+            var levelItems =
+                p.parseParagraph(paragraphSrc, paragraphLine, exercise);
+            parent?.items.addAll(levelItems);
+            paragraphSrc = '';
+          }
           break;
         }
 
       case 'PARAGRAPH':
         {
           var p = Paragraph(compiler);
-          var levelItems = p.parseParagraph(data, srcLine, null);
+          var levelItems = p.parseParagraph(data, srcLine, exercise);
           parent?.items.addAll(levelItems);
           break;
         }
