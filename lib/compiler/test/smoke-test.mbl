@@ -1,6 +1,17 @@
 Typography
 ##########
 
+
+EXERCISE Add
+    CODE
+        let a/b = rand(1,10)
+        let c = a + b
+    TEXT
+        Calculate $a + b = $ #c   % TODO: #c inside math mode
+        % TODO:  @c = #c
+
+
+
 This is text within a paragraph.
 Even this text stands in a new line, it is compiled to be written directly behind the last line.
 
