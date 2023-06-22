@@ -47,6 +47,7 @@ void main(List<String> args) {
     }
     var id = tokens[0];
     var path = tokens[1];
+    print("... processing '$id' ...");
     // compile
     var compiler = new Compiler(loadFile);
     try {
