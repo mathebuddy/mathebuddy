@@ -332,7 +332,7 @@ class CoursePageState extends State<CoursePage> {
             level.title.toUpperCase(),
             style: TextStyle(
                 color: matheBuddyRed,
-                fontSize: 40,
+                fontSize: 28, // was previously "40"
                 fontWeight: FontWeight.bold),
           )));
       for (var item in level.items) {
