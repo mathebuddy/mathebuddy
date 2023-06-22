@@ -26,7 +26,7 @@ void _createTable() {
       table[value] = term;
     }
   }
-  print(table);
+  //print(table);
   var bp = 1337;
 }
 
