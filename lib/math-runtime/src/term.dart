@@ -289,6 +289,10 @@ class Term {
     }
   }
 
+  String toTeXString() {
+    return term2tex(this);
+  }
+
   /// Converts the term object to a string.
   @override
   String toString() {
