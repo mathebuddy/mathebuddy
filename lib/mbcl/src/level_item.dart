@@ -238,6 +238,7 @@ class MbclExerciseData {
   int scores = 1;
   bool showGapLength = false;
   bool showRequiredGapLettersOnly = false;
+  bool horizontalSingleMultipleChoiceAlignment = false;
 
   // temporary
   MbclLevelItem exercise;
@@ -263,6 +264,8 @@ class MbclExerciseData {
       "scores": scores,
       "showGapLength": showGapLength,
       "showRequiredGapLettersOnly": showRequiredGapLettersOnly,
+      "horizontalSingleMultipleChoiceAlignment":
+          horizontalSingleMultipleChoiceAlignment,
     };
   }
 
@@ -288,6 +291,8 @@ class MbclExerciseData {
     scores = src["scores"] as int;
     showGapLength = src["showGapLength"] as bool;
     showRequiredGapLettersOnly = src["showRequiredGapLettersOnly"] as bool;
+    horizontalSingleMultipleChoiceAlignment =
+        src["horizontalSingleMultipleChoiceAlignment"] as bool;
   }
 }
 
