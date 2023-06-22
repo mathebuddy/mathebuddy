@@ -99,7 +99,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         var eq = generateParagraphItem(state, data.math!,
             exerciseData: exerciseData);
         var equationWidget = RichText(text: TextSpan(children: [eq]));
-        var eqNumber = int.parse(item.id);
+        var eqNumber = data.number;
         var eqNumberWidget = Text(eqNumber >= 0 ? '($eqNumber)' : '');
         return ListTile(
           title: Center(child: equationWidget),
@@ -166,7 +166,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
     case MbclLevelItemType.newPage:
       {
         return Text(
-          '\n--- page break will be here later ---\n',
+          '', // TODO '\n--- page break will be here later ---\n',
           style: TextStyle(fontWeight: FontWeight.bold),
         );
       }
@@ -174,26 +174,50 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
       {
         List<Widget> list = [];
         // TODO: icon
-        var title = Row(children: [
+        /*var title = Row(children: [
           Padding(
               padding: EdgeInsets.all(3.0),
               child: Text('EXAMPLE: ${item.title}',
                   style: TextStyle(fontWeight: FontWeight.bold)))
+        ]);*/
+
+        var title = Wrap(children: [
+          Padding(
+              padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
+              child: Row(children: [
+                Text(' '), // TODO: use padding instead of Text(' ')
+                Icon(
+                  Icons.gesture_outlined,
+                  size: 35.0,
+                ),
+                Text(' '),
+                // TODO: wrap does not work:
+                Flexible(
+                    child: Text(item.title,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20)))
+              ]))
         ]);
+
         list.add(title);
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           list.add(Wrap(children: [
             generateLevelItem(state, subItem,
-                paragraphPaddingLeft: 20.0,
+                paragraphPaddingLeft: 10.0,
                 paragraphPaddingTop: i == 0 ? 0.0 : 10.0,
                 exerciseData: exerciseData)
           ]));
         }
-        return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: list);
+        return Container(
+            //color: Color.fromARGB(31, 255, 221, 198),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: Color.fromARGB(25, 255, 173, 97)),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: list));
       }
     case MbclLevelItemType.defDefinition:
     case MbclLevelItemType.defTheorem:
@@ -213,28 +237,49 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             break;
         }
         List<Widget> list = [];
-        var title = Row(children: [
+        /*var title = Row(children: [
           Padding(
               //padding: EdgeInsets.all(3.0),
               padding: EdgeInsets.only(
                   left: 3.0, right: 3.0, top: 12.0, bottom: 8.0),
               child: Text('$prefix (${item.title})',
                   style: TextStyle(fontWeight: FontWeight.bold)))
+        ]);*/
+
+        var title = Wrap(children: [
+          Padding(
+              padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
+              child: Row(children: [
+                Text(' '), // TODO: use padding instead of Text(' ')
+                Icon(Icons.lightbulb_outline, size: 35.0),
+                Text(' '),
+                // TODO: wrap does not work:
+                Flexible(
+                    child: Text(item.title,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20)))
+              ]))
         ]);
+
         list.add(title);
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           list.add(Wrap(children: [
             generateLevelItem(state, subItem,
-                paragraphPaddingLeft: 20.0,
+                paragraphPaddingLeft: 10.0,
                 paragraphPaddingTop: i == 0 ? 0.0 : 10.0,
                 exerciseData: exerciseData)
           ]));
         }
-        return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: list);
+        return Container(
+            //color: Color.fromARGB(255, 255, 250, 234),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: Color.fromARGB(31, 192, 192, 192)),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: list));
       }
     case MbclLevelItemType.figure:
       {
@@ -321,11 +366,11 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         List<Widget> list = [];
         var title = Wrap(children: [
           Padding(
-              padding: EdgeInsets.only(bottom: 5.0),
+              padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
               key: exerciseKey,
               child: Row(children: [
                 Text(' '), // TODO: use padding instead of Text(' ')
-                Icon(Icons.play_circle_outlined),
+                Icon(Icons.play_circle_outlined, size: 35.0),
                 Text(' '),
                 // TODO: wrap does not work:
                 Flexible(
@@ -487,7 +532,9 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
           ]);
           var text = generateLevelItem(state, inputField.items[0],
               exerciseData: exerciseData);
-          text = Flexible(child: text);
+          if (exerciseData.horizontalSingleMultipleChoiceAlignment == false) {
+            text = Flexible(child: text);
+          }
           mcOptions.add(GestureDetector(
               onTap: () {
                 if (item.type == MbclLevelItemType.multipleChoice) {
@@ -509,11 +556,21 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                 // ignore: invalid_use_of_protected_member
                 state.setState(() {});
               },
-              child: Padding(
-                  padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                  child: Row(children: [button, text]))));
+              child: exerciseData.horizontalSingleMultipleChoiceAlignment
+                  ? Row(children: [button, text])
+                  : Padding(
+                      padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                      child: Row(children: [button, text]))));
+          //child: Padding(
+          //    padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+          //    child: Row(children: [button, text]))));
+          //child: Row(children: [button, text])));
         }
-        return Column(children: mcOptions);
+        if (exerciseData.horizontalSingleMultipleChoiceAlignment) {
+          return Row(children: mcOptions);
+        } else {
+          return Column(children: mcOptions);
+        }
       }
     default:
       {
