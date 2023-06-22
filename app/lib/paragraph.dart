@@ -115,11 +115,12 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
                 } else {
                   var instance =
                       exerciseData.instances[exerciseData.runInstanceIdx];
-                  var variableValue = instance[variableId];
-                  if (variableValue == null) {
+                  var variableTeXValue = instance["$variableId.tex"];
+                  if (variableTeXValue == null) {
                     texSrc += 'ERROR: unknown exercise variable $variableId';
                   } else {
-                    texSrc += convertMath2TeX(variableValue);
+                    //texSrc += convertMath2TeX(variableTeXValue);
+                    texSrc += variableTeXValue;
                   }
                 }
                 break;
