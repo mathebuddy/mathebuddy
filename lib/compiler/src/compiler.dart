@@ -268,6 +268,9 @@ class Compiler {
     // init lexer
     _i = -1;
     _next();
+
+    //  TODO: move (most) the following code to file block_NEW.dart
+
     // parse
     var depthList = List<Block_NEW?>.filled(0, null,
         growable: true); // TODO: write comment!!
@@ -352,7 +355,7 @@ class Compiler {
         }
       } else {
         // not a keyword
-        if (indentation <= currentBlock.indent) {
+        if (trimmed.isNotEmpty && indentation <= currentBlock.indent) {
           currentBlock = depthList[indentation - 1]!;
         }
         var line = _line.replaceAll('\t', '    ');
@@ -387,17 +390,11 @@ class Compiler {
           currentBlock.children.add(b);
         }
       }
-      var bp = 1337;
-
       _next();
     }
     rootBlock.postProcess();
-
-    print(rootBlock);
-
+    //print(rootBlock);
     rootBlock.parse(this, _level!, null, 0, null);
-
-    var bp = 1337;
   }
 
   //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
