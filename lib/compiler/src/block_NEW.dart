@@ -173,7 +173,7 @@ class Block_NEW {
             nonEmptyLines.add(line);
           }
           equation.text += nonEmptyLines.join('\n');
-          if (id == "ALIGNED-EQUATION") {
+          if (id.startsWith("ALIGNED-EQUATION")) {
             equation.text = '\\begin{matrix}[ll]${equation.text}\\end{matrix}';
           }
           // compile math
@@ -250,7 +250,12 @@ class Block_NEW {
             var value = attributes[key]!;
             switch (key) {
               case "PATH":
-                data.filePath = value;
+                data.filePath = compiler.baseDirectory + value.trim();
+                data.data = compiler.loadFile(data.filePath);
+                if (data.data.isEmpty) {
+                  figure.error +=
+                      'Could not load image file from path "${data.filePath}".';
+                }
                 break;
               case "WIDTH":
                 data.options.add(MbclFigureOption.width75); // TODO!!
@@ -285,6 +290,32 @@ class Block_NEW {
           }
           for (var child in children) {
             child.parse(compiler, level, exercise, depth + 1, exercise);
+          }
+          for (var key in attributes.keys) {
+            var value = attributes[key]!;
+            switch (key) {
+              case "ORDER":
+                {
+                  if (value == 'static') {
+                    data.staticOrder = true;
+                  } else {
+                    exercise.error +=
+                        'Attribute value "$value" is not allowed for key "$key".';
+                  }
+                  break;
+                }
+              case "CHOICE_ALIGNMENT":
+                if (value == 'horizontal') {
+                  data.horizontalSingleMultipleChoiceAlignment = true;
+                } else {
+                  exercise.error +=
+                      'Attribute value "$value" is not allowed for key "$key".';
+                }
+                break;
+              default:
+                exercise.error += 'Unknown attribute "$key".';
+                break;
+            }
           }
           //print(exercise.toJSON());
           break;
@@ -475,8 +506,12 @@ class Block_NEW {
         Map<String, String> instance = {};
         for (var v in data.variables) {
           var sym = symbols[v] as smpl_interpreter.InterpreterSymbol;
+          // pure math
           instance[v] = sym.value.toString();
           instance['@$v'] = sym.term.toString();
+          // TeX
+          instance['$v.tex'] = sym.value.toTeXString();
+          instance['@$v.tex'] = sym.term.toTeXString();
         }
         data.instances.add(instance);
       } catch (e) {
