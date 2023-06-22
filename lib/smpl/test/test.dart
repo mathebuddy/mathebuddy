@@ -19,10 +19,15 @@ void run(String src) {
   var interpreter = Interpreter();
   var symbols = interpreter.runProgram(ast);
   for (var id in symbols.keys) {
-    print('@$id := ${symbols[id]?.term}');
     if (symbols[id]?.value != null) {
-      print('$id := ${symbols[id]?.value}');
+      print('$id := ${symbols[id]?.value.toString()}');
+      print('$id.tex := ${symbols[id]?.value.toTeXString()}');
     }
+    print('@$id := ${symbols[id]?.term.toString()}');
+    print('@$id.tex := ${symbols[id]?.term.toTeXString()}');
+    print('@@$id := ${symbols[id]?.term.clone().optimize()}');
+    print('@@$id.tex := ${symbols[id]?.term.clone().optimize().toTeXString()}');
+    print('');
   }
 }
 
