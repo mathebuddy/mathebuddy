@@ -58,9 +58,15 @@ void runSmplCode(String src) {
     var output = '';
     for (var id in symbols.keys) {
       output += '@$id := ${symbols[id]?.term.toString()}\n';
+      output += '@$id.tex := ${symbols[id]?.term.toTeXString()}\n';
+      output += '@@$id := ${symbols[id]?.term.clone().optimize().toString()}\n';
+      output +=
+          '@@$id.tex := ${symbols[id]?.term.clone().optimize().toTeXString()}\n';
       if (symbols[id]?.value != null) {
         output += '$id := ${symbols[id]?.value.toString()}\n';
+        output += '$id.tex := ${symbols[id]?.value.toTeXString()}\n';
       }
+      output += '\n';
     }
     showOutput(output);
   } catch (e) {
