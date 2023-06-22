@@ -16,7 +16,7 @@ Some text in [red]@color1 color.
 My subsection @subsec:mySubSection
 -------------
 
-Refer to @mySection.
+Refer to @sec:mySection.
 
 An itemization:
 - first item. This is some very long text that is wrapped over multiple lines. This is some very long text that is wrapped over multiple lines. This is some very long text that is wrapped over multiple lines.
@@ -32,9 +32,7 @@ An alpha enumeration
 -) first item
 -) second item
 
----
 NEWPAGE
----
 
 Bold, italic and colored text
 -----------------------------
@@ -47,8 +45,5 @@ You can also write [bold text]@bold and [italic text]@italic similar to color no
 Text alignment
 --------------
 
----
 CENTER
-This text is centered.
----
-
+    This text is centered.

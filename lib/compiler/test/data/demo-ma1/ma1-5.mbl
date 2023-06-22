@@ -1,229 +1,181 @@
 Integralrechnung
 ################
 
----
 EXERCISE Riemann Integral
-@text
-Zur Bestimmung des **Riemann-Integrals** einer Funktion $f:[a,b] \to \RR$ unterteilt man $[a,b]$ in "kleine" Teilintervalle und bestimmt für diese Intervalle jeweils den kleinsten und größten Funktionswert. Die Summation der vorzeichenbehafteten Flächen mit dem größten Funktionswert liefert die
-(x) **Obersumme**
-( ) **Untersumme**
----
+    Zur Bestimmung des **Riemann-Integrals** einer Funktion $f:[a,b] \to \RR$ unterteilt man $[a,b]$ in "kleine" Teilintervalle und bestimmt für diese Intervalle jeweils den kleinsten und größten Funktionswert. Die Summation der vorzeichenbehafteten Flächen mit dem größten Funktionswert liefert die
+    (x) **Obersumme**
+    ( ) **Untersumme**
 
----
 EXERCISE Begriffe
-@text
-Sei $ \int_a^b f(x) dx$. Finden Sie die richtigen **Begriffe**:
-- $a$ und $b$ heißen #"Integrationsgrenzen".
-- $x$ heißt #"Integrationsvariable".
-- $f(x)$ heißt #"Integrand".
-- $dx$ heißt #"Differential".
----
+    Sei $ \int_a^b f(x) dx$. Finden Sie die richtigen **Begriffe**:
+    - $a$ und $b$ heißen #"Integrationsgrenzen".
+    - $x$ heißt #"Integrationsvariable".
+    - $f(x)$ heißt #"Integrand".
+    - $dx$ heißt #"Differential".
 
----
 EXERCISE Grenzen
-@code
-let a = rand(3,8);
-let i = 0;
-@text
-Bestimme $ \int_a^a f(x) dx = $ #i
----
+    CODE
+        let a = rand(3,8)
+        let i = 0
+    TEXT
+      Bestimme $ \int_a^a f(x) dx = $ #i
 
----
 EXERCISE Eigenschaften des Riemann-Integrals
-@text
-Seien $a<b<c$ und $f:[a,c] \to \RR$ eine Funktion die auf dem Intervall $[a,c]$ Riemann-integrierbar ist.
-Wählen Sie die korrekten Aussagen:
-[x] $ \int_a^c f(x) dx = \int_a^b f(x) dx + \int_b^c f(x) dx $
-[x] $ \int_b^a f(x) dx = - \int_a^b f(x) dx $
-[ ] $ \int_b^a f(x) dx = \int_a^b f(x) dx $
----
+    Seien $a<b<c$ und $f:[a,c] \to \RR$ eine Funktion die auf dem Intervall $[a,c]$ Riemann-integrierbar ist.
+    Wählen Sie die korrekten Aussagen:
+    [x] $ \int_a^c f(x) dx = \int_a^b f(x) dx + \int_b^c f(x) dx $
+    [x] $ \int_b^a f(x) dx = - \int_a^b f(x) dx $
+    [ ] $ \int_b^a f(x) dx = \int_a^b f(x) dx $
 
----
 EXERCISE Integrierbarkeit
-@text
-Seien $a,b \in \RR, a < b$:
-[x] Jede **stetige** Funktion $f:[a,b] \to \RR$ ist integrierbar.
-[x] Jede **monotone** Funktion $f:[a,b] \to \RR$ ist integrierbar.
----
+    Seien $a,b \in \RR, a < b$:
+    [x] Jede **stetige** Funktion $f:[a,b] \to \RR$ ist integrierbar.
+    [x] Jede **monotone** Funktion $f:[a,b] \to \RR$ ist integrierbar.
 
----
 EXERCISE Bestimmtes Integral
-@code 
-let a = rand(0,1);
-let b = rand(4,5);
-let u = rand(3,8);
-let f(x) = u;
-let f_int = integrate(f, x, a, b);
-@text
-Bestimme das folgende **bestimmte** Integral:
-- $ \int_a^b f \dx = $ #f_int
----
+    CODE 
+        let a = rand(0,1)
+        let b = rand(4,5)
+        let u = rand(3,8)
+        let f(x) = u
+        let f_int = integrate(f, x, a, b)
+    TEXT
+        Bestimme das folgende **bestimmte** Integral:
+        - $ \int_a^b f \dx = $ #f_int
 
----
 EXERCISE Unbestimmte Integrale
-@code
-let u1:u2 = rand(2,9);
-let f(x) = u1;
-let g(y) = u2;
-@text
-Bestimme die folgenden **unbestimmten** Integrale:
-- $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
-- $ \int g \dy = $ #[diff y]g $ + C ~~ (C \in \RR)$
----
+    CODE
+        let u1:u2 = rand(2,9)
+        let f(x) = u1
+        let g(y) = u2
+    TEXT
+        Bestimme die folgenden **unbestimmten** Integrale:
+        - $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
+        - $ \int g \dy = $ #[diff y]g $ + C ~~ (C \in \RR)$
 
----
 EXERCISE Stammfunktion
-@code
-let u = rand(3,8);
-let f(x) = u * x;
-@text
-Bestimme die Stammfunktion zu $"f"(x) = f $
-$ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
----
+    CODE
+        let u = rand(3,8)
+        let f(x) = u * x
+    TEXT
+        Bestimme die Stammfunktion zu $"f"(x) = f $
+        $ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
 
----
 EXERCISE Stammfunktion
-@code
-let u:v = rand(3,8);
-let f(x) = u + v * x;
-@text
-Bestimme die Stammfunktion zu $"f"(x) = f $
-$ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
----
+    CODE
+        let u:v = rand(3,8)
+        let f(x) = u + v * x
+    TEXT
+        Bestimme die Stammfunktion zu $"f"(x) = f $
+        $ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
 
----
 EXERCISE Stammfunktion
-@code
-let u = rand(3,8);
-let f(x) = u * x^2;
-@text
-Bestimme die Stammfunktion zu $"f"(x) = f $
-$ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
----
+    CODE
+        let u = rand(3,8)
+        let f(x) = u * x^2
+    TEXT
+        Bestimme die Stammfunktion zu $"f"(x) = f $
+        $ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
 
----
 EXERCISE Stammfunktion
-@code
-let f(x) = cos(x);
-@text
-Bestimme die Stammfunktion zu $"f"(x) = f $
-$ F(x) = #[diff x]f + C ~~ (C \in \RR)$
----
+    CODE
+        let f(x) = cos(x)
+    TEXT
+        Bestimme die Stammfunktion zu $"f"(x) = f $
+        $ F(x) = #[diff x]f + C ~~ (C \in \RR)$
 
----
 EXERCISE Stammfunktion
-@code
-let a = rand(2,4);
-let f(x) = a * sin(x);
-@text
-Bestimme die Stammfunktion zu $"f"(x) = f $
-$ F(x) = $ #[diff x]f $ + C ~~ (C in RR)$
----
+    CODE
+        let a = rand(2,4)
+        let f(x) = a * sin(x)
+    TEXT
+        Bestimme die Stammfunktion zu $"f"(x) = f $
+        $ F(x) = $ #[diff x]f $ + C ~~ (C in RR)$
 
----
 EXERCISE Uneigentliches Integral
-@code
-let a = rand(3,8);
-let f(x) = a / x^2;
-@text
-Bestimme das folgende uneigentliche Integral:
-$ \int_1^{\infty} f \dx = $ #a
----
+    CODE
+        let a = rand(3,8)
+        let f(x) = a / x^2
+    TEXT
+        Bestimme das folgende uneigentliche Integral:
+        $ \int_1^{\infty} f \dx = $ #a
 
----
 EXERCISE Uneigentliche Integrale
-@code
-let a:b:c:d:e = rand(3,4);
-@text
-Welche der folgenden Integrale sind **konvergent**?
-[ ] $\int_0^{\infty} a x^2 + b \dx$
-[ ] $\int_0^c d/x \dx $
-[x] $\int_1^c e/x \dx $
----
+    CODE
+        let a:b:c:d:e = rand(3,4)
+    TEXT
+        Welche der folgenden Integrale sind **konvergent**?
+        [ ] $\int_0^{\infty} a x^2 + b \dx$
+        [ ] $\int_0^c d/x \dx $
+        [x] $\int_1^c e/x \dx $
 
----
 EXERCISE Partielle Integration
-@code
-let f(x) = x * exp(x);
-@text
-Bestimme durch **partielle Integration:**
-$ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
-*Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
----
+    CODE
+        let f(x) = x * exp(x)
+    TEXT
+        Bestimme durch **partielle Integration:**
+        $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
+        *Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
 
----
 EXERCISE Partielle Integration
-@code
-let f(x) = x * sin(x);
-@text
-Bestimme durch **partielle Integration:**
-$ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
----
+    CODE
+        let f(x) = x * sin(x)
+    TEXT
+        Bestimme durch **partielle Integration:**
+        $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
 
----
 EXERCISE Partielle Integration
-@code
-let f(x) = (x+1) / exp(x);
-@text
-Bestimme durch **partielle Integration:**
-$ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
-*Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
----
+    CODE
+        let f(x) = (x+1) / exp(x)
+    TEXT
+        Bestimme durch **partielle Integration:**
+        $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
+        *Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
 
----
 EXERCISE Substitutionsregel
-@code
-let f(x) = (x+1)^2;
-@text
-Bestimme durch **Substitution:**
-$ \int f \dx = #[diff x]f + C ~~ (C \in \RR)$
----
+    CODE
+        let f(x) = (x+1)^2
+    TEXT
+        Bestimme durch **Substitution:**
+        $ \int f \dx = #[diff x]f + C ~~ (C \in \RR)$
 
----
 EXERCISE Substitutionsregel
-@code
-let f(x) = exp(3*x-1);
-@text
-Bestimme durch **Substitution:**
-$ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
-*Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
----
+    CODE
+        let f(x) = exp(3*x-1)
+    TEXT
+        Bestimme durch **Substitution:**
+        $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
+        *Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
 
----
 EXERCISE Substitutionsregel
-@code
-let f(x) = 3*x * sin(x^2+1);
-@text
-Bestimme durch **Substitution:**
-$ \int f \dx = #[diff x]f + C ~~ (C \in \RR)$
----
+    CODE
+        let f(x) = 3*x * sin(x^2+1)
+    TEXT
+        Bestimme durch **Substitution:**
+        $ \int f \dx = #[diff x]f + C ~~ (C \in \RR)$
 
----
 EXERCISE Partialbruchzerlegung
-@code
-let a:b = rand(3,5);
-@text
-Das folgende Integral soll gelöst werden:
-- $\int b / (x (x-a)^2) \dx$
-Welcher ist der richtige **Ansatz**?
-(x) $ (A)/(x) + (B_1)/(x-a) + (B_2)/((x-a)^2)$
-( ) $ (A)/(x) + (B)/((x-a)^2)$
-( ) $ (A)/((x-a)^2)$
-( ) $ (A)/(x-a) + (B)/((x-a)^2)$
----
+    CODE
+        let a:b = rand(3,5)
+    TEXT
+        Das folgende Integral soll gelöst werden:
+        - $\int b / (x (x-a)^2) \dx$
+        Welcher ist der richtige **Ansatz**?
+        (x) $ (A)/(x) + (B_1)/(x-a) + (B_2)/((x-a)^2)$
+        ( ) $ (A)/(x) + (B)/((x-a)^2)$
+        ( ) $ (A)/((x-a)^2)$
+        ( ) $ (A)/(x-a) + (B)/((x-a)^2)$
 
----
 EXERCISE Partialbruchzerlegung
-@code
-let a:b = rand(2,5);
-let c = 2*a;
-let d = a^2+b;
-@text
-Das folgende Integral soll gelöst werden:
-- $\int 1 / (x^2 + c x + d) \dx$
-Welcher ist der richtige **Ansatz**?
-(x) $ (A)/((x+a)^2+b)$
-( ) $ (A)/(x-a)$
-( ) $ (A)/(x-a) + (B)/(x-a)^2$
-( ) $ (A)/(x-c)^2 + (B)/(x-d)$
----
+    CODE
+        let a:b = rand(2,5)
+        let c = 2*a
+        let d = a^2+b
+    TEXT
+        Das folgende Integral soll gelöst werden:
+        - $\int 1 / (x^2 + c x + d) \dx$
+        Welcher ist der richtige **Ansatz**?
+        (x) $ (A)/((x+a)^2+b)$
+        ( ) $ (A)/(x-a)$
+        ( ) $ (A)/(x-a) + (B)/(x-a)^2$
+        ( ) $ (A)/(x-c)^2 + (B)/(x-d)$

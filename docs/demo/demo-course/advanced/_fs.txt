@@ -1,3 +1,0 @@
-index.mbl
-a-1337.mbl
-_fs.txt

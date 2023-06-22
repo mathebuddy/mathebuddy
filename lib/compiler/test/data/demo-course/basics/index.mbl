@@ -1,14 +1,16 @@
 % This file describes meta data for chapter "basics"
 
-TITLE Some Basics
+TITLE 
+    Some Basics
 
-AUTHOR TH Koeln
+AUTHOR 
+    TH Koeln
 
 UNIT My Unit A
-(0,0) a-start
-(1,0) a-fun  !a-start
-(1,1) a-bla  !a-fun
+    (0,0) a-start                 ICON icons/start.svg
+    (1,0) a-fun  !a-start
+    (1,1) a-bla  !a-fun
 
 UNIT My Unit B
-(0,0) b-hey
-(1,0) b-you  !b-hey
+    (0,0) b-hey
+    (1,0) b-you  !b-hey

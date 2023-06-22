@@ -3,12 +3,7 @@ Start
 
 Some text here.
 
----
 FIGURE My figure title @fig:myFigure
-@options
-    width-75
-@path
-    img/logo.svg
-@caption
+    WIDTH=75
+    PATH=img/logo.svg
     mathe:buddy logo
----

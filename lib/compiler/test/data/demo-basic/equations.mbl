@@ -6,44 +6,36 @@ Inline Equations
 
 An inline equation $x^2+y^2+\sqrt z$.         
 
+
 Equations
 =========
 
 Numbered equations
------------------
+------------------
 
----
 EQUATION @eq:pythagoras
-a^2 + b^2 = c^2
----
+    a^2 + b^2 = c^2
 
----
 EQUATION
-\sqrt{x+1}
----
+    \sqrt{x+1}
 
 Equations without number
------------------------
+------------------------
 
----
 EQUATION*
-a^2 + b^2 = c^2
----
+    a^2 + b^2 = c^2
 
 Reference to equations
-----------------------
-
+-------------------
 Refer to @eq:pythagoras.    %displayed as "Refer to Eq. (1)"
 
 Aligned equations
 -----------------
 
----
 ALIGNED-EQUATION
-(x+1)^2 &= (x+1)(x+1) \\
-        &= x^2 + x + x + 1 \\
-        &= x^2 + 2x + 1 \\
----
+    (x+1)^2 &= (x+1)(x+1) \\
+            &= x^2 + x + x + 1 \\
+            &= x^2 + 2x + 1 \\
 
 Abbreviations
 =============
@@ -61,11 +53,9 @@ Numbers
 Matrices
 --------
 
----
 EQUATION
-\begin{pmatrix}
-  1 & 2 & 3 \\
-  4 & 5 & 6 \\
-  7 & 8 & 9 \\
-\end{pmatrix}
----
+    \begin{pmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9 \\
+    \end{pmatrix}

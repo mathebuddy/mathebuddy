@@ -1,40 +1,31 @@
 {
   "programs": [
     {
-      "title": "Addition",
-      "code": "  let a = rand(1,5) + rand(1,5)*1i;\n  let b = randZ(-1,1)*rand(1,5) + rand(1,5)*1i;\n  let c = a + b;\n"
+      "title": "Addition"
     },
     {
-      "title": "Multiplikation",
-      "code": "  let a = rand(1,5) + rand(1,5)*1i;\n  let b = rand(-5,5)*1i;\n  let c = a * b;\n"
+      "title": "Multiplikation"
     },
     {
-      "title": "Multiplikation",
-      "code": "  let a = rand(1,5) + rand(1,5)*1i;\n  let b = randZ(-1,1)*rand(1,5) + rand(1,5)*1i;\n  let c = a * b;\n"
+      "title": "Multiplikation"
     },
     {
-      "title": "Komplex konjugierte Zahl",
-      "code": "  let z = rand(1,5) + rand(1,5)*1i;\n  let c = conj(z);\n  let z2 = z * c;\n"
+      "title": "Komplex konjugierte Zahl"
     },
     {
-      "title": "Betrag einer komplexen Zahl",
-      "code": "  let a:b = rand(2,4);\n  let x = a^2 - b^2;\n  let y = 2 * a * b;\n  let z = complex(x,y);\n  let r = abs(z);\n"
+      "title": "Betrag einer komplexen Zahl"
     },
     {
-      "title": "Inverse einer komplexen Zahl",
-      "code": "  let a:b = rand(2,5);\n  let c = a^2 + b^2;\n  let r = complex(a,b);\n"
+      "title": "Inverse einer komplexen Zahl"
     },
     {
-      "title": "Division",
-      "code": "  let a:b:c:d = rand(2,5);\n  a = randZ(-1,1) * a;\n  let z2 = complex(0,b);\n  let r = complex(c,d);\n  let z1 = z2 * r;\n"
+      "title": "Division"
     },
     {
-      "title": "Division",
-      "code": "  let a:b:c:d = rand(1,5);\n  a = randZ(-1,1) * a;\n  let z2 = complex(a,b);\n  let r = complex(c,d);\n  let z1 = z2 * r;\n"
+      "title": "Division"
     },
     {
-      "title": "Komplexe Terme",
-      "code": "  let a:b:c:d = rand(1,3);\n  let pow = 2;\n  let z1 = complex(a,b);\n  let z2 = complex(c,d);\n  let res = z1^pow + z2;\n"
+      "title": "Komplexe Terme"
     },
     {
       "title": "Umrechnung zwischen kartesischen Koordinaten und Polarkoordinaten"
@@ -43,32 +34,25 @@
       "title": "Umrechnung zwischen kartesischen Koordinaten und Polarkoordinaten"
     },
     {
-      "title": "Komplexe Folgen",
-      "code": "  let c = rand(2,4)\n  let z = c * 1i\n  let a1 = z^1\n  let a2 = z^2\n  let a3 = z^3\n"
+      "title": "Komplexe Folgen"
     },
     {
-      "title": "Komplexe Folgen",
-      "code": "  let c = rand(2,4);\n  let z = 1/c + (1/c) * 1i;\n  let a1 = z^1;\n  let a2 = z^2;\n"
+      "title": "Komplexe Folgen"
     },
     {
-      "title": "Komplexe Reihen",
-      "code": "  let a:b = rand(2,6);\n"
+      "title": "Komplexe Reihen"
     },
     {
-      "title": "Komplexe Nullstellen",
-      "code": "  let a = rand(2,8)^2;\n  let z1 = sqrt(a) * 1i;\n  let z2 = -z1;\n  let res = {z1,z2};\n"
+      "title": "Komplexe Nullstellen"
     },
     {
-      "title": "Quotienten von Polynomen",
-      "code": "  let a:b:c:d = rand(2,8);\n  let ee = rand(2,9)^2;\n  let A = 0*1i;\n  let B = sqrt(ee)*1i;\n  let C = -sqrt(ee)*1i;\n  let res = {A,B,C};\n"
+      "title": "Quotienten von Polynomen"
     },
     {
-      "title": "Konvergenzradius",
-      "code": "  let a:b = rand(2,10);\n  let z1 = complex(a,b);\n  let res = 1;\n"
+      "title": "Konvergenzradius"
     },
     {
-      "title": "Komplexe Potenzen",
-      "code": "  let a = rand(1,2);\n  let c = rand(4,8);\n  let z = complex(a,a);\n  let res = z^c;\n"
+      "title": "Komplexe Potenzen"
     }
   ]
 }

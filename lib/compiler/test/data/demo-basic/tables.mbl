@@ -1,12 +1,9 @@
 Tables
 ######
 
----
+
 TABLE Negation
-@options
-  align-left
-@text
-  $A$ & $\neg A$
-  w   & f
-  f   & w
----
+    ALIGN=left
+    $A$ & $\neg A$
+    w   & f
+    f   & w

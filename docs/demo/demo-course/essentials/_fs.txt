@@ -1,3 +1,0 @@
-x-start.mbl
-index.mbl
-_fs.txt
