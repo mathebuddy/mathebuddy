@@ -187,9 +187,15 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
 
           List<InlineSpan> parts = [];
 
-          var svgData = tex.tex2svg(
-              convertMath2TeX(inputFieldData.studentValue),
-              displayStyle: true);
+          var studentValue = inputFieldData.studentValue;
+          var studentValueTeX = studentValue;
+          try {
+            studentValueTeX = convertMath2TeX(studentValue, true);
+          } catch (e) {
+            studentValueTeX =
+                studentValueTeX.replaceAll("{", "\\{").replaceAll("}", "\\}");
+          }
+          var svgData = tex.tex2svg(studentValueTeX, displayStyle: true);
           if (tex.error.isEmpty) {
             parts.add(WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
