@@ -6,6 +6,9 @@
 
 import 'dart:math';
 
+import 'package:mathebuddy/math-runtime/src/parse.dart';
+import 'package:tex/tex.dart';
+
 void shuffleIntegerList(List<int> list) {
   var n = list.length;
   for (var k = 0; k < n; k++) {
@@ -17,7 +20,23 @@ void shuffleIntegerList(List<int> list) {
   }
 }
 
-String convertMath2TeX(String s) {
+String convertMath2TeX(String m, bool checkTeXRendering) {
+  var parser = Parser();
+  var texString = "";
+  // parse input and convert to TeX String
+  var term = parser.parse(m,
+      splitIdentifiers: false); // TODO: splitIdentifiers: true??
+  texString = term.toTeXString();
+  // check if can be rendered as TeX
+  if (checkTeXRendering) {
+    var texEngine = TeX();
+    var svg = texEngine.tex2svg(texString);
+    if (svg.isEmpty || texEngine.error.isNotEmpty) {
+      throw Exception('error');
+    }
+  }
+  return texString;
+  /*
   // example:
   //   '[[2,4],[1,5]]'
   // is converted to
@@ -37,5 +56,5 @@ String convertMath2TeX(String s) {
     s = s.replaceAll('],[', ' \\\\');
     s = s.replaceAll(',', '&');
   }
-  return s;
+  return s;*/
 }
