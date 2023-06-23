@@ -16,11 +16,23 @@ void _createTable() {
   var testxxx = parser.parse("1/3", splitIdentifiers: false);
   var testyyy = testxxx.eval({});
 
-  var list = ["sqrt(2)/2", "sqrt(3)/2", "1/2", "1/3"];
+  var list = [
+    "sqrt(2)/2",
+    "sqrt(3)/2",
+    "1/2",
+    "1/3",
+    "(1/2)pi",
+    "(1/3)pi",
+    "(2/3)pi",
+    "(1/4)pi",
+    "(3/4)pi",
+    "(1/6)pi",
+    "(5/6)pi",
+  ];
   for (var i = 0; i < 2; i++) {
     for (var j = 0; j < list.length; j++) {
       var str = list[j];
-      if (i == 1) str = "-$str";
+      if (i == 1) str = "-($str)";
       var term = parser.parse(str, splitIdentifiers: false);
       var value = term.eval({}).real / term.eval({}).denominator;
       table[value] = term;
