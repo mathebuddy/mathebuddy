@@ -509,9 +509,11 @@ class Block_NEW {
           // pure math
           instance[v] = sym.value.toString();
           instance['@$v'] = sym.term.toString();
+          instance['@@$v'] = sym.term.clone().optimize().toString();
           // TeX
           instance['$v.tex'] = sym.value.toTeXString();
           instance['@$v.tex'] = sym.term.toTeXString();
+          instance['@@$v.tex'] = sym.term.clone().optimize().toTeXString();
         }
         data.instances.add(instance);
       } catch (e) {
