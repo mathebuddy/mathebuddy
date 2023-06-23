@@ -23,8 +23,8 @@ import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/level.dart';
 import 'package:mathebuddy/screen.dart';
 
-//var bundleName = 'assets/bundle-test.json'; // TODO: this is default!
-var bundleName = 'assets/bundle-complex.json';
+var bundleName = 'assets/bundle-test.json'; // TODO: this is default!
+//var bundleName = 'assets/bundle-complex.json';
 
 void main() {
   runApp(const MatheBuddy());
