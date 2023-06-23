@@ -13,19 +13,28 @@ MbclLevelItem parseInlineMath(Lexer lexer, MbclLevelItem? exercise) {
   var inlineMath = MbclLevelItem(MbclLevelItemType.inlineMath, -1);
   while (lexer.isNotTerminal('\$') && lexer.isNotEnd()) {
     var tk = lexer.getToken().token;
+    var prefix = '';
+    if (tk == '@' || tk == '@@') {
+      prefix = lexer.getToken().token;
+      lexer.next();
+      tk = lexer.getToken().token;
+    }
     var isId = lexer.getToken().type == LexerTokenType.id;
     lexer.next();
-    if (isId &&
-        exercise != null &&
-        (exercise.exerciseData as MbclExerciseData).variables.contains(tk)) {
-      var v = MbclLevelItem(MbclLevelItemType.variableReference, -1);
-      v.id = tk;
-      inlineMath.items.add(v);
-    } else {
-      var text = MbclLevelItem(MbclLevelItemType.text, -1);
-      text.text = tk;
-      inlineMath.items.add(text);
+    // variable reference
+    if (exercise != null) {
+      if (isId &&
+          (exercise.exerciseData as MbclExerciseData).variables.contains(tk)) {
+        var v = MbclLevelItem(MbclLevelItemType.variableReference, -1);
+        v.id = prefix + tk;
+        inlineMath.items.add(v);
+        continue;
+      }
     }
+    // default
+    var text = MbclLevelItem(MbclLevelItemType.text, -1);
+    text.text = tk;
+    inlineMath.items.add(text);
   }
   if (lexer.isTerminal('\$')) lexer.next();
   return inlineMath;
