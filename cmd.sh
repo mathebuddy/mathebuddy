@@ -38,7 +38,8 @@ do
     echo "[12] create bundle for alpha course"
     echo "[13] create bundle for complex numbers"
     echo "[14] update https://github.com/mathebuddy/alpha (must build web app + create bundle first)"
-    echo "[15] exit"
+    echo "[15] update https://github.com/mathebuddy/smoke (must build web app + create bundle first)"
+    echo "[16] exit"
     read x
     case $x in
     0)
@@ -144,6 +145,19 @@ do
             sed -i.bak 's/bundle-test.json/bundle-alpha.json/g' ../alpha/docs/index.html
         else
             echo "ERROR: alpha-repository must be placed next to mathebuddy repo"
+        fi
+        ;;
+    15)
+        # [15] update https://github.com/mathebuddy/smoke
+        DIR="../smoke/"
+        if [ -d "$DIR" ]; then
+            rm -rf ../smoke/docs/
+            mkdir -p ../smoke/docs/
+            cp -r app/build/web/* ../smoke/docs/
+            sed -i.bak 's/<base href="\/" \/>/<base href="\/smoke\/" \/>/g' ../smoke/docs/index.html
+            sed -i.bak 's/bundle-test.json/bundle-complex.json/g' ../smoke/docs/index.html
+        else
+            echo "ERROR: smoke-repository must be placed next to mathebuddy repo"
         fi
         ;;
     *)
