@@ -1,6 +1,10 @@
-EXERCISE @ex:konjGeo2
-    CHOICE_ALIGNMENT=horizontal
-    FIGURE
-        WIDTH=75
-        PATH=img/u1-konjGeoEx2.svg
-    Ordne für $z=z_1$ jeweils $z_1,z_2, z_3$ oder $z_4$ den folgenden Termen zu:
+EXERCISE 
+    @options
+    %choices-4
+    %timed-60
+    CODE
+        let r=rand(6,12)
+        let phi = rand({pi/2, pi, -pi, -pi/2});
+        let z= r*exp(phi*1i);
+    Was ist die Normalform von $"z"$ mit Polarkoordinaten $(r,phi)$?
+    $"z"=$ #z
