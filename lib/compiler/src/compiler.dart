@@ -221,7 +221,7 @@ class Compiler {
         // compile level
         var dirname = extractDirname(path);
         var levelPath = '$dirname$fileName.mbl';
-        compileLevel(levelPath);
+        compileLevel_NEW(levelPath); // compileLevel(levelPath);
         _unit?.levels.add(_level as MbclLevel);
         // set chapter meta data
         _level?.fileId = fileName;
