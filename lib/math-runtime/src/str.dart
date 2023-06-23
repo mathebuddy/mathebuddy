@@ -56,7 +56,7 @@ String term2string(Term term) {
   return s;
 }
 
-String term2tex(Term term) {
+String term2tex(Term term, {bool needParentheses = false}) {
   var s = '';
   switch (term.op) {
     case '#':
@@ -67,20 +67,41 @@ String term2tex(Term term) {
           term.value.type == OperandType.irrational ||
           term.value.type == OperandType.identifier) {
         s = term.value.toTeXString();
+      } else if (term.value.type == OperandType.complex) {
+        s = term.value.toTeXString();
       } else {
         s = '(${term.value})';
       }
       break;
     case '.-':
-      s += '(-(${term.o[0]}))'; // TODO: test!!
-      break;
+      {
+        // unary minus
+        if (needParentheses) {
+          s += '\\left(';
+        }
+        s += '-';
+        var p = false; // TODO!!!!
+        s += term.o[0].toTeXString(needParentheses: p);
+        if (needParentheses) {
+          s += '\\right(';
+        }
+        break;
+      }
     default:
-      if (term.op.length > 2) {
+      if (term.op == 'set') {
+        s += '\\left\\{';
+        for (var i = 0; i < term.o.length; i++) {
+          if (i > 0) s += ',';
+          s += term.o[i].toTeXString();
+        }
+        s += '\\right\\}';
+      } else if (term.op.length > 2) {
         // sin, cos, tan, exp, ... TODO!!
         if (term.op == 'sin' ||
             term.op == 'cos' ||
             term.op == 'tan' ||
-            term.op == 'exp') {
+            term.op == 'exp' ||
+            term.op == 'sqrt') {
           s += '\\';
         }
         s += term.op;
@@ -92,26 +113,44 @@ String term2tex(Term term) {
           }
           s += '>';
         }
-        s += '\\left(';
+        if (term.op != 'sqrt') {
+          s += '{\\left(';
+        }
         for (var i = 0; i < term.o.length; i++) {
           if (i > 0) s += ',';
           s += term.o[i].toTeXString();
         }
-        s += '\\right)';
+        if (term.op != 'sqrt') {
+          s += '\\right)}';
+        }
+      } else if (term.op == "/") {
+        var u = term.o[0].toTeXString();
+        var v = term.o[1].toTeXString();
+        s += "\\frac{$u}{$v}";
       } else {
         // '+', '-', ...
-        s += '(';
+        s += '{';
+        if (needParentheses) {
+          s += '\\left(';
+        }
         for (var i = 0; i < term.o.length; i++) {
           if (i > 0) {
             if (term.op == '*') {
-              s += '\\cdot';
+              s += '\\cdot ';
             } else {
               s += term.op;
             }
           }
-          s += term.o[i].toTeXString();
+          // TODO: must be improved (e.g. unary minus is missing)!!!
+          // TODO: skip "\cdot" before sin,cos,i,...
+          var p =
+              term.op == '*' && (term.o[i].op == '+' || term.o[i].op == '-');
+          s += term.o[i].toTeXString(needParentheses: p);
         }
-        s += ')';
+        if (needParentheses) {
+          s += '\\right)';
+        }
+        s += '}';
       }
       break;
   }
