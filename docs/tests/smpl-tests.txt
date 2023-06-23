@@ -27,12 +27,18 @@
 % ===============================================================
 
 
-let r=rand(2,4);
 
+let aaa = 2*cos(pi/4) + 2*sin(pi/4)*i;
+let bbb = complex(2*cos(pi/4), 2*sin(pi/4));
+!STOP
+
+let u = (2+3) * 4
+let v = 2 + (3*4)
+let w = 2^(3+4)
 let xxxxx = 2*cos(pi/4);
+!STOP
 
-let z1___=2*cos(pi/4) + 2*sin(pi/4)*i;
-
+let r=rand(2,4);
 let z1=complex(2*cos(pi/4), 2*sin(pi/4));
 let z4=complex(2*cos(-pi/3), 2*sin(-pi/3));
 let z2=complex(3*cos(pi*2/3), 3*sin(pi*2/3));
