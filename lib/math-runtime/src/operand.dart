@@ -1197,10 +1197,18 @@ class Operand {
       case OperandType.complex:
         {
           var s = '';
+          var hasRealPart = Operand.isZero(items[0]) == false;
+          var re = '';
+          if (hasRealPart) {
+            re = '${items[0].toTeXString()} ';
+          }
+          var im = items[1].toTeXString();
+          if (im == '1') im = '';
+          if (im == '-1') im = '-';
           if ((items[1].items.isEmpty) && items[1].real < 0) {
-            s = items[0].toTeXString() + ' ' + items[1].toTeXString() + 'i';
+            s = '$re $im i';
           } else {
-            s = items[0].toTeXString() + ' + ' + items[1].toTeXString() + 'i';
+            s = re + (hasRealPart ? '+ ' : '') + '$im i';
           }
           return s;
         }
@@ -1208,7 +1216,7 @@ class Operand {
         return '\\{${items.map((x) => x.toString()).join(',')}\\}';
       case OperandType.identifier:
       case OperandType.irrational:
-        return text;
+        return "\\$text";
       case OperandType.vector:
         {
           // TODO
