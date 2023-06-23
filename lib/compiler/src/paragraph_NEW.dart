@@ -48,7 +48,7 @@ class Paragraph {
     lexer.enableEmitNewlines(true);
     lexer.enableUmlautInID(true);
     lexer.pushSource('', raw);
-    lexer.setTerminals(['**', '#.', '-)']);
+    lexer.setTerminals(['**', '#.', '-)', '@@']);
     List<MbclLevelItem> res = [];
     while (lexer.isNotEnd()) {
       var part = _parseParagraphPart(lexer, srcRowIdx, ex);
@@ -251,7 +251,12 @@ class Paragraph {
             data.type = MbclInputFieldType.real;
             break;
           case OperandType.complex:
+            // TODO: keyboard with and without sqrt ??
+            //if (xyz) {
+            //  data.type = MbclInputFieldType.complexNormalXXX;
+            //} else {
             data.type = MbclInputFieldType.complexNormal;
+            //}
             break;
           case OperandType.matrix:
             data.type = MbclInputFieldType.matrix;
