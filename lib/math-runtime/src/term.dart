@@ -289,8 +289,8 @@ class Term {
     }
   }
 
-  String toTeXString() {
-    return term2tex(this);
+  String toTeXString({bool needParentheses = false}) {
+    return term2tex(this, needParentheses: needParentheses);
   }
 
   /// Converts the term object to a string.
