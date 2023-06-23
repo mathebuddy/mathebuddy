@@ -71,7 +71,10 @@ Term optTerm(Term term) {
         Operand.compareEqual(term.o[1].value, Operand.createInt(1))) {
       return term.o[0];
     }
-  } else if (term.op == 'sin' || term.op == 'cos') {
+  } else if (term.op == 'sin' ||
+      term.op == 'cos' ||
+      term.op == 'tan' ||
+      term.op == 'arg') {
     var arg = term.eval({}).real;
     var newTerm = number2Term(arg);
     if (newTerm != null) return newTerm;
