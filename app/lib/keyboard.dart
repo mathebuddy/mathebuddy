@@ -200,34 +200,32 @@ class Keyboard {
                       keyboardInputFieldData.cursorPos > 0) {
                     var oldValue = keyboardInputFieldData.studentValue;
                     var newValue = "";
-                    // TODO: must take care for special keys!
-                    /*var specialKeys = [
+                    var specialKeys = [
                       "pi",
                       "sin(",
                       "cos(",
                       "tan(",
                       "exp(",
-                      "ln("
+                      "log(",
+                      "sqrt("
                     ];
-                    var isSpecialKey = false;
-                    for (var specialKey in specialKeys) {
-                      if (oldValue.endsWith(specialKey)) {
-                        newValue = oldValue.substring(
-                            0, oldValue.length - specialKey.length);
-                        isSpecialKey = true;
+                    var specialKey = "";
+                    var oldValueLeftOfCursor =
+                        oldValue.substring(0, keyboardInputFieldData.cursorPos);
+                    for (var key in specialKeys) {
+                      if (oldValueLeftOfCursor.endsWith(key)) {
+                        specialKey = key;
                         break;
                       }
                     }
-                    if (isSpecialKey == false) {
-                      newValue = oldValue.substring(0, oldValue.length - 1);
-                    }*/
+                    var removeLength =
+                        specialKey.isEmpty ? 1 : specialKey.length;
                     newValue = oldValue.substring(
-                        0, keyboardInputFieldData.cursorPos - 1);
+                        0, keyboardInputFieldData.cursorPos - removeLength);
                     newValue +=
                         oldValue.substring(keyboardInputFieldData.cursorPos);
-                    //print(newValue);
                     keyboardInputFieldData.studentValue = newValue;
-                    keyboardInputFieldData.cursorPos--;
+                    keyboardInputFieldData.cursorPos -= removeLength;
                   }
                 } else if (key.value == '!E') {
                   // enter
@@ -252,7 +250,7 @@ class Keyboard {
                   keyboardInputFieldData.studentValue =
                       beforeCursor + key.value + afterCursor;
 
-                  keyboardInputFieldData.cursorPos++;
+                  keyboardInputFieldData.cursorPos += key.value.length;
                 }
                 keyboardState.exerciseData?.feedback =
                     MbclExerciseFeedback.unchecked;
