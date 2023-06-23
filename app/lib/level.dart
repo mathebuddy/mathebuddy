@@ -466,9 +466,10 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                       child: Center(child: feedbackText),
                     )))));
         var opacity = 1.0;
-        if (state.activeExercise != null) {
+        // TODO: improve + reactivate this
+        /*if (state.activeExercise != null) {
           opacity = item == state.activeExercise ? 1.0 : 0.3;
-        }
+        }*/
         return Opacity(
             opacity: opacity,
             child: Container(
