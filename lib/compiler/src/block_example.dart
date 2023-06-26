@@ -4,28 +4,28 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
-import '../../mbcl/src/level_item.dart';
+// import '../../mbcl/src/level_item.dart';
 
-import 'block.dart';
+// import 'block.dart';
 
-MbclLevelItem processExample(Block block) {
-  var example = MbclLevelItem(MbclLevelItemType.example, block.srcLine);
-  example.title = block.title;
-  example.label = block.label;
-  for (var blockItem in block.items) {
-    if (blockItem.type == BlockItemType.subBlock) {
-      block.processSubblock(example, blockItem.subBlock!);
-      continue;
-    }
-    var part = blockItem.part!;
-    switch (part.name) {
-      case 'global':
-        example.items
-            .addAll(block.compiler.parseParagraph(part.lines.join("\n")));
-        break;
-      default:
-        example.error += 'Unexpected part "${part.name}".';
-    }
-  }
-  return example;
-}
+// MbclLevelItem processExample(Block block) {
+//   var example = MbclLevelItem(MbclLevelItemType.example, block.srcLine);
+//   example.title = block.title;
+//   example.label = block.label;
+//   for (var blockItem in block.items) {
+//     if (blockItem.type == BlockItemType.subBlock) {
+//       block.processSubblock(example, blockItem.subBlock!);
+//       continue;
+//     }
+//     var part = blockItem.part!;
+//     switch (part.name) {
+//       case 'global':
+//         example.items
+//             .addAll(block.compiler.parseParagraph(part.lines.join("\n")));
+//         break;
+//       default:
+//         example.error += 'Unexpected part "${part.name}".';
+//     }
+//   }
+//   return example;
+// }
