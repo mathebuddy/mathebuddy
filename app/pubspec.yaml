@@ -21,7 +21,8 @@ dependencies:
   universal_html: ^2.0.9
   cupertino_icons: ^1.0.5
   flutter_svg: ^2.0.5
-  tex: ^0.5.1
+  tex: ^0.5.2
+  material_design_icons_flutter: ^7.0.7296
 
 dev_dependencies:
   flutter_test:
