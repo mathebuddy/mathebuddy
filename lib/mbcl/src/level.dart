@@ -24,6 +24,7 @@ class MbclLevel {
 
   // temporary
   List<String> requiresTmp = [];
+  bool visited = false; // TODO!!
 
   Map<String, dynamic> toJSON() {
     return {
