@@ -1,10 +1,24 @@
-EXERCISE 
-    @options
-    %choices-4
-    %timed-60
+
+EXERCISE
     CODE
-        let r=rand(6,12)
-        let phi = rand({pi/2, pi, -pi, -pi/2});
-        let z= r*exp(phi*1i);
-    Was ist die Normalform von $"z"$ mit Polarkoordinaten $(r,phi)$?
+        let r= rand(3,8);
+        let a= randZ(-1,1);
+        let tmp = rand({pi, pi/2});
+        let phi= a*tmp;
+        let z= r*cos(phi)+1i*r*sin(phi);
+    Gib die komplexe Zahl $"z"=r e^{@@phi i}$ in Normalform an 
+
     $"z"=$ #z
+
+
+
+
+%EXERCISE
+%    CODE
+%        let r= rand(3,8);
+%        let a= randZ(-1,1);
+%        let phi= a*rand({pi, pi/2})
+%        let z= r*cos(phi)+1i*r*sin(phi);
+%    Gib die komplexe Zahl $"z"=r e^{@@phi i}$ in Normalform an 
+%
+%    $"z"=$ #z
