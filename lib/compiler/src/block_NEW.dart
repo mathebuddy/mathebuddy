@@ -57,6 +57,31 @@ class Block_NEW {
           break;
         }
 
+      case 'PART':
+        {
+          level.numParts++;
+          var iconId = "";
+          for (var key in attributes.keys) {
+            var value = attributes[key]!;
+            switch (key) {
+              case "ICON":
+                {
+                  iconId = value.trim();
+                  break;
+                }
+              default:
+                var error = MbclLevelItem(MbclLevelItemType.error, srcLine);
+                parent?.items.add(error);
+                error.error += 'unknown attribute "$key"';
+                break;
+            }
+          }
+          level.partIconIDs.add(iconId);
+          var levelItem = MbclLevelItem(MbclLevelItemType.part, srcLine);
+          parent?.items.add(levelItem);
+          break;
+        }
+
       case 'EXAMPLE':
       case 'DEFINITION':
       case 'THEOREM':
@@ -68,6 +93,7 @@ class Block_NEW {
       case 'CLAIM':
       case 'IDENTITY':
       case 'PARADOX':
+      case 'TODO':
         {
           _setChildrenDefaultType("PARAGRAPH");
           var type = MbclLevelItemType.error;
@@ -104,6 +130,9 @@ class Block_NEW {
               break;
             case 'PARADOX':
               type = MbclLevelItemType.defParadox;
+              break;
+            case 'TODO':
+              type = MbclLevelItemType.todo;
               break;
           }
           var levelItem = MbclLevelItem(type, srcLine);
@@ -269,7 +298,31 @@ class Block_NEW {
             if (child.id == "CAPTION") {
               var p = Paragraph(compiler);
               data.caption = p.parseParagraph(child.data, srcLine, exercise);
+            } else if (child.id == "CODE") {
+              if (child.children.length != 1 ||
+                  child.children[0].id != "DEFAULT") {
+                figure.error += "Expected code.";
+                break;
+              }
+              data.code = child.children[0].data;
+              try {
+                var parser = smpl_parser.Parser();
+                parser.parse(data.code);
+                var ic = parser.getAbstractSyntaxTree() as smpl_node.AstNode;
+                var interpreter = smpl_interpreter.Interpreter();
+                var symbols = interpreter.runProgram(ic);
+                if (symbols.containsKey('__figure') == false) {
+                  figure.error += 'Code does generate a figure.';
+                } else {
+                  var figureSymbol =
+                      symbols['__figure'] as smpl_interpreter.InterpreterSymbol;
+                  data.data = figureSymbol.value.text;
+                }
+              } catch (e) {
+                figure.error += e.toString();
+              }
             }
+            // TODO: error if unknown
           }
           //print(figure.toJSON());
           break;
