@@ -165,10 +165,12 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
       }
     case MbclLevelItemType.newPage:
       {
-        return Text(
-          '', // TODO '\n--- page break will be here later ---\n',
+        // TODO
+        /*return Text(
+          'x', // TODO '\n--- page break will be here later ---\n',
           style: TextStyle(fontWeight: FontWeight.bold),
-        );
+        );*/
+        return Container();
       }
     case MbclLevelItemType.example:
       {
@@ -211,9 +213,19 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         }
         return Container(
             //color: Color.fromARGB(31, 255, 221, 198),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: Color.fromARGB(25, 255, 173, 97)),
+            //decoration: BoxDecoration(
+            //    borderRadius: BorderRadius.circular(8.0),
+            //    color: Color.fromARGB(22, 128, 128, 128)),
+            //padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.withOpacity(0.25),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3))
+            ]),
+            padding: EdgeInsets.only(bottom: 10.0),
+            margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -273,9 +285,18 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         }
         return Container(
             //color: Color.fromARGB(255, 255, 250, 234),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: Color.fromARGB(31, 192, 192, 192)),
+            //decoration: BoxDecoration(
+            //    borderRadius: BorderRadius.circular(8.0),
+            //    color: Color.fromARGB(31, 192, 192, 192)),
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.withOpacity(0.25),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3))
+            ]),
+            padding: EdgeInsets.only(bottom: 10.0),
+            margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -353,6 +374,54 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             border: TableBorder.all(),
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             children: rows);
+      }
+    case MbclLevelItemType.todo:
+      {
+        var opacity = 1.0;
+        List<Widget> list = [];
+        var title = Wrap(children: [
+          Padding(
+              padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
+              child: Row(children: [
+                Text(' '), // TODO: use padding instead of Text(' ')
+                Icon(
+                  Icons.build,
+                  size: 50.0,
+                  color: Colors.white,
+                ),
+                Text(' '),
+                // TODO: wrap does not work:
+                Flexible(
+                    child: Text(item.title,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20)))
+              ]))
+        ]);
+        list.add(title);
+        var text = "";
+        try {
+          text = item.items[0].items[0].text;
+        } catch (e) {}
+        list.add(Container(
+            margin: EdgeInsets.only(left: 5, right: 5),
+            child: RichText(
+                text: TextSpan(style: TextStyle(fontSize: 20), text: text))));
+        return Opacity(
+            opacity: opacity,
+            child: Container(
+                decoration: BoxDecoration(color: Colors.red, boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.25),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3))
+                ]),
+                padding: EdgeInsets.only(bottom: 10.0),
+                margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: list)));
       }
     case MbclLevelItemType.exercise:
       {
@@ -473,6 +542,14 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         return Opacity(
             opacity: opacity,
             child: Container(
+                decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.25),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3))
+                ]),
+                padding: EdgeInsets.only(bottom: 10.0),
                 margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -568,7 +645,9 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
           //child: Row(children: [button, text])));
         }
         if (exerciseData.horizontalSingleMultipleChoiceAlignment) {
-          return Row(children: mcOptions);
+          return Container(
+              margin: EdgeInsets.only(top: 5, bottom: 25),
+              child: Row(children: mcOptions));
         } else {
           return Column(children: mcOptions);
         }
