@@ -114,14 +114,14 @@ String term2tex(Term term, {bool needParentheses = false}) {
           s += '>';
         }
         if (term.op != 'sqrt') {
-          s += '{\\left(';
+          s += '{';
         }
         for (var i = 0; i < term.o.length; i++) {
           if (i > 0) s += ',';
           s += term.o[i].toTeXString();
         }
         if (term.op != 'sqrt') {
-          s += '\\right)}';
+          s += '}';
         }
       } else if (term.op == "/") {
         var u = term.o[0].toTeXString();
