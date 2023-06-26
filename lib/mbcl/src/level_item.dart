@@ -153,6 +153,7 @@ enum MbclLevelItemType {
   //multipleChoiceOption,
   newPage,
   paragraph,
+  part,
   reference,
   section,
   singleChoice,
@@ -162,6 +163,7 @@ enum MbclLevelItemType {
   subSubSection,
   table,
   text,
+  todo,
   variableReference
 }
 
