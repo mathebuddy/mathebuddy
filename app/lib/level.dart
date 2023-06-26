@@ -219,7 +219,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             //padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
             decoration: BoxDecoration(color: Colors.white, boxShadow: [
               BoxShadow(
-                  color: Colors.grey.withOpacity(0.25),
+                  color: Colors.grey.withOpacity(0.08),
                   spreadRadius: 5,
                   blurRadius: 7,
                   offset: Offset(0, 3))
@@ -290,7 +290,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             //    color: Color.fromARGB(31, 192, 192, 192)),
             decoration: BoxDecoration(color: Colors.white, boxShadow: [
               BoxShadow(
-                  color: Colors.grey.withOpacity(0.25),
+                  color: Colors.grey.withOpacity(0.08),
                   spreadRadius: 5,
                   blurRadius: 7,
                   offset: Offset(0, 3))
@@ -411,7 +411,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             child: Container(
                 decoration: BoxDecoration(color: Colors.red, boxShadow: [
                   BoxShadow(
-                      color: Colors.grey.withOpacity(0.25),
+                      color: Colors.grey.withOpacity(0.08),
                       spreadRadius: 5,
                       blurRadius: 7,
                       offset: Offset(0, 3))
@@ -544,7 +544,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             child: Container(
                 decoration: BoxDecoration(color: Colors.white, boxShadow: [
                   BoxShadow(
-                      color: Colors.grey.withOpacity(0.25),
+                      color: Colors.grey.withOpacity(0.08),
                       spreadRadius: 5,
                       blurRadius: 7,
                       offset: Offset(0, 3))
