@@ -17,10 +17,12 @@ class MbclLevel {
   int posX = -1;
   int posY = -1;
   String iconData = '';
+  int numParts = 0;
+  List<String> partIconIDs = [];
   List<MbclLevel> requires = [];
   List<MbclLevelItem> items = [];
 
-  // tmporary
+  // temporary
   List<String> requiresTmp = [];
 
   Map<String, dynamic> toJSON() {
@@ -31,6 +33,8 @@ class MbclLevel {
       "posX": posX,
       "posY": posY,
       "iconData": iconData,
+      "numParts": numParts,
+      "partIconIDs": partIconIDs.map((e) => e).toList(),
       "requires": requires.map((req) => req.fileId).toList(),
       "items": items.map((item) => item.toJSON()).toList(),
     };
@@ -43,9 +47,16 @@ class MbclLevel {
     posX = src["posX"];
     posY = src["posY"];
     iconData = src.containsKey("iconData") ? src["iconData"] : "";
+    numParts = src.containsKey("numParts") ? src["numParts"] : 1;
+    // icon ids
+    partIconIDs = [];
+    int n = src["partIconIDs"].length;
+    for (var i = 0; i < n; i++) {
+      partIconIDs.add(src["partIconIDs"][i]);
+    }
     // requires
     requires = [];
-    int n = src["requires"].length;
+    n = src["requires"].length;
     for (var i = 0; i < n; i++) {
       requiresTmp.add(src["requires"][i]);
     }
