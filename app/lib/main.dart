@@ -264,26 +264,27 @@ class CoursePageState extends State<CoursePage> {
           numRows = level.posY + 1;
         }
       }
-      var maxTileWidth = 200.0;
+      var maxTileWidth = 500.0;
 
-      var tileWidth = screenWidth / (numCols + 1);
+      var tileWidth = screenWidth / (numCols + 0.25);
       if (tileWidth > maxTileWidth) tileWidth = maxTileWidth;
       var tileHeight = tileWidth;
       //print('num rows: $numRows');
       //print('num cols: $numCols');
 
-      var spacing = 5.0;
-      var offsetX = (screenWidth - (tileWidth + spacing) * numCols) / 2;
+      var spacingX = 4.0;
+      var spacingY = 5.0;
+      var offsetX = (screenWidth - (tileWidth + spacingX) * numCols) / 2;
       var offsetY = 20.0;
 
       List<Widget> widgets = [];
       // Container is required for SingleChildScrollView
       widgets
-          .add(Container(height: offsetY + (tileHeight + spacing) * numRows));
+          .add(Container(height: offsetY + (tileHeight + spacingY) * numRows));
 
       for (var level in unit.levels) {
-        var x = offsetX + level.posX * (tileWidth + spacing);
-        var y = offsetY + level.posY * (tileHeight + spacing);
+        var x = offsetX + level.posX * (tileWidth + spacingX);
+        var y = offsetY + level.posY * (tileHeight + spacingY);
 
         Widget content = Text(
           level.title,
@@ -292,8 +293,9 @@ class CoursePageState extends State<CoursePage> {
         if (level.iconData.isNotEmpty) {
           content = SvgPicture.string(
             level.iconData,
-            width: tileWidth * 0.7,
+            width: tileWidth,
             color: Colors.white,
+            allowDrawingOutsideViewBox: true,
           );
         }
 
@@ -305,6 +307,7 @@ class CoursePageState extends State<CoursePage> {
                   _level = level;
                   _currentPart = 0;
                   _viewState = ViewState.level;
+                  level.visited = true;
                   //print('clicked on ${level.fileId}');
                   setState(() {});
                 },
@@ -313,18 +316,35 @@ class CoursePageState extends State<CoursePage> {
                     height: tileHeight,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: matheBuddyRed,
-                        border: Border.all(width: 1.5, color: matheBuddyRed),
+                        color: level.visited ? matheBuddyGreen : matheBuddyRed,
+                        //border: Border.all(width: 1.5, color: matheBuddyRed),
                         boxShadow: [
                           BoxShadow(
                               color: Colors.grey.withOpacity(0.6),
                               spreadRadius: 2.5,
-                              blurRadius: 5,
-                              offset: Offset(1.5, 3.0)),
+                              blurRadius: 3,
+                              offset: Offset(0.5, 1.5)),
                         ],
                         borderRadius: BorderRadius.all(
-                            Radius.circular(tileWidth * 0.15))),
+                            Radius.circular(tileWidth * 0.175))),
                     child: content)));
+        widgets.add(widget);
+
+        widget = Positioned(
+            left: 100,
+            top: 25,
+            child: Container(
+                //color: Colors.amber,
+                width: 80,
+                height: 80,
+                alignment: Alignment.center,
+                child: Transform.rotate(
+                    angle: 1,
+                    child: Icon(
+                      Icons.arrow_forward,
+                      size: 50,
+                      color: matheBuddyRed,
+                    ))));
         widgets.add(widget);
       }
 
@@ -375,28 +395,16 @@ class CoursePageState extends State<CoursePage> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   //border: Border.all(width: 20),
-                  borderRadius: BorderRadius.circular(50),
+                  borderRadius: BorderRadius.circular(21),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 3))
+                        color: Colors.grey.withOpacity(0.08),
+                        spreadRadius: 0,
+                        blurRadius: 15,
+                        offset: Offset(1, 3))
                   ]),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:
-                      icons /*[
-                  Icon(
-                    Icons.help_outline_outlined,
-                    size: iconSize,
-                    color: selectedColor,
-                  ),
-                  iconXX,
-                  Icon(Icons.check_box_outlined,
-                      size: iconSize, color: unselectedColor)
-                ],*/
-                  ))
+                  mainAxisAlignment: MainAxisAlignment.center, children: icons))
         ]));
       }
 
