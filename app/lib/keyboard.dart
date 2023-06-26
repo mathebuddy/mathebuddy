@@ -164,7 +164,7 @@ class Keyboard {
     for (var key in keyboardLayout.keys) {
       if (key == null || key.value == '#') continue;
 
-      var textColor = matheBuddyRed; //Colors.black87;
+      var textColor = Colors.black; //Colors.black87;
       var backgroundColor = Colors.white;
 
       var labelWidget = key.text.startsWith('icon:')
@@ -231,25 +231,13 @@ class Keyboard {
                   // enter
                   state.activeExercise = null;
                   keyboardState.layout = null;
-                  /*} else if (key.value == '!L') {
-                  if (keyboardInputFieldData.cursorPos > 0) {
-                    keyboardInputFieldData.cursorPos--;
-                  }
-                } else if (key.value == '!R') {
-                  if (keyboardInputFieldData.cursorPos <
-                      keyboardInputFieldData.studentValue.length) {
-                    keyboardInputFieldData.cursorPos++;
-                  }*/
                 } else {
-                  //keyboardInputFieldData.studentValue += key.value;
                   var beforeCursor = keyboardInputFieldData.studentValue
                       .substring(0, keyboardInputFieldData.cursorPos);
                   var afterCursor = keyboardInputFieldData.studentValue
                       .substring(keyboardInputFieldData.cursorPos);
-
                   keyboardInputFieldData.studentValue =
                       beforeCursor + key.value + afterCursor;
-
                   keyboardInputFieldData.cursorPos += key.value.length;
                 }
                 keyboardState.exerciseData?.feedback =
@@ -331,7 +319,7 @@ class Keyboard {
                       style: TextStyle(
                           fontSize: 28,
                           fontFamily: 'RobotoMono',
-                          color: matheBuddyRed),
+                          color: Colors.black),
                     )))))));
 
     // render cursor
@@ -352,21 +340,21 @@ class Keyboard {
     if (true /* TODO */ || bundleName.contains('bundle-test.json')) {
       var solution = keyboardState.inputFieldData!.expectedValue;
       widgets.add(Positioned(
-          left: 50,
-          top: 8,
-          child: RichText(
-              text: TextSpan(children: [
-            //WidgetSpan(
-            //    child: Icon(Icons.lightbulb_outlined,
-            //        size: 14, color: matheBuddyGreen)),
-            TextSpan(
-                text: "SOLUTION: ",
-                style: TextStyle(color: matheBuddyGreen, fontSize: 14)),
-            TextSpan(
-              text: solution,
-              style: TextStyle(color: matheBuddyGreen, fontSize: 14),
-            )
-          ]))));
+          left: 0,
+          top: 250,
+          child: Container(
+              color: matheBuddyGreen.withOpacity(0.8),
+              padding: EdgeInsets.all(2),
+              child: RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                    text: "",
+                    style: TextStyle(color: Colors.white, fontSize: 14)),
+                TextSpan(
+                  text: solution,
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                )
+              ])))));
     }
 
     return Container(
