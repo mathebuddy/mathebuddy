@@ -397,51 +397,51 @@ class Compiler {
     rootBlock.parse(this, _level!, null, 0, null);
   }
 
-  //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
-  void compileLevel(String path) {
-    equationNumber = 1;
-    // create a new level
-    _level = MbclLevel();
-    _chapter?.levels.add(_level as MbclLevel);
-    // get level source
-    var src = loadFile(path);
-    if (src.isEmpty) {
-      _error('Level file $path does not exist or is empty.');
-    }
-    // set source, split it into lines, trim these lines and
-    // filter out comments of each line
-    _srcLines = src.split('\n');
-    for (var k = 0; k < _srcLines.length; k++) {
-      var line = _srcLines[
-          k]; // .trim(); TODO: OK to entirely remove trimming?? NOT allowed for itemize
-      var tokens = line.split('%');
-      _srcLines[k] = tokens[0];
-    }
-    // init lexer
-    _i = -1;
-    _next();
-    // parse
-    while (_line != '§END') {
-      if (_line2.startsWith('#####')) {
-        _pushParagraph();
-        _parseLevelTitle();
-      } else if (_line2.startsWith('==')) {
-        _pushParagraph();
-        _level?.items.add(_parseSectionTitle());
-      } else if (_line2.startsWith('-----')) {
-        _pushParagraph();
-        _level?.items.add(_parseSubSectionTitle());
-      } else if (_line.startsWith('---')) {
-        _pushParagraph();
-        var block = _parseBlock(false, _i);
-        _level?.items.addAll(block.levelItems);
-      } else {
-        _paragraph += '$_line\n';
-        _next();
-      }
-    }
-    _pushParagraph();
-  }
+  // //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
+  // void compileLevel(String path) {
+  //   equationNumber = 1;
+  //   // create a new level
+  //   _level = MbclLevel();
+  //   _chapter?.levels.add(_level as MbclLevel);
+  //   // get level source
+  //   var src = loadFile(path);
+  //   if (src.isEmpty) {
+  //     _error('Level file $path does not exist or is empty.');
+  //   }
+  //   // set source, split it into lines, trim these lines and
+  //   // filter out comments of each line
+  //   _srcLines = src.split('\n');
+  //   for (var k = 0; k < _srcLines.length; k++) {
+  //     var line = _srcLines[
+  //         k]; // .trim(); TODO: OK to entirely remove trimming?? NOT allowed for itemize
+  //     var tokens = line.split('%');
+  //     _srcLines[k] = tokens[0];
+  //   }
+  //   // init lexer
+  //   _i = -1;
+  //   _next();
+  //   // parse
+  //   while (_line != '§END') {
+  //     if (_line2.startsWith('#####')) {
+  //       _pushParagraph();
+  //       _parseLevelTitle();
+  //     } else if (_line2.startsWith('==')) {
+  //       _pushParagraph();
+  //       _level?.items.add(_parseSectionTitle());
+  //     } else if (_line2.startsWith('-----')) {
+  //       _pushParagraph();
+  //       _level?.items.add(_parseSubSectionTitle());
+  //     } else if (_line.startsWith('---')) {
+  //       _pushParagraph();
+  //       var block = _parseBlock(false, _i);
+  //       _level?.items.addAll(block.levelItems);
+  //     } else {
+  //       _paragraph += '$_line\n';
+  //       _next();
+  //     }
+  //   }
+  //   _pushParagraph();
+  // }
 
   int createUniqueId() {
     return _uniqueIdCounter++;
@@ -468,99 +468,99 @@ class Compiler {
     }
   }
 
-  //G levelTitle = { CHAR } "@" { ID } NEWLINE "#####.." { "#" } NEWLINE;
-  void _parseLevelTitle() {
-    var tokens = _line.split('@');
-    _level?.title = tokens[0].trim();
-    if (tokens.length > 1) {
-      _level?.label = tokens[1].trim();
-    }
-    _next(); // skip document title
-    _next(); // skip '#####..'
-  }
+  // //G levelTitle = { CHAR } "@" { ID } NEWLINE "#####.." { "#" } NEWLINE;
+  // void _parseLevelTitle() {
+  //   var tokens = _line.split('@');
+  //   _level?.title = tokens[0].trim();
+  //   if (tokens.length > 1) {
+  //     _level?.label = tokens[1].trim();
+  //   }
+  //   _next(); // skip document title
+  //   _next(); // skip '#####..'
+  // }
 
-  //G sectionTitle = { CHAR } "@" { ID } NEWLINE "==.." { "#" } NEWLINE;
-  MbclLevelItem _parseSectionTitle() {
-    var section = MbclLevelItem(MbclLevelItemType.section, _i);
-    var tokens = _line.split('@');
-    section.text = tokens[0].trim();
-    if (tokens.length > 1) {
-      section.label = tokens[1].trim();
-    }
-    _next(); // skip section title
-    _next(); // skip '==..'
-    return section;
-  }
+  // //G sectionTitle = { CHAR } "@" { ID } NEWLINE "==.." { "#" } NEWLINE;
+  // MbclLevelItem _parseSectionTitle() {
+  //   var section = MbclLevelItem(MbclLevelItemType.section, _i);
+  //   var tokens = _line.split('@');
+  //   section.text = tokens[0].trim();
+  //   if (tokens.length > 1) {
+  //     section.label = tokens[1].trim();
+  //   }
+  //   _next(); // skip section title
+  //   _next(); // skip '==..'
+  //   return section;
+  // }
 
-  //G subSectionTitle = { CHAR } "@" { ID } NEWLINE "-----.." { "#" } NEWLINE;
-  MbclLevelItem _parseSubSectionTitle() {
-    var subSection = MbclLevelItem(MbclLevelItemType.subSection, _i);
-    var tokens = _line.split('@');
-    subSection.text = tokens[0].trim();
-    if (tokens.length > 1) {
-      subSection.label = tokens[1].trim();
-    }
-    _next(); // skip subSection title
-    _next(); // skip '-----..'
-    return subSection;
-  }
+  // //G subSectionTitle = { CHAR } "@" { ID } NEWLINE "-----.." { "#" } NEWLINE;
+  // MbclLevelItem _parseSubSectionTitle() {
+  //   var subSection = MbclLevelItem(MbclLevelItemType.subSection, _i);
+  //   var tokens = _line.split('@');
+  //   subSection.text = tokens[0].trim();
+  //   if (tokens.length > 1) {
+  //     subSection.label = tokens[1].trim();
+  //   }
+  //   _next(); // skip subSection title
+  //   _next(); // skip '-----..'
+  //   return subSection;
+  // }
 
-  //G block = "---" NEWLINE { "@" ID NEWLINE | LINE | subBlock } "---" NEWLINE;
-  //G subBlock = UPPERCASE_LINE NEWLINE { "@" ID NEWLINE | LINE | subBlock };
-  Block _parseBlock(bool parseSubBlock, int srcLine) {
-    var block = Block(this);
-    block.srcLine = srcLine;
-    if (!parseSubBlock) _next(); // skip "---"
-    var tokens = _line.split(' ');
-    for (var k = 0; k < tokens.length; k++) {
-      if (k == 0) {
-        block.type = tokens[k];
-      } else if (tokens[k].startsWith('@')) {
-        block.label = tokens[k].substring(1);
-      } else {
-        block.title += '${tokens[k]} ';
-      }
-    }
-    block.title = block.title.trim();
-    _next();
-    BlockPart part = BlockPart();
-    part.name = 'global';
-    block.addBlockPart(part);
-    while (_line.startsWith('---') == false && _line != '§END') {
-      if (_line.startsWith('@')) {
-        part = BlockPart();
-        block.addBlockPart(part);
-        part.name = _line.substring(1).trim();
-        _next();
-      } else if (_line.length >= 3 &&
-          _line.codeUnitAt(0) >= 'A'.codeUnitAt(0) &&
-          _line.codeUnitAt(0) <= 'Z'.codeUnitAt(0) &&
-          _line.substring(0, 3) == _line.toUpperCase().substring(0, 3)) {
-        if (parseSubBlock) {
-          if (_line.startsWith('END')) {
-            _next();
-          }
-          break;
-        } else {
-          block.addSubBlock(_parseBlock(true, srcLine));
-        }
-      } else {
-        part.lines.add(_line);
-        _next();
-      }
-    }
-    if (!parseSubBlock) {
-      if (_line.startsWith('---')) {
-        _next();
-      } else {
-        _error(
-          'block started in line ${block.srcLine} must end with ---',
-        );
-      }
-    }
-    block.process();
-    return block;
-  }
+  // //G block = "---" NEWLINE { "@" ID NEWLINE | LINE | subBlock } "---" NEWLINE;
+  // //G subBlock = UPPERCASE_LINE NEWLINE { "@" ID NEWLINE | LINE | subBlock };
+  // Block _parseBlock(bool parseSubBlock, int srcLine) {
+  //   var block = Block(this);
+  //   block.srcLine = srcLine;
+  //   if (!parseSubBlock) _next(); // skip "---"
+  //   var tokens = _line.split(' ');
+  //   for (var k = 0; k < tokens.length; k++) {
+  //     if (k == 0) {
+  //       block.type = tokens[k];
+  //     } else if (tokens[k].startsWith('@')) {
+  //       block.label = tokens[k].substring(1);
+  //     } else {
+  //       block.title += '${tokens[k]} ';
+  //     }
+  //   }
+  //   block.title = block.title.trim();
+  //   _next();
+  //   BlockPart part = BlockPart();
+  //   part.name = 'global';
+  //   block.addBlockPart(part);
+  //   while (_line.startsWith('---') == false && _line != '§END') {
+  //     if (_line.startsWith('@')) {
+  //       part = BlockPart();
+  //       block.addBlockPart(part);
+  //       part.name = _line.substring(1).trim();
+  //       _next();
+  //     } else if (_line.length >= 3 &&
+  //         _line.codeUnitAt(0) >= 'A'.codeUnitAt(0) &&
+  //         _line.codeUnitAt(0) <= 'Z'.codeUnitAt(0) &&
+  //         _line.substring(0, 3) == _line.toUpperCase().substring(0, 3)) {
+  //       if (parseSubBlock) {
+  //         if (_line.startsWith('END')) {
+  //           _next();
+  //         }
+  //         break;
+  //       } else {
+  //         block.addSubBlock(_parseBlock(true, srcLine));
+  //       }
+  //     } else {
+  //       part.lines.add(_line);
+  //       _next();
+  //     }
+  //   }
+  //   if (!parseSubBlock) {
+  //     if (_line.startsWith('---')) {
+  //       _next();
+  //     } else {
+  //       _error(
+  //         'block started in line ${block.srcLine} must end with ---',
+  //       );
+  //     }
+  //   }
+  //   block.process();
+  //   return block;
+  // }
 
   /*G
      paragraph =
