@@ -7,10 +7,13 @@
 import 'dart:convert';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:universal_html/html.dart' as html;
 
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flutter/rendering.dart';
 
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
@@ -23,8 +26,8 @@ import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/level.dart';
 import 'package:mathebuddy/screen.dart';
 
-var bundleName = 'assets/bundle-test.json'; // TODO: this is default!
-//var bundleName = 'assets/bundle-complex.json';
+//var bundleName = 'assets/bundle-test.json'; // TODO: this is default!
+var bundleName = 'assets/bundle-complex.json';
 
 void main() {
   runApp(const MatheBuddy());
@@ -35,6 +38,7 @@ class MatheBuddy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //debugPaintBaselinesEnabled = true;
     // mathe:buddy red: 0xFFAA322C
     return MaterialApp(
         title: 'mathe:buddy',
@@ -73,6 +77,8 @@ class CoursePageState extends State<CoursePage> {
   MbclChapter? _chapter;
   MbclUnit? _unit;
   MbclLevel? _level;
+  GlobalKey? _levelTitleKey;
+  int _currentPart = 0;
 
   MbclLevelItem? activeExercise; // TODO: must be private!
 
@@ -127,6 +133,7 @@ class CoursePageState extends State<CoursePage> {
     if (course.debug == MbclCourseDebug.level) {
       _chapter = _course?.chapters[0];
       _level = _chapter?.levels[0];
+      _currentPart = 0;
       _viewState = ViewState.level;
     } else if (course.debug == MbclCourseDebug.chapter) {
       _chapter = _course?.chapters[0];
@@ -257,7 +264,7 @@ class CoursePageState extends State<CoursePage> {
           numRows = level.posY + 1;
         }
       }
-      var maxTileWidth = 100.0;
+      var maxTileWidth = 200.0;
 
       var tileWidth = screenWidth / (numCols + 1);
       if (tileWidth > maxTileWidth) tileWidth = maxTileWidth;
@@ -265,7 +272,7 @@ class CoursePageState extends State<CoursePage> {
       //print('num rows: $numRows');
       //print('num cols: $numCols');
 
-      var spacing = 10.0;
+      var spacing = 5.0;
       var offsetX = (screenWidth - (tileWidth + spacing) * numCols) / 2;
       var offsetY = 20.0;
 
@@ -280,7 +287,7 @@ class CoursePageState extends State<CoursePage> {
 
         Widget content = Text(
           level.title,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: 10),
         );
         if (level.iconData.isNotEmpty) {
           content = SvgPicture.string(
@@ -296,6 +303,7 @@ class CoursePageState extends State<CoursePage> {
             child: GestureDetector(
                 onTap: () {
                   _level = level;
+                  _currentPart = 0;
                   _viewState = ViewState.level;
                   //print('clicked on ${level.fileId}');
                   setState(() {});
@@ -314,8 +322,8 @@ class CoursePageState extends State<CoursePage> {
                               blurRadius: 5,
                               offset: Offset(1.5, 3.0)),
                         ],
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(tileWidth * 0.4))),
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(tileWidth * 0.15))),
                     child: content)));
         widgets.add(widget);
       }
@@ -325,21 +333,130 @@ class CoursePageState extends State<CoursePage> {
     } else if (_viewState == ViewState.level) {
       // ----- level -----
       var level = _level as MbclLevel;
-      page.add(Padding(
+      // title
+      _levelTitleKey = GlobalKey();
+      var levelTitle = Padding(
+          key: _levelTitleKey,
           padding:
-              EdgeInsets.only(left: 3.0, right: 3.0, top: 5.0, bottom: 5.0),
+              EdgeInsets.only(left: 3.0, right: 3.0, top: 25.0, bottom: 25.0),
           child: Text(
-            level.title.toUpperCase(),
+            level.title, //.toUpperCase(),
             style: TextStyle(
                 color: matheBuddyRed,
                 fontSize: 28, // was previously "40"
                 fontWeight: FontWeight.bold),
-          )));
-      for (var item in level.items) {
-        page.add(generateLevelItem(this, item));
+          ));
+      page.add(levelTitle!);
+      // navigation bar
+      if (level.numParts > 0) {
+        var iconSize = 54.0;
+        var selectedColor = matheBuddyGreen; // TODO
+        var unselectedColor = Color.fromARGB(255, 123, 123, 123);
+
+        // TOOD: click animation
+        List<GestureDetector> icons = [];
+        for (var i = 0; i < level.partIconIDs.length; i++) {
+          var iconId = level.partIconIDs[i];
+          var icon = GestureDetector(
+              onTapDown: (TapDownDetails d) {
+                _currentPart = i;
+                setState(() {});
+              },
+              child: Icon(MdiIcons.fromString(iconId),
+                  size: iconSize,
+                  color: _currentPart == i ? selectedColor : unselectedColor));
+          icons.add(icon);
+        }
+
+        page.add(Column(children: [
+          Container(
+              margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+              padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  //border: Border.all(width: 20),
+                  borderRadius: BorderRadius.circular(50),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3))
+                  ]),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:
+                      icons /*[
+                  Icon(
+                    Icons.help_outline_outlined,
+                    size: iconSize,
+                    color: selectedColor,
+                  ),
+                  iconXX,
+                  Icon(Icons.check_box_outlined,
+                      size: iconSize, color: unselectedColor)
+                ],*/
+                  ))
+        ]));
       }
+
+      // level items
+      var part = -1;
+      for (var item in level.items) {
+        if (item.type == MbclLevelItemType.part) {
+          part++;
+        } else {
+          if (level.numParts > 0 && part != _currentPart) continue;
+          page.add(generateLevelItem(this, item));
+        }
+      }
+
+      // bottom navigation bar
+      var iconSize = 54.0;
+      List<Widget> buttons = [];
+      // left
+      if (level.numParts > 0 && _currentPart > 0) {
+        buttons.add(GestureDetector(
+            onTapDown: (TapDownDetails d) {
+              _currentPart--;
+              keyboardState.layout = null;
+              setState(() {});
+              Scrollable.ensureVisible(_levelTitleKey!.currentContext!);
+            },
+            child: Icon(MdiIcons.fromString("arrow-left-bold-box-outline"),
+                size: iconSize, color: Colors.black87)));
+      }
+      // up
+      buttons.add(GestureDetector(
+          onTapDown: (TapDownDetails d) {
+            keyboardState.layout = null;
+            _onHomeButton();
+            setState(() {});
+          },
+          child: Icon(MdiIcons.fromString("arrow-up-bold-box-outline"),
+              size: iconSize, color: Colors.black87)));
+      // right
+      if (level.numParts > 0 && _currentPart < level.numParts - 1) {
+        buttons.add(GestureDetector(
+            onTapDown: (TapDownDetails d) {
+              _currentPart++;
+              keyboardState.layout = null;
+              setState(() {});
+              Scrollable.ensureVisible(_levelTitleKey!.currentContext!);
+            },
+            child: Icon(MdiIcons.fromString("arrow-right-bold-box-outline"),
+                size: iconSize, color: Colors.black87)));
+      }
+      page.add(Column(children: [
+        Container(
+            margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+            padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.end, children: buttons))
+      ]));
+
       // add empty lines at the end; otherwise keyboard is in the way...
-      for (var i = 0; i < 20; i++) {
+      for (var i = 0; i < 10; i++) {
         // TODO
         page.add(Text("\n"));
       }
@@ -388,7 +505,8 @@ class CoursePageState extends State<CoursePage> {
           icon: Image.asset("assets/img/logoSmall.png"),
         ),
         actions: [
-          Container(
+          // TODO: reactivate progress bars
+          /*Container(
             alignment: Alignment.center,
             child: SizedBox(
               width: 25,
@@ -429,55 +547,18 @@ class CoursePageState extends State<CoursePage> {
               ),
             ),
           ),
-          Text('       '),
-          IconButton(
+          Text('       '),*/
+          // TODO: chat icon
+          /*IconButton(
             onPressed: () {
               // TODO
             },
             icon: Icon(Icons.chat, size: 36),
-          ),
+          ),*/
           Text('  '),
           IconButton(
             onPressed: () {
-              _reloadCourseBundle();
-              switch (_viewState) {
-                case ViewState.selectCourse:
-                  {
-                    // do nothing
-                    break;
-                  }
-                case ViewState.selectUnit:
-                  {
-                    _viewState = ViewState.selectCourse;
-                    _chapter = null;
-                    _level = null;
-                    keyboardState.layout = null;
-                    setState(() {});
-                    break;
-                  }
-                case ViewState.selectLevel:
-                  {
-                    _viewState = ViewState.selectUnit;
-                    keyboardState.layout = null;
-                    setState(() {});
-                    break;
-                  }
-                case ViewState.level:
-                  {
-                    if (_course!.debug == MbclCourseDebug.chapter) {
-                      _viewState = ViewState.selectLevel;
-                      keyboardState.layout = null;
-                      setState(() {});
-                    } else {
-                      _viewState = ViewState.selectCourse;
-                      _chapter = null;
-                      _level = null;
-                      keyboardState.layout = null;
-                      setState(() {});
-                    }
-                    break;
-                  }
-              }
+              _onHomeButton();
             },
             icon: Icon(Icons.home, size: 36),
           ),
@@ -494,5 +575,47 @@ class CoursePageState extends State<CoursePage> {
         child: const Icon(Icons.add),
       ),*/
     );
+  }
+
+  void _onHomeButton() {
+    _reloadCourseBundle();
+    switch (_viewState) {
+      case ViewState.selectCourse:
+        {
+          // do nothing
+          break;
+        }
+      case ViewState.selectUnit:
+        {
+          _viewState = ViewState.selectCourse;
+          _chapter = null;
+          _level = null;
+          keyboardState.layout = null;
+          setState(() {});
+          break;
+        }
+      case ViewState.selectLevel:
+        {
+          _viewState = ViewState.selectUnit;
+          keyboardState.layout = null;
+          setState(() {});
+          break;
+        }
+      case ViewState.level:
+        {
+          if (_course!.debug == MbclCourseDebug.chapter) {
+            _viewState = ViewState.selectLevel;
+            keyboardState.layout = null;
+            setState(() {});
+          } else {
+            _viewState = ViewState.selectCourse;
+            _chapter = null;
+            _level = null;
+            keyboardState.layout = null;
+            setState(() {});
+          }
+          break;
+        }
+    }
   }
 }
