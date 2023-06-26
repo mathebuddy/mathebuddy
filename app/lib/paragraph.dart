@@ -45,6 +45,10 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
         text: "${item.text} ",
         style: TextStyle(
             color: color,
+            height: 1.6, //1.6,
+            //overflow: TextOverflow.fade,
+            //letterSpacing: 0.1,
+            //wordSpacing: 0.0,
             fontSize: defaultFontSize,
             fontWeight: bold ? FontWeight.bold : FontWeight.normal,
             fontStyle: italic ? FontStyle.italic : FontStyle.normal),
@@ -131,10 +135,11 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
           }
         }
         var tex = TeX();
-        tex.scalingFactor = 1.0; //1.17;
+        tex.scalingFactor = 1.08; //1.17;
         //print("... tex src: $texSrc");
         var svg = tex.tex2svg(texSrc,
-            displayStyle: item.type == MbclLevelItemType.displayMath);
+            displayStyle: item.type == MbclLevelItemType.displayMath,
+            deltaYOffset: -110);
         var svgWidth = tex.width;
         if (svg.isEmpty) {
           return TextSpan(
@@ -142,13 +147,47 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
             style: TextStyle(color: Colors.red, fontSize: defaultFontSize),
           );
         } else {
+          //var viewBoxValues = "0 -795 3754 1591";
+//           var viewBoxValues = "0 0 3804 700";
+//           svg = '''
+// <svg width="75" height="32" xmlns="http://www.w3.org/2000/svg" role="img" focusable="false" viewBox="$viewBoxValues" xmlns:xlink="http://www.w3.org/1999/xlink">
+//   <defs>
+//     <path id="TEX-I-1D466" d="M21 287Q21 301 36 335T84 406T158 442Q199 442 224 419T250 355Q248 336 247 334Q247 331 231 288T198 191T182 105Q182 62 196 45T238 27Q261 27 281 38T312 61T339 94Q339 95 344 114T358 173T377 247Q415 397 419 404Q432 431 462 431Q475 431 483 424T494 412T496 403Q496 390 447 193T391 -23Q363 -106 294 -155T156 -205Q111 -205 77 -183T43 -117Q43 -95 50 -80T69 -58T89 -48T106 -45Q150 -45 150 -87Q150 -107 138 -122T115 -142T102 -147L99 -148Q101 -153 118 -160T152 -167H160Q177 -167 186 -165Q219 -156 247 -127T290 -65T313 -9T321 21L315 17Q309 13 296 6T270 -6Q250 -11 231 -11Q185 -11 150 11T104 82Q103 89 103 113Q103 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Z"></path>
+//     <path id="TEX-N-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path>
+//     <path id="TEX-N-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path>
+//     <path id="TEX-N-2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path>
+//     <path id="TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path>
+//   </defs>
+//   <g transform="scale(1,-1)">
+//     <g fill="rgb(0,0,0)" stroke-width="0" transform="translate(0.0,-650.0) scale(1.0000,1.0000)" data-token="y">
+//       <use xlink:href="#TEX-I-1D466"></use>
+//     </g>
+//     <g fill="rgb(0,0,0)" stroke-width="0" transform="translate(500.0,165.0) scale(0.7071,0.7071)" data-token="2">
+//       <use xlink:href="#TEX-N-32"></use>
+//     </g>
+//     <g fill="rgb(0,0,0)" stroke-width="0" transform="translate(1053.55,-210.0) scale(1.0000,1.0000)" data-token="=">
+//       <use xlink:href="#TEX-N-3D"></use>
+//     </g>
+//     <g fill="rgb(0,0,0)" stroke-width="0" transform="translate(2253.55,-210.0) scale(1.0000,1.0000)" data-token="-">
+//       <use xlink:href="#TEX-N-2212"></use>
+//     </g>
+//     <g fill="rgb(0,0,0)" stroke-width="0" transform="translate(3253.55,-210.0) scale(1.0000,1.0000)" data-token="1">
+//       <use xlink:href="#TEX-N-31"></use>
+//     </g>
+//   </g>
+// </svg>
+// ''';
           return WidgetSpan(
               alignment: PlaceholderAlignment.middle,
               child: Container(
+                  //decoration:
+                  //    BoxDecoration(border: Border.all(color: Colors.red)),
                   padding: EdgeInsets.only(right: 4.0),
                   child: SvgPicture.string(
                     svg,
                     width: svgWidth.toDouble(),
+                    allowDrawingOutsideViewBox: true,
+                    //height: 25.0,
                   )));
         }
       }
