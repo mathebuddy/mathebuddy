@@ -206,17 +206,24 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
         }
         Widget contents;
         Color feedbackColor = getFeedbackColor(exerciseData?.feedback);
+        var isActive = state.keyboardState.layout != null &&
+            state.keyboardState.inputFieldData == inputFieldData;
         if (inputFieldData.studentValue.isEmpty) {
           contents = RichText(
               text: TextSpan(children: [
             WidgetSpan(
-                child: Icon(
-              //Icons.keyboard,
-              //Icons.code,
-              Icons.settings_ethernet,
-              size: 42,
-              color: feedbackColor,
-            )),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: isActive
+                            ? feedbackColor.withOpacity(0.1)
+                            : Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                    child: Icon(
+                      //Icons.settings_ethernet,
+                      Icons.aspect_ratio,
+                      size: 32,
+                      color: feedbackColor,
+                    ))),
           ]));
         } else {
           var tex = TeX();
@@ -238,8 +245,17 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
           if (tex.error.isEmpty) {
             parts.add(WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
-                child:
-                    SvgPicture.string(svgData, width: tex.width.toDouble())));
+                child: Container(
+                    padding: isActive
+                        ? EdgeInsets.only(left: 5, right: 5)
+                        : EdgeInsets.all(0),
+                    decoration: BoxDecoration(
+                        color: isActive
+                            ? feedbackColor.withOpacity(0.1)
+                            : Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                    child: SvgPicture.string(svgData,
+                        width: tex.width.toDouble()))));
           } else {
             parts.add(TextSpan(
                 text: tex.error,
