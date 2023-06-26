@@ -189,7 +189,7 @@ class Keyboard {
               style: ElevatedButton.styleFrom(
                   backgroundColor: backgroundColor,
                   elevation: 3.0,
-                  shadowColor: Color.fromARGB(255, 229, 229, 229),
+                  shadowColor: Color.fromARGB(255, 0, 0, 0),
                   minimumSize: Size(buttonWidth, buttonHeight),
                   maximumSize: Size(buttonWidth, buttonHeight)),
               onPressed: () {
@@ -286,6 +286,22 @@ class Keyboard {
               } else if (newCursorPos > studentValue.length) {
                 newCursorPos = studentValue.length;
               }
+
+              // move cursor to right, if it is within e.g. "sqrt("
+              for (var i = 0; i < studentValue.length; i++) {
+                for (var key in keyboardLayout.keys) {
+                  if (key != null && key.value.startsWith("!") == false) {
+                    var keyToken = key.value;
+                    if (studentValue.substring(i).startsWith(keyToken)) {
+                      if (newCursorPos > i &&
+                          newCursorPos < i + keyToken.length) {
+                        newCursorPos = i + keyToken.length;
+                      }
+                    }
+                  }
+                }
+              }
+
               //print("newCursorPos=$newCursorPos");
               keyboardInputFieldData.cursorPos = newCursorPos;
               // ignore: invalid_use_of_protected_member
@@ -295,15 +311,18 @@ class Keyboard {
                 width: screenWidth - 20,
                 height: 45,
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 245, 245, 245),
-                    border: Border.all(
-                        color: Color.fromARGB(255, 197, 197, 197), width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color.fromARGB(255, 192, 192, 192),
-                          blurRadius: 3.0)
-                    ]),
+                  //color: Color.fromARGB(255, 245, 245, 245),
+                  color: Colors.white,
+                  //border: Border.all(
+                  //   color: Color.fromARGB(255, 197, 197, 197), width: 1.0),
+                  border: Border.all(color: Colors.black, width: 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //       color: Color.fromARGB(255, 192, 192, 192),
+                  //       blurRadius: 3.0)
+                  // ]
+                ),
                 child: Padding(
                     padding: EdgeInsets.only(top: 3.0),
                     child: Center(
@@ -330,29 +349,32 @@ class Keyboard {
         )));
 
     // render solution
-    if (bundleName.contains('bundle-test.json')) {
+    if (true /* TODO */ || bundleName.contains('bundle-test.json')) {
       var solution = keyboardState.inputFieldData!.expectedValue;
       widgets.add(Positioned(
-          left: 10,
-          top: 254,
+          left: 50,
+          top: 8,
           child: RichText(
               text: TextSpan(children: [
-            WidgetSpan(
-                child: Icon(Icons.lightbulb_outlined,
-                    size: 18, color: matheBuddyGreen)),
-            TextSpan(text: "  "),
+            //WidgetSpan(
+            //    child: Icon(Icons.lightbulb_outlined,
+            //        size: 14, color: matheBuddyGreen)),
+            TextSpan(
+                text: "SOLUTION: ",
+                style: TextStyle(color: matheBuddyGreen, fontSize: 14)),
             TextSpan(
               text: solution,
-              style: TextStyle(color: matheBuddyGreen),
+              style: TextStyle(color: matheBuddyGreen, fontSize: 14),
             )
           ]))));
     }
 
     return Container(
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 240, 240, 240),
-          border:
-              Border.all(width: 0.5, color: Color.fromARGB(135, 190, 190, 190)),
+          //color: Color.fromARGB(255, 240, 240, 240),
+          color: Colors.black87,
+          //border:
+          //    Border.all(width: 0.5, color: Color.fromARGB(135, 190, 190, 190)),
           //borderRadius: BorderRadius.only(
           //    topLeft: Radius.elliptical(screenWidth / 2, 5),
           //    topRight: Radius.elliptical(screenWidth / 2, 5))
