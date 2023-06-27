@@ -7,13 +7,13 @@
 
 % TODO: reference to keyboard
 
-EXERCISE
+EXERCISE @ex:expform2
     CODE
-        let r= rand(3,8);
-        let a= randZ(-1,1);
-        let tmp = rand({pi, pi/2});
-        let phi= a*tmp;
-        let z= r*cos(phi)+1i*r*sin(phi);
+        let r = rand(3,8);
+        let a = randZ(-1,1);
+        let tmp = rand({1, 1/2});
+        let phi = a * tmp * pi;
+        let z= r*cos(phi) + 1i*r*sin(phi);
     Gib die komplexe Zahl $"z"=r e^{@@phi i}$ in Normalform an 
 
     $"z"=$ #z
