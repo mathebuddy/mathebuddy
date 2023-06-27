@@ -25,10 +25,10 @@ var keyboardLayoutIntegerWithOperators = KeyboardLayout.parse('''
 ''');
 
 var keyboardLayoutReal = KeyboardLayout.parse('''
-7 8 9 !B
-4 5 6 !B
-1 2 3 !E
-0 . - !E
+7 8 9 pi !B
+4 5 6 /  !B
+1 2 3 -  !E
+0 0 0 0  !E
 ''');
 
 var keyboardLayoutRealWithOperators = KeyboardLayout.parse('''
