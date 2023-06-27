@@ -27,6 +27,20 @@
 % ===============================================================
 
 
+let a = -1
+let phi = a * pi
+a = 1
+phi = a * pi
+
+!STOP
+
+let r = rand(3,8)
+let a = randZ(-1,1)
+let tmp = rand({pi, pi/2})
+let phi = a * tmp
+let z = r*cos(phi) + 1i*r*sin(phi)
+
+!STOP
 
 let aaa = 2*cos(pi/4) + 2*sin(pi/4)*i;
 let bbb = complex(2*cos(pi/4), 2*sin(pi/4));
