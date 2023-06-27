@@ -131,13 +131,17 @@ class CoursePageState extends State<CoursePage> {
     var course = _course as MbclCourse;
     print("course title ${course.title}");
     if (course.debug == MbclCourseDebug.level) {
-      _chapter = _course?.chapters[0];
-      _level = _chapter?.levels[0];
+      _chapter = _course!.chapters[0];
+      _level = _chapter!.levels[0];
       _currentPart = 0;
       _viewState = ViewState.level;
     } else if (course.debug == MbclCourseDebug.chapter) {
-      _chapter = _course?.chapters[0];
+      _chapter = _course!.chapters[0];
       _viewState = ViewState.selectUnit;
+      if (_chapter!.units.length == 1) {
+        _unit = _chapter!.units[0];
+        _viewState = ViewState.selectLevel;
+      }
     }
     setState(() {});
   }
@@ -167,6 +171,8 @@ class CoursePageState extends State<CoursePage> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: split into multiple methods (or even classes)
+
     screenWidth = MediaQuery.of(context).size.width;
     scrollController = ScrollController();
 
@@ -209,7 +215,20 @@ class CoursePageState extends State<CoursePage> {
 
       var logo =
           Column(children: [Image.asset('assets/img/logo-large-en.png')]);
-      var contents = Column(children: [logo, coursesTable]);
+
+      var text = Padding(
+          padding: EdgeInsets.all(5),
+          child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(50)),
+              child: Text(
+                '  ALPHA  ',
+                style: TextStyle(color: matheBuddyRed, fontSize: 36),
+              )));
+
+      var contents = Column(children: [logo, text, coursesTable]);
 
       body = SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
     } else if (_viewState == ViewState.selectUnit) {
@@ -249,9 +268,9 @@ class CoursePageState extends State<CoursePage> {
       var unit = _unit!;
 
       var title = Padding(
-          padding: EdgeInsets.only(top: 20.0),
+          padding: EdgeInsets.only(top: 20.0, left: 10, right: 10),
           child: Text(unit.title,
-              style: TextStyle(color: matheBuddyRed, fontSize: 42.0)));
+              style: TextStyle(color: matheBuddyRed, fontSize: 32.0)));
 
       //print(_unit!.title);
       var numRows = 1;
@@ -266,7 +285,7 @@ class CoursePageState extends State<CoursePage> {
       }
       var maxTileWidth = 500.0;
 
-      var tileWidth = screenWidth / (numCols + 0.25);
+      var tileWidth = (screenWidth - 30) / (numCols);
       if (tileWidth > maxTileWidth) tileWidth = maxTileWidth;
       var tileHeight = tileWidth;
       //print('num rows: $numRows');
@@ -330,22 +349,23 @@ class CoursePageState extends State<CoursePage> {
                     child: content)));
         widgets.add(widget);
 
-        widget = Positioned(
-            left: 100,
-            top: 25,
-            child: Container(
-                //color: Colors.amber,
-                width: 80,
-                height: 80,
-                alignment: Alignment.center,
-                child: Transform.rotate(
-                    angle: 1,
-                    child: Icon(
-                      Icons.arrow_forward,
-                      size: 50,
-                      color: matheBuddyRed,
-                    ))));
-        widgets.add(widget);
+        // TODO: add edges (the following code renders an arrow)
+        // widget = Positioned(
+        //     left: 100,
+        //     top: 25,
+        //     child: Container(
+        //         //color: Colors.amber,
+        //         width: 80,
+        //         height: 80,
+        //         alignment: Alignment.center,
+        //         child: Transform.rotate(
+        //             angle: 1,
+        //             child: Icon(
+        //               Icons.arrow_forward,
+        //               size: 50,
+        //               color: matheBuddyRed,
+        //             ))));
+        // widgets.add(widget);
       }
 
       body = SingleChildScrollView(
@@ -353,27 +373,33 @@ class CoursePageState extends State<CoursePage> {
     } else if (_viewState == ViewState.level) {
       // ----- level -----
       var level = _level as MbclLevel;
+      List<Widget> levelHeadItems = [];
       // title
       _levelTitleKey = GlobalKey();
       var levelTitle = Padding(
           key: _levelTitleKey,
           padding:
-              EdgeInsets.only(left: 3.0, right: 3.0, top: 25.0, bottom: 25.0),
-          child: Text(
-            level.title, //.toUpperCase(),
-            style: TextStyle(
-                color: matheBuddyRed,
-                fontSize: 28, // was previously "40"
-                fontWeight: FontWeight.bold),
+              EdgeInsets.only(left: 3.0, right: 3.0, top: 5.0, bottom: 5.0),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.white, width: 4),
+                borderRadius: BorderRadius.circular(5)),
+            child: Text(level.title, //.toUpperCase(),
+                style: TextStyle(
+                    color: matheBuddyRed,
+                    fontSize:
+                        level.numParts > 0 ? 18 : 32, // was previously "40"
+                    fontWeight: FontWeight.bold)),
           ));
-      page.add(levelTitle!);
+      levelHeadItems.add(levelTitle);
       // navigation bar
       if (level.numParts > 0) {
-        var iconSize = 54.0;
+        // TOOD: click animation
+        var iconSize = 42.0;
         var selectedColor = matheBuddyGreen; // TODO
         var unselectedColor = Color.fromARGB(255, 123, 123, 123);
-
-        // TOOD: click animation
+        // part icons
         List<GestureDetector> icons = [];
         for (var i = 0; i < level.partIconIDs.length; i++) {
           var iconId = level.partIconIDs[i];
@@ -387,11 +413,23 @@ class CoursePageState extends State<CoursePage> {
                   color: _currentPart == i ? selectedColor : unselectedColor));
           icons.add(icon);
         }
+        // up icon
+        var icon = GestureDetector(
+            onTapDown: (TapDownDetails d) {
+              _onHomeButton();
+              setState(() {});
+            },
+            child: Padding(
+                padding: EdgeInsets.only(left: 30),
+                child: Icon(MdiIcons.fromString("arrow-up-circle-outline"),
+                    size: iconSize, color: unselectedColor)));
+        icons.add(icon);
 
-        page.add(Column(children: [
+        // panel
+        levelHeadItems.add(Column(children: [
           Container(
-              margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-              padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+              margin: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
+              padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
               decoration: BoxDecoration(
                   color: Colors.white,
                   //border: Border.all(width: 20),
@@ -419,7 +457,7 @@ class CoursePageState extends State<CoursePage> {
         }
       }
 
-      // bottom navigation bar
+      /*// bottom navigation bar
       var iconSize = 54.0;
       List<Widget> buttons = [];
       // left
@@ -461,7 +499,7 @@ class CoursePageState extends State<CoursePage> {
             padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.end, children: buttons))
-      ]));
+      ]));*/
 
       // add empty lines at the end; otherwise keyboard is in the way...
       for (var i = 0; i < 10; i++) {
@@ -478,14 +516,21 @@ class CoursePageState extends State<CoursePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: page)));
-      //body = scrollView as Widget;
-      body = Scrollbar(
+
+      body = Column(children: [
+        Column(children: levelHeadItems),
+        Expanded(
+            child: Scrollbar(
+                thumbVisibility: true,
+                controller: scrollController,
+                child: scrollView!))
+      ]);
+
+      /* OLD AND WORKING:
+        body = Scrollbar(
           thumbVisibility: true,
           controller: scrollController,
-          child: scrollView!);
-      //body = Shortcuts(shortcuts: <ShortcutActivator,Intent>{
-      //  SingleActivator()
-      //}, child: body);
+          child: scrollView!);*/
     }
 
     /*page.add(TextButton(
