@@ -72,6 +72,7 @@ String term2tex(Term term, {bool needParentheses = false}) {
       } else {
         s = '(${term.value})';
       }
+      s += ' ';
       break;
     case '.-':
       {
@@ -104,7 +105,7 @@ String term2tex(Term term, {bool needParentheses = false}) {
             term.op == 'sqrt') {
           s += '\\';
         }
-        s += term.op;
+        s += 'term.op ';
         if (term.dims.isNotEmpty) {
           s += '<';
           for (var i = 0; i < term.dims.length; i++) {
