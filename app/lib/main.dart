@@ -406,6 +406,7 @@ class CoursePageState extends State<CoursePage> {
           var icon = GestureDetector(
               onTapDown: (TapDownDetails d) {
                 _currentPart = i;
+                keyboardState.layout = null;
                 setState(() {});
               },
               child: Icon(MdiIcons.fromString(iconId),
@@ -413,7 +414,7 @@ class CoursePageState extends State<CoursePage> {
                   color: _currentPart == i ? selectedColor : unselectedColor));
           icons.add(icon);
         }
-        // up icon
+        // up icon (same as "home")
         var icon = GestureDetector(
             onTapDown: (TapDownDetails d) {
               _onHomeButton();
