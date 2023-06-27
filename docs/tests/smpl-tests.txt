@@ -26,20 +26,26 @@
 %             which is of type REAL
 % ===============================================================
 
-
-let a = -1
-let phi = a * pi
-a = 1
-phi = a * pi
-
+let r= 3;          % rand(3,8);
+let a= -1;          % randZ(-1,1);
+let tmp = pi/2     % rand({pi, pi/2});
+let phi= a * @tmp;
+let z= r*cos(phi)+1i*r*sin(phi);
 !STOP
 
-let r = rand(3,8)
-let a = randZ(-1,1)
-let tmp = rand({pi, pi/2})
-let phi = a * tmp
-let z = r*cos(phi) + 1i*r*sin(phi)
-
+!!!!!!! TODO: @@b3, ... must be shortened symbolically
+let r1/r2=rand(2,9);
+let a1/a2= rand(2,4);
+let b1= pi/a1;
+let b2= pi/a2;
+let r3= r1*r2;
+let r4= r1/r2;
+let r5= r2/r1;
+let r6= r1-r2;
+let b3 = @b1 + @b2
+let b4 = @b1 - @b2
+let b5 = @b2 - @b1
+let b6 = @b1 * @b2
 !STOP
 
 let aaa = 2*cos(pi/4) + 2*sin(pi/4)*i;
