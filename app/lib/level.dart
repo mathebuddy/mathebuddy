@@ -602,11 +602,18 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
             color: feedbackColor,
             size: 36,
           );
+          var correct = inputFieldData.expectedValue == "true";
           var button = Column(children: [
             Padding(
                 padding: EdgeInsets.only(
-                    left: 8.0, right: 2.0, top: 0.0, bottom: .0),
-                child: icon),
+                    left: 8.0, right: 2.0, top: 0.0, bottom: 0.0),
+                child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: correct
+                            ? matheBuddyGreen.withOpacity(0.25)
+                            : Colors.white),
+                    child: icon)),
           ]);
           var text = generateLevelItem(state, inputField.items[0],
               exerciseData: exerciseData);
