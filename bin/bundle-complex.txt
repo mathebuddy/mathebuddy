@@ -1,4 +1,4 @@
-UNIT-1-ALL:../../mathebuddy-private-courses/hm1/complex/index.mbl
+HM1 DEMO:../../mathebuddy-private-courses/hm1/complex/index.mbl
 
 u1-010-intro:../../mathebuddy-private-courses/hm1/complex/u1-010-intro.mbl
 u1-020-gausscheZahlenebene:../../mathebuddy-private-courses/hm1/complex/u1-020-gausscheZahlenebene.mbl
