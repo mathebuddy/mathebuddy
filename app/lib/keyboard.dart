@@ -257,11 +257,14 @@ class Keyboard {
     var cursorPos = keyboardInputFieldData.cursorPos;
     var charWidth = 16.8;
 
+    // input field
     widgets.add(Positioned(
         left: 10,
         top: 10,
         child: GestureDetector(
             onTapDown: (TapDownDetails d) {
+              // TODO: move to separate method
+
               // tap to change cursor position
               var x = d.globalPosition.dx;
               //print("x=$x");
@@ -304,7 +307,7 @@ class Keyboard {
                   //border: Border.all(
                   //   color: Color.fromARGB(255, 197, 197, 197), width: 1.0),
                   border: Border.all(color: Colors.black, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   // boxShadow: [
                   //   BoxShadow(
                   //       color: Color.fromARGB(255, 192, 192, 192),
@@ -341,10 +344,14 @@ class Keyboard {
       var solution = keyboardState.inputFieldData!.expectedValue;
       widgets.add(Positioned(
           left: 0,
-          top: 250,
+          top: 0,
           child: Container(
-              color: matheBuddyGreen.withOpacity(0.8),
-              padding: EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                  color: matheBuddyGreen.withOpacity(0.8),
+                  //border: Border.all(width: 1.0),
+                  borderRadius:
+                      BorderRadius.only(bottomRight: Radius.circular(2.0))),
+              padding: EdgeInsets.only(top: 0, bottom: 1.5, left: 5, right: 5),
               child: RichText(
                   text: TextSpan(children: [
                 TextSpan(
@@ -357,6 +364,7 @@ class Keyboard {
               ])))));
     }
 
+    // keyboard container
     return Container(
         decoration: BoxDecoration(
           //color: Color.fromARGB(255, 240, 240, 240),
