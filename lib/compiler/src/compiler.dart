@@ -14,7 +14,6 @@ import '../../mbcl/src/level_item.dart';
 import '../../mbcl/src/level.dart';
 import '../../mbcl/src/unit.dart';
 
-import 'block.dart';
 import 'block_NEW.dart';
 import 'course.dart';
 import 'exercise.dart';
