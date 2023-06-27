@@ -178,7 +178,7 @@ class Keyboard {
               style: TextStyle(
                   color: textColor,
                   fontSize:
-                      key.text.length >= 3 ? keyFontSizeSmall : keyFontSize));
+                      key.text.length >= 2 ? keyFontSizeSmall : keyFontSize));
       var buttonWidth = keyWidth * key.columnSpan.toDouble() - keyMargin;
       var buttonHeight = keyHeight * key.rowSpan.toDouble() - keyMargin;
 
