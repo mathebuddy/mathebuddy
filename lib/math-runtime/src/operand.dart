@@ -99,7 +99,7 @@ class Operand {
             y.type == OperandType.rational ||
             y.type == OperandType.real ||
             //y.type == OperandType.complex ||
-            x.type == OperandType.irrational)) {
+            y.type == OperandType.irrational)) {
       var xReal = x.real;
       //var xImag = x.imag;
       var yReal = y.real;
