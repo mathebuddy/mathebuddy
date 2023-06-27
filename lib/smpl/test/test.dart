@@ -79,6 +79,7 @@ void main() {
     exit(-1);
   }*/
 
+  // TODO: MOVE smpl-tests.txt FILE TO HERE!!
   var allSrc = File("../../docs/tests/smpl-tests.txt").readAsStringSync();
   var lines = allSrc.replaceAll("\r", "").split("\n");
   var src = '';
