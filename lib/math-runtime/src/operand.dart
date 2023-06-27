@@ -29,6 +29,35 @@ enum OperandType {
   string,
 }
 
+/// This is not a mathematically, but e.g. used to define the displayed keyboard
+/// type in the app...
+int getOperandTypeMightiness(OperandType t) {
+  switch (t) {
+    case OperandType.boolean:
+      return 0;
+    case OperandType.int:
+      return 1;
+    case OperandType.rational:
+      return 2;
+    case OperandType.real:
+      return 3;
+    case OperandType.irrational:
+      return 4;
+    case OperandType.complex:
+      return 5;
+    case OperandType.vector:
+      return 6;
+    case OperandType.matrix:
+      return 7;
+    case OperandType.set:
+      return 8;
+    case OperandType.identifier:
+      return 9;
+    case OperandType.string:
+      return 10;
+  }
+}
+
 class Operand {
   OperandType type = OperandType.real;
   num real =
