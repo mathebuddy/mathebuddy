@@ -53,13 +53,32 @@ Term optTerm(Term term) {
         oNew.add(oi);
       }
     }
-    if ((c - 1).abs() > 1e-12) oNew.insert(0, Term.createConstReal(c));
-    if (c.abs() < 1e-12) return Term.createConstInt(0);
-    if (oNew.length == 1) {
-      return oNew[0];
-    } else {
-      return Term.createOp('*', oNew, []);
+    if (c.abs() < 1e-12) {
+      // c == 0 -> return 0
+      return Term.createConstInt(0);
     }
+    var negative = false;
+    if ((c + 1).abs() < 1e-12) {
+      // c == -1 -> return -rest
+      negative = true;
+      // return TODO;
+    } else if ((c - 1).abs() > 1e-12) {
+      // c != 1 -> c * rest (otherwise: keep only rest)
+      oNew.insert(0, Term.createConstReal(c));
+    }
+    Term? res;
+    if (oNew.length == 1) {
+      // only one operand
+      res = oNew[0];
+    } else {
+      // two ore more operands -> create multiplication operation
+      res = Term.createOp('*', oNew, []);
+    }
+    if (negative) {
+      // '.-' := unary minus
+      res = Term.createOp('.-', [res], []);
+    }
+    return res;
   } else if (term.op == '^' && term.o.length == 2) {
     // x^0 = 1
     if (term.o[1].op == '#' &&
