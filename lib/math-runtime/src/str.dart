@@ -105,7 +105,7 @@ String term2tex(Term term, {bool needParentheses = false}) {
             term.op == 'sqrt') {
           s += '\\';
         }
-        s += 'term.op ';
+        s += '${term.op} ';
         if (term.dims.isNotEmpty) {
           s += '<';
           for (var i = 0; i < term.dims.length; i++) {
@@ -114,15 +114,19 @@ String term2tex(Term term, {bool needParentheses = false}) {
           }
           s += '>';
         }
-        if (term.op != 'sqrt') {
+        if (term.op == 'sqrt') {
           s += '{';
+        } else {
+          s += '\\left(';
         }
         for (var i = 0; i < term.o.length; i++) {
           if (i > 0) s += ',';
           s += term.o[i].toTeXString();
         }
-        if (term.op != 'sqrt') {
+        if (term.op == 'sqrt') {
           s += '}';
+        } else {
+          s += '\\right)';
         }
       } else if (term.op == "/") {
         var u = term.o[0].toTeXString();
