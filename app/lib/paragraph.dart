@@ -208,6 +208,7 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
         Color feedbackColor = getFeedbackColor(exerciseData?.feedback);
         var isActive = state.keyboardState.layout != null &&
             state.keyboardState.inputFieldData == inputFieldData;
+        var activeOpacity = 0.25;
         if (inputFieldData.studentValue.isEmpty) {
           contents = RichText(
               text: TextSpan(children: [
@@ -215,7 +216,7 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
                 child: Container(
                     decoration: BoxDecoration(
                         color: isActive
-                            ? feedbackColor.withOpacity(0.1)
+                            ? feedbackColor.withOpacity(activeOpacity)
                             : Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(4.0))),
                     child: Icon(
@@ -251,7 +252,7 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
                         : EdgeInsets.all(0),
                     decoration: BoxDecoration(
                         color: isActive
-                            ? feedbackColor.withOpacity(0.1)
+                            ? feedbackColor.withOpacity(activeOpacity)
                             : Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(4.0))),
                     child: SvgPicture.string(svgData,
