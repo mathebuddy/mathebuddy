@@ -19210,7 +19210,7 @@ Us:function Us(){},
 Ut:function Ut(){},
 H2(a,b,c){var s,r,q,p,o,n,m=a.a
 if(m===B.be||m===B.M||m===B.R||m===B.m||m===B.bs){s=b.a
-s=s===B.be||s===B.M||s===B.R||s===B.m||m===B.bs}else s=!1
+s=s===B.be||s===B.M||s===B.R||s===B.m||s===B.bs}else s=!1
 if(s){r=a.b
 q=b.b
 if(m===B.R)r/=a.c
@@ -21905,14 +21905,15 @@ r=r+"-"+A.oQ(a.c[0],!1)
 if(b)r+="\\right("
 break
 default:if(m==="set"){for(m=a.c,r="\\left\\{",q=0;q<m.length;++q){if(q>0)r+=","
-r+=A.oQ(m[q],!1)}r+="\\right\\}"}else if(m.length>2){r=(m==="sin"||m==="cos"||m==="tan"||m==="exp"||m==="sqrt"?"\\":"")+"term.op "
+r+=A.oQ(m[q],!1)}r+="\\right\\}"}else if(m.length>2){r=m==="sin"||m==="cos"||m==="tan"||m==="exp"||m==="sqrt"?"\\":""
+r+=m+" "
 s=a.d
 if(s.length!==0){r+="<"
 for(q=0;q<s.length;++q){if(q>0)r+=","
-r+=A.oQ(s[q],!1)}r+=">"}m=m!=="sqrt"
-if(m)r+="{"
+r+=A.oQ(s[q],!1)}r+=">"}m=m==="sqrt"
+r=m?r+"{":r+"\\left("
 for(s=a.c,q=0;q<s.length;++q){if(q>0)r+=","
-r+=A.oQ(s[q],!1)}if(m)r+="}"}else if(m==="/"){m=a.c
+r+=A.oQ(s[q],!1)}r=m?r+"}":r+"\\right)"}else if(m==="/"){m=a.c
 r="\\frac{"+A.oQ(m[0],!1)+"}{"+A.oQ(m[1],!1)+"}"}else{r=b?"{\\left(":"{"
 for(s=a.c,p=m==="*",q=0;q<s.length;++q){if(q>0)r=p?r+"\\cdot ":r+m
 if(p){o=s[q].a
