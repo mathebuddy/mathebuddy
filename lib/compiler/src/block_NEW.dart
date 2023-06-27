@@ -15,6 +15,8 @@ import '../../smpl/src/parser.dart' as smpl_parser;
 import '../../smpl/src/node.dart' as smpl_node;
 import '../../smpl/src/interpreter.dart' as smpl_interpreter;
 
+import '../../math-runtime/src/operand.dart' as math_operand;
+
 import 'compiler.dart';
 import 'math.dart';
 import 'paragraph_NEW.dart';
@@ -550,12 +552,32 @@ class Block_NEW {
         var interpreter = smpl_interpreter.Interpreter();
         var symbols = interpreter.runProgram(ic);
         if (i == 0) {
+          // add variables names
           for (var symId in symbols.keys) {
             var sym = symbols[symId] as smpl_interpreter.InterpreterSymbol;
             data.variables.add(symId);
-            data.smplOperandType[symId] = sym.value.type.name;
           }
         }
+        // set types
+        for (var symId in symbols.keys) {
+          var sym = symbols[symId] as smpl_interpreter.InterpreterSymbol;
+          if (i == 0) {
+            // first instance: just set type
+            data.smplOperandType[symId] = sym.value.type.name;
+          } else {
+            var currentType = math_operand.OperandType.values
+                .byName(data.smplOperandType[symId]!);
+            var type = sym.value.type;
+            // further instances: check if type is "more mighty" than the
+            // type currently set
+            if (currentType != type &&
+                math_operand.getOperandTypeMightiness(type) >
+                    math_operand.getOperandTypeMightiness(currentType)) {
+              data.smplOperandType[symId] = type.name;
+            }
+          }
+        }
+        // fill instances
         Map<String, String> instance = {};
         for (var v in data.variables) {
           var sym = symbols[v] as smpl_interpreter.InterpreterSymbol;
