@@ -1,9 +1,9 @@
 
-KEYBOARD @myKeyboard1
-    7 8 9 +
-    4 5 6 -
-    1 2 3 *
-    0 0 0 !E
+%KEYBOARD @myKeyboard1
+%    7 8 9 +
+%    4 5 6 -
+%    1 2 3 *
+%    0 0 0 !E
 
 % TODO: reference to keyboard
 
@@ -18,9 +18,7 @@ EXERCISE
 
     $"z"=$ #z
 
-
-
-
+% === ORIGINAL ===
 %EXERCISE
 %    CODE
 %        let r= rand(3,8);
