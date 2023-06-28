@@ -536,7 +536,7 @@ Widget generateLevelItem(
           ),
         );
 
-        var renewButton = GestureDetector(
+        var retryButton = GestureDetector(
             onTap: () {
               // force to get a new instance
               exerciseData.reset();
@@ -565,11 +565,14 @@ Widget generateLevelItem(
             ));
 
         List<Widget> buttons = [];
-        buttons.add(validateButton);
-        buttons.add(Text('   '));
-        if (exerciseData.feedback == MbclExerciseFeedback.correct &&
-            exerciseData.instances.length > 1) {
-          buttons.add(renewButton);
+        if (level.isEvent == false) {
+          buttons.add(validateButton);
+          buttons.add(Text('   '));
+          if (exerciseData.disableRetry == false &&
+              exerciseData.feedback == MbclExerciseFeedback.correct &&
+              exerciseData.instances.length > 1) {
+            buttons.add(retryButton);
+          }
         }
 
         list.add(Row(
