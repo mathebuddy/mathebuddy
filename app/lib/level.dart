@@ -477,67 +477,103 @@ Widget generateLevelItem(
             break;
         }
 
-        list.add(GestureDetector(
-            onTap: () {
-              print("----- evaluating exercise -----");
-              state.keyboardState.layout = null;
-              // check exercise: TODO must implement in e.g. new file exercise.dart
-              var allCorrect = true;
-              for (var inputFieldId in exerciseData.inputFields.keys) {
-                var inputField = exerciseData.inputFields[inputFieldId]
-                    as MbclInputFieldData;
+        // button row: validation button + new random exercise button (if correct)
+        var validateButton = GestureDetector(
+          onTap: () {
+            print("----- evaluating exercise -----");
+            state.keyboardState.layout = null;
+            // check exercise: TODO must implement in e.g. new file exercise.dart
+            var allCorrect = true;
+            for (var inputFieldId in exerciseData.inputFields.keys) {
+              var inputField =
+                  exerciseData.inputFields[inputFieldId] as MbclInputFieldData;
 
-                var ok = false;
-                try {
-                  var studentTerm =
-                      term_parser.Parser().parse(inputField.studentValue);
-                  var expectedTerm =
-                      term_parser.Parser().parse(inputField.expectedValue);
-                  print("comparing $studentTerm to $expectedTerm");
-                  ok = expectedTerm.compareNumerically(studentTerm);
-                } catch (e) {
-                  // TODO: give GUI feedback, that term is not well formed, ...
-                  print("evaluating answer failed: $e");
-                  ok = false;
-                }
-                if (ok) {
-                  print("answer OK");
-                } else {
-                  allCorrect = false;
-                  print("answer wrong: expected ${inputField.expectedValue},"
-                      " got ${inputField.studentValue}");
-                }
+              var ok = false;
+              try {
+                var studentTerm =
+                    term_parser.Parser().parse(inputField.studentValue);
+                var expectedTerm =
+                    term_parser.Parser().parse(inputField.expectedValue);
+                print("comparing $studentTerm to $expectedTerm");
+                ok = expectedTerm.compareNumerically(studentTerm);
+              } catch (e) {
+                // TODO: give GUI feedback, that term is not well formed, ...
+                print("evaluating answer failed: $e");
+                ok = false;
               }
-              if (allCorrect) {
-                print("... all answers are correct!");
-                exerciseData.feedback = MbclExerciseFeedback.correct;
+              if (ok) {
+                print("answer OK");
               } else {
-                print("... at least one answer is incorrect!");
-                exerciseData.feedback = MbclExerciseFeedback.incorrect;
+                allCorrect = false;
+                print("answer wrong: expected ${inputField.expectedValue},"
+                    " got ${inputField.studentValue}");
               }
+            }
+            if (allCorrect) {
+              print("... all answers are correct!");
+              exerciseData.feedback = MbclExerciseFeedback.correct;
+            } else {
+              print("... at least one answer is incorrect!");
+              exerciseData.feedback = MbclExerciseFeedback.incorrect;
+            }
+            level.calcProgress();
+            print("----- end of exercise evaluation -----");
+            // ignore: invalid_use_of_protected_member
+            state.setState(() {});
+          },
+          child: Container(
+            width: 75, //double.infinity,
+            //padding: EdgeInsets.only(left: 15, right: 5),
+            decoration: BoxDecoration(
+                border: Border.all(
+                    width: 2.5, color: feedbackColor, style: BorderStyle.solid),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
+            child: Center(child: feedbackText),
+          ),
+        );
+
+        var renewButton = GestureDetector(
+            onTap: () {
+              // force to get a new instance
+              exerciseData.reset();
               level.calcProgress();
-              print("----- end of exercise evaluation -----");
               // ignore: invalid_use_of_protected_member
               state.setState(() {});
             },
-            child: Center(
-                child: Container(
-                    margin: EdgeInsets.only(left: 20, top: 0, right: 20),
-                    child: Container(
-                      width: 75, //double.infinity,
-                      //padding: EdgeInsets.only(left: 15, right: 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 2.5,
-                              color: feedbackColor,
-                              style: BorderStyle.solid),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(5),
-                              bottomRight: Radius.circular(5),
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20))),
-                      child: Center(child: feedbackText),
-                    )))));
+            child: Container(
+              width: 75, //double.infinity,
+              //padding: EdgeInsets.only(left: 15, right: 5),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 2.5,
+                      color: feedbackColor,
+                      style: BorderStyle.solid),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Center(
+                  child: Icon(
+                Icons.autorenew,
+                color: feedbackColor,
+              )),
+            ));
+
+        List<Widget> buttons = [];
+        buttons.add(validateButton);
+        buttons.add(Text('   '));
+        if (exerciseData.feedback == MbclExerciseFeedback.correct &&
+            exerciseData.instances.length > 1) {
+          buttons.add(renewButton);
+        }
+
+        list.add(Row(
+            mainAxisAlignment: MainAxisAlignment.center, children: buttons));
         var opacity = 1.0;
         // TODO: improve + reactivate this
         /*if (state.activeExercise != null) {
