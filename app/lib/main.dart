@@ -585,22 +585,24 @@ class CoursePageState extends State<CoursePage> {
     // level percentage
     if (_viewState == ViewState.level) {
       var percentage = (_level!.progress * 100).round();
-      if (percentage == 100) {
-        var icon = Icon(
-          Icons.check_circle_outline_outlined,
-          size: 42,
-          color: matheBuddyGreen,
-        );
-        actions.add(icon);
-      } else {
-        var actionLevelPercentage = Padding(
-            padding: EdgeInsets.only(top: 12),
-            child: Text(
-              '$percentage %',
-              style: TextStyle(fontSize: 28, color: Colors.black87),
-            ));
-        actions.add(actionLevelPercentage);
-      }
+      // if (percentage == 100) {
+      //   var icon = Icon(
+      //     Icons.check_circle_outline_outlined,
+      //     size: 42,
+      //     color: matheBuddyGreen,
+      //   );
+      //   actions.add(icon);
+      // } else {
+      var actionLevelPercentage = Padding(
+          padding: EdgeInsets.only(top: 12),
+          child: Text(
+            '$percentage %',
+            style: TextStyle(
+                fontSize: 28,
+                color: percentage == 100 ? matheBuddyGreen : Colors.black87),
+          ));
+      actions.add(actionLevelPercentage);
+      //}
     }
     // home button
     actions.add(Text('  '));
