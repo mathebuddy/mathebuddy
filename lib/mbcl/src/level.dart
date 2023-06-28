@@ -14,8 +14,8 @@ class MbclLevel {
       ''; // all references go here; label is only used for searching
   String title = '';
   String label = '';
-  int posX = -1;
-  int posY = -1;
+  double posX = -1;
+  double posY = -1;
   String iconData = '';
   int numParts = 0;
   List<String> partIconIDs = [];
@@ -25,6 +25,8 @@ class MbclLevel {
   // temporary
   List<String> requiresTmp = [];
   bool visited = false; // TODO!!
+  double screenPosX = 0.0;
+  double screenPosY = 0.0;
 
   Map<String, dynamic> toJSON() {
     return {
