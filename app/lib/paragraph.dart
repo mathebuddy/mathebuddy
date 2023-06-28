@@ -236,9 +236,11 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
 
           var studentValue = inputFieldData.studentValue;
           var studentValueTeX = studentValue;
+          var texValid = true;
           try {
             studentValueTeX = convertMath2TeX(studentValue, true);
           } catch (e) {
+            texValid = false;
             studentValueTeX =
                 studentValueTeX.replaceAll("{", "\\{").replaceAll("}", "\\}");
           }
@@ -251,10 +253,19 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
                         ? EdgeInsets.only(left: 5, right: 5)
                         : EdgeInsets.all(0),
                     decoration: BoxDecoration(
+                        border: texValid
+                            ? null
+                            : Border(
+                                top: BorderSide(
+                                    color: matheBuddyRed, width: 1.5),
+                                bottom: BorderSide(
+                                    color: matheBuddyRed, width: 1.5)),
                         color: isActive
                             ? feedbackColor.withOpacity(activeOpacity)
                             : Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                        borderRadius: texValid
+                            ? BorderRadius.all(Radius.circular(4.0))
+                            : null),
                     child: SvgPicture.string(svgData,
                         width: tex.width.toDouble()))));
           } else {
