@@ -6,6 +6,7 @@
 
 import 'dart:math';
 
+import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,7 +19,8 @@ import 'package:mathebuddy/help.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/paragraph.dart';
 
-Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
+Widget generateLevelItem(
+    CoursePageState state, MbclLevel level, MbclLevelItem item,
     {paragraphPaddingLeft = 3.0,
     paragraphPaddingRight = 3.0,
     paragraphPaddingTop = 10.0,
@@ -84,8 +86,8 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
       {
         List<Widget> list = [];
         for (var subItem in item.items) {
-          list.add(
-              generateLevelItem(state, subItem, exerciseData: exerciseData));
+          list.add(generateLevelItem(state, level, subItem,
+              exerciseData: exerciseData));
         }
         return Padding(
             padding: EdgeInsets.all(3.0),
@@ -144,8 +146,8 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                 padding: EdgeInsets.only(top: 4.0, left: 7.0),
                 child: Text("${String.fromCharCode("a".codeUnitAt(0) + i)})"));
           }
-          var content =
-              generateLevelItem(state, subItem, exerciseData: exerciseData);
+          var content = generateLevelItem(state, level, subItem,
+              exerciseData: exerciseData);
           var row = Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,7 +207,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           list.add(Wrap(children: [
-            generateLevelItem(state, subItem,
+            generateLevelItem(state, level, subItem,
                 paragraphPaddingLeft: 10.0,
                 paragraphPaddingTop: i == 0 ? 0.0 : 10.0,
                 exerciseData: exerciseData)
@@ -277,7 +279,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           list.add(Wrap(children: [
-            generateLevelItem(state, subItem,
+            generateLevelItem(state, level, subItem,
                 paragraphPaddingLeft: 10.0,
                 paragraphPaddingTop: i == 0 ? 0.0 : 10.0,
                 exerciseData: exerciseData)
@@ -341,7 +343,8 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         }
         // caption
         if (figureData.caption.isNotEmpty) {
-          Widget caption = generateLevelItem(state, figureData.caption[0]);
+          Widget caption =
+              generateLevelItem(state, level, figureData.caption[0]);
           rows.add(Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [caption]));
@@ -356,7 +359,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         // head
         List<TableCell> headColumns = [];
         for (var columnData in tableData.head.columns) {
-          var cell = generateLevelItem(state, columnData);
+          var cell = generateLevelItem(state, level, columnData);
           headColumns.add(TableCell(child: cell));
         }
         rows.add(TableRow(children: headColumns));
@@ -364,7 +367,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         for (var rowData in tableData.rows) {
           List<TableCell> columns = [];
           for (var columnData in rowData.columns) {
-            var cell = generateLevelItem(state, columnData);
+            var cell = generateLevelItem(state, level, columnData);
             columns.add(TableCell(child: cell));
           }
           rows.add(TableRow(children: columns));
@@ -452,7 +455,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           list.add(Wrap(children: [
-            generateLevelItem(state, subItem,
+            generateLevelItem(state, level, subItem,
                 paragraphPaddingLeft: 10.0,
                 paragraphPaddingTop: i == 0 ? 5.0 : 10.0,
                 exerciseData: item.exerciseData)
@@ -512,6 +515,7 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                 print("... at least one answer is incorrect!");
                 exerciseData.feedback = MbclExerciseFeedback.incorrect;
               }
+              level.calcProgress();
               print("----- end of exercise evaluation -----");
               // ignore: invalid_use_of_protected_member
               state.setState(() {});
@@ -611,11 +615,11 @@ Widget generateLevelItem(CoursePageState state, MbclLevelItem item,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                         color: correct
-                            ? matheBuddyGreen.withOpacity(0.25)
+                            ? feedbackColor.withOpacity(0.25)
                             : Colors.white),
                     child: icon)),
           ]);
-          var text = generateLevelItem(state, inputField.items[0],
+          var text = generateLevelItem(state, level, inputField.items[0],
               exerciseData: exerciseData);
           if (exerciseData.horizontalSingleMultipleChoiceAlignment == false) {
             text = Flexible(child: text);
