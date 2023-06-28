@@ -7,6 +7,7 @@
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
 import 'level_item.dart';
+import 'event.dart';
 
 class MbclLevel {
   // import/export
@@ -14,6 +15,7 @@ class MbclLevel {
       ''; // all references go here; label is only used for searching
   String title = '';
   String label = '';
+
   double posX = -1; // used in level overview
   double posY = -1; // used in level overview
   String iconData = '';
@@ -21,6 +23,7 @@ class MbclLevel {
   List<String> partIconIDs = [];
   List<MbclLevel> requires = [];
   List<MbclLevelItem> items = [];
+  bool isEvent = false;
 
   // temporary
   List<String> requiresTmp = [];
@@ -28,6 +31,7 @@ class MbclLevel {
   double screenPosX = 0.0; // used in level overview
   double screenPosY = 0.0; // used in level overview
   double progress = 0.0; // percentage of correct exercises [0,1]
+  MbclEventData? eventData;
 
   Map<String, dynamic> toJSON() {
     return {
@@ -41,6 +45,7 @@ class MbclLevel {
       "partIconIDs": partIconIDs.map((e) => e).toList(),
       "requires": requires.map((req) => req.fileId).toList(),
       "items": items.map((item) => item.toJSON()).toList(),
+      "isEvent": isEvent
     };
   }
 
@@ -72,6 +77,8 @@ class MbclLevel {
       item.fromJSON(src["items"][i]);
       items.add(item);
     }
+    // event
+    isEvent = src["isEvent"];
   }
 
   void calcProgress() {
