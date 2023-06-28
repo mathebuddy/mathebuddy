@@ -456,12 +456,12 @@ class Compiler {
     return _uniqueIdCounter++;
   }
 
-  void _pushParagraph() {
-    if (_paragraph.trim().isNotEmpty) {
-      _level?.items.addAll(parseParagraph(_paragraph));
-      _paragraph = '';
-    }
-  }
+  // void _pushParagraph() {
+  //   if (_paragraph.trim().isNotEmpty) {
+  //     _level?.items.addAll(parseParagraph(_paragraph));
+  //     _paragraph = '';
+  //   }
+  // }
 
   void _next() {
     _i++;
