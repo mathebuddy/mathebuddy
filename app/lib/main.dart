@@ -273,8 +273,8 @@ class CoursePageState extends State<CoursePage> {
               style: TextStyle(color: matheBuddyRed, fontSize: 32.0)));
 
       //print(_unit!.title);
-      var numRows = 1;
-      var numCols = 1;
+      var numRows = 1.0;
+      var numCols = 1.0;
       for (var level in unit.levels) {
         if (level.posX + 1 > numCols) {
           numCols = level.posX + 1;
@@ -285,14 +285,14 @@ class CoursePageState extends State<CoursePage> {
       }
       var maxTileWidth = 500.0;
 
-      var tileWidth = (screenWidth - 30) / (numCols);
+      var tileWidth = (screenWidth - 50) / (numCols);
       if (tileWidth > maxTileWidth) tileWidth = maxTileWidth;
       var tileHeight = tileWidth;
       //print('num rows: $numRows');
       //print('num cols: $numCols');
 
-      var spacingX = 4.0;
-      var spacingY = 5.0;
+      var spacingX = 10.0;
+      var spacingY = 10.0;
       var offsetX = (screenWidth - (tileWidth + spacingX) * numCols) / 2;
       var offsetY = 20.0;
 
@@ -301,10 +301,35 @@ class CoursePageState extends State<CoursePage> {
       widgets
           .add(Container(height: offsetY + (tileHeight + spacingY) * numRows));
 
-      for (var level in unit.levels) {
-        var x = offsetX + level.posX * (tileWidth + spacingX);
-        var y = offsetY + level.posY * (tileHeight + spacingY);
+      var unitEdges = UnitEdges();
 
+      // calculate vertex coordinates
+      for (var level in unit.levels) {
+        level.screenPosX = offsetX + level.posX * (tileWidth + spacingX);
+        level.screenPosY = offsetY + level.posY * (tileHeight + spacingY);
+      }
+      // calculate edges coordinates
+      for (var level in unit.levels) {
+        for (var level2 in level.requires) {
+          unitEdges.addEdge(
+              level.screenPosX + tileWidth / 2,
+              level.screenPosY + tileHeight / 2,
+              level2.screenPosX + tileWidth / 2,
+              level2.screenPosY + tileHeight / 2);
+        }
+      }
+      // render edges
+      var widget = Positioned(
+          left: 0,
+          top: 0,
+          child: Container(
+              //width: 100,
+              //height: 100,
+              alignment: Alignment.center,
+              child: CustomPaint(size: Size(100, 100), painter: unitEdges)));
+      widgets.add(widget);
+      // create and render level widgets
+      for (var level in unit.levels) {
         Widget content = Text(
           level.title,
           style: TextStyle(color: Colors.white, fontSize: 10),
@@ -317,10 +342,9 @@ class CoursePageState extends State<CoursePage> {
             allowDrawingOutsideViewBox: true,
           );
         }
-
         var widget = Positioned(
-            left: x,
-            top: y,
+            left: level.screenPosX,
+            top: level.screenPosY,
             child: GestureDetector(
                 onTap: () {
                   _level = level;
@@ -339,35 +363,17 @@ class CoursePageState extends State<CoursePage> {
                         //border: Border.all(width: 1.5, color: matheBuddyRed),
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              spreadRadius: 2.5,
+                              color: Colors.grey.withOpacity(0.4),
+                              spreadRadius: 3,
                               blurRadius: 3,
-                              offset: Offset(0.5, 1.5)),
+                              offset: Offset(0.5, 0.5)),
                         ],
                         borderRadius: BorderRadius.all(
                             Radius.circular(tileWidth * 0.175))),
                     child: content)));
         widgets.add(widget);
-
-        // TODO: add edges (the following code renders an arrow)
-        // widget = Positioned(
-        //     left: 100,
-        //     top: 25,
-        //     child: Container(
-        //         //color: Colors.amber,
-        //         width: 80,
-        //         height: 80,
-        //         alignment: Alignment.center,
-        //         child: Transform.rotate(
-        //             angle: 1,
-        //             child: Icon(
-        //               Icons.arrow_forward,
-        //               size: 50,
-        //               color: matheBuddyRed,
-        //             ))));
-        // widgets.add(widget);
       }
-
+      // create body
       body = SingleChildScrollView(
           child: Column(children: [title, Stack(children: widgets)]));
     } else if (_viewState == ViewState.level) {
@@ -671,5 +677,44 @@ class CoursePageState extends State<CoursePage> {
           break;
         }
     }
+  }
+}
+
+// TODO: move this to a new file
+class UnitEdge {
+  double x1 = 0;
+  double y1 = 0;
+  double x2 = 0;
+  double y2 = 0;
+  UnitEdge(this.x1, this.x2, this.y1, this.y2);
+}
+
+// TODO: move this to a new file
+class UnitEdges extends CustomPainter {
+  List<UnitEdge> _edges = [];
+
+  void addEdge(double x1, double y1, double x2, double y2) {
+    _edges.add(UnitEdge(x1, x2, y1, y2));
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint();
+    paint.color = Colors.black;
+    paint.strokeWidth = 10;
+    paint.strokeCap = StrokeCap.round;
+    // Offset startingOffset = Offset(0, 0);
+    // Offset endingOffset = Offset(size.width, size.height);
+    // canvas.drawLine(startingOffset, endingOffset, paint);
+    for (var e in _edges) {
+      Offset startingOffset = Offset(e.x1, e.y1);
+      Offset endingOffset = Offset(e.x2, e.y2);
+      canvas.drawLine(startingOffset, endingOffset, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
