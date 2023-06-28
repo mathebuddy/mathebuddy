@@ -367,6 +367,16 @@ class Block_NEW {
                       'Attribute value "$value" is not allowed for key "$key".';
                 }
                 break;
+              case "DISABLE_RETRY":
+                {
+                  if (value == 'true') {
+                    data.disableRetry = true;
+                  } else {
+                    exercise.error +=
+                        'Attribute value "$value" is not allowed for key "$key".';
+                  }
+                  break;
+                }
               default:
                 exercise.error += 'Unknown attribute "$key".';
                 break;
@@ -429,6 +439,7 @@ class Block_NEW {
                   {
                     level.title = name;
                     level.label = label;
+                    level.isEvent = name.toLowerCase() == 'event';
                     break;
                   }
                 case '=':
