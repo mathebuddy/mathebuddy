@@ -14,8 +14,8 @@ class MbclLevel {
       ''; // all references go here; label is only used for searching
   String title = '';
   String label = '';
-  double posX = -1;
-  double posY = -1;
+  double posX = -1; // used in level overview
+  double posY = -1; // used in level overview
   String iconData = '';
   int numParts = 0;
   List<String> partIconIDs = [];
@@ -24,9 +24,10 @@ class MbclLevel {
 
   // temporary
   List<String> requiresTmp = [];
-  bool visited = false; // TODO!!
-  double screenPosX = 0.0;
-  double screenPosY = 0.0;
+  bool visited = false;
+  double screenPosX = 0.0; // used in level overview
+  double screenPosY = 0.0; // used in level overview
+  double progress = 0.0; // percentage of correct exercises [0,1]
 
   Map<String, dynamic> toJSON() {
     return {
@@ -71,5 +72,25 @@ class MbclLevel {
       item.fromJSON(src["items"][i]);
       items.add(item);
     }
+  }
+
+  void calcProgress() {
+    // TODO: this is yet inaccurate; scores are not weighted / ...
+    double currentScore = 0;
+    double sumScore = 0;
+    for (var item in items) {
+      if (item.type == MbclLevelItemType.exercise) {
+        var data = item.exerciseData!;
+        currentScore +=
+            data.feedback == MbclExerciseFeedback.correct ? 1.0 : 0.0;
+        sumScore += 1.0;
+      }
+    }
+    if (sumScore < 1e-12) {
+      progress = 1.0;
+    } else {
+      progress = currentScore / sumScore;
+    }
+    print("level progress = ${(progress * 100).round()} %");
   }
 }
