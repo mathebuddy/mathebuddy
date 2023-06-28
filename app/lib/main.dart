@@ -13,8 +13,6 @@ import 'package:universal_html/html.dart' as html;
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/rendering.dart';
-
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
@@ -330,6 +328,15 @@ class CoursePageState extends State<CoursePage> {
       widgets.add(widget);
       // create and render level widgets
       for (var level in unit.levels) {
+        var color = level.visited
+            ? matheBuddyYellow.withOpacity(0.96)
+            : matheBuddyRed.withOpacity(0.96);
+        var textColor = level.visited ? Colors.black : Colors.white;
+        if ((level.progress - 1).abs() < 1e-12) {
+          color = matheBuddyGreen;
+          textColor = Colors.white;
+        }
+
         Widget content = Text(
           level.title,
           style: TextStyle(color: Colors.white, fontSize: 10),
@@ -338,7 +345,7 @@ class CoursePageState extends State<CoursePage> {
           content = SvgPicture.string(
             level.iconData,
             width: tileWidth,
-            color: Colors.white,
+            color: textColor,
             allowDrawingOutsideViewBox: true,
           );
         }
@@ -359,7 +366,7 @@ class CoursePageState extends State<CoursePage> {
                     height: tileHeight,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: level.visited ? matheBuddyGreen : matheBuddyRed,
+                        color: color,
                         //border: Border.all(width: 1.5, color: matheBuddyRed),
                         boxShadow: [
                           BoxShadow(
@@ -382,29 +389,46 @@ class CoursePageState extends State<CoursePage> {
       List<Widget> levelHeadItems = [];
       // title
       _levelTitleKey = GlobalKey();
-      var levelTitle = Padding(
-          key: _levelTitleKey,
-          padding:
-              EdgeInsets.only(left: 3.0, right: 3.0, top: 5.0, bottom: 5.0),
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.white, width: 4),
-                borderRadius: BorderRadius.circular(5)),
-            child: Text(level.title, //.toUpperCase(),
-                style: TextStyle(
-                    color: matheBuddyRed,
-                    fontSize:
-                        level.numParts > 0 ? 18 : 32, // was previously "40"
-                    fontWeight: FontWeight.bold)),
-          ));
-      levelHeadItems.add(levelTitle);
+      var levelTitle = Container(
+          width: screenWidth,
+          margin: EdgeInsets.only(top: 8),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              // border: Border(
+              //   left: BorderSide(color: matheBuddyRed, width: 1.5),
+              //   top: BorderSide(color: matheBuddyRed, width: 1.5),
+              //   bottom: BorderSide(color: matheBuddyRed, width: 1.5),
+              // ),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.18),
+                    spreadRadius: 6,
+                    blurRadius: 4,
+                    offset: Offset(3, 3))
+              ]),
+          child: Padding(
+              key: _levelTitleKey,
+              padding:
+                  EdgeInsets.only(left: 5.0, right: 3.0, top: 5.0, bottom: 5.0),
+              child: Container(
+                // decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     border: Border.all(color: Colors.white, width: 4),
+                //     borderRadius: BorderRadius.circular(5)),
+                child: Text(level.title, //.toUpperCase(),
+                    style: TextStyle(
+                        color: matheBuddyRed,
+                        fontSize: level.numParts > 0 ? 20 : 32,
+                        fontWeight: FontWeight.bold)),
+              )));
+      //levelHeadItems.add(levelTitle);
+      page.add(levelTitle);
       // navigation bar
       if (level.numParts > 0) {
         // TOOD: click animation
         var iconSize = 42.0;
         var selectedColor = matheBuddyGreen; // TODO
-        var unselectedColor = Color.fromARGB(255, 123, 123, 123);
+        var unselectedColor = Color.fromARGB(255, 91, 91, 91);
         // part icons
         List<GestureDetector> icons = [];
         for (var i = 0; i < level.partIconIDs.length; i++) {
@@ -435,17 +459,18 @@ class CoursePageState extends State<CoursePage> {
         // panel
         levelHeadItems.add(Column(children: [
           Container(
-              margin: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
+              margin:
+                  EdgeInsets.only(left: 5.0, right: 5.0, bottom: 8.0, top: 10),
               padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
               decoration: BoxDecoration(
                   color: Colors.white,
                   //border: Border.all(width: 20),
-                  borderRadius: BorderRadius.circular(21),
+                  borderRadius: BorderRadius.circular(11),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.grey.withOpacity(0.08),
+                        color: Colors.grey.withOpacity(0.18),
                         spreadRadius: 0,
-                        blurRadius: 15,
+                        blurRadius: 10,
                         offset: Offset(1, 3))
                   ]),
               child: Row(
@@ -460,7 +485,7 @@ class CoursePageState extends State<CoursePage> {
           part++;
         } else {
           if (level.numParts > 0 && part != _currentPart) continue;
-          page.add(generateLevelItem(this, item));
+          page.add(generateLevelItem(this, _level!, item));
         }
       }
 
@@ -556,26 +581,60 @@ class CoursePageState extends State<CoursePage> {
       bottomArea = keyboard.generateWidget(this, keyboardState);
     }
 
+    List<Widget> actions = [];
+    // level percentage
+    if (_viewState == ViewState.level) {
+      var percentage = (_level!.progress * 100).round();
+      if (percentage == 100) {
+        var icon = Icon(
+          Icons.check_circle_outline_outlined,
+          size: 42,
+          color: matheBuddyGreen,
+        );
+        actions.add(icon);
+      } else {
+        var actionLevelPercentage = Padding(
+            padding: EdgeInsets.only(top: 12),
+            child: Text(
+              '$percentage %',
+              style: TextStyle(fontSize: 28, color: Colors.black87),
+            ));
+        actions.add(actionLevelPercentage);
+      }
+    }
+    // home button
+    actions.add(Text('  '));
+    var actionHome = IconButton(
+      onPressed: () {
+        _onHomeButton();
+      },
+      icon: Icon(Icons.home, size: 36),
+    );
+    actions.add(actionHome);
+    actions.add(Text('    '));
+
+    // === MAIN APP WIDGET ===
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Text(/*widget.title*/ ""),
-        leading: IconButton(
-          onPressed: () {},
-          icon: Image.asset("assets/img/logoSmall.png"),
-        ),
-        actions: [
+          centerTitle: true,
+          title: Text(/*widget.title*/ ""),
+          leading: IconButton(
+            onPressed: () {},
+            icon: Image.asset("assets/img/logoSmall.png"),
+          ),
+          actions: actions
           // TODO: reactivate progress bars
+
           /*Container(
             alignment: Alignment.center,
             child: SizedBox(
               width: 25,
               height: 25,
               child: CircularProgressIndicator(
-                strokeWidth: 6,
-                value: 0.7,
+                strokeWidth: 10,
+                value: _level != null ? _level!.progress : 0.0,
                 semanticsLabel: "my progress",
-                color: matheBuddyRed,
+                color: matheBuddyGreen,
               ),
             ),
           ),
@@ -615,16 +674,8 @@ class CoursePageState extends State<CoursePage> {
             },
             icon: Icon(Icons.chat, size: 36),
           ),*/
-          Text('  '),
-          IconButton(
-            onPressed: () {
-              _onHomeButton();
-            },
-            icon: Icon(Icons.home, size: 36),
+
           ),
-          Text('    ')
-        ],
-      ),
       body: body,
       bottomSheet: bottomArea,
       /*floatingActionButton: FloatingActionButton(
@@ -700,12 +751,9 @@ class UnitEdges extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint();
-    paint.color = Colors.black;
+    paint.color = Colors.black87;
     paint.strokeWidth = 10;
     paint.strokeCap = StrokeCap.round;
-    // Offset startingOffset = Offset(0, 0);
-    // Offset endingOffset = Offset(size.width, size.height);
-    // canvas.drawLine(startingOffset, endingOffset, paint);
     for (var e in _edges) {
       Offset startingOffset = Offset(e.x1, e.y1);
       Offset endingOffset = Offset(e.x2, e.y2);
