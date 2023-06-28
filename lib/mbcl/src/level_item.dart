@@ -244,8 +244,8 @@ class MbclExerciseData {
 
   // temporary
   MbclLevelItem exercise;
-  int staticVariableCounter = 0; // not exported
-  Map<String, String> smplOperandType = {}; // not exported
+  int staticVariableCounter = 0;
+  Map<String, String> smplOperandType = {};
   Map<String, MbclInputFieldData> inputFields = {};
   MbclExerciseFeedback feedback = MbclExerciseFeedback.unchecked;
   List<int> indexOrdering =
@@ -255,6 +255,17 @@ class MbclExerciseData {
   int runInstanceIdx = -1; // selected exercise instance; -1 := not chosen
 
   MbclExerciseData(this.exercise);
+
+  void reset() {
+    runInstanceIdx = -1;
+    feedback = MbclExerciseFeedback.unchecked;
+    for (var inputFieldId in inputFields.keys) {
+      var inputField = inputFields[inputFieldId];
+      inputField!.reset();
+    }
+    inputFields = {};
+    indexOrdering = [];
+  }
 
   Map<String, dynamic> toJSON() {
     // TODO: do NOT output "code" in final build
@@ -385,6 +396,11 @@ class MbclInputFieldData {
   int cursorPos = 0;
   String studentValue = '';
   String expectedValue = '';
+
+  void reset() {
+    cursorPos = 0;
+    studentValue = "";
+  }
 
   Map<String, dynamic> toJSON() {
     return {
