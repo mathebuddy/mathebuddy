@@ -232,35 +232,38 @@ class Keyboard {
                   state.activeExercise = null;
                   keyboardState.layout = null;
                 } else {
-                  var beforeCursor = keyboardInputFieldData.studentValue
-                      .substring(0, keyboardInputFieldData.cursorPos);
-                  var afterCursor = keyboardInputFieldData.studentValue
-                      .substring(keyboardInputFieldData.cursorPos);
-                  var newStr = key.value;
-                  if (beforeCursor.isNotEmpty) {
-                    // if the last character before the cursor is alpha
-                    // and the inserted string starts with an alpha character,
-                    // then insert "*" before the new string.
-                    var beforeCursorLastChar =
-                        beforeCursor.codeUnitAt(beforeCursor.length - 1);
-                    var isBeforeCursorLastCharAlpha =
-                        beforeCursorLastChar >= "a".codeUnitAt(0) &&
-                            beforeCursorLastChar <= "z".codeUnitAt(0);
-                    var newStrFirstChar = newStr.codeUnitAt(0);
-                    var isNewStrFirstCharAlpha =
-                        newStrFirstChar >= "a".codeUnitAt(0) &&
-                            newStrFirstChar <= "z".codeUnitAt(0);
-                    if (isBeforeCursorLastCharAlpha && isNewStrFirstCharAlpha) {
-                      newStr = "*$newStr";
+                  if (keyboardInputFieldData.studentValue.length < 32) {
+                    var beforeCursor = keyboardInputFieldData.studentValue
+                        .substring(0, keyboardInputFieldData.cursorPos);
+                    var afterCursor = keyboardInputFieldData.studentValue
+                        .substring(keyboardInputFieldData.cursorPos);
+                    var newStr = key.value;
+                    if (beforeCursor.isNotEmpty) {
+                      // if the last character before the cursor is alpha
+                      // and the inserted string starts with an alpha character,
+                      // then insert "*" before the new string.
+                      var beforeCursorLastChar =
+                          beforeCursor.codeUnitAt(beforeCursor.length - 1);
+                      var isBeforeCursorLastCharAlpha =
+                          beforeCursorLastChar >= "a".codeUnitAt(0) &&
+                              beforeCursorLastChar <= "z".codeUnitAt(0);
+                      var newStrFirstChar = newStr.codeUnitAt(0);
+                      var isNewStrFirstCharAlpha =
+                          newStrFirstChar >= "a".codeUnitAt(0) &&
+                              newStrFirstChar <= "z".codeUnitAt(0);
+                      if (isBeforeCursorLastCharAlpha &&
+                          isNewStrFirstCharAlpha) {
+                        newStr = "*$newStr";
+                      }
                     }
-                  }
 
-                  keyboardInputFieldData.studentValue =
-                      beforeCursor + newStr + afterCursor;
-                  keyboardInputFieldData.cursorPos += newStr.length;
+                    keyboardInputFieldData.studentValue =
+                        beforeCursor + newStr + afterCursor;
+                    keyboardInputFieldData.cursorPos += newStr.length;
+                  }
+                  keyboardState.exerciseData?.feedback =
+                      MbclExerciseFeedback.unchecked;
                 }
-                keyboardState.exerciseData?.feedback =
-                    MbclExerciseFeedback.unchecked;
 
                 // ignore: invalid_use_of_protected_member
                 state.setState(() {});
