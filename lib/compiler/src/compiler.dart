@@ -196,9 +196,19 @@ class Compiler {
         lexer.enableHyphenInID(true);
         lexer.pushSource(path, line, rowIdx);
         lexer.terminal('(');
-        var posX = lexer.integer();
+        double posX = 0.0;
+        if (lexer.isRealNumber()) {
+          posX = lexer.realNumber().toDouble();
+        } else {
+          posX = lexer.integer().toDouble();
+        }
         lexer.terminal(',');
-        var posY = lexer.integer();
+        double posY = 0.0;
+        if (lexer.isRealNumber()) {
+          posY = lexer.realNumber().toDouble();
+        } else {
+          posY = lexer.integer().toDouble();
+        }
         lexer.terminal(')');
         var fileName = lexer.identifier();
         List<String> requirements = [];
@@ -224,8 +234,8 @@ class Compiler {
         _unit?.levels.add(_level as MbclLevel);
         // set chapter meta data
         _level?.fileId = fileName;
-        _level?.posX = posX;
-        _level?.posY = posY;
+        _level?.posX = posX.toDouble();
+        _level?.posY = posY.toDouble();
         _level?.requiresTmp.addAll(requirements);
         _level?.iconData = iconData;
       }
