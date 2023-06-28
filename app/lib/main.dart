@@ -4,10 +4,12 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mathebuddy/mbcl/src/event.dart';
 import 'package:universal_html/html.dart' as html;
 
 import 'package:flutter/services.dart';
@@ -386,6 +388,7 @@ class CoursePageState extends State<CoursePage> {
     } else if (_viewState == ViewState.level) {
       // ----- level -----
       var level = _level as MbclLevel;
+      level.calcProgress();
       List<Widget> levelHeadItems = [];
       // title
       _levelTitleKey = GlobalKey();
@@ -479,13 +482,47 @@ class CoursePageState extends State<CoursePage> {
       }
 
       // level items
-      var part = -1;
-      for (var item in level.items) {
-        if (item.type == MbclLevelItemType.part) {
-          part++;
-        } else {
-          if (level.numParts > 0 && part != _currentPart) continue;
-          page.add(generateLevelItem(this, _level!, item));
+      level.isEvent = false; // TODO!!!!
+      if (level.isEvent) {
+        // -------- event level --------
+        // create event instance, if it does not exist
+        level.eventData ??= MbclEventData(level);
+        // add timer
+
+        // TODO: refresh every second!!
+        var elapsedTime =
+            DateTime.now().difference(level.eventData!.startTimeEvent);
+        var elapsedTimeStr = "${elapsedTime.inSeconds}";
+        page.add(Padding(
+            padding: EdgeInsets.only(top: 10.0),
+            child: Container(
+                decoration: BoxDecoration(color: Colors.white),
+                child: Row(children: [
+                  Text(
+                    elapsedTimeStr,
+                    style: TextStyle(fontSize: 32),
+                  ),
+                  Text('   '),
+                  Text(
+                    '1337',
+                    style: TextStyle(fontSize: 32),
+                  )
+                ]))));
+        // add current exercise
+        var ex = level.eventData!.getCurrentExercise();
+        if (ex != null) {
+          page.add(generateLevelItem(this, level, ex));
+        }
+      } else {
+        // -------- non-event level --------
+        var part = -1;
+        for (var item in level.items) {
+          if (item.type == MbclLevelItemType.part) {
+            part++;
+          } else {
+            if (level.numParts > 0 && part != _currentPart) continue;
+            page.add(generateLevelItem(this, level, item));
+          }
         }
       }
 
@@ -716,6 +753,7 @@ class CoursePageState extends State<CoursePage> {
         }
       case ViewState.level:
         {
+          _level?.eventData = null;
           if (_course!.debug == MbclCourseDebug.chapter) {
             _viewState = ViewState.selectLevel;
             keyboardState.layout = null;
