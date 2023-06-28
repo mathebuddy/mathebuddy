@@ -236,9 +236,28 @@ class Keyboard {
                       .substring(0, keyboardInputFieldData.cursorPos);
                   var afterCursor = keyboardInputFieldData.studentValue
                       .substring(keyboardInputFieldData.cursorPos);
+                  var newStr = key.value;
+                  if (beforeCursor.isNotEmpty) {
+                    // if the last character before the cursor is alpha
+                    // and the inserted string starts with an alpha character,
+                    // then insert "*" before the new string.
+                    var beforeCursorLastChar =
+                        beforeCursor.codeUnitAt(beforeCursor.length - 1);
+                    var isBeforeCursorLastCharAlpha =
+                        beforeCursorLastChar >= "a".codeUnitAt(0) &&
+                            beforeCursorLastChar <= "z".codeUnitAt(0);
+                    var newStrFirstChar = newStr.codeUnitAt(0);
+                    var isNewStrFirstCharAlpha =
+                        newStrFirstChar >= "a".codeUnitAt(0) &&
+                            newStrFirstChar <= "z".codeUnitAt(0);
+                    if (isBeforeCursorLastCharAlpha && isNewStrFirstCharAlpha) {
+                      newStr = "*$newStr";
+                    }
+                  }
+
                   keyboardInputFieldData.studentValue =
-                      beforeCursor + key.value + afterCursor;
-                  keyboardInputFieldData.cursorPos += key.value.length;
+                      beforeCursor + newStr + afterCursor;
+                  keyboardInputFieldData.cursorPos += newStr.length;
                 }
                 keyboardState.exerciseData?.feedback =
                     MbclExerciseFeedback.unchecked;
@@ -259,7 +278,7 @@ class Keyboard {
 
     // input field
     widgets.add(Positioned(
-        left: 10,
+        left: 5,
         top: 10,
         child: GestureDetector(
             onTapDown: (TapDownDetails d) {
@@ -299,7 +318,7 @@ class Keyboard {
               state.setState(() {});
             },
             child: Container(
-                width: screenWidth - 20,
+                width: screenWidth - 10,
                 height: 45,
                 decoration: BoxDecoration(
                   //color: Color.fromARGB(255, 245, 245, 245),
