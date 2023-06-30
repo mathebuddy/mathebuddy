@@ -377,6 +377,11 @@ class Block_NEW {
                   }
                   break;
                 }
+              case "KEYBOARD":
+                {
+                  data.forceKeyboardId = value;
+                  break;
+                }
               default:
                 exercise.error += 'Unknown attribute "$key".';
                 break;
