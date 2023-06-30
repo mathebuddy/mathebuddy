@@ -797,10 +797,10 @@ class CoursePageState extends State<CoursePage> {
           centerTitle: true,
           title: GestureDetector(
               onTap: () {
-                debugMode = false;
+                debugMode = !debugMode;
                 setState(() {});
               },
-              child: Text(debugMode ? "(DEBUG MODE)" : "")),
+              child: Text(debugMode ? "(DEBUG)" : "(RELEASE)")),
           leading: IconButton(
             onPressed: () {},
             icon: Image.asset("assets/img/logoSmall.png"),
