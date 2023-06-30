@@ -180,6 +180,18 @@ class Paragraph {
         }
       }
     }
+    // For rendering purposes, items should NOT start with inline math.
+    // We add an invisible text item in these cases before the inline math item.
+    for (var span in itemize.items) {
+      if (span.items.isNotEmpty &&
+          span.items[0].type == MbclLevelItemType.inlineMath) {
+        var str = '';
+        var text =
+            MbclLevelItem(MbclLevelItemType.text, span.items[0].srcLine, str);
+        span.items.insert(0, text);
+      }
+    }
+    // return result
     return itemize;
   }
 
