@@ -675,7 +675,7 @@ Widget generateLevelItem(
                 child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: correct
+                        color: debugMode && correct
                             ? feedbackColor.withOpacity(0.25)
                             : Colors.white),
                     child: icon)),
