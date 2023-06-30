@@ -200,6 +200,8 @@ class Keyboard {
                       keyboardInputFieldData.cursorPos > 0) {
                     var oldValue = keyboardInputFieldData.studentValue;
                     var newValue = "";
+                    // TODO: the following MUST be extracted from keyboards;
+                    // since custom keyboards may introduce new keys...
                     var specialKeys = [
                       "pi",
                       "sin(",
@@ -207,7 +209,8 @@ class Keyboard {
                       "tan(",
                       "exp(",
                       "log(",
-                      "sqrt("
+                      "sqrt(",
+                      "^("
                     ];
                     var specialKey = "";
                     var oldValueLeftOfCursor =
