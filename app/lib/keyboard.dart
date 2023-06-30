@@ -365,7 +365,7 @@ class Keyboard {
         )));
 
     // render solution
-    if (true /* TODO */ || bundleName.contains('bundle-test.json')) {
+    if (debugMode) {
       var solution = keyboardState.inputFieldData!.expectedValue;
       widgets.add(Positioned(
           left: 0,
