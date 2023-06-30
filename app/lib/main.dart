@@ -28,6 +28,8 @@ import 'package:mathebuddy/screen.dart';
 //var bundleName = 'assets/bundle-test.json'; // TODO: this is default!
 var bundleName = 'assets/bundle-complex.json';
 
+var debugMode = true;
+
 void main() {
   runApp(const MatheBuddy());
 }
@@ -209,6 +211,10 @@ class CoursePageState extends State<CoursePage> {
                     child: Center(child: Text(course)))),
           )
         ]));
+        if (debugMode == false) {
+          // TODO
+          break;
+        }
       }
 
       var coursesTable = Table(
@@ -219,19 +225,19 @@ class CoursePageState extends State<CoursePage> {
       var logo =
           Column(children: [Image.asset('assets/img/logo-large-en.png')]);
 
-      var text = Padding(
-          padding: EdgeInsets.all(5),
-          child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(50)),
-              child: Text(
-                '  ALPHA  ',
-                style: TextStyle(color: matheBuddyRed, fontSize: 36),
-              )));
+      // var text = Padding(
+      //     padding: EdgeInsets.all(5),
+      //     child: Container(
+      //         decoration: BoxDecoration(
+      //             color: Colors.white,
+      //             border: Border.all(color: Colors.white),
+      //             borderRadius: BorderRadius.circular(50)),
+      //         child: Text(
+      //           '  ALPHA  ',
+      //           style: TextStyle(color: matheBuddyRed, fontSize: 36),
+      //         )));
 
-      var contents = Column(children: [logo, text, coursesTable]);
+      var contents = Column(children: [logo /*, text*/, coursesTable]);
 
       body = SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
     } else if (_viewState == ViewState.selectUnit) {
@@ -304,7 +310,7 @@ class CoursePageState extends State<CoursePage> {
       widgets
           .add(Container(height: offsetY + (tileHeight + spacingY) * numRows));
 
-      var unitEdges = UnitEdges();
+      var unitEdges = UnitEdges(tileWidth * 0.1);
 
       // calculate vertex coordinates
       for (var level in unit.levels) {
@@ -343,7 +349,6 @@ class CoursePageState extends State<CoursePage> {
         }
 
         var locked = level.isLocked();
-        var lockedItemOpacity = 0.35;
         var lockSizePercentage = 0.33;
 
         // TODO: performance is currently slow...
@@ -371,13 +376,11 @@ class CoursePageState extends State<CoursePage> {
         if (locked) {
           // if the level is locked, show a lock-icon
           // TODO: icon instead of text
-          stackedItems.add(Opacity(
-              opacity: 0.8,
-              child: Padding(
-                  padding: EdgeInsets.only(top: 5, left: 3),
-                  child: Icon(Icons.lock,
-                      size: tileWidth * lockSizePercentage,
-                      color: Colors.white))));
+          stackedItems.add(Padding(
+              padding: EdgeInsets.only(top: 5, left: 3),
+              child: Icon(Icons.lock,
+                  size: tileWidth * lockSizePercentage,
+                  color: Colors.white.withOpacity(0.75))));
         }
 
         Widget content = Stack(children: stackedItems);
@@ -403,8 +406,8 @@ class CoursePageState extends State<CoursePage> {
                         boxShadow: [
                           BoxShadow(
                               color: Colors.grey.withOpacity(0.4),
-                              spreadRadius: 3,
-                              blurRadius: 3,
+                              spreadRadius: 0.5,
+                              blurRadius: 1.5,
                               offset: Offset(0.5, 0.5)),
                         ],
                         borderRadius: BorderRadius.all(
@@ -792,7 +795,12 @@ class CoursePageState extends State<CoursePage> {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: Text(/*widget.title*/ ""),
+          title: GestureDetector(
+              onTap: () {
+                debugMode = false;
+                setState(() {});
+              },
+              child: Text(debugMode ? "(DEBUG MODE)" : "")),
           leading: IconButton(
             onPressed: () {},
             icon: Image.asset("assets/img/logoSmall.png"),
@@ -885,6 +893,9 @@ class CoursePageState extends State<CoursePage> {
       case ViewState.selectLevel:
         {
           _viewState = ViewState.selectUnit;
+          if (_chapter!.units.length == 1) {
+            _viewState = ViewState.selectCourse;
+          }
           break;
         }
       case ViewState.level:
@@ -914,6 +925,9 @@ class UnitEdge {
 // TODO: move this to a new file
 class UnitEdges extends CustomPainter {
   List<UnitEdge> _edges = [];
+  double strokeWidth = 10.0;
+
+  UnitEdges(this.strokeWidth);
 
   void addEdge(double x1, double y1, double x2, double y2) {
     _edges.add(UnitEdge(x1, x2, y1, y2));
@@ -923,7 +937,7 @@ class UnitEdges extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint();
     paint.color = Colors.black87;
-    paint.strokeWidth = 10;
+    paint.strokeWidth = strokeWidth;
     paint.strokeCap = StrokeCap.round;
     for (var e in _edges) {
       Offset startingOffset = Offset(e.x1, e.y1);
