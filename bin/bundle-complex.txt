@@ -1,4 +1,4 @@
-HM1 DEMO:../../mathebuddy-private-courses/hm1/komplex/index.mbl
+DEMO:../../mathebuddy-private-courses/hm1/komplex/index.mbl
 
 u1-000-tutorial:../../mathebuddy-private-courses/hm1/komplex/u1-000-tutorial.mbl
 
