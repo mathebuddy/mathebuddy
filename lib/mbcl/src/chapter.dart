@@ -17,6 +17,7 @@ class MbclChapter {
   String author = '';
   int posX = -1;
   int posY = -1;
+  //bool disableBlockTitles = false;
   List<MbclChapter> requires = [];
   List<String> requiresTmp = []; // only used while compiling
   List<MbclUnit> units = [];
@@ -46,6 +47,7 @@ class MbclChapter {
       "author": author,
       "posX": posX,
       "posY": posY,
+      //"disableBlockTitles": disableBlockTitles,
       "requires": requires.map((req) => req.fileId).toList(),
       "units": units.map((unit) => unit.toJSON()).toList(),
       "levels": levels.map((level) => level.toJSON()).toList(),
@@ -59,6 +61,7 @@ class MbclChapter {
     author = src["author"];
     posX = src["posX"];
     posY = src["posY"];
+    //disableBlockTitles = src["disableBlockTitles"];
     // levels
     levels = [];
     int n = src["levels"].length;
