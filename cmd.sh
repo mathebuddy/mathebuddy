@@ -142,7 +142,7 @@ do
             mkdir -p ../alpha/docs/
             cp -r app/build/web/* ../alpha/docs/
             sed -i.bak 's/<base href="\/" \/>/<base href="\/alpha\/" \/>/g' ../alpha/docs/index.html
-            sed -i.bak 's/bundle-test.json/bundle-alpha.json/g' ../alpha/docs/index.html
+            sed -i.bak 's/bundle-test.json/bundle-complex.json/g' ../alpha/docs/index.html
         else
             echo "ERROR: alpha-repository must be placed next to mathebuddy repo"
         fi
