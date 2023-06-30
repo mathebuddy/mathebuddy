@@ -1,4 +1,10 @@
 
+some items:
+- $x^2$
+- yy $y^2$
+
+
+
 %KEYBOARD @myKeyboard1
 %    7 8 9 +
 %    4 5 6 -
@@ -7,16 +13,16 @@
 
 % TODO: reference to keyboard
 
-EXERCISE @ex:expform2
-    CODE
-        let r = rand(3,8);
-        let a = randZ(-1,1);
-        let tmp = rand({1, 1/2});
-        let phi = a * tmp * pi;
-        let z= r*cos(phi) + 1i*r*sin(phi);
-    Gib die komplexe Zahl $"z"=r e^{@@phi i}$ in Normalform an 
-
-    $"z"=$ #z
+%EXERCISE @ex:expform2
+%    CODE
+%        let r = rand(3,8);
+%        let a = randZ(-1,1);
+%        let tmp = rand({1, 1/2});
+%        let phi = a * tmp * pi;
+%        let z= r*cos(phi) + 1i*r*sin(phi);
+%    Gib die komplexe Zahl $"z"=r e^{@@phi i}$ in Normalform an 
+%
+%    $"z"=$ #z
 
 % === ORIGINAL ===
 %EXERCISE
