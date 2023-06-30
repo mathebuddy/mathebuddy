@@ -83194,7 +83194,7 @@ r($,"aH6","as6",()=>A.pV("7 8 9 +     -     !B\n4 5 6 *     /     !B\n1 2 3 i   
 r($,"aH8","as8",()=>A.pV("7 8 9 { !B\n4 5 6 } !B\n1 2 3 - !E\n0 0 0 , !E\n"))
 r($,"aH5","as5",()=>A.pV("7 8 9 { !B\n4 5 6 } !B\n1 2 3 - !E\n0 0 i , !E\n"))
 r($,"aHb","asb",()=>A.pV("7 8 9 + sin( (   !B\n4 5 6 - cos( )   !B\n1 2 3 * tan( pi  !E\n0 x . / exp( ln( !E\n"))
-r($,"aH9","as9",()=>A.pV("7 8 9 +     -     !B\n4 5 6 *     /     !B\n1 2 3 ^(    )     !E\n0 0 0 sqrt( sqrt( !E\n"))
+r($,"aH9","as9",()=>A.pV("7 8 9  +     -     !B\n4 5 6  *     /     !B\n1 2 3  ^(    )     !E\n0 i pi sqrt( sqrt( !E\n"))
 s($,"aEA","aqy",()=>new A.GT("newline expected"))
 s($,"aGp","arJ",()=>A.ln(A.ajf(),new A.afk(),t.N,t.eg))
 s($,"aGh","arE",()=>{var q=t.N
