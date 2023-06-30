@@ -24,6 +24,7 @@ class MbclLevel {
   List<MbclLevel> requires = [];
   List<MbclLevelItem> items = [];
   bool isEvent = false;
+  bool disableBlockTitles = false;
 
   // temporary
   List<String> requiresTmp = [];
@@ -32,6 +33,44 @@ class MbclLevel {
   double screenPosY = 0.0; // used in level overview
   double progress = 0.0; // percentage of correct exercises [0,1]
   MbclEventData? eventData;
+
+  void calcProgress() {
+    // TODO: this is yet inaccurate; scores are not weighted / ...
+    double score = 0;
+    double maxScore = 0;
+    for (var item in items) {
+      if (item.type == MbclLevelItemType.exercise) {
+        var data = item.exerciseData!;
+        // TODO: must store max store in data
+        var exerciseScore =
+            data.feedback == MbclExerciseFeedback.correct ? 1.0 : 0.0;
+        if (exerciseScore > data.maxReachedScore) {
+          data.maxReachedScore = exerciseScore;
+        }
+        score += data.maxReachedScore;
+        maxScore += 1.0;
+      }
+    }
+    if (maxScore < 1e-12) {
+      progress = 1.0;
+    } else {
+      progress = score / maxScore;
+    }
+    print("level progress = ${(progress * 100).round()} %");
+  }
+
+  bool isLocked() {
+    if (requires.isEmpty) {
+      return false;
+    }
+    for (var req in requires) {
+      if (req.progress < 0.5) {
+        // TODO: constant!!
+        return true;
+      }
+    }
+    return false;
+  }
 
   Map<String, dynamic> toJSON() {
     return {
@@ -45,7 +84,8 @@ class MbclLevel {
       "partIconIDs": partIconIDs.map((e) => e).toList(),
       "requires": requires.map((req) => req.fileId).toList(),
       "items": items.map((item) => item.toJSON()).toList(),
-      "isEvent": isEvent
+      "isEvent": isEvent,
+      "disableBlockTitles": disableBlockTitles,
     };
   }
 
@@ -79,25 +119,6 @@ class MbclLevel {
     }
     // event
     isEvent = src["isEvent"];
-  }
-
-  void calcProgress() {
-    // TODO: this is yet inaccurate; scores are not weighted / ...
-    double currentScore = 0;
-    double sumScore = 0;
-    for (var item in items) {
-      if (item.type == MbclLevelItemType.exercise) {
-        var data = item.exerciseData!;
-        currentScore +=
-            data.feedback == MbclExerciseFeedback.correct ? 1.0 : 0.0;
-        sumScore += 1.0;
-      }
-    }
-    if (sumScore < 1e-12) {
-      progress = 1.0;
-    } else {
-      progress = currentScore / sumScore;
-    }
-    print("level progress = ${(progress * 100).round()} %");
+    disableBlockTitles = src["disableBlockTitles"];
   }
 }
