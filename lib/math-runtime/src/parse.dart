@@ -262,23 +262,38 @@ class Parser {
     }
   }
 
-  //G unary = [prefix] infix [postfix];
+  //G unary = [prefix] infix;
   //G prefix = "-" | "!";
-  //G postfix = "i"; <--- TODO: remove that here!!
   Term _parseUnary() {
-    var isUnaryMinus = false;
-    var isLogicalNot = false;
     if (_token == '-') {
       _next();
-      isUnaryMinus = true;
+      var mul = _parseMul();
+      return Term.createOp('.-', [mul], []);
     } else if (_token == '!') {
       _next();
-      isLogicalNot = true;
+      var operand = _parseInfix();
+      return Term.createOp('!', [operand], []);
+    } else {
+      return _parseInfix();
     }
-    var term = _parseInfix();
-    if (isUnaryMinus) term = Term.createOp('.-', [term], []);
-    if (isLogicalNot) term = Term.createOp('!', [term], []);
-    return term;
+    // ===== OLD SRC ========
+    // var isUnaryMinus = false;
+    // var isLogicalNot = false;
+    // if (_token == '-') {
+    //   _next();
+    //   isUnaryMinus = true;
+    // } else if (_token == '!') {
+    //   _next();
+    //   isLogicalNot = true;
+    // }
+    // var term = _parseInfix();
+    // if (isUnaryMinus) {
+    //   term = Term.createOp('.-', [term], []);
+    // }
+    // if (isLogicalNot) {
+    //   term = Term.createOp('!', [term], []);
+    // }
+    // return term;
   }
 
   /*G infix = 
