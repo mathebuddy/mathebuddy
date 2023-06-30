@@ -292,32 +292,45 @@ InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
                   } else {*/
                   state.keyboardState.exerciseData = exerciseData;
                   state.keyboardState.inputFieldData = inputFieldData;
-                  switch (inputFieldData.type) {
-                    case MbclInputFieldType.int:
-                      state.keyboardState.layout = keyboardLayoutInteger;
-                      break;
-                    case MbclInputFieldType.real:
-                      state.keyboardState.layout = keyboardLayoutReal;
-                      break;
-                    case MbclInputFieldType.complexNormal:
-                      state.keyboardState.layout =
-                          keyboardLayoutComplexNormalForm;
-                      break;
-                    case MbclInputFieldType.intSet:
-                      state.keyboardState.layout = keyboardLayoutIntegerSet;
-                      break;
-                    case MbclInputFieldType.complexIntSet:
-                      state.keyboardState.layout =
-                          keyboardLayoutComplexIntegerSet;
-                      break;
-                    /*case MbclInputFieldType.choices:
+                  var forceKeyboardId =
+                      inputFieldData.exerciseData!.forceKeyboardId;
+                  if (forceKeyboardId.isNotEmpty) {
+                    switch (forceKeyboardId) {
+                      case "powerRoot":
+                        {
+                          state.keyboardState.layout = keyboardLayoutPowerRoot;
+                          break;
+                        }
+                      default: // TODO: ERROR!!!!!!!
+                    }
+                  } else {
+                    switch (inputFieldData.type) {
+                      case MbclInputFieldType.int:
+                        state.keyboardState.layout = keyboardLayoutInteger;
+                        break;
+                      case MbclInputFieldType.real:
+                        state.keyboardState.layout = keyboardLayoutReal;
+                        break;
+                      case MbclInputFieldType.complexNormal:
+                        state.keyboardState.layout =
+                            keyboardLayoutComplexNormalForm;
+                        break;
+                      case MbclInputFieldType.intSet:
+                        state.keyboardState.layout = keyboardLayoutIntegerSet;
+                        break;
+                      case MbclInputFieldType.complexIntSet:
+                        state.keyboardState.layout =
+                            keyboardLayoutComplexIntegerSet;
+                        break;
+                      /*case MbclInputFieldType.choices:
                       //inputFieldData.choices
                       break;*/
-                    default:
-                      print("WARNING: generateParagraphItem():"
-                          "keyboard layout for input field type"
-                          " ${inputFieldData.type.name} not yet implemented");
-                      state.keyboardState.layout = keyboardLayoutTerm;
+                      default:
+                        print("WARNING: generateParagraphItem():"
+                            "keyboard layout for input field type"
+                            " ${inputFieldData.type.name} not yet implemented");
+                        state.keyboardState.layout = keyboardLayoutTerm;
+                    }
                   }
                   //}
                   // ignore: invalid_use_of_protected_member
