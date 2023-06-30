@@ -1,25 +1,25 @@
-HM1 DEMO:../../mathebuddy-private-courses/hm1/complex/index.mbl
+HM1 DEMO:../../mathebuddy-private-courses/hm1/komplex/index.mbl
 
-u1-000-tutorial:../../mathebuddy-private-courses/hm1/complex/u1-000-tutorial.mbl
+u1-000-tutorial:../../mathebuddy-private-courses/hm1/komplex/u1-000-tutorial.mbl
 
-u1-010-intro:../../mathebuddy-private-courses/hm1/complex/u1-010-intro.mbl
-u1-020-gausscheZahlenebene:../../mathebuddy-private-courses/hm1/complex/u1-020-gausscheZahlenebene.mbl
-u1-030-konjGeo:../../mathebuddy-private-courses/hm1/complex/u1-030-konjGeo.mbl
-u1-040-betragGeo:../../mathebuddy-private-courses/hm1/complex/u1-040-betragGeo.mbl
-u1-050-kreis:../../mathebuddy-private-courses/hm1/complex/u1-050-kreis.mbl
-u1-060-normalform:../../mathebuddy-private-courses/hm1/complex/u1-060-normalform.mbl
-u1-070-konj:../../mathebuddy-private-courses/hm1/complex/u1-070-konj.mbl
-u1-080-konjEig:../../mathebuddy-private-courses/hm1/complex/u1-080-konjEig.mbl
-u1-090-betrag:../../mathebuddy-private-courses/hm1/complex/u1-090-betrag.mbl
+u1-010-intro:../../mathebuddy-private-courses/hm1/komplex/u1-010-intro.mbl
+u1-020-gausscheZahlenebene:../../mathebuddy-private-courses/hm1/komplex/u1-020-gausscheZahlenebene.mbl
+u1-030-konjGeo:../../mathebuddy-private-courses/hm1/komplex/u1-030-konjGeo.mbl
+u1-040-betragGeo:../../mathebuddy-private-courses/hm1/komplex/u1-040-betragGeo.mbl
+u1-050-kreis:../../mathebuddy-private-courses/hm1/komplex/u1-050-kreis.mbl
+u1-060-normalform:../../mathebuddy-private-courses/hm1/komplex/u1-060-normalform.mbl
+u1-070-konj:../../mathebuddy-private-courses/hm1/komplex/u1-070-konj.mbl
+u1-080-konjEig:../../mathebuddy-private-courses/hm1/komplex/u1-080-konjEig.mbl
+u1-090-betrag:../../mathebuddy-private-courses/hm1/komplex/u1-090-betrag.mbl
 
-u1-100-event1:../../mathebuddy-private-courses/hm1/complex/u1-100-event1.mbl
+u1-100-event1:../../mathebuddy-private-courses/hm1/komplex/u1-100-event1.mbl
 
-u1-110-polarform:../../mathebuddy-private-courses/hm1/complex/u1-110-polarform.mbl
-u1-120-expform:../../mathebuddy-private-courses/hm1/complex/u1-120-expform.mbl
-u1-130-expformMultiDiv:../../mathebuddy-private-courses/hm1/complex/u1-130-expformMultiDiv.mbl
-u1-140-koordinaten:../../mathebuddy-private-courses/hm1/complex/u1-140-koordinaten.mbl
-u1-150-potenz:../../mathebuddy-private-courses/hm1/complex/u1-150-potenz.mbl
-u1-160-wurzel:../../mathebuddy-private-courses/hm1/complex/u1-160-wurzel.mbl
-u1-170-einheitswurzel:../../mathebuddy-private-courses/hm1/complex/u1-170-einheitswurzel.mbl
+u1-110-polarform:../../mathebuddy-private-courses/hm1/komplex/u1-110-polarform.mbl
+u1-120-expform:../../mathebuddy-private-courses/hm1/komplex/u1-120-expform.mbl
+u1-130-expformMultiDiv:../../mathebuddy-private-courses/hm1/komplex/u1-130-expformMultiDiv.mbl
+u1-140-koordinaten:../../mathebuddy-private-courses/hm1/komplex/u1-140-koordinaten.mbl
+u1-150-potenz:../../mathebuddy-private-courses/hm1/komplex/u1-150-potenz.mbl
+u1-160-wurzel:../../mathebuddy-private-courses/hm1/komplex/u1-160-wurzel.mbl
+u1-170-einheitswurzel:../../mathebuddy-private-courses/hm1/komplex/u1-170-einheitswurzel.mbl
 
-u1-180-event2:../../mathebuddy-private-courses/hm1/complex/u1-180-event2.mbl
+u1-180-event2:../../mathebuddy-private-courses/hm1/komplex/u1-180-event2.mbl
