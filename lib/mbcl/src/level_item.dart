@@ -242,6 +242,7 @@ class MbclExerciseData {
   bool showGapLength = false;
   bool showRequiredGapLettersOnly = false;
   bool horizontalSingleMultipleChoiceAlignment = false;
+  String forceKeyboardId = "";
 
   // temporary
   MbclLevelItem exercise;
@@ -251,6 +252,7 @@ class MbclExerciseData {
   MbclExerciseFeedback feedback = MbclExerciseFeedback.unchecked;
   List<int> indexOrdering =
       []; // e.g. used for random displayed order of multiple-choice
+  double maxReachedScore = 0;
 
   // runtime variables
   int runInstanceIdx = -1; // selected exercise instance; -1 := not chosen
@@ -281,6 +283,7 @@ class MbclExerciseData {
       "showRequiredGapLettersOnly": showRequiredGapLettersOnly,
       "horizontalSingleMultipleChoiceAlignment":
           horizontalSingleMultipleChoiceAlignment,
+      "forceKeyboardId": forceKeyboardId
     };
   }
 
@@ -309,6 +312,7 @@ class MbclExerciseData {
     showRequiredGapLettersOnly = src["showRequiredGapLettersOnly"] as bool;
     horizontalSingleMultipleChoiceAlignment =
         src["horizontalSingleMultipleChoiceAlignment"] as bool;
+    forceKeyboardId = src["forceKeyboardId"] as String;
   }
 }
 
