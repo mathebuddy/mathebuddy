@@ -41,6 +41,8 @@ class Compiler {
   String _line2 = ''; // next line
   String _paragraph = '';
 
+  bool disableBlockTitles = false;
+
   int _uniqueIdCounter = 0;
 
   Compiler(this.loadFile);
@@ -176,7 +178,9 @@ class Compiler {
       var line = lines[rowIdx];
       line = line.split('%')[0];
       if (line.trim().isEmpty) continue;
-      if (state == 'global' || line.startsWith('UNIT')) {
+      if (state == 'global' && line == 'NO_BLOCK_TITLES=true') {
+        disableBlockTitles = true;
+      } else if (state == 'global' || line.startsWith('UNIT')) {
         if (line.startsWith('TITLE')) {
           _chapter?.title = line.substring('TITLE'.length).trim();
         } else if (line.startsWith('AUTHOR')) {
@@ -260,6 +264,9 @@ class Compiler {
     equationNumber = 1;
     // create a new level
     _level = MbclLevel();
+    if (disableBlockTitles) {
+      _level!.disableBlockTitles = true;
+    }
     _chapter?.levels.add(_level as MbclLevel);
     // get level source
     var src = loadFile(path);
