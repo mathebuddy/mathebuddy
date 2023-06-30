@@ -132,7 +132,7 @@ Widget generateLevelItem(
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           Widget leading = Padding(
-              padding: EdgeInsets.only(top: 8.5),
+              padding: EdgeInsets.only(left: 8, top: 14.5),
               child: Icon(
                 Icons.fiber_manual_record,
                 size: 8,
@@ -185,25 +185,29 @@ Widget generateLevelItem(
                   style: TextStyle(fontWeight: FontWeight.bold)))
         ]);*/
 
-        var title = Wrap(children: [
-          Padding(
-              padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
-              child: Row(children: [
-                Text(' '), // TODO: use padding instead of Text(' ')
-                Icon(
-                  Icons.gesture_outlined,
-                  size: 35.0,
-                ),
-                Text(' '),
-                // TODO: wrap does not work:
-                Flexible(
-                    child: Text(item.title,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20)))
-              ]))
-        ]);
+        if (level.disableBlockTitles) {
+          list.add(Text(' '));
+        } else {
+          var title = Wrap(children: [
+            Padding(
+                padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
+                child: Row(children: [
+                  Text(' '), // TODO: use padding instead of Text(' ')
+                  Icon(
+                    Icons.gesture_outlined,
+                    size: 35.0,
+                  ),
+                  Text(' '),
+                  // TODO: wrap does not work:
+                  Flexible(
+                      child: Text(item.title,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20)))
+                ]))
+          ]);
+          list.add(title);
+        }
 
-        list.add(title);
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           list.add(Wrap(children: [
@@ -260,22 +264,26 @@ Widget generateLevelItem(
                   style: TextStyle(fontWeight: FontWeight.bold)))
         ]);*/
 
-        var title = Wrap(children: [
-          Padding(
-              padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
-              child: Row(children: [
-                Text(' '), // TODO: use padding instead of Text(' ')
-                Icon(Icons.lightbulb_outline, size: 35.0),
-                Text(' '),
-                // TODO: wrap does not work:
-                Flexible(
-                    child: Text(item.title,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20)))
-              ]))
-        ]);
+        if (level.disableBlockTitles) {
+          list.add(Text(' '));
+        } else {
+          var title = Wrap(children: [
+            Padding(
+                padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
+                child: Row(children: [
+                  Text(' '), // TODO: use padding instead of Text(' ')
+                  Icon(Icons.lightbulb_outline, size: 35.0),
+                  Text(' '),
+                  // TODO: wrap does not work:
+                  Flexible(
+                      child: Text(item.title,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20)))
+                ]))
+          ]);
+          list.add(title);
+        }
 
-        list.add(title);
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           list.add(Wrap(children: [
@@ -436,22 +444,29 @@ Widget generateLevelItem(
               Random().nextInt(exerciseData.instances.length);
         }
         List<Widget> list = [];
-        var title = Wrap(children: [
-          Padding(
-              padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
-              key: exerciseKey,
-              child: Row(children: [
-                Text(' '), // TODO: use padding instead of Text(' ')
-                Icon(Icons.play_circle_outlined, size: 35.0),
-                Text(' '),
-                // TODO: wrap does not work:
-                Flexible(
-                    child: Text(item.title,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20)))
-              ]))
-        ]);
-        list.add(title);
+        if (level.disableBlockTitles) {
+          list.add(Text(
+            ' ',
+            key: exerciseKey,
+          ));
+        } else {
+          var title = Wrap(children: [
+            Padding(
+                padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
+                key: exerciseKey,
+                child: Row(children: [
+                  Text(' '), // TODO: use padding instead of Text(' ')
+                  Icon(Icons.play_circle_outlined, size: 35.0),
+                  Text(' '),
+                  // TODO: wrap does not work:
+                  Flexible(
+                      child: Text(item.title,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20)))
+                ]))
+          ]);
+          list.add(title);
+        }
         for (var i = 0; i < item.items.length; i++) {
           var subItem = item.items[i];
           list.add(Wrap(children: [
@@ -464,6 +479,7 @@ Widget generateLevelItem(
 
         Color feedbackColor = getFeedbackColor(exerciseData.feedback);
         Widget feedbackText = Text('');
+        var isCorrect = exerciseData.feedback == MbclExerciseFeedback.correct;
         switch (exerciseData.feedback) {
           case MbclExerciseFeedback.unchecked:
             feedbackText =
@@ -525,13 +541,19 @@ Widget generateLevelItem(
             width: 75, //double.infinity,
             //padding: EdgeInsets.only(left: 15, right: 5),
             decoration: BoxDecoration(
-                border: Border.all(
-                    width: 2.5, color: feedbackColor, style: BorderStyle.solid),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5),
-                    bottomRight: Radius.circular(5),
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20))),
+                border: isCorrect
+                    ? null
+                    : Border.all(
+                        width: 2.5,
+                        color: feedbackColor,
+                        style: BorderStyle.solid),
+                borderRadius: isCorrect
+                    ? null
+                    : BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20))),
             child: Center(child: feedbackText),
           ),
         );
