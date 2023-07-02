@@ -792,6 +792,12 @@ class CoursePageState extends State<CoursePage> {
     actions.add(Text('    '));
 
     // === MAIN APP WIDGET ===
+    var switchDebugReleaseButton = Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, width: 2.0),
+            borderRadius: BorderRadius.circular(6)),
+        child: Text(debugMode ? " DEBUG " : " RELEASE ",
+            style: TextStyle(fontSize: 16)));
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
@@ -800,7 +806,7 @@ class CoursePageState extends State<CoursePage> {
                 debugMode = !debugMode;
                 setState(() {});
               },
-              child: Text(debugMode ? "(DEBUG)" : "(RELEASE)")),
+              child: switchDebugReleaseButton),
           leading: IconButton(
             onPressed: () {},
             icon: Image.asset("assets/img/logoSmall.png"),
