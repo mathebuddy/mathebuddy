@@ -1,7 +1,26 @@
+EXERCISE @ex:einheitswurzel1a
+    DISABLE_RETRY=true
+    %TODO:Andreas polar-form
+    CODE
+        let z0=complex(1,0);
+        let z1=complex(-1,0);
+        let L={z0,z1};
+    Gib die Lösungsmenge der Gleichung $z^2=1$ an
 
-some items:
-- $x^2$
-- yy $y^2$
+    $\mathbb{"L"}=$ #L
+
+EXERCISE @ex:einheitswurzel1b
+    DISABLE_RETRY=true
+    REQUIREMENT=ex:einheitswurzel1a
+    CODE
+        let r = 1
+        let phi1 = pi
+        let phi2 = -pi
+    Gebe nun die Lösung als Polarform an:
+
+    Für $"z"=1$ ist die Polarform: #r ${} \cdot \exp($ #phi1 $i)$
+
+    Für $"z"=-1$ ist die Polarform: #r ${} \cdot \exp($ #phi2 $i)$
 
 
 
