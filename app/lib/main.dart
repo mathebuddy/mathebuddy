@@ -28,9 +28,14 @@ import 'package:mathebuddy/screen.dart';
 //var bundleName = 'assets/bundle-test.json'; // TODO: this is default!
 var bundleName = 'assets/bundle-complex.json';
 
+var showDebugReleaseSwitch = true;
 var debugMode = true;
 
 void main() {
+  if (html.window.location.href.contains("mathebuddy.github.io/alpha/")) {
+    showDebugReleaseSwitch = false;
+    debugMode = false;
+  }
   runApp(const MatheBuddy());
 }
 
@@ -216,29 +221,13 @@ class CoursePageState extends State<CoursePage> {
           break;
         }
       }
-
       var coursesTable = Table(
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: tableRows,
       );
-
       var logo =
           Column(children: [Image.asset('assets/img/logo-large-en.png')]);
-
-      // var text = Padding(
-      //     padding: EdgeInsets.all(5),
-      //     child: Container(
-      //         decoration: BoxDecoration(
-      //             color: Colors.white,
-      //             border: Border.all(color: Colors.white),
-      //             borderRadius: BorderRadius.circular(50)),
-      //         child: Text(
-      //           '  ALPHA  ',
-      //           style: TextStyle(color: matheBuddyRed, fontSize: 36),
-      //         )));
-
       var contents = Column(children: [logo /*, text*/, coursesTable]);
-
       body = SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
     } else if (_viewState == ViewState.selectUnit) {
       // ----- unit list -----
@@ -425,48 +414,6 @@ class CoursePageState extends State<CoursePage> {
       List<Widget> levelHeadItems = [];
       // title
       _levelTitleKey = GlobalKey();
-      // var levelTitle = Column(children: [
-      //   Container(
-      //       //width: screenWidth,
-      //       margin: EdgeInsets.only(top: level.numParts > 0 ? 8 : 8),
-      //       decoration: BoxDecoration(
-      //           //color: Colors.white,
-      //           color: matheBuddyRed,
-      //           // border: Border(
-      //           //   //left: BorderSide(color: matheBuddyRed, width: 1.5),
-      //           //   top: BorderSide(color: matheBuddyRed, width: 1.25),
-      //           //   bottom: BorderSide(color: matheBuddyRed, width: 1.25),
-      //           // ),
-      //           border: Border.all(width: 0, color: matheBuddyRed),
-      //           borderRadius: BorderRadius.circular(5)
-      //           // boxShadow: [
-      //           //   BoxShadow(
-      //           //       //color: Colors.grey.withOpacity(0.18),
-      //           //       color: matheBuddyRed.withOpacity(0.58),
-      //           //       spreadRadius: 2,
-      //           //       blurRadius: 2,
-      //           //       offset: Offset(1, 1))
-      //           // ]
-      //           ),
-      //       child: Padding(
-      //           key: _levelTitleKey,
-      //           padding: EdgeInsets.only(
-      //               left: 5.0, right: 3.0, top: 2.0, bottom: 2.0),
-      //           child: Center(
-      //               child: Container(
-      //             // decoration: BoxDecoration(
-      //             //     color: Colors.white,
-      //             //     border: Border.all(color: matheBuddyRed, width: 4),
-      //             //     borderRadius: BorderRadius.circular(5)),
-      //             child: Text(level.title, //.toUpperCase(),
-      //                 style: TextStyle(
-      //                   //color: matheBuddyRed,
-      //                   color: Colors.white,
-      //                   fontSize: level.numParts > 0 ? 20 : 32,
-      //                   //fontWeight: FontWeight.bold
-      //                 )),
-      //           ))))
-      // ]);
       var levelTitle = Column(children: [
         Container(
           key: _levelTitleKey,
@@ -606,7 +553,26 @@ class CoursePageState extends State<CoursePage> {
           if (item.type == MbclLevelItemType.part) {
             part++;
           } else {
-            if (level.numParts > 0 && part != _currentPart) continue;
+            // skip items that do not belong to current part
+            if (level.numParts > 0 && part != _currentPart) {
+              continue;
+            }
+            // skip exercises that contain unfulfilled requirements
+            var skip = false;
+            if (!debugMode && item.type == MbclLevelItemType.exercise) {
+              var data = item.exerciseData!;
+              for (var reqEx in data.requiredExercises) {
+                var reqExData = reqEx.exerciseData!;
+                if (reqExData.feedback != MbclExerciseFeedback.correct) {
+                  skip = true;
+                  break;
+                }
+              }
+            }
+            if (skip) {
+              continue;
+            }
+            // generate item and add it to level
             page.add(generateLevelItem(this, level, item));
           }
         }
@@ -801,12 +767,14 @@ class CoursePageState extends State<CoursePage> {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: GestureDetector(
-              onTap: () {
-                debugMode = !debugMode;
-                setState(() {});
-              },
-              child: switchDebugReleaseButton),
+          title: showDebugReleaseSwitch
+              ? GestureDetector(
+                  onTap: () {
+                    debugMode = !debugMode;
+                    setState(() {});
+                  },
+                  child: switchDebugReleaseButton)
+              : Text(''),
           leading: IconButton(
             onPressed: () {},
             icon: Image.asset("assets/img/logoSmall.png"),
