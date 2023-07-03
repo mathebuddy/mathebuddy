@@ -444,6 +444,21 @@ Widget generateLevelItem(
               Random().nextInt(exerciseData.instances.length);
         }
         List<Widget> list = [];
+        if (debugMode && exerciseData.requiredExercises.isNotEmpty) {
+          var text = 'DEBUG INFO: This exercise depends on [';
+          for (var req in exerciseData.requiredExercises) {
+            text += req.label;
+            if (req != exerciseData.requiredExercises.last) {
+              text += ',';
+            }
+          }
+          text += ']';
+          list.add(Container(
+              child: Text(
+            text,
+            style: TextStyle(color: Colors.grey),
+          )));
+        }
         if (level.disableBlockTitles) {
           list.add(Text(
             ' ',
