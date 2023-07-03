@@ -34,6 +34,15 @@ class MbclLevel {
   double progress = 0.0; // percentage of correct exercises [0,1]
   MbclEventData? eventData;
 
+  MbclLevelItem? getExerciseByLabel(String label) {
+    for (var item in items) {
+      if (item.type == MbclLevelItemType.exercise && item.label == label) {
+        return item;
+      }
+    }
+    return null;
+  }
+
   void calcProgress() {
     // TODO: this is yet inaccurate; scores are not weighted / ...
     double score = 0;
@@ -113,7 +122,7 @@ class MbclLevel {
     items = [];
     n = src["items"].length;
     for (var i = 0; i < n; i++) {
-      var item = MbclLevelItem(MbclLevelItemType.error, -1);
+      var item = MbclLevelItem(this, MbclLevelItemType.error, -1);
       item.fromJSON(src["items"][i]);
       items.add(item);
     }

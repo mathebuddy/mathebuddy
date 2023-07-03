@@ -6,7 +6,12 @@
 
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
+import 'level.dart';
+
+// TODO: label vs id?????
+
 class MbclLevelItem {
+  MbclLevel level;
   MbclLevelItemType type;
   int srcLine = -1; // line number in MBL input file
   String title = '';
@@ -22,12 +27,10 @@ class MbclLevelItem {
   MbclFigureData? figureData;
   MbclTableData? tableData;
   MbclInputFieldData? inputFieldData;
-  //MbclSingleOrMultipleChoiceOptionData? singleOrMultipleChoiceOptionData;
 
   // temporary data
-  //bool active = true;
 
-  MbclLevelItem(this.type, this.srcLine, [this.text = '']);
+  MbclLevelItem(this.level, this.type, this.srcLine, [this.text = '']);
 
   Map<String, dynamic> toJSON() {
     Map<String, dynamic> json = {
@@ -58,11 +61,6 @@ class MbclLevelItem {
       case MbclLevelItemType.inputField:
         json["inputFieldData"] = inputFieldData?.toJSON();
         break;
-      /*case MbclLevelItemType.singleChoiceOption:
-      case MbclLevelItemType.multipleChoiceOption:
-        json["singleOrMultipleChoiceOptionData"] =
-            singleOrMultipleChoiceOptionData?.toJSON();
-        break;*/
       default:
         break;
     }
@@ -81,14 +79,14 @@ class MbclLevelItem {
     if (src.containsKey("items")) {
       int n = src["items"].length;
       for (var i = 0; i < n; i++) {
-        var item = MbclLevelItem(MbclLevelItemType.error, srcLine);
+        var item = MbclLevelItem(level, MbclLevelItemType.error, srcLine);
         item.fromJSON(src["items"][i]);
         items.add(item);
       }
     }
     switch (type) {
       case MbclLevelItemType.equation:
-        equationData = MbclEquationData();
+        equationData = MbclEquationData(this);
         equationData?.fromJSON(src["equationData"]);
         break;
       case MbclLevelItemType.exercise:
@@ -96,24 +94,17 @@ class MbclLevelItem {
         exerciseData?.fromJSON(src["exerciseData"]);
         break;
       case MbclLevelItemType.figure:
-        figureData = MbclFigureData();
+        figureData = MbclFigureData(this);
         figureData?.fromJSON(src["figureData"]);
         break;
       case MbclLevelItemType.table:
-        tableData = MbclTableData();
+        tableData = MbclTableData(this);
         tableData?.fromJSON(src["tableData"]);
         break;
       case MbclLevelItemType.inputField:
         inputFieldData = MbclInputFieldData();
         inputFieldData?.fromJSON(src["inputFieldData"]);
         break;
-      /*case MbclLevelItemType.singleChoiceOption:
-      case MbclLevelItemType.multipleChoiceOption:
-        singleOrMultipleChoiceOptionData =
-            MbclSingleOrMultipleChoiceOptionData();
-        singleOrMultipleChoiceOptionData
-            ?.fromJSON(src["singleOrMultipleChoiceOptionData"]);
-        break;*/
       default:
         break;
     }
@@ -195,9 +186,12 @@ Map<MbclLevelItemType, List<MbclLevelItemType>> mbclSubBlockWhiteList = {
 };
 
 class MbclEquationData {
+  MbclLevelItem equation;
   //List<MbclEquationOption> options = [];
   MbclLevelItem? math;
   int number = 0;
+
+  MbclEquationData(this.equation);
 
   Map<String, dynamic> toJSON() {
     return {
@@ -214,7 +208,7 @@ class MbclEquationData {
       var option = MbclEquationOption.values.byName(src["options"][i]);
       options.add(option);
     }*/
-    math = MbclLevelItem(MbclLevelItemType.error, -1);
+    math = MbclLevelItem(equation.level, MbclLevelItemType.error, -1);
     math?.fromJSON(src["math"]);
     number = src["number"];
   }
@@ -243,6 +237,7 @@ class MbclExerciseData {
   bool showRequiredGapLettersOnly = false;
   bool horizontalSingleMultipleChoiceAlignment = false;
   String forceKeyboardId = "";
+  List<MbclLevelItem> requiredExercises = [];
 
   // temporary
   MbclLevelItem exercise;
@@ -283,7 +278,8 @@ class MbclExerciseData {
       "showRequiredGapLettersOnly": showRequiredGapLettersOnly,
       "horizontalSingleMultipleChoiceAlignment":
           horizontalSingleMultipleChoiceAlignment,
-      "forceKeyboardId": forceKeyboardId
+      "forceKeyboardId": forceKeyboardId,
+      "requiredExercises": requiredExercises.map((e) => e.label).toList()
     };
   }
 
@@ -313,15 +309,24 @@ class MbclExerciseData {
     horizontalSingleMultipleChoiceAlignment =
         src["horizontalSingleMultipleChoiceAlignment"] as bool;
     forceKeyboardId = src["forceKeyboardId"] as String;
+    requiredExercises = [];
+    n = src["requiredExercises"].length;
+    for (var i = 0; i < n; i++) {
+      var reqLabel = src["requiredExercises"][i] as String;
+      requiredExercises.add(exercise.level.getExerciseByLabel(reqLabel)!);
+    }
   }
 }
 
 class MbclFigureData {
+  MbclLevelItem figure;
   String filePath = '';
   String code = '';
   String data = '';
   List<MbclLevelItem> caption = [];
   List<MbclFigureOption> options = [];
+
+  MbclFigureData(this.figure);
 
   Map<String, dynamic> toJSON() {
     return {
@@ -339,7 +344,7 @@ class MbclFigureData {
     data = src["data"];
     int n = src["caption"].length;
     for (var i = 0; i < n; i++) {
-      var cap = MbclLevelItem(MbclLevelItemType.error, -1);
+      var cap = MbclLevelItem(figure.level, MbclLevelItemType.error, -1);
       cap.fromJSON(src["caption"][i]);
       caption.add(cap);
     }
@@ -360,9 +365,12 @@ enum MbclFigureOption {
 }
 
 class MbclTableData {
-  MbclTableRow head = MbclTableRow();
+  MbclLevelItem table;
+  MbclTableRow head;
   List<MbclTableRow> rows = [];
   List<MbclTableOption> options = [];
+
+  MbclTableData(this.table) : head = MbclTableRow(table);
 
   Map<String, dynamic> toJSON() {
     return {
@@ -373,12 +381,12 @@ class MbclTableData {
   }
 
   fromJSON(Map<String, dynamic> src) {
-    head = MbclTableRow();
+    head = MbclTableRow(table);
     head.fromJSON(src["head"]);
     rows = [];
     int n = src["rows"].length;
     for (var i = 0; i < n; i++) {
-      var row = MbclTableRow();
+      var row = MbclTableRow(table);
       row.fromJSON(src["rows"][i]);
       rows.add(row);
     }
@@ -465,7 +473,10 @@ enum MbclInputFieldType {
 }*/
 
 class MbclTableRow {
+  MbclLevelItem table;
   List<MbclLevelItem> columns = [];
+
+  MbclTableRow(this.table);
 
   Map<String, dynamic> toJSON() {
     return {"columns": columns.map((e) => e.toJSON()).toList()};
@@ -475,7 +486,7 @@ class MbclTableRow {
     columns = [];
     int n = src["columns"].length;
     for (var i = 0; i < n; i++) {
-      var column = MbclLevelItem(MbclLevelItemType.error, -1);
+      var column = MbclLevelItem(table.level, MbclLevelItemType.error, -1);
       column.fromJSON(src["columns"][i]);
       columns.add(column);
     }
