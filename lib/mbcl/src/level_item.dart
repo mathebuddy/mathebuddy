@@ -142,7 +142,7 @@ enum MbclLevelItemType {
   lineFeed,
   multipleChoice,
   //multipleChoiceOption,
-  newPage,
+  //newPage,
   paragraph,
   part,
   reference,

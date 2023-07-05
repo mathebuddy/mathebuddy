@@ -4,20 +4,24 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
-import 'dart:math';
+import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/mbcl/src/level.dart';
-import 'package:mathebuddy/screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:mathebuddy/mbcl/src/level_item.dart';
-import 'package:mathebuddy/math-runtime/src/parse.dart' as term_parser;
 
-import 'package:mathebuddy/color.dart';
-import 'package:mathebuddy/help.dart';
-import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/paragraph.dart';
+import 'main.dart';
+
+import 'level_align.dart';
+import 'level_example.dart';
+import 'level_exercise.dart';
+import 'level_itemize.dart';
+import 'level_definition.dart';
+import 'level_figure.dart';
+import 'level_single_multi_choice.dart';
+import 'level_table.dart';
+import 'level_equation.dart';
+import 'level_paragraph.dart';
+import 'level_paragraph_item.dart';
 
 Widget generateLevelItem(
     CoursePageState state, MbclLevel level, MbclLevelItem item,
@@ -63,51 +67,6 @@ Widget generateLevelItem(
             child: Text(item.text,
                 style: Theme.of(state.context).textTheme.headlineMedium));
       }
-    case MbclLevelItemType.paragraph:
-      {
-        List<InlineSpan> list = [];
-        for (var subItem in item.items) {
-          list.add(generateParagraphItem(state, subItem,
-              exerciseData: exerciseData));
-        }
-        var richText = RichText(
-          text: TextSpan(children: list),
-        );
-        return Padding(
-          padding: EdgeInsets.only(
-              left: paragraphPaddingLeft,
-              right: paragraphPaddingRight,
-              top: paragraphPaddingTop,
-              bottom: paragraphPaddingBottom),
-          child: richText,
-        );
-      }
-    case MbclLevelItemType.alignCenter:
-      {
-        List<Widget> list = [];
-        for (var subItem in item.items) {
-          list.add(generateLevelItem(state, level, subItem,
-              exerciseData: exerciseData));
-        }
-        return Padding(
-            padding: EdgeInsets.all(3.0),
-            child: Align(
-                alignment: Alignment.topCenter,
-                child: Wrap(alignment: WrapAlignment.start, children: list)));
-      }
-    case MbclLevelItemType.equation:
-      {
-        var data = item.equationData!;
-        var eq = generateParagraphItem(state, data.math!,
-            exerciseData: exerciseData);
-        var equationWidget = RichText(text: TextSpan(children: [eq]));
-        var eqNumber = data.number;
-        var eqNumberWidget = Text(eqNumber >= 0 ? '($eqNumber)' : '');
-        return ListTile(
-          title: Center(child: equationWidget),
-          trailing: eqNumberWidget,
-        );
-      }
     case MbclLevelItemType.span:
       {
         List<InlineSpan> list = [];
@@ -118,626 +77,63 @@ Widget generateLevelItem(
         var richText = RichText(
           text: TextSpan(children: list),
         );
-        /*return Padding(
-          padding: EdgeInsets.all(3.0),
-          child: richText,
-        );*/
         return richText;
       }
+    case MbclLevelItemType.paragraph:
+      {
+        return generateParagraph(state, level, item,
+            exerciseData: exerciseData,
+            paragraphPaddingLeft: paragraphPaddingLeft,
+            paragraphPaddingRight: paragraphPaddingRight,
+            paragraphPaddingTop: paragraphPaddingTop,
+            paragraphPaddingBottom: paragraphPaddingBottom);
+      }
+    case MbclLevelItemType.alignCenter:
+      {
+        return generateAlign(state, level, item, exerciseData: exerciseData);
+      }
+    case MbclLevelItemType.equation:
+      {
+        return generateEquation(state, level, item, exerciseData: exerciseData);
+      }
+
     case MbclLevelItemType.itemize:
     case MbclLevelItemType.enumerate:
     case MbclLevelItemType.enumerateAlpha:
       {
-        List<Row> rows = [];
-        for (var i = 0; i < item.items.length; i++) {
-          var subItem = item.items[i];
-          Widget leading = Padding(
-              padding: EdgeInsets.only(left: 8, top: 14.5),
-              child: Icon(
-                Icons.fiber_manual_record,
-                size: 8,
-              ));
-          if (item.type == MbclLevelItemType.enumerate) {
-            leading = Padding(
-                padding: EdgeInsets.only(top: 4.0, left: 7.0),
-                child: Text("${i + 1}."));
-          } else if (item.type == MbclLevelItemType.enumerateAlpha) {
-            leading = Padding(
-                padding: EdgeInsets.only(top: 4.0, left: 7.0),
-                child: Text("${String.fromCharCode("a".codeUnitAt(0) + i)})"));
-          }
-          var content = generateLevelItem(state, level, subItem,
-              exerciseData: exerciseData);
-          var row = Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [SizedBox(width: 30, child: leading)]),
-                Expanded(
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
-                        child: content)),
-              ]);
-          rows.add(row);
-        }
-        return Column(children: rows);
-      }
-    case MbclLevelItemType.newPage:
-      {
-        // TODO
-        /*return Text(
-          'x', // TODO '\n--- page break will be here later ---\n',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        );*/
-        return Container();
+        return generateItemize(state, level, item, exerciseData: exerciseData);
       }
     case MbclLevelItemType.example:
       {
-        List<Widget> list = [];
-        // TODO: icon
-        /*var title = Row(children: [
-          Padding(
-              padding: EdgeInsets.all(3.0),
-              child: Text('EXAMPLE: ${item.title}',
-                  style: TextStyle(fontWeight: FontWeight.bold)))
-        ]);*/
-
-        if (level.disableBlockTitles) {
-          list.add(Text(' '));
-        } else {
-          var title = Wrap(children: [
-            Padding(
-                padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
-                child: Row(children: [
-                  Text(' '), // TODO: use padding instead of Text(' ')
-                  Icon(
-                    Icons.gesture_outlined,
-                    size: 35.0,
-                  ),
-                  Text(' '),
-                  // TODO: wrap does not work:
-                  Flexible(
-                      child: Text(item.title,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20)))
-                ]))
-          ]);
-          list.add(title);
-        }
-
-        for (var i = 0; i < item.items.length; i++) {
-          var subItem = item.items[i];
-          list.add(Wrap(children: [
-            generateLevelItem(state, level, subItem,
-                paragraphPaddingLeft: 10.0,
-                paragraphPaddingTop: i == 0 ? 0.0 : 10.0,
-                exerciseData: exerciseData)
-          ]));
-        }
-        return Container(
-            //color: Color.fromARGB(31, 255, 221, 198),
-            //decoration: BoxDecoration(
-            //    borderRadius: BorderRadius.circular(8.0),
-            //    color: Color.fromARGB(22, 128, 128, 128)),
-            //padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-            decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.withOpacity(0.08),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3))
-            ]),
-            padding: EdgeInsets.only(bottom: 10.0),
-            margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: list));
+        return generateExample(state, level, item, exerciseData: exerciseData);
       }
     case MbclLevelItemType.defDefinition:
     case MbclLevelItemType.defTheorem:
       {
-        // TODO: other MbclLevelItemType.def*
-        // TODO: icon
-        var prefix = '';
-        switch (item.type) {
-          case MbclLevelItemType.defDefinition:
-            prefix = 'Definition';
-            break;
-          case MbclLevelItemType.defTheorem:
-            prefix = 'Theorem';
-            break;
-          default:
-            prefix = 'UNIMPLEMENTED';
-            break;
-        }
-        List<Widget> list = [];
-        /*var title = Row(children: [
-          Padding(
-              //padding: EdgeInsets.all(3.0),
-              padding: EdgeInsets.only(
-                  left: 3.0, right: 3.0, top: 12.0, bottom: 8.0),
-              child: Text('$prefix (${item.title})',
-                  style: TextStyle(fontWeight: FontWeight.bold)))
-        ]);*/
-
-        if (level.disableBlockTitles) {
-          list.add(Text(' '));
-        } else {
-          var title = Wrap(children: [
-            Padding(
-                padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
-                child: Row(children: [
-                  Text(' '), // TODO: use padding instead of Text(' ')
-                  Icon(Icons.lightbulb_outline, size: 35.0),
-                  Text(' '),
-                  // TODO: wrap does not work:
-                  Flexible(
-                      child: Text(item.title,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20)))
-                ]))
-          ]);
-          list.add(title);
-        }
-
-        for (var i = 0; i < item.items.length; i++) {
-          var subItem = item.items[i];
-          list.add(Wrap(children: [
-            generateLevelItem(state, level, subItem,
-                paragraphPaddingLeft: 10.0,
-                paragraphPaddingTop: i == 0 ? 0.0 : 10.0,
-                exerciseData: exerciseData)
-          ]));
-        }
-        return Container(
-            //color: Color.fromARGB(255, 255, 250, 234),
-            //decoration: BoxDecoration(
-            //    borderRadius: BorderRadius.circular(8.0),
-            //    color: Color.fromARGB(31, 192, 192, 192)),
-            decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.withOpacity(0.08),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3))
-            ]),
-            padding: EdgeInsets.only(bottom: 10.0),
-            margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: list));
+        return generateDefinition(state, level, item,
+            exerciseData: exerciseData);
       }
     case MbclLevelItemType.figure:
       {
-        List<Widget> rows = [];
-        var figureData = item.figureData as MbclFigureData;
-        // image
-        var width = 100;
-        for (var option in figureData.options) {
-          switch (option) {
-            case MbclFigureOption.width100:
-              width = 100;
-              break;
-            case MbclFigureOption.width75:
-              width = 75;
-              break;
-            case MbclFigureOption.width66:
-              width = 66;
-              break;
-            case MbclFigureOption.width50:
-              width = 50;
-              break;
-            case MbclFigureOption.width33:
-              width = 33;
-              break;
-            case MbclFigureOption.width25:
-              width = 25;
-              break;
-          }
-        }
-        if (figureData.data.startsWith('<svg') ||
-            figureData.data.startsWith('<?xml')) {
-          rows.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            SvgPicture.string(
-              figureData.data,
-              width: screenWidth * width / 100.0 - 15.0,
-            )
-          ]));
-        }
-        // caption
-        if (figureData.caption.isNotEmpty) {
-          Widget caption =
-              generateLevelItem(state, level, figureData.caption[0]);
-          rows.add(Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [caption]));
-        }
-        // create column widget
-        return Column(children: rows);
+        return generateFigure(state, level, item, exerciseData: exerciseData);
       }
     case MbclLevelItemType.table:
       {
-        var tableData = item.tableData as MbclTableData;
-        List<TableRow> rows = [];
-        // head
-        List<TableCell> headColumns = [];
-        for (var columnData in tableData.head.columns) {
-          var cell = generateLevelItem(state, level, columnData);
-          headColumns.add(TableCell(child: cell));
-        }
-        rows.add(TableRow(children: headColumns));
-        // rows
-        for (var rowData in tableData.rows) {
-          List<TableCell> columns = [];
-          for (var columnData in rowData.columns) {
-            var cell = generateLevelItem(state, level, columnData);
-            columns.add(TableCell(child: cell));
-          }
-          rows.add(TableRow(children: columns));
-        }
-        // create table widget
-        return Table(
-            border: TableBorder.all(),
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            children: rows);
+        return generateTable(state, level, item, exerciseData: exerciseData);
       }
     case MbclLevelItemType.todo:
       {
-        var opacity = 1.0;
-        List<Widget> list = [];
-        var title = Wrap(children: [
-          Padding(
-              padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
-              child: Row(children: [
-                Text(' '), // TODO: use padding instead of Text(' ')
-                Icon(
-                  Icons.build,
-                  size: 50.0,
-                  color: Colors.white,
-                ),
-                Text(' '),
-                // TODO: wrap does not work:
-                Flexible(
-                    child: Text(item.title,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20)))
-              ]))
-        ]);
-        list.add(title);
-        var text = "";
-        try {
-          text = item.items[0].items[0].text;
-        } catch (e) {}
-        list.add(Container(
-            margin: EdgeInsets.only(left: 5, right: 5),
-            child: RichText(
-                text: TextSpan(style: TextStyle(fontSize: 20), text: text))));
-        return Opacity(
-            opacity: opacity,
-            child: Container(
-                decoration: BoxDecoration(color: Colors.red, boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.08),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3))
-                ]),
-                padding: EdgeInsets.only(bottom: 10.0),
-                margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: list)));
+        return generateTable(state, level, item, exerciseData: exerciseData);
       }
     case MbclLevelItemType.exercise:
       {
-        // TODO: must report error, if "exerciseData.instances.length" == 0!!
-        exerciseKey = GlobalKey();
-        var exerciseData = item.exerciseData as MbclExerciseData;
-        if (exerciseData.runInstanceIdx < 0) {
-          exerciseData.runInstanceIdx =
-              Random().nextInt(exerciseData.instances.length);
-        }
-        List<Widget> list = [];
-        if (debugMode && exerciseData.requiredExercises.isNotEmpty) {
-          var text = 'DEBUG INFO: This exercise depends on [';
-          for (var req in exerciseData.requiredExercises) {
-            text += req.label;
-            if (req != exerciseData.requiredExercises.last) {
-              text += ',';
-            }
-          }
-          text += ']';
-          list.add(Container(
-              child: Text(
-            text,
-            style: TextStyle(color: Colors.grey),
-          )));
-        }
-        if (level.disableBlockTitles) {
-          list.add(Text(
-            ' ',
-            key: exerciseKey,
-          ));
-        } else {
-          var title = Wrap(children: [
-            Padding(
-                padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
-                key: exerciseKey,
-                child: Row(children: [
-                  Text(' '), // TODO: use padding instead of Text(' ')
-                  Icon(Icons.play_circle_outlined, size: 35.0),
-                  Text(' '),
-                  // TODO: wrap does not work:
-                  Flexible(
-                      child: Text(item.title,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20)))
-                ]))
-          ]);
-          list.add(title);
-        }
-        for (var i = 0; i < item.items.length; i++) {
-          var subItem = item.items[i];
-          list.add(Wrap(children: [
-            generateLevelItem(state, level, subItem,
-                paragraphPaddingLeft: 10.0,
-                paragraphPaddingTop: i == 0 ? 5.0 : 10.0,
-                exerciseData: item.exerciseData)
-          ]));
-        }
-
-        Color feedbackColor = getFeedbackColor(exerciseData.feedback);
-        Widget feedbackText = Text('');
-        var isCorrect = exerciseData.feedback == MbclExerciseFeedback.correct;
-        switch (exerciseData.feedback) {
-          case MbclExerciseFeedback.unchecked:
-            feedbackText =
-                Text('?', style: TextStyle(color: feedbackColor, fontSize: 20));
-            break;
-          case MbclExerciseFeedback.correct:
-            feedbackText = Icon(Icons.check, color: feedbackColor, size: 24);
-            break;
-          case MbclExerciseFeedback.incorrect:
-            feedbackText = Icon(Icons.clear, color: feedbackColor, size: 24);
-            break;
-        }
-
-        // button row: validation button + new random exercise button (if correct)
-        var validateButton = GestureDetector(
-          onTap: () {
-            print("----- evaluating exercise -----");
-            state.keyboardState.layout = null;
-            // check exercise: TODO must implement in e.g. new file exercise.dart
-            var allCorrect = true;
-            for (var inputFieldId in exerciseData.inputFields.keys) {
-              var inputField =
-                  exerciseData.inputFields[inputFieldId] as MbclInputFieldData;
-
-              var ok = false;
-              try {
-                var studentTerm =
-                    term_parser.Parser().parse(inputField.studentValue);
-                var expectedTerm =
-                    term_parser.Parser().parse(inputField.expectedValue);
-                print("comparing $studentTerm to $expectedTerm");
-                ok = expectedTerm.compareNumerically(studentTerm);
-              } catch (e) {
-                // TODO: give GUI feedback, that term is not well formed, ...
-                print("evaluating answer failed: $e");
-                ok = false;
-              }
-              if (ok) {
-                print("answer OK");
-              } else {
-                allCorrect = false;
-                print("answer wrong: expected ${inputField.expectedValue},"
-                    " got ${inputField.studentValue}");
-              }
-            }
-            if (allCorrect) {
-              print("... all answers are correct!");
-              exerciseData.feedback = MbclExerciseFeedback.correct;
-            } else {
-              print("... at least one answer is incorrect!");
-              exerciseData.feedback = MbclExerciseFeedback.incorrect;
-            }
-            level.calcProgress();
-            print("----- end of exercise evaluation -----");
-            // ignore: invalid_use_of_protected_member
-            state.setState(() {});
-          },
-          child: Container(
-            width: 75, //double.infinity,
-            //padding: EdgeInsets.only(left: 15, right: 5),
-            decoration: BoxDecoration(
-                border: isCorrect
-                    ? null
-                    : Border.all(
-                        width: 2.5,
-                        color: feedbackColor,
-                        style: BorderStyle.solid),
-                borderRadius: isCorrect
-                    ? null
-                    : BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
-            child: Center(child: feedbackText),
-          ),
-        );
-
-        var retryButton = GestureDetector(
-            onTap: () {
-              // force to get a new instance
-              exerciseData.reset();
-              level.calcProgress();
-              // ignore: invalid_use_of_protected_member
-              state.setState(() {});
-            },
-            child: Container(
-              width: 75, //double.infinity,
-              //padding: EdgeInsets.only(left: 15, right: 5),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 2.5,
-                      color: feedbackColor,
-                      style: BorderStyle.solid),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              child: Center(
-                  child: Icon(
-                Icons.autorenew,
-                color: feedbackColor,
-              )),
-            ));
-
-        List<Widget> buttons = [];
-        if (level.isEvent == false) {
-          buttons.add(validateButton);
-          buttons.add(Text('   '));
-          if (exerciseData.disableRetry == false &&
-              exerciseData.feedback == MbclExerciseFeedback.correct &&
-              exerciseData.instances.length > 1) {
-            buttons.add(retryButton);
-          }
-        }
-
-        list.add(Row(
-            mainAxisAlignment: MainAxisAlignment.center, children: buttons));
-        var opacity = 1.0;
-        // TODO: improve + reactivate this
-        /*if (state.activeExercise != null) {
-          opacity = item == state.activeExercise ? 1.0 : 0.3;
-        }*/
-        return Opacity(
-            opacity: opacity,
-            child: Container(
-                decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.08),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3))
-                ]),
-                padding: EdgeInsets.only(bottom: 10.0),
-                margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: list)));
+        return generateExercise(state, level, item);
       }
     case MbclLevelItemType.multipleChoice:
     case MbclLevelItemType.singleChoice:
       {
-        // exerciseData is non-null in a multiple choice context
-        exerciseData as MbclExerciseData;
-        //
-        int n = item.items.length;
-        if (exerciseData.indexOrdering.isEmpty) {
-          exerciseData.indexOrdering = List<int>.generate(n, (i) => i);
-          if (exerciseData.staticOrder == false) {
-            shuffleIntegerList(exerciseData.indexOrdering);
-          }
-        }
-        // generate answers
-        List<Widget> mcOptions = [];
-        for (var i = 0; i < item.items.length; i++) {
-          var inputField = item.items[exerciseData.indexOrdering[i]];
-          var inputFieldData = inputField.inputFieldData as MbclInputFieldData;
-          if (exerciseData.inputFields.containsKey(inputField.id) == false) {
-            exerciseData.inputFields[inputField.id] = inputFieldData;
-            inputFieldData.studentValue = "false";
-            var exerciseInstance =
-                exerciseData.instances[exerciseData.runInstanceIdx];
-            inputFieldData.expectedValue =
-                exerciseInstance[inputFieldData.variableId] as String;
-          }
-          var feedbackColor = getFeedbackColor(exerciseData.feedback);
-          var iconId = 0;
-          if (inputFieldData.studentValue == "false") {
-            if (item.type == MbclLevelItemType.singleChoice) {
-              iconId = 0xe504; // Icons.radio_button_unchecked
-            } else {
-              iconId = 0xe158; // Icons.check_box_outline_blank
-            }
-          } else {
-            if (item.type == MbclLevelItemType.singleChoice) {
-              iconId = 0xe503; // Icons.radio_button_checked
-            } else {
-              iconId = 0xEF46; // Icons.check_box_outlined
-            }
-          }
-          var icon = Icon(
-            IconData(iconId, fontFamily: 'MaterialIcons'),
-            color: feedbackColor,
-            size: 36,
-          );
-          var correct = inputFieldData.expectedValue == "true";
-          var button = Column(children: [
-            Padding(
-                padding: EdgeInsets.only(
-                    left: 8.0, right: 2.0, top: 0.0, bottom: 0.0),
-                child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: debugMode && correct
-                            ? feedbackColor.withOpacity(0.25)
-                            : Colors.white),
-                    child: icon)),
-          ]);
-          var text = generateLevelItem(state, level, inputField.items[0],
-              exerciseData: exerciseData);
-          if (exerciseData.horizontalSingleMultipleChoiceAlignment == false) {
-            text = Flexible(child: text);
-          }
-          mcOptions.add(GestureDetector(
-              onTap: () {
-                if (item.type == MbclLevelItemType.multipleChoice) {
-                  // multiple choice: swap clicked answer
-                  if (inputFieldData.studentValue == "true") {
-                    inputFieldData.studentValue = "false";
-                  } else {
-                    inputFieldData.studentValue = "true";
-                  }
-                } else {
-                  // single choice: mark clicked answer as true and mark all
-                  // other answers as false
-                  for (var subitem in item.items) {
-                    var ifd = subitem.inputFieldData as MbclInputFieldData;
-                    ifd.studentValue = ifd == inputFieldData ? "true" : "false";
-                  }
-                }
-                exerciseData.feedback = MbclExerciseFeedback.unchecked;
-                // ignore: invalid_use_of_protected_member
-                state.setState(() {});
-              },
-              child: exerciseData.horizontalSingleMultipleChoiceAlignment
-                  ? Row(children: [button, text])
-                  : Padding(
-                      padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                      child: Row(children: [button, text]))));
-          //child: Padding(
-          //    padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-          //    child: Row(children: [button, text]))));
-          //child: Row(children: [button, text])));
-        }
-        if (exerciseData.horizontalSingleMultipleChoiceAlignment) {
-          return Container(
-              margin: EdgeInsets.only(top: 5, bottom: 25),
-              child: Row(children: mcOptions));
-        } else {
-          return Column(children: mcOptions);
-        }
+        return generateSingleMultiChoice(state, level, item,
+            exerciseData: exerciseData);
       }
     default:
       {

@@ -510,14 +510,6 @@ class Block {
           break;
         }
 
-      case 'NEWPAGE':
-        {
-          var newPage =
-              MbclLevelItem(level, MbclLevelItemType.newPage, srcLine);
-          parent?.items.add(newPage);
-          break;
-        }
-
       default:
         {
           var error = MbclLevelItem(level, MbclLevelItemType.error, srcLine);

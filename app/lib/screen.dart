@@ -10,4 +10,6 @@ double screenWidth = 0.0;
 SingleChildScrollView? scrollView;
 ScrollController? scrollController;
 
+const double defaultFontSize = 16;
+
 GlobalKey? exerciseKey;

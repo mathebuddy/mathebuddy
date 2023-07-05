@@ -20,10 +20,11 @@ import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/unit.dart';
 
-import 'package:mathebuddy/color.dart';
-import 'package:mathebuddy/keyboard.dart';
-import 'package:mathebuddy/level.dart';
-import 'package:mathebuddy/screen.dart';
+import 'color.dart';
+import 'keyboard.dart';
+import 'level.dart';
+import 'screen.dart';
+import 'painter.dart';
 
 //var bundleName = 'assets/bundle-test.json'; // TODO: this is default!
 var bundleName = 'assets/bundle-complex.json';
@@ -451,31 +452,6 @@ class CoursePageState extends State<CoursePage> {
           icons.add(Padding(
               padding: EdgeInsets.only(left: 2.0, right: 2.0), child: icon));
         }
-        // level percentage
-        // icons.add(Text("   "));
-        // var percentage = (_level!.progress * 100).round();
-        // var actionLevelPercentage = Padding(
-        //     padding: EdgeInsets.only(top: 12),
-        //     child: Text(
-        //       '$percentage %',
-        //       style: TextStyle(fontSize: 14, color: Colors.black87),
-        //     ));
-        // icons.add(actionLevelPercentage);
-        // up icon
-        /*var icon = GestureDetector(
-            onTapDown: (TapDownDetails d) {
-              _onHomeButton();
-              setState(() {});
-            },
-            child: Padding(
-                padding: EdgeInsets.only(left: 30),
-                child: Icon(
-                    MdiIcons.fromString(
-                        "graph-outline" /*"arrow-up-circle-outline"*/),
-                    size: iconSize,
-                    color: unselectedColor)));
-        icons.add(icon);*/
-
         // panel
         // TODO: animate progress controller
         var progress = _level!.progress;
@@ -730,17 +706,7 @@ class CoursePageState extends State<CoursePage> {
     }
 
     List<Widget> actions = [];
-    // level percentage
-    // if (_viewState == ViewState.level) {
-    //   var percentage = (_level!.progress * 100).round();
-    //   var actionLevelPercentage = Padding(
-    //       padding: EdgeInsets.only(top: 12),
-    //       child: Text(
-    //         '$percentage %',
-    //         style: TextStyle(fontSize: 28, color: Colors.black87),
-    //       ));
-    //   actions.add(actionLevelPercentage);
-    // }
+
     // home button
     actions.add(Text('  '));
     var actionHome = IconButton(
@@ -884,44 +850,5 @@ class CoursePageState extends State<CoursePage> {
         }
     }
     setState(() {});
-  }
-}
-
-// TODO: move this to a new file
-class UnitEdge {
-  double x1 = 0;
-  double y1 = 0;
-  double x2 = 0;
-  double y2 = 0;
-  UnitEdge(this.x1, this.x2, this.y1, this.y2);
-}
-
-// TODO: move this to a new file
-class UnitEdges extends CustomPainter {
-  List<UnitEdge> _edges = [];
-  double strokeWidth = 10.0;
-
-  UnitEdges(this.strokeWidth);
-
-  void addEdge(double x1, double y1, double x2, double y2) {
-    _edges.add(UnitEdge(x1, x2, y1, y2));
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint();
-    paint.color = Colors.black87;
-    paint.strokeWidth = strokeWidth;
-    paint.strokeCap = StrokeCap.round;
-    for (var e in _edges) {
-      Offset startingOffset = Offset(e.x1, e.y1);
-      Offset endingOffset = Offset(e.x2, e.y2);
-      canvas.drawLine(startingOffset, endingOffset, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
   }
 }

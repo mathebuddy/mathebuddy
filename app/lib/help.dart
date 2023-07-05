@@ -27,7 +27,7 @@ String convertMath2TeX(String m, bool checkTeXRendering) {
   var term = parser.parse(m,
       splitIdentifiers: false); // TODO: splitIdentifiers: true??
   texString = term.toTeXString();
-  // check if can be rendered as TeX
+  // check if it can be rendered as TeX successfully
   if (checkTeXRendering) {
     var texEngine = TeX();
     var svg = texEngine.tex2svg(texString);
@@ -36,25 +36,4 @@ String convertMath2TeX(String m, bool checkTeXRendering) {
     }
   }
   return texString;
-  /*
-  // example:
-  //   '[[2,4],[1,5]]'
-  // is converted to
-  //   '\begin{pmatrix} 2 & 4 \\ 1 & 5 \\ \end{pmatrix}
-  s = s.replaceAll("{", "\\{");
-  s = s.replaceAll("}", "\\}");
-  s = s.replaceAll("*", "\\cdot");
-  s = s.replaceAll("sin", "\\sin");
-  s = s.replaceAll("cos", "\\cos");
-  s = s.replaceAll("tan", "\\tan");
-  s = s.replaceAll("exp", "\\exp");
-  s = s.replaceAll("ln", "\\ln");
-  s = s.replaceAll("pi", "\\pi");
-  if (s.startsWith('[[')) {
-    s = s.replaceAll('[[', '\\begin{pmatrix}');
-    s = s.replaceAll(']]', '\\end{pmatrix}');
-    s = s.replaceAll('],[', ' \\\\');
-    s = s.replaceAll(',', '&');
-  }
-  return s;*/
 }
