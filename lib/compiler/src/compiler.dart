@@ -18,6 +18,8 @@ import 'references.dart';
 
 // refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
 
+// TODO: update to new grammar of index files!!
+
 class Compiler {
   //final Function(String) loadFile;
   final String Function(String) loadFile;
@@ -63,10 +65,13 @@ class Compiler {
     } else {
       // processing only a course level
       _course = MbclCourse();
-      _course?.debug = MbclCourseDebug.level;
+      _course!.debug = MbclCourseDebug.level;
       _chapter = MbclChapter();
-      _course?.chapters.add(_chapter as MbclChapter);
-      compileLevel_NEW(path); // compileLevel(path);
+      _course!.chapters.add(_chapter!);
+      _unit = MbclUnit();
+      _chapter!.units.add(_unit!);
+      compileLevel(path); // compileLevel(path);
+      _unit!.levels.add(_chapter!.levels[0]);
     }
     // post processing
     postProcessCourse(_course as MbclCourse);
@@ -229,7 +234,7 @@ class Compiler {
         // compile level
         var dirname = extractDirname(path);
         var levelPath = '$dirname$fileName.mbl';
-        compileLevel_NEW(levelPath); // compileLevel(levelPath);
+        compileLevel(levelPath); // compileLevel(levelPath);
         _unit?.levels.add(_level as MbclLevel);
         // set chapter meta data
         _level?.fileId = fileName;
@@ -255,14 +260,14 @@ class Compiler {
   }
 
   //G level = TODO
-  void compileLevel_NEW(String path) {
+  void compileLevel(String path) {
     equationNumber = 1;
     // create a new level
     _level = MbclLevel();
     if (disableBlockTitles) {
       _level!.disableBlockTitles = true;
     }
-    _chapter?.levels.add(_level as MbclLevel);
+    _chapter!.levels.add(_level as MbclLevel);
     // get level source
     var src = loadFile(path);
     if (src.isEmpty) {
