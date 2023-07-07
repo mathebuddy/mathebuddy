@@ -15,7 +15,7 @@ import 'help.dart';
 import 'color.dart';
 
 Widget generateSingleMultiChoice(
-    CoursePageState state, MbclLevel level, MbclLevelItem item,
+    LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
   // exerciseData is non-null in a multiple choice context
   exerciseData as MbclExerciseData;

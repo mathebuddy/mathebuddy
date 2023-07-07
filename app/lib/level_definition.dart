@@ -9,11 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'main.dart';
 import 'level.dart';
 
-Widget generateDefinition(
-    CoursePageState state, MbclLevel level, MbclLevelItem item,
+Widget generateDefinition(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
 // TODO: other MbclLevelItemType.def*
   // TODO: icon

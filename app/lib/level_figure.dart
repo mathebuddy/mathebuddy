@@ -10,12 +10,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'main.dart';
 import 'level.dart';
-import 'screen.dart';
 
-Widget generateFigure(
-    CoursePageState state, MbclLevel level, MbclLevelItem item,
+Widget generateFigure(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
   List<Widget> rows = [];
   var figureData = item.figureData as MbclFigureData;
@@ -43,6 +40,7 @@ Widget generateFigure(
         break;
     }
   }
+  var screenWidth = MediaQuery.of(state.context).size.width;
   if (figureData.data.startsWith('<svg') ||
       figureData.data.startsWith('<?xml')) {
     rows.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [

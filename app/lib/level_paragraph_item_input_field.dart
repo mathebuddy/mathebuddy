@@ -11,13 +11,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
 import 'screen.dart';
-import 'main.dart';
+import 'level.dart';
 import 'color.dart';
 import 'help.dart';
 import 'keyboard_layouts.dart';
 
-InlineSpan generateParagraphItemInputField(
-    CoursePageState state, MbclLevelItem item,
+InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
     {bold = false,
     italic = false,
     color = Colors.black,

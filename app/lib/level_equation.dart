@@ -9,11 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'main.dart';
+import 'level.dart';
 import 'level_paragraph_item.dart';
 
-Widget generateEquation(
-    CoursePageState state, MbclLevel level, MbclLevelItem item,
+Widget generateEquation(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
   var data = item.equationData!;
   var eq = generateParagraphItem(state, data.math!, exerciseData: exerciseData);

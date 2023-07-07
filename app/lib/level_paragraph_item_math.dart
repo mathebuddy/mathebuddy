@@ -11,9 +11,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
 import 'screen.dart';
-import 'main.dart';
+import 'level.dart';
 
-InlineSpan generateParagraphItemMath(CoursePageState state, MbclLevelItem item,
+InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
     {bold = false,
     italic = false,
     color = Colors.black,

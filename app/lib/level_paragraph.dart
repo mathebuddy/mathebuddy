@@ -9,11 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'main.dart';
+import 'level.dart';
 import 'level_paragraph_item.dart';
 
-Widget generateParagraph(
-    CoursePageState state, MbclLevel level, MbclLevelItem item,
+Widget generateParagraph(LevelState state, MbclLevel level, MbclLevelItem item,
     {paragraphPaddingLeft = 3.0,
     paragraphPaddingRight = 3.0,
     paragraphPaddingTop = 10.0,

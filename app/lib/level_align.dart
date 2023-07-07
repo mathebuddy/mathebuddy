@@ -9,10 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'main.dart';
 import 'level.dart';
 
-Widget generateAlign(CoursePageState state, MbclLevel level, MbclLevelItem item,
+Widget generateAlign(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
   List<Widget> list = [];
   for (var subItem in item.items) {

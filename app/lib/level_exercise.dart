@@ -18,8 +18,7 @@ import 'main.dart';
 import 'screen.dart';
 import 'level.dart';
 
-Widget generateExercise(
-    CoursePageState state, MbclLevel level, MbclLevelItem item) {
+Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
   // TODO: must report error, if "exerciseData.instances.length" == 0!!
   exerciseKey = GlobalKey();
   var exerciseData = item.exerciseData as MbclExerciseData;

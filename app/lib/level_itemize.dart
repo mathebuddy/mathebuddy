@@ -9,11 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'main.dart';
 import 'level.dart';
 
-Widget generateItemize(
-    CoursePageState state, MbclLevel level, MbclLevelItem item,
+Widget generateItemize(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
   List<Row> rows = [];
   for (var i = 0; i < item.items.length; i++) {

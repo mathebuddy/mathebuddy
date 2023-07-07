@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
 import 'color.dart';
-import 'main.dart';
+import 'level.dart';
 import 'screen.dart';
 
 import 'level_paragraph_item_math.dart';
 import 'level_paragraph_item_input_field.dart';
 
-InlineSpan generateParagraphItem(CoursePageState state, MbclLevelItem item,
+InlineSpan generateParagraphItem(LevelState state, MbclLevelItem item,
     {bold = false,
     italic = false,
     color = Colors.black,

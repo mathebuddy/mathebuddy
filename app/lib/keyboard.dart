@@ -10,7 +10,13 @@ import 'package:mathebuddy/mbcl/src/level_item.dart';
 
 import 'package:mathebuddy/color.dart';
 import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/screen.dart';
+import 'package:mathebuddy/level.dart';
+
+class KeyboardState {
+  KeyboardLayout? layout; // null := not shown
+  MbclExerciseData? exerciseData;
+  MbclInputFieldData? inputFieldData;
+}
 
 class KeyboardKey {
   var value = ''; // special values: "!B" := backspace, "!E" := enter
@@ -144,11 +150,12 @@ class KeyboardLayout {
 // TODO: move "KeyboardState keyboardState" to attributes here!
 
 class Keyboard {
-  Widget generateWidget(CoursePageState state, KeyboardState keyboardState) {
+  Widget generateWidget(LevelState state, KeyboardState keyboardState) {
     var keyboardLayout = keyboardState.layout as KeyboardLayout;
     var keyboardInputFieldData =
         keyboardState.inputFieldData as MbclInputFieldData;
 
+    var screenWidth = MediaQuery.of(state.context).size.width;
     var keyWidth = screenWidth < 350 ? 45.0 : 55.0;
     const keyHeight = 50.0;
     const keyFontSize = 24.0;

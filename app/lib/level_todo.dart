@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'main.dart';
+import 'level.dart';
 
-Widget generateTodo(CoursePageState state, MbclLevel level, MbclLevelItem item,
+Widget generateTodo(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
   var opacity = 1.0;
   List<Widget> list = [];

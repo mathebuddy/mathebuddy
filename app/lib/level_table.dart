@@ -9,10 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'main.dart';
 import 'level.dart';
 
-Widget generateTable(CoursePageState state, MbclLevel level, MbclLevelItem item,
+Widget generateTable(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
   var tableData = item.tableData as MbclTableData;
   List<TableRow> rows = [];

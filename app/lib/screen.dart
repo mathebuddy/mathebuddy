@@ -6,7 +6,6 @@
 
 import 'package:flutter/material.dart';
 
-double screenWidth = 0.0;
 SingleChildScrollView? scrollView;
 ScrollController? scrollController;
 
