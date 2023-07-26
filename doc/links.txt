@@ -1,4 +1,0 @@
-[<a href="https://mathebuddy.github.io/mathebuddy/">Home</a>] 
-[<a href="./mbl.html">MBL Reference</a>] 
-[<a href="./smpl.html">SMPL Reference</a>] 
-[<a href="./mbcl.html">MBCL Reference</a>] 
