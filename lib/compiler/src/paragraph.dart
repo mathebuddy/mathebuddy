@@ -15,32 +15,60 @@ import 'compiler.dart';
 import 'exercise.dart';
 import 'math.dart';
 
+/// <GRAMMAR>
+///   paragraph =
+///       { part };
+///   part =
+///       itemize
+///     | enumerate
+///     | enumerateAlpha
+///     | bold
+///     | italic
+///     | inlineMath
+///     | reference
+///     | <PARSING_EXERCISE> inputElement
+///     | <PARSING_EXERCISE> singleChoiceOption
+///     | <PARSING_EXERCISE> multipleChoiceOption
+///     | linefeed
+///     | textProperty
+///     | text;
+///   itemize =
+///         <COLUMN=1>  "-"      { part } "\n"
+///       { <COLUMN=1> ("-"|" ") { part } "\n" };
+///   enumerate =
+///         <COLUMN=1>  "#."      { part } "\n"
+///       { <COLUMN=1> ("#."|" ") { part } "\n" };
+///   enumerateAlpha =
+///         <COLUMN=1>  "-)"      { part } "\n"
+///       { <COLUMN=1> ("-)"|" ") { part } "\n" };
+///   bold =
+///       "**" { part } "**";
+///   italic =
+///       "*" { part } "*";
+///   inlineMath =
+///       "$" inlineMathCore "$";
+///   reference =
+///       "@" ID [ ":" ID ];
+///   inputElement =
+///       "#" ID;
+///   singleChoiceOption =
+///       <COLUMN=1> "(" ( "x" | ":" ID | <EMPTY> ) ")" { part } "\n";
+///   multipleChoiceOption =
+///       <COLUMN=1> "[" ( "x" | ":" ID | <EMPTY> ) "]" { part } "\n";
+///   lineFeed =
+///       "\n";
+///   textProperty =
+///       <COLUMN!=1> "[" { part } "]" "@" ( "bold" | "italic" | "color" INT );
+///   text =
+///       *;
+/// </GRAMMAR>
 class Paragraph {
   MbclLevel level;
   Compiler compiler;
 
   Paragraph(this.level, this.compiler);
 
-  /*G
-     paragraph =
-        { paragraphPart };
-     paragraphPart =
-      | "**" {paragraphPart} "**"
-      | "*" {paragraphPart} "*"
-      | "[" {paragraphPart} "]" "@" ID
-      | "$" inlineMath "$"
-      | "#" ID                                     (exercise only)
-      | <START>"[" [ ("x"|":"ID) ] "]" {paragraphPart} "\n"  (exercise only)
-      | <START>"(" [ ("x"|":"ID) ] ")" {paragraphPart} "\n"  (exercise only)
-      | <START>"#" {paragraphPart} "\n"
-      | <START>"-" {paragraphPart} "\n"
-      | <START>"-)" {paragraphPart} "\n"
-      | ID
-      | DEL;
-   */
-  // TODO: RENAME METHOD!!
-  List<MbclLevelItem> parseParagraph(String raw, int srcRowIdx,
-      [MbclLevelItem? ex]) {
+  List<MbclLevelItem> parse(String raw, int srcRowIdx, [MbclLevelItem? ex]) {
     // skip empty paragraphs
     if (raw.trim().isEmpty) {
       return [MbclLevelItem(level, MbclLevelItemType.paragraph, srcRowIdx)];
@@ -53,7 +81,7 @@ class Paragraph {
     lexer.setTerminals(['**', '#.', '-)', '@@']);
     List<MbclLevelItem> res = [];
     while (lexer.isNotEnd()) {
-      var part = _parseParagraphPart(lexer, srcRowIdx, ex);
+      var part = _parsePart(lexer, srcRowIdx, ex);
       switch (part.type) {
         case MbclLevelItemType.itemize:
         case MbclLevelItemType.enumerate:
@@ -85,7 +113,7 @@ class Paragraph {
     return res;
   }
 
-  MbclLevelItem _parseParagraphPart(
+  MbclLevelItem _parsePart(
       Lexer lexer, int srcRowIdx, MbclLevelItem? exercise) {
     if (lexer.getToken().col == 1 &&
         (lexer.isTerminal('-') ||
@@ -107,7 +135,7 @@ class Paragraph {
       return _parseReference(lexer, srcRowIdx);
     } else if (exercise != null && lexer.isTerminal('#')) {
       // input element(s)
-      return _parseInputElements(lexer, srcRowIdx, exercise);
+      return _parseInputElement(lexer, srcRowIdx, exercise);
     } else if (exercise != null &&
         lexer.getToken().col == 1 &&
         (lexer.isTerminal('[') || lexer.isTerminal('('))) {
@@ -160,7 +188,7 @@ class Paragraph {
       var span = MbclLevelItem(level, MbclLevelItemType.span, srcRowIdx);
       itemize.items.add(span);
       while (lexer.isNotNewline() && lexer.isNotEnd()) {
-        span.items.add(_parseParagraphPart(lexer, srcRowIdx, exercise));
+        span.items.add(_parsePart(lexer, srcRowIdx, exercise));
       }
       if (lexer.isNewline()) {
         lexer.newline();
@@ -174,7 +202,7 @@ class Paragraph {
         }
         rowIdx = lexer.getToken().row;
         while (lexer.isNotNewline() && lexer.isNotEnd()) {
-          var p = _parseParagraphPart(lexer, srcRowIdx, exercise);
+          var p = _parsePart(lexer, srcRowIdx, exercise);
           span.items.add(p);
         }
         if (lexer.isNewline()) {
@@ -202,7 +230,7 @@ class Paragraph {
     lexer.next();
     var bold = MbclLevelItem(level, MbclLevelItemType.boldText, srcRowIdx);
     while (lexer.isNotTerminal('**') && lexer.isNotEnd()) {
-      bold.items.add(_parseParagraphPart(lexer, srcRowIdx, exercise));
+      bold.items.add(_parsePart(lexer, srcRowIdx, exercise));
     }
     if (lexer.isTerminal('**')) lexer.next();
     return bold;
@@ -213,7 +241,7 @@ class Paragraph {
     lexer.next();
     var italic = MbclLevelItem(level, MbclLevelItemType.italicText, srcRowIdx);
     while (lexer.isNotTerminal('*') && lexer.isNotEnd()) {
-      italic.items.add(_parseParagraphPart(lexer, srcRowIdx, exercise));
+      italic.items.add(_parsePart(lexer, srcRowIdx, exercise));
     }
     if (lexer.isTerminal('*')) lexer.next();
     return italic;
@@ -226,20 +254,20 @@ class Paragraph {
     if (lexer.isIdentifier()) {
       label = lexer.getToken().token;
       lexer.next();
-    }
-    if (lexer.isTerminal(":")) {
-      label += lexer.getToken().token;
-      lexer.next();
-    }
-    if (lexer.isIdentifier()) {
-      label += lexer.getToken().token;
-      lexer.next();
+      if (lexer.isTerminal(":")) {
+        label += lexer.getToken().token;
+        lexer.next();
+        if (lexer.isIdentifier()) {
+          label += lexer.getToken().token;
+          lexer.next();
+        }
+      }
     }
     ref.label = label;
     return ref;
   }
 
-  MbclLevelItem _parseInputElements(
+  MbclLevelItem _parseInputElement(
       Lexer lexer, int srcRowIdx, MbclLevelItem exercise) {
     lexer.next();
     var inputField =
@@ -363,7 +391,7 @@ class Paragraph {
     var span = MbclLevelItem(level, MbclLevelItemType.span, srcRowIdx);
     inputField.items.add(span);
     while (lexer.isNotNewline() && lexer.isNotEnd()) {
-      span.items.add(_parseParagraphPart(lexer, srcRowIdx, exercise));
+      span.items.add(_parsePart(lexer, srcRowIdx, exercise));
     }
     if (lexer.isTerminal('\n')) lexer.next();
     return root;
@@ -375,7 +403,7 @@ class Paragraph {
     lexer.next();
     List<MbclLevelItem> items = [];
     while (lexer.isNotTerminal(']') && lexer.isNotEnd()) {
-      items.add(_parseParagraphPart(lexer, srcRowIdx, exercise));
+      items.add(_parsePart(lexer, srcRowIdx, exercise));
     }
     if (lexer.isTerminal(']')) {
       lexer.next();
