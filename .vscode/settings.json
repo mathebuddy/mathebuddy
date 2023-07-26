@@ -78,6 +78,7 @@
     "notin",
     "numpy",
     "nwarrow",
+    "OUTDENT",
     "outfile",
     "pandoc",
     "perp",
