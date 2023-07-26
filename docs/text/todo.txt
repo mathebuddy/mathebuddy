@@ -1,0 +1,82 @@
+<h3>Known bugs / limitations / design issues</h3>
+
+- compiler: update index file implementation according to new grammar
+- grammar.txt files are out of date
+- Debug option: show complete chapter at once (e.g. for PDF export)
+- must update MBL and SMPL documentation
+- VSCode simulator plugin: fix CSP via nonce (https://github.com/flutter/flutter/issues/126977)
+- public courses: include new features
+- level overview icons are still too small (max 3 columns or horizontal scrolling?)
+- larger exercises should be split up, with possibility to evaluate parts of it
+- SMPL code "let phi = randZ(-1,1)\*pi/rand({2,3,6});" is generated to TeX (e.g.) "\frac{-pi}{3}" instead of "-\frac{pi}{3}"
+- SMPL code should allow to include the students answer for evaluation
+- keyboards should open automatically, if there is only one exercise in the current view
+- automatically move to the next input field after pressing the "enter" key
+- repeat-exercise button must draw instances that are distinct to prior ones
+- keyboard input field: if the input is longer than the field, things become strange..
+- "-1-2-3" on keyboard is rendered as "1 + -2 + -3"
+- missing navigation button to (default) next level (at the end of the current level)
+- CAS is still limited/buggy (in some "circumstances": decimal representation instead of symbolic terms, e.g. "1.57..." instead of "pi/2"; or "1/2+1" instead of "3/2"); known bugs are marked by "work-in-progess"-texts
+- the context-sensitive keyboard for answers is too restricted in some cases; especially polar form input is currently not yet available; known bugs are marked by "work-in-progess"-texts
+- the TeX-engine is inaccurate in spacing. E.g. "\left{1,2,3\right}" is really ugly...
+- scoring is not persisted
+- chatbot (that asks randomized questions) is not yet present
+- "events" are not yet gamified
+- "\" in TeX strings is corrupted by MBL in some cases (e.g. "x \ dx"): must emit spaces by Lexer while parsing paragraphs
+- solutions hints: e.g. number of correct element in a set, or feedback which part solutions are correct in exercises with multiple input fields
+- compiler: output warning/error for duplicate labels
+- support for multiple course languages in MBL
+- simulator website: enable typing answers on host keyboard
+- support for "build-term: true" in exercises (front end)
+- MBL: allow \\ for paragraph distinction (in addition to an empty line)
+- assets issues with google fonts / app does not run offline due to roboto google fonts!!
+
+<h3>Implemented, but not yet online (newest items first)</h3>
+
+(list is currently empty)
+
+<h3>Fixed (newest items first)</h3>
+
+- implementation: integrate directory /doc/ into directory /docs/
+- refactored complete app code
+- "Navigator" is now used to push/pop app pages
+- pressing on "DEBUG" (or "RELEASE") in the title bar switches between debug and release mode.
+- some buttons have confused testers.
+  (a) The exercise passed/OK check now has no border and thus does not seem to be a clickable button any longer
+  (b) Added backward/forward buttons at the end of a level-page
+- repeating an exercise that has been passed, does not longer vanish scores.
+- the level progress is now indicated by a linear progress bar on the top
+- icons in exercises, definitions have been removed
+- added MBL syntax to force special keyboards (e.g. with "`^(`"-key).
+- leaving the current unit does not vanish all progress anymore
+- vertical alignment of bullet points in itemize lists has been improved
+- level overview: a lock symbol for non-accessible levels is shown. Currently, at least 50 % must be reached to pass a level. NOTE: Since the progress can not be persisted yet, also locked levels can be opened.
+- LL-parsing of unary-minus wrongly used an unary expression as operand, instead of a multiply-expression (e.g. "-x/y" war wrongly parsed to "(-x)/y" instead of "-(x/y)")
+- added a tutorial template
+- added button to repeat randomized exercises
+- progress within level is now shown
+- progress in level overview is now shown
+- keyboard: non-numeric chars/strings are now separated by "_" (e.g. "isqrt(" -> "i _ sqrt(")
+- invalid term inputs are now marked by a border at top and bottom of the input field
+- permanent headers (top bar + level navigation bar) consumed too much vertical space on small screens
+- level overview: icons are rearranged to fill 4 columns max
+- level overview graph now shows edges
+- smpl doc: define sets as "{...}"; "set(..)" is forbidden now, ...
+- TeX: $e^{\frac12}$
+- output source row number for SMPL-errors
+- report error for exercises that have no instances
+- some figures are rendered too wide (overflow)
+- support for new glyphs in TeX: "?", "\Longleftrightarrow"
+- inline math support for the TeX engine
+- enable switch display/inline TeX support in compiler and app
+- support for "build-term: true" in exercises (back end)
+- references to equations, sections, ...
+- web application has blue (not red) background when loading
+- indexing bug for more than one multiple/single choice answer in one exercise
+- itemize/enumerate/... dot/number/letter is incorrectly aligned vertically
+- allow input field editing at arbitrary cursor positions
+- word wrapping for single/multiple choice answers
+- hide/opacity non-active exercises
+- keyboard key press animation
+- show current position of vertical scrolling
+- support for chapters (currently only levels are supported)
