@@ -23,8 +23,8 @@ This repository implements all components of the `mathe:buddy` app.
 | .vscode/                  | Visual Code Project Settings                      |
 | app/                      | Implementation of the App with Flutter            |
 | bin/                      | Scripts                                           |
-| doc/                      | Documentation of SMPL, MBL, MBCL                  |
 | docs/                     | Website: https://mathebuddy.github.io/mathebuddy/ |
+| docs/doc/                 | Documentation of SMPL, MBL, MBCL                  |
 | ext/                      | External Components                               |
 | img/                      | Original image files                              |
 | lib/                      | Implementation of components (math-runtime, ...)  |
