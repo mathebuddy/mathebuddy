@@ -64,9 +64,9 @@ do
         ;;
     2)
         # [2] build documentation
-        cd doc
+        cd docs/doc
         python3 build.py
-        cd ..
+        cd ../..
         ;;
     3)
         # [3] build flutter web app
