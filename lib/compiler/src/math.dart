@@ -9,6 +9,10 @@ import 'package:slex/slex.dart';
 import '../../mbcl/src/level.dart';
 import '../../mbcl/src/level_item.dart';
 
+/// <GRAMMAR>
+///   inlineMathCore =
+///     TODO
+/// </GRAMMAR>
 MbclLevelItem parseInlineMath(
     MbclLevel level, Lexer lexer, MbclLevelItem? exercise) {
   if (lexer.isTerminal('\$')) lexer.next();
