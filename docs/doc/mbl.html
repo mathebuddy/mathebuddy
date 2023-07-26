@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-06-07" />
+  <meta name="dcterms.date" content="2023-07-26" />
   <title>Mathe:Buddy Language (MBL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -19,6 +19,69 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="doc.css" />
   <script
@@ -36,12 +99,11 @@
 [<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Mathe:Buddy Language (MBL)</h1>
 <p class="author"></p>
-<p class="date">2023-06-07</p>
+<p class="date">2023-07-26</p>
 </header>
 <!-- Mathe:Buddy Language (MBL) -->
 <hr />
-<p><strong>NOTE</strong> This reference guide is in work-in-progress
-state. We are planning to release version 1.0 by mid of 2023.</p>
+<p><strong>NOTE</strong> This reference guide is updated frequently.</p>
 <hr />
 <p>This document describes the syntax of the <em>mathe:buddy language
 (MBL)</em>, which can be used to create mathematical based online
@@ -67,59 +129,61 @@ to calculate sample solutions.</li>
 <p>The language definition of MBL is independent of concrete
 implementations. All concepts can be transferred to other learning
 management systems.</p>
-<p>Visit <a
-href="https://github.com/mathebuddy/mathebuddy-public-courses">https://github.com/mathebuddy/mathebuddy-public-courses</a>
-for practical examples, written in MBL.</p>
+<p>A large set of examples can be obtained from <a
+href="https://github.com/mathebuddy/mathebuddy-public-courses">https://github.com/mathebuddy/mathebuddy-public-courses</a>.</p>
 <h2 id="hello-world">Hello, world!</h2>
 <p>The following lines define a trivial level page:</p>
-<pre><code>My first level
-###############
-
-Welcome to mathe:buddy!</code></pre>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>My first level</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>###############</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Welcome to mathe:buddy!</span></code></pre></div>
 <h2 id="typography">Typography</h2>
 <p>This section describes the text structuring and text formatting
 features.</p>
 <ul>
 <li><p><code>Level Title</code></p>
 <p>A level title is the main heading of a level file. Example:</p>
-<pre><code>My Course Title @myLabel
-###############</code></pre>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>My Course Title @myLabel</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>###############</span></code></pre></div>
 <p>Five or more hashtags (<code>#</code>) are required. Labels are
 optional.</p></li>
 <li><p><code>Sections</code></p>
 <p>A level can be separated into sections (headlines). Example:</p>
-<pre><code>My Section @sec:myLabel
-==========</code></pre>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>My Section @sec:myLabel</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>==========</span></code></pre></div>
 <p>Five or more equal signs (<code>=</code>) are required. Labels are
 optional. We suggest to use prefix <code>sec:</code> for section labels,
 but this is optional.</p></li>
 <li><p><code>Subsections</code></p>
 <p>A section can be subdivided into one or multiple subsections.
 Example:</p>
-<pre><code>My Subsection @subsec:myLabel
--------------</code></pre>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>My Subsection @subsec:myLabel</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>-------------</span></code></pre></div>
 <p>Five or more dashes (<code>-</code>) are required. Labels are
 optional. We suggest to use prefix <code>subsec:</code> for subsection
 labels, but this is optional.</p></li>
 <li><p><code>Paragraphs</code></p>
 <p>A paragraph consists of one or multiple lines of continuous text.
 Example:</p>
-<pre><code>This is text within a paragraph.
-Even this text stands in a new line, it is compiled to be written directly behind the last line.
-
-An empty line starts a new paragraph.</code></pre></li>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>This is text within a paragraph.</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Even this text stands in a new line, it is compiled to be written directly behind the last line.</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>An empty line starts a new paragraph.</span></code></pre></div></li>
 <li><p><code>Definitions, Theorems, Lemmas, ...</code></p>
 <p>Definitions, Theorems etc. are embedded into a <em>block</em> that
 syntactically starts and ends with each a line of three dashes
 (<code>---</code>). Examples:</p>
-<pre><code>---
-DEFINITION Positive @def:positive
-For any integer $n$, $n$ is **positive** if $n&gt;0$.
----</code></pre>
-<pre><code>---
-THEOREM The Aristotelian Syllogism @thm:socrates
-If every man is mortal and Socrates is a man, then Socrates is mortal.
----</code></pre>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DEFINITION</span> Positive @def:positive</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    For any integer <span class="dv">$n$</span>, <span class="dv">$n$</span> is **positive** if <span class="dv">$n&gt;0$</span>.</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">THEOREM</span> The Aristotelian Syllogism @thm:socrates</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    If every man is mortal and Socrates is a man, then Socrates is mortal.</span></code></pre></div>
 <p>The runtime environment may replace tag names with corresponding
 terms of the local language.</p>
 <p>The complete list of supported tags is <code>DEFINITION</code>,
@@ -130,24 +194,23 @@ terms of the local language.</p>
 <li><p><code>Examples</code></p>
 <p>Examples are embedded into a <em>block</em> that syntactically starts
 and ends with each a line of three dashes (<code>---</code>).</p>
-<pre><code>---
-EXAMPLE Addition of complex numbers @ex:myExample
-$z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i$
----</code></pre>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXAMPLE</span> Addition of complex numbers @ex:myExample</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">$z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i$</span></span></code></pre></div>
 <p>Full line equations can be inserted as described in subsection
 “nesting of blocks below. Example:</p>
-<pre><code>---
-EXAMPLE Addition of complex numbers @ex:myExample
-EQUATION
-z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i
----</code></pre></li>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXAMPLE</span> Addition of complex numbers @ex:myExample</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">EQUATION</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i</span></code></pre></div></li>
 <li><p><code>Bold, Italic and Colored Text</code></p>
 <p>Basic text formatting options are bold text, italic text and colored
 text. Examples:</p>
-<pre><code>Some **bold** text. Some *italic* text.
-The word [sky]@color1 is written in primary color.
-[Some text written in the secondary color.]@color2.
-You can also write [bold text]@bold and [italic text]@italic similar to color notation.</code></pre>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Some **bold** text. Some *italic* text.</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>The word [sky]@color1 is written in primary color.</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>[Some text written in the secondary color.]@color2.</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>You can also write [bold text]@bold and [italic text]@italic similar to color notation.</span></code></pre></div>
 <p>Colors are only defined implicitly. The exact rendering depends on
 the runtime environment. We restricted the degree of freedom per design
 to force uniformly presented courses. <code>color0</code> defines black
@@ -157,10 +220,9 @@ color in all cases.</p></li>
 <code>LEFT</code>, <code>CENTER</code> and <code>RIGHT</code> change the
 alignment.</p>
 <p>Example:</p>
-<pre><code>---
-CENTER
-This text is centered.
----</code></pre></li>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CENTER</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    This text is centered.</span></code></pre></div></li>
 <li><p><code>Links and References</code></p>
 <p>Each section, subsection, equation, exercise, … can be labeled at
 declaration. A label has the form <code>@PREFIX:LABEL</code>, with
@@ -171,10 +233,11 @@ to write <code>@PREFIX:LABEL</code> again.</p>
 <p>The order of declaration and reference is arbitrary.</p>
 <!-- TODO: references to other levels.. -->
 <p>Example:</p>
-<pre><code>An introduction is given in @sec:intro.
-
-Intro @sec:intro
-=====</code></pre>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>An introduction is given in @sec:intro.</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>Intro @sec:intro</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>=====</span></code></pre></div>
 <p>We suggest to use the following prefixes:</p>
 <table>
 <thead>
@@ -238,50 +301,47 @@ separated links.</p></li>
 until the current line ends.</p>
 <p>Comments can e.g. be used to make notes to other developers, or
 temporarily hide unfinished stuff. Example:</p>
-<pre><code>This text is displayed in the output. % only a course developer can read this.</code></pre></li>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>This text is displayed in the output. % only a course developer can read this.</span></code></pre></div></li>
 <li><p><code>Page Breaks</code></p>
 <p>A level can be scrolled vertically by the student. Doom-scrolling
 should be avoided (not only) for didactical reasons. Page breaks can be
 inserted by a <code>NEWPAGE</code>-<em>block</em>. Example:</p>
-<pre><code>---
-NEWPAGE
----</code></pre></li>
+<p>TODO!!!!!</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>NEWPAGE</span></code></pre></div></li>
 <li><p>Nesting of blocks:</p>
 <p>In general, format blocks are used in a sequence, i.e. a new block
 starts after the last block ended.</p>
 <p>In some cases, a nesting of blocks is needed. The following example
 uses text alignment and an equation within a
 <code>DEFINITION</code>:</p>
-<pre><code>---
-DEFINITION My definition @def:myDef
-Some paragraph text here.
-
-CENTER
-This text is center aligned.
-
-EQUATION @myEquation
-x^2 + y^2 = z^2
-
-TEXT
-Another paragraph here.
----</code></pre>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DEFINITION</span> My definition  @def:myDef</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    Some paragraph text here.</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CENTER</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        This text is center aligned.</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">EQUATION</span> @myEquation</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        x^2 + y^2 = z^2</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    Another paragraph here.</span></code></pre></div>
 <p>Inner blocks do not use <code>---</code> as separator. Note in the
 example, that <code>TEXT</code> is used to leave equation mode.</p>
 <p><strong>Warning:</strong> Attributes (for example
 <code>@options</code> in exercises) refer to the innermost declared
 subblock. To explicitly end a subblock, use the <code>END</code>
 keyword. Example:</p>
-<pre><code>---
-EXERCISE Test
-
-FIGURE
-@path
-img/my-figure.svg
-END
-
-@text            % The following lines belong to &#39;EXERCISE&#39;
-(x) correct answer
-( ) incorrect answer</code></pre></li>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Test</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FIGURE</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>@path</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>img/my-figure.svg</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>END</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>@text            % The following lines belong to &#39;EXERCISE&#39;</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>(x) correct answer</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>( ) incorrect answer</span></code></pre></div></li>
 </ul>
 <h2 id="equations">Equations</h2>
 <p>We distinguish two kinds of equations: <em>inline equations</em> are
@@ -293,21 +353,20 @@ default.</p>
 <li><p><code>Inline Equations</code></p>
 <p>An inline equation is embedded into a pair of dollar signs.
 Example:</p>
-<pre><code>Einstein&#39;s famous formula is $E=mc^2$. It defines the energy $E$ of ...</code></pre></li>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Einstein&#39;s famous formula is <span class="dv">$E=mc^2$</span>. It defines the energy <span class="dv">$E$</span> of ...</span></code></pre></div></li>
 <li><p><code>Full Equations</code> (equations in display math mode)</p>
 <p>Full equations are embedded into a block with keyword
 <code>EQUATION</code>. Example:</p>
-<pre><code>---
-EQUATION @eq:myLabel
-a^2 + b^2 = c^2
----</code></pre>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EQUATION</span>  @eq:myLabel</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    a^2 + b^2 = c^2</span></code></pre></div>
 <p>The label is optional.</p>
 <p>A numbering is displayed right to the equation per default. An
 asterisk <code>*</code> hides the numbering. Example:</p>
-<pre><code>---
-EQUATION* @eq:myLabel
-a^2 + b^2 = c^2
----</code></pre>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EQUATION</span>*  @eq:myLabel</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    a^2 + b^2 = c^2</span></code></pre></div>
 <p>Equations can be labeled with <code>@</code>. For example,
 <code>@eq:myLabel</code> is displayed <span
 class="math inline">\(Eq~(1)\)</span> (depends on the runtime
@@ -317,12 +376,11 @@ you may stack equal signs vertically.</p>
 <p>Each row must contains an ampersand character (<code>&amp;</code>)
 for the alignment, and must end with a line feed <code>\\</code>.</p>
 <p>Example:</p>
-<pre><code>---
-ALIGNED-EQUATION
-(x+1)^2 &amp;= (x+1)(x+1) \\
-        &amp;= x^2 + x + x + 1 \\
-        &amp;= x^2 + 2x + 1 \\
----</code></pre>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ALIGNED-<span class="kw">EQUATION</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    (x+1)^2 &amp;= (x+1)(x+1) \\</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>            &amp;= x^2 + x + x + 1 \\</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>            &amp;= x^2 + 2x + 1 \\</span></code></pre></div>
 <p><em>Remarks: The last linefeed via <code>\\</code> is optional. The
 spacing before <code>&amp;</code> is optional, but highly suggested to
 improve readability.</em></p></li>
@@ -332,12 +390,6 @@ the notation is rather long. We introduce some abbreviations for a
 shorter notation. The following table lists all implemented
 abbreviations:</p>
 <table>
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 66%" />
-<col style="width: 22%" />
-<col style="width: 2%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th>type</th>
@@ -371,13 +423,6 @@ abbreviations:</p>
 <td><code>\CC</code></td>
 <td></td>
 </tr>
-<tr class="odd">
-<td>matrix</td>
-<td><code>\begin{pmatrix}</code> <br>   <code>A &amp; B\\</code> <br>
-  <code>C &amp; D\\</code> <br> <code>\end{pmatrix}</code></td>
-<td><code>\mat{A&amp;B\\C&amp;D}</code> <br> <br> <br></td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <p>Using abbreviations is optional.</p></li>
@@ -389,28 +434,38 @@ abbreviations:</p>
 recommend to generate files in the <code>SVG</code> (Scalable Vector
 Graphics) format using <a href="https://inkscape.org">Inkscape</a>).</p>
 <ul>
+<li><p><code>Figures</code></p>
+<p>A figure displays an image file. It is highly recommended to use
+<code>*.svg</code> as file format (scalable vector graphics).
+Example:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FIGURE</span> My figure title @fig:myFigure</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">WIDTH</span>=75</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    PATH=images/myImage.svg</span></code></pre></div>
+<p>Attribute <code>width-P</code> specifies the displayed width with a
+percentage value for <code>P</code>. E.g. <code>width-75</code> renders
+the figure with 75 % of the display width. Default is
+<code>width-100</code>.</p></li>
 <li><p><code>Function Plots</code></p>
 <p>Functions graphs are described in a <em>block</em> with keyword
 <code>FIGURE</code>.</p>
 <p>Example:</p>
-<pre><code>---
-FIGURE My Plot @fig:functions
-@options
-  width-75
-@code
-  let f(x) = x^2
-  let g(x) = 2*x
-  figure {
-    x_axis(-5, 5, &quot;x&quot;)  % x-min, y-max, label
-    y_axis(-0.5, 4.5, &quot;y&quot;)
-    function(f)
-    function(g)
-    circle(0, 0, 0.1)   % x, y, radius
-    circle(2, 4, 0.1)
-  }
-@caption
-  Some functions $f$ and $g$
----</code></pre>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FIGURE</span> My Plot @fig:functions</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">WIDTH</span>=75</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        let f(x) = x^2</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        let g(x) = 2*x</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        figure {</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>          x_axis(-5, 5, &quot;x&quot;)  % x-min, y-max, label</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>          y_axis(-0.5, 4.5, &quot;y&quot;)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>          function(f)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>          function(g)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>          circle(0, 0, 0.1)   % x, y, radius</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>          circle(2, 4, 0.1)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CAPTION</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>        Some functions <span class="dv">$f$</span> and <span class="dv">$g$</span></span></code></pre></div>
 <p>Part <code>@code</code> defines two functions <span
 class="math inline">\(f(x)\)</span> anf <span
 class="math inline">\(g(x)\)</span>. Function <code>figures2d()</code>
@@ -426,48 +481,34 @@ Axis definition is done by &nbsp;&nbsp; `xaxis LABEL from MIN to MAX` &nbsp;&nbs
 
 Keyword `coord X Y` renders a small circle at position $(X,Y)$.
 -->
-<ul>
-<li><p><code>Figures</code></p>
-<p>A figure displays an image file. It is highly recommended to use
-<code>*.svg</code> as file format (scalable vector graphics).
-Example:</p>
-<pre><code>---
-FIGURE My figure title @fig:myFigure
-@options
-  width-75
-@path
-  images/myImage.svg
----</code></pre>
-<p>Option <code>width-P</code> specifies the displayed width with a
-percentage value for <code>P</code>. E.g. <code>width-75</code> renders
-the figure with 75 % of the display width. Default is
-<code>width-100</code>.</p></li>
-</ul>
 <h2 id="itemizations-and-enumerations">Itemizations and
 Enumerations</h2>
 <ul>
 <li><p><code>Itemize</code></p>
 <p>An itemization lists a set of bullet points. Example:</p>
-<pre><code>My itemization:
-- first item
-- second item
-- third item</code></pre>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>My itemization:</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>- first item</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>- second item</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>- third item</span></code></pre></div>
 <p>A line that starts with a dash (<code>-</code>) is rendered as bullet
 point.</p></li>
 <li><p><code>Enumeration (numbers)</code></p>
 <p>Enumerations list a sequence of numbered items. Example:</p>
-<pre><code>My enumeration:
-#. first item
-#. second item
-#. third item</code></pre>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>My enumeration:</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>#. first item</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>#. second item</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>#. third item</span></code></pre></div>
 <p>A line that starts with a hashtag following a dot (<code>#.</code>)
 is rendered with numbering (1, 2, …).</p></li>
 <li><p><code>Enumeration (letters)</code></p>
 <p>Alphabetical enumerations list a sequence of items. Example:</p>
-<pre><code>My enumeration:
--) first item
--) second item
--) third item</code></pre>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>My enumeration:</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>-) first item</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>-) second item</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>-) third item</span></code></pre></div>
 <p>A line that starts with a dash following a closing parenthesis
 (<code>-)</code>) is rendered with preceding letters <code>a)</code>,
 <code>b)</code>, … .</p></li>
@@ -480,16 +521,13 @@ reasons, as well as a mobile friendly presentation.</em></p>
 Columns are separated by <code>&amp;</code>. The first row is considered
 as headline.</p>
 <p>Example:</p>
-<pre><code>---
-TABLE title @tab:label
-@options
-  align-left
-@text
-  $x$ &amp; $f(x)$
-  1   &amp; 1
-  2   &amp; 4
-  3   &amp; 9
----</code></pre>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">TABLE</span> My table title  @tab:label</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">ALIGN</span>=left</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">$x$</span> &amp; <span class="dv">$f(x)$</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    1   &amp; 1</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    2   &amp; 4</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    3   &amp; 9</span></code></pre></div>
 <p>The alignment option <code>align-X</code> specifies the placing of
 the table. Parameter <code>X</code> is one of <code>left</code>,
 <code>center</code>, <code>right</code>. Default is
@@ -509,17 +547,15 @@ href="https://app.f07-its.fh-koeln.de/docs-smpl.html">here</a>.</p>
 <p>This type of exercise asks students to solve a question with one or
 more numeric solutions. Solutions can be scalars, vectors, matrices or
 sets.</p>
-<pre><code>---
-EXERCISE My exercise @ex:myLabel
-@code
-  let x/y = rand(1, 5)
-  let z = x + y
-  let A/B = rand&lt;2,3&gt;(-5,5)
-  let C = A + B
-@text
-  Calculate $ x+y= $ #z
-  Calculate $ A+B= $ #C
----</code></pre>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> My exercise  @ex:myLabel</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        let x/y = rand(1, 5)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        let z = x + y</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        let A/B = rand&lt;2,3&gt;(-5,5)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        let C = A + B</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    Calculate <span class="dv">$ x+y= $</span> #z</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    Calculate <span class="dv">$ A+B= $</span> #C</span></code></pre></div>
 <p><em>Note: <code>let x/y = rand(1, 5)</code> is an abbreviation for
 <code>let x = rand(1, 5); let y = rand(1, 5);</code> with guarantee that
 <span class="math inline">\(x \neq y\)</span></em></p>
@@ -550,16 +586,13 @@ possible answers is shown. Only one these answers is a correct one. All
 other answers are incorrect. The student has to select the correct
 solution to gather scoring.</p>
 <p>Example:</p>
-<pre><code>---
-EXERCISE Multiplication
-@options
-  choices-4
-@code
-  let x/y = rand(10,20)
-  let z = x * y
-@text
-  Calculate $x * y=$ #z
----</code></pre></li>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Multiplication</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    CHOICES=4</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        let x/y = rand(10,20)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>        let z = x * y</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    Calculate <span class="dv">$x * y=$</span> #z</span></code></pre></div></li>
 <li><p><code>complex numbers</code></p>
 <p>Per default, two input fields of the form    <code>[ ] + [ ]i</code>
    are shown to enter the solution in normal form.</p>
@@ -569,16 +602,12 @@ to enter the solution in polar form.</p>
 one of them shows the correct solution (refer to exercise type
 <code>integers and real numbers</code>).</p>
 <p>Example:</p>
-<pre><code>---
-EXERCISE Complex addition
-@options
-  polar-form
-@code
-  let x/y = complex(rand(10,20), rand(10,20))
-  let z = x + y
-@text
-  Calculate $x + y=$ #z
----</code></pre></li>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Complex addition</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        let x/y = complex(rand(10,20), rand(10,20))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        let z = x + y</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    Calculate <span class="dv">$x + y=$</span> #polar(z)</span></code></pre></div></li>
 <li><p><code>sets</code></p>
 <p>Per default, if the set has length <span
 class="math inline">\(n\)</span>, then <span
@@ -590,16 +619,13 @@ number of solution fields on their own.</p>
 one of them shows the correct solution (refer to exercise type
 <code>integers and real numbers</code>).</p>
 <p>Example:</p>
-<pre><code>---
-EXERCISE Linear Equations
-@options
-  n-args
-@code
-  let s = {-2, 2}
-@text
-  Solve $x^2 - 4 = 0$.
-  $x=$ #s
----</code></pre></li>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Linear Equations</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    FLEX_ELEMENTS=true</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        let s = {-2, 2}</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    Solve <span class="dv">$x^2 - 4 = 0$</span>.</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">$x=$</span> #s</span></code></pre></div></li>
 <li><p><code>matrices</code></p>
 <p>Per default, an input matrix is shown with a text field for each
 element of the solution matrix.</p>
@@ -611,30 +637,23 @@ number of solution columns on their own.</p>
 one of them shows the correct solution (refer to exercise type
 <code>integers and real numbers</code>).</p>
 <p>Example:</p>
-<pre><code>---
-EXERCISE Matrix Operations
-@options
-  n-rows
-  n-cols
-@code
-  let A/B/C = rand&lt;3,3&gt;(0, 5)  % 3x3-matrices
-  let D = A*B + C
-@text
-  Calculate $A*B + C=$ #D
----</code></pre></li>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Matrix Operations</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    FLEX_ROWS=true</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    FLEX_COLS=true</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        let A/B/C = rand&lt;3,3&gt;(0, 5)    % 3x3-matrices</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        let D = A*B + C</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    Calculate <span class="dv">$A*B + C=$</span> #D</span></code></pre></div></li>
 <li><p><code>vectors</code></p>
 <p>Exercises with vector solutions are technically matrix exercises with
 the number of rows, or columns respectively, set to one.</p></li>
 <li><p><code>terms</code></p>
-<pre><code>---
-EXERCISE Simple Integration @ex:intSimple
-@options
-  term-tokens-1.5
-@code
-  F(x) = 1/3*x^3 + 7*x
-@text
-  Solve $\int (x^2+7) \dx =$  #F  $+C$
----</code></pre>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Simple Integration  @ex:intSimple</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>        let F(x) = (1/3) x^3 + 7x</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    Solve <span class="dv">$\int (x^2+7) dx = #build_term(F),score=2 +C$</span></span></code></pre></div>
 <p>Without any option, the student is required to enter
 <code>1/3*x^3 + 7*x</code> (or an algebraic equivalent solution) on a
 keyboard.</p>
@@ -666,21 +685,16 @@ the definition of <code>forbid-X</code>.</p>
 <p>Per default, each input field is weighted with 1 score. And the total
 score per exercise is defined as sum of scores of the input fields.</p>
 <p>Example for custom scoring:</p>
-<pre><code>---
-EXERCISE Scoring example
-@options
-  scores-5        % total score of the exercise (5/3 for fa; 10/3 for fb)
-  score-fa-1      % relative score for solution fa
-  score-fb-2      % relative score for solution fb
-@code
-  let a = rand(2,4)
-  let b = rand(5,8)
-  let fa = fac(a)
-  let fb = fac(b)
-@text
-  Calculate $ a! = $ #fa
-  Calculate $ b! = $ #fb
----</code></pre>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Scoring example</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    SCORES=5   % total score of the exercise (5/3 for fa; 10/3 for fb)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        let a = rand(2,4)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>        let b = rand(5,8)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>        let fa = fac(a)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        let fb = fac(b)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    Calculate <span class="dv">$ a! = $</span> #fa,score=1   % relative score for solution fa is 1</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    Calculate <span class="dv">$ b! = $</span> #fb,score=2   % relative score for solution fb is 2</span></code></pre></div>
 <p>Option <code>scores-X</code> defines that <code>X</code> is the total
 score for the exercise a student can receive at maximum.</p>
 <p>Option <code>score-V-X</code> defines that <code>X</code> is the
@@ -692,15 +706,13 @@ be equal to <code>score-V-X</code>.</p></li>
 selected or deselected by the student with checkboxes. Correct answers
 are indicated by <code>[x]</code>. Incorrect answers are indicated by
 <code>[ ]</code>. Example:</p>
-<pre><code>---
-EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
-@options
-  static-order
-@text
-  [x] This answer is correct.
-  [ ] This answer is incorrect.
-  [x] This answer is correct.
----</code></pre>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> My Multiple Choice Exercise  @ex:myMultiChoice</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">ORDER</span>=static</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    Choose the right answers:</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    [x] This answer is correct.</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    [ ] This answer is incorrect.</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    [x] This answer is correct.</span></code></pre></div>
 <p>Each correct answer is scored with 1 points, each wrong answer is
 scored with -1 points. The total score of the exercise can be weighted
 with option <code>scores-X</code>, where <code>X</code> is the total
@@ -710,20 +722,19 @@ score.</p>
 <li><p><code>Dynamic Multiple Choice Exercise</code></p>
 <p>Dynamic multiple choice exercises calculate the correctness of
 answers at runtime. Example:</p>
-<pre><code>---
-EXERCISE My dynamic Multiple Choice Exercise @ex:myMultiChoice
-@code
-  let x/y/z/w = rand(10,20)    % no pair of x, y, z, w is equal
-  let c1 = x &gt; w
-  let c2 = y &gt; w
-  let c3 = z &gt; w
-@text
-  [:c1] $x &gt; w$
-  [:c2] $y &gt; w$
-  [:c3] $z &gt; w$
-  [x]   $1 &gt; 0$    % statically true
-  [ ]   $1 &lt; 0$    % statically false
----</code></pre>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> My dynamic Multiple Choice Exercise</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>        let x/y/z/w = rand(10, 20)     % no pair of x, y, z, w is equal</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>        let c1 = x &gt; w</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>        let c2 = y &gt; w</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        let c3 = z &gt; w</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    Choose the correct answer(s):</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    [:c1] <span class="dv">$x &gt; w$</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    [:c2] <span class="dv">$y &gt; w$</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    [:c3] <span class="dv">$z &gt; w$</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    [x]   <span class="dv">$1 &gt; 0$</span>    % statically true</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    [ ]   <span class="dv">$1 &lt; 0$</span>    % statically false</span></code></pre></div>
 <p>Correctness of an answer is determined by a boolean variable
 <code>V</code>, in the form <code>[:V]</code>.</p>
 <p>You are allowed to mix static and dynamic answers: If variable
@@ -735,13 +746,11 @@ The notation <code>[x]</code> indicates that the answer is
 <p>In single choice exercises, exactly one answer is true. All other
 answers are wrong. Instead of check boxes, radio buttons are
 displayed.</p>
-<pre><code>---
-EXERCISE My Multiple Choice Exercise @ex:myMultiChoice
-@text
-  (x) This answer is correct.
-  ( ) This answer is incorrect.
-  ( ) This answer is incorrect.
----</code></pre>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> My Single Choice Exercise  @ex:myMultiChoice</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    (x) This answer is correct.</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    ( ) This answer is incorrect.</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    ( ) This answer is incorrect.</span></code></pre></div>
 <p>The definition of single choice exercises is similar to the
 definition of multiple choice exercises. We use round parentheses
 <code>( )</code>, instead of brackets <code>[ ]</code>.</p>
@@ -751,14 +760,11 @@ correct answers, the behavior is undefined.</p></li>
 <li><p><code>Gap Exercise</code></p>
 <p>Gap exercises provide an input field to enter words within fluent
 paragraph text.</p>
-<pre><code>---
-EXERCISE My Gap Exercise @ex:myLabel
-@options
-  show-length
-  restricted-keyboard
-@text
-  Garfield is a #&quot;cat&quot;. Rain is #&quot;wet&quot;.
----</code></pre>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> My Gap Exercise  @ex:myLabel</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    SHOW_GAP_LENGTH=true</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    SHOW_REQUIRED_LETTERS_ONLY=true</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    Garfield is a #&quot;cat&quot;. Rain is #&quot;wet&quot;.</span></code></pre></div>
 <p>Option <code>show-length</code> hints the number of characters of the
 solution word.</p>
 <p>Option <code>restricted-keyboard</code> displays a context-sensitive
@@ -770,20 +776,18 @@ sees keys <code>[A]</code>, <code>[C]</code> and
 <p>Arrangement exercises show a sequence of strings or numbers that must
 be reordered by the student.</p>
 <!-- TODO: string arrangement -->
-<pre><code>---
-EXERCISE Title @ex:label
-@options
-  accept-immediately
-@code
-  let n = rand(5,10)          % length
-  let f = zeros(1,n)          % row vector for the sequence
-  f[1] = 1                    % f[0]=0, f[1]=1
-  for (let i=2; i&lt;n; i++) {   % calc sequence iteratively
-    f[i] = f[i-2] + f[i-1]
-  }
-@text
-  Arrange the following numbers to get the first numbers of the Fibonacci sequence: #:order(s,f)
----</code></pre>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Arrangement exercise</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    ARRANGE=true</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    ACCEPT_IMMEDIATELY=true</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>        let n = rand(5,10)          % length</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        let f = zeros&lt;1,n&gt;()        % row vector for the sequence</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        f[1] = 1                    % f[0]=0, f[1]=1</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        for (let i=2; i&lt;n; i++) {   % calc sequence iteratively</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>            f[i] = f[i-2] + f[i-1]</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    Arrange the following numbers to get the first numbers of the Fibonacci sequence: #f</span></code></pre></div>
 <p><em>Preface: The answer field <code>#f</code> would ask the student
 to type in the elements of the row vector:
 <code>[0, 1, 1, 2, 3, 5, ...]</code>.</em></p>
@@ -798,19 +802,16 @@ student needs to submit the solution explicitly.</p></li>
 variables. Quick and correct responses results in a large high score.
 This question type might test, if students are already trained well to a
 specific topic.</p>
-<pre><code>---
-EXERCISE Title @ex:label
-@options
-  timed-3
-  accelerate
-  multi-choice-4
-  stop-on-error-1
-@code
-  let x:y = rand(20,50)
-  let z = x + y
-@text
-  Calculate $x+y=$ #z
----</code></pre>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Timed exercise</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    TIMER=3</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    ACCELERATE=true</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    STOP_AFTER_ERRORS=1</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    CHOICES=4</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>        let x:y = rand(20,50)</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>        let z = x + y</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    Calculate <span class="dv">$ x + y = #z $</span></span></code></pre></div>
 <p>Option <code>timed-X</code> enables timing. The student has
 <code>X</code> seconds to give an answer.</p>
 <p>Option <code>accelerate</code> decreases time per question.</p>
@@ -865,20 +866,23 @@ files and its dependencies.</p>
 </blockquote>
 <pre><code>% a comment line
 
-TITLE Complex Numbers
-AUTHOR TH Koeln
+TITLE
+    Complex Numbers
+
+AUTHOR
+    TH Koeln
 
 UNIT Complex Basics
-(2,0) start                   ICON icons/start.svg
-(1,0) gauss       !start      ICON icons/gauss.svg
-(3,1) normal      !start
-(3,2) conj        !normal
-(4,2) conj-props  !conj
-(3,3) abs         !conj
-(2,4) polar       !abs
+    (2,0) start                   ICON icons/start.svg
+    (1,0) gauss       !start      ICON icons/gauss.svg
+    (3,1) normal      !start
+    (3,2) conj        !normal
+    (4,2) conj-props  !conj
+    (3,3) abs         !conj
+    (2,4) polar       !abs
 
 UNIT Complex Functions, Sequences, Series
-...</code></pre>
+    ...</code></pre>
 <p>Each chapter consists of a set of units.</p>
 <p>Each unit consists of a set of levels. A unit can be represented by a
 (directed) graph <span class="math inline">\(G=(V,E)\)</span> with <span
@@ -910,13 +914,13 @@ file names may be helpful.</p>
 <p>Example:</p>
 <pre><code>...
 UNIT Complex Basics
-(2,0) basics-start
-(1,0) basics-gauss       !basics-start
-(3,1) basics-normal      !basics-start
+    (2,0) basics-start
+    (1,0) basics-gauss       !basics-start
+    (3,1) basics-normal      !basics-start
 ...
 
 UNIT Complex Functions, Sequences, Series
-(0,0) fss-start
+    (0,0) fss-start
 ...</code></pre>
 <h2 id="course-description-file-course.mbl">Course Description File
 (<code>course.mbl</code>)</h2>
@@ -924,14 +928,16 @@ UNIT Complex Functions, Sequences, Series
 organized to level index files.</p>
 <p>It mainly lists all chapters and its dependencies.</p>
 <p>Example:</p>
-<pre><code>TITLE A Short Demo Course
+<pre><code>TITLE
+   A Short Demo Course
 
-AUTHOR TH Koeln
+AUTHOR
+    TH Koeln
 
 CHAPTERS
-(0,0) basics
-(2,0) essentials  !basics
-(1,1) advanced    !basics !essentials</code></pre>
+    (0,0) basics
+    (2,0) essentials  !basics
+    (1,1) advanced    !basics !essentials</code></pre>
 <p><em>Author: Andreas Schwenk, TH Köln</em></p>
 <!--
 # TODO

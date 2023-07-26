@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-06-07" />
+  <meta name="dcterms.date" content="2023-06-14" />
   <title>Simple Math Programming Language (SMPL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -19,7 +19,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -100,7 +99,7 @@
 [<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Simple Math Programming Language (SMPL)</h1>
 <p class="author"></p>
-<p class="date">2023-06-07</p>
+<p class="date">2023-06-14</p>
 </header>
 <!-- Simple Math Programming Language (SMPL) -->
 <hr />
@@ -411,7 +410,7 @@ let y = iselement(x, 4);  % true</code></pre>
 let y = f(3);
 let g(x,y) = 2 * exp(-x) * sin(y);
 let h(x,y) = diff(g, x);
-let i = int(f, 0, 3);</code></pre>
+let i = integrate(f, 0, 3);</code></pre>
 <p>The example calculates <span class="math inline">\(f(x)=x^2\)</span>,
 <span class="math inline">\(y=9\)</span>, <span
 class="math inline">\(g(x)=2\cdot\exp(x)\cdot\sin(y)\)</span>, <span
@@ -658,11 +657,6 @@ input matrix.</p>
 <li><p><strong><code>imag ( x : COMPLEX ) : REAL</code></strong></p>
 <p>Returns the imaginary part of a complex number.</p>
 <p><em>Example: <code>imag(3+4i)</code> returns 4.</em></p></li>
-<li><p><strong><code>int ( x : REAL ) : INT</code></strong></p>
-<p>Typecast from type real to type integer. Same behavior as function
-<code>floor</code>.</p>
-<p><em>Example: <code>int(3.0)</code> returns <code>3</code>.    
-<code>int(2.71)</code> returns <code>2</code>.</em></p></li>
 <li><p><strong><code>is_invertible ( x : MATRIX ) : BOOL</code></strong></p>
 <p>Returns true, if <span class="math inline">\(x\)</span> is
 invertible, otherwise false. Throws an exception, if <span

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language>
+<language name="MBL" version="1" kateversion="5.0" section="e-learning" extensions="*.mbl"
+    mimetype="application/sla" author="Andreas Schwenk" license="GPLv3">
+    <highlighting>
+        <list name="keywords">
+            <item>CAPTION</item>
+            <item>CENTER</item>
+            <item>CODE</item>
+            <item>DEFINITION</item>
+            <item>EQUATION</item>
+            <item>EXAMPLE</item>
+            <item>EXERCISE</item>
+            <item>FIGURE</item>
+            <item>TABLE</item>
+            <item>THEOREM</item>
+        </list>
+        <list name="attributes">
+            <item>ALIGN</item>
+            <item>ORDER</item>
+            <item>WIDTH</item>
+        </list>
+        <contexts>
+            <context name="Normal" attribute="Normal Text" lineEndContext="#stay">
+                <DetectSpaces />
+                <!--<Float
+                attribute="Float" context="#stay" />
+                <Int attribute="Decimal" context="#stay" />-->
+                <keyword attribute="Keyword" context="#stay" String="keywords" />
+                <keyword attribute="Attribute" context="#stay" String="attributes" />
+                <DetectChar char="$" attribute="Math" context="MathModeTex" />
+            </context>
+
+            <!-- math mode: starting with $ -->
+            <context name="MathModeTex" attribute="Math" lineEndContext="#stay">
+                <DetectSpaces />
+                <DetectChar char="$" attribute="Math" context="#pop" />
+            </context>
+
+        </contexts>
+        <itemDatas>
+            <itemData name="Normal Text" defStyleNum="dsNormal" />
+            <itemData name="Keyword" defStyleNum="dsKeyword" />
+            <itemData name="Attribute" defStyleNum="dsString" />
+            <itemData name="Decimal" defStyleNum="dsDecVal" />
+            <itemData name="Float" defStyleNum="dsFloat" />
+            <itemData name="Math" defStyleNum="dsDecVal" />
+        </itemDatas>
+    </highlighting>
+    <general>
+        <!-- TODO: comments are not working... must also define via highlighting rules??? -->
+        <comments>
+            <comment name="singleLine" start="//" />
+        </comments>
+        <keywords casesensitive="1" />
+    </general>
+</language>
+<!-- kate: replace-tabs on; tab-width 4; indent-width 4; -->
