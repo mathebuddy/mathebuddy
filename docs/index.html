@@ -178,7 +178,7 @@
           <button class="button-primary" onclick="show('play-info')">
             play
           </button>
-          <button class="button-primary" onclick="show('road')">road</button>
+          <button class="button-primary" onclick="show('todo')">todo</button>
         </div>
         <div id="play-list" style="text-align: center; display: none">
           <b>PLAYGROUNDS</b><br />
@@ -231,50 +231,13 @@
       </div>
     </div>
 
-    <!-- ===== ROAD ===== -->
-    <div id="road" class="container" style="display: none">
-      <div class="row" style="text-align: left">
+    <!-- ===== TODO ===== -->
+    <div id="todo" class="container" style="display: none">
+      <!--<div class="row" style="text-align: left">
         <br />
-        <h2>Roadmap</h2>
-
-        <p style="font-size: large; color: #434343">
-          <em>Note: This page only lists technical stuff.</em>
-        </p>
-      </div>
-
-      <div class="row" style="text-align: center">
-        <div class="one-half column offset-by-three milestone-green">
-          Project Start 09/2022
-        </div>
-      </div>
-      <div class="row" style="text-align: center; display: flex">
-        <div class="one-half column milestone-done">
-          <span style="color: gray; font-size: small">DONE</span><br />
-          formal language definition<br />
-          simulator prototype<br />
-        </div>
-        <div class="one-half column milestone-todo">
-          <span style="color: gray; font-size: small">WIP / TODO</span><br />
-          complete math runtime<br />
-          complete compiler<br />
-          rewrite code with Dart<br />
-          flutter simulator<br />
-        </div>
-      </div>
-      <div class="row" style="text-align: center">
-        <div class="one-half column offset-by-three milestone-red">
-          Release Webapp ~03/2023
-        </div>
-      </div>
-      <div class="row" style="text-align: center">...</div>
-      <div class="row" style="text-align: center">
-        <div class="one-half column offset-by-three milestone-red">
-          Release iOS / Android App ~09/2023
-        </div>
-      </div>
-
+        <h2>TODO</h2>
+      </div>-->
       <div class="row">
-        <br /><br />
         <div id="upcoming-features"></div>
       </div>
     </div>
@@ -905,11 +868,24 @@
           refreshLanguage();
         });
       // set upcoming features info
-      fetch("text/upcoming-features.txt?ver=" + Date.now())
+      fetch("text/todo.txt?ver=" + Date.now())
         .then((response) => response.text())
         .then((data) => {
-          data = data.replace(/\n/g, "<br/>");
-          document.getElementById("upcoming-features").innerHTML = data;
+          //data = data.replace(/\n/g, "<br/>");
+          let formatted = "";
+          let lines = data.split("\n");
+          for (let line of lines) {
+            line = line.trim();
+            if (line.startsWith("<h")) {
+              formatted += "<br/><br/>";
+            }
+            if (line.startsWith("-")) {
+              formatted += "<li>" + line.substring(1) + "</li>";
+            } else {
+              formatted += line;
+            }
+          }
+          document.getElementById("upcoming-features").innerHTML = formatted;
           refreshLanguage();
         });
 
@@ -948,7 +924,7 @@
           "math-runtime",
           "smpl",
           "mbl",
-          "road",
+          "todo",
           "sim-info",
           "play-info",
         ];
@@ -1099,6 +1075,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1688729127"></script>
+    <script src="js/index.min.js?version=1689782072"></script>
   </body>
 </html>
