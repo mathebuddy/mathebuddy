@@ -14,41 +14,66 @@ import '../../mbcl/src/unit.dart';
 import 'block.dart';
 import 'course.dart';
 import 'help.dart';
+import 'level.dart';
 import 'references.dart';
 
-// refer to the specification at https://app.f07-its.fh-koeln.de/docs-mbl.html
+// TODO: grammar //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
+// TODO: grammar //G levelTitle = { CHAR } "@" { ID } NEWLINE "#####.." { "#" } NEWLINE;
+//// TODO: grammar //G sectionTitle = { CHAR } "@" { ID } NEWLINE "==.." { "#" } NEWLINE;
+//// TODO: grammar //G subSectionTitle = { CHAR } "@" { ID } NEWLINE "-----.." { "#" } NEWLINE;
+// // TODO: grammar //G block = "---" NEWLINE { "@" ID NEWLINE | LINE | subBlock } "---" NEWLINE;
+// //G subBlock = UPPERCASE_LINE NEWLINE { "@" ID NEWLINE | LINE | subBlock };
 
-// TODO: update to new grammar of index files!!
-
+/// The compiler that translates a set of MBL files into a single MBCL files.
+/// The language specification can be found here:
+/// https://mathebuddy.github.io/mathebuddy/doc/mbl.html
 class Compiler {
-  //final Function(String) loadFile;
+  /// The load function that provides the contents of a text file, given by
+  /// a file path.
   final String Function(String) loadFile;
+
+  /// The base directory.
   String baseDirectory = '';
 
-  int equationNumber = 1;
+  /// The current equation number (reset per level).
+  int equationNumberCounter = 1;
 
-  MbclCourse? _course;
-  MbclChapter? _chapter;
-  MbclUnit? _unit;
-  MbclLevel? _level;
+  /// The currently processed course.
+  MbclCourse? course;
 
-  List<String> _srcLines = [];
-  int _i = -1; // current line index (starting from 0)
-  String _line = ''; // current line
-  String _line2 = ''; // next line
-  String _paragraph = '';
+  /// The currently processed chapter.
+  MbclChapter? chapter;
 
+  /// The currently processed unit.
+  MbclUnit? unit;
+
+  /// The currently processed level.
+  MbclLevel? level;
+
+  /// The source code lines of the current input file.
+  List<String> srcLines = [];
+
+  /// The index of the current line (starting from 0).
+  int currentLineIdx = -1;
+
+  /// The current line contents.
+  String currentLine = '';
+
+  /// Whether block titles are invisible.
   bool disableBlockTitles = false;
 
-  int _uniqueIdCounter = 0;
+  /// A counter variable to generate unique IDs.
+  int uniqueIdCounter = 0;
 
+  /// Constructor
   Compiler(this.loadFile);
 
+  /// Gets the current course.
   MbclCourse? getCourse() {
-    return _course;
+    return course;
   }
 
-  //void compile(String path, loadFile: (path: string) => string) {
+  /// Starts compilation of an MBL file at [path].
   void compile(String path) {
     print("COMPILING FROM PATH '$path'");
     // extract base directory from path
@@ -58,25 +83,25 @@ class Compiler {
       // processing complete course
       compileCourse(path);
     } else if (path.endsWith('index.mbl')) {
-      // processing only a course chapter
-      _course = MbclCourse();
-      _course?.debug = MbclCourseDebug.chapter;
+      // processing a single course chapter
+      course = MbclCourse();
+      course?.debug = MbclCourseDebug.chapter;
       compileChapter(path);
     } else {
-      // processing only a course level
-      _course = MbclCourse();
-      _course!.debug = MbclCourseDebug.level;
-      _chapter = MbclChapter();
-      _course!.chapters.add(_chapter!);
-      _unit = MbclUnit();
-      _chapter!.units.add(_unit!);
+      // processing a single course level
+      course = MbclCourse();
+      course!.debug = MbclCourseDebug.level;
+      chapter = MbclChapter();
+      course!.chapters.add(chapter!);
+      unit = MbclUnit();
+      chapter!.units.add(unit!);
       compileLevel(path); // compileLevel(path);
-      _unit!.levels.add(_chapter!.levels[0]);
+      unit!.levels.add(chapter!.levels[0]);
     }
     // post processing
-    postProcessCourse(_course as MbclCourse);
-    // solve references
-    ReferenceSolver rs = ReferenceSolver(_course as MbclCourse);
+    postProcessCourse(course as MbclCourse);
+    // resolve references
+    ReferenceSolver rs = ReferenceSolver(course as MbclCourse);
     rs.run();
   }
 
@@ -87,7 +112,7 @@ class Compiler {
   //G courseChapter = "(" INT "," INT ")" ID { "!" ID } "\n";
   void compileCourse(String path) {
     // create a new course
-    _course = MbclCourse();
+    course = MbclCourse();
     // get course description file source
     var src = loadFile(path);
     if (src.isEmpty) {
@@ -99,16 +124,15 @@ class Compiler {
     // parse
     var lines = src.split('\n');
     var state = 'global';
-
     for (var rowIdx = 0; rowIdx < lines.length; rowIdx++) {
       var line = lines[rowIdx];
       line = line.split('%')[0];
       if (line.trim().isEmpty) continue;
       if (state == 'global') {
         if (line.startsWith('TITLE')) {
-          _course?.title = line.substring('TITLE'.length).trim();
+          course?.title = line.substring('TITLE'.length).trim();
         } else if (line.startsWith('AUTHOR')) {
-          _course?.author = line.substring('AUTHOR'.length).trim();
+          course?.author = line.substring('AUTHOR'.length).trim();
         } else if (line.startsWith('CHAPTERS')) {
           state = 'chapter';
         } else {
@@ -135,18 +159,18 @@ class Compiler {
         var chapterPath = '$dirname$directoryName/index.mbl';
         compileChapter(chapterPath);
         // set chapter meta data
-        _chapter?.fileId = directoryName;
-        _chapter?.posX = posX;
-        _chapter?.posY = posY;
-        _chapter?.requiresTmp.addAll(requirements);
+        chapter?.fileId = directoryName;
+        chapter?.posX = posX;
+        chapter?.posY = posY;
+        chapter?.requiresTmp.addAll(requirements);
       }
     }
     // build dependency graph
-    for (var i = 0; i < (_course as MbclCourse).chapters.length; i++) {
-      var chapter = _course?.chapters[i] as MbclChapter;
+    for (var i = 0; i < (course as MbclCourse).chapters.length; i++) {
+      var chapter = course?.chapters[i] as MbclChapter;
       for (var j = 0; j < chapter.requiresTmp.length; j++) {
         var r = chapter.requiresTmp[j];
-        var requiredChapter = _course?.getChapterByFileID(r);
+        var requiredChapter = course?.getChapterByFileID(r);
         if (requiredChapter == null) {
           _error('Unknown chapter "$r".');
         } else {
@@ -163,8 +187,8 @@ class Compiler {
   //G chapterLevel = "(" INT "," INT ")" ID { "!" ID } "\n";
   void compileChapter(String path) {
     // create a new chapter
-    _chapter = MbclChapter();
-    _course?.chapters.add(_chapter as MbclChapter);
+    chapter = MbclChapter();
+    course?.chapters.add(chapter as MbclChapter);
     // get chapter index file source
     var src = loadFile(path);
     if (src.isEmpty) {
@@ -182,16 +206,16 @@ class Compiler {
         disableBlockTitles = true;
       } else if (state == 'global' || line.startsWith('UNIT')) {
         if (line.startsWith('TITLE')) {
-          _chapter?.title = line.substring('TITLE'.length).trim();
+          chapter?.title = line.substring('TITLE'.length).trim();
         } else if (line.startsWith('AUTHOR')) {
-          _chapter?.author = line.substring('AUTHOR'.length).trim();
+          chapter?.author = line.substring('AUTHOR'.length).trim();
         } else if (line.startsWith('UNIT')) {
           // TODO: handle units!!
           var unitTitle = line.substring('UNIT'.length).trim();
           state = 'unit';
-          _unit = MbclUnit();
-          _unit?.title = unitTitle;
-          _chapter?.units.add(_unit as MbclUnit);
+          unit = MbclUnit();
+          unit?.title = unitTitle;
+          chapter?.units.add(unit as MbclUnit);
         } else {
           _error('Unexpected line "$line".');
         }
@@ -235,21 +259,21 @@ class Compiler {
         var dirname = extractDirname(path);
         var levelPath = '$dirname$fileName.mbl';
         compileLevel(levelPath); // compileLevel(levelPath);
-        _unit?.levels.add(_level as MbclLevel);
+        unit?.levels.add(level as MbclLevel);
         // set chapter meta data
-        _level?.fileId = fileName;
-        _level?.posX = posX.toDouble();
-        _level?.posY = posY.toDouble();
-        _level?.requiresTmp.addAll(requirements);
-        _level?.iconData = iconData;
+        level?.fileId = fileName;
+        level?.posX = posX.toDouble();
+        level?.posY = posY.toDouble();
+        level?.requiresTmp.addAll(requirements);
+        level?.iconData = iconData;
       }
     }
     // build dependency graph
-    for (var i = 0; i < (_chapter as MbclChapter).levels.length; i++) {
-      var level = _chapter?.levels[i] as MbclLevel;
+    for (var i = 0; i < (chapter as MbclChapter).levels.length; i++) {
+      var level = chapter?.levels[i] as MbclLevel;
       for (var j = 0; j < level.requiresTmp.length; j++) {
         var r = level.requiresTmp[j];
-        var requiredLevel = _chapter?.getLevelByFileID(r);
+        var requiredLevel = chapter?.getLevelByFileID(r);
         if (requiredLevel == null) {
           _error('Unknown dependency-level "$r".');
         } else {
@@ -261,51 +285,68 @@ class Compiler {
 
   //G level = TODO
   void compileLevel(String path) {
-    equationNumber = 1;
+    equationNumberCounter = 1;
     // create a new level
-    _level = MbclLevel();
+    level = MbclLevel();
     if (disableBlockTitles) {
-      _level!.disableBlockTitles = true;
+      level!.disableBlockTitles = true;
     }
-    _chapter!.levels.add(_level as MbclLevel);
+    chapter!.levels.add(level as MbclLevel);
     // get level source
     var src = loadFile(path);
     if (src.isEmpty) {
       _error('Level file $path does not exist or is empty.');
     }
+    // parse block hierarchy
+    var rootBlock = _parseBlockHierarchy(src);
+    // process and deep-parse block hierarchy
+    parseLevelBlock(rootBlock, this, level!, null, 0, null);
+  }
+
+  int createUniqueId() {
+    return uniqueIdCounter++;
+  }
+
+  void _next() {
+    currentLineIdx++;
+    if (currentLineIdx < srcLines.length) {
+      currentLine = srcLines[currentLineIdx];
+    } else {
+      currentLine = '§END';
+    }
+  }
+
+  void _error(String message) {
+    // TODO: include file path!
+    throw Exception('ERROR:${currentLineIdx + 1}: $message');
+  }
+
+  Block _parseBlockHierarchy(String src) {
     // set source, split it into lines, trim these lines and
     // filter out comments of each line
-    _srcLines = src.split('\n');
-    for (var k = 0; k < _srcLines.length; k++) {
-      var line = _srcLines[k];
+    srcLines = src.split('\n');
+    for (var k = 0; k < srcLines.length; k++) {
+      var line = srcLines[k];
       var tokens = line.split('%');
-      _srcLines[k] = tokens[0];
+      srcLines[k] = tokens[0];
     }
     // init lexer
-    _i = -1;
+    currentLineIdx = -1;
     _next();
-
-    //  TODO: move (most) the following code to file block_NEW.dart
-
     // parse
     var depthList =
         List<Block?>.filled(0, null, growable: true); // TODO: write comment!!
-    var rootBlock = Block(_level!, "ROOT", 0, -1);
+    var rootBlock = Block(level!, "ROOT", 0, -1);
     depthList.length = 1;
     depthList[0] = rootBlock;
     var currentBlock = rootBlock;
-
-    while (_line != '§END') {
-      var trimmed = _line.trim();
-      /*if (trimmed.isEmpty) {
-        _next();
-        continue;
-      }*/
+    while (currentLine != '§END') {
+      var trimmed = currentLine.trim();
       var spaces = 0;
-      for (var k = 0; k < _line.length; k++) {
-        if (_line[k] == ' ') {
+      for (var k = 0; k < currentLine.length; k++) {
+        if (currentLine[k] == ' ') {
           spaces++;
-        } else if (_line[k] == '\t') {
+        } else if (currentLine[k] == '\t') {
           spaces += 4;
         } else {
           break;
@@ -313,12 +354,11 @@ class Compiler {
       }
       int indentation = spaces ~/ 4;
       indentation += 1; // add one for root element
-
-      var keyword = "";
       // A keyword is fully uppercase; also "_", "-" and "*" are allowed
       // characters.
       // If "=" is followed (directly or after some spaces), we are actually
       // parsing an attribute and NOT a keyword.
+      var keyword = "";
       for (int i = 0; i < trimmed.length; i++) {
         var ch = trimmed[i];
         var isValid = ch.codeUnitAt(0) >= 'A'.codeUnitAt(0) &&
@@ -343,13 +383,12 @@ class Compiler {
           break;
         }
       }
-
       if (keyword.isNotEmpty) {
         if ((spaces % 4) != 0) {
           _error('bad spacing before "$keyword".');
         }
-        var srcLine = _i + 1;
-        currentBlock = Block(_level!, keyword, indentation, srcLine);
+        var srcLine = currentLineIdx + 1;
+        currentBlock = Block(level!, keyword, indentation, srcLine);
         depthList.length = indentation + 1;
         var parent = depthList[indentation - 1];
         if (parent == null) {
@@ -374,9 +413,8 @@ class Compiler {
         if (trimmed.isNotEmpty && indentation <= currentBlock.indent) {
           currentBlock = depthList[indentation - 1]!;
         }
-        var line = _line.replaceAll('\t', '    ');
+        var line = currentLine.replaceAll('\t', '    ');
         var isAttribute = false;
-
         if (line.contains("=")) {
           isAttribute = true;
           var l = Lexer();
@@ -397,11 +435,11 @@ class Compiler {
           }
           if (isAttribute && currentBlock.children.isNotEmpty) {
             _error('Attributes must be first. '
-                'Hint: Move line ${_i + 1} to line ${currentBlock.srcLine + 1}');
+                'Hint: Move line ${currentLineIdx + 1} to line ${currentBlock.srcLine + 1}');
           }
         }
         if (isAttribute == false) {
-          var b = Block(_level!, "DEFAULT", indentation, _i + 1);
+          var b = Block(level!, "DEFAULT", indentation, currentLineIdx + 1);
           b.data = '$line\n';
           currentBlock.children.add(b);
         }
@@ -410,58 +448,6 @@ class Compiler {
     }
     rootBlock.postProcess();
     //print(rootBlock);
-    rootBlock.parse(this, _level!, null, 0, null);
-  }
-
-  // TODO: grammar //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
-
-  int createUniqueId() {
-    return _uniqueIdCounter++;
-  }
-
-  void _next() {
-    _i++;
-    if (_i < _srcLines.length) {
-      _line = _srcLines[_i];
-    } else {
-      _line = '§END';
-    }
-    if (_i + 1 < _srcLines.length) {
-      _line2 = _srcLines[_i + 1];
-    } else {
-      _line2 = '§END';
-    }
-  }
-
-  // TODO: grammar //G levelTitle = { CHAR } "@" { ID } NEWLINE "#####.." { "#" } NEWLINE;
-
-  //// TODO: grammar //G sectionTitle = { CHAR } "@" { ID } NEWLINE "==.." { "#" } NEWLINE;
-
-  //// TODO: grammar //G subSectionTitle = { CHAR } "@" { ID } NEWLINE "-----.." { "#" } NEWLINE;
-
-  // // TODO: grammar //G block = "---" NEWLINE { "@" ID NEWLINE | LINE | subBlock } "---" NEWLINE;
-  // //G subBlock = UPPERCASE_LINE NEWLINE { "@" ID NEWLINE | LINE | subBlock };
-
-  /*G // TODO: grammar
-     paragraph =
-        { paragraphPart };
-     paragraphPart =
-      | "**" {paragraphPart} "**"
-      | "*" {paragraphPart} "*"
-      | "[" {paragraphPart} "]" "@" ID
-      | "$" inlineMath "$"
-      | "#" ID                                     (exercise only)
-      | <START>"[" [ ("x"|":"ID) ] "]" {paragraphPart} "\n"  (exercise only)
-      | <START>"(" [ ("x"|":"ID) ] ")" {paragraphPart} "\n"  (exercise only)
-      | <START>"#" {paragraphPart} "\n"
-      | <START>"-" {paragraphPart} "\n"
-      | <START>"-)" {paragraphPart} "\n"
-      | ID
-      | DEL;
-   */
-
-  void _error(String message) {
-    // TODO: include file path!
-    throw Exception('ERROR:${_i + 1}: $message');
+    return rootBlock;
   }
 }
