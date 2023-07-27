@@ -17,12 +17,7 @@ import 'help.dart';
 import 'level.dart';
 import 'references.dart';
 
-// TODO: grammar //G level = { levelTitle | sectionTitle | subSectionTitle | block | paragraph };
-// TODO: grammar //G levelTitle = { CHAR } "@" { ID } NEWLINE "#####.." { "#" } NEWLINE;
-//// TODO: grammar //G sectionTitle = { CHAR } "@" { ID } NEWLINE "==.." { "#" } NEWLINE;
-//// TODO: grammar //G subSectionTitle = { CHAR } "@" { ID } NEWLINE "-----.." { "#" } NEWLINE;
-// // TODO: grammar //G block = "---" NEWLINE { "@" ID NEWLINE | LINE | subBlock } "---" NEWLINE;
-// //G subBlock = UPPERCASE_LINE NEWLINE { "@" ID NEWLINE | LINE | subBlock };
+// TODO: implement new grammar for course and chapter
 
 /// The compiler that translates a set of MBL files into a single MBCL files.
 /// The language specification can be found here:
