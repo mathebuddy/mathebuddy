@@ -11,7 +11,7 @@ import '../../mbcl/src/level_item.dart';
 
 /// <GRAMMAR>
 ///   inlineMathCore =
-///     TODO
+///     { ( "@" ID | "@@" ID | <!"$"> ) };
 /// </GRAMMAR>
 MbclLevelItem parseInlineMath(
     MbclLevel level, Lexer lexer, MbclLevelItem? exercise) {
