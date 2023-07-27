@@ -105,6 +105,7 @@ do
         # [8] update grammar.txt in lib/*
         cd lib/
         ./build.sh
+        cd ..
         ;;
     9)
         # [9] update file system files (_fs.txt) files in docs/demo/
