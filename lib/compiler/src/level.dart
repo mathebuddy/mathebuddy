@@ -20,52 +20,103 @@ import 'block.dart';
 import 'paragraph.dart';
 import 'level_item.dart';
 
-/// <GRAMMAR>
-///   level =
-///     { topLevelItem };
-///   topLevelItem =
-///       structuredParagraph
-///     | levelItem;
+/// <GRAMMAR input=pre_parsed_source>
+///   level [defaultChild="STRUCTURED_PARAGRAPH"] =
+///       "ROOT" INDENT
+///         { levelItem }
+///       DEDENT;
 ///   levelItem =
 ///       part
 ///     | exercise
-///     | code;
+///     | code
+///     | exampleDefinition
+///     | alignment
+///     | equation
+///     | table
+///     | figure
+///     | text
+///     | structuredParagraph;
+///   part =
+///     "PART" [ INDENT
+///       "ICON" "=" value;
+///     DEDENT ]
+///   exercise [defaultChild="PARAGRAPH"] =
+///     "EXERCISE" [ title ] [ label ] INDENT
+///       [ "REQUIREMENT" "=" value ] "\n"
+///       [ "ORDER" "=" "static" ] "\n"
+///       [ "CHOICE_ALIGNMENT" "=" "horizontal" ] "\n"
+///       [ "DISABLE_RETRY" "=" "true" ] "\n"
+///       [ "KEYBOARD" "=" value ] "\n"
+///       { levelItem }
+///     DEDENT;
+///   code =
+///     "CODE" IDENT
+///       SMPL_CODE;
+///     DEDENT;
+///   exampleDefinition [defaultChild="PARAGRAPH"] =
+///     exampleDefinitionKeyword [ title ] [ label ] INDENT
+///       { levelItem }
+///     DEDENT;
+///   exampleDefinitionKeyword =
+///       "AXIOM" | "CLAIM" | "CONJECTURE" | "COROLLARY"
+///     | "DEFINITION" | "EXAMPLE" | "IDENTITY" | "LEMMA" | "PARADOX"
+///     | "PROPOSITION" | "THEOREM" | "TODO".
+///   alignment [defaultChild="PARAGRAPH"] =
+///     alignmentKeyword INDENT
+///       { levelItem }
+///     DEDENT;
+///   alignmentKeyword =
+///     "CENTER" | "LEFT" | "RIGHT";
+///   equation =
+///     equationKeyword [ label ] INDENT
+///       *
+///     DEDENT;
+///   equationKeyword =
+///       "ALIGNED-EQUATION" | "ALIGNED-EQUATION*"
+///     | EQUATION" | "EQUATION*";
+///   table =
+///     "TABLE" [ title ] [ label ] IDENT
+///       { table_row }
+///     DEDENT;
+///   table_row =
+///     table_column { "&" table_column } "\n";
+///   table_column =
+///     paragraph;
+///   figure [defaultChild="CAPTION"] =
+///     "FIGURE" [ title ] [ label ] IDENT
+///       [ "PATH" "=" value ] "\n"
+///       [ "WITH" "=" INT ] "\n"
+///       { code | caption }
+///     DEDENT;
+///   caption =
+///     "CAPTION" INDENT
+///       *
+///     DEDENT;
+///   text [defaultChild="TEXT"] =
+///     "TEXT" INDENT
+///       { levelItem };
+///     DEDENT;
+///   title =
+///     { <!"@" && !"\n"> };
+///   label =
+///     "@" { <!"\n"> };
+///   value =
+///     { <!"\n"> };
 ///   structuredParagraph =
+///     "STRUCTURED_PARAGRAPH" INDENT
 ///       { structuredParagraphPart };
+///     DEDENT;
 ///   structuredParagraphPart =
 ///       levelTitle
 ///     | section
 ///     | subSection
 ///     | paragraph;
 ///   levelTitle =
-///       * "\n" "####" * "\n";
+///     * "\n" "####" * "\n";
 ///   section =
-///       * "\n" "====" * "\n";
+///     * "\n" "====" * "\n";
 ///   subSection =
-///       * "\n" "----" * "\n";
-///   part =
-///       "PART" [ INDENT
-///         "ICON" "=" value;
-///       DEDENT ]
-///   exercise =
-///       "EXERCISE" [ title ] [ label ] INDENT
-///         [ "REQUIREMENT" "=" value ] "\n"
-///         [ "ORDER" "=" "static" ] "\n"
-///         [ "CHOICE_ALIGNMENT" "=" "horizontal" ] "\n"
-///         [ "DISABLE_RETRY" "=" "true" ] "\n"
-///         [ "KEYBOARD" "=" value ] "\n"
-///         { levelItem }
-///       DEDENT;
-///   code =
-///       "CODE" IDENT
-///         SMPL_CODE;
-///       DEDENT;
-///   title =
-///       { <!"@" && !"\n"> };
-///   label =
-///       "@" { <!"\n"> };
-///   value =
-///       { <!"\n"> };
+///     * "\n" "----" * "\n";
 /// </GRAMMAR>
 void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
     MbclLevelItem? parent, int depth, MbclLevelItem? exercise) {
@@ -111,17 +162,17 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         break;
       }
 
-    case 'EXAMPLE':
-    case 'DEFINITION':
-    case 'THEOREM':
-    case 'LEMMA':
-    case 'COROLLARY':
-    case 'PROPOSITION':
-    case 'CONJECTURE':
     case 'AXIOM':
     case 'CLAIM':
+    case 'CONJECTURE':
+    case 'COROLLARY':
+    case 'DEFINITION':
+    case 'EXAMPLE':
     case 'IDENTITY':
+    case 'LEMMA':
     case 'PARADOX':
+    case 'PROPOSITION':
+    case 'THEOREM':
     case 'TODO':
       {
         block.setChildrenDefaultType("PARAGRAPH");
@@ -176,21 +227,21 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         break;
       }
 
+    case "CENTER":
     case "LEFT":
     case "RIGHT":
-    case "CENTER":
       {
         block.setChildrenDefaultType("PARAGRAPH");
         var type = MbclLevelItemType.error;
         switch (block.id) {
+          case "CENTER":
+            type = MbclLevelItemType.alignCenter;
+            break;
           case "LEFT":
             type = MbclLevelItemType.alignLeft;
             break;
           case "RIGHT":
             type = MbclLevelItemType.alignRight;
-            break;
-          case "CENTER":
-            type = MbclLevelItemType.alignCenter;
             break;
         }
         var align = MbclLevelItem(level, type, block.srcLine);
@@ -202,10 +253,10 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         break;
       }
 
-    case "EQUATION":
-    case "EQUATION*":
     case "ALIGNED-EQUATION":
     case "ALIGNED-EQUATION*":
+    case "EQUATION":
+    case "EQUATION*":
       {
         var equation =
             MbclLevelItem(level, MbclLevelItemType.equation, block.srcLine);
@@ -319,7 +370,8 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
               }
               break;
             case "WIDTH":
-              data.options.add(MbclFigureOption.width75); // TODO!!
+              // TODO: allow integer value 0..100 as percentage
+              data.options.add(MbclFigureOption.width75);
               break;
             default:
               figure.error += 'Unknown attribute "$key".';
