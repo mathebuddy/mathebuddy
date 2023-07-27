@@ -8,9 +8,41 @@ import 'package:slex/slex.dart';
 
 import 'node.dart';
 
-// Note: terms are parsed at runtime.
-// This is (much) slower than parsing offline, but increases dynamics.
-
+/// The SMPL parser.
+/// Note: terms are parsed at runtime and NOT in this parser.
+///       This is (much) slower than parsing offline, but increases dynamics.
+///
+/// <GRAMMAR>
+///   program =
+///     { (statement | "\n") };
+///   statement =
+///       assignment
+///     | ifCond
+///     | whileLoop
+///     | figure;
+///   assignment =
+///     [ "let" ]
+///     ID ( {":" ID} | {"/" ID} )
+///     ["(" ID { "," ID } ")"]
+///     "=" TERM
+///     [">>>" ID ">>>" TERM [">>>" TERM]]
+///     (";"|"\n");
+///   ifCond =
+///     "if" TERM block [ "else" block ];
+///   whileLoop =
+///     "while" TERM block;
+///   block =
+///     "{" { statement } "}";
+///   figure =
+///     "figure" "{" { figureStatement } "}";
+///   figureStatement =
+///       ("x_axis"|"y_axis") "(" num "," num "," STR ")"
+///     | "function" "(" ID ")"
+///     | "circle" "(" num "," num "," num ")";
+///   num =
+///       ["-"] INT
+///     | ["-"] REAL;
+/// </GRAMMAR>
 class Parser {
   Lexer _lexer = Lexer();
   AstNode? _program;
@@ -32,7 +64,6 @@ class Parser {
     return _program;
   }
 
-  //G program = { statement };
   StatementList _parseProgram() {
     var p = StatementList(1, false);
     while (_lexer.isNotEnd()) {
@@ -45,9 +76,9 @@ class Parser {
     return p;
   }
 
-  //G statement = assignment | ifCond | whileLoop | figure;
   AstNode _parseStatement() {
     while (_lexer.isTerminal('\n')) {
+      // TODO: redundant???
       _lexer.next();
     }
     switch (_lexer.getToken().token) {
@@ -60,7 +91,9 @@ class Parser {
       case 'figure':
         return _parseFigure();
     }
-    if (_lexer.isIdentifier()) return _parseAssignment();
+    if (_lexer.isIdentifier()) {
+      return _parseAssignment();
+    }
     _error(
       'unexpected token "${_lexer.getToken().token}"',
       _lexer.getToken(),
@@ -68,14 +101,6 @@ class Parser {
     throw Exception(); // just to suppress DART warnings...
   }
 
-  /*G assignment = 
-        ["let"] 
-        ID { (":"|"/") ID } 
-        ["(" ID { "," ID } ")"] 
-        "=" term 
-        [">>>" ID ">>>" term [">>>" term]]
-        (";"|"\n"); 
-  */
   AstNode _parseAssignment() {
     var row = _lexer.getToken().row;
     var isDeclaration = false;
@@ -171,7 +196,6 @@ class Parser {
     return s;
   }
 
-  //G ifCond = "if" cond block [ "else" block ];
   IfCond _parseIfCond() {
     // TODO: "elif"
     var i = IfCond(_lexer.getToken().row);
@@ -193,7 +217,6 @@ class Parser {
     return i;
   }
 
-  //G whileLoop = "while" term block;
   WhileLoop _parseWhileLoop() {
     var w = WhileLoop(_lexer.getToken().row);
     _lexer.terminal('while');
@@ -209,7 +232,6 @@ class Parser {
     return w;
   }
 
-  //G block = "{" { statement } "}";
   StatementList _parseBlock() {
     var block = StatementList(_lexer.getToken().row, true);
     _lexer.terminal('{');
@@ -224,7 +246,6 @@ class Parser {
     return block;
   }
 
-  //G figure = "figure" "{" { figureStatement } "}";
   Figure _parseFigure() {
     var figure = Figure(_lexer.getToken().row);
     _lexer.terminal("figure");
@@ -240,7 +261,6 @@ class Parser {
     return figure;
   }
 
-  //G figureStatement = ("x_axis"|"y_axis") "(" REAL "," REAL "," STR ")" | "function" "(" ID ")" | "color" "(" INT ")" | "circle" "(" REAL "," REAL ";" REAL ")";
   void _parseFigureStatement(Figure figure) {
     // TODO: line, rectangle, triangle, ...
     switch (_lexer.getToken().token) {
@@ -305,7 +325,6 @@ class Parser {
     }
   }
 
-  //G realNumber = ["-"] INT | ["-"] REAL;
   double _parseRealNumber() {
     var negative = false;
     if (_lexer.isTerminal("-")) {
