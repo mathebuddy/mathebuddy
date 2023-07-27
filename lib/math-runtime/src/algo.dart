@@ -4,8 +4,6 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
-import 'dart:math';
-
 int gcd(int x, int y) {
   while (y != 0) {
     var t = y;
