@@ -8,8 +8,94 @@ import 'dart:math' as math;
 
 import 'term.dart';
 
-// this file implements robust parsing of math string provided by students
-// line comments "***" indicate semantical useless lines that prevent linter warnings
+/// The term parser, which implements robust parsing of math string provided
+/// by students and SMPL langauge.
+///
+/// Note: Code comments "***" indicate semantical useless lines that just
+///       prevent linter warnings.
+///
+/// <GRAMMAR>
+///   term =
+///     lor;
+///   lor =
+///     land [ "||" land ];
+///   land =
+///     equal [ "&&" equal ];
+///   equal =
+///     relational [ ("=="|"!=") relational ];
+///   relational =
+///     add [ ("<"|"<="|">"|">=") add ];
+///   add =
+///     mul { ("+"|"-") mul };
+///   mul =
+///     pow { ("*"|"/"|<fill"*">) pow };
+///   pow =
+///     unary [ "^" unary ];
+///   unary =
+///       "-" mul
+///     | "!" infix
+///     | infix;
+///   infix =
+///       "true"
+///     | "false"
+///     | IMAG
+///     | INT
+///     | REAL
+///     | irrational
+///     | fct1 unary
+///     | (fct1|fct2) [ "<" unary {","unary} ">" ] "(" term {","term} ")";
+///     | ["@"|"@@"] ID
+///     | "(" term ")"
+///     | "|" term "|"
+///     | matrixOrVector
+///     | set;
+///   vector =
+///     "[" [ term { "," term } ] "]";
+///   matrixOrVector =
+///       vector
+///     | "[" [ vector { "," vector } ] "]";
+///   set =
+///     "{" [ term { "," term } ] "}";
+///   fct1 =
+///       "abs"
+///     | "ceil"
+///     | "conj"
+///     | "cos"
+///     | "exp"
+///     | "fac"
+///     | "floor"
+///     | "imag"
+///     | "len"
+///     | "ln"
+///     | "max"
+///     | "min"
+///     | "real"
+///     | "round"
+///     | "sin"
+///     | "sqrt"
+///     | "tan";
+///   fct2 =
+///       "binomial"
+///     | "complex"
+///     | "rand"
+///     | "randZ";
+///   irrational =
+///       "pi"
+///     | "e";
+///   IMAG =
+///     REAL "i";
+///   REAL =
+///     INT "." { NUM0 };
+///   INT =
+///       "0"
+///     | NUM1 { NUM0 };
+///   ID =
+///     ALPHA { (ALPHA | NUM0) };
+///   NUM0 =
+///     "0" | "1" | ... | "9";
+///   NUM1 =
+///     "1" | "2" | ... | "9";
+/// </GRAMMAR>
 
 class Parser {
   List<String> _tokens = [];
@@ -144,12 +230,10 @@ class Parser {
     return term;
   }
 
-  //G term = lor;
   Term _parseTerm() {
     return _parseLor();
   }
 
-  //G lor = land [ "||" land ];
   Term _parseLor() {
     var res = _parseLand();
     if (_token == '||') {
@@ -160,7 +244,6 @@ class Parser {
     return res;
   }
 
-  //G land = equal [ "&&" equal ];
   Term _parseLand() {
     var res = _parseEqual();
     if (_token == '&&') {
@@ -171,7 +254,6 @@ class Parser {
     return res;
   }
 
-  //G equal = relational [ ("=="|"!=") relational ];
   Term _parseEqual() {
     var res = _parseRelational();
     if (['==', '!='].contains(_token)) {
@@ -182,7 +264,6 @@ class Parser {
     return res;
   }
 
-  //G relational = add [ ("<"|"<="|">"|">=") add ];
   Term _parseRelational() {
     var res = _parseAdd();
     if (['<', '<=', '>', '>='].contains(_token)) {
@@ -193,7 +274,6 @@ class Parser {
     return res;
   }
 
-  //G add = mul { ("+"|"-") mul };
   Term _parseAdd() {
     List<Term> operands = [];
     List<String> operators = [];
@@ -221,7 +301,6 @@ class Parser {
     }
   }
 
-  //G mul = pow { ("*"|"/"|!fill"*"!) pow };
   Term _parseMul() {
     List<Term> operands = [];
     List<String> operators = [];
@@ -249,7 +328,6 @@ class Parser {
     }
   }
 
-  //G pow = unary [ "^" unary ];
   Term _parsePow() {
     List<Term> operands = [];
     operands.add(_parseUnary());
@@ -262,8 +340,6 @@ class Parser {
     }
   }
 
-  //G unary = [prefix] infix;
-  //G prefix = "-" | "!";
   Term _parseUnary() {
     if (_token == '-') {
       _next();
@@ -276,40 +352,8 @@ class Parser {
     } else {
       return _parseInfix();
     }
-    // ===== OLD SRC ========
-    // var isUnaryMinus = false;
-    // var isLogicalNot = false;
-    // if (_token == '-') {
-    //   _next();
-    //   isUnaryMinus = true;
-    // } else if (_token == '!') {
-    //   _next();
-    //   isLogicalNot = true;
-    // }
-    // var term = _parseInfix();
-    // if (isUnaryMinus) {
-    //   term = Term.createOp('.-', [term], []);
-    // }
-    // if (isLogicalNot) {
-    //   term = Term.createOp('!', [term], []);
-    // }
-    // return term;
   }
 
-  /*G infix = 
-        "true"
-      | "false"
-      | IMAG
-      | REAL 
-      | INT 
-      | builtin
-      | fct1 unary
-      | fct "<" unary {"," unary} ">" "(" term {"," term} ")"
-      | ["@"|"@@"] ID
-      | "|" term "|"
-      | matrixOrVector 
-      | set;
-  */
   Term _parseInfix() {
     if (_token == 'true') {
       _next();
@@ -422,7 +466,6 @@ class Parser {
     }
   }
 
-  //G vector = "[" [ term { "," term } ] "]";
   Term _parseVector([bool parseLeftBracket = true]) {
     if (parseLeftBracket) {
       if (_token == '[') {
@@ -448,7 +491,6 @@ class Parser {
     return Term.createOp('vec', elements, []);
   }
 
-  //G matrixOrVector = vector | "[" [ vector { "," vector } ] "]";
   Term _parseMatrixOrVector() {
     if (_token == '[') {
       _next();
@@ -475,7 +517,6 @@ class Parser {
     return Term.createOp('matrix', elements, []);
   }
 
-  //G set = "{" [ term { "," term } ] "}";
   Term _parseSet() {
     // TODO: allow empty sets
     if (_token == '{') {
@@ -500,10 +541,6 @@ class Parser {
     return Term.createOp('set', elements, []);
   }
 
-  /*G fct1 = "abs" | "ceil" | "conj" | "cos" | "exp" | "fac" | "floor" | 
-             "imag" | "len" | "ln" | "max" | "min" | "real" | "round" | 
-             "sin" | "sqrt" | "tan"; 
-  */
   bool _isFct1(String tk) {
     var fct1 = [
       'abs',
@@ -529,19 +566,16 @@ class Parser {
     return fct1.contains(tk);
   }
 
-  //G fct2 = "binomial" | "complex" | "rand" | "randZ";
   bool _isFct2(String tk) {
     var fct2 = ['binomial', 'complex', 'rand', 'randZ'];
     return fct2.contains(tk);
   }
 
-  //G builtin = "pi" | "e";
   bool _isBuiltIn(String tk) {
     var builtin = ['pi', 'e'];
     return builtin.contains(tk);
   }
 
-  //G IMAG = REAL "i";
   bool _isImag(String tk) {
     if (tk.endsWith('i') == false) return false;
     var x = tk.substring(0, tk.length - 1);
@@ -549,7 +583,6 @@ class Parser {
     return true;
   }
 
-  //G REAL = INT "." { NUM0 };
   bool _isReal(String tk) {
     var tokens = tk.split('.');
     if (tokens.length != 2) return false;
@@ -561,7 +594,6 @@ class Parser {
     return true;
   }
 
-  //G INT = "0" | NUM1 { NUM0 };
   bool _isInteger(String tk) {
     if (tk == '0') return true;
     for (var i = 0; i < tk.length; i++) {
@@ -593,7 +625,6 @@ class Parser {
             tk.codeUnitAt(0) <= 'z'.codeUnitAt(0));
   }
 
-  //G ID = ALPHA { (ALPHA | NUM0) };
   bool _isIdentifier(String tk) {
     var n = tk.length;
     for (var i = 0; i < n; i++) {
