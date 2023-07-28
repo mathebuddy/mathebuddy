@@ -9,7 +9,7 @@ import 'dart:math' as math;
 import 'term.dart';
 
 /// The term parser, which implements robust parsing of math string provided
-/// by students and SMPL langauge.
+/// by students and SMPL Language.
 ///
 /// Note: Code comments "***" indicate semantical useless lines that just
 ///       prevent linter warnings.
