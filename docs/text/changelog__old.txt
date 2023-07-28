@@ -39,6 +39,6 @@
 
 - MBL := Mathe:Buddy Language
 - MBCL := Mathe:Buddy Compiled Language
-- SMPL := Simple Math Programming Langauge
+- SMPL := Simple Math Programming Language
 - SIM := Mathe:Buddy Simulator
 - APP := ios/Android App
