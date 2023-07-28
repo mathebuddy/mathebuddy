@@ -1,0 +1,9 @@
+# extracted automatically by running ./build.sh
+program = { statement };
+statement = assignment | ifCond | whileLoop | figure;
+ifCond = "if" cond block [ "else" block ];
+whileLoop = "while" term block;
+block = "{" { statement } "}";
+figure = "figure" "{" { figureStatement } "}";
+figureStatement = ("x_axis"|"y_axis") "(" REAL "," REAL "," STR ")" | "function" "(" ID ")" | "color" "(" INT ")" | "circle" "(" REAL "," REAL ";" REAL ")";
+realNumber = ["-"] INT | ["-"] REAL;
