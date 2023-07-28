@@ -3,7 +3,7 @@
 ---
 
 **NOTE**
-This reference guide is in work-in-progress state. We are planning to release version 1.0 by mid of 2023.
+This reference guide is updated frequently.
 
 ---
 
