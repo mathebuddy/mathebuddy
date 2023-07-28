@@ -1,18 +1,82 @@
-# extracted automatically by running ./build.sh
-term = relational;
-relational = add [ ("<"|"<="|">"|">=") add ];
-add = mul { ("+"|"-") mul };
-mul = pow { ("*"|"/"|!fill"*"!) pow };
-pow = unary [ "^" unary ];
-unary = [prefix] infix [postfix];
-prefix = "-";
-postfix = "i";
-vector = "[" [ term { "," term } ] "]";
-matrixOrVector = vector | "[" [ vector { "," vector } ] "]";
-set = "{" [ term { "," term } ] "}";
-fct2 = "binomial" | "complex" | "rand" | "randZ";
-builtin = "pi" | "e";
-IMAG = REAL "i";
-REAL = INT "." { NUM0 };
-INT = "0" | NUM1 { NUM0 };
-ID = ALPHA { (ALPHA | NUM0) };
+<GRAMMAR>
+  term =
+    lor;
+  lor =
+    land [ "||" land ];
+  land =
+    equal [ "&&" equal ];
+  equal =
+    relational [ ("=="|"!=") relational ];
+  relational =
+    add [ ("<"|"<="|">"|">=") add ];
+  add =
+    mul { ("+"|"-") mul };
+  mul =
+    pow { ("*"|"/"|<fill"*">) pow };
+  pow =
+    unary [ "^" unary ];
+  unary =
+      "-" mul
+    | "!" infix
+    | infix;
+  infix =
+      "true"
+    | "false"
+    | IMAG
+    | INT
+    | REAL
+    | irrational
+    | fct1 unary
+    | (fct1|fct2) [ "<" unary {","unary} ">" ] "(" term {","term} ")";
+    | ["@"|"@@"] ID
+    | "(" term ")"
+    | "|" term "|"
+    | matrixOrVector
+    | set;
+  vector =
+    "[" [ term { "," term } ] "]";
+  matrixOrVector =
+      vector
+    | "[" [ vector { "," vector } ] "]";
+  set =
+    "{" [ term { "," term } ] "}";
+  fct1 =
+      "abs"
+    | "ceil"
+    | "conj"
+    | "cos"
+    | "exp"
+    | "fac"
+    | "floor"
+    | "imag"
+    | "len"
+    | "ln"
+    | "max"
+    | "min"
+    | "real"
+    | "round"
+    | "sin"
+    | "sqrt"
+    | "tan";
+  fct2 =
+      "binomial"
+    | "complex"
+    | "rand"
+    | "randZ";
+  irrational =
+      "pi"
+    | "e";
+  IMAG =
+    REAL "i";
+  REAL =
+    INT "." { NUM0 };
+  INT =
+      "0"
+    | NUM1 { NUM0 };
+  ID =
+    ALPHA { (ALPHA | NUM0) };
+  NUM0 =
+    "0" | "1" | ... | "9";
+  NUM1 =
+    "1" | "2" | ... | "9";
+</GRAMMAR>
