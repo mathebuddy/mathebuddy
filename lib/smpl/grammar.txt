@@ -1,6 +1,31 @@
-# extracted automatically by running ./build.sh
-program = { statement };
-statement = assignment | ifCond | whileLoop;
-assignment = ["let"] ID { (":"|"/") ID } ["(" ID { "," ID } ")"] "=" term (";"|"\n");
-ifCond = "if" cond block [ "else" block ];
-whileLoop = "while" term block;
+<GRAMMAR>
+  program =
+    { (statement | "\n") };
+  statement =
+      assignment
+    | ifCond
+    | whileLoop
+    | figure;
+  assignment =
+    [ "let" ]
+    ID ( {":" ID} | {"/" ID} )
+    ["(" ID { "," ID } ")"]
+    "=" TERM
+    [">>>" ID ">>>" TERM [">>>" TERM]]
+    (";"|"\n");
+  ifCond =
+    "if" TERM block [ "else" block ];
+  whileLoop =
+    "while" TERM block;
+  block =
+    "{" { statement } "}";
+  figure =
+    "figure" "{" { figureStatement } "}";
+  figureStatement =
+      ("x_axis"|"y_axis") "(" num "," num "," STR ")"
+    | "function" "(" ID ")"
+    | "circle" "(" num "," num "," num ")";
+  num =
+      ["-"] INT
+    | ["-"] REAL;
+</GRAMMAR>
