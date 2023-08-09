@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-07-26" />
+  <meta name="dcterms.date" content="2023-08-09" />
   <title>Mathe:Buddy Language (MBL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -99,7 +99,7 @@
 [<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Mathe:Buddy Language (MBL)</h1>
 <p class="author"></p>
-<p class="date">2023-07-26</p>
+<p class="date">2023-08-09</p>
 </header>
 <!-- Mathe:Buddy Language (MBL) -->
 <hr />
@@ -148,14 +148,14 @@ features.</p>
 <div class="sourceCode" id="cb2"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>My Course Title @myLabel</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>###############</span></code></pre></div>
-<p>Five or more hashtags (<code>#</code>) are required. Labels are
+<p>Four or more hashtags (<code>#</code>) are required. Labels are
 optional.</p></li>
 <li><p><code>Sections</code></p>
 <p>A level can be separated into sections (headlines). Example:</p>
 <div class="sourceCode" id="cb3"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>My Section @sec:myLabel</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>==========</span></code></pre></div>
-<p>Five or more equal signs (<code>=</code>) are required. Labels are
+<p>Four or more equal signs (<code>=</code>) are required. Labels are
 optional. We suggest to use prefix <code>sec:</code> for section labels,
 but this is optional.</p></li>
 <li><p><code>Subsections</code></p>
@@ -164,7 +164,7 @@ Example:</p>
 <div class="sourceCode" id="cb4"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>My Subsection @subsec:myLabel</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>-------------</span></code></pre></div>
-<p>Five or more dashes (<code>-</code>) are required. Labels are
+<p>Four or more dashes (<code>-</code>) are required. Labels are
 optional. We suggest to use prefix <code>subsec:</code> for subsection
 labels, but this is optional.</p></li>
 <li><p><code>Paragraphs</code></p>
@@ -172,50 +172,60 @@ labels, but this is optional.</p></li>
 Example:</p>
 <div class="sourceCode" id="cb5"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>This is text within a paragraph.</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Even this text stands in a new line, it is compiled to be written directly behind the last line.</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>An empty line starts a new paragraph.</span></code></pre></div></li>
-<li><p><code>Definitions, Theorems, Lemmas, ...</code></p>
-<p>Definitions, Theorems etc. are embedded into a <em>block</em> that
-syntactically starts and ends with each a line of three dashes
-(<code>---</code>). Examples:</p>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Even this text stands in a new line,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>it will be visible directly behind the last line.</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>An empty line starts a new paragraph.</span></code></pre></div></li>
+<li><p><code>Bold, Italic and Colored Text</code></p>
+<p>Basic text formatting options are bold text, italic text and colored
+text. <em>Bold text</em> is embedded into a pair of double-asterisks
+(<code>**</code>). <em>Italic text</em> is embedded into a pair of
+single-asterisks (<code>*</code>). <em>Colored text</em> is embedded
+into brackets and postposed by the color name
+(<code>[...]@colorN</code>).</p>
+<p>Examples:</p>
 <div class="sourceCode" id="cb6"><pre
-class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DEFINITION</span> Positive @def:positive</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    For any integer <span class="dv">$n$</span>, <span class="dv">$n$</span> is **positive** if <span class="dv">$n&gt;0$</span>.</span></code></pre></div>
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Some **bold** text. Some *italic* text.</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>The word [sky]@color1 is written in primary color.</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>[Some text written in the secondary color.]@color2.</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>You can also write [bold text]@bold and [italic text]@italic similar to color notation.</span></code></pre></div>
+<p>Colors are only defined implicitly by a number. The exact rendering
+depends on the runtime environment, including the currently active color
+profile. We restricted the degree of freedom per design to force
+uniformly presented courses. <code>color0</code> defines black color in
+all cases.</p></li>
+<li><p><code>Definitions, Theorems, Lemmas, ...</code></p>
+<p>Definitions, Theorems etc. are embedded into a <em>block</em>. All
+lines that belong to a block are indented to the right by a tabulator,
+or four spaces respectively.</p>
+<p>Examples:</p>
 <div class="sourceCode" id="cb7"><pre
-class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">THEOREM</span> The Aristotelian Syllogism @thm:socrates</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    If every man is mortal and Socrates is a man, then Socrates is mortal.</span></code></pre></div>
-<p>The runtime environment may replace tag names with corresponding
-terms of the local language.</p>
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DEFINITION</span> Positive @def:positive</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    For any integer <span class="dv">$n$</span>, <span class="dv">$n$</span> is **positive** if <span class="dv">$n&gt;0$</span>.</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">THEOREM</span> The Aristotelian Syllogism @thm:socrates</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    If every man is mortal and Socrates is a man, then Socrates is mortal.</span></code></pre></div>
+<p>The runtime environment may replace tag names
+(e.g. <code>THEOREM</code>) with corresponding terms of the local
+language.</p>
 <p>The complete list of supported tags is <code>DEFINITION</code>,
 <code>THEOREM</code>, <code>LEMMA</code>, <code>COROLLARY</code>,
 <code>PROPOSITION</code>, <code>CONJECTURE</code>, <code>AXIOM</code>,
 <code>CLAIM</code>, <code>IDENTITY</code>,
 <code>PARADOX</code>.</p></li>
 <li><p><code>Examples</code></p>
-<p>Examples are embedded into a <em>block</em> that syntactically starts
-and ends with each a line of three dashes (<code>---</code>).</p>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXAMPLE</span> Addition of complex numbers @ex:myExample</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">$z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i$</span></span></code></pre></div>
-<p>Full line equations can be inserted as described in subsection
-“nesting of blocks below. Example:</p>
+<p>Examples are embedded into a <em>block</em>. All lines that belong to
+a block are indented to the right by a tabulator, or four spaces
+respectively.</p>
 <div class="sourceCode" id="cb9"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXAMPLE</span> Addition of complex numbers @ex:myExample</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">EQUATION</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i</span></code></pre></div></li>
-<li><p><code>Bold, Italic and Colored Text</code></p>
-<p>Basic text formatting options are bold text, italic text and colored
-text. Examples:</p>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">$z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i$</span></span></code></pre></div>
+<p>Full line equations can be inserted as described in subsection
+“nesting of blocks below. Example:</p>
 <div class="sourceCode" id="cb10"><pre
-class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Some **bold** text. Some *italic* text.</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>The word [sky]@color1 is written in primary color.</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>[Some text written in the secondary color.]@color2.</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>You can also write [bold text]@bold and [italic text]@italic similar to color notation.</span></code></pre></div>
-<p>Colors are only defined implicitly. The exact rendering depends on
-the runtime environment. We restricted the degree of freedom per design
-to force uniformly presented courses. <code>color0</code> defines black
-color in all cases.</p></li>
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXAMPLE</span> Addition of complex numbers @ex:myExample</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">EQUATION</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i</span></code></pre></div></li>
 <li><p><code>Alignment</code></p>
 <p>The default alignment of paragraphs is left. Block types
 <code>LEFT</code>, <code>CENTER</code> and <code>RIGHT</code> change the
@@ -303,7 +313,8 @@ until the current line ends.</p>
 <p>Comments can e.g. be used to make notes to other developers, or
 temporarily hide unfinished stuff. Example:</p>
 <div class="sourceCode" id="cb13"><pre
-class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>This text is displayed in the output. % only a course developer can read this.</span></code></pre></div></li>
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>This text is displayed in the output.</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>% only a course developer can read this text.</span></code></pre></div></li>
 <li><p><code>Page Breaks</code></p>
 <p>A level can be scrolled vertically by the student. Doom-scrolling
 should be avoided (not only) for didactical reasons. Page breaks can be
@@ -325,8 +336,7 @@ class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb15-1"><a href="#
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">EQUATION</span> @myEquation</span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        x^2 + y^2 = z^2</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    Another paragraph here.</span></code></pre></div>
-<p>Inner blocks do not use <code>---</code> as separator. Note in the
-example, that <code>TEXT</code> is used to leave equation mode.</p>
+<p>Inner blocks are created by further indentation.</p>
 <p><strong>Warning:</strong> Attributes (for example
 <code>@options</code> in exercises) refer to the innermost declared
 subblock. To explicitly end a subblock, use the <code>END</code>
@@ -378,7 +388,7 @@ you may stack equal signs vertically.</p>
 for the alignment, and must end with a line feed <code>\\</code>.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb20"><pre
-class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ALIGNED-<span class="kw">EQUATION</span></span>
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ALIGNED</span>-<span class="kw">EQUATION</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    (x+1)^2 &amp;= (x+1)(x+1) \\</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>            &amp;= x^2 + x + x + 1 \\</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>            &amp;= x^2 + 2x + 1 \\</span></code></pre></div>
@@ -442,7 +452,7 @@ Example:</p>
 <div class="sourceCode" id="cb21"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FIGURE</span> My figure title @fig:myFigure</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">WIDTH</span>=75</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    PATH=images/myImage.svg</span></code></pre></div>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">PATH</span>=images/myImage.svg</span></code></pre></div>
 <p>Attribute <code>width-P</code> specifies the displayed width with a
 percentage value for <code>P</code>. E.g. <code>width-75</code> renders
 the figure with 75 % of the display width. Default is
@@ -589,7 +599,7 @@ solution to gather scoring.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb28"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Multiplication</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    CHOICES=4</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">CHOICES</span>=4</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        let x/y = rand(10,20)</span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>        let z = x * y</span>
@@ -622,7 +632,7 @@ one of them shows the correct solution (refer to exercise type
 <p>Example:</p>
 <div class="sourceCode" id="cb30"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Linear Equations</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    FLEX_ELEMENTS=true</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">FLEX_ELEMENTS</span>=true</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        let s = {-2, 2}</span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    Solve <span class="dv">$x^2 - 4 = 0$</span>.</span>
@@ -640,8 +650,8 @@ one of them shows the correct solution (refer to exercise type
 <p>Example:</p>
 <div class="sourceCode" id="cb31"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Matrix Operations</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    FLEX_ROWS=true</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    FLEX_COLS=true</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">FLEX_ROWS</span>=true</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">FLEX_COLS</span>=true</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        let A/B/C = rand&lt;3,3&gt;(0, 5)    % 3x3-matrices</span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        let D = A*B + C</span>
@@ -688,7 +698,7 @@ score per exercise is defined as sum of scores of the input fields.</p>
 <p>Example for custom scoring:</p>
 <div class="sourceCode" id="cb33"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Scoring example</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    SCORES=5   % total score of the exercise (5/3 for fa; 10/3 for fb)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">SCORES</span>=5   % total score of the exercise (5/3 for fa; 10/3 for fb)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        let a = rand(2,4)</span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>        let b = rand(5,8)</span>
@@ -763,8 +773,8 @@ correct answers, the behavior is undefined.</p></li>
 paragraph text.</p>
 <div class="sourceCode" id="cb37"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> My Gap Exercise  @ex:myLabel</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    SHOW_GAP_LENGTH=true</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    SHOW_REQUIRED_LETTERS_ONLY=true</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">SHOW_GAP_LENGTH</span>=true</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">SHOW_REQUIRED_LETTERS_ONLY</span>=true</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    Garfield is a #&quot;cat&quot;. Rain is #&quot;wet&quot;.</span></code></pre></div>
 <p>Option <code>show-length</code> hints the number of characters of the
 solution word.</p>
@@ -779,8 +789,8 @@ be reordered by the student.</p>
 <!-- TODO: string arrangement -->
 <div class="sourceCode" id="cb38"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Arrangement exercise</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    ARRANGE=true</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    ACCEPT_IMMEDIATELY=true</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">ARRANGE</span>=true</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">ACCEPT_IMMEDIATELY</span>=true</span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>        let n = rand(5,10)          % length</span>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        let f = zeros&lt;1,n&gt;()        % row vector for the sequence</span>
@@ -805,10 +815,10 @@ This question type might test, if students are already trained well to a
 specific topic.</p>
 <div class="sourceCode" id="cb39"><pre
 class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">EXERCISE</span> Timed exercise</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    TIMER=3</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    ACCELERATE=true</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    STOP_AFTER_ERRORS=1</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    CHOICES=4</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">TIMER</span>=3</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">ACCELERATE</span>=true</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">STOP_AFTER_ERRORS</span>=1</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">CHOICES</span>=4</span>
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
 <span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>        let x:y = rand(20,50)</span>
 <span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>        let z = x + y</span>
@@ -865,25 +875,26 @@ files and its dependencies.</p>
 <blockquote>
 <p>hm1/cmplx/index.mbl</p>
 </blockquote>
-<pre><code>% a comment line
-
-TITLE
-    Complex Numbers
-
-AUTHOR
-    TH Koeln
-
-UNIT Complex Basics
-    (2,0) start                   ICON icons/start.svg
-    (1,0) gauss       !start      ICON icons/gauss.svg
-    (3,1) normal      !start
-    (3,2) conj        !normal
-    (4,2) conj-props  !conj
-    (3,3) abs         !conj
-    (2,4) polar       !abs
-
-UNIT Complex Functions, Sequences, Series
-    ...</code></pre>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>% a comment line</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">TITLE</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    Complex Numbers</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="kw">AUTHOR</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    TH Koeln</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="kw">UNIT</span> Complex Basics</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    (2,0) start                   ICON icons/start.svg</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    (1,0) gauss       !start      ICON icons/gauss.svg</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    (3,1) normal      !start</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    (3,2) conj        !normal</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>    (4,2) conj-props  !conj</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    (3,3) abs         !conj</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    (2,4) polar       !abs</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a><span class="kw">UNIT</span> Complex Functions, Sequences, Series</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div>
 <p>Each chapter consists of a set of units.</p>
 <p>Each unit consists of a set of levels. A unit can be represented by a
 (directed) graph <span class="math inline">\(G=(V,E)\)</span> with <span
@@ -913,32 +924,34 @@ paths, e.g. <code>!../basics/sets</code> requires level
 <p>Since all units are stored in the same file directory, prefixes to
 file names may be helpful.</p>
 <p>Example:</p>
-<pre><code>...
-UNIT Complex Basics
-    (2,0) basics-start
-    (1,0) basics-gauss       !basics-start
-    (3,1) basics-normal      !basics-start
-...
-
-UNIT Complex Functions, Sequences, Series
-    (0,0) fss-start
-...</code></pre>
+<div class="sourceCode" id="cb42"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="kw">UNIT</span> Complex Basics</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    (2,0) basics-start</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    (1,0) basics-gauss       !basics-start</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    (3,1) basics-normal      !basics-start</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="kw">UNIT</span> Complex Functions, Sequences, Series</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    (0,0) fss-start</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>...</span></code></pre></div>
 <h2 id="course-description-file-course.mbl">Course Description File
 (<code>course.mbl</code>)</h2>
 <p>The course description file <code>course.mbl</code> is similar
 organized to level index files.</p>
 <p>It mainly lists all chapters and its dependencies.</p>
 <p>Example:</p>
-<pre><code>TITLE
-   A Short Demo Course
-
-AUTHOR
-    TH Koeln
-
-CHAPTERS
-    (0,0) basics
-    (2,0) essentials  !basics
-    (1,1) advanced    !basics !essentials</code></pre>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">TITLE</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    A Short Demo Course</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="kw">AUTHOR</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    TH Koeln</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="kw">CHAPTERS</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    (0,0) basics</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    (2,0) essentials  !basics</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    (1,1) advanced    !basics !essentials</span></code></pre></div>
 <p><em>Author: Andreas Schwenk, TH Köln</em></p>
 <!--
 # TODO
