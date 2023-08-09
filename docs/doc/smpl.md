@@ -797,33 +797,38 @@ Notation: We write data type `VOID` for functions that do not return any value.
 
 The following formal grammar (denoted in EBNF) is currently implemented.
 
-```EBNF
-program = { statement };
-statement = declaration | if | for | do | while | switch | function | return | break | continue | expression EOS;
-declaration = "let" id_list "=" expr EOS | "let" ID "(" ID { "," ID } ")" "=" expr EOS;
-id_list = ID { ":" ID } | ID { "/" ID };
-expression = or { ("="|"+="|"-="|"/=") or };
-or = and { "||" and };
-and = equal { "&&" equal };
-equal = relational [ ("=="|"!=") relational ];
-relational = add [ ("<="|">="|"<"|">") add ];
-add = mul { ("+"|"-") mul };
-mul = pow { ("*"|"/"|"mod") pow };
-pow = unary [ "^" unary ];
-unary = unaryExpression [ unaryPostfix ];
-unaryExpression = "PI" | "true" | "false" | INT ["i"] | REAL ["i"] | "(" expr ")" | "[" matrix_row { "," matrix_row } "]" | "[" expr { "," expr } "]" | | ID | "-" unary | "!" unary | STR;
-matrix_row = "[" expr { "," expr } "]";
-unaryPostfix = "++" | "--" | [ "<" [ unary { "," unary } ] ">" ] "(" [ expr { "," expr } ] ")" | "[" expr "]";
-for = "for" "(" expression ";" expression ";" expression ")" block;
-if = "if" "(" expression ")" block [ "else" block ];
-block = statement | "{" { statement } "}";
-do = "do" block "while" "(" expr ")" EOS;
-while = "while" "(" expr ")" block;
-switch = "switch" "(" expr ")" "{" { "case" INT ":" { statement } } "default" ":" { statement } "}";
-function = "function" ID "(" [ ID { "," ID } ] ")" block;
-return = "return" [ expr ] EOS;
-break = "break" EOS;
-continue = "continue" EOS;
+```
+<GRAMMAR>
+  program =
+    { (statement | "\n") };
+  statement =
+      assignment
+    | ifCond
+    | whileLoop
+    | figure;
+  assignment =
+    [ "let" ]
+    ID ( {":" ID} | {"/" ID} )
+    ["(" ID { "," ID } ")"]
+    "=" TERM
+    [">>>" ID ">>>" TERM [">>>" TERM]]
+    (";"|"\n");
+  ifCond =
+    "if" TERM block [ "else" block ];
+  whileLoop =
+    "while" TERM block;
+  block =
+    "{" { statement } "}";
+  figure =
+    "figure" "{" { figureStatement } "}";
+  figureStatement =
+      ("x_axis"|"y_axis") "(" num "," num "," STR ")"
+    | "function" "(" ID ")"
+    | "circle" "(" num "," num "," num ")";
+  num =
+      ["-"] INT
+    | ["-"] REAL;
+</GRAMMAR>
 ```
 
 _Author: Andreas Schwenk, TH Köln_
