@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-07-27" />
+  <meta name="dcterms.date" content="2023-08-09" />
   <title>Simple Math Programming Language (SMPL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -99,7 +99,7 @@
 [<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Simple Math Programming Language (SMPL)</h1>
 <p class="author"></p>
-<p class="date">2023-07-27</p>
+<p class="date">2023-08-09</p>
 </header>
 <!-- Simple Math Programming Language (SMPL) -->
 <hr />
@@ -827,32 +827,37 @@ class="math inline">\(2\times 3\)</span> matrix with all elements
 <h2 id="appendix-grammar">Appendix: Grammar</h2>
 <p>The following formal grammar (denoted in EBNF) is currently
 implemented.</p>
-<pre class="ebnf"><code>program = { statement };
-statement = declaration | if | for | do | while | switch | function | return | break | continue | expression EOS;
-declaration = &quot;let&quot; id_list &quot;=&quot; expr EOS | &quot;let&quot; ID &quot;(&quot; ID { &quot;,&quot; ID } &quot;)&quot; &quot;=&quot; expr EOS;
-id_list = ID { &quot;:&quot; ID } | ID { &quot;/&quot; ID };
-expression = or { (&quot;=&quot;|&quot;+=&quot;|&quot;-=&quot;|&quot;/=&quot;) or };
-or = and { &quot;||&quot; and };
-and = equal { &quot;&amp;&amp;&quot; equal };
-equal = relational [ (&quot;==&quot;|&quot;!=&quot;) relational ];
-relational = add [ (&quot;&lt;=&quot;|&quot;&gt;=&quot;|&quot;&lt;&quot;|&quot;&gt;&quot;) add ];
-add = mul { (&quot;+&quot;|&quot;-&quot;) mul };
-mul = pow { (&quot;*&quot;|&quot;/&quot;|&quot;mod&quot;) pow };
-pow = unary [ &quot;^&quot; unary ];
-unary = unaryExpression [ unaryPostfix ];
-unaryExpression = &quot;PI&quot; | &quot;true&quot; | &quot;false&quot; | INT [&quot;i&quot;] | REAL [&quot;i&quot;] | &quot;(&quot; expr &quot;)&quot; | &quot;[&quot; matrix_row { &quot;,&quot; matrix_row } &quot;]&quot; | &quot;[&quot; expr { &quot;,&quot; expr } &quot;]&quot; | | ID | &quot;-&quot; unary | &quot;!&quot; unary | STR;
-matrix_row = &quot;[&quot; expr { &quot;,&quot; expr } &quot;]&quot;;
-unaryPostfix = &quot;++&quot; | &quot;--&quot; | [ &quot;&lt;&quot; [ unary { &quot;,&quot; unary } ] &quot;&gt;&quot; ] &quot;(&quot; [ expr { &quot;,&quot; expr } ] &quot;)&quot; | &quot;[&quot; expr &quot;]&quot;;
-for = &quot;for&quot; &quot;(&quot; expression &quot;;&quot; expression &quot;;&quot; expression &quot;)&quot; block;
-if = &quot;if&quot; &quot;(&quot; expression &quot;)&quot; block [ &quot;else&quot; block ];
-block = statement | &quot;{&quot; { statement } &quot;}&quot;;
-do = &quot;do&quot; block &quot;while&quot; &quot;(&quot; expr &quot;)&quot; EOS;
-while = &quot;while&quot; &quot;(&quot; expr &quot;)&quot; block;
-switch = &quot;switch&quot; &quot;(&quot; expr &quot;)&quot; &quot;{&quot; { &quot;case&quot; INT &quot;:&quot; { statement } } &quot;default&quot; &quot;:&quot; { statement } &quot;}&quot;;
-function = &quot;function&quot; ID &quot;(&quot; [ ID { &quot;,&quot; ID } ] &quot;)&quot; block;
-return = &quot;return&quot; [ expr ] EOS;
-break = &quot;break&quot; EOS;
-continue = &quot;continue&quot; EOS;</code></pre>
+<pre><code>&lt;GRAMMAR&gt;
+  program =
+    { (statement | &quot;\n&quot;) };
+  statement =
+      assignment
+    | ifCond
+    | whileLoop
+    | figure;
+  assignment =
+    [ &quot;let&quot; ]
+    ID ( {&quot;:&quot; ID} | {&quot;/&quot; ID} )
+    [&quot;(&quot; ID { &quot;,&quot; ID } &quot;)&quot;]
+    &quot;=&quot; TERM
+    [&quot;&gt;&gt;&gt;&quot; ID &quot;&gt;&gt;&gt;&quot; TERM [&quot;&gt;&gt;&gt;&quot; TERM]]
+    (&quot;;&quot;|&quot;\n&quot;);
+  ifCond =
+    &quot;if&quot; TERM block [ &quot;else&quot; block ];
+  whileLoop =
+    &quot;while&quot; TERM block;
+  block =
+    &quot;{&quot; { statement } &quot;}&quot;;
+  figure =
+    &quot;figure&quot; &quot;{&quot; { figureStatement } &quot;}&quot;;
+  figureStatement =
+      (&quot;x_axis&quot;|&quot;y_axis&quot;) &quot;(&quot; num &quot;,&quot; num &quot;,&quot; STR &quot;)&quot;
+    | &quot;function&quot; &quot;(&quot; ID &quot;)&quot;
+    | &quot;circle&quot; &quot;(&quot; num &quot;,&quot; num &quot;,&quot; num &quot;)&quot;;
+  num =
+      [&quot;-&quot;] INT
+    | [&quot;-&quot;] REAL;
+&lt;/GRAMMAR&gt;</code></pre>
 <p><em>Author: Andreas Schwenk, TH Köln</em></p>
 </body>
 </html>
