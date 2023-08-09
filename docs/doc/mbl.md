@@ -53,7 +53,7 @@ This section describes the text structuring and text formatting features.
   ###############
   ```
 
-  Five or more hashtags (`#`) are required. Labels are optional.
+  Four or more hashtags (`#`) are required. Labels are optional.
 
 - `Sections`
 
@@ -64,7 +64,7 @@ This section describes the text structuring and text formatting features.
   ==========
   ```
 
-  Five or more equal signs (`=`) are required. Labels are optional. We suggest to use prefix `sec:` for section labels, but this is optional.
+  Four or more equal signs (`=`) are required. Labels are optional. We suggest to use prefix `sec:` for section labels, but this is optional.
 
 - `Subsections`
 
@@ -75,7 +75,7 @@ This section describes the text structuring and text formatting features.
   -------------
   ```
 
-  Five or more dashes (`-`) are required. Labels are optional. We suggest to use prefix `subsec:` for subsection labels, but this is optional.
+  Four or more dashes (`-`) are required. Labels are optional. We suggest to use prefix `subsec:` for subsection labels, but this is optional.
 
 - `Paragraphs`
 
@@ -83,14 +83,38 @@ This section describes the text structuring and text formatting features.
 
   ```mbl
   This is text within a paragraph.
-  Even this text stands in a new line, it is compiled to be written directly behind the last line.
+  Even this text stands in a new line,
+  it will be visible directly behind the last line.
 
   An empty line starts a new paragraph.
   ```
 
+- `Bold, Italic and Colored Text`
+
+  Basic text formatting options are bold text, italic text and colored text.
+  _Bold text_ is embedded into a pair of double-asterisks (`**`).
+  _Italic text_ is embedded into a pair of single-asterisks (`*`).
+  _Colored text_ is embedded into brackets and postposed by the color name (`[...]@colorN`).
+
+  Examples:
+
+  ```mbl
+  Some **bold** text. Some *italic* text.
+  The word [sky]@color1 is written in primary color.
+  [Some text written in the secondary color.]@color2.
+  You can also write [bold text]@bold and [italic text]@italic similar to color notation.
+  ```
+
+  Colors are only defined implicitly by a number.
+  The exact rendering depends on the runtime environment, including the currently active color profile.
+  We restricted the degree of freedom per design to force uniformly presented courses. `color0` defines black color in all cases.
+
 - `Definitions, Theorems, Lemmas, ...`
 
-  Definitions, Theorems etc. are embedded into a _block_ that syntactically starts and ends with each a line of three dashes (`---`). Examples:
+  Definitions, Theorems etc. are embedded into a _block_.
+  All lines that belong to a block are indented to the right by a tabulator, or four spaces respectively.
+
+  Examples:
 
   ```mbl
   DEFINITION Positive @def:positive
@@ -102,13 +126,14 @@ This section describes the text structuring and text formatting features.
       If every man is mortal and Socrates is a man, then Socrates is mortal.
   ```
 
-  The runtime environment may replace tag names with corresponding terms of the local language.
+  The runtime environment may replace tag names (e.g. `THEOREM`) with corresponding terms of the local language.
 
   The complete list of supported tags is `DEFINITION`, `THEOREM`, `LEMMA`, `COROLLARY`, `PROPOSITION`, `CONJECTURE`, `AXIOM`, `CLAIM`, `IDENTITY`, `PARADOX`.
 
 - `Examples`
 
-  Examples are embedded into a _block_ that syntactically starts and ends with each a line of three dashes (`---`).
+  Examples are embedded into a _block_.
+  All lines that belong to a block are indented to the right by a tabulator, or four spaces respectively.
 
   ```mbl
   EXAMPLE Addition of complex numbers @ex:myExample
@@ -122,19 +147,6 @@ This section describes the text structuring and text formatting features.
       EQUATION
           z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i
   ```
-
-- `Bold, Italic and Colored Text`
-
-  Basic text formatting options are bold text, italic text and colored text. Examples:
-
-  ```mbl
-  Some **bold** text. Some *italic* text.
-  The word [sky]@color1 is written in primary color.
-  [Some text written in the secondary color.]@color2.
-  You can also write [bold text]@bold and [italic text]@italic similar to color notation.
-  ```
-
-  Colors are only defined implicitly. The exact rendering depends on the runtime environment. We restricted the degree of freedom per design to force uniformly presented courses. `color0` defines black color in all cases.
 
 - `Alignment`
 
@@ -194,7 +206,8 @@ This section describes the text structuring and text formatting features.
   Comments can e.g. be used to make notes to other developers, or temporarily hide unfinished stuff. Example:
 
   ```mbl
-  This text is displayed in the output. % only a course developer can read this.
+  This text is displayed in the output.
+  % only a course developer can read this text.
   ```
 
 - `Page Breaks`
@@ -224,8 +237,7 @@ This section describes the text structuring and text formatting features.
       Another paragraph here.
   ```
 
-  Inner blocks do not use `---` as separator.
-  Note in the example, that `TEXT` is used to leave equation mode.
+  Inner blocks are created by further indentation.
 
   **Warning:** Attributes (for example `@options` in exercises) refer to the innermost declared subblock. To explicitly end a subblock, use the `END` keyword. Example:
 
@@ -796,7 +808,7 @@ An index file defines meta data for a chapter. It also lists all files and its d
 
 > hm1/cmplx/index.mbl
 
-```
+```mbl
 % a comment line
 
 TITLE
@@ -844,7 +856,7 @@ Since all units are stored in the same file directory, prefixes to file names ma
 
 Example:
 
-```
+```mbl
 ...
 UNIT Complex Basics
     (2,0) basics-start
@@ -865,9 +877,9 @@ It mainly lists all chapters and its dependencies.
 
 Example:
 
-```
+```mbl
 TITLE
-   A Short Demo Course
+    A Short Demo Course
 
 AUTHOR
     TH Koeln
