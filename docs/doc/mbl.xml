@@ -4,7 +4,10 @@
     mimetype="application/sla" author="Andreas Schwenk" license="GPLv3">
     <highlighting>
         <list name="keywords">
+            <item>ALIGNED</item>
+            <item>AUTHOR</item>
             <item>CAPTION</item>
+            <item>CHAPTERS</item>
             <item>CENTER</item>
             <item>CODE</item>
             <item>DEFINITION</item>
@@ -14,10 +17,25 @@
             <item>FIGURE</item>
             <item>TABLE</item>
             <item>THEOREM</item>
+            <item>TITLE</item>
+            <item>UNIT</item>
         </list>
         <list name="attributes">
+            <item>ACCELERATE</item>
+            <item>ACCEPT_IMMEDIATELY</item>
             <item>ALIGN</item>
+            <item>ARRANGE</item>
+            <item>CHOICES</item>
+            <item>FLEX_COLS</item>
+            <item>FLEX_ELEMENTS</item>
+            <item>FLEX_ROWS</item>
             <item>ORDER</item>
+            <item>PATH</item>
+            <item>SCORES</item>
+            <item>SHOW_GAP_LENGTH</item>
+            <item>SHOW_REQUIRED_LETTERS_ONLY</item>
+            <item>STOP_AFTER_ERRORS</item>
+            <item>TIMER</item>
             <item>WIDTH</item>
         </list>
         <contexts>
@@ -50,7 +68,7 @@
     <general>
         <!-- TODO: comments are not working... must also define via highlighting rules??? -->
         <comments>
-            <comment name="singleLine" start="//" />
+            <comment name="singleLine" start="%" />
         </comments>
         <keywords casesensitive="1" />
     </general>
