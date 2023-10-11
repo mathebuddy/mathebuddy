@@ -37,9 +37,10 @@ do
     echo "[11] create bundle of test courses"
     echo "[12] create bundle for alpha course"
     echo "[13] create bundle for complex numbers"
-    echo "[14] update https://github.com/mathebuddy/alpha (must build web app + create bundle first)"
-    echo "[15] update https://github.com/mathebuddy/smoke (must build web app + create bundle first)"
-    echo "[16] exit"
+    echo "[14] create bundle for basics"
+    echo "[20] update https://github.com/mathebuddy/alpha (must build web app + create bundle first)"
+    echo "[21] update https://github.com/mathebuddy/smoke (must build web app + create bundle first)"
+    echo "[99] exit"
     read x
     case $x in
     0)
@@ -136,7 +137,13 @@ do
         cd ..
         ;;
     14)
-        # [14] update https://github.com/mathebuddy/alpha
+        # [14] create bundle for basics
+        cd bin
+        dart bundler/src/bundler.dart bundle-basics.txt ../app/assets/bundle-basics.json
+        cd ..
+        ;;
+    20)
+        # [20] update https://github.com/mathebuddy/alpha
         DIR="../alpha/"
         if [ -d "$DIR" ]; then
             rm -rf ../alpha/docs/
@@ -148,8 +155,8 @@ do
             echo "ERROR: alpha-repository must be placed next to mathebuddy repo"
         fi
         ;;
-    15)
-        # [15] update https://github.com/mathebuddy/smoke
+    21)
+        # [21] update https://github.com/mathebuddy/smoke
         DIR="../smoke/"
         if [ -d "$DIR" ]; then
             rm -rf ../smoke/docs/
