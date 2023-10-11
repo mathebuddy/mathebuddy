@@ -13,6 +13,13 @@ void main() {
   print('running mathe:buddy MATH RUNTIME tests ...');
 
   var parser = Parser();
+
+  var t = parser.parse("4*[1+10,2,3][1]");
+  var v = t.eval({});
+  var bp = 1337;
+
+  // ---
+
   var term = parser.parse("(((1/3)*(x^3))+(7*x)-2)");
   /*var summands = term.splitSummands();
   for (var i = 0; i < summands.length; i++) {
