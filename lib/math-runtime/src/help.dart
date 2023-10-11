@@ -13,3 +13,12 @@ bool isInteger(num x) {
   }
   return false;
 }
+
+int gcd(int x, int y) {
+  while (y != 0) {
+    var t = y;
+    y = x % y;
+    x = t;
+  }
+  return x;
+}
