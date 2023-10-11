@@ -1,12 +1,5 @@
 <!-- Simple Math Programming Language (SMPL) -->
 
----
-
-**NOTE**
-This reference guide is updated frequently.
-
----
-
 This document describes the _Simple Math Programming Language (SMPL)_.
 
 SMPL is a math-oriented programming language that can be interpreted in the browser. Its primary use is for the _mathe:buddy app_.
@@ -31,8 +24,8 @@ Both matrices are numerically unequal. The product of $A$ and $B$ is finally ass
 
 ```
 % multiplication of two 3x3-matrices
-let A/B = randZ<3,3>(-5,5);
-let C = A * B;
+let A/B = randZ<3,3>(-5,5)
+let C = A * B
 ```
 
 The example demonstrates some of the key features of SMPL:
@@ -62,8 +55,8 @@ Declarations and assignments are executed statement wise, i.e. $s_{i+1}$ is exec
 Example:
 
 ```
-let x = 3;
-let y = sin(x);
+let x = 3
+let y = sin(x)
 ```
 
 The example programs executes lines one and two in given order.
@@ -83,14 +76,14 @@ Example:
 
 ```
 % this is a comment line
-let a = 5;  % assign integer constant 5 to variable a
-%let b = 7;
+let a = 5     % assign integer constant 5 to variable a
+%let b = 7
 ```
 
 The same listing can be denoted as follows without comments:
 
 ```
-let a = 5;
+let a = 5
 ```
 
 ## Declarations
@@ -102,12 +95,12 @@ Data types are described in detail in the next section.
 Example:
 
 ```
-let x = 5, z = 9.1011;
-let y = 7;
-let u = rand(5);
-let v = zeros<2,3>();
-let a:b = randZ<3,3>(-2, 2);
-let c/d/e = rand<3,3>(-2, 2);
+let x = 5, z = 9.1011
+let y = 7
+let u = rand(5)
+let v = zeros<2,3>()
+let a:b = randZ<3,3>(-2, 2)
+let c/d/e = rand<3,3>(-2, 2)
 ```
 
 - Variables `x` and `u` are integral. The value for `u` is randomly chosen from set {0,1,2,3,4,5}.
@@ -162,9 +155,9 @@ Comparing non-integer numbers with `==` and `!=` applies the following numerical
 Some examples for expressions (the examples assumes, that variables `y`, `u`, `w`, `A`, `B`, `C` have been declared before usage):
 
 ```
-let x = 1.23 * sin(y) + exp(u + 2*w);
-let C = A * transpose(B);
-let d = det(C);
+let x = 1.23 * sin(y) + exp(u + 2*w)
+let C = A * transpose(B)
+let d = det(C)
 ```
 
 The set of implemented functions is listed in the appendix.
@@ -180,11 +173,11 @@ SMPL supports the following data types:
   Example:
 
   ```
-  let x = true;
-  let y = false;
-  let w = true;
-  let u = (x && y) || !w;
-  let v = 3 < 5;
+  let x = true
+  let y = false
+  let w = true
+  let u = (x && y) || !w
+  let v = 3 < 5
   ```
 
   $u := (x \land y) \lor \lnot w$
@@ -198,10 +191,10 @@ SMPL supports the following data types:
   Example:
 
   ```
-  let x = 5;
-  let y = -23;
-  let z = x * y;
-  let w = round(x / y);
+  let x = 5
+  let y = -23
+  let z = x * y
+  let w = round(x / y)
   ```
 
   Note that the division outputs `RATIONAL` data type, despite concrete values.
@@ -214,8 +207,8 @@ SMPL supports the following data types:
   Example:
 
   ```
-  let x = 1 / 7;
-  let y = real(1 / 7);
+  let x = 1 / 7
+  let y = real(1 / 7)
   ```
 
   Variable `x` is of type `RATIONAL` and stores `1/7`.
@@ -228,8 +221,8 @@ SMPL supports the following data types:
   Example:
 
   ```
-  let x = PI;
-  let y = sin(0.1);
+  let x = PI
+  let y = sin(0.1)
   ```
 
 - complex (`COMPLEX`).
@@ -243,11 +236,11 @@ SMPL supports the following data types:
   Example:
 
   ```
-  let x = 3 - 4i;
-  let y = complex(3, -4);
-  let phi = arg(x);
-  let r = abs(x);
-  let z = r * exp(phi);
+  let x = 3 - 4i
+  let y = complex(3, -4)
+  let phi = arg(x)
+  let r = abs(x)
+  let z = r * exp(phi)
   ```
 
 - set (`SET`)
@@ -259,9 +252,9 @@ SMPL supports the following data types:
   ```
   let y = {}                % an empty set
   let x = {3, 4, 5}
-  add(x, {4,6});            % x := {3,4,5,6}
-  remove(x, 3);             % x := {4,5,6}
-  let y = iselement(x, 4);  % true
+  add(x, {4,6})             % x := {3,4,5,6}
+  remove(x, 3)              % x := {4,5,6}
+  let y = iselement(x, 4)   % true
   ```
 
   > Note: set of non-integers will be supported later.
@@ -273,28 +266,26 @@ SMPL supports the following data types:
   Example
 
   ```
-  let f(x) = x^2;
-  let y = f(3);
-  let g(x,y) = 2 * exp(-x) * sin(y);
-  let h(x,y) = diff(g, x);
-  let i = integrate(f, 0, 3);
+  let f(x) = x^2
+  let y = f(3)
+  let g(x,y) = 2 * exp(-x) * sin(y)
+  let h(x,y) = diff(g, x)
+  let int = integrate(f, 0, 3)
   ```
 
-  The example calculates $f(x)=x^2$, $y=9$, $g(x)=2\cdot\exp(x)\cdot\sin(y)$, $h(x,y)=-2 \cdot \exp(x) \cdot \sin(y)$, $i=21.3333...$.
+  The example calculates $f(x)=x^2$, $y=9$, $g(x)=2\cdot\exp(x)\cdot\sin(y)$, $h(x,y)=-2 \cdot \exp(x) \cdot \sin(y)$, $int=21.3333...$.
 
 - vector (`VECTOR`)
 
   ```
-  let v = [1, 2, 3];
-  let w = [4, 5, 6];
-  let x = zeros<3>();
-  let n = len(v);
-  let d = dot(v, w);
+  let v = [1, 2, 3]
+  let w = [4, 5, 6]
+  let x = zeros<3>()
+  let n = len(v)
+  let d = dot(v, w)
   ```
 
 - matrix (`MATRIX`)
-
-  A matrix variable stores a real valued matrix.
 
   - Matrices can be initialized e.g. by the `zero<m,n>()` function, which creates a zero matrix with `m` rows and `n` columns.
   - A matrix with all its elements can be specified by the brackets operator: `[a00, a01, ..., a0n-1; a10, a11, ..., a1n-1; ...; am-10 am-11 ... am-1n-1]`. Rows are delimited by `;` and columns are delimited by `,`.
@@ -303,12 +294,14 @@ SMPL supports the following data types:
   The appendix lists all functions with matrix operands.
 
   ```
-  let A = zeros<2,3>();
-  let B = [1, 2, 3; 4, 5, 6];
-  let C = ones<3,3>();
-  B[2,3] = 5;
-  let x = B[0,0];
-  let d = det(C);
+  let A = zeros<2,3>()
+  let B = [1, 2, 3; 4, 5, 6]
+  let C = ones<3,3>()
+  B[2,3] = 5
+  let x = B[0,0]
+  let d = det(C)
+  let r = rows(A);
+  let c = cols(A);
   ```
 
   > Note: matrices with complex elements will be supported later.
@@ -319,36 +312,35 @@ SMPL supports the following data types:
 ## Conditions
 
 Conditional code is executed only, if a conditional is true.
-The `if`-statement has the form `if (C) { S0 } else if (C1) { S1 } ... else { Sn }`, with a sequences of statements `S0`, `S1` etc.
+The `if`-statement has the form `if C { S0 } elif C1 { S1 } ... else { Sn }`, with a sequences of statements `S0`, `S1` etc.
 Sequence `S0` is executed, if the boolean condition `S0` is true.
 Sequence `S1` is executed, if the boolean condition `S0` is false and the boolean condition `S1` is true.
 In case that all conditions `Ci` are false, then sequence `Sn` is executed.
 
-The `else if` parts and `else` part are optional.
+The `elif` parts and `else` part are optional.
 
 > Example
 
 ```
-let s = 0;
-if (x > 0) {
-  s=1;
+let s = 0
+let x = rand(-5,5)
+if x > 0 {
+  s = 1
 }
-else if (x < 0) {
-  s = -1;
+elif x < 0 {
+  s = -1
 }
 else {
-  x=0;
+  x = 0
 }
 ```
 
 ## Loops
 
-TODO:
-
 Example:
 
 ```
-while (x > 0) {
+while x > 0 {
   % body
 }
 ```
@@ -358,17 +350,19 @@ Example:
 ```
 do {
   % body
-} while (x > 0);
+} while x > 0
 ```
 
 Example:
 
 ```
-for (let i = 0; i < 5; i++) {
-  % body
+let f = 1
+for k from 1 to 4 {
+  f = f * k
 }
 ```
 
+<!--
 ## Functions
 
 A function consists of a **header** and a **body**:
@@ -385,6 +379,7 @@ function f(x: INT, y: INT): INT {
 
 let y = f(3, 4);
 ```
+-->
 
 ## Appendix: Built-in constants
 
@@ -799,35 +794,39 @@ The following formal grammar (denoted in EBNF) is currently implemented.
 
 ```
 <GRAMMAR>
-  program =
-    { (statement | "\n") };
-  statement =
-      assignment
-    | ifCond
-    | whileLoop
-    | figure;
-  assignment =
-    [ "let" ]
-    ID ( {":" ID} | {"/" ID} )
-    ["(" ID { "," ID } ")"]
-    "=" TERM
-    [">>>" ID ">>>" TERM [">>>" TERM]]
-    (";"|"\n");
-  ifCond =
-    "if" TERM block [ "else" block ];
-  whileLoop =
-    "while" TERM block;
-  block =
-    "{" { statement } "}";
-  figure =
-    "figure" "{" { figureStatement } "}";
-  figureStatement =
-      ("x_axis"|"y_axis") "(" num "," num "," STR ")"
-    | "function" "(" ID ")"
-    | "circle" "(" num "," num "," num ")";
-  num =
-      ["-"] INT
-    | ["-"] REAL;
+   program =
+     { (statement | "\n") };
+   statement =
+       declareOrAssign
+     | ifCond
+     | whileLoop
+     | forLoop
+     | figure;
+   declareOrAssign =
+     [ "let" ]                 # "let" -> declaration
+     ID ["[" TERM "]"]         # variable ID, optional: vector-index
+     ( {":" ID} | {"/" ID} )   # additional variable ID(s), '/' := distinct
+     ["(" ID { "," ID } ")"]   # function parameters
+     "=" TERM                  # assign right-hand side
+     [">>>" ID ">>>" TERM [">>>" TERM]]     # TESTS: expected: type, value,
+     (";"|"\n");                            #                     stringified
+   ifCond =
+     "if" TERM block { "elif" TERM block } [ "else" block ];
+   whileLoop =
+     "while" TERM block;
+   forLoop =
+     "for" ID "from" TERM "to" TERM block;
+   block =
+     "{" { statement } "}";
+   figure =
+     "figure" "{" { figureStatement } "}";
+   figureStatement =
+       ("x_axis"|"y_axis") "(" num "," num "," STR ")"
+     | "function" "(" ID ")"
+     | "circle" "(" num "," num "," num ")";
+   num =
+       ["-"] INT
+     | ["-"] REAL;
 </GRAMMAR>
 ```
 
