@@ -10,6 +10,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
+import 'package:mathebuddy/math-runtime/src/parse.dart' as term_parser;
+
 import 'screen.dart';
 import 'level.dart';
 import 'color.dart';
@@ -30,6 +32,15 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
     var exerciseInstance = exerciseData.instances[exerciseData.runInstanceIdx];
     inputFieldData.expectedValue =
         exerciseInstance[inputFieldData.variableId] as String;
+    if (inputFieldData.index >= 0) {
+      var t = term_parser.Parser().parse(inputFieldData.expectedValue);
+      if (inputFieldData.index >= t.o.length) {
+        print("ERROR: indexing exceeds bound!");
+      } else {
+        t = t.o[inputFieldData.index];
+      }
+      inputFieldData.expectedValue = t.toString();
+    }
   }
   Widget contents;
   Color feedbackColor = getFeedbackColor(exerciseData?.feedback);
