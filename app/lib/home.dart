@@ -31,7 +31,9 @@ class HomeWidget extends StatefulWidget {
 
 class HomeState extends State<HomeWidget> {
   Map<String, MbclCourse> courses = {};
-  var bundleName = 'assets/bundle-complex.json'; // TODO
+  //var bundleName = 'assets/bundle-complex.json'; // TODO
+  //var bundleName = 'assets/bundle-basics.json'; // TODO
+  var bundleName = 'assets/bundle-test.json'; // TODO
 
   HomeState() {
     if (html.window.location.href
