@@ -10,9 +10,11 @@
 ///       For symbolic computing, we use type TERM (e.g. "2*PI") or just
 ///       the approximate value 6.2831853072.
 
+// TODO: split file into multiple files!!
+
 import 'dart:math' as math;
 
-import 'algo.dart';
+import 'eval.dart';
 import 'help.dart';
 
 enum OperandType {
@@ -27,6 +29,7 @@ enum OperandType {
   set,
   identifier,
   string,
+  none,
 }
 
 /// This is not a mathematically, but e.g. used to define the displayed keyboard
@@ -55,6 +58,8 @@ int getOperandTypeMightiness(OperandType t) {
       return 9;
     case OperandType.string:
       return 10;
+    case OperandType.none:
+      return -1; // TODO
   }
 }
 
@@ -1192,6 +1197,230 @@ class Operand {
     return o;
   }
 
+  static Operand transpose(Operand o) {
+    if (o.type != OperandType.matrix) {
+      throw Exception(
+        'Only matrices can be transposed.',
+      );
+    }
+    var res = Operand.createMatrix(o.cols, o.rows);
+    for (var i = 0; i < o.rows; i++) {
+      for (var j = 0; j < o.cols; j++) {
+        res.items[res.cols * j + i] = o.items[o.cols * i + j].clone();
+      }
+    }
+    return res;
+  }
+
+  static Operand dot(Operand u, Operand v) {
+    if (u.type != OperandType.vector || v.type != OperandType.vector) {
+      throw Exception(
+        'Input for dot(..) must be vectors.',
+      );
+    }
+    if (u.items.length != v.items.length) {
+      throw Exception(
+        'Vectors for dot(..) must have equal length.',
+      );
+    }
+    var n = u.items.length;
+    var res = Operand.createInt(0);
+    for (var i = 0; i < n; i++) {
+      var ui = u.items[i];
+      var vi = v.items[i];
+      res = Operand.addSub('+', res, Operand.mulDiv('*', ui, vi));
+    }
+    return res;
+  }
+
+  static Operand cross(Operand u, Operand v) {
+    if (u.type != OperandType.vector || v.type != OperandType.vector) {
+      throw Exception(
+        'Input for cross(..) must be vectors.',
+      );
+    }
+    if (u.items.length != 3 || v.items.length != 3) {
+      throw Exception(
+        'Vectors for cross(..) must both have 3 elements.',
+      );
+    }
+    // wx = uy*vz - uz*vy
+    // wy = uz*vx - ux*vz
+    // wz = ux*vy - uy*vx
+    var res = Operand.createVector([
+      Operand.addSub(
+          '-', //
+          Operand.mulDiv('*', u.items[1], v.items[2]),
+          Operand.mulDiv('*', u.items[2], v.items[1])),
+      Operand.addSub(
+          '-', //
+          Operand.mulDiv('*', u.items[2], v.items[0]),
+          Operand.mulDiv('*', u.items[0], v.items[2])),
+      Operand.addSub(
+          '-', //
+          Operand.mulDiv('*', u.items[0], v.items[1]),
+          Operand.mulDiv('*', u.items[1], v.items[0]))
+    ]);
+    return res;
+  }
+
+  static Operand triu(Operand o) {
+    if (o.type != OperandType.matrix || o.rows != o.cols) {
+      throw Exception(
+        'Input for triu(..) must be a square matrix.',
+      );
+    }
+    var res = o.clone();
+    for (var i = 1; i < res.rows; i++) {
+      for (var j = 0; j < i; j++) {
+        res.items[i * res.cols + j] = Operand.createInt(0);
+      }
+    }
+    return res;
+  }
+
+  static Operand norm(Operand o) {
+    if (o.type != OperandType.vector) {
+      throw Exception(
+        'Input for norm(..) must be a vector.',
+      );
+    }
+    var res = Operand.createInt(0);
+    var n = o.items.length;
+    for (var i = 0; i < n; i++) {
+      res =
+          Operand.addSub('+', res, Operand.mulDiv('*', o.items[i], o.items[i]));
+    }
+    res = Operand.pow(res, Operand.createReal(0.5)); // sqrt(x) == x^(1/2)
+    return res;
+  }
+
+  static Operand shuffle(Operand o) {
+    if (o.type != OperandType.vector) {
+      throw Exception(
+        'Input for shuffle(..) must be a vector.',
+      );
+    }
+    var res = o.clone();
+    var n = res.items.length;
+    for (var i = 0; i < 2 * n; i++) {
+      var i = rand(0, n - 1).toInt();
+      var j = rand(0, n - 1).toInt();
+      var t = res.items[i];
+      res.items[i] = res.items[j];
+      res.items[j] = t;
+    }
+    return res;
+  }
+
+  static Operand eye(int n) {
+    var res = Operand.createMatrix(n, n);
+    for (var i = 0; i < n; i++) {
+      res.items[i * n + i] = Operand.createInt(1);
+    }
+    return res;
+  }
+
+  static Operand det(Operand o) {
+    if (o.type != OperandType.matrix || o.rows != o.cols) {
+      throw Exception(
+        'Input for det(..) must be a square matrix.',
+      );
+    }
+    var n = o.rows;
+    if (n == 1) {
+      return o.items[0].clone();
+    } else if (n == 2) {
+      return Operand.addSub(
+          '-',
+          Operand.mulDiv('*', o.items[0].clone(), o.items[3].clone()),
+          Operand.mulDiv('*', o.items[2].clone(), o.items[1].clone()));
+    } else {
+      // Laplace expansion
+      var det = Operand.createInt(0);
+      for (var k = 0; k < n; k++) {
+        var factor = o.items[k];
+        var subMat = Operand.createMatrix(n - 1, n - 1);
+        for (var i = 0; i < n - 1; i++) {
+          for (var j = 0; j < n - 1; j++) {
+            var oi = i + 1;
+            var oj = j >= k ? j + 1 : j;
+            subMat.items[i * (n - 1) + j] = o.items[oi * n + oj];
+          }
+        }
+        det = Operand.addSub((k % 2) == 0 ? '+' : '-', det,
+            Operand.mulDiv('*', factor, Operand.det(subMat)));
+      }
+      return det;
+    }
+  }
+
+  static Operand row(Operand mat, Operand idx) {
+    if (mat.type != OperandType.matrix || idx.type != OperandType.int) {
+      throw Exception(
+        'Input for row(..) must be a matrix and an integral index.',
+      );
+    }
+    if (idx.real < 0 || idx.real >= mat.rows) {
+      throw Exception(
+        'Index of row(..) is invalid.',
+      );
+    }
+    List<Operand> elements = [];
+    for (var j = 0; j < mat.cols; j++) {
+      elements.add(mat.items[idx.real.toInt() * mat.cols + j]);
+    }
+    var res = Operand.createVector(elements);
+    return res;
+  }
+
+  static Operand col(Operand mat, Operand idx) {
+    if (mat.type != OperandType.matrix || idx.type != OperandType.int) {
+      throw Exception(
+        'Input for col(..) must be a matrix and an integral index.',
+      );
+    }
+    if (idx.real < 0 || idx.real >= mat.cols) {
+      throw Exception(
+        'Index of col(..) is invalid.',
+      );
+    }
+    List<Operand> elements = [];
+    for (var i = 0; i < mat.rows; i++) {
+      elements.add(mat.items[i * mat.cols + idx.real.toInt()]);
+    }
+    var res = Operand.createVector(elements);
+    return res;
+  }
+
+  static bool isSymmetric(Operand o) {
+    if (o.type != OperandType.matrix || o.rows != o.cols) {
+      throw Exception(
+        'Input for isSymmetric(..) must be a square matrix.',
+      );
+    }
+    var n = o.rows;
+    for (var i = 0; i < n; i++) {
+      for (var j = i + 1; j < n; j++) {
+        if (!Operand.isZero(
+            Operand.addSub('-', o.items[i * n + j], o.items[j * n + i]))) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  static bool isInvertible(Operand o) {
+    if (o.type != OperandType.matrix || o.rows != o.cols) {
+      throw Exception(
+        'Input for isInvertible(..) must be a square matrix.',
+      );
+    }
+    var d = Operand.det(o);
+    return Operand.isZero(d) == false;
+  }
+
   static double getBuiltInValue(String id) {
     switch (id) {
       case 'pi':
@@ -1244,6 +1473,7 @@ class Operand {
       case OperandType.set:
         return '\\{${items.map((x) => x.toString()).join(',')}\\}';
       case OperandType.identifier:
+        return text;
       case OperandType.irrational:
         return "\\$text";
       case OperandType.vector:
