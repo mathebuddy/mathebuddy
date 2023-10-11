@@ -36,21 +36,37 @@ void processExerciseCode(MbclLevelItem exercise) {
         }
       }
       // set types
+      // TODO: simplify code!!
       for (var symId in symbols.keys) {
         var sym = symbols[symId] as smpl_interpreter.InterpreterSymbol;
+        var setSubType = sym.value.type == math_operand.OperandType.vector &&
+            sym.value.items.isNotEmpty; // TODO: matrix, ...
         if (i == 0) {
           // first instance: just set type
           data.smplOperandType[symId] = sym.value.type.name;
+          data.smplOperandSubType[symId] =
+              setSubType ? sym.value.items[0].type.name : "none";
         } else {
           var currentType = math_operand.OperandType.values
               .byName(data.smplOperandType[symId]!);
+          var currentSubType = math_operand.OperandType.values
+              .byName(data.smplOperandSubType[symId]!);
           var type = sym.value.type;
+          var subType = setSubType
+              ? sym.value.items[0].type
+              : math_operand.OperandType.none;
           // further instances: check if type is "more mighty" than the
           // type currently set
           if (currentType != type &&
               math_operand.getOperandTypeMightiness(type) >
                   math_operand.getOperandTypeMightiness(currentType)) {
             data.smplOperandType[symId] = type.name;
+          }
+          if (setSubType &&
+              currentSubType != subType &&
+              math_operand.getOperandTypeMightiness(subType) >
+                  math_operand.getOperandTypeMightiness(currentSubType)) {
+            data.smplOperandSubType[symId] = subType.name;
           }
         }
       }
@@ -75,11 +91,12 @@ void processExerciseCode(MbclLevelItem exercise) {
   }
 }
 
-String addStaticBooleanVariable(MbclExerciseData data, bool value) {
-  var varId = '__bool__${data.staticVariableCounter}';
+String addStaticVariable(
+    MbclExerciseData data, math_operand.OperandType type, String value) {
+  var varId = '__var__${data.staticVariableCounter}';
   data.staticVariableCounter++;
   data.variables.add(varId);
-  data.smplOperandType[varId] = math_operand.OperandType.boolean.name;
+  data.smplOperandType[varId] = type.name;
   if (data.instances.isEmpty) {
     for (var i = 0; i < numberOfInstances; i++) {
       Map<String, String> instance = {};
@@ -87,7 +104,7 @@ String addStaticBooleanVariable(MbclExerciseData data, bool value) {
     }
   }
   for (var i = 0; i < numberOfInstances; i++) {
-    data.instances[i][varId] = value ? 'true' : 'false';
+    data.instances[i][varId] = value;
   }
   return varId;
 }
