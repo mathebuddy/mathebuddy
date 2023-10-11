@@ -1,12 +1,5 @@
 <!-- Mathe:Buddy Language (MBL) -->
 
----
-
-**NOTE**
-This reference guide is updated frequently.
-
----
-
 This document describes the syntax of the _mathe:buddy language (MBL)_,
 which can be used to create mathematical based online courses.
 MBL describes contents as well as randomized training exercises.
@@ -720,13 +713,16 @@ The following paragraphs describe all implemented exercise types.
       ACCEPT_IMMEDIATELY=true
       CODE
           let n = rand(5,10)          % length
-          let f = zeros<1,n>()        % row vector for the sequence
-          f[1] = 1                    % f[0]=0, f[1]=1
-          for (let i=2; i<n; i++) {   % calc sequence iteratively
-              f[i] = f[i-2] + f[i-1]
+          let f = zeros<n>()          % vector for the sequence
+          f[0] = 0
+          f[1] = 1
+          for k from 2 to n-1 {       % calc sequence iteratively
+              f[k] = f[k-2] + f[k-1]
           }
       Arrange the following numbers to get the first numbers of the Fibonacci sequence: #f
   ```
+
+  Note the use of `k` for the loop variable. A variable named `i` would be considered as complex number `0+1*i`.
 
   _Preface: The answer field `#f` would ask the student to type in the elements of the row vector: `[0, 1, 1, 2, 3, 5, ...]`._
 
