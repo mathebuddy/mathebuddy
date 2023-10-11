@@ -1,6 +1,18 @@
 # this file contains all test courses/levels that are copied to the simulator
 # format: "ID: PATH"
 
+ma1-Grundlagen:../../mathebuddy-public-courses/demo-ma1/ma1-1.mbl
+ma1-Funktionen:../../mathebuddy-public-courses/demo-ma1/ma1-2.mbl
+ma1-FolgenReihenStetigkeit:../../mathebuddy-public-courses/demo-ma1/ma1-3.mbl
+ma1-Differentialrechnung:../../mathebuddy-public-courses/demo-ma1/ma1-4.mbl
+ma1-Integralrechnung:../../mathebuddy-public-courses/demo-ma1/ma1-5.mbl
+ma1-LineareAlgebra:../../mathebuddy-public-courses/demo-ma1/ma1-6.mbl
+
+ma2-KomplexeZahlen:../../mathebuddy-public-courses/demo-ma2/ma2-1.mbl
+#TODO: ma2-Differentialgleichungen:../../mathebuddy-public-courses/demo-ma2/ma2-2.mbl
+#TODO: ma2-LineareAlgebra:../../mathebuddy-public-courses/demo-ma2/ma2-3.mbl
+#TODO: ma2-FunktionenVonMehrerenVariablen:../../mathebuddy-public-courses/demo-ma2/ma2-4.mbl
+
 definitions:../../mathebuddy-public-courses/demo-basic/definitions.mbl
 equations:../../mathebuddy-public-courses/demo-basic/equations.mbl
 examples:../../mathebuddy-public-courses/demo-basic/examples.mbl
@@ -10,6 +22,5 @@ figures:../../mathebuddy-public-courses/demo-basic/figures.mbl
 hello:../../mathebuddy-public-courses/demo-basic/hello.mbl
 tables:../../mathebuddy-public-courses/demo-basic/tables.mbl
 typography:../../mathebuddy-public-courses/demo-basic/typography.mbl
-complexNumbers:../../mathebuddy-public-courses/demo-ma2/ma2-1.mbl
 
 #TODO: chapterTest:../../mathebuddy-public-courses/demo-course/basics/index.mbl
