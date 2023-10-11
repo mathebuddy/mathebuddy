@@ -76,12 +76,15 @@ void aggregateText(List<MbclLevelItem> items) {
         items[i - 1].type == MbclLevelItemType.text &&
         items[i].type == MbclLevelItemType.text) {
       var text = items[i].text;
-      if ('.,:!?)'.contains(text) == false) {
+      if ('.,:!?)]'.contains(text) == false) {
         text = ' $text';
       }
       items[i - 1].text += text;
-      // TODO: next line is an ugly hack for TeX..
+      // next line is an ugly hack for TeX..
       items[i - 1].text = items[i - 1].text.replaceAll("\\ ", '\\');
+      // next lines provide an ugly hack for opening parentheses
+      items[i - 1].text = items[i - 1].text.replaceAll("( ", "(");
+      items[i - 1].text = items[i - 1].text.replaceAll("[ ", "[");
       items.removeAt(i);
       i--;
     }
