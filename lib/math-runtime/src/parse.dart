@@ -33,22 +33,25 @@ import 'term.dart';
 ///     unary [ "^" unary ];
 ///   unary =
 ///       "-" mul
-///     | "!" infix
-///     | infix;
+///     | "!" infix [ postfix ]
+///     | infix [ postfix ];
 ///   infix =
 ///       "true"
 ///     | "false"
 ///     | IMAG
 ///     | INT
 ///     | REAL
-///     | irrational
+///     | IRRATIONAL
 ///     | fct1 unary
-///     | (fct1|fct2) [ "<" unary {","unary} ">" ] "(" term {","term} ")";
+///     | (fct0|fct1|fct2) [ "<" unary {","unary} ">" ] "(" term {","term} ")";
 ///     | ["@"|"@@"] ID
 ///     | "(" term ")"
 ///     | "|" term "|"
 ///     | matrixOrVector
 ///     | set;
+///   postfix =
+///       "[" term "]"              # vector index
+///     | "[" term "," term "]";    # matrix index
 ///   vector =
 ///     "[" [ term { "," term } ] "]";
 ///   matrixOrVector =
@@ -56,30 +59,50 @@ import 'term.dart';
 ///     | "[" [ vector { "," vector } ] "]";
 ///   set =
 ///     "{" [ term { "," term } ] "}";
+///   fct0 =
+///     | "eye"
+///     | "zeros"
+///     | "ones";
 ///   fct1 =
 ///       "abs"
+///     | "arg"
 ///     | "ceil"
+///     | "cols"
 ///     | "conj"
 ///     | "cos"
+///     | "det"
 ///     | "exp"
 ///     | "fac"
 ///     | "floor"
 ///     | "imag"
+///     | "is_invertible"
+///     | "is_symmetric"
+///     | "is_zero"
 ///     | "len"
 ///     | "ln"
 ///     | "max"
 ///     | "min"
+///     | "norm"
 ///     | "real"
 ///     | "round"
+///     | "rows"
+///     | "shuffle"
 ///     | "sin"
 ///     | "sqrt"
-///     | "tan";
+///     | "tan"
+///     | "transpose"
+///     | "triu";
 ///   fct2 =
 ///       "binomial"
 ///     | "complex"
+///     | "col"
+///     | "cross"
+///     | "diff"
+///     | "dot"
 ///     | "rand"
-///     | "randZ";
-///   irrational =
+///     | "randZ"
+///     | "row";
+///   IRRATIONAL =
 ///       "pi"
 ///     | "e";
 ///   IMAG =
@@ -96,6 +119,54 @@ import 'term.dart';
 ///   NUM1 =
 ///     "1" | "2" | ... | "9";
 /// </GRAMMAR>
+
+const fct0 = [
+  'eye', //
+  'ones', //
+  'zeros', //
+];
+const fct1 = [
+  'abs', //
+  'arg', //
+  'ceil', //
+  'cols', //
+  'conj', //
+  'cos', //
+  'det', //
+  'exp', //
+  'fac', //
+  'floor', //
+  'imag', //
+  "is_invertible", //
+  "is_symmetric", //
+  "is_zero", //
+  'len', //
+  'ln', //
+  'max', //
+  'min', //
+  'norm', //
+  'rand', //
+  'real', //
+  'round', //
+  'rows', //
+  'shuffle', //
+  'sin', //
+  'sqrt', //
+  'tan', //
+  'transpose', //
+  'triu', //
+];
+const fct2 = [
+  'binomial', //
+  'col', //
+  'complex', //
+  'cross', //
+  'diff', //
+  'dot', //
+  'rand', //
+  'randZ', //
+  'row', //
+];
 
 class Parser {
   List<String> _tokens = [];
@@ -155,6 +226,7 @@ class Parser {
           token != "true" &&
           token != "false" &&
           _isIdentifier(token) &&
+          _isFct0(token) == false &&
           _isFct1(token) == false &&
           _isFct2(token) == false &&
           _isBuiltIn(token) == false) {
@@ -346,11 +418,16 @@ class Parser {
       var mul = _parseMul();
       return Term.createOp('.-', [mul], []);
     } else if (_token == '!') {
+      // TODO: postfix not parsed here!
       _next();
       var operand = _parseInfix();
       return Term.createOp('!', [operand], []);
     } else {
-      return _parseInfix();
+      var t = _parseInfix();
+      if (_isPostfix()) {
+        t = _parsePostfix(t);
+      }
+      return t;
     }
   }
 
@@ -379,8 +456,9 @@ class Parser {
       var id = _token;
       _next();
       return Term.createConstIrrational(id);
-    } else if (_isFct1(_token) || _isFct2(_token)) {
+    } else if (_isFct0(_token) || _isFct1(_token) || _isFct2(_token)) {
       var fctId = _token;
+      var isNullary = _isFct0(_token);
       var isUnary = _isFct1(_token);
       var isBinary = _isFct2(_token);
       List<Term> params = [];
@@ -403,17 +481,21 @@ class Parser {
       if (_token == '(') {
         _token += ''; // ***
         _next();
-        params.add(_parseTerm());
-        while (_token == ',') {
-          _next();
+        if (isNullary == false) {
           params.add(_parseTerm());
+          while (_token == ',') {
+            _next();
+            params.add(_parseTerm());
+          }
         }
         if (_token == ')') {
           _next();
         } else {
           throw Exception('expected ")"');
         }
-        if (isUnary && params.length == 1 || isBinary && params.length == 2) {
+        if (isNullary && params.isEmpty ||
+            isUnary && params.length == 1 ||
+            isBinary && params.length == 2) {
           // OK
         } else {
           throw Exception('function $fctId got wrong number of arguments');
@@ -464,6 +546,31 @@ class Parser {
     } else {
       throw Exception('unexpected:$_token');
     }
+  }
+
+  bool _isPostfix() {
+    return _token == '[';
+  }
+
+  Term _parsePostfix(Term infix) {
+    if (_token == '[') {
+      _next();
+    } else {
+      throw Exception('expected "["');
+    }
+    var index1 = _parseTerm();
+    var res = Term.createOp('index1', [infix, index1], []);
+    if (_token == ',') {
+      _next();
+      var index2 = _parseTerm();
+      res = Term.createOp('index2', [infix, index1, index2], []);
+    }
+    if (_token == ']') {
+      _next();
+    } else {
+      throw Exception('expected "]"');
+    }
+    return res;
   }
 
   Term _parseVector([bool parseLeftBracket = true]) {
@@ -541,33 +648,15 @@ class Parser {
     return Term.createOp('set', elements, []);
   }
 
+  bool _isFct0(String tk) {
+    return fct0.contains(tk);
+  }
+
   bool _isFct1(String tk) {
-    var fct1 = [
-      'abs',
-      'arg',
-      'ceil',
-      'conj',
-      'cos',
-      'exp',
-      'fac',
-      'floor',
-      'imag',
-      'len',
-      'ln',
-      'max',
-      'min',
-      'rand',
-      'real',
-      'round',
-      'sin',
-      'sqrt',
-      'tan',
-    ];
     return fct1.contains(tk);
   }
 
   bool _isFct2(String tk) {
-    var fct2 = ['binomial', 'complex', 'rand', 'randZ'];
     return fct2.contains(tk);
   }
 
