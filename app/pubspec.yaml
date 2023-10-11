@@ -49,3 +49,4 @@ flutter:
     - assets/bundle-test.json
     - assets/bundle-alpha.json
     - assets/bundle-complex.json
+    - assets/bundle-basics.json
