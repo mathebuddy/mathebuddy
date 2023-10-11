@@ -1,3 +1,69 @@
+EXERCISE Ableitungen
+    CODE
+        let a = rand(3,8)
+        let f1(x) = a * x
+        let f1_deriv(x) = diff(f1, x)
+    $ f(x) = @f1 $
+
+    $ f'(x) = $ #f1_deriv
+
+!STOP
+
+EXERCISE Scoring example
+    SCORES=5        % total score of the exercise (5/3 for fa; 10/3 for fb)
+    CODE
+        let a = rand(2, 4)
+        let b = rand(5, 6)
+        let fa = fac(a)
+        let fb = fac(b)
+    Calculate
+    -) $ a! = $ #fa            % if scores are not given for a solution,
+    -) $ b! = $ #fb,SCORE=2    % it defaults to 1, i.e. fa has score 1
+
+!STOP
+
+EXERCISE My Single Choice Exercise  @ex:mySingleChoice
+    Choose the right answer:
+    (x) This answer is correct.
+    ( ) This answer is incorrect.
+
+EXERCISE Addition  @ex:add
+    CODE
+        let x/y = rand(1, 5)
+        let z = x + y
+    Calculate $ x + y = $ #z.
+
+EXERCISE My Gap Exercise  @ex:myLabel
+    SHOW_GAP_LENGTH=true
+    SHOW_REQUIRED_LETTERS_ONLY=true
+    Garfield is a #"cat". Rain is #"wet".
+
+!STOP
+
+EXERCISE Lösungsmenge
+    CODE
+        let A = randZ<3,3>(-3,3)
+        let b = randZ<3,1>(-3,3)
+        A = triu(A)
+    Ein lineares Gleichungssystem ist durch den Gauß-Algorithmus bereits in Dreiecksform gebracht worden. Die erweiterte Koeffizientenmatrix sieht folgendermaßen aus:
+    $ augmented(A|b) $
+    Welche Aussage über die **Lösungsmenge** ist korrekt?
+    (x) Es gibt eine eindeutige Lösung $x \in \RR^n$.
+    ( ) Es gibt keine Lösung.
+    ( ) Die Lösungsmenge kann mit einer freien Variable beschrieben werden.
+
+
+EXERCISE Test
+    CODE
+        let f = [10, 20, 30]
+        f[0] = 4
+        f[2] = 8
+    $ f $
+    #f[1]
+
+
+
+
 EXERCISE @ex:einheitswurzel1a
     DISABLE_RETRY=true
     %TODO:Andreas polar-form
