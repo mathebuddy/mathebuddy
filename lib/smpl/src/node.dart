@@ -36,6 +36,8 @@ class StatementList extends AstNode {
 class Assignment extends AstNode {
   bool createSymbol = true;
   String lhs = '';
+  String lhsIndex1 = ''; // term that represents an integral (vector) index
+  String lhsIndex2 = ''; // second index (e.g. for matrix elements)
   String rhs = '';
   String expectedType = ''; // used for test cases
   String expectedRhs = ''; // used for test cases
@@ -50,6 +52,8 @@ class Assignment extends AstNode {
     return ('${spaces(indent)}'
         'ASSIGNMENT:create=$createSymbol,'
         'lhs="$lhs",'
+        'lhsIndex1="$lhsIndex1",'
+        'lhsIndex2="$lhsIndex1",'
         'rhs="$rhs",'
         'vars=[${vars.join(',')}],'
         'expected=[$expectedType,${expectedRhs.trim()}],'
@@ -58,21 +62,22 @@ class Assignment extends AstNode {
 }
 
 class IfCond extends AstNode {
-  String condition = '';
-  StatementList? statementsTrue;
-  StatementList? statementsFalse;
+  // for i=0,1,...: apply block[i] if conditions[i] is true, then stop.
+  List<String> conditions = [];
+  List<StatementList> blocks = [];
 
   IfCond(super.row);
 
   @override
   String toString([int indent = 0]) {
-    var sT = statementsTrue?.toString(indent + 1);
-    var sF =
-        statementsFalse == null ? '' : statementsFalse?.toString(indent + 1);
+    var cond = conditions.join('","');
+    var stat = "";
+    for (var b in blocks) {
+      stat += b.toString(indent + 1);
+    }
     return ('${spaces(indent)}'
-        'IF_COND:condition="$condition",statementsTrue=[\n$sT'
-        '${spaces(indent)}'
-        '],statementsFalse=[\n$sF'
+        'IF_COND:conditions=["$cond"],'
+        'statements=[\n$stat'
         '${spaces(indent)}'
         '];\n');
   }
@@ -88,7 +93,45 @@ class WhileLoop extends AstNode {
   String toString([int indent = 0]) {
     var s = statements?.toString(indent + 1);
     return ('${spaces(indent)}'
-        'WHILE_LOOP:condition="$condition",statements=[\n$s'
+        'WHILE_LOOP:condition="$condition",'
+        'statements=[\n$s'
+        '${spaces(indent)}'
+        '];\n');
+  }
+}
+
+class DoWhileLoop extends AstNode {
+  String condition = '';
+  StatementList? statements;
+
+  DoWhileLoop(super.row);
+
+  @override
+  String toString([int indent = 0]) {
+    var s = statements?.toString(indent + 1);
+    return ('${spaces(indent)}'
+        'DO_WHILE_LOOP:condition="$condition",'
+        'statements=[\n$s'
+        '${spaces(indent)}'
+        '];\n');
+  }
+}
+
+class ForLoop extends AstNode {
+  String variableId = '';
+  String lowerBound = '';
+  String upperBound = '';
+  StatementList? statements;
+
+  ForLoop(super.row);
+
+  @override
+  String toString([int indent = 0]) {
+    var s = statements?.toString(indent + 1);
+    return ('${spaces(indent)}'
+        'FOR_LOOP:lowerBound="$lowerBound",'
+        'upperBound="$upperBound",'
+        'statements=[\n$s'
         '${spaces(indent)}'
         '];\n');
   }
@@ -179,4 +222,16 @@ class FigurePlot {
   double radius = 0.0; // relevant for type == circle
   String functionId = ""; // relevant for type == function
   FigurePlot(this.type);
+}
+
+class Print extends AstNode {
+  String term = '';
+
+  Print(super.row);
+
+  @override
+  String toString([int indent = 0]) {
+    return ('${spaces(indent)}'
+        'PRINT:term="$term";\n');
+  }
 }
