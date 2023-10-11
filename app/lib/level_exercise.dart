@@ -107,6 +107,13 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
           var studentTerm = term_parser.Parser().parse(inputField.studentValue);
           var expectedTerm =
               term_parser.Parser().parse(inputField.expectedValue);
+          // TODO: remove code (is done at exercise initialization)
+          // if (inputField.index >= 0) {
+          //   if (inputField.index >= expectedTerm.o.length) {
+          //     print("ERROR: indexing exceeds bound!");
+          //   }
+          //   expectedTerm = expectedTerm.o[inputField.index];
+          // }
           print("comparing $studentTerm to $expectedTerm");
           ok = expectedTerm.compareNumerically(studentTerm);
         } catch (e) {
