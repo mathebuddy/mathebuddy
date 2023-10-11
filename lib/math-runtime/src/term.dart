@@ -18,25 +18,21 @@ import 'str.dart';
 ///
 /// Operations:
 ///   $     variable
-///   #     operand (e.g. integer, real, rational, matrix, ...)
+///   #     operand (e.g. boolean, integer, real, rational, matrix, ...)
 ///   +     add (n-ary)
 ///   -     sub (n-ary)
 ///   *     mul (n-ary)
 ///   /     div (binary)
-///   .-    unary minus
 ///   ^     pow
+///   .-    unary minus
+///   !     unary not
 ///   <     less than
 ///   <=    less or equal
 ///   >     greater than
 ///   >=    greater or equal
-///   exp   exp
-///   ln    ln
-///   sin   sin
-///   cos   cos
-///   tan   tan
-///   asin  arcus sin
-///   acos  arcus acos
-///   atan  arcus atan
+///   index index of vector; first operand := term, second operand := index
+///   abs   absolute value
+///   ...   (refer to fct1 and fct2 in file parse.dart)
 class Term {
   // TODO: attributes should be private!
   String op =
@@ -53,6 +49,7 @@ class Term {
     return Term(op, o, dims);
   }
 
+  // Creates v constant term, given by an operand.
   static Term createConst(Operand o) {
     var t = Term('#', [], []);
     t.value = o;
@@ -187,6 +184,10 @@ class Term {
       var oi = this.o[i];
       oi.substituteVariableByOperand(id, o);
     }
+    for (var i = 0; i < dims.length; i++) {
+      var d = dims[i];
+      d.substituteVariableByOperand(id, o);
+    }
   }
 
   void substituteVariableByTerm(String id, Term t) {
@@ -199,6 +200,10 @@ class Term {
       var oi = o[i];
       oi.substituteVariableByTerm(id, t);
     }
+    for (var i = 0; i < dims.length; i++) {
+      var d = dims[i];
+      d.substituteVariableByTerm(id, t);
+    }
   }
 
   /// Returns the set of variable IDs that are actually used in the term.
@@ -208,6 +213,10 @@ class Term {
     for (var i = 0; i < o.length; i++) {
       var oi = o[i];
       vars.addAll(oi.getVariableIDs());
+    }
+    for (var i = 0; i < dims.length; i++) {
+      var d = dims[i];
+      vars.addAll(d.getVariableIDs());
     }
     return vars;
   }
