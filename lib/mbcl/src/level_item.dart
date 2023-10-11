@@ -236,13 +236,15 @@ class MbclExerciseData {
   bool showGapLength = false;
   bool showRequiredGapLettersOnly = false;
   bool horizontalSingleMultipleChoiceAlignment = false;
+  bool arrangement = false;
   String forceKeyboardId = "";
   List<MbclLevelItem> requiredExercises = [];
 
   // temporary
   MbclLevelItem exercise;
   int staticVariableCounter = 0;
-  Map<String, String> smplOperandType = {};
+  Map<String, String> smplOperandType = {}; // base type
+  Map<String, String> smplOperandSubType = {}; // e.g. type of vector elements
   Map<String, MbclInputFieldData> inputFields = {};
   MbclExerciseFeedback feedback = MbclExerciseFeedback.unchecked;
   List<int> indexOrdering =
@@ -278,6 +280,7 @@ class MbclExerciseData {
       "showRequiredGapLettersOnly": showRequiredGapLettersOnly,
       "horizontalSingleMultipleChoiceAlignment":
           horizontalSingleMultipleChoiceAlignment,
+      "arrangement": arrangement,
       "forceKeyboardId": forceKeyboardId,
       "requiredExercises": requiredExercises.map((e) => e.label).toList()
     };
@@ -308,6 +311,7 @@ class MbclExerciseData {
     showRequiredGapLettersOnly = src["showRequiredGapLettersOnly"] as bool;
     horizontalSingleMultipleChoiceAlignment =
         src["horizontalSingleMultipleChoiceAlignment"] as bool;
+    arrangement = src["arrangement"] as bool;
     forceKeyboardId = src["forceKeyboardId"] as String;
     requiredExercises = [];
     n = src["requiredExercises"].length;
@@ -402,6 +406,7 @@ class MbclInputFieldData {
   // import/export
   MbclInputFieldType type = MbclInputFieldType.none;
   String variableId = '';
+  int index = -1; // used e.g. for vector element
   int score = 1;
   int choices =
       0; // a nonzero value provides a "keyboard" with solutions (similar to multiple choice)
@@ -421,6 +426,7 @@ class MbclInputFieldData {
     return {
       "type": type.name,
       "variableId": variableId,
+      "index": index,
       "score": score,
       "choices": choices,
     };
@@ -429,6 +435,7 @@ class MbclInputFieldData {
   fromJSON(Map<String, dynamic> src) {
     type = MbclInputFieldType.values.byName(src["type"]);
     variableId = src["variableId"] as String;
+    index = src["index"] as int;
     score = src["score"] as int;
     choices = src["choices"] as int;
   }
@@ -453,6 +460,7 @@ enum MbclInputFieldType {
   matrixFlex,
   term,
   choices,
+  string,
 }
 
 /*class MbclSingleOrMultipleChoiceOptionData {
