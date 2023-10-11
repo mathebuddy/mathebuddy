@@ -337,6 +337,7 @@ class Compiler {
     var currentBlock = rootBlock;
     while (currentLine != '§END') {
       var trimmed = currentLine.trim();
+      if (trimmed == "!STOP") break;
       var spaces = 0;
       for (var k = 0; k < currentLine.length; k++) {
         if (currentLine[k] == ' ') {
@@ -416,6 +417,7 @@ class Compiler {
           l.pushSource("", line);
           try {
             var key = l.uppercaseIdentifier();
+            if (key.length < 3) throw Exception("not a key");
             var value = "";
             l.terminal("=");
             while (l.isNotEnd()) {
