@@ -9,6 +9,8 @@ import 'dart:math' as math;
 import 'operand.dart';
 import 'term.dart';
 
+// TODO: move all core implementations to operand.dart where possible
+
 num rand(num min, num max, [bool excludeZero = false]) {
   var v = (math.Random().nextDouble() * (max - min + 1) + min).floor();
   while (excludeZero && v == 0) {
@@ -222,7 +224,27 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         var x = term.o[0].eval(varValues);
         switch (x.type) {
           case OperandType.set:
+          case OperandType.vector:
             return Operand.createInt(x.items.length);
+          default:
+            throw Exception(
+              'Argument type "${x.type}" of "${term.op}" is invalid.',
+            );
+        }
+      }
+    case 'rows':
+    case 'cols':
+      {
+        var x = term.o[0].eval(varValues);
+        switch (x.type) {
+          case OperandType.matrix:
+            {
+              if (term.op == 'rows') {
+                return Operand.createInt(x.rows);
+              } else {
+                return Operand.createInt(x.cols);
+              }
+            }
           default:
             throw Exception(
               'Argument type "${x.type}" of "${term.op}" is invalid.',
@@ -409,14 +431,6 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         var x = term.o[0].eval(varValues);
         var y = term.o[1].eval(varValues);
         return Operand.createComplex(x, y);
-        /*if ((x_.type != OperandType.int && x_.type != OperandType.real) ||
-            (y_.type != OperandType.int && y_.type != OperandType.real)) {
-          throw Exception(
-              'Arguments of "${term.op}" must be integral or real.');
-        }
-        var x = x_.real;
-        var y = y_.real;
-        return Operand.createComplex(x, y);*/
       }
     case 'real':
     case 'imag':
@@ -430,24 +444,28 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
           }
         }
         return c;
-        /*if (c.type != OperandType.complex) {
-          throw Exception(
-              'arguments of "${term.op}" must be integral or real.');
+      }
+    case 'eye':
+      {
+        if (term.dims.length != 1) {
+          throw Exception('eye requires a dimension, e.g. "eye<3>()".');
         }
-        switch (term.op) {
-          case 'real':
-            return Operand.createReal(c.real);
-          case 'imag':
-            return Operand.createReal(c.imag);
-          default:
-            throw Exception('unimplemented');
-        }*/
+        var n = term.dims[0].eval(varValues);
+        if (n.type != OperandType.int) {
+          throw Exception('eye dimension must be integral.');
+        }
+        if (n.real < 1 || n.real > 100) {
+          throw Exception('eye dimension must be in range 1..100.');
+        }
+        return Operand.eye(n.real.toInt());
       }
     case 'rand':
     case 'randZ':
+    case 'zeros':
+    case 'ones':
       {
-        if (term.o.length == 1) {
-          // rand(set)
+        // rand(set)
+        if (term.op != 'zeros' && term.op != 'ones' && term.o.length == 1) {
           var arg = term.o[0].eval(varValues);
           if (arg.type == OperandType.set) {
             var index = rand(0, arg.items.length - 1) as int;
@@ -455,10 +473,19 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
           } else {
             throw Exception('argument of "${term.op}" must be a set.');
           }
+        }
+        //
+        var min = Operand.createInt(0);
+        var max = Operand.createInt(0);
+        if (term.op == 'zeros') {
+          // do nothing
+        } else if (term.op == 'ones') {
+          min = Operand.createInt(1);
+          max = Operand.createInt(1);
         } else {
           // rand(min,max)
-          var min = term.o[0].eval(varValues);
-          var max = term.o[1].eval(varValues);
+          min = term.o[0].eval(varValues);
+          max = term.o[1].eval(varValues);
           if (min.type != OperandType.int || max.type != OperandType.int) {
             throw Exception('arguments of "${term.op}" must be integral.');
           }
@@ -466,40 +493,54 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
             throw Exception(
                 'arguments of "${term.op}" must be in order (MIN,MAX).');
           }
-          switch (term.dims.length) {
-            case 0:
-              {
-                return Operand.createInt(
+        }
+        // get and check dimension values
+        var dimValues = [];
+        for (var i = 0; i < term.dims.length; i++) {
+          var n = term.dims[i].eval(varValues);
+          if (n.type != OperandType.int) {
+            throw Exception('rand dimension must be integral.');
+          }
+          if (n.real < 1 || n.real > 100) {
+            throw Exception('rand dimensions must be in range 1..100.');
+          }
+          dimValues.add(n);
+        }
+        // eval
+        switch (dimValues.length) {
+          case 0:
+            {
+              return Operand.createInt(
+                rand(min.real, max.real, term.op == 'randZ'),
+              );
+            }
+          case 1:
+            {
+              var n = dimValues[0].real as int;
+              List<Operand> operands = [];
+              for (var i = 0; i < n; i++) {
+                operands.add(Operand.createInt(
+                  rand(min.real, max.real, term.op == 'randZ'),
+                ));
+              }
+              var o = Operand.createVector(operands);
+              return o;
+            }
+          case 2:
+            {
+              var rows = dimValues[0];
+              var cols = dimValues[1];
+              var o = Operand.createMatrix(rows.real as int, cols.real as int);
+              var n = rows.real * cols.real;
+              for (var i = 0; i < n; i++) {
+                o.items[i] = Operand.createInt(
                   rand(min.real, max.real, term.op == 'randZ'),
                 );
               }
-            case 1:
-              {
-                throw Exception('rand with 1 dims is unimplemented.');
-              }
-            case 2:
-              {
-                var rows = term.dims[0].eval(varValues);
-                if (rows.type != OperandType.int) {
-                  throw Exception('rand dimensions must be integral.');
-                }
-                var cols = term.dims[1].eval(varValues);
-                if (cols.type != OperandType.int) {
-                  throw Exception('rand dimensions must be integral.');
-                }
-                var o =
-                    Operand.createMatrix(rows.real as int, cols.real as int);
-                var n = rows.real * cols.real;
-                for (var i = 0; i < n; i++) {
-                  o.items[i] = Operand.createInt(
-                    rand(min.real, max.real, term.op == 'randZ'),
-                  );
-                }
-                return o;
-              }
-            default:
-              throw Exception('rand requires max two dimensions.');
-          }
+              return o;
+            }
+          default:
+            throw Exception('rand(..) permits no more than two dimensions.');
         }
       }
     case '\$':
@@ -557,6 +598,122 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
           }
         }
         return m;
+      }
+    case 'index1':
+      {
+        // 1-dim index
+        var o = term.o[0].eval(varValues);
+        var idx = term.o[1].eval(varValues);
+        if (idx.type != OperandType.int) {
+          throw Exception('eval(..): index must be integral.');
+        }
+        var idxValue = idx.real.toInt();
+        if (o.type == OperandType.vector) {
+          // get vector element
+          if (idxValue < 0 || idxValue >= o.items.length) {
+            throw Exception('eval(..): invalid index $idxValue.');
+          }
+          return o.items[idxValue];
+        } else if (o.type == OperandType.matrix) {
+          // get matrix row
+          if (idxValue < 0 || idxValue >= o.rows) {
+            throw Exception('eval(..): invalid index $idxValue.');
+          }
+          List<Operand> elements = [];
+          for (var j = 0; j < o.cols; j++) {
+            elements.add(o.items[idxValue * o.cols + j]);
+          }
+          return Operand.createVector(elements);
+        } else {
+          throw Exception('eval(..): type ${o.type} is not indexable.');
+        }
+      }
+    case 'index2':
+      {
+        // 2-dim index
+        var o = term.o[0].eval(varValues);
+        var idx1 = term.o[1].eval(varValues);
+        var idx2 = term.o[2].eval(varValues);
+        if (idx1.type != OperandType.int || idx2.type != OperandType.int) {
+          throw Exception('eval(..): index must be integral.');
+        }
+        var idx1Value = idx1.real.toInt();
+        var idx2Value = idx2.real.toInt();
+        if (o.type == OperandType.matrix) {
+          // get matrix element
+          if (idx1Value < 0 ||
+              idx1Value >= o.rows ||
+              idx2Value < 0 ||
+              idx2Value >= o.cols) {
+            throw Exception('eval(..): invalid index $idx1Value,$idx2Value.');
+          }
+          return o.items[idx1Value * o.cols + idx2Value];
+        } else {
+          throw Exception('eval(..): type ${o.type} is not indexable.');
+        }
+      }
+    case 'col':
+    case 'row':
+      {
+        var mat = term.o[0].eval(varValues);
+        var idx = term.o[1].eval(varValues);
+        if (term.op == 'col') {
+          return Operand.col(mat, idx);
+        } else {
+          return Operand.row(mat, idx);
+        }
+      }
+    case 'transpose':
+      {
+        var o = term.o[0].eval(varValues);
+        return Operand.transpose(o);
+      }
+    case 'dot':
+      {
+        var u = term.o[0].eval(varValues);
+        var v = term.o[1].eval(varValues);
+        return Operand.dot(u, v);
+      }
+    case 'cross':
+      {
+        var u = term.o[0].eval(varValues);
+        var v = term.o[1].eval(varValues);
+        return Operand.cross(u, v);
+      }
+    case 'det':
+      {
+        var o = term.o[0].eval(varValues);
+        return Operand.det(o);
+      }
+    case 'shuffle':
+      {
+        var o = term.o[0].eval(varValues);
+        return Operand.shuffle(o);
+      }
+    case 'triu':
+      {
+        var o = term.o[0].eval(varValues);
+        return Operand.triu(o);
+      }
+    case 'is_zero':
+      {
+        var o = term.o[0].eval(varValues);
+        return Operand.createBoolean(Operand.isZero(o));
+      }
+    case 'is_symmetric':
+      {
+        var o = term.o[0].eval(varValues);
+        return Operand.createBoolean(Operand.isSymmetric(o));
+      }
+    case 'is_invertible':
+      {
+        var o = term.o[0].eval(varValues);
+        return Operand.createBoolean(Operand.isInvertible(o));
+      }
+    case 'norm':
+      {
+        var o = term.o[0].eval(varValues);
+        return Operand.norm(o);
       }
     default:
       throw Exception('eval(..): unimplemented operator "${term.op}".');
