@@ -479,6 +479,48 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
                 data.forceKeyboardId = value;
                 break;
               }
+            case "SHOW_GAP_LENGTH":
+              {
+                if (value == 'true') {
+                  data.showGapLength = true;
+                } else {
+                  exercise.error +=
+                      'Attribute value "$value" is not allowed for key "$key".';
+                }
+                break;
+              }
+            case "SHOW_REQUIRED_LETTERS_ONLY":
+              {
+                if (value == 'true') {
+                  data.showRequiredGapLettersOnly = true;
+                } else {
+                  exercise.error +=
+                      'Attribute value "$value" is not allowed for key "$key".';
+                }
+                break;
+              }
+            case "SCORES":
+              {
+                var scores = 1;
+                try {
+                  scores = int.parse(value);
+                } catch (e) {
+                  exercise.error += 'Attribute value "$value" for key "$key" '
+                      'must be integral.';
+                }
+                data.scores = scores;
+                break;
+              }
+            case "ARRANGE":
+              {
+                if (value == 'true') {
+                  data.arrangement = true;
+                } else {
+                  exercise.error +=
+                      'Attribute value "$value" is not allowed for key "$key".';
+                }
+                break;
+              }
             default:
               exercise.error += 'Unknown attribute "$key".';
               break;
