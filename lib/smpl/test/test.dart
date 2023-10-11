@@ -71,16 +71,7 @@ let x = 1+2    >>> int >>> 3
 ''';*/
 
 void main() {
-  /*try {
-    print("running the following src:\n%%%%%%%%\n$src\n%%%%%%%%\n");
-    run(src);
-  } catch (e) {
-    print(e);
-    exit(-1);
-  }*/
-
-  // TODO: MOVE smpl-tests.txt FILE TO HERE!!
-  var allSrc = File("../../docs/tests/smpl-tests.txt").readAsStringSync();
+  var allSrc = File("test/data/smpl-tests.txt").readAsStringSync();
   var lines = allSrc.replaceAll("\r", "").split("\n");
   var src = '';
   var stop = false;
@@ -96,16 +87,13 @@ void main() {
         print("----- running test -----");
         print(src);
         print("-----");
-
         try {
           run(src);
         } catch (e) {
           print(e);
           exit(-1);
         }
-
         src = "";
-
         if (stop) break;
       }
     } else if (!stop) {
@@ -113,36 +101,5 @@ void main() {
     }
   }
 
-  var bp = 1337;
-
-  /*var dataSrc = File("test/data/smpl-tests.json").readAsStringSync();
-  var data = jsonDecode(dataSrc)['programs'];
-  var n = data.length as int;
-  for (var i = 0; i < n; i++) {
-    var title = data[i]['title'] as String;
-    var code = data[i]['code'] as String;
-    print('######## running test "$title" ########');
-    print('--- code ---');
-    print(code.trim());
-    print('--- result ---');
-    try {
-      run(code);
-    } catch (e) {
-      print(e);
-      exit(-1);
-    }
-    print('\n\n');
-    var bp = 1337;
-  }*/
-
   print('... end!');
-
-  // TODO
-  /*var path_list = glob.sync('examples/test_*.txt');
-  for (var path of path_list) {
-    print('--- ' + path + ' ---');
-    var src = fs.readFileSync(path, 'utf-8');
-    run(src);
-    var bp = 1337;
-  }*/
 }
