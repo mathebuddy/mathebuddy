@@ -11,34 +11,45 @@ import 'node.dart';
 /// The SMPL parser.
 /// Note: terms are parsed at runtime and NOT in this parser.
 ///       This is (much) slower than parsing offline, but increases dynamics.
+/// EOL := end of line (line break or ";")
 ///
 /// <GRAMMAR>
 ///   program =
-///     { (statement | "\n") };
+///     { (statement EOL | EOL) };
 ///   statement =
-///       assignment
+///       declareOrAssign
 ///     | ifCond
 ///     | whileLoop
-///     | figure;
-///   assignment =
-///     [ "let" ]
-///     ID ( {":" ID} | {"/" ID} )
-///     ["(" ID { "," ID } ")"]
-///     "=" TERM
-///     [">>>" ID ">>>" TERM [">>>" TERM]]
-///     (";"|"\n");
+///     | doWhileLoop
+///     | forLoop
+///     | figure
+///     | print;
+///   declareOrAssign =
+///     [ "let" ]                 # "let" -> declaration
+///     ID ["[" TERM [","TERM] "]"]   # variable ID, opt.: 1-dim or 2-dim idx
+///     ( {":" ID} | {"/" ID} )   # additional variable ID(s), '/' := distinct
+///     ["(" ID { "," ID } ")"]   # function parameters
+///     "=" TERM                  # assign right-hand side
+///     [">>>" ID ">>>" TERM [">>>" TERM]]     # TESTS: expected: type, value,
+///     (";"|"\n");                            #                     stringified
 ///   ifCond =
-///     "if" TERM block [ "else" block ];
+///     "if" TERM block { "elif" TERM block } [ "else" block ];
 ///   whileLoop =
 ///     "while" TERM block;
+///   doWhileLoop =
+///     "do" BLOCK "while" TERM;
+///   forLoop =
+///     "for" ID "from" TERM "to" TERM block;
 ///   block =
-///     "{" { statement } "}";
+///     "{" { statement EOL } "}";
 ///   figure =
 ///     "figure" "{" { figureStatement } "}";
 ///   figureStatement =
 ///       ("x_axis"|"y_axis") "(" num "," num "," STR ")"
 ///     | "function" "(" ID ")"
 ///     | "circle" "(" num "," num "," num ")";
+///   print =
+///       "print" TERM EOL;
 ///   num =
 ///       ["-"] INT
 ///     | ["-"] REAL;
@@ -83,16 +94,22 @@ class Parser {
     }
     switch (_lexer.getToken().token) {
       case 'let':
-        return _parseAssignment();
+        return _parseDeclareOrAssign();
       case 'if':
         return _parseIfCond();
       case 'while':
         return _parseWhileLoop();
+      case 'do':
+        return _parseDoWhileLoop();
+      case 'for':
+        return _parseForLoop();
       case 'figure':
         return _parseFigure();
+      case 'print':
+        return _parsePrint();
     }
     if (_lexer.isIdentifier()) {
-      return _parseAssignment();
+      return _parseDeclareOrAssign();
     }
     _error(
       'unexpected token "${_lexer.getToken().token}"',
@@ -101,7 +118,30 @@ class Parser {
     throw Exception(); // just to suppress DART warnings...
   }
 
-  AstNode _parseAssignment() {
+  String _parseTerm(
+      {bool fillSpaces = true,
+      String additionalStopTerminal = "",
+      String additionalStopTerminal2 = ""}) {
+    var term = '';
+    //TODO: _lexer.enableEmitSpaces();
+    while (_lexer.isNotEnd() &&
+        _lexer.isNotTerminal('\n') &&
+        _lexer.isNotTerminal(';') &&
+        _lexer.isNotTerminal('=') &&
+        _lexer.isNotTerminal('>>>')) {
+      if (additionalStopTerminal.isNotEmpty &&
+          _lexer.isTerminal(additionalStopTerminal)) break;
+      if (additionalStopTerminal2.isNotEmpty &&
+          _lexer.isTerminal(additionalStopTerminal2)) break;
+      // TODO: remove space, as soon as when emitSpaces is active
+      term += _lexer.getToken().token;
+      if (fillSpaces) term += ' ';
+      _lexer.next();
+    }
+    return term.trim();
+  }
+
+  AstNode _parseDeclareOrAssign() {
     var row = _lexer.getToken().row;
     var isDeclaration = false;
     if (_lexer.isTerminal('let')) {
@@ -110,9 +150,22 @@ class Parser {
     }
     List<String> lhsList = [];
     lhsList.add(_lexer.identifier());
+    var index1Term = '';
+    var index2Term = '';
+    if (_lexer.isTerminal("[")) {
+      _lexer.next();
+      index1Term =
+          _parseTerm(additionalStopTerminal: "]", additionalStopTerminal2: ",");
+      if (_lexer.isTerminal(",")) {
+        _lexer.next();
+        index2Term = _parseTerm(additionalStopTerminal: "]");
+      }
+      _lexer.terminal("]");
+    }
     var lhsDelimiter =
         ''; // ":" or "/" (the latter forces variable values to be different)
-    while (_lexer.isTerminal(':') || _lexer.isTerminal('/')) {
+    while (index1Term.isEmpty &&
+        (_lexer.isTerminal(':') || _lexer.isTerminal('/'))) {
       if (lhsDelimiter == '') {
         lhsDelimiter = _lexer.getToken().token;
       } else if (lhsDelimiter != _lexer.getToken().token) {
@@ -132,16 +185,7 @@ class Parser {
       _lexer.terminal(')');
     }
     _lexer.terminal('=');
-    var term = '';
-    //TODO: _lexer.enableEmitSpaces();
-    while (_lexer.isNotEnd() &&
-        _lexer.isNotTerminal('\n') &&
-        _lexer.isNotTerminal(';') &&
-        _lexer.isNotTerminal('>>>')) {
-      // TODO: remove space, as soon as when emitSpaces is active
-      term += '${_lexer.getToken().token} ';
-      _lexer.next();
-    }
+    var term = _parseTerm();
     var expectedType = '';
     var expectedRhs = '';
     var expectedStringifiedTerm = '';
@@ -149,22 +193,10 @@ class Parser {
       _lexer.next();
       expectedType = _lexer.identifier();
       _lexer.terminal('>>>');
-      while (_lexer.isNotEnd() &&
-          _lexer.isNotTerminal('\n') &&
-          _lexer.isNotTerminal(';') &&
-          _lexer.isNotTerminal('>>>')) {
-        expectedRhs += '${_lexer.getToken().token} ';
-        _lexer.next();
-      }
+      expectedRhs = _parseTerm();
       if (_lexer.isTerminal('>>>')) {
         _lexer.next();
-        while (_lexer.isNotEnd() &&
-            _lexer.isNotTerminal('\n') &&
-            _lexer.isNotTerminal(';') &&
-            _lexer.isNotTerminal('>>>')) {
-          expectedStringifiedTerm += _lexer.getToken().token;
-          _lexer.next();
-        }
+        expectedStringifiedTerm = _parseTerm(fillSpaces: false);
       }
     }
     if (_lexer.isTerminal(';')) {
@@ -178,6 +210,8 @@ class Parser {
       var a = Assignment(row);
       assignments.add(a);
       a.lhs = lhs;
+      a.lhsIndex1 = index1Term;
+      a.lhsIndex2 = index2Term;
       a.vars = [...variables];
       a.rhs = term.trim();
       a.createSymbol = isDeclaration;
@@ -197,39 +231,56 @@ class Parser {
   }
 
   IfCond _parseIfCond() {
-    // TODO: "elif"
-    var i = IfCond(_lexer.getToken().row);
+    var ifCond = IfCond(_lexer.getToken().row);
     _lexer.terminal('if');
-    while (_lexer.isNotEnd() &&
-        _lexer.isNotTerminal('\n') &&
-        _lexer.isNotTerminal('{')) {
-      i.condition += '${_lexer.getToken().token} ';
-      _lexer.next();
-    }
-    i.condition = i.condition.trim();
+    ifCond.conditions.add(_parseTerm(additionalStopTerminal: "{"));
     _consumeEOL();
-    i.statementsTrue = _parseBlock();
+    ifCond.blocks.add(_parseBlock());
+    while (_lexer.isTerminal("elif")) {
+      _lexer.next();
+      ifCond.conditions.add(_parseTerm(additionalStopTerminal: "{"));
+      _consumeEOL();
+      ifCond.blocks.add(_parseBlock());
+    }
     if (_lexer.isTerminal('else')) {
       _lexer.next();
       _consumeEOL();
-      i.statementsFalse = _parseBlock();
+      ifCond.conditions.add("true");
+      ifCond.blocks.add(_parseBlock());
     }
-    return i;
+    return ifCond;
   }
 
   WhileLoop _parseWhileLoop() {
     var w = WhileLoop(_lexer.getToken().row);
     _lexer.terminal('while');
-    while (_lexer.isNotEnd() &&
-        _lexer.isNotTerminal('\n') &&
-        _lexer.isNotTerminal('{')) {
-      w.condition += '${_lexer.getToken().token} ';
-      _lexer.next();
-    }
-    w.condition = w.condition.trim();
+    w.condition = _parseTerm(additionalStopTerminal: "{");
     _consumeEOL();
     w.statements = _parseBlock();
     return w;
+  }
+
+  DoWhileLoop _parseDoWhileLoop() {
+    var d = DoWhileLoop(_lexer.getToken().row);
+    _lexer.terminal('do');
+    d.statements = _parseBlock();
+    _lexer.terminal('while');
+    d.condition = _parseTerm();
+    _consumeEOL();
+    return d;
+  }
+
+  ForLoop _parseForLoop() {
+    var f = ForLoop(_lexer.getToken().row);
+    _lexer.terminal('for');
+    f.variableId = _lexer.identifier();
+    _lexer.terminal('from');
+    f.lowerBound = _parseTerm(additionalStopTerminal: "to");
+    _lexer.terminal('to');
+    f.upperBound = _parseTerm(additionalStopTerminal: "{");
+    _consumeEOL();
+    f.statements = _parseBlock();
+    return f;
   }
 
   StatementList _parseBlock() {
@@ -323,6 +374,14 @@ class Parser {
           );
         }
     }
+  }
+
+  Print _parsePrint() {
+    var p = Print(_lexer.getToken().row);
+    _lexer.terminal('print');
+    p.term = _parseTerm();
+    _consumeEOL();
+    return p;
   }
 
   double _parseRealNumber() {
