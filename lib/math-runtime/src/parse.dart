@@ -43,8 +43,10 @@ import 'term.dart';
 ///     | REAL
 ///     | IRRATIONAL
 ///     | fct1 unary
-///     | (fct0|fct1|fct2) [ "<" unary {","unary} ">" ] "(" term {","term} ")";
-///     | ["@"|"@@"] ID
+///     | (fct0|fct1|fct2|fct3|fct4)
+///         [ "<" unary {","unary} ">" ]       # dimensions
+///         "(" term {","term} ")";            # arguments
+///     | ID
 ///     | "(" term ")"
 ///     | "|" term "|"
 ///     | matrixOrVector
@@ -83,6 +85,7 @@ import 'term.dart';
 ///     | "max"
 ///     | "min"
 ///     | "norm"
+///     | "opt"
 ///     | "real"
 ///     | "round"
 ///     | "rows"
@@ -90,6 +93,7 @@ import 'term.dart';
 ///     | "sin"
 ///     | "sqrt"
 ///     | "tan"
+///     | "term"
 ///     | "transpose"
 ///     | "triu";
 ///   fct2 =
@@ -102,6 +106,8 @@ import 'term.dart';
 ///     | "rand"
 ///     | "randZ"
 ///     | "row";
+///   fct4 =
+///       "int";
 ///   IRRATIONAL =
 ///       "pi"
 ///     | "e";
@@ -137,14 +143,12 @@ const fct1 = [
   'fac', //
   'floor', //
   'imag', //
-  "is_invertible", //
-  "is_symmetric", //
-  "is_zero", //
   'len', //
   'ln', //
   'max', //
   'min', //
   'norm', //
+  'opt', //
   'rand', //
   'real', //
   'round', //
@@ -153,8 +157,12 @@ const fct1 = [
   'sin', //
   'sqrt', //
   'tan', //
+  'term', //
   'transpose', //
   'triu', //
+  "is_invertible", //
+  "is_symmetric", //
+  "is_zero", //
 ];
 const fct2 = [
   'binomial', //
@@ -166,6 +174,10 @@ const fct2 = [
   'rand', //
   'randZ', //
   'row', //
+];
+const fct3 = [];
+const fct4 = [
+  "int" //
 ];
 
 class Parser {
@@ -229,13 +241,17 @@ class Parser {
           _isFct0(token) == false &&
           _isFct1(token) == false &&
           _isFct2(token) == false &&
+          _isFct3(token) == false &&
+          _isFct4(token) == false &&
           _isBuiltIn(token) == false) {
         // split variables (e.g. "xy" -> "x y")
         for (var i = 0; i < token.length; i++) {
           var char = token[i];
           procTokens.add(char);
         }
-      } else if (token.length >= 2 && _isNum0(token[0]) && _isAlpha(token[1])) {
+      } else if (token.length >= 2 &&
+          _isNum0(token[0]) &&
+          _isAlpha(token[token.length - 1])) {
         // split factors (e.g. "3x" -> "3 x")
         var value = '';
         var id = '';
@@ -456,11 +472,17 @@ class Parser {
       var id = _token;
       _next();
       return Term.createConstIrrational(id);
-    } else if (_isFct0(_token) || _isFct1(_token) || _isFct2(_token)) {
+    } else if (_isFct0(_token) ||
+        _isFct1(_token) ||
+        _isFct2(_token) ||
+        _isFct3(_token) ||
+        _isFct4(_token)) {
       var fctId = _token;
       var isNullary = _isFct0(_token);
       var isUnary = _isFct1(_token);
       var isBinary = _isFct2(_token);
+      var isTernary = _isFct3(_token);
+      var isQuaternary = _isFct4(_token);
       List<Term> params = [];
       List<Term> dims = [];
       _next();
@@ -495,7 +517,9 @@ class Parser {
         }
         if (isNullary && params.isEmpty ||
             isUnary && params.length == 1 ||
-            isBinary && params.length == 2) {
+            isBinary && params.length == 2 ||
+            isTernary && params.length == 3 ||
+            isQuaternary && params.length == 4) {
           // OK
         } else {
           throw Exception('function $fctId got wrong number of arguments');
@@ -505,18 +529,10 @@ class Parser {
         params.add(_parseUnary());
         return Term.createOp(fctId, params, dims);
       } else {
-        throw Exception('expected "(" or unary function');
+        throw Exception('expected "(" or a unary function');
       }
-    } else if (_token == '@' || _token == '@@' || _isIdentifier(_token)) {
-      var id = '';
-      if (_token == '@' || _token == '@@') {
-        id += _token;
-        _next();
-      }
-      if (_isIdentifier(_token) == false) {
-        throw Exception('expected:ID');
-      }
-      id += _token;
+    } else if (_isIdentifier(_token)) {
+      var id = _token;
       _next();
       return Term.createVar(id);
     } else if (_token == '(') {
@@ -658,6 +674,14 @@ class Parser {
 
   bool _isFct2(String tk) {
     return fct2.contains(tk);
+  }
+
+  bool _isFct3(String tk) {
+    return fct3.contains(tk);
+  }
+
+  bool _isFct4(String tk) {
+    return fct4.contains(tk);
   }
 
   bool _isBuiltIn(String tk) {
