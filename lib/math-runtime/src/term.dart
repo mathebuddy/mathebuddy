@@ -126,6 +126,28 @@ class Term {
     return evalTerm(this, varValues);
   }
 
+  /// Resolves diff, opt in functions .
+  /// E.g. "let u = 3 + 4;  let f(x) = diff( term(u), x); ")
+  ///      (however, term is useless in the example)
+  static Term evalFunction(Term t) {
+    for (var i = 0; i < t.o.length; i++) {
+      t.o[i] = Term.evalFunction(t.o[i]);
+    }
+    if (t.op == "opt") {
+      t = t.o[0].optimize();
+    } else if (t.op == "diff") {
+      var diffFun = t.o[0];
+      var diffVar = t.o[1];
+      if (diffVar.value.type != OperandType.identifier) {
+        throw Exception("diff(..) requires a variable as second argument.");
+      }
+      var diffVarId = diffVar.value.text;
+      t = diffFun.diff(diffVarId);
+      t = t.optimize();
+    }
+    return t;
+  }
+
   /// Symbolic differentiation by a derivation variable [varId]. The resulting
   /// term is not optimized.
   ///
@@ -175,19 +197,20 @@ class Term {
     return true;
   }
 
-  void substituteVariableByOperand(String id, Operand o) {
-    if (op == '\$' && value.text == id) {
+  Term substituteVariableByTermOrOperand(String id, Term t, Operand o) {
+    if (op == "term" && this.o[0].op == '\$' && this.o[0].value.text == id) {
+      return t;
+    } else if (op == '\$' && value.text == id) {
       op = '#';
       value = o.clone();
     }
     for (var i = 0; i < this.o.length; i++) {
-      var oi = this.o[i];
-      oi.substituteVariableByOperand(id, o);
+      this.o[i] = this.o[i].substituteVariableByTermOrOperand(id, t, o);
     }
     for (var i = 0; i < dims.length; i++) {
-      var d = dims[i];
-      d.substituteVariableByOperand(id, o);
+      dims[i] = dims[i].substituteVariableByTermOrOperand(id, t, o);
     }
+    return this;
   }
 
   void substituteVariableByTerm(String id, Term t) {
