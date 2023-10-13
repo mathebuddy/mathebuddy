@@ -342,52 +342,61 @@ class Paragraph {
         return inputField;
       }
     }
-    // get type and subtype. The subtype refers to indexed types (e.g. the type
-    // is "vector" and the subType "integer".)
-    var opType = OperandType.values
-        .byName(exerciseData.smplOperandType[data.variableId] as String);
-    var opSubType = OperandType.values
-        .byName(exerciseData.smplOperandSubType[data.variableId] as String);
-    // in case of indexing: the actual type is the subType
-    if (data.index >= 0) {
-      if (opType != OperandType.vector) {
-        // TODO: matrix, ...
-        exercise.error += " Indexing not allowed here. ";
-        return inputField;
+    // ===== term input =====
+    if (exerciseData.functionVariables.contains(data.variableId)) {
+      data.type = MbclInputFieldType.term;
+      data.isFunction = true;
+      return inputField;
+    }
+    // ===== operand input =====
+    else {
+      // get type and subtype. The subtype refers to indexed types (e.g. the type
+      // is "vector" and the subType "integer".)
+      var opType = OperandType.values
+          .byName(exerciseData.smplOperandType[data.variableId] as String);
+      var opSubType = OperandType.values
+          .byName(exerciseData.smplOperandSubType[data.variableId] as String);
+      // in case of indexing: the actual type is the subType
+      if (data.index >= 0) {
+        if (opType != OperandType.vector) {
+          // TODO: matrix, ...
+          exercise.error += " Indexing not allowed here. ";
+          return inputField;
+        }
+        opType = opSubType;
       }
-      opType = opSubType;
+      // set the input field type, based on the type of the references variable
+      switch (opType) {
+        case OperandType.int:
+          data.type = MbclInputFieldType.int;
+          break;
+        case OperandType.rational:
+          data.type = MbclInputFieldType.rational;
+          break;
+        case OperandType.real:
+        case OperandType.irrational: // TODO!!
+          data.type = MbclInputFieldType.real;
+          break;
+        case OperandType.complex:
+          // TODO: keyboard with and without sqrt ??
+          //if (xyz) {
+          //  data.type = MbclInputFieldType.complexNormalXXX;
+          //} else {
+          data.type = MbclInputFieldType.complexNormal;
+          //}
+          break;
+        case OperandType.matrix:
+          data.type = MbclInputFieldType.matrix;
+          break;
+        case OperandType.set:
+          // TODO: intSet, realSet, termSet, complexIntSet, ...
+          data.type = MbclInputFieldType.complexIntSet;
+          break;
+        default:
+          exercise.error += ' UNIMPLEMENTED input type ${opType.name}. ';
+      }
+      return inputField;
     }
-    // set the input field type, based on the type of the references variable
-    switch (opType) {
-      case OperandType.int:
-        data.type = MbclInputFieldType.int;
-        break;
-      case OperandType.rational:
-        data.type = MbclInputFieldType.rational;
-        break;
-      case OperandType.real:
-      case OperandType.irrational: // TODO!!
-        data.type = MbclInputFieldType.real;
-        break;
-      case OperandType.complex:
-        // TODO: keyboard with and without sqrt ??
-        //if (xyz) {
-        //  data.type = MbclInputFieldType.complexNormalXXX;
-        //} else {
-        data.type = MbclInputFieldType.complexNormal;
-        //}
-        break;
-      case OperandType.matrix:
-        data.type = MbclInputFieldType.matrix;
-        break;
-      case OperandType.set:
-        // TODO: intSet, realSet, termSet, complexIntSet, ...
-        data.type = MbclInputFieldType.complexIntSet;
-        break;
-      default:
-        exercise.error += ' UNIMPLEMENTED input type ${opType.name}. ';
-    }
-    return inputField;
   }
 
   MbclLevelItem _parseSingleOrMultipleChoice(
