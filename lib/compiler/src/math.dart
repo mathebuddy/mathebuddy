@@ -11,7 +11,7 @@ import '../../mbcl/src/level_item.dart';
 
 /// <GRAMMAR>
 ///   inlineMathCore =
-///     { ( "@" ID | "@@" ID | <!"$"> ) };
+///     { "term" "(" ID ")" | "term" "(" ID ")" | ID } .."$";
 /// </GRAMMAR>
 MbclLevelItem parseInlineMath(
     MbclLevel level, Lexer lexer, MbclLevelItem? exercise) {
@@ -19,25 +19,42 @@ MbclLevelItem parseInlineMath(
   var inlineMath = MbclLevelItem(level, MbclLevelItemType.inlineMath, -1);
   while (lexer.isNotTerminal('\$') && lexer.isNotEnd()) {
     var tk = lexer.getToken().token;
-    var prefix = '';
-    if (tk == '@' || tk == '@@') {
-      prefix = lexer.getToken().token;
-      lexer.next();
-      tk = lexer.getToken().token;
-    }
+    // ID | "opt" "(" ID ")" | "term" "(" ID ")";
+    var showTerm = false;
+    var showOptimizedTerm = false;
+    var id = lexer.getToken().token;
     var isId = lexer.getToken().type == LexerTokenType.id;
+    if (lexer.isTerminal("term")) {
+      showTerm = true;
+    } else if (lexer.isTerminal("opt")) {
+      showOptimizedTerm = true;
+    }
     lexer.next();
-    // variable reference
-    if (exercise != null) {
-      if (isId &&
-          (exercise.exerciseData as MbclExerciseData).variables.contains(tk)) {
-        var v = MbclLevelItem(level, MbclLevelItemType.variableReference, -1);
-        v.id = prefix + tk;
+    if (showTerm || showOptimizedTerm) {
+      if (lexer.isTerminal("(")) lexer.next();
+      id = lexer.getToken().token;
+      isId = lexer.getToken().type == LexerTokenType.id;
+      lexer.next();
+      if (lexer.isTerminal(")")) lexer.next();
+    }
+    // variable reference ?
+    if (isId && exercise != null) {
+      var data = exercise.exerciseData!;
+      if (data.variables.contains(id)) {
+        var type = MbclLevelItemType.variableReference_operand;
+        if (showTerm || data.functionVariables.contains(id)) {
+          type = MbclLevelItemType.variableReference_term;
+        }
+        if (showOptimizedTerm) {
+          type = MbclLevelItemType.variableReference_optimizedTerm;
+        }
+        var v = MbclLevelItem(level, type, -1);
+        v.id = id;
         inlineMath.items.add(v);
         continue;
       }
     }
-    // default
+    // default (no variable reference)
     var text = MbclLevelItem(level, MbclLevelItemType.text, -1);
     text.text = tk;
     inlineMath.items.add(text);
