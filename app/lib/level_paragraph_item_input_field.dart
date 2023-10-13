@@ -30,8 +30,13 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
     exerciseData.inputFields[item.id] = inputFieldData;
     inputFieldData.studentValue = "";
     var exerciseInstance = exerciseData.instances[exerciseData.runInstanceIdx];
-    inputFieldData.expectedValue =
-        exerciseInstance[inputFieldData.variableId] as String;
+    if (inputFieldData.isFunction) {
+      inputFieldData.expectedValue =
+          exerciseInstance["@${inputFieldData.variableId}"] as String;
+    } else {
+      inputFieldData.expectedValue =
+          exerciseInstance[inputFieldData.variableId] as String;
+    }
     if (inputFieldData.index >= 0) {
       var t = term_parser.Parser().parse(inputFieldData.expectedValue);
       if (inputFieldData.index >= t.o.length) {
@@ -78,8 +83,10 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
       studentValueTeX = convertMath2TeX(studentValue, true);
     } catch (e) {
       texValid = false;
-      studentValueTeX =
-          studentValueTeX.replaceAll("{", "\\{").replaceAll("}", "\\}");
+      studentValueTeX = studentValueTeX
+          .replaceAll("{", "\\{")
+          .replaceAll("}", "\\}")
+          .replaceAll("^", "\\wedge");
     }
     var svgData = tex.tex2svg(studentValueTeX, displayStyle: true);
     if (tex.error.isEmpty) {
