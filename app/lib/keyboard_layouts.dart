@@ -60,7 +60,7 @@ var keyboardLayoutComplexIntegerSet = KeyboardLayout.parse('''
 ''');
 
 var keyboardLayoutTerm = KeyboardLayout.parse('''
-7 8 9 + sin( (   !B
+7 8 9 + sin( ^   !B
 4 5 6 - cos( )   !B
 1 2 3 * tan( pi  !E
 0 x . / exp( ln( !E
