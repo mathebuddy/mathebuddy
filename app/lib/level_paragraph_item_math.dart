@@ -26,18 +26,29 @@ InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
           texSrc += subItem.text;
           break;
         }
-      case MbclLevelItemType.variableReference:
+      case MbclLevelItemType.variableReference_operand:
+      case MbclLevelItemType.variableReference_term:
+      case MbclLevelItemType.variableReference_optimizedTerm:
         {
           var variableId = subItem.id;
           if (exerciseData == null) {
             texSrc += 'ERROR: not in exercise mode!';
           } else {
             var instance = exerciseData.instances[exerciseData.runInstanceIdx];
-            var variableTeXValue = instance["$variableId.tex"];
+            var key = "$variableId.tex";
+            switch (subItem.type) {
+              case MbclLevelItemType.variableReference_term:
+                key = "@$key";
+                break;
+              case MbclLevelItemType.variableReference_optimizedTerm:
+                key = "@@$key";
+                break;
+              default:
+            }
+            var variableTeXValue = instance[key];
             if (variableTeXValue == null) {
               texSrc += 'ERROR: unknown exercise variable $variableId';
             } else {
-              //texSrc += convertMath2TeX(variableTeXValue);
               texSrc += variableTeXValue;
             }
           }
