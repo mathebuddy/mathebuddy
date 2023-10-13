@@ -1,12 +1,20 @@
 # this file contains all test courses/levels that are copied to the simulator
 # format: "ID: PATH"
 
+Mengen:../../mathebuddy-private-courses/hm1/grundlagen/Mengen.mbl
+Reelle Zahlen:../../mathebuddy-private-courses/hm1/grundlagen/Reelle_Zahlen.mbl
+Fakultät und Binomialkoeffizienten:../../mathebuddy-private-courses/hm1/grundlagen/Fakultaet_und_Binomialkoeffizienten.mbl
+Betrag:../../mathebuddy-private-courses/hm1/grundlagen/Betrag.mbl
+Beschränkte Mengen und Vollständigeit:../../mathebuddy-private-courses/hm1/grundlagen/Beschraenkte_Mengen_und_Vollstaendigeit.mbl
+Aussagenlogik:../../mathebuddy-private-courses/hm1/grundlagen/Aussagenlogik.mbl
+Abbildungen:../../mathebuddy-private-courses/hm1/grundlagen/Abbildungen.mbl
+
 ma1-Grundlagen:../../mathebuddy-public-courses/demo-ma1/ma1-1.mbl
 ma1-Funktionen:../../mathebuddy-public-courses/demo-ma1/ma1-2.mbl
 ma1-FolgenReihenStetigkeit:../../mathebuddy-public-courses/demo-ma1/ma1-3.mbl
 ma1-Differentialrechnung:../../mathebuddy-public-courses/demo-ma1/ma1-4.mbl
-ma1-Integralrechnung:../../mathebuddy-public-courses/demo-ma1/ma1-5.mbl
-ma1-LineareAlgebra:../../mathebuddy-public-courses/demo-ma1/ma1-6.mbl
+#TODO: ma1-Integralrechnung:../../mathebuddy-public-courses/demo-ma1/ma1-5.mbl
+#TODO: ma1-LineareAlgebra:../../mathebuddy-public-courses/demo-ma1/ma1-6.mbl
 
 ma2-KomplexeZahlen:../../mathebuddy-public-courses/demo-ma2/ma2-1.mbl
 #TODO: ma2-Differentialgleichungen:../../mathebuddy-public-courses/demo-ma2/ma2-2.mbl
