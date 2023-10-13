@@ -90,14 +90,15 @@ Term optTerm(Term term) {
         Operand.compareEqual(term.o[1].value, Operand.createInt(1))) {
       return term.o[0];
     }
-  } else if (term.op == 'sin' ||
+  } /*else if (term.op == 'sin' ||
       term.op == 'cos' ||
       term.op == 'tan' ||
       term.op == 'arg') {
+    TODO: THIS DOES NOT WORK!!
     var arg = term.eval({}).real;
     var newTerm = number2Term(arg);
     if (newTerm != null) return newTerm;
-  }
+  }*/
   // try to evaluate term
   try {
     // result is constant, if all operands are constant
