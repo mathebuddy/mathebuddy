@@ -194,6 +194,7 @@ class Keyboard {
           top: offsetY + key.rowIndex * keyHeight,
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(0),
                   backgroundColor: backgroundColor,
                   elevation: 3.0,
                   shadowColor: Color.fromARGB(255, 0, 0, 0),
