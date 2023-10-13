@@ -42,6 +42,7 @@ class Assignment extends AstNode {
   String expectedType = ''; // used for test cases
   String expectedRhs = ''; // used for test cases
   String expectedStringifiedTerm = ''; // used for test cases
+  bool isFunction = false; // e.g. "f(x,y)" -> true
   List<String> vars = []; // e.g. "f(x,y)" -> vars = ["x","y"]
   List<String> independentTo = [];
 
@@ -55,6 +56,7 @@ class Assignment extends AstNode {
         'lhsIndex1="$lhsIndex1",'
         'lhsIndex2="$lhsIndex1",'
         'rhs="$rhs",'
+        'isFunction="$isFunction",'
         'vars=[${vars.join(',')}],'
         'expected=[$expectedType,${expectedRhs.trim()}],'
         'independentTo=[${independentTo.join(',')}];\n');
