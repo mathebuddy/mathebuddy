@@ -175,7 +175,9 @@ class Parser {
       lhsList.add(_lexer.identifier());
     }
     List<String> variables = [];
+    var isFunction = false;
     if (_lexer.isTerminal('(')) {
+      isFunction = true;
       _lexer.next();
       variables.add(_lexer.identifier());
       while (_lexer.isTerminal(',')) {
@@ -212,6 +214,7 @@ class Parser {
       a.lhs = lhs;
       a.lhsIndex1 = index1Term;
       a.lhsIndex2 = index2Term;
+      a.isFunction = isFunction;
       a.vars = [...variables];
       a.rhs = term.trim();
       a.createSymbol = isDeclaration;
