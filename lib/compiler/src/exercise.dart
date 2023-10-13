@@ -31,8 +31,9 @@ void processExerciseCode(MbclLevelItem exercise) {
       if (i == 0) {
         // add variables names
         for (var symId in symbols.keys) {
-          //var sym = symbols[symId] as smpl_interpreter.InterpreterSymbol;
+          var sym = symbols[symId] as smpl_interpreter.InterpreterSymbol;
           data.variables.add(symId);
+          if (sym.isFunction) data.functionVariables.add(symId);
         }
       }
       // set types
