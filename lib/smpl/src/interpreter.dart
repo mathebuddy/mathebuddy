@@ -15,6 +15,7 @@ class InterpreterSymbol {
   String id = '';
   Term term = Term.createConst(Operand.createInt(0));
   Operand value = Operand.createInt(0);
+  bool isFunction = false; // e.g. f(x) = x^2
 }
 
 class Interpreter {
@@ -87,6 +88,11 @@ class Interpreter {
       var newTerm =
           _processTerm(assignment.rhs, assignment.vars, assignment.row);
       symbol.term = newTerm;
+      if (assignment.isFunction) {
+        symbol.isFunction = true; // TODO: also OK for indexing??
+        // resolve diff, opt
+        symbol.term = Term.evalFunction(symbol.term);
+      }
       if (assignment.vars.isEmpty) {
         var isOK = true;
         var k = 0;
@@ -309,7 +315,7 @@ class Interpreter {
   }
 
   InterpreterSymbol? _getSymbol(String id) {
-    if (id.startsWith('@')) id = id.substring(1);
+    //if (id.startsWith('@')) id = id.substring(1);
     var n = _symbolTable.length; // number of scopes
     for (var i = n - 1; i >= 0; i--) {
       var scope = _symbolTable[i];
@@ -319,34 +325,26 @@ class Interpreter {
   }
 
   Term _processTerm(String src, List<String> keepVariables, int srcRow) {
-    Term? term;
+    Term term = Term.createConstInt(0);
     try {
       term = _termParser.parse(src, splitIdentifiers: false);
     } catch (e) {
       _error(srcRow, 'error in term "$src":$e');
     }
-    term = term as Term;
     var variables = term.getVariableIDs();
     for (var id in variables) {
-      var optimizeTerm = false;
-      if (id.startsWith('@@')) {
-        optimizeTerm = true;
-        id = id.substring(1);
-      }
       if (keepVariables.contains(id)) continue;
       var symbol = _getSymbol(id);
       if (symbol == null) {
         _error(srcRow, 'error in term "$src": variable $id is unknown!');
       } else {
-        if (id.startsWith('@')) {
-          if (optimizeTerm) {
-            term.substituteVariableByTerm(
-                '@$id', symbol.term.clone().optimize());
-          } else {
-            term.substituteVariableByTerm(id, symbol.term.clone());
-          }
+        if (symbol.isFunction) {
+          term.substituteVariableByTerm(id, symbol.term.clone());
         } else {
-          term.substituteVariableByOperand(id, symbol.value.clone());
+          // replaces "term(X)" by the term of X,
+          // replaces "X" w/o "term(..)" by the operand of X.
+          term = term.substituteVariableByTermOrOperand(
+              id, symbol.term.clone(), symbol.value.clone());
         }
       }
     }
