@@ -141,21 +141,20 @@ enum MbclLevelItemType {
   itemize,
   lineFeed,
   multipleChoice,
-  //multipleChoiceOption,
-  //newPage,
   paragraph,
   part,
   reference,
   section,
   singleChoice,
-  //singleChoiceOption,
   span,
   subSection,
   subSubSection,
   table,
   text,
   todo,
-  variableReference
+  variableReference_operand,
+  variableReference_term,
+  variableReference_optimizedTerm
 }
 
 // TODO: fill this list
@@ -229,6 +228,7 @@ class MbclExerciseData {
   // import/export
   String code = '';
   List<String> variables = [];
+  List<String> functionVariables = []; // e.g. "f" for a function "let f(x)=x^2"
   List<Map<String, String>> instances = []; // TODO: DESCRIBE!!
   bool staticOrder = false;
   bool disableRetry = false;
@@ -272,6 +272,7 @@ class MbclExerciseData {
     return {
       "code": code,
       "variables": variables.map((e) => e).toList(),
+      "functionVariables": functionVariables.map((e) => e).toList(),
       "instances": instances.map((e) => e).toList(),
       "staticOrder": staticOrder,
       "disableRetry": disableRetry,
@@ -292,6 +293,11 @@ class MbclExerciseData {
     int n = src["variables"].length;
     for (var i = 0; i < n; i++) {
       variables.add(src["variables"][i]);
+    }
+    functionVariables = [];
+    n = src["functionVariables"].length;
+    for (var i = 0; i < n; i++) {
+      functionVariables.add(src["functionVariables"][i]);
     }
     instances = [];
     n = src["instances"].length;
@@ -405,6 +411,7 @@ class MbclTableData {
 class MbclInputFieldData {
   // import/export
   MbclInputFieldType type = MbclInputFieldType.none;
+  bool isFunction = false;
   String variableId = '';
   int index = -1; // used e.g. for vector element
   int score = 1;
@@ -425,6 +432,7 @@ class MbclInputFieldData {
   Map<String, dynamic> toJSON() {
     return {
       "type": type.name,
+      "isFunction": isFunction,
       "variableId": variableId,
       "index": index,
       "score": score,
@@ -434,6 +442,7 @@ class MbclInputFieldData {
 
   fromJSON(Map<String, dynamic> src) {
     type = MbclInputFieldType.values.byName(src["type"]);
+    isFunction = src["isFunction"] as bool;
     variableId = src["variableId"] as String;
     index = src["index"] as int;
     score = src["score"] as int;
@@ -462,23 +471,6 @@ enum MbclInputFieldType {
   choices,
   string,
 }
-
-/*class MbclSingleOrMultipleChoiceOptionData {
-  String inputId = '';
-  String variableId = '';
-
-  Map<String, dynamic> toJSON() {
-    return {
-      "inputId": inputId,
-      "variableId": variableId,
-    };
-  }
-
-  fromJSON(Map<String, dynamic> src) {
-    inputId = src["inputId"];
-    variableId = src["variableId"];
-  }
-}*/
 
 class MbclTableRow {
   MbclLevelItem table;
