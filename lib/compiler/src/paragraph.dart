@@ -293,15 +293,15 @@ class Paragraph {
       exercise.error += ' No variable for input field given. ';
       return inputField;
     }
-    // optional: scoring
-    if (lexer.isTerminal(",")) {
+    // optional attributes e.g. ",SCORE=", ",DIFF=x", ...
+    while (lexer.isTerminal(",")) {
       var key = "", value = "";
       lexer.next();
       key = lexer.getToken().token;
       lexer.next();
       if (lexer.isTerminal("=")) {
         lexer.next();
-        value = lexer.getToken().token;
+        value = lexer.getToken().token.trim();
         lexer.next();
       }
       switch (key) {
@@ -312,6 +312,11 @@ class Paragraph {
             } catch (e) {
               exercise.error += ' Score value must be integral. ';
             }
+            break;
+          }
+        case "DIFF":
+          {
+            data.diffVariableId = value; // TODO: check, if valid string
             break;
           }
         default:
