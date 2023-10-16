@@ -413,6 +413,7 @@ class MbclInputFieldData {
   MbclInputFieldType type = MbclInputFieldType.none;
   bool isFunction = false;
   String variableId = '';
+  String diffVariableId = '';
   int index = -1; // used e.g. for vector element
   int score = 1;
   int choices =
@@ -434,6 +435,7 @@ class MbclInputFieldData {
       "type": type.name,
       "isFunction": isFunction,
       "variableId": variableId,
+      "diffVariableId": diffVariableId,
       "index": index,
       "score": score,
       "choices": choices,
@@ -444,6 +446,7 @@ class MbclInputFieldData {
     type = MbclInputFieldType.values.byName(src["type"]);
     isFunction = src["isFunction"] as bool;
     variableId = src["variableId"] as String;
+    diffVariableId = src["diffVariableId"] as String;
     index = src["index"] as int;
     score = src["score"] as int;
     choices = src["choices"] as int;
