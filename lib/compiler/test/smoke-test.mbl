@@ -1,12 +1,13 @@
-EXERCISE Bestimmtes Integral
-    CODE 
-        let a = rand(0,1)
-        let b = rand(4,5)
-        let u = rand(3,8)
-        let f(x) = u
-        let f_int = int(f, x, a, b)
-    Bestimme das folgende **bestimmte** Integral:
-    - $ \int_a^b f \dx = $ #f_int
+EXERCISE Unbestimmte Integrale
+    CODE
+        let u1/u2 = rand(2,9)
+        let f(x) = u1
+        let g(y) = u2
+    Bestimme die folgenden **unbestimmten** Integrale:
+    - $ \int f ~ dx = $ #f,DIFF=x $ + C ~~ (C \in \RR)$
+    - $ \int g ~ dy = $ #g,DIFF=x $ + C ~~ (C \in \RR)$
+
+
 
 !STOP
 
