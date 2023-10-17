@@ -89,7 +89,7 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
           .replaceAll("^", "\\wedge");
     }
     var svgData = tex.tex2svg(studentValueTeX, displayStyle: true);
-    if (tex.error.isEmpty) {
+    if (tex.success()) {
       parts.add(WidgetSpan(
           alignment: PlaceholderAlignment.middle,
           child: Container(
