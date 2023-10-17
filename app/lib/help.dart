@@ -31,7 +31,7 @@ String convertMath2TeX(String m, bool checkTeXRendering) {
   if (checkTeXRendering) {
     var texEngine = TeX();
     var svg = texEngine.tex2svg(texString);
-    if (svg.isEmpty || texEngine.error.isNotEmpty) {
+    if (texEngine.success() == false) {
       throw Exception('error');
     }
   }
