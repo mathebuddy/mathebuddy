@@ -77,6 +77,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
       return term.value;
     case 'arg':
       {
+        // TODO: must reimplment more dynamically...
         var o = term.o[0].eval(varValues);
         var eps = 1e-12; // TODO
         switch (o.type) {
@@ -254,6 +255,7 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
     case 'min':
     case 'max':
       {
+        // TODO: vector, matrix, ...
         var x = term.o[0].eval(varValues);
         switch (x.type) {
           case OperandType.set:
