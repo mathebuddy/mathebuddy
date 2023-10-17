@@ -6,6 +6,7 @@
 
 import '../src/operand.dart';
 import '../src/parse.dart';
+import '../src/term.dart';
 
 // TODO: add asserts
 
@@ -20,7 +21,9 @@ void main() {
 
   // ---
 
-  var term = parser.parse("(((1/3)*(x^3))+(7*x)-2)");
+  //var term = parser.parse("(((1/3)*(x^3))+(7*x)-2)");
+  var term = parser.parse("diff(sin(2x)+3x,x)");
+  term = Term.evalFunction(term);
   /*var summands = term.splitSummands();
   for (var i = 0; i < summands.length; i++) {
     print(summands[i]);
@@ -28,7 +31,8 @@ void main() {
     print(summands[i]);
   }*/
   try {
-    var xx = term.generateCorrectAndIncorrectSummands();
+    var xx = term.generateCorrectAndIncorrectSummands(
+        overheadFactor: 3, maxDelta: 5);
     var bp = 1337;
   } catch (e) {
     print(e);
