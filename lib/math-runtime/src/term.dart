@@ -30,6 +30,10 @@ import 'str.dart';
 ///   <=    less or equal
 ///   >     greater than
 ///   >=    greater or equal
+///   &&    logical and
+///   ||    logical or
+///   ==    equal
+///   !=    not equal
 ///   index index of vector; first operand := term, second operand := index
 ///   abs   absolute value
 ///   ...   (refer to fct1 and fct2 in file parse.dart)
@@ -130,6 +134,7 @@ class Term {
   /// E.g. "let u = 3 + 4;  let f(x) = diff( term(u), x); ")
   ///      (however, term is useless in the example)
   static Term evalFunction(Term t) {
+    // TODO: rename method to a better name!!
     for (var i = 0; i < t.o.length; i++) {
       t.o[i] = Term.evalFunction(t.o[i]);
     }
@@ -267,7 +272,9 @@ class Term {
   /// The result consists of round(3*1.5)=5 elements, for example
   /// ["2*x^2", "5*x", "7", "3*x^4", "6*x"];
   List<Term> generateCorrectAndIncorrectSummands(
-      [double overheadFactor = 1.5, int maxDelta = 2]) {
+      {double overheadFactor = 1.5, int maxDelta = 2}) {
+    // TODO: retake input constants from input term!! replace sin<->cos<->tan,...
+
     var maxIterations = 100;
     List<Term> correct = splitSummands();
     correct = Term.removeDuplicates(correct);
