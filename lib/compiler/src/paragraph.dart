@@ -294,6 +294,7 @@ class Paragraph {
       return inputField;
     }
     // optional attributes e.g. ",SCORE=", ",DIFF=x", ...
+    // TODO: include in grammar description!!!!
     while (lexer.isTerminal(",")) {
       var key = "", value = "";
       lexer.next();
@@ -316,7 +317,7 @@ class Paragraph {
           }
         case "DIFF":
           {
-            data.diffVariableId = value; // TODO: check, if valid string
+            data.diffVariableId = value; // TODO: check, if string is valid
             break;
           }
         default:
