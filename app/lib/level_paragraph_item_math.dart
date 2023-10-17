@@ -66,7 +66,7 @@ InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
       displayStyle: item.type == MbclLevelItemType.displayMath,
       deltaYOffset: -110);
   var svgWidth = tex.width;
-  if (svg.isEmpty) {
+  if (tex.success()) {
     return TextSpan(
       text: "${tex.error}. TEX-INPUT: $texSrc",
       style: TextStyle(color: Colors.red, fontSize: defaultFontSize),
