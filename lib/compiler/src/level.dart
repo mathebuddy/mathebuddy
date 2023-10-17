@@ -435,6 +435,7 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
           switch (key) {
             case "REQUIREMENT":
               {
+                // TODO: comma separated list
                 var exerciseLabel = value;
                 var referencedExercise =
                     level.getExerciseByLabel(exerciseLabel);
