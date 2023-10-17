@@ -29,7 +29,7 @@ void typeset(bool paintBox) {
   print(src);
   var output = tex.tex2svg(src, debugMode: paintBox);
   print(output);
-  if (output.isNotEmpty) {
+  if (tex.success()) {
     var outputBase64 = base64Encode(utf8.encode(output));
     var img = document.createElement('img') as ImageElement;
     img.style.height = "72px";
