@@ -114,7 +114,13 @@ class Compiler {
       return;
     }
     // parse block hierarchy
-    var rootBlock = _parseBlockHierarchy(src);
+    Block? rootBlock;
+    try {
+      rootBlock = _parseBlockHierarchy(src);
+    } catch (e) {
+      course!.error += ' $e ';
+      return;
+    }
     for (var block in rootBlock.children) {
       switch (block.id) {
         case "DEFAULT":
@@ -213,7 +219,13 @@ class Compiler {
       return;
     }
     // parse block hierarchy
-    var rootBlock = _parseBlockHierarchy(src);
+    Block rootBlock;
+    try {
+      rootBlock = _parseBlockHierarchy(src);
+    } catch (e) {
+      chapter!.error += " $e ";
+      return;
+    }
     for (var block in rootBlock.children) {
       switch (block.id) {
         case "DEFAULT":
@@ -355,9 +367,14 @@ class Compiler {
       return;
     }
     // parse block hierarchy
-    var rootBlock = _parseBlockHierarchy(src);
-    // process and deep-parse block hierarchy
-    parseLevelBlock(rootBlock, this, level!, null, 0, null);
+    try {
+      var rootBlock = _parseBlockHierarchy(src);
+      // process and deep-parse block hierarchy
+      parseLevelBlock(rootBlock, this, level!, null, 0, null);
+    } catch (e) {
+      level!.error += ' $e';
+      return;
+    }
   }
 
   int createUniqueId() {
