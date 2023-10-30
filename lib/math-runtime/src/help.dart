@@ -22,3 +22,12 @@ int gcd(int x, int y) {
   }
   return x;
 }
+
+bool isAlpha(String tk) {
+  if (tk.isEmpty) return false;
+  return tk.codeUnitAt(0) == '_'.codeUnitAt(0) ||
+      (tk.codeUnitAt(0) >= 'A'.codeUnitAt(0) &&
+          tk.codeUnitAt(0) <= 'Z'.codeUnitAt(0)) ||
+      (tk.codeUnitAt(0) >= 'a'.codeUnitAt(0) &&
+          tk.codeUnitAt(0) <= 'z'.codeUnitAt(0));
+}
