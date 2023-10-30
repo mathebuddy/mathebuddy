@@ -17,8 +17,6 @@ import 'help.dart';
 import 'level.dart';
 import 'references.dart';
 
-// TODO: implement new grammar for course and chapter
-
 /// The compiler that translates a set of MBL files into a single MBCL files.
 /// The language specification can be found here:
 /// https://mathebuddy.github.io/mathebuddy/doc/mbl.html
@@ -111,53 +109,74 @@ class Compiler {
     // get course description file source
     var src = loadFile(path);
     if (src.isEmpty) {
-      _error(
-        'Course description file "$path" does not exist or is empty.',
-      );
+      course!.error +=
+          'Course description file "$path" does not exist or is empty. ';
       return;
     }
-    // parse
-    var lines = src.split('\n');
-    var state = 'global';
-    for (var rowIdx = 0; rowIdx < lines.length; rowIdx++) {
-      var line = lines[rowIdx];
-      line = line.split('%')[0];
-      if (line.trim().isEmpty) continue;
-      if (state == 'global') {
-        if (line.startsWith('TITLE')) {
-          course?.title = line.substring('TITLE'.length).trim();
-        } else if (line.startsWith('AUTHOR')) {
-          course?.author = line.substring('AUTHOR'.length).trim();
-        } else if (line.startsWith('CHAPTERS')) {
-          state = 'chapter';
-        } else {
-          _error('Unexpected line "$line".');
-        }
-      } else if (state == 'chapter') {
-        var lexer = Lexer();
-        lexer.enableHyphenInID(true);
-        lexer.pushSource(path, line, rowIdx);
-        lexer.terminal('(');
-        var posX = lexer.integer();
-        lexer.terminal(',');
-        var posY = lexer.integer();
-        lexer.terminal(')');
-        var directoryName = lexer.identifier();
-        List<String> requirements = [];
-        while (lexer.isTerminal('!')) {
-          lexer.next();
-          requirements.add(lexer.identifier());
-        }
-        lexer.end();
-        // compile chapter
-        var dirname = extractDirname(path);
-        var chapterPath = '$dirname$directoryName/index.mbl';
-        compileChapter(chapterPath);
-        // set chapter meta data
-        chapter?.fileId = directoryName;
-        chapter?.posX = posX;
-        chapter?.posY = posY;
-        chapter?.requiresTmp.addAll(requirements);
+    // parse block hierarchy
+    var rootBlock = _parseBlockHierarchy(src);
+    for (var block in rootBlock.children) {
+      switch (block.id) {
+        case "DEFAULT":
+          // ignore
+          break;
+        case "TITLE":
+        case "AUTHOR":
+        case "CHAPTERS":
+          if (block.children.length != 1 || block.children[0].id != "DEFAULT") {
+            course!.error += "${block.id} is not well formatted. ";
+            return;
+          }
+          var text = block.children[0].data.trim();
+          switch (block.id) {
+            case "TITLE":
+              course!.title = text;
+              break;
+            case "AUTHOR":
+              course!.author = text;
+              break;
+            case "CHAPTERS":
+              var lines = text.split("\n");
+              for (var i = 0; i < lines.length; i++) {
+                var line = lines[i];
+                var lexer = Lexer();
+                lexer.enableEmitBigint(false);
+                lexer.enableHyphenInID(true);
+                var rowIdx = block.srcLine + i + 1;
+                lexer.pushSource(path, line, rowIdx);
+                lexer.terminal('(');
+                var posX = lexer.integer();
+                lexer.terminal(',');
+                var posY = lexer.integer();
+                lexer.terminal(')');
+                var directoryName = lexer.identifier();
+                List<String> requirements = [];
+                while (lexer.isTerminal('!')) {
+                  lexer.next();
+                  requirements.add(lexer.identifier());
+                }
+                lexer.end();
+                // compile chapter
+                var dirname = extractDirname(path);
+                var chapterPath = '$dirname$directoryName/index.mbl';
+                try {
+                  compileChapter(chapterPath);
+                } catch (e) {
+                  course!.error += "Chapter '$chapterPath' contains errors. "
+                      "Remove these errors first. ";
+                  return;
+                }
+                // set chapter meta data
+                chapter?.fileId = directoryName;
+                chapter?.posX = posX;
+                chapter?.posY = posY;
+                chapter?.requiresTmp.addAll(requirements);
+              }
+              break;
+          }
+          break;
+        default:
+        // TODO
       }
     }
     // build dependency graph
@@ -167,7 +186,8 @@ class Compiler {
         var r = chapter.requiresTmp[j];
         var requiredChapter = course?.getChapterByFileID(r);
         if (requiredChapter == null) {
-          _error('Unknown chapter "$r".');
+          course!.error += 'Unknown chapter "$r". ';
+          return;
         } else {
           chapter.requires.add(requiredChapter);
         }
@@ -187,80 +207,118 @@ class Compiler {
     // get chapter index file source
     var src = loadFile(path);
     if (src.isEmpty) {
-      _error('Chapter index file "$path" does not exist or is empty.');
+      chapter!.error +=
+          'Chapter index file "$path" does not exist or is empty. ';
       return;
     }
-    // parse
-    var lines = src.split('\n');
-    var state = 'global';
-    for (var rowIdx = 0; rowIdx < lines.length; rowIdx++) {
-      var line = lines[rowIdx];
-      line = line.split('%')[0];
-      if (line.trim().isEmpty) continue;
-      if (state == 'global' && line == 'NO_BLOCK_TITLES=true') {
-        disableBlockTitles = true;
-      } else if (state == 'global' || line.startsWith('UNIT')) {
-        if (line.startsWith('TITLE')) {
-          chapter?.title = line.substring('TITLE'.length).trim();
-        } else if (line.startsWith('AUTHOR')) {
-          chapter?.author = line.substring('AUTHOR'.length).trim();
-        } else if (line.startsWith('UNIT')) {
-          // TODO: handle units!!
-          var unitTitle = line.substring('UNIT'.length).trim();
-          state = 'unit';
-          unit = MbclUnit();
-          unit?.title = unitTitle;
-          chapter?.units.add(unit as MbclUnit);
-        } else {
-          _error('Unexpected line "$line".');
-        }
-      } else if (state == 'unit') {
-        var lexer = Lexer();
-        lexer.enableHyphenInID(true);
-        lexer.pushSource(path, line, rowIdx);
-        lexer.terminal('(');
-        double posX = 0.0;
-        if (lexer.isRealNumber()) {
-          posX = lexer.realNumber().toDouble();
-        } else {
-          posX = lexer.integer().toDouble();
-        }
-        lexer.terminal(',');
-        double posY = 0.0;
-        if (lexer.isRealNumber()) {
-          posY = lexer.realNumber().toDouble();
-        } else {
-          posY = lexer.integer().toDouble();
-        }
-        lexer.terminal(')');
-        var fileName = lexer.identifier();
-        List<String> requirements = [];
-        while (lexer.isTerminal('!')) {
-          lexer.next();
-          requirements.add(lexer.identifier());
-        }
-        var iconData = '';
-        if (lexer.isTerminal("ICON")) {
-          lexer.next();
-          var path = baseDirectory;
-          while (lexer.getToken().type != LexerTokenType.end) {
-            path += lexer.getToken().token.trim();
-            lexer.next();
+    // parse block hierarchy
+    var rootBlock = _parseBlockHierarchy(src);
+    for (var block in rootBlock.children) {
+      switch (block.id) {
+        case "DEFAULT":
+          // ignore
+          break;
+        case "TITLE":
+        case "AUTHOR":
+        case "OPTIONS":
+        case "UNIT":
+          if (block.children.length != 1 || block.children[0].id != "DEFAULT") {
+            chapter!.error += "${block.id} is not well formatted. ";
+            return;
           }
-          iconData = loadFile(path);
-        }
-        lexer.end();
-        // compile level
-        var dirname = extractDirname(path);
-        var levelPath = '$dirname$fileName.mbl';
-        compileLevel(levelPath); // compileLevel(levelPath);
-        unit?.levels.add(level as MbclLevel);
-        // set chapter meta data
-        level?.fileId = fileName;
-        level?.posX = posX.toDouble();
-        level?.posY = posY.toDouble();
-        level?.requiresTmp.addAll(requirements);
-        level?.iconData = iconData;
+          var text = block.children[0].data.trim();
+          switch (block.id) {
+            case "TITLE":
+              chapter!.title = text;
+              break;
+            case "AUTHOR":
+              chapter!.author = text;
+              break;
+            case "OPTIONS":
+              for (var key in block.attributes.keys) {
+                var value = block.attributes[key];
+                switch (key) {
+                  case "NO_BLOCK_TITLES":
+                    if (value == "true") {
+                      disableBlockTitles = true;
+                    } else if (value == "false") {
+                      disableBlockTitles = false;
+                    } else {
+                      chapter!.error +=
+                          "Invalid value '$value' for key='$key'. ";
+                      return;
+                    }
+                    break;
+                  default:
+                    chapter!.error += "Unknown attribute '$key'. ";
+                    return;
+                }
+              }
+              break;
+            case "UNIT":
+              unit = MbclUnit();
+              unit?.title = block.title;
+              chapter?.units.add(unit as MbclUnit);
+              var lines = text.split("\n");
+              for (var i = 0; i < lines.length; i++) {
+                var line = lines[i];
+                var lexer = Lexer();
+                lexer.enableEmitBigint(false);
+                lexer.enableHyphenInID(true);
+                var rowIdx = block.srcLine + i + 1;
+                lexer.pushSource(path, line, rowIdx);
+                lexer.terminal('(');
+                double posX = 0.0;
+                if (lexer.isRealNumber()) {
+                  posX = lexer.realNumber().toDouble();
+                } else {
+                  posX = lexer.integer().toDouble();
+                }
+                lexer.terminal(',');
+                double posY = 0.0;
+                if (lexer.isRealNumber()) {
+                  posY = lexer.realNumber().toDouble();
+                } else {
+                  posY = lexer.integer().toDouble();
+                }
+                lexer.terminal(')');
+                var fileName = lexer.identifier();
+                List<String> requirements = [];
+                while (lexer.isTerminal('!')) {
+                  lexer.next();
+                  requirements.add(lexer.identifier());
+                }
+                var iconData = '';
+                if (lexer.isTerminal("ICON")) {
+                  lexer.next();
+                  var path = baseDirectory;
+                  while (lexer.getToken().type != LexerTokenType.end) {
+                    path += lexer.getToken().token.trim();
+                    lexer.next();
+                  }
+                  iconData = loadFile(path);
+                }
+                lexer.end();
+                // compile level
+                var dirname = extractDirname(path);
+                var levelPath = '$dirname$fileName.mbl';
+                try {
+                  compileLevel(levelPath); // compileLevel(levelPath);
+                } catch (e) {
+                  chapter!.error += "Level '$levelPath' contains errors. "
+                      "Remove these errors first. ";
+                  return;
+                }
+                unit?.levels.add(level as MbclLevel);
+                // set chapter meta data
+                level?.fileId = fileName;
+                level?.posX = posX.toDouble();
+                level?.posY = posY.toDouble();
+                level?.requiresTmp.addAll(requirements);
+                level?.iconData = iconData;
+              }
+          }
+          break;
       }
     }
     // build dependency graph
@@ -270,7 +328,8 @@ class Compiler {
         var r = level.requiresTmp[j];
         var requiredLevel = chapter?.getLevelByFileID(r);
         if (requiredLevel == null) {
-          _error('Unknown dependency-level "$r".');
+          chapter!.error += 'Unknown dependency-level "$r". ';
+          return;
         } else {
           level.requires.add(requiredLevel);
         }
@@ -290,7 +349,8 @@ class Compiler {
     // get level source
     var src = loadFile(path);
     if (src.isEmpty) {
-      _error('Level file $path does not exist or is empty.');
+      level!.error += 'Level file $path does not exist or is empty.';
+      return;
     }
     // parse block hierarchy
     var rootBlock = _parseBlockHierarchy(src);
@@ -331,7 +391,7 @@ class Compiler {
     // parse
     var depthList =
         List<Block?>.filled(0, null, growable: true); // TODO: write comment!!
-    var rootBlock = Block(level!, "ROOT", 0, -1);
+    var rootBlock = Block("ROOT", 0, -1);
     depthList.length = 1;
     depthList[0] = rootBlock;
     var currentBlock = rootBlock;
@@ -384,7 +444,7 @@ class Compiler {
           _error('bad spacing before "$keyword".');
         }
         var srcLine = currentLineIdx + 1;
-        currentBlock = Block(level!, keyword, indentation, srcLine);
+        currentBlock = Block(keyword, indentation, srcLine);
         depthList.length = indentation + 1;
         var parent = depthList[indentation - 1];
         if (parent == null) {
@@ -414,6 +474,7 @@ class Compiler {
         if (line.contains("=")) {
           isAttribute = true;
           var l = Lexer();
+          l.enableEmitBigint(false);
           l.pushSource("", line);
           try {
             var key = l.uppercaseIdentifier();
@@ -436,7 +497,7 @@ class Compiler {
           }
         }
         if (isAttribute == false) {
-          var b = Block(level!, "DEFAULT", indentation, currentLineIdx + 1);
+          var b = Block("DEFAULT", indentation, currentLineIdx + 1);
           b.data = '$line\n';
           currentBlock.children.add(b);
         }
