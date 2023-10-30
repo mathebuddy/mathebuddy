@@ -240,7 +240,7 @@ class Interpreter {
   }
 
   void _forLoop(ForLoop forLoop) {
-    // TODO: error handlingde;
+    // TODO: error handling;
     var lowerBound = _processTerm(forLoop.lowerBound, [], forLoop.row).eval({});
     if (lowerBound.type != OperandType.int) {
       _error(forLoop.row, 'lower bound in for-loop must be integral.');
