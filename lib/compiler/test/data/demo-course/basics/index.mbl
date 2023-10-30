@@ -3,6 +3,9 @@
 TITLE 
     Some Basics
 
+OPTIONS
+    NO_BLOCK_TITLES=true
+
 AUTHOR 
     TH Koeln
 

@@ -7,11 +7,10 @@ EXERCISE Vektorrechnung
         let u:v = rand<3,1>(-9,9)
         let w = u + v
         let x = lambda * u
-    TEXT
-        Gegeben sind die beiden Vektoren $"u"=u$ und $"v"=v$ im $RR^3$. Berechne:
-        TODO: input rows = resizable
-        - $ "u"+"v" = $ #w
-        - $ lambda "u" = $ #x
+    Gegeben sind die beiden Vektoren $"u"=u$ und $"v"=v$ im $RR^3$. Berechne:
+    TODO: input rows = resizable
+    - $ "u"+"v" = $ #w
+    - $ lambda "u" = $ #x
 
 EXERCISE Einheitsvektor
     FLEX_ROWS=true
@@ -19,9 +18,8 @@ EXERCISE Einheitsvektor
         let k = rand(0,2)
         let v = zeros<3,1>()
         v[k,0] = 1
-    TEXT
-        Geben Sie den Einheitsvektor $e_k$ im $\RR^3$ an:
-        #v
+    Geben Sie den Einheitsvektor $e_k$ im $\RR^3$ an:
+    #v
 
 EXERCISE Rechenregeln
     Welche der folgenden Rechenregeln zur Addition und skalaren Multiplikation im $\RR^n$ sind korrekt?
@@ -39,18 +37,16 @@ EXERCISE Kollinear
         let ux2:uy2 = rand(-3,3)
         let u2 = [[ux2],[uy2]]
         let v2 = [[ux2*b],[uy2*(-b)]]
-    TEXT
-        Welche der folgenden Ortsvektoren sind **kollinear**?
-        [x] $ u=u1 $ und $ v=v1 $
-        [ ] $ u=u2 $ und $ v=v2 $
+    Welche der folgenden Ortsvektoren sind **kollinear**?
+    [x] $ u=u1 $ und $ v=v1 $
+    [ ] $ u=u2 $ und $ v=v2 $
 
 EXERCISE Skalarprodukt
     CODE
         let u:v = rand<3>(-5,5)
         let s = dot(u,v)
-    TEXT
-        Gegeben sind die beiden Vektoren $"u"=u$ und $"v"=v$ im $\RR^3$.
-        Berechne das **Skalarprodukt** $ "u" \cdot "v" = $ #s
+    Gegeben sind die beiden Vektoren $"u"=u$ und $"v"=v$ im $\RR^3$.
+    Berechne das **Skalarprodukt** $ "u" \cdot "v" = $ #s
 
 EXERCISE Eukidische Norm
     Sei $u=[[u_1],[...],[u_n]] in \RR^n$. 
@@ -64,10 +60,9 @@ EXERCISE Eukidische Norm
         let ux:uy:uz = rand(-5,5)
         let u = [[ux],[uy],[uz]]
         let en = sqrt(ux*ux + uy*uy + uz*uz)
-    TEXT
-        Sei $ "u"=u \in \RR^3 $. Berechne die **euklidische Norm**:
-        - $ ||"u"|| = $ #en
-        *Hinweis: Schreiben Sie (sofern nötig) für $\sqrt{x}$ `sqrt(x)`.*
+    Sei $ "u"=u \in \RR^3 $. Berechne die **euklidische Norm**:
+    - $ ||"u"|| = $ #en
+    *Hinweis: Schreiben Sie (sofern nötig) für $\sqrt{x}$ `sqrt(x)`.*
 
 EXERCISE Winkel zwischen Vektoren
     CODE
@@ -77,11 +72,10 @@ EXERCISE Winkel zwischen Vektoren
         v[0] = 3
         v[2] = 4
         a = acos( dot(u, v) / ( norm2(u) * norm2(v) ) )
-    TEXT
-        Gegeben sind die beiden Vektoren $"u"=u$ und $"v"=v$ im $\RR^3$.
-        Berechnen Sie den **Winkel** zwischen den Vektoren $"u"$ und $"v"$:
-        - #a
-        *Hinweis: Schreiben Sie (ja nach Bedarf) `asin(x)`, `acos(x)` für die Arkusfunktionen.*
+    Gegeben sind die beiden Vektoren $"u"=u$ und $"v"=v$ im $\RR^3$.
+    Berechnen Sie den **Winkel** zwischen den Vektoren $"u"$ und $"v"$:
+    - #a
+    *Hinweis: Schreiben Sie (ja nach Bedarf) `asin(x)`, `acos(x)` für die Arkusfunktionen.*
 
 EXERCISE Orthogonale Vektoren
     CODE
@@ -89,20 +83,18 @@ EXERCISE Orthogonale Vektoren
         let uv = dot(u,v) == 0
         let wx = dot(w,x) == 0
         let yz = dot(y,z) == 0
-    TEXT
-        Welche der folgenden Vektoren im $\RR^2$ sind **orthogonal**?
-        [uv] $u$ und $v$
-        [wx] $w$ und $x$
-        [yz] $y$ und $z$
+    Welche der folgenden Vektoren im $\RR^2$ sind **orthogonal**?
+    [uv] $u$ und $v$
+    [wx] $w$ und $x$
+    [yz] $y$ und $z$
 
 EXERCISE Projektion
     FLEX_ROWS=true
     CODE
         let w:v = rand<2>(-2,2)
         let p = dot(v,w) / dot(v,v) * v
-    TEXT
-        Berechne die **Projektion** des Vektors $w$ auf den Vektor $v$:
-        #p
+    Berechne die **Projektion** des Vektors $w$ auf den Vektor $v$:
+    #p
 
 EXERCISE Vektorprodukt
     In welchen der folgenden euklidischen Räumen kann das Vektorprodukt bestimmt werden?
@@ -115,9 +107,8 @@ EXERCISE Vektorprodukt
     CODE
         let u:v = rand<3>(-2,2)
         let uxv = cross(u, v)
-    TEXT
-        Gegeben sind die beiden Vektoren $"u"=u$ und $"v"=v$ im $\RR^3$. Bestimme das Vektorprodukt von $"u"$ und $"v"$:
-        - $"u" xx "v" =$ #uxv
+    Gegeben sind die beiden Vektoren $"u"=u$ und $"v"=v$ im $\RR^3$. Bestimme das Vektorprodukt von $"u"$ und $"v"$:
+    - $"u" xx "v" =$ #uxv
 
 EXERCISE Matrizenoperationen
     FLEX_ROWS=true
@@ -125,8 +116,7 @@ EXERCISE Matrizenoperationen
     CODE
         let A:B = rand<3,3>(1,3)
         let C = A - B
-    TEXT
-        Berechne $ A - B = $ #C
+    Berechne $ A - B = $ #C
 
 EXERCISE Matrizenoperationen
     FLEX_ROWS=true
@@ -135,8 +125,7 @@ EXERCISE Matrizenoperationen
         let A = rand<3,3>(2,5)
         let b = rand(2,5)
         let B = b * A
-    TEXT
-        Berechne $ a * A = $ #B
+    Berechne $ a * A = $ #B
 
 EXERCISE Transponierte Matrix
     FLEX_ROWS=true
@@ -144,8 +133,7 @@ EXERCISE Transponierte Matrix
     CODE
         let A = rand<3,2>(1,3)
         let B = transpose(A)
-    TEXT
-        Bestimme $ A^T = $ #B
+    Bestimme $ A^T = $ #B
 
 EXERCISE Matrizenoperationen
     FLEX_ROWS=true
@@ -153,8 +141,7 @@ EXERCISE Matrizenoperationen
     CODE
         let A:B = rand<2,2>(1,3)
         let C = A * B
-    TEXT
-        Berechne $ A*B = $ #C
+    Berechne $ A*B = $ #C
 
 EXERCISE Matrizenoperationen
     FLEX_ROWS=true
@@ -163,24 +150,22 @@ EXERCISE Matrizenoperationen
         let A:C = rand<2,1>(1,3)
         let B = rand<2,2>(1,3)
         let D = transpose(A + transpose(B) * C)
-    TEXT
-        Berechne $ (A + B^T * C)^T = $ #D
+    Berechne $ (A + B^T * C)^T = $ #D
 
 EXERCISE Matrizenoperationen
     CODE
         let MA = rand<2,3>(-5,5)
         let MB = rand<3,2>(-5,5)
         let MC = rand<2,2>(-5,5)
-    TEXT
-        Gegeben seien die folgenden Matrizen:
-        - $ A=MA, B=MB, C=MC $
-        Welche der folgenden Operationen sind erlaubt?
-        [x] $ A * B $
-        [ ] $ A + B $
-        [ ] $ A^T * B $
-        [ ] $ A * B^T $
-        [x] $ A * B - C $
-        [x] $ (A * B)^T + C $
+    Gegeben seien die folgenden Matrizen:
+    - $ A=MA, B=MB, C=MC $
+    Welche der folgenden Operationen sind erlaubt?
+    [x] $ A * B $
+    [ ] $ A + B $
+    [ ] $ A^T * B $
+    [ ] $ A * B^T $
+    [x] $ A * B - C $
+    [x] $ (A * B)^T + C $
 
 EXERCISE Lineare Gleichungssysteme
     CODE
@@ -194,39 +179,36 @@ EXERCISE Lineare Gleichungssysteme
         let b1 = b[0]
         let b2 = b[0]
         let x = linsolve(A, b)
-    TEXT
-        Gegeben ist das folgende **lineare Gleichungssystem (LGS)**:
-        - $ a11 x_1 + a12 x_2 = b1 $
-        - $ a22 x_2 = b2 $
-        Schreiben Sie das LGS in **Matrizenschreibweise** $ "A" \cdot "x" = "b" $:
-        - $ "A" = $ #A
-        - $ "b" = $ #b
-        Das LGS liegt bereits in Dreiecksform vor. Bestimmen Sie den **Lösungsvektor** $"x"$:
-        - $ "x" = $ #x
+    Gegeben ist das folgende **lineare Gleichungssystem (LGS)**:
+    - $ a11 x_1 + a12 x_2 = b1 $
+    - $ a22 x_2 = b2 $
+    Schreiben Sie das LGS in **Matrizenschreibweise** $ "A" \cdot "x" = "b" $:
+    - $ "A" = $ #A
+    - $ "b" = $ #b
+    Das LGS liegt bereits in Dreiecksform vor. Bestimmen Sie den **Lösungsvektor** $"x"$:
+    - $ "x" = $ #x
 
 EXERCISE Lineare Gleichungssysteme
     CODE
         let A = rand<3,3>(1,3)
         let b = rand<3,1>(0,1)
         let homogen = is_zero(b)
-    TEXT
-        Gegeben sei das folgende LGS in Matrizenschreibweise:
-        $ A*x = b$
-        Ist die folgende Aussage korrekt?
-        [$homogen$] Das LGS ist **homogen**.
+    Gegeben sei das folgende LGS in Matrizenschreibweise:
+    $ A*x = b$
+    Ist die folgende Aussage korrekt?
+    [$homogen$] Das LGS ist **homogen**.
 
 EXERCISE Lösungsmenge
     CODE
         let A = randZ<3,3>(-3,3)
         let b = randZ<3,1>(-3,3)
         A = triu(A)
-    TEXT
-        Ein lineares Gleichungssystem ist durch den Gauß-Algorithmus bereits in Dreiecksform gebracht worden. Die erweiterte Koeffizientenmatrix sieht folgendermaßen aus:
-        $ augmented(A|b) $
-        Welche Aussage über die **Lösungsmenge** ist korrekt?
-        (x) Es gibt eine eindeutige Lösung $x \in \RR^n$.
-        ( ) Es gibt keine Lösung.
-        ( ) Die Lösungsmenge kann mit einer freien Variable beschrieben werden.
+    Ein lineares Gleichungssystem ist durch den Gauß-Algorithmus bereits in Dreiecksform gebracht worden. Die erweiterte Koeffizientenmatrix sieht folgendermaßen aus:
+    $ augmented(A|b) $
+    Welche Aussage über die **Lösungsmenge** ist korrekt?
+    (x) Es gibt eine eindeutige Lösung $x \in \RR^n$.
+    ( ) Es gibt keine Lösung.
+    ( ) Die Lösungsmenge kann mit einer freien Variable beschrieben werden.
 
 EXERCISE Lösungsmenge
     CODE
@@ -235,13 +217,12 @@ EXERCISE Lösungsmenge
         A = triu(A)
         A[2,2] = 0
         b[2,0] = 0
-    TEXT
-        Ein lineares Gleichungssystem ist durch den Gauß-Algorithmus bereits in Dreiecksform gebracht worden. Die erweiterte Koeffizientenmatrix sieht folgendermaßen aus:
-        $ augmented(A|b) $
-        Welche Aussage über die **Lösungsmenge** ist korrekt?
-        ( ) Es gibt eine eindeutige Lösung $x \in \RR^n$.
-        ( ) Es gibt keine Lösung.
-        (x) Die Lösungsmenge kann mit einer freien Variable beschrieben werden.
+    Ein lineares Gleichungssystem ist durch den Gauß-Algorithmus bereits in Dreiecksform gebracht worden. Die erweiterte Koeffizientenmatrix sieht folgendermaßen aus:
+    $ augmented(A|b) $
+    Welche Aussage über die **Lösungsmenge** ist korrekt?
+    ( ) Es gibt eine eindeutige Lösung $x \in \RR^n$.
+    ( ) Es gibt keine Lösung.
+    (x) Die Lösungsmenge kann mit einer freien Variable beschrieben werden.
 
 EXERCISE Lösungsmenge
     CODE
@@ -249,13 +230,12 @@ EXERCISE Lösungsmenge
         let b = randZ<3,1>(-3,3)
         A = triu(A)
         A[0,0] = 0
-    TEXT
-        Ein lineares Gleichungssystem ist durch den Gauß-Algorithmus bereits in Dreiecksform gebracht worden. Die erweiterte Koeffizientenmatrix sieht folgendermaßen aus:
-        $ augmented(A|b) $
-        Welche Aussage über die **Lösungsmenge** ist korrekt?
-        ( ) Es gibt eine eindeutige Lösung $x \in \RR^n$.
-        (x) Es gibt keine Lösung.
-        ( ) Die Lösungsmenge kann mit einer freien Variable beschrieben werden.
+    Ein lineares Gleichungssystem ist durch den Gauß-Algorithmus bereits in Dreiecksform gebracht worden. Die erweiterte Koeffizientenmatrix sieht folgendermaßen aus:
+    $ augmented(A|b) $
+    Welche Aussage über die **Lösungsmenge** ist korrekt?
+    ( ) Es gibt eine eindeutige Lösung $x \in \RR^n$.
+    (x) Es gibt keine Lösung.
+    ( ) Die Lösungsmenge kann mit einer freien Variable beschrieben werden.
 
 EXERCISE Gauß-Algorithmus
     CODE
@@ -265,10 +245,9 @@ EXERCISE Gauß-Algorithmus
         } while(is_invertible(A) == false)
         let b = randZ<2>(1,4)
         let x = linsolve(A, b)
-    TEXT
-        Löse das folgende lineare Gleichungssystem mit Hilfe des **Gauß-Algorithmus**:
-        $ augmented(A|b) $
-        Lösungsvektor: $"x"=$ #x
+    Löse das folgende lineare Gleichungssystem mit Hilfe des **Gauß-Algorithmus**:
+    $ augmented(A|b) $
+    Lösungsvektor: $"x"=$ #x
 
 EXERCISE Gauß-Algorithmus
     CODE
@@ -278,10 +257,9 @@ EXERCISE Gauß-Algorithmus
         } while(is_invertible(A) == false)
         let b = randZ<3>(1,4)
         let x = linsolve(A, b)
-    TEXT
-        Löse das folgende lineare Gleichungssystem mit Hilfe des **Gauß-Algorithmus**:
-        $ augmented(A|b) $
-        Lösungsvektor: $"x"=$ #x
+    Löse das folgende lineare Gleichungssystem mit Hilfe des **Gauß-Algorithmus**:
+    $ augmented(A|b) $
+    Lösungsvektor: $"x"=$ #x
 
 EXERCISE Gauß-Algorithmus
     CODE
@@ -291,10 +269,9 @@ EXERCISE Gauß-Algorithmus
         } while(is_invertible(A) == false)
         let b = randZ<4>(1,4)
         let x = linsolve(A, b)
-    TEXT
-        Lösen Sie das folgende lineare Gleichungssystem mit Hilfe des **Gauß-Algorithmus**:
-        $ augmented(A|b) $
-        Lösungsvektor: $"x"=$ #x
+    Lösen Sie das folgende lineare Gleichungssystem mit Hilfe des **Gauß-Algorithmus**:
+    $ augmented(A|b) $
+    Lösungsvektor: $"x"=$ #x
 
 EXERCISE Lineare Unabhängigkeit
     CODE
@@ -310,20 +287,18 @@ EXERCISE Lineare Unabhängigkeit
         let v5:v6:v7 = rand<3>(a,b)
         A = matrix(v5,v6,v7)
         let q3 = det(A) != 0
-    TEXT
-        Welche der unten stehenden Vektoren sind **linear unabhängig**?
-        [$q1$] $v1,v2$
-        [$q2$] $v3,v4$
-        [$q3$] $v5,v6,v7$
+    Welche der unten stehenden Vektoren sind **linear unabhängig**?
+    [$q1$] $v1,v2$
+    [$q2$] $v3,v4$
+    [$q3$] $v5,v6,v7$
 
 EXERCISE Rang
     CODE
         let A = rand<3,3>(0,2)
         let r = rank(A)
-    TEXT
-        Sei $ "A" = A $ eine 3 x 3 Matrix über $ \RR $.
-        Bestimmen Sie den **Rang**:
-        - $ rg("A") = $ #r
+    Sei $ "A" = A $ eine 3 x 3 Matrix über $ \RR $.
+    Bestimmen Sie den **Rang**:
+    - $ rg("A") = $ #r
 
 EXERCISE Inverse Matrix
     CODE
@@ -332,9 +307,8 @@ EXERCISE Inverse Matrix
             A = rand<3,3>(0,2)
         } while(is_invertible(A) == false)
         let iA = inv(A)
-    TEXT
-        Berechnen Sie die **inverse** Matrix:
-        - $ A^(-1) = $ #iA
+    Berechnen Sie die **inverse** Matrix:
+    - $ A^(-1) = $ #iA
 
 EXERCISE Determinante
     CODE
@@ -342,7 +316,6 @@ EXERCISE Determinante
         A[0,0] = 0
         A[0,1] = 0
         let d = det(A)
-    TEXT
-        Sei $ "A" = A $ eine 3 x 3 Matrix über $ \RR $.
-        Berechnen Sie die **Determinante**:
-        - $ det("A") = $ #d
+    Sei $ "A" = A $ eine 3 x 3 Matrix über $ \RR $.
+    Berechnen Sie die **Determinante**:
+    - $ det("A") = $ #d

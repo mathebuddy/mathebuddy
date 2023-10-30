@@ -1,8 +1,6 @@
 Grundlagen
 ##########
 
-Some text here. Some text here. Some text here. Some text here. Some text here. Some text here. Some text here. 
-
 Mengen
 ======
 
@@ -11,23 +9,21 @@ EXERCISE Mengen
         let a/b/c = rand(1,5)
         let A = {a, b, c}
         let B = {a, c}
-    TEXT
-        Gegeben sei die Menge $"A"=A$.
+    Gegeben sei die Menge $"A"=A$.
 
-        Ist die folgende Aussage wahr?
-        [x] $B \subset "A"$
+    Ist die folgende Aussage wahr?
+    [x] $B \subset "A"$
 
 EXERCISE Mengen
     CODE
         let a/b/c/d = rand(1,10)
         let A = {a, a+b, a+b+c, a+b+c+d}
         let p = 2^len(A)
-    TEXT
-        Sei $"A"=A$.
+    Sei $"A"=A$.
 
-        Wie viele Elemente hat die **Potenzmenge** $P("A")$?
+    Wie viele Elemente hat die **Potenzmenge** $P("A")$?
 
-        #p
+    #p
 
 EXERCISE Mengenoperationen
     Seien $A$ und $B$ Mengen. $A \cup B$ beschreibt:
@@ -38,27 +34,26 @@ EXERCISE Menge
     CODE
         let a/b/c = rand(1,5)
         let n = 2
-    TEXT
-        Wie viele Elemente hat die Menge $\{\{a,b\},\{c\}\}$?
-        #n
+    Wie viele Elemente hat die Menge $\{\{a,b\},\{c\}\}$?
+
+    #n
 
 EXERCISE Mengen
     CODE
         let a/b/c = rand(1,10)
         let x = max({a,b,c}) + 4
         let A = {a,b,c}
-    TEXT
-        Gegeben Sei die Menge $"A"=A$. Welche der folgenden Aussagen sind wahr?
-        [x] $ a \in "A" $
-        [x] $ x \notin "A" $
+    Gegeben Sei die Menge $"A"=A$. Welche der folgenden Aussagen sind wahr?
+    [x] $ a \in "A" $
+    [x] $ x \notin "A" $
 
 EXERCISE Mengen
     CODE
         let a = rand(1,5)
         let B = {a,a*2,a*3}
-    TEXT
-        Gegeben Sei die Menge $ "B" = \{ k \in \NN | k=a \cdot n \text{und} n <= 3 \} $. Geben Sie die Menge **explizit** an:
-        $"B"=$ #B
+    Gegeben Sei die Menge $ "B" = \{ k \in \NN | k=a \cdot n ~\text{und}~ n \leq 3 \} $. Geben Sie die Menge **explizit** an:
+
+    $"B"=$ #B
 
 Summen und Produkte
 ===================
@@ -68,44 +63,44 @@ EXERCISE Summe
         let a = rand(2,4)
         let n = rand(3,5)
         let s = a * n
-    TEXT
-        Berechne $\sum_{i=1}^n a$:
-        #s
+    Berechne $\sum_{i=1}^n a$:
+
+    #s
 
 EXERCISE Summe
     CODE
         let a = rand(2,4)
         let n = 3
         let s = a * 6
-    TEXT
-        Berechne $\sum_{i=1}^n a \cdot i$:
-        #s
+    Berechne $\sum_{i=1}^n a \cdot i$:
+
+    #s
 
 EXERCISE Produkt
     CODE
         let a = rand(2,4)
         let n = rand(3,5)
         let p = a^n
-    TEXT
-        Berechne $\prod_{i=1}^n a$:
-        #p
+    Berechne $\prod_{i=1}^n a$:
+
+    #p
 
 EXERCISE Fakultät
     CODE
         let a = rand(3,6)
         let f = fac(a)
-    TEXT
-        Gebe $a!$ wertmäßig an:
-        #f
+    Gebe $a!$ wertmäßig an:
+
+    #f
 
 EXERCISE Binomialkoeffizient
     CODE
         let n = rand(3,5)
         let k = rand(0,n)
         let b = binomial(n,k)
-    TEXT
-        Bestimme den Binomialkoeffizienten $\mat{n\\k}$ mit Hilfe des **Pascalschen Dreiecks**.
-        #b
+    Bestimme den Binomialkoeffizienten $\begin{pmatrix}n\\k\end{pmatrix}$ mit Hilfe des **Pascalschen Dreiecks**.
+
+    #b
 
 EXERCISE Intervalle reeller Zahlen
     Seien $ a, b \in \RR $.
@@ -131,26 +126,24 @@ EXERCISE Beschränkte Mengen
         let d = c + y
         let m = a
         let M = d
-    TEXT
-        Sei $ X = [a, c[ \cup [b, d[ $.
-        Bestimmen Sie:
-        - Infimum m = inf $(X)=$ #m
-        - Supremum M = sup $(X)=$ #M
+    Sei $ X = [a, c[ \cup [b, d[ $.
+    Bestimmen Sie:
+    - Infimum m = inf $(X)=$ #m
+    - Supremum M = sup $(X)=$ #M
 
-        Wählen Sie die richtigen Antworten aus:
-        [x] Das Minimum von X existiert
-        [ ] Das Maximum von X existiert
+    Wählen Sie die richtigen Antworten aus:
+    [x] Das Minimum von X existiert
+    [ ] Das Maximum von X existiert
 
 EXERCISE Betrag
     CODE
         let a = rand(-10,-1)
         let b = abs(a)
-    TEXT
-        $|a|=$ #b
-        Wähle die richtigen Antworten aus:
-        [x]   $ |xy| = |x| |y| $
-        [x]   $ |x+y| \leq |x| + |y| $
-        [ ]   $ |x+y| \geq |x + y| $
+    $|a|=$ #b
+    Wähle die richtigen Antworten aus:
+    [x]   $ |xy| = |x| |y| $
+    [x]   $ |x+y| \leq |x| + |y| $
+    [ ]   $ |x+y| \geq |x| + |y| $
 
 EXERCISE Aussagenlogik
     Seien $A$ und $B$ Aussagen. Die **Konjunktion** von $A$ und $B$ wird dargestellt durch:
@@ -160,38 +153,35 @@ EXERCISE Aussagenlogik
 EXERCISE Aussagenlogik
     CODE
         let a:b:c:d = rand(3,5)
-    TEXT
-        Welche der folgenden Ausdrücke sind **wahre Aussagen**?
-        [ ] Die Menge $M=\{k \in \NN | k=2 m \text{und} m>3 \}$ hat 3 Elemente.
-        [ ] $a + b \cdot c$.
-        [x] $\exists x \in \ZZ ~~ x < 0$
-        [x] Die Gleichung $a x + c = d$ besitzt genau eine Lösung.
+    Welche der folgenden Ausdrücke sind **wahre Aussagen**?
+    [ ] Die Menge $M=\{k \in \NN | k=2 m ~\text{und}~ m>3 \}$ hat 3 Elemente.
+    [ ] $a + b \cdot c$.
+    [x] $\exists x \in \ZZ ~~ x < 0$
+    [x] Die Gleichung $a x + c = d$ besitzt genau eine Lösung.
 
 EXERCISE Aussagenlogik
     Welche der folgenden Aussagen sind wahr?
     [ ] $ \exists x \in \RR ~~ x < x  $
-    [x] $ \forall y \in \ZZ ~~ y^2 >= 0 $
-    [ ] $ \forall z \in \RR ~~ (z <= 0  \land  z > 0) $
-    [x] $ \forall z \in \RR ~~ (z <= 0  \lor  z > 0) $
+    [x] $ \forall y \in \ZZ ~~ y^2 \geq 0 $
+    [ ] $ \forall z \in \RR ~~ (z \leq 0  \land  z > 0) $
+    [x] $ \forall z \in \RR ~~ (z \leq 0  \lor  z > 0) $
 
 EXERCISE Injektivität, Surjektivität, Bijektivität
     CODE
         let a = rand(2,10)
-    TEXT
-        Betrachten Sie die folgende Abbildung und wählen Sie die richtigen Antworten aus:
-        $ f : \RR \to [a,\infty[, ~~  f(x) = x^2 + a $
-        [ ] $f$ ist injektiv.
-        [x] $f$ ist surjektiv.
-        [ ] $f$ ist bijektiv.
+    Betrachten Sie die folgende Abbildung und wählen Sie die richtigen Antworten aus:
+    $ f : \RR \to [a,\infty[, ~~  f(x) = x^2 + a $
+    [ ] $f$ ist injektiv.
+    [x] $f$ ist surjektiv.
+    [ ] $f$ ist bijektiv.
 
 EXERCISE Verkettung von Funktionen
     CODE
         let a:b:c = rand(2,5)
-    TEXT
-        Sei  $ f : \RR \to \RR, f(x) = a \cdot x + b $ und $ g : \RR \to \RR, g(x) = x^c $.
-        Wähle die richtige Antwort aus:
-        (x) $ (g \circ f)(x) = (a \cdot x + b)^c $
-        ( ) $ (g \circ f)(x) = a \cdot x^c + b $
+    Sei  $ f : \RR \to \RR $, $ f(x) = a \cdot x + b $ und $ g : \RR \to \RR, g(x) = x^c $.
+    Wähle die richtige Antwort aus:
+    (x) $ (g \circ f)(x) = (a \cdot x + b)^c $
+    ( ) $ (g \circ f)(x) = a \cdot x^c + b $
 
 EXERCISE Gerade und ungerade Funktionen
     Welche der nachfolgenden Funktionen sind **gerade**?
@@ -203,24 +193,22 @@ EXERCISE Gerade und ungerade Funktionen
 EXERCISE Beschränktheit
     CODE
         let a = rand(2,5)
-    TEXT
-        Sei $ f : \RR -> \RR, x \mapsto (x+a)^2 $.
-        Wählen Sie die richtigen Antworten aus:
-        [x] $f$ ist nach **unten beschränkt**.
-        [ ] $f$ ist nach **oben beschränkt**.
+    Sei $ f : \RR \to \RR, x \mapsto (x+a)^2 $.
+    Wählen Sie die richtigen Antworten aus:
+    [x] $f$ ist nach **unten beschränkt**.
+    [ ] $f$ ist nach **oben beschränkt**.
 
 EXERCISE Monotonie
     CODE
         let a:b:c:d = rand(2,5)
-    TEXT
-        Wählen Sie die richtigen Antworten aus:
-        [ ] $ f : \RR \to \RR, f(x)=a $ ist **monoton wachsend**.
-        [x] $ f : \RR \to \RR, f(x)=b x + c $ ist **streng monoton wachsend**.
-        [ ] $ f : \RR \to \RR, f(x)=|x| $ ist **streng monoton wachsend**.
-        [x] $ f : \RR \to \RR, f(x)=-x^3-x-d $ ist **streng monoton fallend**.
+    Wählen Sie die richtigen Antworten aus:
+    [x] $ f : \RR \to \RR, f(x)=a $ ist **monoton wachsend**.
+    [x] $ f : \RR \to \RR, f(x)=b x + c $ ist **streng monoton wachsend**.
+    [ ] $ f : \RR \to \RR, f(x)=|x| $ ist **streng monoton wachsend**.
+    [x] $ f : \RR \to \RR, f(x)=-x^3-x-d $ ist **streng monoton fallend**.
 
 EXERCISE Umkehrabbildung
     Eine Funktion $f$ besitzt genau dann eine Umkehrfunktion, wenn folgendes gilt:
-    [x] $f$ ist injektiv.
-    [x] $f$ ist surjektiv.
+    [ ] $f$ ist surjektiv oder injektiv.
+    [x] $f$ is surjektiv und injektiv.
     [x] $f$ ist bijektiv.

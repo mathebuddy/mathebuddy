@@ -7,9 +7,8 @@ EXERCISE Matrizenoperationen
     CODE
         let A:B = rand<3,3>(1,3)
         let C = A - B
-    TEXT
-        Berechne $A-B=$ #C
-        *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
+    Berechne $A-B=$ #C
+    *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
 
 EXERCISE Matrizenoperationen
     FLEX_ROWS=true
@@ -18,9 +17,8 @@ EXERCISE Matrizenoperationen
         let a = rand(2,5)
         let A = rand<3,3>(1,3)
         let B = a * A
-    TEXT
-        Berechne $a \cdot A=$ #B
-        *Hinweis: Dimensionieren Sie zunächst die Ergebnismatrix.*
+    Berechne $a \cdot A=$ #B
+    *Hinweis: Dimensionieren Sie zunächst die Ergebnismatrix.*
 
 EXERCISE Transponierte Matrix
     FLEX_ROWS=true
@@ -28,9 +26,8 @@ EXERCISE Transponierte Matrix
     CODE
         let A = rand<3,2>(1,3)
         let B = transpose(A)
-    TEXT
-        Berechne $A^T=$ #B
-        *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
+    Berechne $A^T=$ #B
+    *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
 
 EXERCISE Matrizenoperationen
     FLEX_ROWS=true
@@ -38,9 +35,8 @@ EXERCISE Matrizenoperationen
     CODE
         let A:B = rand<2,2>(1,3)
         let C = A * B
-    TEXT
-        Berechne $A \cdot B=$ #C
-        *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
+    Berechne $A \cdot B=$ #C
+    *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
 
 EXERCISE Matrizenoperationen
     FLEX_ROWS=true
@@ -49,9 +45,8 @@ EXERCISE Matrizenoperationen
         let A:C = rand<2,1>(1,3)
         let B = rand<2,2>(1,3)
         let D = transpose(A + transpose(B) * C)
-    TEXT
-        Berechne $ (A+B^T \cdot C)^T =$ #D
-        *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
+    Berechne $ (A+B^T \cdot C)^T =$ #D
+    *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
 
 EXERCISE Restklassen
     CODE
@@ -61,11 +56,10 @@ EXERCISE Restklassen
         b = - b
         let sb = b mod b2
         let sc = c2*c3 mod c2
-    TEXT
-        Geben Sie jeweils den **Standardrepräsentanten** an:
-        - $ \ZZ_c2: c2 \cdot c3 \equiv$ #sc $\mod c2 $
-        - $ \ZZ_a2: a \equiv$  #sa  $\mod a2 $
-        - $ \ZZ_b2: b \equiv$  #sb  $\mod b2 $
+    Geben Sie jeweils den **Standardrepräsentanten** an:
+    - $ \ZZ_c2: c2 \cdot c3 \equiv$ #sc $\mod c2 $
+    - $ \ZZ_a2: a \equiv$  #sa  $\mod a2 $
+    - $ \ZZ_b2: b \equiv$  #sb  $\mod b2 $
 
 EXERCISE Körper
     Welche der folgenden Restklassen sind **Körper**?
@@ -83,26 +77,23 @@ EXERCISE Multiplikativ inverses Element
         c = c mod (n-1) + 1
         %TODO: let s1 = xgcd(b, n)[1] mod n
         %TODO: let s2 = xgcd(c, n)[1] mod n
-    TEXT
-        Gebe die **multiplikativ inversen Elemente** für den Körper $\GF(n)$ an:
-        - $b^{-1} \equiv$  #s1  $\mod n$
-        - $c^{-1} \equiv$  #s2  $\mod n$
+    Gebe die **multiplikativ inversen Elemente** für den Körper $\GF(n)$ an:
+    - $b^{-1} \equiv$  #s1  $\mod n$
+    - $c^{-1} \equiv$  #s2  $\mod n$
 
 EXERCISE Untervektorräume
     CODE
-      let a:b:c:d = rand(1,5)
-    TEXT
-        Welche der folgenden Mengen sind Untervektorräume des $\RR^2$?
-        [ ] $ M_1 = \{ \MAT{a;b} \} $
-        [x] $ M_2 = \{ \MAT{0;0} \} $
-        [ ] $ M_3 = \{ \mu \cdot \MAT{c;d} ~|~ \mu \in \ZZ } $
+        let a:b:c:d = rand(1,5)    
+    Welche der folgenden Mengen sind Untervektorräume des $\RR^2$?
+    [ ] $ M_1 = \{ \MAT{a;b} \} $
+    [x] $ M_2 = \{ \MAT{0;0} \} $
+    [ ] $ M_3 = \{ \mu \cdot \MAT{c;d} ~|~ \mu \in \ZZ } $
 
 EXERCISE Untervektorräume
-    TEXT
-        Welche der folgenden Mengen sind Untervektorräume des $\GF(2)^2$?
-        [ ] $ M_1 = { \MAT{1;1} } $
-        [x] $ M_2 = { \MAT{0;0} } $
-        [x] $ M_4 = { \lambda \cdot \MAT{0;1} ~|~ \lambda \in \GF(2) } $
+    Welche der folgenden Mengen sind Untervektorräume des $\GF(2)^2$?
+    [ ] $ M_1 = { \MAT{1;1} } $
+    [x] $ M_2 = { \MAT{0;0} } $
+    [x] $ M_4 = { \lambda \cdot \MAT{0;1} ~|~ \lambda \in \GF(2) } $
 
 EXERCISE Erzeugendensysteme
     CODE
@@ -121,11 +112,10 @@ EXERCISE Erzeugendensysteme
         let j = (a*l3 + d*l4) mod 2
         let k = (b*l3 + e*l4) mod 2
         let l = (c*l3 + f*l4) mod 2
-    TEXT
-        Seien $ v_1 = [[a],[b],[c]] $, $ v_2 = [[d],[e],[f]] $ Vektoren im $ \GF(2)^3 $ und $ U = <v_1,v_2> $.
-        Welche der folgenden Antworten sind richtig?
-        [x] $ w_1 = [[g],[h],[i]] \in U $
-        [x] $ w_2 = [[j],[k],[l]] \in U $
+    Seien $ v_1 = [[a],[b],[c]] $, $ v_2 = [[d],[e],[f]] $ Vektoren im $ \GF(2)^3 $ und $ U = <v_1,v_2> $.
+    Welche der folgenden Antworten sind richtig?
+    [x] $ w_1 = [[g],[h],[i]] \in U $
+    [x] $ w_2 = [[j],[k],[l]] \in U $
 
 EXERCISE Matrizenoperationen
     FLEX_ROWS=true
@@ -134,10 +124,9 @@ EXERCISE Matrizenoperationen
         let A:C = rand<2,1>(0,1)
         let B = rand<2,2>(0,1)
         let term = transpose(A + transpose(B) * C) mod 2
-    TEXT
-        Berechne den folgenden Term über $\GF(2)$.
-        - $ (A + B^T \cdot C)^T =$ #term
-        *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
+    Berechne den folgenden Term über $\GF(2)$.
+    - $ (A + B^T \cdot C)^T =$ #term
+    *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
 
 EXERCISE Matrix-Vektor Multiplikation
     FLEX_ROWS=true
@@ -146,11 +135,10 @@ EXERCISE Matrix-Vektor Multiplikation
         let A = rand<2,2>(1,4)
         let x = rand<2,1>(1,4)
         let Ax = A * x
-    TEXT
     Seien $"A"=A$ und $"x"=x$. 
-        Berechne:
-        - $ f("x") = "A" \code "x"$ = #Ax
-        *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
+    Berechne:
+    - $ f("x") = "A" \code "x"$ = #Ax
+    *Hinweis: Dimensioniere zunächst die Ergebnismatrix.*
 
 EXERCISE Determinante
     CODE
@@ -158,19 +146,17 @@ EXERCISE Determinante
         A[0,0] = 0
         A[0,1] = 0
         let d = det(A)
-    TEXT
-        Sei $"A"=A$ eine $3 \times 3$ Matrix über $K=\RR$.
-        Berechnen die **Determinante**:
-        - $ \det("A")=$ #d
+    Sei $"A"=A$ eine $3 \times 3$ Matrix über $K=\RR$.
+    Berechnen die **Determinante**:
+    - $ \det("A")=$ #d
 
 EXERCISE Rang
     CODE
         let A = rand<3,3>(0,2)
         let r = rank(A)
-    TEXT
-        Sei $"A"=A$ eine $3 \times 3$ Matrix über $K=\RR$.
-        Bestimme den **Rang**:
-        - $ rg("A")=$ #r
+    Sei $"A"=A$ eine $3 \times 3$ Matrix über $K=\RR$.
+    Bestimme den **Rang**:
+    - $ rg("A")=$ #r
 
 EXERCISE Inverse Matrix
     CODE
@@ -179,42 +165,38 @@ EXERCISE Inverse Matrix
             A = rand<3,3>(0,2)
         }	
         let iA = inv(A)
-    TEXT
-        Berechnen Sie die **inverse** Matrix:
-        - $ A^{-1}=$ #iA
+    Berechnen Sie die **inverse** Matrix:
+    - $ A^{-1}=$ #iA
 
 EXERCISE Lineare Abbildungen
     CODE
-     let a:b:c:d = rand(2,9)
-    TEXT
-        Ist $f:\RR^2\to\RR^2$, $f(x_1,x_2)=(a x_1 + b x_2, c x_1 + d)$ eine **lineare Abbildung**?
-        ( ) ja
-        (x) nein
+        let a:b:c:d = rand(2,9)
+    Ist $f:\RR^2\to\RR^2$, $f(x_1,x_2)=(a x_1 + b x_2, c x_1 + d)$ eine **lineare Abbildung**?
+    ( ) ja
+    (x) nein
 
 EXERCISE Lineare Abbildungen
     CODE
         let A = rand<2,3>(2,9)
         A[0,1] = 0
-    TEXT
-        Sei die folgende **lineare Abbildung** gegeben:
-        - $ f:\RR^3 \to \RR^2 = (a \cdot x_1 + b \cdot x_3, c \cdot x_2 + d \cdot x_3 + e \cdot x_1)$
-        Gebe die zugehörige Abbildungsmatrix $"A"$ an:
-        - $ "A"=$ #A
+    Sei die folgende **lineare Abbildung** gegeben:
+    - $ f:\RR^3 \to \RR^2 = (a \cdot x_1 + b \cdot x_3, c \cdot x_2 + d \cdot x_3 + e \cdot x_1)$
+    Gebe die zugehörige Abbildungsmatrix $"A"$ an:
+    - $ "A"=$ #A
 
 EXERCISE Zusammengesetzte lineare Abbildungen
     CODE
         let A:B = rand<2,2>(0,1)
         let AB = (A*B) mod 2
-    TEXT
-        Seien die beiden linearen Abbildungen $"f","g" : \GF(2)^2 \to |GF(2)^2 $ gegeben:
-        - $ "f"(x_1, x_2) = ( a \cdot x_1 + b \cdot x_2, c \cdot x_1 + d \cdot x_2 ) $
-        - $ "g"(x_1, x_2) = ( e \cdot x_1 + f \cdot x_2, g \cdot x_1 + h \cdot x_2 ) $
-        Bestimmen Sie zunächst die **lineare Abbildung** $"f"$ und geben Sie die Lösung als Matrix an:
-        - $"A"=$ #A
-        Bestimme weiterhin die **lineare Abbildung** $"g"$:
-        - $"B"=$ #B
-        Bestimme nun die **zusammengesetzte Abbildung** $ "f" \circ "g" $.
-        - $"AB"=$ #AB
+    Seien die beiden linearen Abbildungen $"f","g" : \GF(2)^2 \to |GF(2)^2 $ gegeben:
+    - $ "f"(x_1, x_2) = ( a \cdot x_1 + b \cdot x_2, c \cdot x_1 + d \cdot x_2 ) $
+    - $ "g"(x_1, x_2) = ( e \cdot x_1 + f \cdot x_2, g \cdot x_1 + h \cdot x_2 ) $
+    Bestimmen Sie zunächst die **lineare Abbildung** $"f"$ und geben Sie die Lösung als Matrix an:
+    - $"A"=$ #A
+    Bestimme weiterhin die **lineare Abbildung** $"g"$:
+    - $"B"=$ #B
+    Bestimme nun die **zusammengesetzte Abbildung** $ "f" \circ "g" $.
+    - $"AB"=$ #AB
 
 EXERCISE Lineare Unabhängigkeit
     CODE
@@ -226,11 +208,10 @@ EXERCISE Lineare Unabhängigkeit
         let A1 = column(A,0); let A2 = column(A,1)
         let B1 = column(B,0); let B2 = column(B,1)
         let C1 = column(C,0); let C2 = column(C,1); let C3 = column(C,2)
-    TEXT
-        Welche der unten stehenden Vektoren über dem $\GF(2)$ sind **linear unabhängig**?
-        [$q1$] $A1,A2$
-        [$q2$] $B1,B2$
-        [$q3$] $C1,C2,C3$
+    Welche der unten stehenden Vektoren über dem $\GF(2)$ sind **linear unabhängig**?
+    [$q1$] $A1,A2$
+    [$q2$] $B1,B2$
+    [$q3$] $C1,C2,C3$
 
 EXERCISE Basen
     CODE
@@ -242,11 +223,10 @@ EXERCISE Basen
         let B = rand<3,3>(0,2)
         B[2,2] = 0
         let q2 = det(B) != 0
-    TEXT
-        Bilden die folgenden Vektoren eine **Basis** des $\RR^3$?
-        *Hinweis: Bestimme zunächst die Determinante.*
-        [q1] $ A[:,1], A[:,2], A[:,3] $
-        [q2] $ B[:,1], B[:,2], B[:,3] $
+    Bilden die folgenden Vektoren eine **Basis** des $\RR^3$?
+    *Hinweis: Bestimme zunächst die Determinante.*
+    [q1] $ A[:,1], A[:,2], A[:,3] $
+    [q2] $ B[:,1], B[:,2], B[:,3] $
 
 EXERCISE Orthonormalbasis
     CODE
@@ -256,12 +236,11 @@ EXERCISE Orthonormalbasis
         let y = 2 * a * b
         let c1 = -y
         let c2 = 1 / sqrt(x^2 + y^2)
-    TEXT
-        Bestimme $c_1 \in \RR$, sodass die folgenden beiden Vektoren eine **Orthogonalbasis** des $\RR^2$ bilden:
-        - $ "b_1"=[[x],[y]]$ $ "b_2"=[[c_1],[x]]$
-        - $c_1=$ #c1
-        Bestimme nun $c_2 \in \RR$, sodass die Basis $\{ c_2 \cdot "b_1", c_2 \cdot "b_2" \}$ eine **Orthonormalbasis** ist.
-        - $c_2=$ #c2
+    Bestimme $c_1 \in \RR$, sodass die folgenden beiden Vektoren eine **Orthogonalbasis** des $\RR^2$ bilden:
+    - $ "b_1"=[[x],[y]]$ $ "b_2"=[[c_1],[x]]$
+    - $c_1=$ #c1
+    Bestimme nun $c_2 \in \RR$, sodass die Basis $\{ c_2 \cdot "b_1", c_2 \cdot "b_2" \}$ eine **Orthonormalbasis** ist.
+    - $c_2=$ #c2
 
 EXERCISE Orthogonale Matrizen
     CODE
@@ -271,12 +250,11 @@ EXERCISE Orthogonale Matrizen
         let qb = (B * transpose(B)) == E2
         let qc = (C * transpose(C)) == E2
         let qd = (D * transpose(D)) == E2
-    TEXT
-        Welche der folgenden Matrizen über $\RR$ sind **orthogonal**?
-        [$qa$] $A$
-        [$qb$] $B$
-        [$qc$] $C$
-        [$qd$] $D$
+    Welche der folgenden Matrizen über $\RR$ sind **orthogonal**?
+    [$qa$] $A$
+    [$qb$] $B$
+    [$qc$] $C$
+    [$qd$] $D$
 
 EXERCISE Orthogonale Matrizen
     CODE
@@ -284,20 +262,18 @@ EXERCISE Orthogonale Matrizen
         let d = rand(2,4)
         let a = c^2 + d^2
         let b = -c
-    TEXT
-        Bestimme $a, b \in \RR$, sodass die folgende Matrix über $\RR$ **orthogonal** ist:
-        - $ \frac{1}{\sqrt{"a"}} [[c,d],[d,"b"]] $
-        $"a"=$ #a $"b"=$ #b
+    Bestimme $a, b \in \RR$, sodass die folgende Matrix über $\RR$ **orthogonal** ist:
+    - $ \frac{1}{\sqrt{"a"}} [[c,d],[d,"b"]] $
+    $"a"=$ #a $"b"=$ #b
 
 EXERCISE Eigenwerte
     CODE
         let a = rand(1,5)
         let b = rand(-8,-2)
         let lambda = {a,b}
-    TEXT
-        Sei $A=[[a,0],[0,b]]$.
-        Geben Sie die **Eigenwerte** von $A$ an:
-        - $\lambda=$ #lambda
+    Sei $A=[[a,0],[0,b]]$.
+    Geben Sie die **Eigenwerte** von $A$ an:
+    - $\lambda=$ #lambda
 
 EXERCISE Eigenwerte
     CODE
@@ -306,18 +282,16 @@ EXERCISE Eigenwerte
             A = rand<2,2>(1,2);   % TODO: {1,2,4}
         }
         let lambda = eigenvalues_sym(A)
-    TEXT
-        Sei $"A"=A$.
-        Gebe die **Eigenwerte** von $"A"$ an:
-        - $"lambda"=$ #lambda
-        *Hinweis: Geben bei Bedarf `sqrt(x)` für $\sqrt{x}$ an.*
+    Sei $"A"=A$.
+    Gebe die **Eigenwerte** von $"A"$ an:
+    - $"lambda"=$ #lambda
+    *Hinweis: Geben bei Bedarf `sqrt(x)` für $\sqrt{x}$ an.*
 
 EXERCISE Eigenwerte
     CODE
         let A = rand<4,4>(-10,10)
         A = triu(A)
         let lambda = {A[0,0], A[1,1], A[2,2], A[3,3]}
-    TEXT
-        Sei $"A"=A$.
-        Geben die **Eigenwerte** von $"A"$ an:
-        - $"lambda"=$ #lambda
+    Sei $"A"=A$.
+    Geben die **Eigenwerte** von $"A"$ an:
+    - $"lambda"=$ #lambda

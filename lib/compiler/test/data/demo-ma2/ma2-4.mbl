@@ -7,12 +7,11 @@ EXERCISE Komponentenfunktionen
         let f1(x,y,z) = a*x + b*y + c*z
         let f2(x,y,z) = d*x + e*y + f*z
         let f3(x,y,z) = g*x + h*y + i*z
-    TEXT
-        Sei $ f : \RR^3 \to \RR^3 $; $ f(x,y,z) = (f_1,f_2,f_3) $ ein Vektorfeld.
-        Bestimme die **Komponentenfunktionen** von $f$:
-        - $f_1(x,y,z)=$ #f1
-        - $f_2(x,y,z)=$ #f2
-        - $f_3(x,y,z)=$ #f3
+    Sei $ f : \RR^3 \to \RR^3 $; $ f(x,y,z) = (f_1,f_2,f_3) $ ein Vektorfeld.
+    Bestimme die **Komponentenfunktionen** von $f$:
+    - $f_1(x,y,z)=$ #f1
+    - $f_2(x,y,z)=$ #f2
+    - $f_3(x,y,z)=$ #f3
 
 EXERCISE Partielle Ableitungen
     CODE
@@ -20,10 +19,9 @@ EXERCISE Partielle Ableitungen
         let f(x,y) = a*x^b + c*x^d*y^e
         let fx(x,y) = diff(f, x)
         let fy(x,y) = diff(f, y)
-    TEXT
-        Sei $"f"(x,y)=f$. Bestimme die **partiellen Ableitungen**:
-        - $\frac{\partial f}{\partial x}=$ #fx
-        - $\frac{\partial f}{\partial y}=$ #fy
+    Sei $"f"(x,y)=f$. Bestimme die **partiellen Ableitungen**:
+    - $\frac{\partial f}{\partial x}=$ #fx
+    - $\frac{\partial f}{\partial y}=$ #fy
 
 EXERCISE Partielle Ableitungen
     CODE
@@ -33,10 +31,9 @@ EXERCISE Partielle Ableitungen
         let f(x,y) = c / (a*x^2 + b*y^2)
         let fx(x,y) = diff(f, x)
         let fy(x,y) = diff(f, y)
-    TEXT
-        Sei $"f"(x,y)=f$. Bestimme die **partiellen Ableitungen**:
-        - $\frac{\partial f}{\partial x}=$ #fx
-        - $\frac{\partial f}{\partial y}=$ #fy
+    Sei $"f"(x,y)=f$. Bestimme die **partiellen Ableitungen**:
+    - $\frac{\partial f}{\partial x}=$ #fx
+    - $\frac{\partial f}{\partial y}=$ #fy
 
 EXERCISE Gradient
     CODE
@@ -45,10 +42,9 @@ EXERCISE Gradient
         let f(x,y) = - x^3 - a*y^3 + b*c*x*y
         let fx(x,y) = diff(f, x)
         let fy(x,y) = diff(f, y)
-    TEXT
-        Gegeben sei eine Funktion $"f"(x,y)=f$.
-        Bestimme den **Gradienten**:
-        - $\nabla"f($  #fx  ,  #fy  $)$
+    Gegeben sei eine Funktion $"f"(x,y)=f$.
+    Bestimme den **Gradienten**:
+    - $\nabla"f($  #fx  ,  #fy  $)$
 
 EXERCISE Gradient
     CODE
@@ -56,10 +52,9 @@ EXERCISE Gradient
         let f(u,v) = u^2 / v^2 + c
         let fu(u,v) = diff(f, u)
         let fv(u,v) = diff(f, v)
-    TEXT
-        Gegeben sei eine Funktion $"f"(u,v)=f$.
-        Bestimme den **Gradienten**:
-        - $\nabla"f($  #fu  ,  #fv  $)$
+    Gegeben sei eine Funktion $"f"(u,v)=f$.
+    Bestimme den **Gradienten**:
+    - $\nabla"f($  #fu  ,  #fv  $)$
 
 EXERCISE Gradient
     CODE
@@ -69,11 +64,10 @@ EXERCISE Gradient
         let f(x,y) = exp(c*x) * (a*sin(d*y) + b*cos(d*y))
         let fx(x,y) = diff(f, x)
         let fy(x,y) = diff(f, y)
-    TEXT
-        Gegeben sei eine Funktion $"f"(x,y)=f$.
-        Bestimme den **Gradienten**:
-        - $\nabla"f($  #fx  ,  #fy  $)$
-        *Hinweis: gebe die Exponentialfunktion in der Form `exp(x)` an.*
+    Gegeben sei eine Funktion $"f"(x,y)=f$.
+    Bestimme den **Gradienten**:
+    - $\nabla"f($  #fx  ,  #fy  $)$
+    *Hinweis: gebe die Exponentialfunktion in der Form `exp(x)` an.*
 
 % %%%    TODO
 %
@@ -106,11 +100,10 @@ EXERCISE Rotation und Divergenz
         let ry(x,y,z) = diff(f1,z) - diff(f3,x)
         let rz(x,y,z) = diff(f2,x) - diff(f1,y)
         let d(x,y,z) = diff(f1,x) + diff(f2,y) + diff(f3,z)
-    TEXT
-        Sei $f(x,y) = ( f1, f2, f3 )$.
-        Bestimme **Rotation** und **Divergenz** des Vektorfeldes.
-        - rot$(f)=($  #rx  ,  #ry ,  #rz  $)$
-        - div$(f)=$ #d
+    Sei $f(x,y) = ( f1, f2, f3 )$.
+    Bestimme **Rotation** und **Divergenz** des Vektorfeldes.
+    - rot$(f)=($  #rx  ,  #ry ,  #rz  $)$
+    - div$(f)=$ #d
 
 EXERCISE Höhere partielle Ableitungen
     CODE
@@ -121,11 +114,10 @@ EXERCISE Höhere partielle Ableitungen
         let dxx(x,y) = diff( diff(f,x), x)
         let dxy(x,y) = diff( diff(f,x), y)
         let dyy(x,y) = diff( diff(f,y), y)
-    TEXT
-        Sei $"f"(x,y)=f$. Bestimme die folgenden **höheren partiellen Ableitungen**:
-        - $\frac{\partial^2 "f"}{\partial x^2}=$ #dxx
-        - $\frac{\partial^2 "f"}{\partial x \partial y}=$ #dxy
-        - $\frac{\partial^2 "f"}{\partial y^2}=$ #dyy
+    Sei $"f"(x,y)=f$. Bestimme die folgenden **höheren partiellen Ableitungen**:
+    - $\frac{\partial^2 "f"}{\partial x^2}=$ #dxx
+    - $\frac{\partial^2 "f"}{\partial x \partial y}=$ #dxy
+    - $\frac{\partial^2 "f"}{\partial y^2}=$ #dyy
 
 EXERCISE Stationäre Stellen
     CODE
@@ -135,12 +127,11 @@ EXERCISE Stationäre Stellen
         let fy(x,y) = diff(f, y)
         let sx = 0
         let sy = 0
-    TEXT
-        Gegeben sei eine Funktion $"f"(x,y)=f$.
-        - Bestimme zunächst den **Gradienten**:
-        $\nabla "f"=($  #fx  ,  #fy $)$
-        - Gebe die (einzige) **stationäre Stelle** an:
-        $($  #sx  ,  #sy $)$
+    Gegeben sei eine Funktion $"f"(x,y)=f$.
+    - Bestimme zunächst den **Gradienten**:
+    $\nabla "f"=($  #fx  ,  #fy $)$
+    - Gebe die (einzige) **stationäre Stelle** an:
+    $($  #sx  ,  #sy $)$
 
 EXERCISE Definitheit
     CODE
@@ -150,12 +141,11 @@ EXERCISE Definitheit
         let p1 = min(s) > 0
         let p2 = max(s) < 0
         let p3 = !(p1 || p2)
-    TEXT
-        Sei $"A"=A$ eine Matrix über $\RR$.
-        Welche der folgenden Aussagen ist korrekt?
-        [$p1$] $"A"$ ist **positiv definit**
-        [$p2$] $"A"$ ist **negativ definit**
-        [$p3$] $"A"$ ist **indefinit**
+    Sei $"A"=A$ eine Matrix über $\RR$.
+    Welche der folgenden Aussagen ist korrekt?
+    [$p1$] $"A"$ ist **positiv definit**
+    [$p2$] $"A"$ ist **negativ definit**
+    [$p3$] $"A"$ ist **indefinit**
 
 EXERCISE Definitheit
     CODE
@@ -167,12 +157,11 @@ EXERCISE Definitheit
         let p1 = min(s) > 0
         let p2 = max(s) < 0
         let p3 = !(p1 || p2)
-    TEXT
-        Sei $"A"=A$ eine Matrix über $\RR$.
-        Welche der folgenden Aussagen ist korrekt?
-        [$p1$] $"A"$ ist **positiv definit**
-        [$p2$] $"A"$ ist **negativ definit**
-        [$p3$] $"A"$ ist **indefinit**
+    Sei $"A"=A$ eine Matrix über $\RR$.
+    Welche der folgenden Aussagen ist korrekt?
+    [$p1$] $"A"$ ist **positiv definit**
+    [$p2$] $"A"$ ist **negativ definit**
+    [$p3$] $"A"$ ist **indefinit**
 
 EXERCISE Hesse-Matrix
     CODE
@@ -184,10 +173,9 @@ EXERCISE Hesse-Matrix
         let h21(x,y) = diff( diff(f,y), x)
         let h22(x,y) = diff( diff(f,y), y)
         % TODO: let H = [ [ h11, h12 ], [ h21, h22 ] ]
-    TEXT
-        Sei $"f"(x,y) = f$.
-        Bestimme die **Hesse-Matrix**:
-        - $ "H" "f"=$ #H
+    Sei $"f"(x,y) = f$.
+    Bestimme die **Hesse-Matrix**:
+    - $ "H" "f"=$ #H
 
 EXERCISE Hesse-Matrix
     CODE
@@ -201,11 +189,10 @@ EXERCISE Hesse-Matrix
         let h21(x,y) = diff( diff(f,y), x)
         let h22(x,y) = diff( diff(f,y), y)
         % TODO: let H = [ [ h11, h12 ], [ h21, h22 ] ]
-    TEXT
-        Sei $"f"(x,y) = f$.
-        Bestimme die **Hesse-Matrix**:
-        - $ "H" "f"=$ #H
-        *Hinweis: gebe die Exponentialfunktion in der Form `exp(x)` an.*
+    Sei $"f"(x,y) = f$.
+    Bestimme die **Hesse-Matrix**:
+    - $ "H" "f"=$ #H
+    *Hinweis: gebe die Exponentialfunktion in der Form `exp(x)` an.*
 
 EXERCISE Extremwerte
     CODE
@@ -225,16 +212,15 @@ EXERCISE Extremwerte
         let p1 = min(lambda) > 0
         let p2 = max(lambda) < 0
         let p3 = !(p1 || p2)
-    TEXT
-        Sei $"f"(x,y) = f$.
-        Bestimme die **Hesse-Matrix**:
-        - $"H" "f"=$ #H
-        Betrachte die potentielle Extremstelle $ a=(ax,ay) $ und berechne die Eigenwerte von $ ("H" "f")(a) $:
-        - $"lambda"=$ #lambda
-        Welche der folgenden Aussagen ist korrekt?
-        [$p1$] $"f"$ besitzt bei $a$ ein **lokales Minimum**
-        [$p2$] $"f"$ besitzt bei $a$ ein **lokales Maximum**
-        [$p3$] $"f"$ besitzt bei $a$ einen **Sattelpunkt**
+    Sei $"f"(x,y) = f$.
+    Bestimme die **Hesse-Matrix**:
+    - $"H" "f"=$ #H
+    Betrachte die potentielle Extremstelle $ a=(ax,ay) $ und berechne die Eigenwerte von $ ("H" "f")(a) $:
+    - $"lambda"=$ #lambda
+    Welche der folgenden Aussagen ist korrekt?
+    [$p1$] $"f"$ besitzt bei $a$ ein **lokales Minimum**
+    [$p2$] $"f"$ besitzt bei $a$ ein **lokales Maximum**
+    [$p3$] $"f"$ besitzt bei $a$ einen **Sattelpunkt**
 
 EXERCISE Fehlerfortpflanzung
     CODE
@@ -244,10 +230,9 @@ EXERCISE Fehlerfortpflanzung
         let ey(x,y) = diff(f, y)
         let delta = 0.1
         let zmax = abs(ex(vx,vy))*delta + abs(ey(vx,vy))*delta
-    TEXT
-        Sei $"f"(x,y) = f$.
-        Bestimmen die **maximale Messunsicherheit** bei **linearer Fehlerfortpflanzung**:
-        - $ (\Delta z)_{\max} = \abs("a") \Delta "x" + \abs("b") \Delta "y" $; $"a"=$  #ex  ,  $"b"=$  #ey
-        Seien nun $x=vx$, $y=vy$ und $\Delta x = \Delta y = \delta$.
-        Berechnen die folgende Fehlergröße:
-        - $ (\Delta z)_{\max} =$  #zmax
+    Sei $"f"(x,y) = f$.
+    Bestimmen die **maximale Messunsicherheit** bei **linearer Fehlerfortpflanzung**:
+    - $ (\Delta z)_{\max} = \abs("a") \Delta "x" + \abs("b") \Delta "y" $; $"a"=$  #ex  ,  $"b"=$  #ey
+    Seien nun $x=vx$, $y=vy$ und $\Delta x = \Delta y = \delta$.
+    Berechnen die folgende Fehlergröße:
+    - $ (\Delta z)_{\max} =$  #zmax

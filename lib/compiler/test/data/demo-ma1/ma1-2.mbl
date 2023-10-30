@@ -5,9 +5,8 @@ EXERCISE Polynome
     CODE
         let n:u = rand(4,8)
         let grad = n + u
-    TEXT
-        Sei $ f : \RR \to \RR, f(x) = \sum_{k=0}^n a_{k} x^{k+u} $ mit $ a_n, ..., a_1, a_0 \in \RR $ und $a_n != 0$
-        Das Polynom $f$ hat den Grad #grad
+    Sei $ f : \RR \to \RR $ , $ f(x) = \sum_{k=0}^n a_{k} x^{k+u} $ mit $ a_n, ..., a_1, a_0 \in \RR $ und $a_n \neq 0$
+    Das Polynom $f$ hat den Grad #grad
 
 EXERCISE Nullstellen
     CODE
@@ -15,9 +14,8 @@ EXERCISE Nullstellen
         let v = u * (a + b)
         let w = u * (a * b)
         let r = {a,b}
-    TEXT
-        Bestimme die Nullstellen von $ f(x) = u \cdot x^2 - v \cdot x + w $:
-        - #r
+    Bestimme die Nullstellen von $ f(x) = u \cdot x^2 - v \cdot x + w $:
+    - #r
 
 EXERCISE Potenz und Wurzelfunktion
     Sei $ k \in \NN, k > 0 $. Wähle die richtigen Antworten:
@@ -36,13 +34,12 @@ EXERCISE Rechenregeln für Potenzen
 EXERCISE Exponentialfunktion
     CODE
         let a:b = rand(2,8)
-    TEXT
-        Gegeben sei die Funktion $ f : \RR \to \RR, x \mapsto e^{-a \cdot x+b} $.
-        Welche der folgenden Aussagen sind wahr?
-        [ ] $f$ ist streng monoton steigend
-        [x] $f$ ist streng monoton fallend
-        [x] $f$ besitzt den Wertebereich $ ]0, \infty[ $
-        [ ] $f$ besitzt den Wertebereich $ ]b, \infty[ $
+    Gegeben sei die Funktion $ f : \RR \to \RR, x \mapsto e^{-a \cdot x+b} $.
+    Welche der folgenden Aussagen sind wahr?
+    [ ] $f$ ist streng monoton steigend
+    [x] $f$ ist streng monoton fallend
+    [x] $f$ besitzt den Wertebereich $ ]0, \infty[ $
+    [ ] $f$ besitzt den Wertebereich $ ]b, \infty[ $
 
 EXERCISE Exponentialfunktion und Logarithmus
     Seien $a,b \in \RR$ und $a>0$.

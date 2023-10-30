@@ -6,42 +6,38 @@ EXERCISE Addition
         let a = rand(1,5) + rand(1,5)*1i
         let b = randZ(-1,1)*rand(1,5) + rand(1,5)*1i
         let c = a + b
-    TEXT
-        Seien $z_1=a$ und $z_2=b$ komplexe Zahlen.
-        Berechne die folgende **Summe** und gebe das Ergebnis in Normalform an:
-        - $z_1+z_2=$ #c
+    Seien $z_1=a$ und $z_2=b$ komplexe Zahlen.
+    Berechne die folgende **Summe** und gebe das Ergebnis in Normalform an:
+    - $z_1+z_2=$ #c
 
 EXERCISE Multiplikation
     CODE
         let a = rand(1,5) + rand(1,5)*1i
         let b = rand(-5,5)*1i
         let c = a * b
-    TEXT
-        Seien $z_1=a$ und $z_2=b$ komplexe Zahlen.
-        Berechne das folgende **Produkt** und gebe das Ergebnis in Normalform an:
-        - $z_1 \cdot z_2=$ #c
+    Seien $z_1=a$ und $z_2=b$ komplexe Zahlen.
+    Berechne das folgende **Produkt** und gebe das Ergebnis in Normalform an:
+    - $z_1 \cdot z_2=$ #c
 
 EXERCISE Multiplikation
     CODE
         let a = rand(1,5) + rand(1,5)*1i
         let b = randZ(-1,1)*rand(1,5) + rand(1,5)*1i
         let c = a * b
-    TEXT
-        Seien $z_1=a$ und $z_2=b$ komplexe Zahlen.
-        Berechne das folgende **Produkt** und gebe das Ergebnis in Normalform an:
-        - $z_1 \cdot z_2=$ #c
+    Seien $z_1=a$ und $z_2=b$ komplexe Zahlen.
+    Berechne das folgende **Produkt** und gebe das Ergebnis in Normalform an:
+    - $z_1 \cdot z_2=$ #c
 
 EXERCISE Komplex konjugierte Zahl
     CODE
         let z = rand(1,5) + rand(1,5)*1i
         let c = conj(z)
         let z2 = z * c
-    TEXT
-        Sei $"z" \in \CC$ und $"z"=z$.
-        - Berechne die zu $"z"$ **komplex konjugierte** Zahl:
+    Sei $"z" \in \CC$ und $"z"=z$.
+    - Berechne die zu $"z"$ **komplex konjugierte** Zahl:
 
-        $\overline{"z"}=$ #c
-        - Berechne $"z" \cdot \overline{"z"}=$ #z2
+    $\overline{"z"}=$ #c
+    - Berechne $"z" \cdot \overline{"z"}=$ #z2
 
 EXERCISE Betrag einer komplexen Zahl
     CODE
@@ -50,18 +46,16 @@ EXERCISE Betrag einer komplexen Zahl
         let y = 2 * a * b
         let z = complex(x,y)
         let r = abs(z)
-    TEXT
-        Sei $"z" \in \CC$ und $"z"=z$.
-        - Berechne $|"z"|=$ #r
+    Sei $"z" \in \CC$ und $"z"=z$.
+    - Berechne $|"z"|=$ #r
 
 EXERCISE Inverse einer komplexen Zahl
     CODE
         let a:b = rand(2,5)
         let c = a^2 + b^2
         let r = complex(a,b)
-    TEXT
-        Sei $"z" \in \CC$ und $z=\frac{a}{c}-\frac{b}{c} \cdot i $.
-        - Berechne $\frac{1}{z}=$ #r
+    Sei $"z" \in \CC$ und $z=\frac{a}{c}-\frac{b}{c} \cdot i $.
+    - Berechne $\frac{1}{z}=$ #r
 
 EXERCISE Division
     CODE
@@ -70,10 +64,9 @@ EXERCISE Division
         let z2 = complex(0,b)
         let r = complex(c,d)
         let z1 = z2 * r
-    TEXT
-        Seien $z_1=z1$ und $z_2=z2$ komplexe Zahlen.
-        Berechne den folgenden **Quotienten** und gebe das Ergebnis in Normalform an:
-        - $\frac{z_1}{z_2}=$ #r
+    Seien $z_1=z1$ und $z_2=z2$ komplexe Zahlen.
+    Berechne den folgenden **Quotienten** und gebe das Ergebnis in Normalform an:
+    - $\frac{z_1}{z_2}=$ #r
 
 EXERCISE Division
     CODE
@@ -82,10 +75,9 @@ EXERCISE Division
         let z2 = complex(a,b)
         let r = complex(c,d)
         let z1 = z2 * r
-    TEXT
-        Seien $z_1=z1$ und $z_2=z2$ komplexe Zahlen.
-        Berechne den folgenden **Quotienten** und gebe das Ergebnis in Normalform an:
-        - $\frac{z_1}{z_2}=$ #r
+    Seien $z_1=z1$ und $z_2=z2$ komplexe Zahlen.
+    Berechne den folgenden **Quotienten** und gebe das Ergebnis in Normalform an:
+    - $\frac{z_1}{z_2}=$ #r
 
 EXERCISE Komplexe Terme
     CODE
@@ -94,9 +86,8 @@ EXERCISE Komplexe Terme
         let z1 = complex(a,b)
         let z2 = complex(c,d)
         let res = z1^pow + z2
-    TEXT
-        Berechne den folgenden **komplexen Term** und gebe das Ergebnis in Normalform an:
-        - $ (z1)^{pow} + z2 = $ #res
+    Berechne den folgenden **komplexen Term** und gebe das Ergebnis in Normalform an:
+    - $ (z1)^{pow} + z2 = $ #res
 
 EXERCISE Umrechnung zwischen kartesischen Koordinaten und Polarkoordinaten
     Die kartesische Form $z=x+yi \in \CC$ lässt sich aus den Polarkoordinaten $(r,\varphi)$ wie folgt berechnen:
@@ -117,13 +108,12 @@ EXERCISE Komplexe Folgen
         let a1 = z^1
         let a2 = z^2
         let a3 = z^3
-    TEXT
-        Bestimme die ersten $3$ **Folgenglieder** der komplexen Folge $(a_n)_{n \in \NN} = \left( \left(c \cdot i \right)^n\right)_{n \in \NN}$
-        - $n=1:$ #a1
-        - $n=2:$ #a2
-        - $n=3:$ #a3
-        ( ) Die Folge ist **konvergent**
-        (x) Die Folge ist **divergent**
+    Bestimme die ersten $3$ **Folgenglieder** der komplexen Folge $(a_n)_{n \in \NN} = \left( \left(c \cdot i \right)^n\right)_{n \in \NN}$
+    - $n=1:$ #a1
+    - $n=2:$ #a2
+    - $n=3:$ #a3
+    ( ) Die Folge ist **konvergent**
+    (x) Die Folge ist **divergent**
 
 EXERCISE Komplexe Folgen
     CODE
@@ -131,22 +121,20 @@ EXERCISE Komplexe Folgen
         let z = 1/c + (1/c) * 1i
         let a1 = z^1
         let a2 = z^2
-    TEXT
-        Bestimme die ersten $2$ **Folgenglieder** der komplexen Folge $(a_n)_{n \in \NN} = \left( \left( \frac 1 c + \frac 1 c \cdot i \right)^n \right)_{n \in \NN}$
-        - $n=1:$ #a1
-        - $n=2:$ #a2
-        (x) Die Folge ist **konvergent**
-        ( ) Die Folge ist **divergent**
+    Bestimme die ersten $2$ **Folgenglieder** der komplexen Folge $(a_n)_{n \in \NN} = \left( \left( \frac 1 c + \frac 1 c \cdot i \right)^n \right)_{n \in \NN}$
+    - $n=1:$ #a1
+    - $n=2:$ #a2
+    (x) Die Folge ist **konvergent**
+    ( ) Die Folge ist **divergent**
 
 EXERCISE Komplexe Reihen
     CODE
         let a:b = rand(2,6)
-    TEXT
-        Ist die folgende geometrische Reihe **absolut konvergent**?
-        EQUATION*
-            \sum_{k=0}^{\infty} \left( \frac{1}{a} + \frac{1}{b} \cdot i \right)^k
-        (x) ja
-        ( ) nein
+    Ist die folgende geometrische Reihe **absolut konvergent**?
+    EQUATION*
+        \sum_{k=0}^{\infty} \left( \frac{1}{a} + \frac{1}{b} \cdot i \right)^k
+    (x) ja
+    ( ) nein
 
 EXERCISE Komplexe Nullstellen
     CODE
@@ -154,10 +142,9 @@ EXERCISE Komplexe Nullstellen
         let z1 = sqrt(a) * 1i
         let z2 = -z1
         let res = {z1,z2}
-    TEXT
-        Gegeben sei das Polynom $f(z) = z^2 + a$.
-        Bestimme die beiden **Nullstellen**:
-        - $z=$ #res
+    Gegeben sei das Polynom $f(z) = z^2 + a$.
+    Bestimme die beiden **Nullstellen**:
+    - $z=$ #res
 
 EXERCISE Quotienten von Polynomen
     CODE
@@ -167,22 +154,20 @@ EXERCISE Quotienten von Polynomen
         let B = sqrt(ee)*1i
         let C = -sqrt(ee)*1i
         let res = {A,B,C}
-    TEXT
-        Gegeben sei die folgende rationale Funktion:
-        - $r(z) = \frac{(a+b i) \cdot z+c i+d}{z \cdot (z^2+ee)}$
-        Bestimme den Definitionsbereich $D_r = \CC \setminus X$
-        - $X=$ #res
+    Gegeben sei die folgende rationale Funktion:
+    - $r(z) = \frac{(a+b i) \cdot z+c i+d}{z \cdot (z^2+ee)}$
+    Bestimme den Definitionsbereich $D_r = \CC \setminus X$
+    - $X=$ #res
 
 EXERCISE Konvergenzradius
     CODE
         let a:b = rand(2,10)
         let z1 = complex(a,b)
         let res = 1
-    TEXT
-        Bestimme den **Konvergenzradius** der Potenzreihe
-        EQUATION*
-            \sum_{k=0}^{\infty} k \cdot (z1) \cdot z^k
-        - $R=$ #res
+    Bestimme den **Konvergenzradius** der Potenzreihe
+    EQUATION*
+        \sum_{k=0}^{\infty} k \cdot (z1) \cdot z^k
+    - $R=$ #res
 
 EXERCISE Komplexe Potenzen
     CODE
@@ -190,6 +175,5 @@ EXERCISE Komplexe Potenzen
         let c = rand(4,8)
         let z = complex(a,a)
         let res = z^c
-    TEXT
-        Berechne $(z)^c$ unter Verwendung der Exponentialform:
-        - #res
+    Berechne $(z)^c$ unter Verwendung der Exponentialform:
+    - #res

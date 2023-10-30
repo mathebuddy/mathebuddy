@@ -17,15 +17,14 @@ EXERCISE Grenzen
     CODE
         let a = rand(3,8)
         let i = 0
-    TEXT
-      Bestimme $ \int_a^a f(x) dx = $ #i
+    Bestimme $ \int_a^a f(x) ~ dx = $ #i
 
 EXERCISE Eigenschaften des Riemann-Integrals
     Seien $a<b<c$ und $f:[a,c] \to \RR$ eine Funktion die auf dem Intervall $[a,c]$ Riemann-integrierbar ist.
     Wählen Sie die korrekten Aussagen:
-    [x] $ \int_a^c f(x) dx = \int_a^b f(x) dx + \int_b^c f(x) dx $
-    [x] $ \int_b^a f(x) dx = - \int_a^b f(x) dx $
-    [ ] $ \int_b^a f(x) dx = \int_a^b f(x) dx $
+    [x] $ \int_a^c f(x) ~ dx = \int_a^b f(x) ~ dx + \int_b^c f(x) ~ dx $
+    [x] $ \int_b^a f(x) ~ dx = - \int_a^b f(x) ~ dx $
+    [ ] $ \int_b^a f(x) ~ dx = \int_a^b f(x) ~ dx $
 
 EXERCISE Integrierbarkeit
     Seien $a,b \in \RR, a < b$:
@@ -38,144 +37,127 @@ EXERCISE Bestimmtes Integral
         let b = rand(4,5)
         let u = rand(3,8)
         let f(x) = u
-        let f_int = integrate(f, x, a, b)
-    TEXT
-        Bestimme das folgende **bestimmte** Integral:
-        - $ \int_a^b f \dx = $ #f_int
+        let f_int = int(f, x, a, b)
+    Bestimme das folgende **bestimmte** Integral:
+    - $ \int_a^b f ~ dx = $ #f_int
 
 EXERCISE Unbestimmte Integrale
     CODE
-        let u1:u2 = rand(2,9)
+        let u1/u2 = rand(2,9)
         let f(x) = u1
         let g(y) = u2
-    TEXT
-        Bestimme die folgenden **unbestimmten** Integrale:
-        - $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
-        - $ \int g \dy = $ #[diff y]g $ + C ~~ (C \in \RR)$
+    Bestimme die folgenden **unbestimmten** Integrale:
+    - $ \int f ~ dx = $ #f,DIFF=x $ + C ~~ (C \in \RR)$
+    - $ \int g ~ dy = $ #g,DIFF=x $ + C ~~ (C \in \RR)$
 
 EXERCISE Stammfunktion
     CODE
         let u = rand(3,8)
         let f(x) = u * x
-    TEXT
-        Bestimme die Stammfunktion zu $"f"(x) = f $
-        $ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
+    Bestimme die Stammfunktion zu $"f"(x) = f $
+    $ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
 
 EXERCISE Stammfunktion
     CODE
         let u:v = rand(3,8)
         let f(x) = u + v * x
-    TEXT
-        Bestimme die Stammfunktion zu $"f"(x) = f $
-        $ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
+    Bestimme die Stammfunktion zu $"f"(x) = f $
+    $ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
 
 EXERCISE Stammfunktion
     CODE
         let u = rand(3,8)
         let f(x) = u * x^2
-    TEXT
-        Bestimme die Stammfunktion zu $"f"(x) = f $
-        $ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
+    Bestimme die Stammfunktion zu $"f"(x) = f $
+    $ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
 
 EXERCISE Stammfunktion
     CODE
         let f(x) = cos(x)
-    TEXT
-        Bestimme die Stammfunktion zu $"f"(x) = f $
-        $ F(x) = #[diff x]f + C ~~ (C \in \RR)$
+    Bestimme die Stammfunktion zu $"f"(x) = f $
+    $ F(x) = $ #[diff x]f $ + C ~~ (C \in \RR)$
 
 EXERCISE Stammfunktion
     CODE
         let a = rand(2,4)
         let f(x) = a * sin(x)
-    TEXT
-        Bestimme die Stammfunktion zu $"f"(x) = f $
-        $ F(x) = $ #[diff x]f $ + C ~~ (C in RR)$
+    Bestimme die Stammfunktion zu $"f"(x) = f $
+    $ F(x) = $ #[diff x]f $ + C ~~ (C in RR)$
 
 EXERCISE Uneigentliches Integral
     CODE
         let a = rand(3,8)
         let f(x) = a / x^2
-    TEXT
-        Bestimme das folgende uneigentliche Integral:
-        $ \int_1^{\infty} f \dx = $ #a
+    Bestimme das folgende uneigentliche Integral:
+    $ \int_1^{\infty} f ~ dx = $ #a
 
 EXERCISE Uneigentliche Integrale
     CODE
         let a:b:c:d:e = rand(3,4)
-    TEXT
-        Welche der folgenden Integrale sind **konvergent**?
-        [ ] $\int_0^{\infty} a x^2 + b \dx$
-        [ ] $\int_0^c d/x \dx $
-        [x] $\int_1^c e/x \dx $
+    Welche der folgenden Integrale sind **konvergent**?
+    [ ] $\int_0^{\infty} a x^2 + b ~ dx$
+    [ ] $\int_0^c \frac{d}{x} ~ dx $
+    [x] $\int_1^c \frac{e}{x} ~ dx $
 
 EXERCISE Partielle Integration
     CODE
         let f(x) = x * exp(x)
-    TEXT
-        Bestimme durch **partielle Integration:**
-        $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
-        *Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
+    Bestimme durch **partielle Integration:**
+    $ \int f ~ dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
+    *Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
 
 EXERCISE Partielle Integration
     CODE
         let f(x) = x * sin(x)
-    TEXT
-        Bestimme durch **partielle Integration:**
-        $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
+    Bestimme durch **partielle Integration:**
+    $ \int f ~ dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
 
 EXERCISE Partielle Integration
     CODE
         let f(x) = (x+1) / exp(x)
-    TEXT
-        Bestimme durch **partielle Integration:**
-        $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
-        *Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
+    Bestimme durch **partielle Integration:**
+    $ \int f ~ dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
+    *Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
 
 EXERCISE Substitutionsregel
     CODE
         let f(x) = (x+1)^2
-    TEXT
-        Bestimme durch **Substitution:**
-        $ \int f \dx = #[diff x]f + C ~~ (C \in \RR)$
+    Bestimme durch **Substitution:**
+    $ \int f ~ dx = #[diff x]f + C ~~ (C \in \RR)$
 
 EXERCISE Substitutionsregel
     CODE
         let f(x) = exp(3*x-1)
-    TEXT
-        Bestimme durch **Substitution:**
-        $ \int f \dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
-        *Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
+    Bestimme durch **Substitution:**
+    $ \int f ~ dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
+    *Hinweis: Schreiben Sie $e^x$ als $exp(x)$.*
 
 EXERCISE Substitutionsregel
     CODE
         let f(x) = 3*x * sin(x^2+1)
-    TEXT
-        Bestimme durch **Substitution:**
-        $ \int f \dx = #[diff x]f + C ~~ (C \in \RR)$
+    Bestimme durch **Substitution:**
+    $ \int f ~ dx = $ #[diff x]f $ + C ~~ (C \in \RR)$
 
 EXERCISE Partialbruchzerlegung
     CODE
         let a:b = rand(3,5)
-    TEXT
-        Das folgende Integral soll gelöst werden:
-        - $\int b / (x (x-a)^2) \dx$
-        Welcher ist der richtige **Ansatz**?
-        (x) $ (A)/(x) + (B_1)/(x-a) + (B_2)/((x-a)^2)$
-        ( ) $ (A)/(x) + (B)/((x-a)^2)$
-        ( ) $ (A)/((x-a)^2)$
-        ( ) $ (A)/(x-a) + (B)/((x-a)^2)$
+    Das folgende Integral soll gelöst werden:
+    - $\int \frac{b}{x (x-a)^2} ~ dx$
+    Welcher ist der richtige **Ansatz**?
+    (x) $ \frac{A}{x} + \frac{B_1}{x-a} + \frac{B_2}{(x-a)^2}$
+    ( ) $ \frac{A}{x} + \frac{B}{(x-a)^2}$
+    ( ) $ \frac{A}{(x-a)^2}$
+    ( ) $ \frac{A}{x-a} + \frac{B}{(x-a)^2}$
 
 EXERCISE Partialbruchzerlegung
     CODE
         let a:b = rand(2,5)
         let c = 2*a
         let d = a^2+b
-    TEXT
-        Das folgende Integral soll gelöst werden:
-        - $\int 1 / (x^2 + c x + d) \dx$
-        Welcher ist der richtige **Ansatz**?
-        (x) $ (A)/((x+a)^2+b)$
-        ( ) $ (A)/(x-a)$
-        ( ) $ (A)/(x-a) + (B)/(x-a)^2$
-        ( ) $ (A)/(x-c)^2 + (B)/(x-d)$
+    Das folgende Integral soll gelöst werden:
+    - $\int \frac{1}{x^2 + c x + d} ~ dx$
+    Welcher ist der richtige **Ansatz**?
+    (x) $ \frac{A}{(x+a)^2+b}$
+    ( ) $ \frac{A}{x-a}$
+    ( ) $ \frac{A}{x-a} + \frac{B}{(x-a)^2}$
+    ( ) $ \frac{A}{x-c}^2 + \frac{B}{x-d}$
