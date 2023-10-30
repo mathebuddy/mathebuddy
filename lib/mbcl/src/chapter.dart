@@ -12,6 +12,7 @@ import 'unit.dart';
 class MbclChapter {
   String fileId =
       ''; // all references go here; label is only used for searching
+  String error = "";
   String title = '';
   String label = '';
   String author = '';
@@ -42,6 +43,7 @@ class MbclChapter {
   Map<String, dynamic> toJSON() {
     return {
       "fileId": fileId,
+      "error": error,
       "title": title,
       "label": label,
       "author": author,
@@ -56,6 +58,7 @@ class MbclChapter {
 
   fromJSON(Map<String, dynamic> src) {
     fileId = src["fileId"];
+    error = src["error"];
     title = src["title"];
     label = src["label"];
     author = src["author"];
@@ -93,7 +96,6 @@ class MbclChapter {
     n = src["requires"].length;
     for (var i = 0; i < n; i++) {
       requiresTmp.add(src["requires"][i]);
-      // TODO: requires!!!
     }
   }
 }
