@@ -4,10 +4,9 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
-import '../../mbcl/src/level.dart';
+//import '../../mbcl/src/level.dart';
 
 class Block {
-  MbclLevel level;
   String id = "";
   String title = "";
   int indent = 0;
@@ -17,7 +16,7 @@ class Block {
   List<Block> children = [];
   int srcLine = -1;
 
-  Block(this.level, this.id, this.indent, this.srcLine);
+  Block(this.id, this.indent, this.srcLine);
 
   void setChildrenDefaultType(String type) {
     for (var child in children) {
