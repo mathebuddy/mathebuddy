@@ -8,6 +8,7 @@ import 'dart:math' as math;
 
 import 'diff.dart';
 import 'eval.dart';
+import 'help.dart';
 import "operand.dart";
 import 'opt.dart';
 import 'str.dart';
@@ -64,6 +65,13 @@ class Term {
   static Term createConstBoolean(bool value) {
     var t = Term('#', [], []);
     t.value = Operand.createBoolean(value);
+    return t;
+  }
+
+  /// Creates an infinity constant.
+  static Term createConstInfinity() {
+    var t = Term('#', [], []);
+    t.value = Operand.createInt(1 / 0);
     return t;
   }
 
@@ -249,6 +257,119 @@ class Term {
     return vars;
   }
 
+  /// Tokenizes the term into stringified tokens.
+  /// The output returns a list of stringified tokens in the format of the
+  /// math runtime, as well as as TeX-notation. Both formats are encoded into
+  /// one string, separated by "%%%".
+  ///
+  /// For example, "2*sin(2*x)+3" is split into tokens
+  ///    ["+%%%+", "*%%%\cdot", "2%%%2", "cos(%%%\cos(", ")%%%)", "*%%%\cdot",
+  ///     "2%%%2", "x%%%x", "3%%%3"].
+  ///
+  /// Parameter [depth] defines the depth of the term tree.
+  /// For example, maxDepth=0 returns ["2*sin(2*x)+3"],
+  ///              maxDepth=1 returns ["+", "(2*cos((2*x)))", "3"], ...
+  ///
+  /// If [removeDuplicates] is true, then all elements of the resulting
+  /// list are distinct, i.e. the result is a set.
+  ///
+  /// If [synthFactor] is 1.0, then the resulting list contains exactly the
+  /// set of tokens that is required to build the solution. It may contain
+  /// duplicated, depending on parameter [removeDuplicated].
+  ///
+  /// If [synthFactor] is larger than 1, then the resulting list contains
+  /// "artificial" tokens. The actual number of tokens may less than defined
+  /// by [synthFactor], if randomization is not possible in a constrained
+  /// range (e.g. the absolute value of altered integer constants is constrained
+  /// by a maximum, that is defined in method [tokenizeSubterm]).
+  ///
+  /// For example, if 5 tokens are essential, and [synthFactor] is 1.5,
+  /// then round(5*1.5)-5 = 4 extra tokens are generated.
+  ///
+  /// Automatically created tokens are derived from the existing ones, by e.g.
+  /// adjusting constants (e.g. "2" -> "3") or changing operations
+  /// (e.g. "sin" -> "cos").
+  List<String> tokenizeAndSynthesize(
+      {int depth = 99999,
+      double synthFactor = 1.0,
+      bool removeDuplicates = false}) {
+    depth = math.min(depth, getMaxDepth());
+    var tokens = tokenizeSubterm(depth);
+    if (removeDuplicates) {
+      tokens = tokens.toSet().toList();
+    }
+    var k = 0;
+    if (synthFactor > 1) {
+      int n = (tokens.length * synthFactor).round();
+      while (tokens.length < n) {
+        var artificialTokens = tokenizeSubterm(depth, randomize: true);
+        var idx = math.Random().nextInt(artificialTokens.length);
+        var artificialToken = artificialTokens[idx];
+        tokens.add(artificialToken);
+        if (removeDuplicates) {
+          tokens = tokens.toSet().toList();
+        }
+        k++;
+        if (k > 1000) break;
+      }
+    }
+    return tokens;
+  }
+
+  int getMaxDepth() {
+    if (op == '#' || op == '\$') return 1;
+    int max = 1;
+    for (var oi in o) {
+      int d = oi.getMaxDepth() + 1;
+      max = math.max(max, d);
+    }
+    return max;
+  }
+
+  /// Tokenizes the current term into a list of stringified tokens.
+  /// Refer to descriptions in method [tokenizeAndSynthesize].
+  /// The method may return same token twice or more.
+  /// If [randomize] is true, then tokens are altered by coincidence.
+  List<String> tokenizeSubterm(int depth, {bool randomize = false}) {
+    // properties for randomization
+    const fct = ['sin', 'cos', 'tan', 'exp', 'sqrt'];
+    const changeFctProb = 2;
+    const maxConstantAdjust = 5;
+    // algorithm
+    List<String> res = [];
+    if (op == '#' || op == '\$' || depth <= 0) {
+      var s = '';
+      if (randomize && op == '#' && value.type == OperandType.int) {
+        var v = value.real + math.Random().nextInt(maxConstantAdjust);
+        s = '$v' + '%%%' + '$v';
+      } else if (randomize &&
+          fct.contains(op) &&
+          math.Random().nextInt(changeFctProb) == 0) {
+        var idx = math.Random().nextInt(fct.length);
+        var c = clone();
+        c.op = fct[idx];
+        s = c.toString() + "%%%" + c.toTeXString();
+      } else {
+        s = toString() + "%%%" + toTeXString();
+      }
+      res.add(s.trim());
+    } else {
+      if (isAlpha(op)) {
+        var s = op;
+        res.add("$s(%%%\\$s(");
+        res.add(")%%%)");
+      } else {
+        res.add(op + "%%%" + (op == "*" ? "\\cdot" : op));
+      }
+      for (var oi in o) {
+        var sub = oi.tokenizeSubterm(depth - 1, randomize: randomize);
+        res.addAll(sub);
+      }
+    }
+    return res;
+  }
+
+  /// TODO: remove old src
   /// Splits the term into summands.
   ///
   /// Example: "2*x^2 + 5*x + 7"
@@ -263,6 +384,7 @@ class Term {
     return s;
   }
 
+  /// TODO: remove old src
   /// Generates a list of summands plus an overhead of incorrect summands.
   /// The resulting list does NOT contain two elements that are equal.
   ///
@@ -299,6 +421,7 @@ class Term {
     return all;
   }
 
+  /// TODO: remove old src
   static List<Term> removeDuplicates(List<Term> list) {
     List<Term> output = [];
     for (var item in list) {
@@ -314,10 +437,12 @@ class Term {
     return output;
   }
 
+  /// TODO: remove old src
   void randomlyChangeIntegerOperands(int maxDelta) {
     _randomlyChangeIntegerOperandsRecursively(this, maxDelta);
   }
 
+  /// TODO: remove old src
   void _randomlyChangeIntegerOperandsRecursively(Term term, int maxDelta) {
     for (var i = 0; i < term.o.length; i++) {
       _randomlyChangeIntegerOperandsRecursively(term.o[i], maxDelta);
