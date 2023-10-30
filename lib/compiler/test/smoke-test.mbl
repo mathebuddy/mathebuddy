@@ -1,3 +1,29 @@
+
+- $\lim_{x\rightarrow x_0}  (f(x)\pm g(x)) $ xx $= \lim_{x\rightarrow x_0}  f(x) \pm x\rightarrow g(x)$
+
+
+!STOP
+
+Also ist z.B. für alle geraden Indizes $(a_{2n})_{n \in \NN }$ eine
+
+!STOP
+
+Die Reihe $\displaystyle\sum_{k=1}^{\infty} a_k$ xxx
+
+Some **bold text**.
+**bold text beginning from start of line**
+
+!STOP
+
+EXERCISE
+    CODE
+        let f(x,y) = x^2 + y^2
+        let fdx(x,y) = diff(f,x)
+        let fdy(x,y) = diff(f,y)
+    Derivate $"f"(x,y)=f$ w.r.t. $x$: #fdx
+
+!STOP
+
 EXERCISE Unbestimmte Integrale
     CODE
         let u1/u2 = rand(2,9)
@@ -6,8 +32,6 @@ EXERCISE Unbestimmte Integrale
     Bestimme die folgenden **unbestimmten** Integrale:
     - $ \int f ~ dx = $ #f,DIFF=x $ + C ~~ (C \in \RR)$
     - $ \int g ~ dy = $ #g,DIFF=x $ + C ~~ (C \in \RR)$
-
-
 
 !STOP
 
