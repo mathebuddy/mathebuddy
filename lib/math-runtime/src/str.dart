@@ -17,6 +17,9 @@ String term2string(Term term) {
           term.value.type == OperandType.irrational ||
           term.value.type == OperandType.identifier) {
         s = term.value.toString();
+        if (s == 'Infinity') {
+          s = 'inf';
+        }
       } else {
         s = '(${term.value})';
       }
@@ -96,6 +99,10 @@ String term2tex(Term term, {bool needParentheses = false}) {
           s += term.o[i].toTeXString();
         }
         s += '\\right\\}';
+      } else if (term.op == 'abs') {
+        s += '\\left|';
+        s += term.o[0].toTeXString();
+        s += '\\right|';
       } else if (term.op.length > 2) {
         // sin, cos, tan, exp, ... TODO!!
         if (term.op == 'sin' ||
