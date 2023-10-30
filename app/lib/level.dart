@@ -18,6 +18,7 @@ import 'color.dart';
 import 'appbar.dart';
 import 'main.dart';
 import 'screen.dart';
+import 'error.dart';
 
 import 'level_align.dart';
 import 'level_example.dart';
@@ -70,6 +71,10 @@ class LevelState extends State<LevelWidget> {
     level.calcProgress();
     List<Widget> levelHeadItems = [];
     List<Widget> page = [];
+    // error
+    if (widget.level.error.isNotEmpty) {
+      page.add(generateErrorWidget(widget.level.error));
+    }
     // title
     levelTitleKey = GlobalKey();
     var levelTitle = Column(children: [
@@ -468,21 +473,4 @@ Widget generateLevelItem(LevelState state, MbclLevel level, MbclLevelItem item,
         );
       }
   }
-}
-
-Widget generateErrorWidget(String errorText) {
-  return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.red)),
-          padding: EdgeInsets.all(5),
-          child: Text(errorText,
-              style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-        )
-      ]);
 }
