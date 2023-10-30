@@ -13,6 +13,7 @@ class MbclLevel {
   // import/export
   String fileId =
       ''; // all references go here; label is only used for searching
+  String error = '';
   String title = '';
   String label = '';
 
@@ -84,6 +85,7 @@ class MbclLevel {
   Map<String, dynamic> toJSON() {
     return {
       "fileId": fileId,
+      "error": error,
       "title": title,
       "label": label,
       "posX": posX,
@@ -100,6 +102,7 @@ class MbclLevel {
 
   fromJSON(Map<String, dynamic> src) {
     fileId = src["fileId"];
+    error = src["error"];
     title = src["title"];
     label = src["label"];
     posX = src["posX"];
