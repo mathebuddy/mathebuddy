@@ -1449,7 +1449,11 @@ class Operand {
         return real == 0 ? 'F' : 'T';
       case OperandType.int:
       case OperandType.real:
-        return _num2String(real);
+        var s = _num2String(real);
+        if (s == 'Infinity') {
+          s = '\\infty';
+        }
+        return s;
       case OperandType.rational:
         return '\\frac{${_num2String(real)}}{${_num2String(denominator)}}';
       case OperandType.complex:
