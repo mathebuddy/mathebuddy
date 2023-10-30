@@ -139,6 +139,7 @@ class Compiler {
               var lines = text.split("\n");
               for (var i = 0; i < lines.length; i++) {
                 var line = lines[i];
+                if (line.trim().isEmpty) continue;
                 var lexer = Lexer();
                 lexer.enableEmitBigint(false);
                 lexer.enableHyphenInID(true);
@@ -262,6 +263,7 @@ class Compiler {
               var lines = text.split("\n");
               for (var i = 0; i < lines.length; i++) {
                 var line = lines[i];
+                if (line.trim().isEmpty) continue;
                 var lexer = Lexer();
                 lexer.enableEmitBigint(false);
                 lexer.enableHyphenInID(true);
