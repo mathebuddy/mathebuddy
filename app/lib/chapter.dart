@@ -12,6 +12,7 @@ import 'package:mathebuddy/mbcl/src/chapter.dart';
 
 import 'appbar.dart';
 import 'unit.dart';
+import 'error.dart';
 
 class ChapterWidget extends StatefulWidget {
   final MbclChapter chapter;
@@ -61,7 +62,11 @@ class ChapterState extends State<ChapterWidget> {
       children: tableRows,
     );
 
-    var contents = Column(children: [unitsTable]);
+    Widget contents = Column(children: [unitsTable]);
+
+    if (widget.chapter.error.isNotEmpty) {
+      contents = generateErrorWidget(widget.chapter.error);
+    }
 
     var body =
         SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
