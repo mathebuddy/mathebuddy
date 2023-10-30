@@ -26,6 +26,11 @@
 %             which is of type REAL
 % ===============================================================
 
+let x = inf
+let y = x + 1
+
+!STOP
+
 let a = rand(3,8)
 let f1(x) = a
 let f1d(x) = diff(f1, x)
