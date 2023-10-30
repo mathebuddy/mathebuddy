@@ -6,6 +6,7 @@
 
 import 'dart:math' as math;
 
+import 'help.dart';
 import 'term.dart';
 
 /// The term parser, which implements robust parsing of math string provided
@@ -38,6 +39,7 @@ import 'term.dart';
 ///   infix =
 ///       "true"
 ///     | "false"
+///     | "inf"
 ///     | IMAG
 ///     | INT
 ///     | REAL
@@ -454,6 +456,9 @@ class Parser {
     } else if (_token == 'false') {
       _next();
       return Term.createConstBoolean(false);
+    } else if (_token == 'inf') {
+      _next();
+      return Term.createConstInfinity();
     } else if (_isImag(_token)) {
       var tk = _token;
       _next();
@@ -731,11 +736,7 @@ class Parser {
   }
 
   bool _isAlpha(String tk) {
-    return tk.codeUnitAt(0) == '_'.codeUnitAt(0) ||
-        (tk.codeUnitAt(0) >= 'A'.codeUnitAt(0) &&
-            tk.codeUnitAt(0) <= 'Z'.codeUnitAt(0)) ||
-        (tk.codeUnitAt(0) >= 'a'.codeUnitAt(0) &&
-            tk.codeUnitAt(0) <= 'z'.codeUnitAt(0));
+    return isAlpha(tk);
   }
 
   bool _isIdentifier(String tk) {
