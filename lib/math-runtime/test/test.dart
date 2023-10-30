@@ -17,13 +17,25 @@ void main() {
 
   var t = parser.parse("4*[1+10,2,3][1]");
   var v = t.eval({});
-  var bp = 1337;
 
   // ---
 
   //var term = parser.parse("(((1/3)*(x^3))+(7*x)-2)");
-  var term = parser.parse("diff(sin(2x)+3x,x)");
+  //var term = parser.parse("diff(sin(2x)+3x,x)");
+  var term = parser.parse("2 cos(2x)+3");
   term = Term.evalFunction(term);
+
+  //var tokens = Term.tokenize(term, 10);
+  // var maxDepth = term.getMaxDepth();
+  // for (var depth = 0; depth < maxDepth; depth++) {
+  //   var tokens = term.tokenizeSubterm(depth);
+  //   print("depth=$depth -> $tokens");
+  // }
+  var tokens = term.tokenizeAndSynthesize(
+      removeDuplicates: true, depth: 2, synthFactor: 1.5);
+  print(tokens);
+  var bp = 1337;
+
   /*var summands = term.splitSummands();
   for (var i = 0; i < summands.length; i++) {
     print(summands[i]);
