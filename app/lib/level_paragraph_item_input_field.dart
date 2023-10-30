@@ -136,7 +136,7 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
               switch (forceKeyboardId) {
                 case "powerRoot":
                   {
-                    state.keyboardState.layout = keyboardLayoutPowerRoot;
+                    state.keyboardState.layout = getKeyboardLayout("powerRoot");
                     break;
                   }
                 default: // TODO: ERROR!!!!!!!
@@ -144,28 +144,53 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
             } else {
               switch (inputFieldData.type) {
                 case MbclInputFieldType.int:
-                  state.keyboardState.layout = keyboardLayoutInteger;
+                  state.keyboardState.layout = getKeyboardLayout("integer");
                   break;
                 case MbclInputFieldType.real:
-                  state.keyboardState.layout = keyboardLayoutReal;
+                  state.keyboardState.layout = getKeyboardLayout("real");
                   break;
                 case MbclInputFieldType.complexNormal:
-                  state.keyboardState.layout = keyboardLayoutComplexNormalForm;
+                  state.keyboardState.layout =
+                      getKeyboardLayout("complexNormalForm");
                   break;
                 case MbclInputFieldType.intSet:
-                  state.keyboardState.layout = keyboardLayoutIntegerSet;
+                  state.keyboardState.layout = getKeyboardLayout("integerSet");
                   break;
                 case MbclInputFieldType.complexIntSet:
-                  state.keyboardState.layout = keyboardLayoutComplexIntegerSet;
+                  state.keyboardState.layout =
+                      getKeyboardLayout("complexIntegerSet");
                   break;
                 /*case MbclInputFieldType.choices:
                       //inputFieldData.choices
                       break;*/
+                case MbclInputFieldType.term:
+                  var t =
+                      term_parser.Parser().parse(inputFieldData.expectedValue);
+                  var vars = t.getVariableIDs().toList();
+                  vars.sort();
+                  switch (vars.length) {
+                    case 1:
+                      state.keyboardState.layout =
+                          getKeyboardLayout("termX", varX: vars[0]);
+                      break;
+                    case 2:
+                      state.keyboardState.layout = getKeyboardLayout("termXY",
+                          varX: vars[0], varY: vars[1]);
+                      break;
+                    case 3:
+                      state.keyboardState.layout = getKeyboardLayout("termXYZ",
+                          varX: vars[0], varY: vars[1], varZ: vars[2]);
+                      break;
+                    default:
+                      state.keyboardState.layout = getKeyboardLayout("termX");
+                      break;
+                  }
+                  break;
                 default:
                   print("WARNING: generateParagraphItem():"
                       "keyboard layout for input field type"
                       " ${inputFieldData.type.name} not yet implemented");
-                  state.keyboardState.layout = keyboardLayoutTerm;
+                  state.keyboardState.layout = getKeyboardLayout("termX");
               }
             }
             //}
