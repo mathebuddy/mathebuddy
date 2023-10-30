@@ -163,7 +163,7 @@ do
             mkdir -p ../smoke/docs/
             cp -r app/build/web/* ../smoke/docs/
             sed -i.bak 's/<base href="\/" \/>/<base href="\/smoke\/" \/>/g' ../smoke/docs/index.html
-            sed -i.bak 's/bundle-test.json/bundle-complex.json/g' ../smoke/docs/index.html
+            #sed -i.bak 's/bundle-test.json/bundle-complex.json/g' ../smoke/docs/index.html
         else
             echo "ERROR: smoke-repository must be placed next to mathebuddy repo"
         fi
