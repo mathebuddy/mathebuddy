@@ -6,6 +6,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import '../../mbcl/src/course.dart';
 
@@ -39,6 +40,24 @@ void compile(String pathIn) {
     print(jsonStr2);
     pathOut = '${pathIn.substring(0, pathIn.length - 4)}_COMPILED_2.json';
     File(pathOut).writeAsStringSync(jsonStr2);
+    if (jsonStr != jsonStr2) {
+      var a = jsonStr.split("\n");
+      var b = jsonStr2.split("\n");
+      if (a.length != b.length) {
+        print("reimport of JSon fails: "
+            "number of lines do not match: ${a.length} vs ${b.length}!");
+      }
+      var na = a.length;
+      var nb = b.length;
+      for (var i = 0; i < min(na, nb); i++) {
+        var ai = a[i];
+        var bi = b[i];
+        if (ai != bi) {
+          print("error reimport: line $i does not match:\n  $ai\n  $bi");
+          break;
+        }
+      }
+    }
     assert(jsonStr == jsonStr2, "reimport of JSon fails!");
 
     var bp = 1337;
@@ -56,6 +75,7 @@ void main() {
 
   var files = [
     'smoke-test.mbl',
+    //'data/demo-course/course.mbl'
     //'data/demo-course/basics/index.mbl'
     //'data/demo-basic/exercises.mbl',
     //'data/demo-basic/hello.mbl',
