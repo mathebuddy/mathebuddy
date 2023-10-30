@@ -16,6 +16,7 @@ enum MbclCourseDebug {
 
 class MbclCourse {
   MbclCourseDebug debug = MbclCourseDebug.no;
+  String error = '';
   String title = '';
   String author = '';
   int mbclVersion = 1;
@@ -41,6 +42,7 @@ class MbclCourse {
   Map<String, Object> toJSON() {
     return {
       "debug": debug.name,
+      "error": error,
       "title": title,
       "author": author,
       "mbclVersion": mbclVersion,
@@ -51,6 +53,7 @@ class MbclCourse {
 
   fromJSON(Map<String, dynamic> src) {
     debug = MbclCourseDebug.values.byName(src["debug"]);
+    error = src["error"];
     title = src["title"];
     author = src["author"];
     mbclVersion = src["mbclVersion"];
@@ -61,6 +64,12 @@ class MbclCourse {
       var chapter = MbclChapter();
       chapter.fromJSON(src["chapters"][i]);
       chapters.add(chapter);
+    }
+    // reconstruct requires attributes of chapters
+    for (var ch in chapters) {
+      for (var req in ch.requiresTmp) {
+        ch.requires.add(getChapterByFileID(req)!);
+      }
     }
   }
 }
