@@ -12,6 +12,7 @@ import 'package:mathebuddy/mbcl/src/course.dart';
 
 import 'appbar.dart';
 import 'chapter.dart';
+import 'error.dart';
 
 class CourseWidget extends StatefulWidget {
   final MbclCourse course;
@@ -61,7 +62,11 @@ class CourseState extends State<CourseWidget> {
       children: tableRows,
     );
 
-    var contents = Column(children: [unitsTable]);
+    Widget contents = Column(children: [unitsTable]);
+
+    if (widget.course.error.isNotEmpty) {
+      contents = generateErrorWidget(widget.course.error);
+    }
 
     var body =
         SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
