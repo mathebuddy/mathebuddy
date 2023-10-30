@@ -60,6 +60,7 @@ class Parser {
 
   void parse(String src) {
     _lexer = Lexer();
+    _lexer.enableEmitBigint(false);
     _lexer.enableEmitNewlines(true);
     _lexer.configureSingleLineComments('%');
     _lexer.configureMultiLineComments('/*', '*/');
@@ -277,6 +278,10 @@ class Parser {
     var f = ForLoop(_lexer.getToken().row);
     _lexer.terminal('for');
     f.variableId = _lexer.identifier();
+    if (f.variableId == 'i') {
+      _error("Complex 'i' can not be used as variable name in for-loops "
+          "(e.g. use 'k').");
+    }
     _lexer.terminal('from');
     f.lowerBound = _parseTerm(additionalStopTerminal: "to");
     _lexer.terminal('to');
