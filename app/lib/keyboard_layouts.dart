@@ -7,69 +7,127 @@
 import 'package:mathebuddy/keyboard.dart';
 
 /// !B := backspace
-/// !E := enter
-/// # := empty
+/// !E := enter key
+/// # := empty / no key
+/// !X !Y !Z := variable placeholders (e.g. for x,y,z)
 
-var keyboardLayoutInteger = KeyboardLayout.parse('''
+var keyboardLayoutsSrc = '''
+
+### integer
+
 7 8 9 !B
 4 5 6 !B
 1 2 3 !E
 0 0 - !E
-''');
 
-var keyboardLayoutIntegerWithOperators = KeyboardLayout.parse('''
+### integerWithOperators
+
 7 8 9 + !B
 4 5 6 - !B
 1 2 3 * !E
 0 0 0 / !E
-''');
 
-var keyboardLayoutReal = KeyboardLayout.parse('''
+### real
+
 7 8 9 pi !B
 4 5 6 /  !B
 1 2 3 -  !E
 0 0 0 0  !E
-''');
 
-var keyboardLayoutRealWithOperators = KeyboardLayout.parse('''
+### realWithOperators
+
 7 8 9 + !B
 4 5 6 - !B
 1 2 3 * !E
 0 0 . / !E
-''');
 
-var keyboardLayoutComplexNormalForm = KeyboardLayout.parse('''
+### complexNormalForm
+
 7 8 9 +     -     !B
 4 5 6 *     /     !B
 1 2 3 i     )     !E
 0 0 0 sqrt( sqrt( !E
-''');
 
-var keyboardLayoutIntegerSet = KeyboardLayout.parse('''
+### integerSet
+
 7 8 9 { !B
 4 5 6 } !B
 1 2 3 - !E
 0 0 0 , !E
-''');
 
-var keyboardLayoutComplexIntegerSet = KeyboardLayout.parse('''
+### complexIntegerSet
+
 7 8 9 { !B
 4 5 6 } !B
 1 2 3 - !E
 0 0 i , !E
-''');
 
-var keyboardLayoutTerm = KeyboardLayout.parse('''
-7 8 9 + sin( ^   !B
-4 5 6 - cos( )   !B
-1 2 3 * tan( pi  !E
-0 x . / exp( ln( !E
-''');
+### termX
 
-// TODO: rename to keyboardLayoutPolar
-var keyboardLayoutPowerRoot = KeyboardLayout.parse('''
+7 8  9 + ^    !    !B
+4 5  6 - sin( exp( !B
+1 2  3 * cos( ln(  !E
+0 !X ( / tan( )    !E
+
+### termXY
+
+7 8  9  + ^    !    !B
+4 5  6  - sin( exp( !E
+1 2  3  * cos( ln(  !E
+0 !X !Y / tan( (    )
+
+### termXYZ
+
+7 8 9 !X + !    !B
+4 5 6 !Y - sin( !E
+1 2 3 !Z * cos( exp(
+0 ( ) ^  / tan( ln(
+
+### powerRoot
+
 7 8 9  +     -     !B
 4 5 6  *     /     !B
 1 2 3  ^(    )     !E
 0 i pi sqrt( sqrt( !E
-''');
+
+''';
+
+Map<String, String> keyboardLayouts = {};
+
+bool parseKeyboardLayouts() {
+  var lines = keyboardLayoutsSrc.split("\n");
+  var id = '';
+  var src = '';
+  for (var line in lines) {
+    if (line.trim().isEmpty) continue;
+    if (line.startsWith('###')) {
+      if (src.isNotEmpty) {
+        keyboardLayouts[id] = src;
+        src = "";
+      }
+      id = line.replaceAll('###', '').trim();
+    } else {
+      src += "$line\n";
+    }
+  }
+  if (src.isNotEmpty) {
+    keyboardLayouts[id] = src;
+  }
+  return true;
+}
+
+KeyboardLayout getKeyboardLayout(String keyboardId,
+    {String varX = "x", String varY = "y", String varZ = "z"}) {
+  if (keyboardLayouts.keys.isEmpty) {
+    parseKeyboardLayouts();
+  }
+  if (keyboardLayouts.containsKey(keyboardId)) {
+    var src = keyboardLayouts[keyboardId]!;
+    src = src.replaceAll("!X", varX);
+    src = src.replaceAll("!Y", varY);
+    src = src.replaceAll("!Z", varZ);
+    return KeyboardLayout.parse(src);
+  }
+  // fallback for non-existing ID: return integer layout
+  return KeyboardLayout.parse("7 8 9 !B\n4 5 6 !B\n1 2 3 !E\n0 0 - !E\n");
+}
