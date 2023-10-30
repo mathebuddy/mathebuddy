@@ -76,6 +76,7 @@ class Paragraph {
     }
     // create lexer
     var lexer = Lexer();
+    lexer.enableEmitBigint(false);
     lexer.enableEmitNewlines(true);
     lexer.enableUmlautInID(true);
     lexer.pushSource('', raw);
@@ -328,7 +329,8 @@ class Paragraph {
     }
     // check if variable exists
     if (exerciseData.variables.contains(data.variableId) == false) {
-      exercise.error += ' There is no variable "${data.variableId}". ';
+      exercise.error += ' Variable "${data.variableId}" is unknown'
+          ' (you may need to declare it with "let"). ';
       return inputField;
     }
     // optional: index (e.g. element of a vector)
