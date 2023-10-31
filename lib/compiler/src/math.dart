@@ -41,12 +41,12 @@ MbclLevelItem parseInlineMath(
     if (isId && exercise != null) {
       var data = exercise.exerciseData!;
       if (data.variables.contains(id)) {
-        var type = MbclLevelItemType.variableReference_operand;
+        var type = MbclLevelItemType.variableReferenceOperand;
         if (showTerm || data.functionVariables.contains(id)) {
-          type = MbclLevelItemType.variableReference_term;
+          type = MbclLevelItemType.variableReferenceTerm;
         }
         if (showOptimizedTerm) {
-          type = MbclLevelItemType.variableReference_optimizedTerm;
+          type = MbclLevelItemType.variableReferenceOptimizedTerm;
         }
         var v = MbclLevelItem(level, type, -1);
         v.id = id;
