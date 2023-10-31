@@ -15,6 +15,7 @@ import '../../smpl/src/interpreter.dart' as smpl_interpreter;
 
 import 'compiler.dart';
 import 'exercise.dart';
+import 'help.dart';
 import 'math.dart';
 import 'block.dart';
 import 'paragraph.dart';
@@ -37,16 +38,17 @@ import 'level_item.dart';
 ///     | text
 ///     | structuredParagraph;
 ///   part =
-///     "PART" [ INDENT
-///       "ICON" "=" value;
-///     DEDENT ]
+///     "PART" INDENT
+///       [ "ICON" "=" value; "\n" ]
+///     DEDENT
 ///   exercise [defaultChild="PARAGRAPH"] =
 ///     "EXERCISE" [ title ] [ label ] INDENT
-///       [ "REQUIREMENT" "=" value ] "\n"
-///       [ "ORDER" "=" "static" ] "\n"
-///       [ "CHOICE_ALIGNMENT" "=" "horizontal" ] "\n"
-///       [ "DISABLE_RETRY" "=" "true" ] "\n"
-///       [ "KEYBOARD" "=" value ] "\n"
+///       [ "REQUIREMENT" "=" label { "," label } "\n" ]
+///       [ "ORDER" "=" ("static"|"shuffled") "\n" ]
+///       [ "CHOICE_ALIGNMENT" "=" ("horizontal"|"vertical") "\n" ]
+///       [ "DISABLE_RETRY" "=" ("true"|"false") "\n" ]
+///       [ "TIME" "=" INT "\n" ]
+///       [ "SCORES" "=" INT "\n" ]
 ///       { levelItem }
 ///     DEDENT;
 ///   code =
@@ -68,12 +70,13 @@ import 'level_item.dart';
 ///   alignmentKeyword =
 ///     "CENTER" | "LEFT" | "RIGHT";
 ///   equation =
-///     equationKeyword [ label ] INDENT
+///     equationKeyword ["*"] [ label ] INDENT
 ///       *
 ///     DEDENT;
 ///   equationKeyword =
-///       "ALIGNED-EQUATION" | "ALIGNED-EQUATION*"
-///     | EQUATION" | "EQUATION*";
+///       "ALIGNED-EQUATION"
+///     | "LEFT-EQUATION"
+///     | "EQUATION";
 ///   table =
 ///     "TABLE" [ title ] [ label ] IDENT
 ///       { table_row }
@@ -85,7 +88,7 @@ import 'level_item.dart';
 ///   figure [defaultChild="CAPTION"] =
 ///     "FIGURE" [ title ] [ label ] IDENT
 ///       [ "PATH" "=" value ] "\n"
-///       [ "WITH" "=" INT ] "\n"
+///       [ "WIDTH" "=" INT ] "\n"
 ///       { code | caption }
 ///     DEDENT;
 ///   caption =
@@ -139,21 +142,16 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
       {
         level.numParts++;
         var iconId = "";
-        for (var key in block.attributes.keys) {
-          var value = block.attributes[key]!;
-          switch (key) {
-            case "ICON":
-              {
-                iconId = value.trim();
-                break;
-              }
-            default:
-              var error =
-                  MbclLevelItem(level, MbclLevelItemType.error, block.srcLine);
-              parent?.items.add(error);
-              error.error += 'unknown attribute "$key"';
-              break;
+        try {
+          checkAttributes((block.attributes), ["ICON"]);
+          if (block.attributes.containsKey("ICON")) {
+            iconId = block.attributes["ICON"]!;
           }
+        } catch (e) {
+          var error =
+              MbclLevelItem(level, MbclLevelItemType.error, block.srcLine);
+          parent?.items.add(error);
+          error.error += e.toString();
         }
         level.partIconIDs.add(iconId);
         var levelItem =
@@ -255,6 +253,8 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
 
     case "ALIGNED-EQUATION":
     case "ALIGNED-EQUATION*":
+    case "LEFT-EQUATION":
+    case "LEFT-EQUATION*":
     case "EQUATION":
     case "EQUATION*":
       {
@@ -271,6 +271,10 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         equation.label = block.label;
         var data = MbclEquationData(equation);
         equation.equationData = data;
+
+        if (block.id.startsWith("LEFT-EQUATION")) {
+          data.leftAligned = true;
+        }
 
         if (block.id.endsWith("*")) {
           data.number = -1;
@@ -359,25 +363,25 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         parent?.items.add(figure);
         var data = MbclFigureData(figure);
         figure.figureData = data;
-        for (var key in block.attributes.keys) {
-          var value = block.attributes[key]!;
-          switch (key) {
-            case "PATH":
-              data.filePath = compiler.baseDirectory + value.trim();
-              data.data = compiler.loadFile(data.filePath);
-              if (data.data.isEmpty) {
-                figure.error +=
-                    'Could not load image file from path "${data.filePath}".';
-              }
-              break;
-            case "WIDTH":
-              // TODO: allow integer value 0..100 as percentage
-              data.options.add(MbclFigureOption.width75);
-              break;
-            default:
-              figure.error += 'Unknown attribute "$key".';
-              break;
+        try {
+          checkAttributes(block.attributes, ["PATH", "WIDTH"]);
+          data.widthPercentage =
+              getAttributeInt(block.attributes, "WIDTH", 100);
+          if (data.widthPercentage < 5 || data.widthPercentage > 100) {
+            figure.error +=
+                "Figure width percentage must be in range [5,100]; ";
           }
+          if (block.attributes.containsKey("path")) {
+            data.filePath = block.attributes["PATH"]!;
+            data.data = compiler.loadFile(data.filePath);
+            if (data.data.isEmpty) {
+              figure.error +=
+                  'Could not load image file from path "${data.filePath}". ';
+            }
+            break;
+          }
+        } catch (e) {
+          figure.error += e.toString();
         }
         for (var child in block.children) {
           if (child.id == "CAPTION") {
@@ -425,109 +429,145 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         var data = MbclExerciseData(exercise);
         exercise.exerciseData = data;
         if (exercise.label.isEmpty) {
-          exercise.label = 'ex${compiler.createUniqueId().toString()}';
+          exercise.label = 'ex${createUniqueId().toString()}';
         }
         for (var child in block.children) {
           parseLevelBlock(
               child, compiler, level, exercise, depth + 1, exercise);
         }
-        for (var key in block.attributes.keys) {
-          var value = block.attributes[key]!;
-          switch (key) {
-            case "REQUIREMENT":
-              {
-                // TODO: comma separated list
-                var exerciseLabel = value;
-                var referencedExercise =
-                    level.getExerciseByLabel(exerciseLabel);
-                if (referencedExercise == null) {
-                  exercise.error +=
-                      'Exercise referenced by "$exerciseLabel" does not exist';
-                } else {
-                  data.requiredExercises.add(referencedExercise);
-                }
-                break;
-              }
-            case "ORDER":
-              {
-                if (value == 'static') {
-                  data.staticOrder = true;
-                } else {
-                  exercise.error +=
-                      'Attribute value "$value" is not allowed for key "$key".';
-                }
-                break;
-              }
-            case "CHOICE_ALIGNMENT":
-              if (value == 'horizontal') {
-                data.horizontalSingleMultipleChoiceAlignment = true;
-              } else {
-                exercise.error +=
-                    'Attribute value "$value" is not allowed for key "$key".';
-              }
-              break;
-            case "DISABLE_RETRY":
-              {
-                if (value == 'true') {
-                  data.disableRetry = true;
-                } else {
-                  exercise.error +=
-                      'Attribute value "$value" is not allowed for key "$key".';
-                }
-                break;
-              }
-            case "KEYBOARD":
-              {
-                data.forceKeyboardId = value;
-                break;
-              }
-            case "SHOW_GAP_LENGTH":
-              {
-                if (value == 'true') {
-                  data.showGapLength = true;
-                } else {
-                  exercise.error +=
-                      'Attribute value "$value" is not allowed for key "$key".';
-                }
-                break;
-              }
-            case "SHOW_REQUIRED_LETTERS_ONLY":
-              {
-                if (value == 'true') {
-                  data.showRequiredGapLettersOnly = true;
-                } else {
-                  exercise.error +=
-                      'Attribute value "$value" is not allowed for key "$key".';
-                }
-                break;
-              }
-            case "SCORES":
-              {
-                var scores = 1;
-                try {
-                  scores = int.parse(value);
-                } catch (e) {
-                  exercise.error += 'Attribute value "$value" for key "$key" '
-                      'must be integral.';
-                }
-                data.scores = scores;
-                break;
-              }
-            case "ARRANGE":
-              {
-                if (value == 'true') {
-                  data.arrangement = true;
-                } else {
-                  exercise.error +=
-                      'Attribute value "$value" is not allowed for key "$key".';
-                }
-                break;
-              }
-            default:
-              exercise.error += 'Unknown attribute "$key".';
-              break;
+        try {
+          checkAttributes(block.attributes, [
+            "REQUIREMENT",
+            "ORDER",
+            "CHOICE_ALIGNMENT",
+            "DISABLE_RETRY",
+            "TIME",
+            "SCORES"
+          ]);
+          data.disableRetry =
+              getAttributeBool(block.attributes, "DISABLE_RETRY", false);
+          data.time = getAttributeInt(block.attributes, "TIME", -1);
+          data.scores = getAttributeInt(block.attributes, "SCORES", 1);
+          data.staticOrder = getAttributeString(block.attributes, "ORDER",
+                  ["static", "shuffled"], "shuffled") ==
+              "static";
+          data.alignChoicesHorizontally = getAttributeString(block.attributes,
+                  "CHOICE_ALIGNMENT", ["horizontal", "vertical"], "vertical") ==
+              "horizontal";
+        } catch (e) {
+          exercise.error += e.toString();
+        }
+        if (block.attributes.containsKey("REQUIREMENT")) {
+          var labels = block.attributes["REQUIREMENT"]!.split(",");
+          for (var label in labels) {
+            var referencedExercise = level.getExerciseByLabel(label);
+            if (referencedExercise == null) {
+              exercise.error +=
+                  'Exercise referenced by "$label" does not exist. ';
+            } else {
+              data.requiredExercises.add(referencedExercise);
+            }
           }
         }
+
+        // TODO: remove old source code
+        // for (var key in block.attributes.keys) {
+        //   var value = block.attributes[key]!;
+        //   switch (key) {
+        //     case "REQUIREMENT":
+        //       {
+        //         // TODO: comma separated list
+        //         var exerciseLabel = value;
+        //         var referencedExercise =
+        //             level.getExerciseByLabel(exerciseLabel);
+        //         if (referencedExercise == null) {
+        //           exercise.error +=
+        //               'Exercise referenced by "$exerciseLabel" does not exist';
+        //         } else {
+        //           data.requiredExercises.add(referencedExercise);
+        //         }
+        //         break;
+        //       }
+        //     case "ORDER":
+        //       {
+        //         if (value == 'static') {
+        //           data.staticOrder = true;
+        //         } else {
+        //           exercise.error +=
+        //               'Attribute value "$value" is not allowed for key "$key".';
+        //         }
+        //         break;
+        //       }
+        //     case "CHOICE_ALIGNMENT":
+        //       if (value == 'horizontal') {
+        //         data.horizontalSingleMultipleChoiceAlignment = true;
+        //       } else {
+        //         exercise.error +=
+        //             'Attribute value "$value" is not allowed for key "$key".';
+        //       }
+        //       break;
+        //     case "DISABLE_RETRY":
+        //       {
+        //         if (value == 'true') {
+        //           data.disableRetry = true;
+        //         } else {
+        //           exercise.error +=
+        //               'Attribute value "$value" is not allowed for key "$key".';
+        //         }
+        //         break;
+        //       }
+        //     case "KEYBOARD":
+        //       {
+        //         data.forceKeyboardId = value;
+        //         break;
+        //       }
+        //     case "SHOW_GAP_LENGTH":
+        //       {
+        //         if (value == 'true') {
+        //           data.showGapLength = true;
+        //         } else {
+        //           exercise.error +=
+        //               'Attribute value "$value" is not allowed for key "$key".';
+        //         }
+        //         break;
+        //       }
+        //     case "SHOW_REQUIRED_LETTERS_ONLY":
+        //       {
+        //         if (value == 'true') {
+        //           data.showRequiredGapLettersOnly = true;
+        //         } else {
+        //           exercise.error +=
+        //               'Attribute value "$value" is not allowed for key "$key".';
+        //         }
+        //         break;
+        //       }
+        //     case "SCORES":
+        //       {
+        //         var scores = 1;
+        //         try {
+        //           scores = int.parse(value);
+        //         } catch (e) {
+        //           exercise.error += 'Attribute value "$value" for key "$key" '
+        //               'must be integral.';
+        //         }
+        //         data.scores = scores;
+        //         break;
+        //       }
+        //     case "ARRANGE":
+        //       {
+        //         if (value == 'true') {
+        //           data.arrangement = true;
+        //         } else {
+        //           exercise.error +=
+        //               'Attribute value "$value" is not allowed for key "$key".';
+        //         }
+        //         break;
+        //       }
+        //     default:
+        //       exercise.error += 'Unknown attribute "$key".';
+        //       break;
+        //   }
+        //}
         //print(exercise.toJSON());
         break;
       }
