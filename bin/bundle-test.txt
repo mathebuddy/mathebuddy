@@ -2,6 +2,7 @@
 # format: "ID: PATH"
 
 Grenzwerte:../../mathebuddy-private-courses/hm1/grenzwert/index.mbl
+Komplexe Zahlen:../../mathebuddy-private-courses/hm1/komplex/index.mbl
 
 Mengen:../../mathebuddy-private-courses/hm1/grundlagen/Mengen.mbl
 Reelle Zahlen:../../mathebuddy-private-courses/hm1/grundlagen/Reelle_Zahlen.mbl
