@@ -126,21 +126,11 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
               Scrollable.ensureVisible(key.currentContext!,
                   duration: Duration(milliseconds: 250));
             }
-            /*if (state.keyboardState.layout != null) {
-                    state.keyboardState.layout = null;
-                  } else {*/
             state.keyboardState.exerciseData = exerciseData;
             state.keyboardState.inputFieldData = inputFieldData;
-            var forceKeyboardId = inputFieldData.exerciseData!.forceKeyboardId;
+            var forceKeyboardId = inputFieldData.forceKeyboardId;
             if (forceKeyboardId.isNotEmpty) {
-              switch (forceKeyboardId) {
-                case "powerRoot":
-                  {
-                    state.keyboardState.layout = getKeyboardLayout("powerRoot");
-                    break;
-                  }
-                default: // TODO: ERROR!!!!!!!
-              }
+              state.keyboardState.layout = getKeyboardLayout(forceKeyboardId);
             } else {
               switch (inputFieldData.type) {
                 case MbclInputFieldType.int:
@@ -186,6 +176,26 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
                       break;
                   }
                   break;
+                case MbclInputFieldType.string:
+                  // gap question
+                  var expected = inputFieldData.expectedValue;
+                  if (inputFieldData.showAllLettersOfGap) {
+                    state.keyboardState.layout = getKeyboardLayout("alpha");
+                    state.keyboardState.layout!.setGapKeyboard(true);
+                  } else {
+                    Set<String> letters = {};
+                    for (var i = 0; i < expected.length; i++) {
+                      var ch = expected[i];
+                      letters.add(ch);
+                    }
+                    state.keyboardState.layout =
+                        createGapKeyboard(letters.toList());
+                  }
+                  if (inputFieldData.hideLengthOfGap == false) {
+                    state.keyboardState.layout!
+                        .setLengthHint(inputFieldData.expectedValue.length);
+                  }
+                  break;
                 default:
                   print("WARNING: generateParagraphItem():"
                       "keyboard layout for input field type"
@@ -193,7 +203,6 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
                   state.keyboardState.layout = getKeyboardLayout("termX");
               }
             }
-            //}
             // ignore: invalid_use_of_protected_member
             state.setState(() {});
           },
