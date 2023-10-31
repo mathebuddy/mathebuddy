@@ -17,29 +17,7 @@ Widget generateFigure(LevelState state, MbclLevel level, MbclLevelItem item,
   List<Widget> rows = [];
   var figureData = item.figureData as MbclFigureData;
   // image
-  var width = 100;
-  for (var option in figureData.options) {
-    switch (option) {
-      case MbclFigureOption.width100:
-        width = 100;
-        break;
-      case MbclFigureOption.width75:
-        width = 75;
-        break;
-      case MbclFigureOption.width66:
-        width = 66;
-        break;
-      case MbclFigureOption.width50:
-        width = 50;
-        break;
-      case MbclFigureOption.width33:
-        width = 33;
-        break;
-      case MbclFigureOption.width25:
-        width = 25;
-        break;
-    }
-  }
+  var width = figureData.widthPercentage;
   var screenWidth = MediaQuery.of(state.context).size.width;
   if (figureData.data.startsWith('<svg') ||
       figureData.data.startsWith('<?xml')) {
