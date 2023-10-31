@@ -4,6 +4,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'dart:math';
+
 import 'package:mathebuddy/keyboard.dart';
 
 /// !B := backspace
@@ -90,6 +92,11 @@ var keyboardLayoutsSrc = '''
 1 2 3  ^(    )     !E
 0 i pi sqrt( sqrt( !E
 
+### alpha
+
+q w e r t z u i o p
+a s d f g h j k l !B
+y x c v b n m # # !B
 ''';
 
 Map<String, String> keyboardLayouts = {};
@@ -130,4 +137,35 @@ KeyboardLayout getKeyboardLayout(String keyboardId,
   }
   // fallback for non-existing ID: return integer layout
   return KeyboardLayout.parse("7 8 9 !B\n4 5 6 !B\n1 2 3 !E\n0 0 - !E\n");
+}
+
+KeyboardLayout createGapKeyboard(List<String> letters) {
+  // shuffle input s.t. the left-most key is not the first required letter
+  // (prevents to show the solution from left to right)
+  var originalOrder = List<String>.from(letters);
+  do {
+    letters.shuffle();
+  } while (letters.length > 1 && letters[0] == originalOrder[0]);
+  // generate the keyboard matrix
+  var rows = sqrt(letters.length.toDouble()).floor();
+  if (rows > 4) rows = 4;
+  var cols = (letters.length / rows).ceil();
+  var src = "";
+  for (var i = 0; i < rows; i++) {
+    for (var j = 0; j < cols; j++) {
+      if (i * cols + j < letters.length) {
+        src += letters[i * cols + j];
+      } else {
+        src += '#'; // empty
+      }
+      src += " ";
+    }
+    if (i < 5) {
+      src += '!B'; // backspace
+    } else {
+      src += '#'; // empty
+    }
+    src += "\n";
+  }
+  return KeyboardLayout.parse(src, isGapKeyboard: true);
 }
