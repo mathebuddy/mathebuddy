@@ -8,8 +8,9 @@ EXERCISE Add
         let c = a + b
     TEXT
         Calculate $a + b = $ #c   % TODO: #c inside math mode
-        % TODO:  @c = #c
 
+        #c,HIDE_LENGTH,SHOW_ALL_LETTERS,ARRANGE,SCORE=3,ROWS=dynamic,COLS=dynamic,KEYBOARD=myKeyboardName,CHOICES=5,TOKENS50&"pi"
+        % TODO:  @c = #c
 
 
 This is text within a paragraph.
