@@ -47,6 +47,17 @@ InlineSpan generateParagraphItem(LevelState state, MbclLevelItem item,
             fontWeight: bold ? FontWeight.bold : FontWeight.normal,
             fontStyle: italic ? FontStyle.italic : FontStyle.normal),
       );
+    case MbclLevelItemType.inlineCode:
+      return TextSpan(
+        text: "${item.text} ",
+        style: TextStyle(
+            color: color,
+            height: 1.6, //1.6,
+            fontFamily: 'RobotoMono',
+            fontSize: defaultFontSize,
+            fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+            fontStyle: italic ? FontStyle.italic : FontStyle.normal),
+      );
     case MbclLevelItemType.color:
       {
         List<InlineSpan> gen = [];
