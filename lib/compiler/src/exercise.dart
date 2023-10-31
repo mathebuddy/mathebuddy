@@ -10,18 +10,19 @@ import '../../mbcl/src/level_item.dart';
 
 import '../../smpl/src/parser.dart' as smpl_parser;
 import '../../smpl/src/node.dart' as smpl_node;
+
 import '../../smpl/src/interpreter.dart' as smpl_interpreter;
+
+const numberOfInstances = 7; // TODO!! must be configurable
+
+// TODO: repeat drawing random questions, if same instance is already drawn!!!!!
+// TODO: must check for endless loops, e.g. happens if search space is restricted!
 
 // TODO: move exercise related code from block.dart to here
 
-const numberOfInstances = 5; // TODO!! must be configurable
-
 void processExerciseCode(MbclLevelItem exercise) {
-  const numberOfInstances = 5; // TODO!! must be configurable
   var data = exercise.exerciseData!;
   for (var i = 0; i < numberOfInstances; i++) {
-    // TODO: repeat if same instance is already drawn
-    // TODO: must check for endless loops, e.g. happens if search space is restricted!
     try {
       var parser = smpl_parser.Parser();
       parser.parse(data.code);
