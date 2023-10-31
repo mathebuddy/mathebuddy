@@ -135,6 +135,7 @@ enum MbclLevelItemType {
   example,
   exercise,
   figure,
+  inlineCode,
   inlineMath,
   inputField,
   italicText,
@@ -152,9 +153,9 @@ enum MbclLevelItemType {
   table,
   text,
   todo,
-  variableReference_operand,
-  variableReference_term,
-  variableReference_optimizedTerm
+  variableReferenceOperand,
+  variableReferenceTerm,
+  variableReferenceOptimizedTerm
 }
 
 // TODO: fill this list
@@ -186,36 +187,27 @@ Map<MbclLevelItemType, List<MbclLevelItemType>> mbclSubBlockWhiteList = {
 
 class MbclEquationData {
   MbclLevelItem equation;
-  //List<MbclEquationOption> options = [];
   MbclLevelItem? math;
   int number = 0;
+  bool leftAligned = false;
 
   MbclEquationData(this.equation);
 
   Map<String, dynamic> toJSON() {
     return {
-      //"options": options.map((o) => o.name).toList(),
       "math": math?.toJSON(),
-      "number": number
+      "number": number,
+      "leftAligned": leftAligned,
     };
   }
 
   fromJSON(Map<String, dynamic> src) {
-    /*options = [];
-    int n = src["options"].length;
-    for (var i = 0; i < n; i++) {
-      var option = MbclEquationOption.values.byName(src["options"][i]);
-      options.add(option);
-    }*/
     math = MbclLevelItem(equation.level, MbclLevelItemType.error, -1);
     math?.fromJSON(src["math"]);
     number = src["number"];
+    leftAligned = src["leftAligned"] as bool;
   }
 }
-
-/*enum MbclEquationOption {
-  aligned,
-}*/
 
 enum MbclExerciseFeedback {
   //
@@ -233,11 +225,12 @@ class MbclExerciseData {
   bool staticOrder = false;
   bool disableRetry = false;
   int scores = 1;
-  bool showGapLength = false;
-  bool showRequiredGapLettersOnly = false;
-  bool horizontalSingleMultipleChoiceAlignment = false;
-  bool arrangement = false;
-  String forceKeyboardId = "";
+  int time = -1; // time in seconds; negative := exercise has no time limit
+  //TODO: remove: bool showGapLength = false;
+  //TODO: remove: bool showRequiredGapLettersOnly = false;
+  bool alignChoicesHorizontally = false;
+  //TODO: remove: bool arrangement = false;
+  //TODO: remove: String forceKeyboardId = "";
   List<MbclLevelItem> requiredExercises = [];
 
   // temporary
@@ -277,12 +270,12 @@ class MbclExerciseData {
       "staticOrder": staticOrder,
       "disableRetry": disableRetry,
       "scores": scores,
-      "showGapLength": showGapLength,
-      "showRequiredGapLettersOnly": showRequiredGapLettersOnly,
-      "horizontalSingleMultipleChoiceAlignment":
-          horizontalSingleMultipleChoiceAlignment,
-      "arrangement": arrangement,
-      "forceKeyboardId": forceKeyboardId,
+      "time": time,
+      //"showGapLength": showGapLength,
+      //"showRequiredGapLettersOnly": showRequiredGapLettersOnly,
+      "alignChoicesHorizontally": alignChoicesHorizontally,
+      //"arrangement": arrangement,
+      //"forceKeyboardId": forceKeyboardId,
       "requiredExercises": requiredExercises.map((e) => e.label).toList()
     };
   }
@@ -313,12 +306,12 @@ class MbclExerciseData {
     staticOrder = src["staticOrder"] as bool;
     disableRetry = src["disableRetry"] as bool;
     scores = src["scores"] as int;
-    showGapLength = src["showGapLength"] as bool;
-    showRequiredGapLettersOnly = src["showRequiredGapLettersOnly"] as bool;
-    horizontalSingleMultipleChoiceAlignment =
-        src["horizontalSingleMultipleChoiceAlignment"] as bool;
-    arrangement = src["arrangement"] as bool;
-    forceKeyboardId = src["forceKeyboardId"] as String;
+    time = src["time"] as int;
+    //showGapLength = src["showGapLength"] as bool;
+    //showRequiredGapLettersOnly = src["showRequiredGapLettersOnly"] as bool;
+    alignChoicesHorizontally = src["alignChoicesHorizontally"] as bool;
+    //arrangement = src["arrangement"] as bool;
+    //forceKeyboardId = src["forceKeyboardId"] as String;
     requiredExercises = [];
     n = src["requiredExercises"].length;
     for (var i = 0; i < n; i++) {
@@ -333,8 +326,8 @@ class MbclFigureData {
   String filePath = '';
   String code = '';
   String data = '';
+  int widthPercentage = 100;
   List<MbclLevelItem> caption = [];
-  List<MbclFigureOption> options = [];
 
   MbclFigureData(this.figure);
 
@@ -343,8 +336,8 @@ class MbclFigureData {
       "filePath": filePath,
       "code": code,
       "data": data,
+      "widthPercentage": widthPercentage,
       "caption": caption.map((e) => e.toJSON()).toList(),
-      "options": options.map((e) => e.name).toList(),
     };
   }
 
@@ -352,26 +345,14 @@ class MbclFigureData {
     filePath = src["filePath"];
     code = src["code"];
     data = src["data"];
+    widthPercentage = src["widthPercentage"];
     int n = src["caption"].length;
     for (var i = 0; i < n; i++) {
       var cap = MbclLevelItem(figure.level, MbclLevelItemType.error, -1);
       cap.fromJSON(src["caption"][i]);
       caption.add(cap);
     }
-    n = src["options"].length;
-    for (var i = 0; i < n; i++) {
-      options.add(MbclFigureOption.values.byName(src["options"][i]));
-    }
   }
-}
-
-enum MbclFigureOption {
-  width25,
-  width33,
-  width50,
-  width66,
-  width75,
-  width100,
 }
 
 class MbclTableData {
@@ -416,8 +397,15 @@ class MbclInputFieldData {
   String diffVariableId = '';
   int index = -1; // used e.g. for vector element
   int score = 1;
-  int choices =
-      0; // a nonzero value provides a "keyboard" with solutions (similar to multiple choice)
+  bool arrange = false;
+  bool dynamicRows = false;
+  bool dynamicCols = false;
+  String forceKeyboardId = "";
+  int numChoices =
+      -1; // a nonzero value provides a "keyboard" with solutions (similar to multiple choice)
+  // TODO: tokens
+  bool hideLengthOfGap = false;
+  bool showAllLettersOfGap = false;
 
   // temporary
   MbclExerciseData? exerciseData;
@@ -438,7 +426,13 @@ class MbclInputFieldData {
       "diffVariableId": diffVariableId,
       "index": index,
       "score": score,
-      "choices": choices,
+      "arrange": arrange,
+      "dynamicRows": dynamicRows,
+      "dynamicCols": dynamicCols,
+      "forceKeyboardId": forceKeyboardId,
+      "numChoices": numChoices,
+      "hideLengthOfGap": hideLengthOfGap,
+      "showAllLettersOfGap": showAllLettersOfGap
     };
   }
 
@@ -449,7 +443,13 @@ class MbclInputFieldData {
     diffVariableId = src["diffVariableId"] as String;
     index = src["index"] as int;
     score = src["score"] as int;
-    choices = src["choices"] as int;
+    arrange = src["arrange"] as bool;
+    dynamicRows = src["dynamicRows"] as bool;
+    dynamicCols = src["dynamicCols"] as bool;
+    forceKeyboardId = src["forceKeyboardId"] as String;
+    numChoices = src["numChoices"] as int;
+    hideLengthOfGap = src["hideLengthOfGap"] as bool;
+    showAllLettersOfGap = src["showAllLettersOfGap"] as bool;
   }
 }
 
