@@ -14,6 +14,8 @@ import '../../mbcl/src/level_item.dart';
 import 'compiler.dart';
 import 'exercise.dart';
 import 'math.dart';
+import 'input.dart';
+import 'help.dart';
 
 /// <GRAMMAR>
 ///   paragraph =
@@ -25,6 +27,7 @@ import 'math.dart';
 ///     | bold
 ///     | italic
 ///     | inlineMath
+///     | inlineCode
 ///     | reference
 ///     | <PARSING_EXERCISE> inputElement
 ///     | <PARSING_EXERCISE> singleChoiceOption
@@ -47,11 +50,10 @@ import 'math.dart';
 ///       "*" { part } "*";
 ///   inlineMath =
 ///       "$" inlineMathCore "$";
+///   inlineCode =
+///       "`" * "`";
 ///   reference =
 ///       "@" ID [ ":" ID ];
-///   inputElement =
-///       "#" [ "[" INT "]" ] ID
-///     | "#" STR;
 ///   singleChoiceOption =
 ///       <COLUMN=1> "(" ( "x" | ":" ID | <EMPTY> ) ")" { part } "\n";
 ///   multipleChoiceOption =
@@ -81,6 +83,7 @@ class Paragraph {
     lexer.enableUmlautInID(true);
     lexer.pushSource('', raw);
     lexer.setTerminals(['**', '#.', '-)', '@@']);
+    lexer.configureSingleLineComments('/////');
     List<MbclLevelItem> res = [];
     while (lexer.isNotEnd()) {
       var part = _parsePart(lexer, srcRowIdx, ex);
@@ -132,12 +135,15 @@ class Paragraph {
     } else if (lexer.isTerminal('\$')) {
       // inline math
       return parseInlineMath(level, lexer, exercise);
+    } else if (lexer.isTerminal('`')) {
+      // inline code
+      return _parseInlineCode(lexer, srcRowIdx, exercise);
     } else if (lexer.isTerminal('@')) {
       // reference
       return _parseReference(lexer, srcRowIdx);
     } else if (exercise != null && lexer.isTerminal('#')) {
       // input element(s)
-      return _parseInputElement(lexer, srcRowIdx, exercise);
+      return parseInputElement(level, lexer, srcRowIdx, exercise);
     } else if (exercise != null &&
         lexer.getToken().col == 1 &&
         (lexer.isTerminal('[') || lexer.isTerminal('('))) {
@@ -249,6 +255,27 @@ class Paragraph {
     return italic;
   }
 
+  MbclLevelItem _parseInlineCode(
+      Lexer lexer, int srcRowIdx, MbclLevelItem? exercise) {
+    lexer.next();
+    var inlineCode =
+        MbclLevelItem(level, MbclLevelItemType.inlineCode, srcRowIdx);
+    while (lexer.isNotTerminal('`') && lexer.isNotEnd()) {
+      var token = lexer.getToken();
+      inlineCode.text += token.token;
+      lexer.next();
+      var newCol = lexer.getToken().col;
+      if (newCol > token.col + token.token.length) {
+        var spaces = newCol - token.col - token.token.length;
+        for (var i = 0; i < spaces; i++) {
+          inlineCode.text += ' ';
+        }
+      }
+    }
+    if (lexer.isTerminal('`')) lexer.next();
+    return inlineCode;
+  }
+
   MbclLevelItem _parseReference(Lexer lexer, int srcRowIdx) {
     lexer.next(); // skip '@'
     var ref = MbclLevelItem(level, MbclLevelItemType.reference, srcRowIdx);
@@ -267,144 +294,6 @@ class Paragraph {
     }
     ref.label = label;
     return ref;
-  }
-
-  MbclLevelItem _parseInputElement(
-      Lexer lexer, int srcRowIdx, MbclLevelItem exercise) {
-    lexer.next();
-    var inputField =
-        MbclLevelItem(level, MbclLevelItemType.inputField, srcRowIdx);
-    var data = MbclInputFieldData();
-    inputField.inputFieldData = data;
-    inputField.id = 'input${compiler.createUniqueId()}';
-    var exerciseData = exercise.exerciseData as MbclExerciseData;
-    exerciseData.inputFields[inputField.id] = data;
-    // reference to a variable from part CODE
-    if (lexer.isIdentifier()) {
-      data.variableId = lexer.identifier();
-    }
-    // explicit string -> gap question
-    else if (lexer.isString()) {
-      var gapString = lexer.string();
-      data.variableId =
-          addStaticVariable(exerciseData, OperandType.string, gapString);
-      data.type = MbclInputFieldType.string;
-      return inputField;
-    } else {
-      exercise.error += ' No variable for input field given. ';
-      return inputField;
-    }
-    // optional attributes e.g. ",SCORE=", ",DIFF=x", ...
-    // TODO: include in grammar description!!!!
-    while (lexer.isTerminal(",")) {
-      var key = "", value = "";
-      lexer.next();
-      key = lexer.getToken().token;
-      lexer.next();
-      if (lexer.isTerminal("=")) {
-        lexer.next();
-        value = lexer.getToken().token.trim();
-        lexer.next();
-      }
-      switch (key) {
-        case "SCORE":
-          {
-            try {
-              data.score = int.parse(value);
-            } catch (e) {
-              exercise.error += ' Score value must be integral. ';
-            }
-            break;
-          }
-        case "DIFF":
-          {
-            data.diffVariableId = value; // TODO: check, if string is valid
-            break;
-          }
-        default:
-          {
-            exercise.error += ' Unknown key $key. ';
-          }
-      }
-    }
-    // check if variable exists
-    if (exerciseData.variables.contains(data.variableId) == false) {
-      exercise.error += ' Variable "${data.variableId}" is unknown'
-          ' (you may need to declare it with "let"). ';
-      return inputField;
-    }
-    // optional: index (e.g. element of a vector)
-    if (lexer.isTerminal("[")) {
-      lexer.next();
-      if (lexer.isInteger()) {
-        data.index = lexer.integer();
-      } else {
-        exercise.error += ' Index must be a constant integer value. '
-            'Current value is ${lexer.getToken().token}. ';
-        return inputField;
-      }
-      if (lexer.isTerminal("]")) {
-        lexer.next();
-      } else {
-        exercise.error += " Indexing must be ended with ']'. ";
-        return inputField;
-      }
-    }
-    // ===== term input =====
-    if (exerciseData.functionVariables.contains(data.variableId)) {
-      data.type = MbclInputFieldType.term;
-      data.isFunction = true;
-      return inputField;
-    }
-    // ===== operand input =====
-    else {
-      // get type and subtype. The subtype refers to indexed types (e.g. the type
-      // is "vector" and the subType "integer".)
-      var opType = OperandType.values
-          .byName(exerciseData.smplOperandType[data.variableId] as String);
-      var opSubType = OperandType.values
-          .byName(exerciseData.smplOperandSubType[data.variableId] as String);
-      // in case of indexing: the actual type is the subType
-      if (data.index >= 0) {
-        if (opType != OperandType.vector) {
-          // TODO: matrix, ...
-          exercise.error += " Indexing not allowed here. ";
-          return inputField;
-        }
-        opType = opSubType;
-      }
-      // set the input field type, based on the type of the references variable
-      switch (opType) {
-        case OperandType.int:
-          data.type = MbclInputFieldType.int;
-          break;
-        case OperandType.rational:
-          data.type = MbclInputFieldType.rational;
-          break;
-        case OperandType.real:
-        case OperandType.irrational: // TODO!!
-          data.type = MbclInputFieldType.real;
-          break;
-        case OperandType.complex:
-          // TODO: keyboard with and without sqrt ??
-          //if (xyz) {
-          //  data.type = MbclInputFieldType.complexNormalXXX;
-          //} else {
-          data.type = MbclInputFieldType.complexNormal;
-          //}
-          break;
-        case OperandType.matrix:
-          data.type = MbclInputFieldType.matrix;
-          break;
-        case OperandType.set:
-          // TODO: intSet, realSet, termSet, complexIntSet, ...
-          data.type = MbclInputFieldType.complexIntSet;
-          break;
-        default:
-          exercise.error += ' UNIMPLEMENTED input type ${opType.name}. ';
-      }
-      return inputField;
-    }
   }
 
   MbclLevelItem _parseSingleOrMultipleChoice(
@@ -458,22 +347,11 @@ class Paragraph {
         MbclLevelItem(level, MbclLevelItemType.inputField, srcRowIdx);
     var inputFieldData = MbclInputFieldData();
     inputField.inputFieldData = inputFieldData;
-    inputField.id = 'input${compiler.createUniqueId()}';
+    inputField.id = 'input${createUniqueId()}';
     inputFieldData.type = MbclInputFieldType.bool;
     inputFieldData.variableId = varId;
     root.items.add(inputField);
     exerciseData.inputFields[inputField.id] = inputFieldData;
-
-    /*
-    var option = MbclLevelItem(MbclLevelItemType.multipleChoiceOption);
-    var data = MbclSingleOrMultipleChoiceOptionData();
-    option.singleOrMultipleChoiceOptionData = data;
-    if (root.type == MbclLevelItemType.singleChoice) {
-      option.type = MbclLevelItemType.singleChoiceOption;
-    }
-    data.inputId = 'input${createUniqueId()}';
-    data.variableId = varId;
-    root.items.add(option);*/
 
     var span = MbclLevelItem(level, MbclLevelItemType.span, srcRowIdx);
     inputField.items.add(span);
@@ -486,7 +364,6 @@ class Paragraph {
 
   MbclLevelItem _parseTextProperty(
       Lexer lexer, int srcRowIdx, MbclLevelItem? exercise) {
-    // TODO: make sure, that errors are not too annoying...
     lexer.next();
     List<MbclLevelItem> items = [];
     while (lexer.isNotTerminal(']') && lexer.isNotEnd()) {
