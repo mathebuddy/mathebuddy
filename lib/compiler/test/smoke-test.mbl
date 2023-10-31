@@ -1,6 +1,21 @@
+EXERCISE Add
+    CODE
+        let a/b = rand(1,10)
+        let c = a + b
+    TEXT
+        %Calculate $a + b = $ #c   % TODO: #c inside math mode
+
+        #c,HIDE_LENGTH,SHOW_ALL_LETTERS,DIFF=x,ARRANGE,SCORE=3,ROWS=dynamic,COLS=dynamic,KEYBOARD=myKeyboardName,CHOICES=5,TOKENS=1.5+"pi"
+        % TODO:  @c = #c
+
+
+!STOP
+
+Refer to `https://andreas-schwenk.github.io/tex/ xx` for the description of currently supportex TeX code.
+
+!STOP
 
 - $\lim_{x\rightarrow x_0}  (f(x)\pm g(x)) $ xx $= \lim_{x\rightarrow x_0}  f(x) \pm x\rightarrow g(x)$
-
 
 !STOP
 
