@@ -26,9 +26,9 @@ InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
           texSrc += subItem.text;
           break;
         }
-      case MbclLevelItemType.variableReference_operand:
-      case MbclLevelItemType.variableReference_term:
-      case MbclLevelItemType.variableReference_optimizedTerm:
+      case MbclLevelItemType.variableReferenceOperand:
+      case MbclLevelItemType.variableReferenceTerm:
+      case MbclLevelItemType.variableReferenceOptimizedTerm:
         {
           var variableId = subItem.id;
           if (exerciseData == null) {
@@ -37,10 +37,10 @@ InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
             var instance = exerciseData.instances[exerciseData.runInstanceIdx];
             var key = "$variableId.tex";
             switch (subItem.type) {
-              case MbclLevelItemType.variableReference_term:
+              case MbclLevelItemType.variableReferenceTerm:
                 key = "@$key";
                 break;
-              case MbclLevelItemType.variableReference_optimizedTerm:
+              case MbclLevelItemType.variableReferenceOptimizedTerm:
                 key = "@@$key";
                 break;
               default:
@@ -61,7 +61,7 @@ InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
   }
   var tex = TeX();
   tex.scalingFactor = 1.08; //1.17;
-  print("... tex src: $texSrc");
+  //print("... tex src: $texSrc");
   var svg = tex.tex2svg(texSrc,
       displayStyle: item.type == MbclLevelItemType.displayMath,
       deltaYOffset: -110);
