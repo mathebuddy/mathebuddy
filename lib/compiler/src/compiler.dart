@@ -55,9 +55,6 @@ class Compiler {
   /// Whether block titles are invisible.
   bool disableBlockTitles = false;
 
-  /// A counter variable to generate unique IDs.
-  int uniqueIdCounter = 0;
-
   /// Constructor
   Compiler(this.loadFile);
 
@@ -88,7 +85,7 @@ class Compiler {
       course!.chapters.add(chapter!);
       unit = MbclUnit();
       chapter!.units.add(unit!);
-      compileLevel(path); // compileLevel(path);
+      compileLevel(path);
       unit!.levels.add(chapter!.levels[0]);
     }
     // post processing
@@ -317,7 +314,7 @@ class Compiler {
                 var dirname = extractDirname(path);
                 var levelPath = '$dirname$fileName.mbl';
                 try {
-                  compileLevel(levelPath); // compileLevel(levelPath);
+                  compileLevel(levelPath);
                 } catch (e) {
                   chapter!.error += "Level '$levelPath' contains errors. "
                       "Remove these errors first. ";
@@ -375,10 +372,6 @@ class Compiler {
       level!.error += ' $e';
       return;
     }
-  }
-
-  int createUniqueId() {
-    return uniqueIdCounter++;
   }
 
   void _next() {
