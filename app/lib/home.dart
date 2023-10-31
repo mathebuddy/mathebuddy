@@ -39,6 +39,9 @@ class HomeState extends State<HomeWidget> {
     if (html.window.location.href
         .contains("mathebuddy.github.io/mathebuddy/")) {
       bundleName = 'assets/bundle-test.json';
+    } else if (html.window.location.href
+        .contains("mathebuddy.github.io/alpha/")) {
+      bundleName = 'assets/bundle-complex.json';
     }
   }
 
@@ -95,7 +98,7 @@ class HomeState extends State<HomeWidget> {
       ]));
       if (debugMode == false) {
         // TODO
-        break;
+        //break;
       }
     }
     var listOfCourses = Table(
