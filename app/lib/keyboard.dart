@@ -31,6 +31,16 @@ class KeyboardLayout {
   int rowCount = 4;
   int columnCount = 4;
   List<KeyboardKey?> keys = [];
+  bool isGapKeyboard = false; // does e.g. not insert "*" between alpha chars
+  int lengthHint = -1; // shows hints on the number of keys, if >= 0
+
+  void setGapKeyboard(bool value) {
+    isGapKeyboard = value;
+  }
+
+  void setLengthHint(int value) {
+    lengthHint = value;
+  }
 
   KeyboardLayout(this.rowCount, this.columnCount) {
     var n = rowCount * columnCount;
@@ -39,7 +49,7 @@ class KeyboardLayout {
     }
   }
 
-  static KeyboardLayout parse(String src) {
+  static KeyboardLayout parse(String src, {bool isGapKeyboard = false}) {
     // TODO: error checks
     var lines = src.split('\n');
     List<List<String>> rowData = [];
@@ -57,6 +67,7 @@ class KeyboardLayout {
     var numRows = rowData.length;
     var numCols = rowData[0].length;
     var layout = KeyboardLayout(numRows, numCols);
+    layout.isGapKeyboard = isGapKeyboard;
     List<String> processedIndices = [];
     for (var i = 0; i < numRows; i++) {
       for (var j = 0; j < numCols; j++) {
@@ -117,26 +128,11 @@ class KeyboardLayout {
     // https://api.flutter.dev/flutter/material/Icons-class.html
     switch (value) {
       case '!B': // backspace
-        //key.text = 'icon:E0C5'; // backspace
         key.text = 'icon:EEB5'; // backspace_outlined
         break;
       case '!E': // enter
-        //key.text = 'icon:E1F7'; // done_all
         key.text = 'icon:E614'; // subdirectory_arrow_left
         break;
-      /*case '!L': // left arrow
-        key.text = 'icon:F05BC';
-        break;
-      case '!R': // right arrow
-        key.text = 'icon:F05BD';
-        break;*/
-      // TODO: TeX keys
-      /*case '*':
-        key.text = '\${}\\cdot{}\$';
-        break;
-      case 'pi':
-        key.text = '\$pi\$';
-        break;*/
       default:
         key.text = value;
     }
@@ -242,6 +238,10 @@ class Keyboard {
                   // enter
                   state.activeExercise = null;
                   keyboardState.layout = null;
+                } else if (keyboardLayout.lengthHint >= 0 &&
+                    keyboardInputFieldData.studentValue.length >=
+                        keyboardLayout.lengthHint) {
+                  // do nothing
                 } else {
                   if (keyboardInputFieldData.studentValue.length < 32) {
                     var beforeCursor = keyboardInputFieldData.studentValue
@@ -253,6 +253,7 @@ class Keyboard {
                       // if the last character before the cursor is alpha
                       // and the inserted string starts with an alpha character,
                       // then insert "*" before the new string.
+                      // This does NOT apply for gap question keyboards.
                       var beforeCursorLastChar =
                           beforeCursor.codeUnitAt(beforeCursor.length - 1);
                       var isBeforeCursorLastCharAlpha =
@@ -263,7 +264,8 @@ class Keyboard {
                           newStrFirstChar >= "a".codeUnitAt(0) &&
                               newStrFirstChar <= "z".codeUnitAt(0);
                       if (isBeforeCursorLastCharAlpha &&
-                          isNewStrFirstCharAlpha) {
+                          isNewStrFirstCharAlpha &&
+                          keyboardLayout.isGapKeyboard == false) {
                         newStr = "*$newStr";
                       }
                     }
@@ -372,9 +374,30 @@ class Keyboard {
               borderRadius: BorderRadius.all(Radius.circular(1.0))),
         )));
 
+    // render length hint
+    if (keyboardLayout.lengthHint >= 0) {
+      var k = keyboardInputFieldData.studentValue.length;
+      var n = keyboardLayout.lengthHint;
+      var text = "$k/$n";
+      widgets.add(Positioned(
+          left: (screenWidth - charWidth * studentValue.length) / 2 +
+              charWidth * cursorPos +
+              15,
+          top: 15,
+          child: Text(text,
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 16,
+              ))));
+    }
+
     // render solution
     if (debugMode) {
       var solution = keyboardState.inputFieldData!.expectedValue;
+      var diffVarId = keyboardState.inputFieldData!.diffVariableId;
+      if (diffVarId.isNotEmpty) {
+        solution = "$solution (student answer is first diff.ed to $diffVarId)";
+      }
       widgets.add(Positioned(
           left: 0,
           top: 0,
