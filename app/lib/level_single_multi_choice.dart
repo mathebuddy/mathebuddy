@@ -75,7 +75,7 @@ Widget generateSingleMultiChoice(
     ]);
     var text = generateLevelItem(state, level, inputField.items[0],
         exerciseData: exerciseData);
-    if (exerciseData.horizontalSingleMultipleChoiceAlignment == false) {
+    if (exerciseData.alignChoicesHorizontally == false) {
       text = Flexible(child: text);
     }
     mcOptions.add(GestureDetector(
@@ -99,7 +99,7 @@ Widget generateSingleMultiChoice(
           // ignore: invalid_use_of_protected_member
           state.setState(() {});
         },
-        child: exerciseData.horizontalSingleMultipleChoiceAlignment
+        child: exerciseData.alignChoicesHorizontally
             ? Row(children: [button, text])
             : Padding(
                 padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
@@ -109,7 +109,7 @@ Widget generateSingleMultiChoice(
     //    child: Row(children: [button, text]))));
     //child: Row(children: [button, text])));
   }
-  if (exerciseData.horizontalSingleMultipleChoiceAlignment) {
+  if (exerciseData.alignChoicesHorizontally) {
     return Container(
         margin: EdgeInsets.only(top: 5, bottom: 25),
         child: Row(children: mcOptions));
