@@ -19,8 +19,14 @@ Widget generateEquation(LevelState state, MbclLevel level, MbclLevelItem item,
   var equationWidget = RichText(text: TextSpan(children: [eq]));
   var eqNumber = data.number;
   var eqNumberWidget = Text(eqNumber >= 0 ? '($eqNumber)' : '');
+  Widget content;
+  if (item.equationData!.leftAligned) {
+    content = equationWidget;
+  } else {
+    content = Center(child: equationWidget);
+  }
   return ListTile(
-    title: Center(child: equationWidget),
+    title: content,
     trailing: eqNumberWidget,
   );
 }
