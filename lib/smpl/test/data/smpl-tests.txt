@@ -26,75 +26,88 @@
 %             which is of type REAL
 % ===============================================================
 
-let x = inf
-let y = x + 1
+c = -rand(2,3)
+a(x) = 1 -c*x +c^2/2*x^2- c^3/6*x^3;
+a4(x) = c^4/24*x^4;
+b4 = opt(a4);
+
 
 !STOP
 
-let a = rand(3,8)
-let f1(x) = a
-let f1d(x) = diff(f1, x)
+x = inf
+y = x + 1
+
+y = 5
+y = y + 1
+
+z/w = rand(10,11)
+
+!STOP
+
+a = rand(3,8)
+f1(x) = a
+f1d(x) = diff(f1, x)
 
 !STOP
 
 % TODO: linsolve, eigenvalues_sym, remove
 
-let x = [1,2,3i]
-let y = [4,5,-6]
-let dxy = dot(x,y)
-let cxy = cross(x,y)
+x = [1,2,3i]
+y = [4,5,-6]
+dxy = dot(x,y)
+cxy = cross(x,y)
 
-let v = zeros<4>()
-let n = len(v)
+v = zeros<4>()
+n = len(v)
 
-let A = zeros<2,3>()
-let B = ones<2,2>()
-let r = rows(A)
-let c = cols(A)
+A = zeros<2,3>()
+B = ones<2,2>()
+r = rows(A)
+c = cols(A)
 
-let X = [[1,2],[3,4],[5,6]];
-let T = transpose(X)
+X = [[1,2],[3,4],[5,6]];
+T = transpose(X)
 
-let Y = [[3,2,3],[-4,2,6],[4,2,5]]
-let d = det(Y);
+Y = [[3,2,3],[-4,2,6],[4,2,5]]
+d = det(Y);
 
-let zv = is_zero(v)
-let za = is_zero(A)
-let zb = is_zero(B)
+zv = is_zero(v)
+za = is_zero(A)
+zb = is_zero(B)
 
-let sb = is_symmetric(B)
-let st = is_symmetric([[1,2],[2,1]])
+sb = is_symmetric(B)
+st = is_symmetric([[1,2],[2,1]])
 
-let ib = is_invertible(B)
-let it = is_invertible([[1,2],[7,8]])
+ib = is_invertible(B)
+it = is_invertible([[1,2],[7,8]])
 
-let x2 = X[2]     % get row as vector
-let x21 = X[2,1]  % get element
+x2 = X[2]     % get row as vector
+x21 = X[2,1]  % get element
 
 B[0,0] = 11
 B[0,1] = 22
 B[1,0] = 33
 B[1,1] = 44
 
-let bRow0 = row(B,1)
-let bCol1 = col(B,1)
+bRow0 = row(B,1)
+bCol1 = col(B,1)
 
-let Z = randZ<4,4>(-3,3)
-let ZT = triu(Z)
+Z = randZ<4,4>(-3,3)
+ZT = triu(Z)
 
-let vv = [1,2,3,4,5]
-let ww = shuffle(vv)
+vv = [1,2,3,4,5]
+ww = shuffle(vv)
 
-let n2 = norm(vv)
+n2 = norm(vv)
 
-let ey = eye<4>()
+ey = eye<4>()
 
 !STOP
 
 ---
 
-let x = 2
-let y = 0
+x = 2
+y = 0
 do {
   x = x - 1
   y = y + 1
@@ -105,8 +118,8 @@ do {
 
 ---
 
-let s = 0
-let x = rand(-5,5)
+s = 0
+x = rand(-5,5)
 if x > 0 {
   s = 1
 }
@@ -121,8 +134,8 @@ else {
 
 ---
 
-let n = rand(5,10)          
-let f = zeros<n>()          %TODO:ANDREAS Ist kopiert aus der MBL Dokumentation, klappt aber leider nicht. Habe ich vorher irgendwas grundsätzlich falsch gemacht?
+n = rand(5,10)          
+f = zeros<n>()          %TODO:ANDREAS Ist kopiert aus der MBL Dokumentation, klappt aber leider nicht. Habe ich vorher irgendwas grundsätzlich falsch gemacht?
 f[1] = 1
 for k from 2 to n-1 {
   f[k] = f[k-2] + f[k-1]
@@ -132,39 +145,39 @@ for k from 2 to n-1 {
 
 ---
 
-let n = rand(3,6)
-let f = zeros<(n+1)>()
+n = rand(3,6)
+f = zeros<(n+1)>()
 for j from 0 to n {     % "i" is imaginary -> use e.g. "j"
   f[j] = binomial(n,j)
 }
-let m = rand(1,n)
-let k = n - m
+m = rand(1,n)
+k = n - m
 
 !STOP
 
 ---
 
-let A = rand<7>(-5,5);
-let Z = zeros<3>();
+A = rand<7>(-5,5);
+Z = zeros<3>();
 
 ---
 
-let v = [10,20,30,40,50]
-let x = v[1]
+v = [10,20,30,40,50]
+x = v[1]
 v[1+1] = 88 + 1
-let y = v[2]
+y = v[2]
 
 ---
 
-let k = 2
+k = 2
 while k > 0 {
   k = k - 1
 }
 
 ---
 
-let s = 0
-let n = 5
+s = 0
+n = 5
 for i from 0 to n-1 {
   s = s + 100
 }
@@ -175,72 +188,72 @@ for i from 0 to n-1 {
 
 !STOP
 
-let r= 3;          % rand(3,8);
-let a= -1;          % randZ(-1,1);
-let tmp = pi/2     % rand({pi, pi/2});
-let phi= a * @tmp;
-let z= r*cos(phi)+1i*r*sin(phi);
+r= 3;          % rand(3,8);
+a= -1;          % randZ(-1,1);
+tmp = pi/2     % rand({pi, pi/2});
+phi= a * @tmp;
+z= r*cos(phi)+1i*r*sin(phi);
 !STOP
 
 !!!!!!! TODO: @@b3, ... must be shortened symbolically
-let r1/r2=rand(2,9);
-let a1/a2= rand(2,4);
-let b1= pi/a1;
-let b2= pi/a2;
-let r3= r1*r2;
-let r4= r1/r2;
-let r5= r2/r1;
-let r6= r1-r2;
-let b3 = @b1 + @b2
-let b4 = @b1 - @b2
-let b5 = @b2 - @b1
-let b6 = @b1 * @b2
+r1/r2=rand(2,9);
+a1/a2= rand(2,4);
+b1= pi/a1;
+b2= pi/a2;
+r3= r1*r2;
+r4= r1/r2;
+r5= r2/r1;
+r6= r1-r2;
+b3 = @b1 + @b2
+b4 = @b1 - @b2
+b5 = @b2 - @b1
+b6 = @b1 * @b2
 !STOP
 
-let aaa = 2*cos(pi/4) + 2*sin(pi/4)*i;
-let bbb = complex(2*cos(pi/4), 2*sin(pi/4));
+aaa = 2*cos(pi/4) + 2*sin(pi/4)*i;
+bbb = complex(2*cos(pi/4), 2*sin(pi/4));
 !STOP
 
-let u = (2+3) * 4
-let v = 2 + (3*4)
-let w = 2^(3+4)
-let xxxxx = 2*cos(pi/4);
+u = (2+3) * 4
+v = 2 + (3*4)
+w = 2^(3+4)
+xxxxx = 2*cos(pi/4);
 !STOP
 
-let r=rand(2,4);
-let z1=complex(2*cos(pi/4), 2*sin(pi/4));
-let z4=complex(2*cos(-pi/3), 2*sin(-pi/3));
-let z2=complex(3*cos(pi*2/3), 3*sin(pi*2/3));
-let z6=complex(3*cos(-pi/2), 3*sin(-pi/2));
-let z3=complex(4*cos(pi/3), 4*sin(pi/3));
-let z5=complex(4*cos(-pi*3/4), 4*sin(-pi*3/4));
+r=rand(2,4);
+z1=complex(2*cos(pi/4), 2*sin(pi/4));
+z4=complex(2*cos(-pi/3), 2*sin(-pi/3));
+z2=complex(3*cos(pi*2/3), 3*sin(pi*2/3));
+z6=complex(3*cos(-pi/2), 3*sin(-pi/2));
+z3=complex(4*cos(pi/3), 4*sin(pi/3));
+z5=complex(4*cos(-pi*3/4), 4*sin(-pi*3/4));
 !STOP
 
 
 % ---WIP: term output---
 
-%let z = -2 - 3i       >>> complex >>> (-2) + (-3)*i
-%let z = 1/2 + 1/5i    >>> complex >>> 0.5 + 0.2*i
+%z = -2 - 3i       >>> complex >>> (-2) + (-3)*i
+%z = 1/2 + 1/5i    >>> complex >>> 0.5 + 0.2*i
 
 
-let f(x) = 3 x^2   >>> term >>> 3 x^2 >>> (3*(x^2))
+f(x) = 3 x^2   >>> term >>> 3 x^2 >>> (3*(x^2))
 
 % TODO:
-% let f(x) = x^2
-% let g(x) = f(x) + 5
+% f(x) = x^2
+% g(x) = f(x) + 5
 
-let x = 3 + 4         >>> int >>>  7 >>> (3+4)
-let y = x + 5         >>> int >>> 12 >>> (7+5)
-let z = @x + 5        >>> int >>> 12 >>> ((3+4)+5)
+x = 3 + 4         >>> int >>>  7 >>> (3+4)
+y = x + 5         >>> int >>> 12 >>> (7+5)
+z = @x + 5        >>> int >>> 12 >>> ((3+4)+5)
 
-let a = sin(pi/4)     >>> real >>> 0.7071067812 >>> sin((pi/4))
-let b = @a            >>> real >>> 0.7071067812 >>> sin((pi/4))
-let c = a             >>> real >>> 0.7071067812 >>> 0.7071067811865
-let d = @a + 1        >>> real >>> 1.7071067812 >>> (sin((pi/4))+1)
-let e = @@a + 1       >>> real >>> 1.7071067812 >>> ((sqrt(2)/2)+1)
+a = sin(pi/4)     >>> real >>> 0.7071067812 >>> sin((pi/4))
+b = @a            >>> real >>> 0.7071067812 >>> sin((pi/4))
+c = a             >>> real >>> 0.7071067812 >>> 0.7071067811865
+d = @a + 1        >>> real >>> 1.7071067812 >>> (sin((pi/4))+1)
+e = @@a + 1       >>> real >>> 1.7071067812 >>> ((sqrt(2)/2)+1)
 
-let xxx = sin(pi/6)
-let yyy = @@xxx       >>> rational >>> 1/2
+xxx = sin(pi/6)
+yyy = @@xxx       >>> rational >>> 1/2
 
 
 %     x      numerical value of x
@@ -248,16 +261,16 @@ let yyy = @@xxx       >>> rational >>> 1/2
 %     @@x    optimized term of x
 
 ---
-let _int = 3                   >>> int >>> 3
-let _rat = 2/3                 >>> rational >>> 2/3
-let _real = 3.14               >>> real >>> 3.14
-let _irr = pi                  >>> irrational >>> pi
-let _cmplx = 2 + 3i            >>> complex >>> 2+3i
-let _vec = [1,2]               >>> vector >>> [1,2]
-let _mat = [[1,2],[3,4]]       >>> matrix >>> [[1,2],[3,4]]
-let _bool = true               >>> boolean >>> true
+_int = 3                   >>> int >>> 3
+_rat = 2/3                 >>> rational >>> 2/3
+_real = 3.14               >>> real >>> 3.14
+_irr = pi                  >>> irrational >>> pi
+_cmplx = 2 + 3i            >>> complex >>> 2+3i
+_vec = [1,2]               >>> vector >>> [1,2]
+_mat = [[1,2],[3,4]]       >>> matrix >>> [[1,2],[3,4]]
+_bool = true               >>> boolean >>> true
 
-let z = 0
+z = 0
 
 % == add ==
 z = _int + _int         >>> int >>> 6
@@ -458,91 +471,91 @@ z = !((true && false) || true)    >>> boolean >>> false
 
 ---
 
-let f = floor(3.14)    >>> int >>> 3
+f = floor(3.14)    >>> int >>> 3
 f = floor([1.1, 2.5])  >>> vector >>> [1,2]
 f = floor([[1.1, 2.2],[3.3,4.4]])  >>> matrix >>> [[1,2],[3,4]]
-let c = ceil(3.14)      >>> int >>> 4
-let a = round(3.14)     >>> int >>> 3
+c = ceil(3.14)      >>> int >>> 4
+a = round(3.14)     >>> int >>> 3
 a = round(2.71)         >>> int >>> 3
 
 ---
 
-let y1 = sin(0)          >>> int >>> 0
-let y2 = sin(pi/4)       >>> real >>> sqrt(2)/2
+y1 = sin(0)          >>> int >>> 0
+y2 = sin(pi/4)       >>> real >>> sqrt(2)/2
 
 
 % TODO: use "..." for expected term values
 
-%   let x1 = sin(pi/6)        >>> real >>> 0.5
-%   let y() = x1 + 5          >>> term >>> 0.5 + 5
+%   x1 = sin(pi/6)        >>> real >>> 0.5
+%   y() = x1 + 5          >>> term >>> 0.5 + 5
 %   y() = @x1 + 5             >>> term >>> sin(pi/6) + 5
 %   y() = simplify(@x1) + 5   >>> term >>> 1/2 + 5
 %   y() = simplify(@x1 + 5)   >>> term >>> 11/2
 
-%   let x2 = sin(pi/3)        >>> real >>> 0.8660254038
+%   x2 = sin(pi/3)        >>> real >>> 0.8660254038
 %   y() = @x2 + 5             >>> term >>> sin(pi/3) + 5
 %   y() = simplify(@x2) + 5   >>> term >>> sqrt(3)/2 + 5
 
 ---
 
-let z = {20, 10, 30+1}  >>> set >>> {10,20,31}
-let w = len(z)          >>> int >>> 3
-let m1 = min(z)         >>> int >>> 10
-let m2 = max(z)         >>> int >>> 31
+z = {20, 10, 30+1}  >>> set >>> {10,20,31}
+w = len(z)          >>> int >>> 3
+m1 = min(z)         >>> int >>> 10
+m2 = max(z)         >>> int >>> 31
 
 % TODO: add, remove, elements...
 
 ---
 
-let z = 2 - 3i*2       >>> complex >>> 2-6i
-let w = 2z             >>> complex >>> 4-12i
-let r = real(w)        >>> int >>> 4
-let i = imag(w)        >>> int >>> -12
+z = 2 - 3i*2       >>> complex >>> 2-6i
+w = 2z             >>> complex >>> 4-12i
+r = real(w)        >>> int >>> 4
+i = imag(w)        >>> int >>> -12
 
-let x = 2 - 2i;
-let phi = arg(x);
+x = 2 - 2i;
+phi = arg(x);
 r = abs(x);
 z = r * exp(i*phi);
 !STOP
 
 ---
 
-let x = 3 > 5       >>> boolean >>> false
-let y = 5 > 2       >>> boolean >>> true
+x = 3 > 5       >>> boolean >>> false
+y = 5 > 2       >>> boolean >>> true
 % TODO: >, >=, <=, ==, != for all types, ...
 
 ---
 
-let k = 2              >>> int >>> 2
+k = 2              >>> int >>> 2
 while k > 0 {
   k = k - 1
 }
-let q = k              >>> int >>> 0
+q = k              >>> int >>> 0
 
 ---
 
-let x = 3
-let y = 0
+x = 3
+y = 0
 if x == 3 {
   y = 1
 }
-let output = y     >>> int >>> 1
+output = y     >>> int >>> 1
 % TODO: else
 
 ---
 
-let a = 4
-let f(x) = a x^2 + 1
-let y = f(5)
+a = 4
+f(x) = a x^2 + 1
+y = f(5)
 
 !STOP
 
 ---
 
-let f(x) = x^2        >>> term >>> x^2
-let y = f(5)          >>> int >>> 25
+f(x) = x^2        >>> term >>> x^2
+y = f(5)          >>> int >>> 25
 
-let g(x) = @f + 1     >>> term >>> x^2+1 + 888
+g(x) = @f + 1     >>> term >>> x^2+1 + 888
 
 % TODO: f(x,y) ...
 
@@ -550,39 +563,39 @@ let g(x) = @f + 1     >>> term >>> x^2+1 + 888
 
 ---
 
-let f(x) = 2x^(2+1)+2+1   >>> term >>> "2x^3+1"
-let y = f(3)              >>> int >>> 55
+f(x) = 2x^(2+1)+2+1   >>> term >>> "2x^3+1"
+y = f(3)              >>> int >>> 55
 
 f(x) = 0         >>> term >>> "0"
 f(x) = x         >>> term >>> "x"
 f(x) = x+x       >>> term >>> "2x"
 f(x) = (2x)+3    >>> term >>> "2x+3"
-let a = 5
+a = 5
 f(x) = ax        >>> term >>> 5*x
 
 ---
 
-let x = [1,2,3]       >>> vector >>> [1,2,3]
-let y = 2x            >>> vector >>> [2,4,6]
+x = [1,2,3]       >>> vector >>> [1,2,3]
+y = 2x            >>> vector >>> [2,4,6]
 
 ---
 
-let A = [[1,2],[3,4],[5,6]]
-let m = rows(A)       >>> int >>> 3
-let n = cols(A)       >>> int >>> 2
+A = [[1,2],[3,4],[5,6]]
+m = rows(A)       >>> int >>> 3
+n = cols(A)       >>> int >>> 2
 A = [[1,2],[3,4]]
-let d = det(A)        >>> int >>> -2
+d = det(A)        >>> int >>> -2
 
 ---
 
-let A = zeros(3)      >>> matrix >>> [[0,0,0],[0,0,0],[0,0,0]]
+A = zeros(3)      >>> matrix >>> [[0,0,0],[0,0,0],[0,0,0]]
 A = eye(3)            >>> matrix >>> [[1,0,0],[0,1,0],[0,0,1]]
 
 ---
 
-let f = fac(2+1)        >>> int >>> 1*2*3
+f = fac(2+1)        >>> int >>> 1*2*3
 
 ---
 
-let s = {1,4,8}
-let x = rand(s)
+s = {1,4,8}
+x = rand(s)
