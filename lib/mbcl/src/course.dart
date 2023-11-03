@@ -23,6 +23,17 @@ class MbclCourse {
   int dateModified = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
   List<MbclChapter> chapters = [];
 
+  String gatherErrors() {
+    var err = error.isEmpty ? "" : "$error\n";
+    for (var chapter in chapters) {
+      err += chapter.gatherErrors();
+    }
+    if (err.isNotEmpty) {
+      err = "@COURSE:\n$err";
+    }
+    return err;
+  }
+
   MbclChapter? getChapterByLabel(String label) {
     for (var i = 0; i < chapters.length; i++) {
       var chapter = chapters[i];
