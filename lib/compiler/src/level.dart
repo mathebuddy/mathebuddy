@@ -49,6 +49,7 @@ import 'level_item.dart';
 ///       [ "DISABLE_RETRY" "=" ("true"|"false") "\n" ]
 ///       [ "TIME" "=" INT "\n" ]
 ///       [ "SCORES" "=" INT "\n" ]
+///       [ "INSTANCES" "=" INT "\n" ]
 ///       { levelItem }
 ///     DEDENT;
 ///   code =
@@ -431,10 +432,6 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         if (exercise.label.isEmpty) {
           exercise.label = 'ex${createUniqueId().toString()}';
         }
-        for (var child in block.children) {
-          parseLevelBlock(
-              child, compiler, level, exercise, depth + 1, exercise);
-        }
         try {
           checkAttributes(block.attributes, [
             "REQUIREMENT",
@@ -442,7 +439,8 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
             "CHOICE_ALIGNMENT",
             "DISABLE_RETRY",
             "TIME",
-            "SCORES"
+            "SCORES",
+            "INSTANCES"
           ]);
           data.disableRetry =
               getAttributeBool(block.attributes, "DISABLE_RETRY", false);
@@ -454,6 +452,7 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
           data.alignChoicesHorizontally = getAttributeString(block.attributes,
                   "CHOICE_ALIGNMENT", ["horizontal", "vertical"], "vertical") ==
               "horizontal";
+          data.numInstances = getAttributeInt(block.attributes, "INSTANCES", 5);
         } catch (e) {
           exercise.error += e.toString();
         }
@@ -468,6 +467,11 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
               data.requiredExercises.add(referencedExercise);
             }
           }
+        }
+
+        for (var child in block.children) {
+          parseLevelBlock(
+              child, compiler, level, exercise, depth + 1, exercise);
         }
 
         // TODO: remove old source code
