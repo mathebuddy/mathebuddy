@@ -6,12 +6,16 @@
 
 /// This file implements the level widget.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mathebuddy/event.dart';
+import 'package:mathebuddy/event_painter.dart';
+import 'package:mathebuddy/level_paragraph_item_input_field.dart';
 
 import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
-import 'package:mathebuddy/mbcl/src/event.dart';
 
 import 'keyboard.dart';
 import 'color.dart';
@@ -43,7 +47,9 @@ class LevelWidget extends StatefulWidget {
 }
 
 class LevelState extends State<LevelWidget> {
+  EventData? eventData;
   MbclLevelItem? activeExercise;
+  List<AppInputField> activeInputFields = [];
   KeyboardState keyboardState = KeyboardState();
   int currentPart = 0;
   GlobalKey? levelTitleKey;
@@ -65,6 +71,7 @@ class LevelState extends State<LevelWidget> {
 
   @override
   Widget build(BuildContext context) {
+    activeInputFields = [];
     scrollController = ScrollController();
 
     var level = widget.level;
@@ -89,10 +96,12 @@ class LevelState extends State<LevelWidget> {
       )
     ]);
     //levelHeadItems.add(levelTitle);
-    page.add(levelTitle);
+    if (level.isEvent == false) {
+      page.add(levelTitle);
+    }
     // navigation bar
     if (level.numParts > 0) {
-      // TOOD: click animation
+      // TODO: click animation
       var iconSize = 42.0;
       var selectedColor = matheBuddyGreen; // TODO
       var unselectedColor = Color.fromARGB(255, 91, 91, 91);
@@ -151,37 +160,58 @@ class LevelState extends State<LevelWidget> {
     }
 
     // level items
-    level.isEvent = false; // TODO!!!!
+    //level.isEvent = false;
     if (level.isEvent) {
       // -------- event level --------
       // create event instance, if it does not exist
-      level.eventData ??= MbclEventData(level);
-      // add timer
+      eventData ??= EventData(level, this);
+      if (eventData != null) {
+        if (eventData!.running == false) {
+          eventData!.start();
+        }
+      }
 
-      // TODO: refresh every second!!
-      var elapsedTime =
-          DateTime.now().difference(level.eventData!.startTimeEvent);
-      var elapsedTimeStr = "${elapsedTime.inSeconds}";
+      var width = MediaQuery.of(context).size.width - 50;
+      var eventPainter = EventPainter(width - 20);
+      page.add(Container(
+          alignment: Alignment.center,
+          child: CustomPaint(size: Size(width, 50), painter: eventPainter)));
+
+      //var elapsedTime = DateTime.now().difference(eventData!.startTimeEvent);
+      //var elapsedTimeStr = "${elapsedTime.inSeconds}";
+      var counterStr = "${eventData!.counter}";
       page.add(Padding(
           padding: EdgeInsets.only(top: 10.0),
           child: Container(
               decoration: BoxDecoration(color: Colors.white),
-              child: Row(children: [
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
-                  elapsedTimeStr,
-                  style: TextStyle(fontSize: 32),
+                  //elapsedTimeStr,
+                  counterStr,
+                  style: TextStyle(fontSize: 48, color: Colors.black54),
                 ),
                 Text('   '),
-                Text(
+                /*Text(
                   '1337',
                   style: TextStyle(fontSize: 32),
                 )
+                */
               ]))));
       // add current exercise
-      var ex = level.eventData!.getCurrentExercise();
+      var ex = eventData!.getCurrentExercise();
       if (ex != null) {
         page.add(generateLevelItem(this, level, ex));
       }
+      if (activeInputFields.isNotEmpty) {
+        var f = activeInputFields[0];
+        Timer t = Timer(Duration(milliseconds: 50), () {
+          if (keyboardState.layout == null) {
+            f.gestureDetector!.onTap!();
+          }
+        });
+      }
+      var bp = 1337;
     } else {
       // -------- non-event level --------
       var part = -1;
@@ -340,7 +370,7 @@ class LevelState extends State<LevelWidget> {
     }
 
     return Scaffold(
-      appBar: buildAppBar(this, false),
+      appBar: buildAppBar(this, false, eventData),
       body: body,
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
