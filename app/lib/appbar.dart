@@ -8,13 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'main.dart';
+import 'event.dart';
 
-AppBar buildAppBar(State state, bool graphButton) {
+AppBar buildAppBar(State state, bool graphButton, EventData? eventData) {
   List<Widget> actions = [];
   // home button
   actions.add(Text('  '));
   var actionHome = IconButton(
     onPressed: () {
+      if (eventData != null) {
+        eventData.end();
+      }
       if (Navigator.canPop(state.context)) {
         Navigator.pop(state.context);
       }
@@ -30,6 +34,12 @@ AppBar buildAppBar(State state, bool graphButton) {
                 ? Colors.black
                 : Colors.black26),
   );
+  var actionChat = IconButton(
+    onPressed: () {},
+    icon: Icon(Icons.chat, size: 36),
+  );
+  actions.add(actionChat);
+  actions.add(Text('  '));
   actions.add(actionHome);
   actions.add(Text('    '));
   // debug/release button
@@ -54,11 +64,5 @@ AppBar buildAppBar(State state, bool graphButton) {
         icon: Image.asset("assets/img/logoSmall.png"),
       ),
       elevation: 1,
-      actions: actions
-      // TODO: chat icon
-      /*IconButton(
-            onPressed: () { },
-            icon: Icon(Icons.chat, size: 36),
-          ),*/
-      );
+      actions: actions);
 }
