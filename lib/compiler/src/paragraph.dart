@@ -81,9 +81,9 @@ class Paragraph {
     lexer.enableEmitBigint(false);
     lexer.enableEmitNewlines(true);
     lexer.enableUmlautInID(true);
-    lexer.pushSource('', raw);
     lexer.setTerminals(['**', '#.', '-)', '@@']);
     lexer.configureSingleLineComments('/////');
+    lexer.pushSource('', raw);
     List<MbclLevelItem> res = [];
     while (lexer.isNotEnd()) {
       var part = _parsePart(lexer, srcRowIdx, ex);
