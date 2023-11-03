@@ -24,6 +24,17 @@ class MbclChapter {
   List<MbclUnit> units = [];
   List<MbclLevel> levels = [];
 
+  String gatherErrors() {
+    var err = error.isEmpty ? "" : "$error\n";
+    for (var level in levels) {
+      err += level.gatherErrors();
+    }
+    if (err.isNotEmpty) {
+      err = "@CHAPTER $fileId:\n$err";
+    }
+    return err;
+  }
+
   MbclLevel? getLevelByLabel(String label) {
     for (var i = 0; i < levels.length; i++) {
       var level = levels[i];
