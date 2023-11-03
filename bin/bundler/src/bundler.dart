@@ -54,6 +54,12 @@ void main(List<String> args) {
       compiler.compile(path);
       var output = compiler.getCourse()?.toJSON() as Map<String, Object>;
       bundle[id] = output;
+      var softErrors = compiler.gatherErrors();
+      if (softErrors.isNotEmpty) {
+        print(">>> ERROR LOG >>>");
+        print(softErrors);
+        print(">>> END OF ERROR LOG >>>");
+      }
     } catch (e) {
       print("ERROR: $e");
       exit(-1);
