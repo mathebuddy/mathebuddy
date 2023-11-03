@@ -71,7 +71,7 @@ class CourseState extends State<CourseWidget> {
     var body =
         SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
     return Scaffold(
-      appBar: buildAppBar(this, false),
+      appBar: buildAppBar(this, false, null),
       body: body,
       backgroundColor: Colors.white,
     );
