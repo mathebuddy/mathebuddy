@@ -33,6 +33,7 @@ class KeyboardLayout {
   List<KeyboardKey?> keys = [];
   bool isGapKeyboard = false; // does e.g. not insert "*" between alpha chars
   int lengthHint = -1; // shows hints on the number of keys, if >= 0
+  bool hasBackButton = false;
 
   void setGapKeyboard(bool value) {
     isGapKeyboard = value;
@@ -91,6 +92,7 @@ class KeyboardLayout {
         processedIndices.add(idx);
       }
     }
+    layout.hasBackButton = src.contains("!B");
     return layout;
   }
 
@@ -204,24 +206,14 @@ class Keyboard {
                       keyboardInputFieldData.cursorPos > 0) {
                     var oldValue = keyboardInputFieldData.studentValue;
                     var newValue = "";
-                    // TODO: the following MUST be extracted from keyboards;
-                    // since custom keyboards may introduce new keys...
-                    var specialKeys = [
-                      "pi",
-                      "sin(",
-                      "cos(",
-                      "tan(",
-                      "exp(",
-                      "log(",
-                      "sqrt(",
-                      "^("
-                    ];
+
                     var specialKey = "";
                     var oldValueLeftOfCursor =
                         oldValue.substring(0, keyboardInputFieldData.cursorPos);
-                    for (var key in specialKeys) {
-                      if (oldValueLeftOfCursor.endsWith(key)) {
-                        specialKey = key;
+                    for (var key in keyboardLayout.keys) {
+                      if (key == null) continue;
+                      if (oldValueLeftOfCursor.endsWith(key.value)) {
+                        specialKey = key.value;
                         break;
                       }
                     }
@@ -242,6 +234,13 @@ class Keyboard {
                     keyboardInputFieldData.studentValue.length >=
                         keyboardLayout.lengthHint) {
                   // do nothing
+                } else if (keyboardLayout.hasBackButton == false) {
+                  // completely substitute answer, if keyboard has no
+                  // backspace button
+                  keyboardInputFieldData.studentValue = key.value;
+                  keyboardInputFieldData.cursorPos = key.value.length;
+                  keyboardState.exerciseData?.feedback =
+                      MbclExerciseFeedback.unchecked;
                 } else {
                   if (keyboardInputFieldData.studentValue.length < 32) {
                     var beforeCursor = keyboardInputFieldData.studentValue
@@ -269,7 +268,6 @@ class Keyboard {
                         newStr = "*$newStr";
                       }
                     }
-
                     keyboardInputFieldData.studentValue =
                         beforeCursor + newStr + afterCursor;
                     keyboardInputFieldData.cursorPos += newStr.length;
@@ -361,19 +359,20 @@ class Keyboard {
                     )))))));
 
     // render cursor
-    widgets.add(Positioned(
-        left: (screenWidth - charWidth * studentValue.length) / 2 +
-            charWidth * cursorPos,
-        top: 15,
-        child: Container(
-          width: 2.5,
-          height: 35,
-          decoration: BoxDecoration(
-              color: Colors.black,
-              border: Border.all(color: Colors.black, width: 1.0),
-              borderRadius: BorderRadius.all(Radius.circular(1.0))),
-        )));
-
+    if (keyboardLayout.hasBackButton) {
+      widgets.add(Positioned(
+          left: (screenWidth - charWidth * studentValue.length) / 2 +
+              charWidth * cursorPos,
+          top: 15,
+          child: Container(
+            width: 2.5,
+            height: 35,
+            decoration: BoxDecoration(
+                color: Colors.black,
+                border: Border.all(color: Colors.black, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(1.0))),
+          )));
+    }
     // render length hint
     if (keyboardLayout.lengthHint >= 0) {
       var k = keyboardInputFieldData.studentValue.length;
