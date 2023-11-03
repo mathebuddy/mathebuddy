@@ -42,15 +42,15 @@ void main() {
     summands[i].randomlyChangeIntegerOperands(2);
     print(summands[i]);
   }*/
-  try {
-    var xx = term.generateCorrectAndIncorrectSummands(
-        overheadFactor: 3, maxDelta: 5);
-    var bp = 1337;
-  } catch (e) {
-    print(e);
-  }
+  // try {
+  //   var xx = term.generateCorrectAndIncorrectSummands(
+  //       overheadFactor: 3, maxDelta: 5);
+  //   var bp = 1337;
+  // } catch (e) {
+  //   print(e);
+  // }
 
-  return;
+  // return;
 
 //var term = parser.parse('randZ(-2,2)');
 //var term = parser.parse('rand<2,3>(-2,2)');
