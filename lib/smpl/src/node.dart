@@ -34,7 +34,7 @@ class StatementList extends AstNode {
 }
 
 class Assignment extends AstNode {
-  bool createSymbol = true;
+  //bool createSymbol = true;
   String lhs = '';
   String lhsIndex1 = ''; // term that represents an integral (vector) index
   String lhsIndex2 = ''; // second index (e.g. for matrix elements)
@@ -51,7 +51,8 @@ class Assignment extends AstNode {
   @override
   String toString([int indent = 0]) {
     return ('${spaces(indent)}'
-        'ASSIGNMENT:create=$createSymbol,'
+        //'ASSIGNMENT:create=$createSymbol,'
+        'ASSIGNMENT:'
         'lhs="$lhs",'
         'lhsIndex1="$lhsIndex1",'
         'lhsIndex2="$lhsIndex1",'
