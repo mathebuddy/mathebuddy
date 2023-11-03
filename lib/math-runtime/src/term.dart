@@ -257,6 +257,16 @@ class Term {
     return vars;
   }
 
+  /// TODO: description + integrate into method tokenizeSubterm
+  void disturb() {
+    if (op == '#') {
+      value.disturb();
+    }
+    for (var oi in o) {
+      oi.disturb();
+    }
+  }
+
   /// Tokenizes the term into stringified tokens.
   /// The output returns a list of stringified tokens in the format of the
   /// math runtime, as well as as TeX-notation. Both formats are encoded into
@@ -369,89 +379,89 @@ class Term {
     return res;
   }
 
-  /// TODO: remove old src
-  /// Splits the term into summands.
-  ///
-  /// Example: "2*x^2 + 5*x + 7"
-  ///    is split into ["2*x^2", "5*x", "7"]
-  List<Term> splitSummands() {
-    List<Term> s = [];
-    if (op == '+' || op == '-') {
-      s = o;
-    } else {
-      s.add(this);
-    }
-    return s;
-  }
+  // /// TODO: remove old src
+  // /// Splits the term into summands.
+  // ///
+  // /// Example: "2*x^2 + 5*x + 7"
+  // ///    is split into ["2*x^2", "5*x", "7"]
+  // List<Term> splitSummands() {
+  //   List<Term> s = [];
+  //   if (op == '+' || op == '-') {
+  //     s = o;
+  //   } else {
+  //     s.add(this);
+  //   }
+  //   return s;
+  // }
 
-  /// TODO: remove old src
-  /// Generates a list of summands plus an overhead of incorrect summands.
-  /// The resulting list does NOT contain two elements that are equal.
-  ///
-  /// Example: "2*x^2 + 5*x + 7" with overhead factor 1.5:
-  ///
-  /// Correct summands are ["2*x^2", "5*x", "7"], i.e. 3 summands.
-  /// The result consists of round(3*1.5)=5 elements, for example
-  /// ["2*x^2", "5*x", "7", "3*x^4", "6*x"];
-  List<Term> generateCorrectAndIncorrectSummands(
-      {double overheadFactor = 1.5, int maxDelta = 2}) {
-    // TODO: retake input constants from input term!! replace sin<->cos<->tan,...
+  // /// TODO: remove old src
+  // /// Generates a list of summands plus an overhead of incorrect summands.
+  // /// The resulting list does NOT contain two elements that are equal.
+  // ///
+  // /// Example: "2*x^2 + 5*x + 7" with overhead factor 1.5:
+  // ///
+  // /// Correct summands are ["2*x^2", "5*x", "7"], i.e. 3 summands.
+  // /// The result consists of round(3*1.5)=5 elements, for example
+  // /// ["2*x^2", "5*x", "7", "3*x^4", "6*x"];
+  // List<Term> generateCorrectAndIncorrectSummands(
+  //     {double overheadFactor = 1.5, int maxDelta = 2}) {
+  //   // TODO: retake input constants from input term!! replace sin<->cos<->tan,...
 
-    var maxIterations = 100;
-    List<Term> correct = splitSummands();
-    correct = Term.removeDuplicates(correct);
-    var n = (correct.length * overheadFactor).round();
-    List<Term> all = [];
-    all.addAll(correct);
-    var iteration = 0;
-    while (all.length < n) {
-      if (iteration > maxIterations) {
-        throw Exception("generateCorrectAndIncorrectSummands "
-            "exceeded max number of iterations");
-      }
-      for (var item in correct) {
-        var newItem = item.clone();
-        newItem.randomlyChangeIntegerOperands(maxDelta);
-        all.add(newItem);
-      }
-      all = Term.removeDuplicates(all);
-      iteration++;
-    }
-    all = all.sublist(0, n);
-    return all;
-  }
+  //   var maxIterations = 100;
+  //   List<Term> correct = splitSummands();
+  //   correct = Term.removeDuplicates(correct);
+  //   var n = (correct.length * overheadFactor).round();
+  //   List<Term> all = [];
+  //   all.addAll(correct);
+  //   var iteration = 0;
+  //   while (all.length < n) {
+  //     if (iteration > maxIterations) {
+  //       throw Exception("generateCorrectAndIncorrectSummands "
+  //           "exceeded max number of iterations");
+  //     }
+  //     for (var item in correct) {
+  //       var newItem = item.clone();
+  //       newItem.randomlyChangeIntegerOperands(maxDelta);
+  //       all.add(newItem);
+  //     }
+  //     all = Term.removeDuplicates(all);
+  //     iteration++;
+  //   }
+  //   all = all.sublist(0, n);
+  //   return all;
+  // }
 
-  /// TODO: remove old src
-  static List<Term> removeDuplicates(List<Term> list) {
-    List<Term> output = [];
-    for (var item in list) {
-      var found = false;
-      for (var item2 in output) {
-        if (item.compareNumerically(item2)) {
-          found = true;
-          break;
-        }
-      }
-      if (!found) output.add(item);
-    }
-    return output;
-  }
+  // /// TODO: remove old src
+  // static List<Term> removeDuplicates(List<Term> list) {
+  //   List<Term> output = [];
+  //   for (var item in list) {
+  //     var found = false;
+  //     for (var item2 in output) {
+  //       if (item.compareNumerically(item2)) {
+  //         found = true;
+  //         break;
+  //       }
+  //     }
+  //     if (!found) output.add(item);
+  //   }
+  //   return output;
+  // }
 
-  /// TODO: remove old src
-  void randomlyChangeIntegerOperands(int maxDelta) {
-    _randomlyChangeIntegerOperandsRecursively(this, maxDelta);
-  }
+  // /// TODO: remove old src
+  // void randomlyChangeIntegerOperands(int maxDelta) {
+  //   _randomlyChangeIntegerOperandsRecursively(this, maxDelta);
+  // }
 
-  /// TODO: remove old src
-  void _randomlyChangeIntegerOperandsRecursively(Term term, int maxDelta) {
-    for (var i = 0; i < term.o.length; i++) {
-      _randomlyChangeIntegerOperandsRecursively(term.o[i], maxDelta);
-      if (term.o[i].value.type == OperandType.int) {
-        var rand = math.Random();
-        term.o[i].value.real += rand.nextInt(maxDelta);
-      }
-    }
-  }
+  // /// TODO: remove old src
+  // void _randomlyChangeIntegerOperandsRecursively(Term term, int maxDelta) {
+  //   for (var i = 0; i < term.o.length; i++) {
+  //     _randomlyChangeIntegerOperandsRecursively(term.o[i], maxDelta);
+  //     if (term.o[i].value.type == OperandType.int) {
+  //       var rand = math.Random();
+  //       term.o[i].value.real += rand.nextInt(maxDelta);
+  //     }
+  //   }
+  // }
 
   String toTeXString({bool needParentheses = false}) {
     return term2tex(this, needParentheses: needParentheses);
