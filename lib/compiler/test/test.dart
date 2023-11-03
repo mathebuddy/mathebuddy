@@ -59,8 +59,12 @@ void compile(String pathIn) {
       }
     }
     assert(jsonStr == jsonStr2, "reimport of JSon fails!");
-
-    var bp = 1337;
+    var softErrors = compiler.gatherErrors();
+    if (softErrors.isNotEmpty) {
+      print(">>> ERROR LOG >>>");
+      print(softErrors);
+      print(">>> END OF ERROR LOG >>>");
+    }
   } catch (e) {
     print("ERROR: $e");
     assert(false);
