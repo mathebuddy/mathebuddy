@@ -4,6 +4,7 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'package:mathebuddy/math-runtime/src/operand.dart';
 import 'package:tex/tex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
 import 'package:mathebuddy/math-runtime/src/parse.dart' as term_parser;
+import 'package:mathebuddy/math-runtime/src/term.dart';
 
 import 'screen.dart';
 import 'level.dart';
@@ -129,7 +131,21 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
             state.keyboardState.exerciseData = exerciseData;
             state.keyboardState.inputFieldData = inputFieldData;
             var forceKeyboardId = inputFieldData.forceKeyboardId;
-            if (forceKeyboardId.isNotEmpty) {
+            if (inputFieldData.termTokens) {
+              var termTokens = exerciseData!
+                  .instances[exerciseData.runInstanceIdx]["TOKENS.${item.id}"]!
+                  .split(" # ");
+              if (termTokens.contains("(") == false) termTokens.add("(");
+              if (termTokens.contains(")") == false) termTokens.add(")");
+              state.keyboardState.layout =
+                  createChoiceKeyboard(termTokens, hasBackButton: true);
+            } else if (inputFieldData.choices) {
+              var choices = exerciseData!.instances[exerciseData.runInstanceIdx]
+                      ["CHOICES.${item.id}"]!
+                  .split(" # ");
+              state.keyboardState.layout =
+                  createChoiceKeyboard(choices, hasBackButton: false);
+            } else if (forceKeyboardId.isNotEmpty) {
               state.keyboardState.layout = getKeyboardLayout(forceKeyboardId);
             } else {
               switch (inputFieldData.type) {
@@ -189,7 +205,7 @@ InlineSpan generateParagraphItemInputField(LevelState state, MbclLevelItem item,
                       letters.add(ch);
                     }
                     state.keyboardState.layout =
-                        createGapKeyboard(letters.toList());
+                        createChoiceKeyboard(letters.toList());
                   }
                   if (inputFieldData.hideLengthOfGap == false) {
                     state.keyboardState.layout!
