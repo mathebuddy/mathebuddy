@@ -32,6 +32,14 @@ class MbclLevelItem {
 
   MbclLevelItem(this.level, this.type, this.srcLine, [this.text = '']);
 
+  String gatherErrors() {
+    var err = error.isEmpty ? "" : "$error\n";
+    for (var item in items) {
+      err += item.gatherErrors();
+    }
+    return err;
+  }
+
   Map<String, dynamic> toJSON() {
     Map<String, dynamic> json = {
       "type": type.name,
@@ -225,6 +233,7 @@ class MbclExerciseData {
   bool staticOrder = false;
   bool disableRetry = false;
   int scores = 1;
+  int numInstances = 5;
   int time = -1; // time in seconds; negative := exercise has no time limit
   //TODO: remove: bool showGapLength = false;
   //TODO: remove: bool showRequiredGapLettersOnly = false;
@@ -246,6 +255,9 @@ class MbclExerciseData {
 
   // runtime variables
   int runInstanceIdx = -1; // selected exercise instance; -1 := not chosen
+  int randomInstanceOrderIdx =
+      0; // current index to index to randomInstanceOrder
+  List<int> randomInstanceOrder = [];
 
   MbclExerciseData(this.exercise);
 
@@ -270,6 +282,7 @@ class MbclExerciseData {
       "staticOrder": staticOrder,
       "disableRetry": disableRetry,
       "scores": scores,
+      "numInstances": numInstances,
       "time": time,
       //"showGapLength": showGapLength,
       //"showRequiredGapLettersOnly": showRequiredGapLettersOnly,
@@ -306,6 +319,7 @@ class MbclExerciseData {
     staticOrder = src["staticOrder"] as bool;
     disableRetry = src["disableRetry"] as bool;
     scores = src["scores"] as int;
+    numInstances = src["numInstances"] as int;
     time = src["time"] as int;
     //showGapLength = src["showGapLength"] as bool;
     //showRequiredGapLettersOnly = src["showRequiredGapLettersOnly"] as bool;
@@ -401,9 +415,8 @@ class MbclInputFieldData {
   bool dynamicRows = false;
   bool dynamicCols = false;
   String forceKeyboardId = "";
-  int numChoices =
-      -1; // a nonzero value provides a "keyboard" with solutions (similar to multiple choice)
-  // TODO: tokens
+  bool choices = false; // data stored in MbclExerciseData.instances
+  bool termTokens = false; // data stored in MbclExerciseData.instances
   bool hideLengthOfGap = false;
   bool showAllLettersOfGap = false;
 
@@ -430,7 +443,8 @@ class MbclInputFieldData {
       "dynamicRows": dynamicRows,
       "dynamicCols": dynamicCols,
       "forceKeyboardId": forceKeyboardId,
-      "numChoices": numChoices,
+      "choices": choices,
+      "termTokens": termTokens,
       "hideLengthOfGap": hideLengthOfGap,
       "showAllLettersOfGap": showAllLettersOfGap
     };
@@ -447,7 +461,8 @@ class MbclInputFieldData {
     dynamicRows = src["dynamicRows"] as bool;
     dynamicCols = src["dynamicCols"] as bool;
     forceKeyboardId = src["forceKeyboardId"] as String;
-    numChoices = src["numChoices"] as int;
+    choices = src["choices"] as bool;
+    termTokens = src["termTokens"] as bool;
     hideLengthOfGap = src["hideLengthOfGap"] as bool;
     showAllLettersOfGap = src["showAllLettersOfGap"] as bool;
   }
