@@ -13,7 +13,7 @@ import '../../smpl/src/node.dart' as smpl_node;
 
 import '../../smpl/src/interpreter.dart' as smpl_interpreter;
 
-const numberOfInstances = 7; // TODO!! must be configurable
+const maxIterations = 50; // max tries to alter random variables per instance
 
 // TODO: repeat drawing random questions, if same instance is already drawn!!!!!
 // TODO: must check for endless loops, e.g. happens if search space is restricted!
@@ -22,15 +22,39 @@ const numberOfInstances = 7; // TODO!! must be configurable
 
 void processExerciseCode(MbclLevelItem exercise) {
   var data = exercise.exerciseData!;
-  for (var i = 0; i < numberOfInstances; i++) {
+  // stringified instance to check, if same instance has already been drawn.
+  List<String> instanceStrings = [];
+  // create instances
+  var showedMaxIterationError = false;
+  for (var i = 0; i < data.numInstances; i++) {
     try {
       var parser = smpl_parser.Parser();
       parser.parse(data.code);
       var ic = parser.getAbstractSyntaxTree() as smpl_node.AstNode;
       var interpreter = smpl_interpreter.Interpreter();
-      var symbols = interpreter.runProgram(ic);
+      // run code, until an instance is drawn, that is not yet present.
+      Map<String, smpl_interpreter.InterpreterSymbol> symbols = {};
+      var symbolsStr = '';
+      var k = 0;
+      do {
+        symbols = interpreter.runProgram(ic);
+        symbolsStr = symbols.toString();
+        k++;
+        if (k > maxIterations) {
+          if (showedMaxIterationError == false) {
+            exercise.error +=
+                ' Failed to generate ${data.numInstances} distinct answers. '
+                'Improve randomization, or limit the number of instances '
+                '(e.g. INSTANCES=2). ';
+            showedMaxIterationError = true;
+          }
+          break;
+        }
+      } while (
+          data.code.contains("rand") && instanceStrings.contains(symbolsStr));
+      instanceStrings.add(symbolsStr);
+      //gather variable names and function names
       if (i == 0) {
-        // add variables names
         for (var symId in symbols.keys) {
           var sym = symbols[symId] as smpl_interpreter.InterpreterSymbol;
           data.variables.add(symId);
@@ -100,12 +124,12 @@ String addStaticVariable(
   data.variables.add(varId);
   data.smplOperandType[varId] = type.name;
   if (data.instances.isEmpty) {
-    for (var i = 0; i < numberOfInstances; i++) {
+    for (var i = 0; i < data.numInstances; i++) {
       Map<String, String> instance = {};
       data.instances.add(instance);
     }
   }
-  for (var i = 0; i < numberOfInstances; i++) {
+  for (var i = 0; i < data.numInstances; i++) {
     data.instances[i][varId] = value;
   }
   return varId;
