@@ -90,6 +90,32 @@ class Operand {
     return c;
   }
 
+  void disturb() {
+    // TODO: improve!!!!!!
+    switch (type) {
+      case OperandType.boolean:
+        if (math.Random().nextInt(3) == 0) {
+          real = math.Random().nextBool() ? 1 : 0;
+        }
+        break;
+      case OperandType.int:
+      case OperandType.rational:
+        real += math.Random().nextInt(5) - 2;
+        break;
+      case OperandType.set:
+      case OperandType.complex:
+      case OperandType.vector:
+      case OperandType.matrix:
+        // TODO: "set" could now contain 2 equal elements
+        for (var item in items) {
+          item.disturb();
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
   static bool compareEqual(Operand x, Operand y, [num epsilon = 1e-9]) {
     // TODO: improve implementation of this method mathematically!
 
