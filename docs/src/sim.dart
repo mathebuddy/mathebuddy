@@ -71,7 +71,14 @@ String compileMblCode(String path /*, String src*/) {
     compiler.compile(path);
     var y = compiler.getCourse()?.toJSON();
     var jsonStr = JsonEncoder.withIndent("  ").convert(y);
-    logArea.innerHtml = '... compilation to MBCL was successful!';
+    var log = '... compilation to MBCL was successful!<br/>';
+    var softErrors = compiler.gatherErrors();
+    if (softErrors.isNotEmpty) {
+      log += "+++++ MINOR ERRORS +++++<br/>";
+      log += softErrors.replaceAll("\n", "<br/>");
+      log += "+++++ END OF ERROR LOG +++++<br/>";
+    }
+    logArea.innerHtml = log;
     return jsonStr;
   } catch (e) {
     logArea.innerHtml = e.toString();
