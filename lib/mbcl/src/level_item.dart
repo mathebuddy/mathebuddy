@@ -486,7 +486,6 @@ enum MbclInputFieldType {
   matrixFlexCols,
   matrixFlex,
   term,
-  choices,
   string,
 }
 
