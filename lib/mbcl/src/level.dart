@@ -35,6 +35,20 @@ class MbclLevel {
   double progress = 0.0; // percentage of correct exercises [0,1]
   MbclEventData? eventData;
 
+  String gatherErrors() {
+    var err = error.isEmpty ? "" : "$error\n";
+    for (var item in items) {
+      var e = item.gatherErrors();
+      if (e.isNotEmpty) {
+        err += "  [Line ${item.srcLine}] $e";
+      }
+    }
+    if (err.isNotEmpty) {
+      err = "@LEVEL $fileId:\n$err";
+    }
+    return err;
+  }
+
   MbclLevelItem? getExerciseByLabel(String label) {
     for (var item in items) {
       if (item.type == MbclLevelItemType.exercise && item.label == label) {
@@ -42,6 +56,16 @@ class MbclLevel {
       }
     }
     return null;
+  }
+
+  List<MbclLevelItem> getExercises() {
+    List<MbclLevelItem> res = [];
+    for (var item in items) {
+      if (item.type == MbclLevelItemType.exercise) {
+        res.add(item);
+      }
+    }
+    return res;
   }
 
   void calcProgress() {
