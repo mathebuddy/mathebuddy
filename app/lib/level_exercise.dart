@@ -23,8 +23,19 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
   exerciseKey = GlobalKey();
   var exerciseData = item.exerciseData as MbclExerciseData;
   if (exerciseData.runInstanceIdx < 0) {
+    // create order, if not yet done
+    if (exerciseData.randomInstanceOrder.isEmpty) {
+      exerciseData.randomInstanceOrder = [
+        for (var i = 0; i < exerciseData.instances.length; i++) i
+      ];
+      exerciseData.randomInstanceOrder.shuffle();
+    }
+    // proceed to next instance
     exerciseData.runInstanceIdx =
-        Random().nextInt(exerciseData.instances.length);
+        exerciseData.randomInstanceOrder[exerciseData.randomInstanceOrderIdx];
+    exerciseData.randomInstanceOrderIdx =
+        (exerciseData.randomInstanceOrderIdx + 1) %
+            exerciseData.instances.length;
   }
   List<Widget> list = [];
   if (debugMode && exerciseData.requiredExercises.isNotEmpty) {
