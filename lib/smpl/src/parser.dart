@@ -25,7 +25,6 @@ import 'node.dart';
 ///     | figure
 ///     | print;
 ///   declareOrAssign =
-///     [ "let" ]                 # "let" -> declaration
 ///     ID ["[" TERM [","TERM] "]"]   # variable ID, opt.: 1-dim or 2-dim idx
 ///     ( {":" ID} | {"/" ID} )   # additional variable ID(s), '/' := distinct
 ///     ["(" ID { "," ID } ")"]   # function parameters
@@ -95,7 +94,8 @@ class Parser {
     }
     switch (_lexer.getToken().token) {
       case 'let':
-        return _parseDeclareOrAssign();
+        _error('Keyword "let" is not allowed anymore. Just remove it :-) ');
+        break;
       case 'if':
         return _parseIfCond();
       case 'while':
@@ -110,7 +110,7 @@ class Parser {
         return _parsePrint();
     }
     if (_lexer.isIdentifier()) {
-      return _parseDeclareOrAssign();
+      return _parseAssign();
     }
     _error(
       'unexpected token "${_lexer.getToken().token}"',
@@ -142,13 +142,8 @@ class Parser {
     return term.trim();
   }
 
-  AstNode _parseDeclareOrAssign() {
+  AstNode _parseAssign() {
     var row = _lexer.getToken().row;
-    var isDeclaration = false;
-    if (_lexer.isTerminal('let')) {
-      isDeclaration = true;
-      _lexer.next();
-    }
     List<String> lhsList = [];
     lhsList.add(_lexer.identifier());
     var index1Term = '';
@@ -218,7 +213,7 @@ class Parser {
       a.isFunction = isFunction;
       a.vars = [...variables];
       a.rhs = term.trim();
-      a.createSymbol = isDeclaration;
+      //a.createSymbol = isDeclaration;
       a.expectedType = expectedType;
       a.expectedRhs = expectedRhs;
       a.expectedStringifiedTerm = expectedStringifiedTerm;
