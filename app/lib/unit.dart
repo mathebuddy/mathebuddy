@@ -180,7 +180,7 @@ class UnitState extends State<UnitWidget> {
     var body = SingleChildScrollView(
         child: Column(children: [title, Stack(children: widgets)]));
     return Scaffold(
-      appBar: buildAppBar(this, false),
+      appBar: buildAppBar(this, false, null),
       body: body,
       backgroundColor: Colors.white,
     );
