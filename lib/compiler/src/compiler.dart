@@ -63,6 +63,12 @@ class Compiler {
     return course;
   }
 
+  /// Gets a (newline-separated) list of all errors.
+  String gatherErrors() {
+    if (course == null) return "";
+    return course!.gatherErrors();
+  }
+
   /// Starts compilation of an MBL file at [path].
   void compile(String path) {
     print("COMPILING FROM PATH '$path'");
