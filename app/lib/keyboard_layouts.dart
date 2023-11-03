@@ -139,31 +139,37 @@ KeyboardLayout getKeyboardLayout(String keyboardId,
   return KeyboardLayout.parse("7 8 9 !B\n4 5 6 !B\n1 2 3 !E\n0 0 - !E\n");
 }
 
-KeyboardLayout createGapKeyboard(List<String> letters) {
+KeyboardLayout createChoiceKeyboard(List<String> choices,
+    {bool hasBackButton = true}) {
   // shuffle input s.t. the left-most key is not the first required letter
-  // (prevents to show the solution from left to right)
-  var originalOrder = List<String>.from(letters);
+  // (prevents to show the solution from left to right in case of gap exercises)
+  var originalOrder = List<String>.from(choices);
+  var k = 0;
   do {
-    letters.shuffle();
-  } while (letters.length > 1 && letters[0] == originalOrder[0]);
+    choices.shuffle();
+    k++;
+    if (k > 5) break;
+  } while (choices.length > 1 && choices[0] == originalOrder[0]);
   // generate the keyboard matrix
-  var rows = sqrt(letters.length.toDouble()).floor();
+  var rows = sqrt(choices.length.toDouble()).floor();
   if (rows > 4) rows = 4;
-  var cols = (letters.length / rows).ceil();
+  var cols = (choices.length / rows).ceil();
   var src = "";
   for (var i = 0; i < rows; i++) {
     for (var j = 0; j < cols; j++) {
-      if (i * cols + j < letters.length) {
-        src += letters[i * cols + j];
+      if (i * cols + j < choices.length) {
+        src += choices[i * cols + j];
       } else {
         src += '#'; // empty
       }
       src += " ";
     }
-    if (i < 5) {
-      src += '!B'; // backspace
-    } else {
-      src += '#'; // empty
+    if (hasBackButton) {
+      if (i < 5) {
+        src += '!B'; // backspace
+      } else {
+        src += '#'; // empty
+      }
     }
     src += "\n";
   }
