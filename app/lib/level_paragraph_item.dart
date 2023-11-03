@@ -116,11 +116,14 @@ InlineSpan generateParagraphItem(LevelState state, MbclLevelItem item,
       }
     case MbclLevelItemType.inputField:
       {
-        return generateParagraphItemInputField(state, item,
+        AppInputField f = AppInputField();
+        InlineSpan inputField = f.generateParagraphItemInputField(state, item,
             bold: bold,
             italic: italic,
             color: color,
             exerciseData: exerciseData);
+        state.activeInputFields.add(f);
+        return inputField;
       }
     default:
       {
