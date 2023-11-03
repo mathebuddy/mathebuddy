@@ -7,7 +7,6 @@
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
 import 'level_item.dart';
-import 'event.dart';
 
 class MbclLevel {
   // import/export
@@ -33,7 +32,6 @@ class MbclLevel {
   double screenPosX = 0.0; // used in level overview
   double screenPosY = 0.0; // used in level overview
   double progress = 0.0; // percentage of correct exercises [0,1]
-  MbclEventData? eventData;
 
   String gatherErrors() {
     var err = error.isEmpty ? "" : "$error\n";
