@@ -1,13 +1,28 @@
 EXERCISE Add
+    INSTANCES=3
     CODE
-        let a/b = rand(1,10)
-        let c = a + b
+        a/b = rand(1,20)
+        c = a + b
+    TEXT
+        $term(c)$ = #c,CHOICES=2+"2*a"+"20"
+
+EXERCISE Simple Integration  @ex:intSimple
+    CODE
+        a = rand(3,7)
+        f(x) = (1/3) * x^3 + a*x
+    Solve $\int (x^2+a) dx = $  #f,TOKENS=1.0+"pi"  $+C$
+
+!STOP
+
+EXERCISE Add
+    CODE
+        a/b = rand(1,10)
+        c = a + b
     TEXT
         %Calculate $a + b = $ #c   % TODO: #c inside math mode
 
         #c,HIDE_LENGTH,SHOW_ALL_LETTERS,DIFF=x,ARRANGE,SCORE=3,ROWS=dynamic,COLS=dynamic,KEYBOARD=myKeyboardName,CHOICES=5,TOKENS=1.5+"pi"
         % TODO:  @c = #c
-
 
 !STOP
 
@@ -32,18 +47,18 @@ Some **bold text**.
 
 EXERCISE
     CODE
-        let f(x,y) = x^2 + y^2
-        let fdx(x,y) = diff(f,x)
-        let fdy(x,y) = diff(f,y)
+        f(x,y) = x^2 + y^2
+        fdx(x,y) = diff(f,x)
+        fdy(x,y) = diff(f,y)
     Derivate $"f"(x,y)=f$ w.r.t. $x$: #fdx
 
 !STOP
 
 EXERCISE Unbestimmte Integrale
     CODE
-        let u1/u2 = rand(2,9)
-        let f(x) = u1
-        let g(y) = u2
+        u1/u2 = rand(2,9)
+        f(x) = u1
+        g(y) = u2
     Bestimme die folgenden **unbestimmten** Integrale:
     - $ \int f ~ dx = $ #f,DIFF=x $ + C ~~ (C \in \RR)$
     - $ \int g ~ dy = $ #g,DIFF=x $ + C ~~ (C \in \RR)$
@@ -52,8 +67,8 @@ EXERCISE Unbestimmte Integrale
 
 EXERCISE Ableitungen
     CODE
-        let f1(x) = sin(x)
-        let f1_deriv(x) = diff(f1, x)
+        f1(x) = sin(x)
+        f1_deriv(x) = diff(f1, x)
     $ f(x) = f1 $
 
     $ f'(x) = $ #f1_deriv
@@ -62,13 +77,13 @@ EXERCISE Ableitungen
 
 EXERCISE Ableitungen
     CODE
-        let a = rand(3,8)
-        let f1(x) = a * x + 1 + 2
-        let f1d(x) = diff(f1 + 5, x)
-        let t = 2 + 3*4
-        let y(x) = 7 + t
-        let y2(x) = 7 + term(t)
-        let y3(x) = opt(y2)
+        a = rand(3,8)
+        f1(x) = a * x + 1 + 2
+        f1d(x) = diff(f1 + 5, x)
+        t = 2 + 3*4
+        y(x) = 7 + t
+        y2(x) = 7 + term(t)
+        y3(x) = opt(y2)
     $ f(x) = opt(f1) $
 
     $ f'(x) = $ #f1d
@@ -78,10 +93,10 @@ EXERCISE Ableitungen
 EXERCISE Scoring example
     SCORES=5        % total score of the exercise (5/3 for fa; 10/3 for fb)
     CODE
-        let a = rand(2, 4)
-        let b = rand(5, 6)
-        let fa = fac(a)
-        let fb = fac(b)
+        a = rand(2, 4)
+        b = rand(5, 6)
+        fa = fac(a)
+        fb = fac(b)
     Calculate
     -) $ a! = $ #fa            % if scores are not given for a solution,
     -) $ b! = $ #fb,SCORE=2    % it defaults to 1, i.e. fa has score 1
@@ -95,8 +110,8 @@ EXERCISE My Single Choice Exercise  @ex:mySingleChoice
 
 EXERCISE Addition  @ex:add
     CODE
-        let x/y = rand(1, 5)
-        let z = x + y
+        x/y = rand(1, 5)
+        z = x + y
     Calculate $ x + y = $ #z.
 
 EXERCISE My Gap Exercise  @ex:myLabel
@@ -108,8 +123,8 @@ EXERCISE My Gap Exercise  @ex:myLabel
 
 EXERCISE Lösungsmenge
     CODE
-        let A = randZ<3,3>(-3,3)
-        let b = randZ<3,1>(-3,3)
+        A = randZ<3,3>(-3,3)
+        b = randZ<3,1>(-3,3)
         A = triu(A)
     Ein lineares Gleichungssystem ist durch den Gauß-Algorithmus bereits in Dreiecksform gebracht worden. Die erweiterte Koeffizientenmatrix sieht folgendermaßen aus:
     $ augmented(A|b) $
@@ -121,7 +136,7 @@ EXERCISE Lösungsmenge
 
 EXERCISE Test
     CODE
-        let f = [10, 20, 30]
+        f = [10, 20, 30]
         f[0] = 4
         f[2] = 8
     $ f $
@@ -134,9 +149,9 @@ EXERCISE @ex:einheitswurzel1a
     DISABLE_RETRY=true
     %TODO:Andreas polar-form
     CODE
-        let z0=complex(1,0);
-        let z1=complex(-1,0);
-        let L={z0,z1};
+        z0=complex(1,0);
+        z1=complex(-1,0);
+        L={z0,z1};
     Gib die Lösungsmenge der Gleichung $z^2=1$ an
 
     $\mathbb{"L"}=$ #L
@@ -145,9 +160,9 @@ EXERCISE @ex:einheitswurzel1b
     DISABLE_RETRY=true
     REQUIREMENT=ex:einheitswurzel1a
     CODE
-        let r = 1
-        let phi1 = pi
-        let phi2 = -pi
+        r = 1
+        phi1 = pi
+        phi2 = -pi
     Gebe nun die Lösung als Polarform an:
 
     Für $"z"=1$ ist die Polarform: #r ${} \cdot \exp($ #phi1 $i)$
@@ -166,11 +181,11 @@ EXERCISE @ex:einheitswurzel1b
 
 %EXERCISE @ex:expform2
 %    CODE
-%        let r = rand(3,8);
-%        let a = randZ(-1,1);
-%        let tmp = rand({1, 1/2});
-%        let phi = a * tmp * pi;
-%        let z= r*cos(phi) + 1i*r*sin(phi);
+%        r = rand(3,8);
+%        a = randZ(-1,1);
+%        tmp = rand({1, 1/2});
+%        phi = a * tmp * pi;
+%        z= r*cos(phi) + 1i*r*sin(phi);
 %    Gib die komplexe Zahl $"z"=r e^{@@phi i}$ in Normalform an 
 %
 %    $"z"=$ #z
@@ -178,10 +193,10 @@ EXERCISE @ex:einheitswurzel1b
 % === ORIGINAL ===
 %EXERCISE
 %    CODE
-%        let r= rand(3,8);
-%        let a= randZ(-1,1);
-%        let phi= a*rand({pi, pi/2})
-%        let z= r*cos(phi)+1i*r*sin(phi);
+%        r= rand(3,8);
+%        a= randZ(-1,1);
+%        phi= a*rand({pi, pi/2})
+%        z= r*cos(phi)+1i*r*sin(phi);
 %    Gib die komplexe Zahl $"z"=r e^{@@phi i}$ in Normalform an 
 %
 %    $"z"=$ #z
