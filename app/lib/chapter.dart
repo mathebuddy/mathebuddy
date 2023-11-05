@@ -42,6 +42,7 @@ class ChapterState extends State<ChapterWidget> {
               onTap: () {
                 var route = MaterialPageRoute(builder: (context) {
                   return UnitWidget(unit);
+                  return UnitWidget(widget.chapter, unit);
                 });
                 Navigator.push(context, route).then((value) => setState(() {}));
               },
