@@ -1,4 +1,5 @@
 /// mathe:buddy - a gamified app for higher math
+/// https://mathebuddy.github.io/
 /// (c) 2022-2023 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
@@ -31,17 +32,14 @@ class HomeWidget extends StatefulWidget {
 
 class HomeState extends State<HomeWidget> {
   Map<String, MbclCourse> courses = {};
-  //var bundleName = 'assets/bundle-complex.json'; // TODO
   var bundleName = 'assets/bundle-debug.json';
 
   HomeState() {
     if (html.window.location.href
         .contains("mathebuddy.github.io/mathebuddy/")) {
-      bundleName = 'assets/bundle-test.json';
       bundleName = 'assets/bundle-websim.json';
     } else if (html.window.location.href
         .contains("mathebuddy.github.io/alpha/")) {
-      bundleName = 'assets/bundle-complex.json';
       bundleName = 'assets/bundle-alpha.json';
     } else if (html.window.location.href
         .contains("mathebuddy.github.io/smoke/")) {
@@ -74,10 +72,8 @@ class HomeState extends State<HomeWidget> {
                         var unit = chapter.units[0];
                         if (unit.levels.length == 1) {
                           var level = unit.levels[0];
-                          return LevelWidget(level);
                           return LevelWidget(chapter, level);
                         } else {
-                          return UnitWidget(unit);
                           return UnitWidget(chapter, unit);
                         }
                       } else {

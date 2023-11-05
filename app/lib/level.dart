@@ -1,4 +1,5 @@
 /// mathe:buddy - a gamified app for higher math
+/// https://mathebuddy.github.io/
 /// (c) 2022-2023 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
@@ -42,7 +43,6 @@ class LevelWidget extends StatefulWidget {
   final MbclChapter chapter;
   final MbclLevel level;
 
-  const LevelWidget(this.level, {Key? key}) : super(key: key);
   const LevelWidget(this.chapter, this.level, {Key? key}) : super(key: key);
 
   @override
