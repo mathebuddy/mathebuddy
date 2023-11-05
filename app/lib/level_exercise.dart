@@ -76,6 +76,26 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
     ]);
     list.add(title);
   }
+  if (debugMode) {
+    // show random instances, scores, time
+    var text = "\u2684 ${exerciseData.instances.length}"
+        "   \u2211 ${exerciseData.scores}";
+    if (exerciseData.time >= 0) {
+      text += "   \u231b${exerciseData.time}";
+    }
+    list.add(Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      Opacity(
+          opacity: 0.4,
+          child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              child: Padding(
+                  padding: EdgeInsets.all(2),
+                  child:
+                      Text(" $text ", style: TextStyle(color: Colors.white)))))
+    ]));
+  }
   for (var i = 0; i < item.items.length; i++) {
     var subItem = item.items[i];
     list.add(Wrap(children: [
