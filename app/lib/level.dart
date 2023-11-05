@@ -13,6 +13,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:mathebuddy/event.dart';
 import 'package:mathebuddy/event_painter.dart';
 import 'package:mathebuddy/level_paragraph_item_input_field.dart';
+import 'package:mathebuddy/mbcl/src/chapter.dart';
 
 import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
@@ -38,9 +39,11 @@ import 'level_paragraph_item.dart';
 import 'level_todo.dart';
 
 class LevelWidget extends StatefulWidget {
+  final MbclChapter chapter;
   final MbclLevel level;
 
   const LevelWidget(this.level, {Key? key}) : super(key: key);
+  const LevelWidget(this.chapter, this.level, {Key? key}) : super(key: key);
 
   @override
   State<LevelWidget> createState() => LevelState();
@@ -78,6 +81,23 @@ class LevelState extends State<LevelWidget> {
     level.calcProgress();
     List<Widget> levelHeadItems = [];
     List<Widget> page = [];
+    // debug info
+    if (debugMode && level.fileId.isNotEmpty) {
+      // show random instances, scores, time
+      var text = "${widget.chapter.fileId}/${level.fileId}.mbl";
+      page.add(Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Opacity(
+            opacity: 0.4,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                child: Padding(
+                    padding: EdgeInsets.all(2),
+                    child: Text(" $text ",
+                        style: TextStyle(color: Colors.white)))))
+      ]));
+    }
     // error
     if (widget.level.error.isNotEmpty) {
       page.add(generateErrorWidget(widget.level.error));
