@@ -16,8 +16,7 @@
       "slex",
       "smpl",
       "summands"
-    ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    ]
   },
   "extensions": {
     "recommendations": [
