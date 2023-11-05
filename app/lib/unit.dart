@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mathebuddy/mbcl/src/chapter.dart';
 
 import 'package:mathebuddy/mbcl/src/unit.dart';
 
@@ -17,9 +18,11 @@ import 'appbar.dart';
 import 'level.dart';
 
 class UnitWidget extends StatefulWidget {
+  final MbclChapter chapter;
   final MbclUnit unit;
 
   const UnitWidget(this.unit, {Key? key}) : super(key: key);
+  const UnitWidget(this.chapter, this.unit, {Key? key}) : super(key: key);
 
   @override
   State<UnitWidget> createState() => UnitState();
@@ -148,6 +151,7 @@ class UnitState extends State<UnitWidget> {
               onTap: () {
                 var route = MaterialPageRoute(builder: (context) {
                   return LevelWidget(level);
+                  return LevelWidget(widget.chapter, level);
                 });
                 Navigator.push(context, route).then((value) => setState(() {}));
                 // TODO
