@@ -23,8 +23,8 @@
     "smpl",
     "Stiftung",
     "triu",
+    "websim",
     "wireframe",
     "xlink"
-  ],
-  "cmake.configureOnOpen": true
+  ]
 }
