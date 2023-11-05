@@ -1,1 +1,2 @@
-Komplexe Zahlen (Übungen):../../mathebuddy-public-courses/demo-ma2/ma2-1.mbl
+DEMO Grenzwerte:../../mathebuddy-private-courses/hm1/grenzwert/index.mbl
+DEMO Komplexe Zahlen:../../mathebuddy-private-courses/hm1/komplex/index.mbl
