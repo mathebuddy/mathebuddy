@@ -4,6 +4,7 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'package:mathebuddy/main.dart';
 import 'package:tex/tex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -228,5 +229,25 @@ class AppInputField {
         child: contents);
     return WidgetSpan(
         alignment: PlaceholderAlignment.middle, child: gestureDetector!);
+    var scores = exerciseData!.scores;
+    var showInfo = scores != 1;
+    var info = Opacity(
+        opacity: 0.4,
+        child: Container(
+            decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: Padding(
+                padding: EdgeInsets.all(2),
+                child: Text(" \u2211 $scores ",
+                    style: TextStyle(color: Colors.white)))));
+    if (debugMode && showInfo) {
+      return WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: Column(children: [gestureDetector!, info]));
+    } else {
+      return WidgetSpan(
+          alignment: PlaceholderAlignment.middle, child: gestureDetector!);
+    }
   }
 }
