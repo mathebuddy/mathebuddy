@@ -7,7 +7,8 @@
     {
       "name": "[app]",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "preLaunchTask": "update-bundle-debug"
     },
     {
       "name": "[app] (profile mode)",
