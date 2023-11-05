@@ -1,0 +1,12 @@
+
+definitions:../../mathebuddy-public-courses/demo-basic/definitions.mbl
+equations:../../mathebuddy-public-courses/demo-basic/equations.mbl
+examples:../../mathebuddy-public-courses/demo-basic/examples.mbl
+exercises-simple:../../mathebuddy-public-courses/demo-basic/exercises-simple.mbl
+exercises:../../mathebuddy-public-courses/demo-basic/exercises.mbl
+event:../../mathebuddy-public-courses/demo-basic/event.mbl
+figures:../../mathebuddy-public-courses/demo-basic/figures.mbl
+hello:../../mathebuddy-public-courses/demo-basic/hello.mbl
+tables:../../mathebuddy-public-courses/demo-basic/tables.mbl
+typography:../../mathebuddy-public-courses/demo-basic/typography.mbl
+chapterTest:../../mathebuddy-public-courses/demo-course/basics/index.mbl
