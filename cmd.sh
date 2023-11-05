@@ -34,10 +34,10 @@ do
     echo "[8]  update grammar.txt in lib/*"
     echo "[9]  update file system files (_fs.txt) files in docs/demo/"
     echo "[10] show empty directories recursively"
-    echo "[11] create bundle of test courses"
-    echo "[12] create bundle for alpha course"
-    echo "[13] create bundle for complex numbers"
-    echo "[14] create bundle for basics"
+    echo "[11] update bundle-debug"
+    echo "[12] update bundle-alpha"
+    echo "[13] update bundle-smoke"
+    echo "[14] update bundle-websim"
     echo "[20] update https://github.com/mathebuddy/alpha (must build web app + create bundle first)"
     echo "[21] update https://github.com/mathebuddy/smoke (must build web app + create bundle first)"
     echo "[99] exit"
@@ -59,6 +59,9 @@ do
         ;;
     1)
         # [1] build website
+        cd bin
+        dart bundler/src/bundler.dart bundle-websim.txt ../app/assets/bundle-websim.json
+        cd ..
         cd docs
         ./build.sh
         cd ..
@@ -119,27 +122,27 @@ do
         find . -type d -empty -print
         ;;
     11)
-        # [11] create bundle of test courses
+        # [11] create bundle-debug
         cd bin
-        dart bundler/src/bundler.dart bundle-test.txt ../app/assets/bundle-test.json
+        dart bundler/src/bundler.dart bundle-debug.txt ../app/assets/bundle-debug.json
         cd ..
         ;;
     12)
-        # [12] create bundle for alpha course
+        # [12] create bundle-alpha
         cd bin
         dart bundler/src/bundler.dart bundle-alpha.txt ../app/assets/bundle-alpha.json
         cd ..
         ;;
     13)
-        # [13] create bundle for complex numbers
+        # [13] create bundle-smoke
         cd bin
-        dart bundler/src/bundler.dart bundle-complex.txt ../app/assets/bundle-complex.json
+        dart bundler/src/bundler.dart bundle-smoke.txt ../app/assets/bundle-smoke.json
         cd ..
         ;;
     14)
-        # [14] create bundle for basics
+        # [14] create bundle-websim
         cd bin
-        dart bundler/src/bundler.dart bundle-basics.txt ../app/assets/bundle-basics.json
+        dart bundler/src/bundler.dart bundle-websim.txt ../app/assets/bundle-websim.json
         cd ..
         ;;
     20)
