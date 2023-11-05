@@ -32,16 +32,20 @@ class HomeWidget extends StatefulWidget {
 class HomeState extends State<HomeWidget> {
   Map<String, MbclCourse> courses = {};
   //var bundleName = 'assets/bundle-complex.json'; // TODO
-  //var bundleName = 'assets/bundle-basics.json'; // TODO
-  var bundleName = 'assets/bundle-test.json'; // TODO
+  var bundleName = 'assets/bundle-debug.json';
 
   HomeState() {
     if (html.window.location.href
         .contains("mathebuddy.github.io/mathebuddy/")) {
       bundleName = 'assets/bundle-test.json';
+      bundleName = 'assets/bundle-websim.json';
     } else if (html.window.location.href
         .contains("mathebuddy.github.io/alpha/")) {
       bundleName = 'assets/bundle-complex.json';
+      bundleName = 'assets/bundle-alpha.json';
+    } else if (html.window.location.href
+        .contains("mathebuddy.github.io/smoke/")) {
+      bundleName = 'assets/bundle-smoke.json';
     }
   }
 
@@ -71,8 +75,10 @@ class HomeState extends State<HomeWidget> {
                         if (unit.levels.length == 1) {
                           var level = unit.levels[0];
                           return LevelWidget(level);
+                          return LevelWidget(chapter, level);
                         } else {
                           return UnitWidget(unit);
+                          return UnitWidget(chapter, unit);
                         }
                       } else {
                         return ChapterWidget(chapter);
