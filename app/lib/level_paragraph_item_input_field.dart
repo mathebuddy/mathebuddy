@@ -6,6 +6,7 @@
 /// License: GPL-3.0-or-later
 
 import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/style.dart';
 import 'package:tex/tex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,11 +15,10 @@ import 'package:mathebuddy/mbcl/src/level_item.dart';
 
 import 'package:mathebuddy/math-runtime/src/parse.dart' as term_parser;
 
-import 'screen.dart';
-import 'level.dart';
-import 'color.dart';
-import 'help.dart';
-import 'keyboard_layouts.dart';
+import 'package:mathebuddy/screen.dart';
+import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/help.dart';
+import 'package:mathebuddy/keyboard_layouts.dart';
 
 class AppInputField {
   GestureDetector? gestureDetector;
@@ -57,7 +57,7 @@ class AppInputField {
       }
     }
     Widget contents;
-    Color feedbackColor = getFeedbackColor(exerciseData?.feedback);
+    Color feedbackColor = getStyle().getFeedbackColor(exerciseData?.feedback);
     var isActive = state.keyboardState.layout != null &&
         state.keyboardState.inputFieldData == inputFieldData;
     var activeOpacity = 0.25;
@@ -69,7 +69,7 @@ class AppInputField {
                 decoration: BoxDecoration(
                     color: isActive
                         ? feedbackColor.withOpacity(activeOpacity)
-                        : Colors.white,
+                        : const Color.fromARGB(0, 255, 255, 255),
                     borderRadius: BorderRadius.all(Radius.circular(4.0))),
                 child: Icon(
                   //Icons.settings_ethernet,
@@ -109,12 +109,13 @@ class AppInputField {
                     border: texValid
                         ? null
                         : Border(
-                            top: BorderSide(color: matheBuddyRed, width: 1.5),
-                            bottom:
-                                BorderSide(color: matheBuddyRed, width: 1.5)),
+                            top: BorderSide(
+                                color: getStyle().matheBuddyRed, width: 1.5),
+                            bottom: BorderSide(
+                                color: getStyle().matheBuddyRed, width: 1.5)),
                     color: isActive
                         ? feedbackColor.withOpacity(activeOpacity)
-                        : Colors.white,
+                        : Colors.white.withOpacity(0.0),
                     borderRadius: texValid
                         ? BorderRadius.all(Radius.circular(4.0))
                         : null),
