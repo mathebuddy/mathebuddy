@@ -8,20 +8,17 @@
 /// This file implements the home screen widget that contains the list of
 /// courses.
 
-import 'dart:convert';
-
-import 'package:mathebuddy/mbcl/src/chapter.dart';
-import 'package:universal_html/html.dart' as html;
+import 'package:mathebuddy/mbcl/src/course.dart';
+import 'package:mathebuddy/style.dart';
 import 'package:flutter/material.dart';
 import 'package:mathebuddy/chapter.dart';
 import 'package:mathebuddy/level.dart';
 
-import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/unit.dart';
 
-import 'main.dart';
-import 'appbar.dart';
-import 'course.dart';
+import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/appbar.dart';
+import 'package:mathebuddy/course.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -31,32 +28,28 @@ class HomeWidget extends StatefulWidget {
 }
 
 class HomeState extends State<HomeWidget> {
-  Map<String, MbclCourse> courses = {};
-  var bundleName = 'assets/bundle-debug.json';
-
-  HomeState() {
-    if (html.window.location.href
-        .contains("mathebuddy.github.io/mathebuddy/")) {
-      bundleName = 'assets/bundle-websim.json';
-    } else if (html.window.location.href
-        .contains("mathebuddy.github.io/alpha/")) {
-      bundleName = 'assets/bundle-alpha.json';
-    } else if (html.window.location.href
-        .contains("mathebuddy.github.io/smoke/")) {
-      bundleName = 'assets/bundle-smoke.json';
-    }
-  }
+  HomeState() {}
 
   @override
   void initState() {
     super.initState();
-    loadCourseBundle();
+    loadCourseBundle(context, this);
   }
 
   @override
   Widget build(BuildContext context) {
+    refreshStyle();
     // create course list
     List<TableRow> tableRows = [];
+
+    // if the bundle contains exactly one course, then directly switch to it.
+    if (courses.keys.length == 1 &&
+        courses[courses.keys.first]!.debug == MbclCourseDebug.no) {
+      var course = courses[courses.keys.first]!;
+      Future.microtask(() => Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => CourseWidget(course))));
+    }
+
     for (var courseKey in courses.keys) {
       tableRows.add(TableRow(children: [
         TableCell(
@@ -107,73 +100,25 @@ class HomeState extends State<HomeWidget> {
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: tableRows,
     );
-    var logo = Column(children: [Image.asset('assets/img/logo-large-en.png')]);
-    var contents = Column(children: [logo, listOfCourses]);
+    var logoImg = Image.asset('assets/img/logo-large-$language.png');
+    var logo = Column(children: [logoImg]);
+
+    Widget title = Padding(
+        padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
+        child: Center(
+            child: Text("Debug Menu",
+                style: TextStyle(
+                    color: getStyle().courseTitleFontColor,
+                    fontSize: getStyle().courseTitleFontSize,
+                    fontWeight: getStyle().courseTitleFontWeight))));
+
+    var contents = Column(children: [logo, title, listOfCourses]);
     var body =
         SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
     return Scaffold(
-      appBar: buildAppBar(this, false, null),
+      appBar: buildAppBar(this, null),
       body: body,
       backgroundColor: Colors.white,
     );
-  }
-
-  void loadCourseBundle() async {
-    var bundleDataStr = await DefaultAssetBundle.of(context)
-        .loadString(bundleName, cache: false);
-    var bundleDataJson = jsonDecode(bundleDataStr);
-    courses = {};
-    if (bundleName.contains('bundle-test.json')) {
-      var course = tryToLoadDebugCourse();
-      if (course != null) {
-        courses['DEBUG'] = course;
-      } else {
-        var course = MbclCourse();
-        courses['DEBUG'] = course;
-        var chapter = MbclChapter();
-        chapter.title = "DEBUG-COURSE ONLY AVAILABLE...";
-        course.chapters.add(chapter);
-        chapter = MbclChapter();
-        chapter.title = "...ON MATHE:BUDDY WEBSITE";
-        course.chapters.add(chapter);
-      }
-    }
-    bundleDataJson.forEach((key, value) {
-      if (key != '__type') {
-        var course = MbclCourse();
-        course.fromJSON(value);
-        courses[key] = course;
-      }
-    });
-    //print('list of courses: ${courses.keys}');
-    setState(() {});
-  }
-
-  MbclCourse? tryToLoadDebugCourse() {
-    if (html.document.getElementById('course-data-span') == null) {
-      print('!!!!!!!!!!!!!!!!!!! SPAN IS >NOT< AVAILABLE !!!!!');
-    } else {
-      print('!!!!!!!!!!!!!!!!!!! SPAN AVAILABLE');
-      print(((html.document.getElementById('course-data-span')
-              as html.SpanElement)
-          .innerHtml as String));
-    }
-
-    if (html.document.getElementById('course-data-span') != null &&
-        ((html.document.getElementById('course-data-span') as html.SpanElement)
-                .innerHtml as String)
-            .isNotEmpty) {
-      var courseDataStr =
-          html.document.getElementById('course-data-span')?.innerHtml as String;
-      courseDataStr = courseDataStr.replaceAll('&lt;', '<');
-      courseDataStr = courseDataStr.replaceAll('&gt;', '>');
-      courseDataStr = courseDataStr.replaceAll('&quot;', '"');
-      courseDataStr = courseDataStr.replaceAll('&#039;', '\'');
-      courseDataStr = courseDataStr.replaceAll('&amp;', '&');
-      var course = MbclCourse();
-      course.fromJSON(jsonDecode(courseDataStr));
-      return course;
-    }
-    return null;
   }
 }
