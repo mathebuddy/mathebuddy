@@ -1,0 +1,23 @@
+event
+#####
+
+EXERCISE
+    TIME=5
+    CODE
+        x/y = rand(3,10)
+        z = x+y
+    $term(z)=$ #z,CHOICES=4    
+
+EXERCISE
+    TIME=5
+    CODE
+        x/y = rand(3,10)
+        z = x-y
+    $term(z)=$ #z,CHOICES=4    
+
+EXERCISE
+    TIME=5
+    CODE
+        x/y = rand(3,10)
+        z = x*y
+    $term(z)=$ #z,CHOICES=4    

@@ -17,8 +17,8 @@ Function Plots
 FIGURE My Plot  @fig:functions
     WIDTH=75
     CODE
-        let f(x) = x^2
-        let g(x) = 2x
+        f(x) = x^2
+        g(x) = 2x
         figure {
             x_axis(-5, 5, "x")  % x-min, y-max, label
             y_axis(-0.5, 4.5, "y")

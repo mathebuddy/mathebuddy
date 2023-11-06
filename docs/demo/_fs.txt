@@ -5,11 +5,13 @@ figures.mbl
 images/
 tables.mbl
 hello.mbl
+parts.mbl
 equations.mbl
 examples.mbl
 exercises-simple.mbl
 icons/
 typography.mbl
 test-dir/
+event.mbl
 demo-course/
 _fs.txt

@@ -1,0 +1,15 @@
+Headline
+##########
+
+PART
+    ICON=help-circle-outline
+    % icon library: https://pictogrammers.com/library/mdi/
+
+This text belongs to the first part.
+
+
+PART
+    ICON=checkbox-marked-circle-outline
+    % icon library: https://pictogrammers.com/library/mdi/
+
+This text belongs to the second part.

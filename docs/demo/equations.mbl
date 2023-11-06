@@ -1,10 +1,12 @@
 Equations
 #########
 
+Refer to `https://andreas-schwenk.github.io/tex/` for the description of currently supportex TeX code.
+
 Inline Equations
 ================
 
-An inline equation $x^2+y^2+\sqrt z$.         
+An inline equation $x^2+y^2+\sqrt z$. And a display-style inline equation $\displaystyle\sum_{k=1}^{\infty} a_k$.
 
 
 Equations
@@ -37,6 +39,12 @@ ALIGNED-EQUATION
             &= x^2 + x + x + 1 \\
             &= x^2 + 2x + 1 \\
 
+Left aligned equations
+----------------------
+
+LEFT-EQUATION
+    (x+1)^2 = x^2 + 2x + 1
+
 Abbreviations
 =============
 
@@ -55,7 +63,7 @@ Matrices
 
 EQUATION
     \begin{pmatrix}
-    1 & 2 & 3 \\
-    4 & 5 & 6 \\
-    7 & 8 & 9 \\
+        1 & 2 & 3 \\
+        4 & 5 & 6 \\
+        7 & 8 & 9 \\
     \end{pmatrix}
