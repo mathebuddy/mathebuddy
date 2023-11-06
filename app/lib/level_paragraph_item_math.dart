@@ -11,8 +11,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
-import 'screen.dart';
-import 'level.dart';
+import 'package:mathebuddy/screen.dart';
+import 'package:mathebuddy/level.dart';
 
 InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
     {bold = false,
