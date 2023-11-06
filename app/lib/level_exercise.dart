@@ -5,8 +5,6 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
@@ -14,10 +12,11 @@ import 'package:mathebuddy/mbcl/src/level.dart';
 
 import 'package:mathebuddy/math-runtime/src/parse.dart' as term_parser;
 
-import 'color.dart';
-import 'main.dart';
-import 'screen.dart';
-import 'level.dart';
+import 'package:mathebuddy/color.dart';
+import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/screen.dart';
+import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/style.dart';
 
 Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
   // TODO: must report error, if "exerciseData.instances.length" == 0!!
@@ -107,19 +106,23 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
     ]));
   }
 
-  Color feedbackColor = getFeedbackColor(exerciseData.feedback);
+  Color feedbackColor = getStyle().getFeedbackColor(exerciseData.feedback);
   Widget feedbackText = Text('');
   var isCorrect = exerciseData.feedback == MbclExerciseFeedback.correct;
   switch (exerciseData.feedback) {
     case MbclExerciseFeedback.unchecked:
-      feedbackText =
-          Text('?', style: TextStyle(color: feedbackColor, fontSize: 20));
+      feedbackText = Text('?',
+          style: TextStyle(
+              color: feedbackColor,
+              fontSize: getStyle().exerciseEvalButtonFontSize));
       break;
     case MbclExerciseFeedback.correct:
-      feedbackText = Icon(Icons.check, color: feedbackColor, size: 24);
+      feedbackText = Icon(Icons.check,
+          color: feedbackColor, size: getStyle().exerciseEvalButtonFontSize);
       break;
     case MbclExerciseFeedback.incorrect:
-      feedbackText = Icon(Icons.clear, color: feedbackColor, size: 24);
+      feedbackText = Icon(Icons.clear,
+          color: feedbackColor, size: getStyle().exerciseEvalButtonFontSize);
       break;
   }
 
@@ -175,20 +178,19 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
       state.setState(() {});
     },
     child: Container(
-      width: 75, //double.infinity,
-      //padding: EdgeInsets.only(left: 15, right: 5),
+      width: getStyle().exerciseEvalButtonWidth,
       decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.0),
           border: isCorrect
               ? null
               : Border.all(
-                  width: 2.5, color: feedbackColor, style: BorderStyle.solid),
+                  width: getStyle().exerciseEvalButtonBorderWidth,
+                  color: feedbackColor,
+                  style: BorderStyle.solid),
           borderRadius: isCorrect
               ? null
-              : BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20))),
+              : BorderRadius.all(
+                  Radius.circular(getStyle().exerciseEvalButtonBorderRadius))),
       child: Center(child: feedbackText),
     ),
   );
@@ -207,11 +209,9 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
         decoration: BoxDecoration(
             border: Border.all(
                 width: 2.5, color: feedbackColor, style: BorderStyle.solid),
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20))),
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            )),
         child: Center(
             child: Icon(
           Icons.autorenew,
@@ -239,13 +239,26 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
   return Opacity(
       opacity: opacity,
       child: Container(
-          decoration: BoxDecoration(color: Colors.white, boxShadow: [
-            BoxShadow(
-                color: Colors.grey.withOpacity(0.08),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: Offset(0, 3))
-          ]),
+          // decoration: BoxDecoration(color: Colors.white, boxShadow: [
+          //   BoxShadow(
+          //       color: Colors.grey.withOpacity(0.08),
+          //       spreadRadius: 5,
+          //       blurRadius: 7,
+          //       offset: Offset(0, 3))
+          // ]),
+          decoration: BoxDecoration(
+              //color: const Color.fromARGB(15, 200, 200, 200),
+              color: feedbackColor.withOpacity(0.03),
+              border: Border.all(color: feedbackColor, width: 1.0),
+              borderRadius: BorderRadius.circular(5)
+              // border: Border(
+              //     top: BorderSide(
+              //         color: const Color.fromARGB(255, 233, 233, 233),
+              //         width: 1.5),
+              //     bottom: BorderSide(
+              //         color: const Color.fromARGB(255, 233, 233, 233),
+              //         width: 1.5))
+              ),
           padding: EdgeInsets.only(bottom: 10.0),
           margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
           child: Column(
