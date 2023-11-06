@@ -1,9 +1,0 @@
-Tables
-######
-
-
-TABLE Negation
-    ALIGN=left
-    $A$ & $\neg A$
-    w   & f
-    f   & w
