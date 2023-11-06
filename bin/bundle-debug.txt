@@ -1,9 +1,14 @@
 # this file contains all test courses/levels that are copied to the simulator
 # format: "ID: PATH"
 
+compiler-smoke:../lib/compiler/test/smoke-test.mbl
+
+parts:../../mathebuddy-public-courses/demo-basic/parts.mbl
 event:../../mathebuddy-public-courses/demo-basic/event.mbl
 exercises:../../mathebuddy-public-courses/demo-basic/exercises.mbl
-chapterTest:../../mathebuddy-public-courses/demo-course/basics/index.mbl
+courseTest:../../mathebuddy-public-courses/demo-course/course.mbl
+
+privateHM1:../../mathebuddy-private-courses/hm1/course.mbl
 
 #definitions:../../mathebuddy-public-courses/demo-basic/definitions.mbl
 #equations:../../mathebuddy-public-courses/demo-basic/equations.mbl
@@ -15,7 +20,8 @@ chapterTest:../../mathebuddy-public-courses/demo-course/basics/index.mbl
 #hello:../../mathebuddy-public-courses/demo-basic/hello.mbl
 #tables:../../mathebuddy-public-courses/demo-basic/tables.mbl
 #typography:../../mathebuddy-public-courses/demo-basic/typography.mbl
-#chapterTest:../../mathebuddy-public-courses/demo-course/basics/index.mbl
+#parts:../../mathebuddy-public-courses/demo-basic/parts.mbl
+#courseTest:../../mathebuddy-public-courses/demo-course/course.mbl
 
 #Grenzwerte:../../mathebuddy-private-courses/hm1/grenzwert/index.mbl
 #Komplexe Zahlen:../../mathebuddy-private-courses/hm1/komplex/index.mbl
