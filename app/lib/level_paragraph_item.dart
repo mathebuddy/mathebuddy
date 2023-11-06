@@ -9,12 +9,11 @@ import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
-import 'color.dart';
-import 'level.dart';
-import 'screen.dart';
-
-import 'level_paragraph_item_math.dart';
-import 'level_paragraph_item_input_field.dart';
+import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/screen.dart';
+import 'package:mathebuddy/level_paragraph_item_math.dart';
+import 'package:mathebuddy/level_paragraph_item_input_field.dart';
+import 'package:mathebuddy/style.dart';
 
 InlineSpan generateParagraphItem(LevelState state, MbclLevelItem item,
     {bold = false,
@@ -27,7 +26,7 @@ InlineSpan generateParagraphItem(LevelState state, MbclLevelItem item,
         var text = TextSpan(
             text: item.text, //
             style: TextStyle(
-              color: matheBuddyGreen,
+              color: getStyle().matheBuddyGreen,
               fontSize: defaultFontSize,
               fontWeight: FontWeight.bold,
             ));
@@ -66,9 +65,9 @@ InlineSpan generateParagraphItem(LevelState state, MbclLevelItem item,
         var colors = [
           // TODO
           Colors.black,
-          matheBuddyRed,
-          matheBuddyYellow,
-          matheBuddyGreen,
+          getStyle().matheBuddyRed,
+          getStyle().matheBuddyYellow,
+          getStyle().matheBuddyGreen,
           Colors.orange
         ];
         var color = colors[colorKey % colors.length];
