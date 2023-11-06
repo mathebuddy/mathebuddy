@@ -11,15 +11,15 @@ import 'level.dart';
 import 'unit.dart';
 
 class MbclChapter {
-  String fileId =
-      ''; // all references go here; label is only used for searching
+  /// all references go go [fileId]; [label] is only used for searching
+  String fileId = '';
   String error = "";
   String title = '';
   String label = '';
   String author = '';
+  String iconData = '';
   int posX = -1;
   int posY = -1;
-  //bool disableBlockTitles = false;
   List<MbclChapter> requires = [];
   List<String> requiresTmp = []; // only used while compiling
   List<MbclUnit> units = [];
@@ -59,9 +59,9 @@ class MbclChapter {
       "title": title,
       "label": label,
       "author": author,
+      "iconData": iconData,
       "posX": posX,
       "posY": posY,
-      //"disableBlockTitles": disableBlockTitles,
       "requires": requires.map((req) => req.fileId).toList(),
       "units": units.map((unit) => unit.toJSON()).toList(),
       "levels": levels.map((level) => level.toJSON()).toList(),
@@ -74,9 +74,9 @@ class MbclChapter {
     title = src["title"];
     label = src["label"];
     author = src["author"];
+    iconData = src["iconData"];
     posX = src["posX"];
     posY = src["posY"];
-    //disableBlockTitles = src["disableBlockTitles"];
     // levels
     levels = [];
     int n = src["levels"].length;
