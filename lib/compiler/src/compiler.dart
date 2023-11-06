@@ -18,6 +18,8 @@ import 'help.dart';
 import 'level.dart';
 import 'references.dart';
 
+// TODO: update grammar comments of index files (course and chapter)
+
 /// The compiler that translates a set of MBL files into a single MBCL files.
 /// The language specification can be found here:
 /// https://mathebuddy.github.io/mathebuddy/doc/mbl.html
@@ -106,7 +108,7 @@ class Compiler {
   //G courseTitle = "TITLE" { ID } "\n";
   //G courseAuthor = "AUTHOR" { ID } "\n";
   //G courseChapters = "CHAPTERS" "\n" { courseChapter };
-  //G courseChapter = "(" INT "," INT ")" ID { "!" ID } "\n";
+  //G courseChapter = "(" INT "," INT ")" ID { "!" ID } [ "ICON" path ] "\n";
   void compileCourse(String path) {
     // create a new course
     course = MbclCourse();
@@ -166,6 +168,19 @@ class Compiler {
                   lexer.next();
                   requirements.add(lexer.identifier());
                 }
+                var iconData = "";
+                if (lexer.isTerminal("ICON")) {
+                  lexer.next();
+                  var iconPath = "";
+                  while (lexer.getToken().type != LexerTokenType.end) {
+                    iconPath += lexer.getToken().token.trim();
+                    lexer.next();
+                  }
+                  if (iconPath.isNotEmpty) {
+                    var path = "$baseDirectory$iconPath";
+                    iconData = loadFile(path);
+                  }
+                }
                 lexer.end();
                 // compile chapter
                 var dirname = extractDirname(path);
@@ -178,7 +193,7 @@ class Compiler {
                   return;
                 }
                 // set chapter meta data
-                chapter?.fileId = directoryName;
+                chapter?.iconData = iconData;
                 chapter?.posX = posX;
                 chapter?.posY = posY;
                 chapter?.requiresTmp.addAll(requirements);
@@ -209,12 +224,14 @@ class Compiler {
   //G chapter = chapterTitle chapterAuthor { chapterUnit };
   //G chapterTitle = "TITLE" { ID } "\n";
   //G chapterAuthor = "AUTHOR" { ID } "\n";
-  //G chapterUnit = "UNIT" { ID } "\n" { chapterLevel };
-  //G chapterLevel = "(" INT "," INT ")" ID { "!" ID } "\n";
+  //G chapterUnit = "UNIT" { ID } [ "ICON" path ] "\n" { chapterLevel };
+  //G chapterLevel = "(" INT "," INT ")" ID { "!" ID } [ "ICON" path ] "\n";
   void compileChapter(String path) {
     // create a new chapter
     chapter = MbclChapter();
     course?.chapters.add(chapter as MbclChapter);
+    var pathParts = path.replaceAll("/index.mbl", "").split("/");
+    chapter?.fileId = pathParts[pathParts.length - 1];
     // get chapter index file source
     var src = loadFile(path);
     if (src.isEmpty) {
@@ -274,7 +291,13 @@ class Compiler {
               break;
             case "UNIT":
               unit = MbclUnit();
-              unit?.title = block.title;
+              var titleTokens = block.title.split("ICON");
+              unit?.title = titleTokens[0];
+              if (titleTokens.length > 1) {
+                var iconPath = titleTokens[1].trim();
+                var path = "$baseDirectory${chapter!.fileId}/$iconPath";
+                unit?.iconData = loadFile(path);
+              }
               chapter?.units.add(unit as MbclUnit);
               var lines = text.split("\n");
               for (var i = 0; i < lines.length; i++) {
@@ -306,15 +329,18 @@ class Compiler {
                   lexer.next();
                   requirements.add(lexer.identifier());
                 }
-                var iconData = '';
+                var iconData = "";
                 if (lexer.isTerminal("ICON")) {
                   lexer.next();
-                  var path = baseDirectory;
+                  var iconPath = "";
                   while (lexer.getToken().type != LexerTokenType.end) {
-                    path += lexer.getToken().token.trim();
+                    iconPath += lexer.getToken().token.trim();
                     lexer.next();
                   }
-                  iconData = loadFile(path);
+                  if (iconPath.isNotEmpty) {
+                    var path = "$baseDirectory${chapter!.fileId}/$iconPath";
+                    iconData = loadFile(path);
+                  }
                 }
                 lexer.end();
                 // compile level
@@ -330,10 +356,10 @@ class Compiler {
                 unit?.levels.add(level as MbclLevel);
                 // set chapter meta data
                 level?.fileId = fileName;
+                level?.iconData = iconData;
                 level?.posX = posX.toDouble();
                 level?.posY = posY.toDouble();
                 level?.requiresTmp.addAll(requirements);
-                level?.iconData = iconData;
               }
           }
           break;
