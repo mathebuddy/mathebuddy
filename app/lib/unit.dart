@@ -13,10 +13,10 @@ import 'package:mathebuddy/mbcl/src/chapter.dart';
 
 import 'package:mathebuddy/mbcl/src/unit.dart';
 
-import 'color.dart';
-import 'unit_painter.dart';
-import 'appbar.dart';
-import 'level.dart';
+import 'package:mathebuddy/style.dart';
+import 'package:mathebuddy/unit_painter.dart';
+import 'package:mathebuddy/appbar.dart';
+import 'package:mathebuddy/level.dart';
 
 class UnitWidget extends StatefulWidget {
   final MbclChapter chapter;
@@ -41,7 +41,10 @@ class UnitState extends State<UnitWidget> {
     var title = Padding(
         padding: EdgeInsets.only(top: 20.0, left: 10, right: 10),
         child: Text(unit.title,
-            style: TextStyle(color: matheBuddyRed, fontSize: 32.0)));
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: getStyle().unitTitleFontColor,
+                fontSize: getStyle().unitTitleFontSize)));
 
     var numRows = 1.0;
     var numCols = 1.0;
@@ -100,19 +103,30 @@ class UnitState extends State<UnitWidget> {
     // create and render level widgets
     for (var level in unit.levels) {
       var color = level.visited
-          ? matheBuddyYellow.withOpacity(0.96)
-          : matheBuddyRed.withOpacity(0.96);
+          ? getStyle().matheBuddyYellow.withOpacity(0.96)
+          : getStyle().matheBuddyRed.withOpacity(0.96);
       var textColor = level.visited ? Colors.black : Colors.white;
       if ((level.progress - 1).abs() < 1e-12) {
-        color = matheBuddyGreen;
+        color = getStyle().matheBuddyGreen;
         textColor = Colors.white;
       }
 
       var locked = level.isLocked();
-      var lockSizePercentage = 0.33;
+      var lockSizePercentage = 0.25;
 
       // TODO: performance is currently slow...
       List<Widget> stackedItems = [];
+
+      if (locked) {
+        // if the level is locked, show a lock-icon
+        var lockSize = tileWidth * lockSizePercentage;
+        stackedItems.add(
+            /*Padding(
+            padding: EdgeInsets.only(top: 0, left: 0),
+            child: */
+            Icon(Icons.lock,
+                size: lockSize, color: Colors.white.withOpacity(0.25)));
+      }
 
       if (level.iconData.isNotEmpty) {
         // used icon, if available
@@ -121,29 +135,33 @@ class UnitState extends State<UnitWidget> {
             //child:
             SvgPicture.string(
           level.iconData,
-          width: tileWidth,
+          width: tileWidth * 0.99,
           color: textColor,
           allowDrawingOutsideViewBox: true,
         ));
       } else {
         // if there is no icon, show the level title
+        var fontSize = getStyle().unitOverviewFontSize;
+        if (screenWidth < 512) {
+          fontSize *= 0.75;
+        }
         stackedItems.add(//Opacity(
             //opacity: locked ? lockedItemOpacity : 1.0,
             //child:
             Text(level.title,
-                style: TextStyle(color: Colors.white, fontSize: 10)));
-      }
-      if (locked) {
-        // if the level is locked, show a lock-icon
-        // TODO: icon instead of text
-        stackedItems.add(Padding(
-            padding: EdgeInsets.only(top: 5, left: 3),
-            child: Icon(Icons.lock,
-                size: tileWidth * lockSizePercentage,
-                color: Colors.white.withOpacity(0.75))));
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: getStyle().unitOverviewFontColor,
+                    fontSize: fontSize)));
       }
 
-      Widget content = Stack(children: stackedItems);
+      Widget content = Container(
+          alignment: Alignment.center,
+          width: tileWidth,
+          height: tileHeight,
+          child: Padding(
+              padding: EdgeInsets.all(3),
+              child: Stack(children: stackedItems)));
       widgets.add(Positioned(
           left: level.screenPosX,
           top: level.screenPosY,
@@ -183,7 +201,7 @@ class UnitState extends State<UnitWidget> {
     var body = SingleChildScrollView(
         child: Column(children: [title, Stack(children: widgets)]));
     return Scaffold(
-      appBar: buildAppBar(this, false, null),
+      appBar: buildAppBar(this, null),
       body: body,
       backgroundColor: Colors.white,
     );
