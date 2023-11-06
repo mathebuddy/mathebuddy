@@ -19,25 +19,24 @@ import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
-import 'keyboard.dart';
-import 'color.dart';
-import 'appbar.dart';
-import 'main.dart';
-import 'screen.dart';
-import 'error.dart';
-
-import 'level_align.dart';
-import 'level_example.dart';
-import 'level_exercise.dart';
-import 'level_itemize.dart';
-import 'level_definition.dart';
-import 'level_figure.dart';
-import 'level_single_multi_choice.dart';
-import 'level_table.dart';
-import 'level_equation.dart';
-import 'level_paragraph.dart';
-import 'level_paragraph_item.dart';
-import 'level_todo.dart';
+import 'package:mathebuddy/keyboard.dart';
+import 'package:mathebuddy/appbar.dart';
+import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/screen.dart';
+import 'package:mathebuddy/error.dart';
+import 'package:mathebuddy/level_align.dart';
+import 'package:mathebuddy/level_example.dart';
+import 'package:mathebuddy/level_exercise.dart';
+import 'package:mathebuddy/level_itemize.dart';
+import 'package:mathebuddy/level_definition.dart';
+import 'package:mathebuddy/level_figure.dart';
+import 'package:mathebuddy/level_single_multi_choice.dart';
+import 'package:mathebuddy/level_table.dart';
+import 'package:mathebuddy/level_equation.dart';
+import 'package:mathebuddy/level_paragraph.dart';
+import 'package:mathebuddy/level_paragraph_item.dart';
+import 'package:mathebuddy/level_todo.dart';
+import 'package:mathebuddy/style.dart';
 
 class LevelWidget extends StatefulWidget {
   final MbclChapter chapter;
@@ -67,8 +66,8 @@ class LevelState extends State<LevelWidget> {
 
   bool onKey(KeyEvent event) {
     // TODO: connect to app keyboard
-    print(event);
-    print(event.character);
+    //print(event);
+    //print(event.character);
     return true;
   }
 
@@ -106,14 +105,18 @@ class LevelState extends State<LevelWidget> {
     levelTitleKey = GlobalKey();
     var levelTitle = Column(children: [
       Container(
-        key: levelTitleKey,
-        margin: EdgeInsets.only(top: 10.0),
-        child: Text(
-          level.title,
-          style: TextStyle(
-              fontSize: 24, color: matheBuddyRed, fontWeight: FontWeight.w600),
-        ),
-      )
+          key: levelTitleKey,
+          margin: EdgeInsets.only(top: 10.0),
+          child: Center(
+            child: Text(
+              level.title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: getStyle().levelTitleFontSize,
+                  color: getStyle().levelTitleColor,
+                  fontWeight: getStyle().levelTitleFontWeight),
+            ),
+          ))
     ]);
     //levelHeadItems.add(levelTitle);
     if (level.isEvent == false) {
@@ -122,15 +125,15 @@ class LevelState extends State<LevelWidget> {
     // navigation bar
     if (level.numParts > 0) {
       // TODO: click animation
-      var iconSize = 42.0;
-      var selectedColor = matheBuddyGreen; // TODO
-      var unselectedColor = Color.fromARGB(255, 91, 91, 91);
+      var iconSize = 45.0;
+      var selectedColor = Colors.white;
+      var unselectedColor = Color.fromARGB(255, 60, 60, 60);
       // part icons
       List<Widget> icons = [];
       for (var i = 0; i < level.partIconIDs.length; i++) {
         var iconId = level.partIconIDs[i];
-        var icon = GestureDetector(
-            onTapDown: (TapDownDetails d) {
+        var icon = TextButton(
+            onPressed: () {
               currentPart = i;
               keyboardState.layout = null;
               setState(() {});
@@ -150,9 +153,10 @@ class LevelState extends State<LevelWidget> {
       }
       levelHeadItems.add(Column(children: [
         LinearProgressIndicator(
+          backgroundColor: Colors.grey.withOpacity(0.25),
           value: progress,
-          valueColor: AlwaysStoppedAnimation(matheBuddyGreen),
-          minHeight: 5,
+          valueColor: AlwaysStoppedAnimation(getStyle().matheBuddyGreen),
+          minHeight: 4,
         ),
         Container(
             margin:
@@ -160,7 +164,7 @@ class LevelState extends State<LevelWidget> {
                 EdgeInsets.only(left: 0.0, right: 0.0, bottom: 0.0, top: 0),
             padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black.withOpacity(0.85),
                 //border: Border.all(width: 20),
                 border: Border(
                     //top: BorderSide(width: 0.75, color: Colors.black54),
@@ -375,7 +379,9 @@ class LevelState extends State<LevelWidget> {
                 children: page)));
 
     var body = Column(children: [
-      Column(children: levelHeadItems),
+      Container(
+          margin: EdgeInsets.only(top: 0),
+          child: Column(children: levelHeadItems)),
       Expanded(
           child: Scrollbar(
               thumbVisibility: true,
@@ -390,7 +396,7 @@ class LevelState extends State<LevelWidget> {
     }
 
     return Scaffold(
-      appBar: buildAppBar(this, false, eventData),
+      appBar: buildAppBar(this, eventData),
       body: body,
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
@@ -435,7 +441,10 @@ Widget generateLevelItem(LevelState state, MbclLevel level, MbclLevelItem item,
             padding:
                 EdgeInsets.only(left: 3.0, right: 3.0, top: 10.0, bottom: 5.0),
             child: Text(item.text,
-                style: Theme.of(state.context).textTheme.headlineLarge));
+                style: TextStyle(
+                    color: getStyle().sectionColor,
+                    fontSize: getStyle().sectionFontSize,
+                    fontWeight: getStyle().sectionFontWidth)));
       }
     case MbclLevelItemType.subSection:
       {
@@ -443,7 +452,10 @@ Widget generateLevelItem(LevelState state, MbclLevel level, MbclLevelItem item,
             padding:
                 EdgeInsets.only(left: 3.0, right: 3.0, top: 10.0, bottom: 5.0),
             child: Text(item.text,
-                style: Theme.of(state.context).textTheme.headlineMedium));
+                style: TextStyle(
+                    color: getStyle().subSectionColor,
+                    fontSize: getStyle().subSectionFontSize,
+                    fontWeight: getStyle().subSectionFontWidth)));
       }
     case MbclLevelItemType.span:
       {
