@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'level.dart';
+import 'package:mathebuddy/level.dart';
 
 Widget generateExample(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
@@ -53,13 +53,19 @@ Widget generateExample(LevelState state, MbclLevel level, MbclLevelItem item,
       //    borderRadius: BorderRadius.circular(8.0),
       //    color: Color.fromARGB(22, 128, 128, 128)),
       //padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(
-            color: Colors.grey.withOpacity(0.08),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3))
-      ]),
+
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(width: 1.0),
+        borderRadius: BorderRadius.circular(5),
+        // boxShadow: [
+        //   BoxShadow(
+        //       color: Colors.grey.withOpacity(0.08),
+        //       spreadRadius: 5,
+        //       blurRadius: 7,
+        //       offset: Offset(0, 3))
+        // ]
+      ),
       padding: EdgeInsets.only(bottom: 10.0),
       margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
       child: Column(
