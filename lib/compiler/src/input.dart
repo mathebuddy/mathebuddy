@@ -22,7 +22,7 @@ import 'help.dart';
 /// <GRAMMAR>
 ///   inputElement =
 ///       "#" ID {"," inputOption}          % ask for variable value
-///     | "#" STR {"," inputOption};        % gap question, ask for string
+///     | "#" STR { !";" "," inputOption};        % gap question, ask for string
 ///   inputOption =
 ///       "DIFF" "=" ID                    % auto-diff solution before check
 ///     | "SCORE" "=" INT                   % default is 1
@@ -136,7 +136,7 @@ MbclLevelItem parseInputElement(
   }
   // parse optional attributes e.g. ",SCORE=", ",DIFF=x", ...
   Map<String, String> attributes = {};
-  while (lexer.isTerminal(",")) {
+  while (lexer.isTerminal(",") && lexer.isTerminal(";") == false) {
     lexer.next();
     var key = lexer.getToken().token.trim();
     lexer.next();
