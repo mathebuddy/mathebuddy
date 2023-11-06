@@ -50,3 +50,4 @@ flutter:
     - assets/bundle-debug.json
     - assets/bundle-smoke.json
     - assets/bundle-websim.json
+    - assets/bundle-bochum.json
