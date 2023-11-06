@@ -11,7 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'level.dart';
+import 'package:mathebuddy/level.dart';
 
 Widget generateFigure(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
