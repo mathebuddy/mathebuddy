@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
-import 'package:mathebuddy/color.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/style.dart';
 
 class KeyboardState {
   KeyboardLayout? layout; // null := not shown
@@ -403,7 +403,7 @@ class Keyboard {
           top: 0,
           child: Container(
               decoration: BoxDecoration(
-                  color: matheBuddyGreen.withOpacity(0.8),
+                  color: getStyle().matheBuddyGreen.withOpacity(0.8),
                   //border: Border.all(width: 1.0),
                   borderRadius:
                       BorderRadius.only(bottomRight: Radius.circular(2.0))),
