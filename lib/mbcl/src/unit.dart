@@ -12,6 +12,7 @@ import 'level.dart';
 class MbclUnit {
   // import/export
   String title = '';
+  String iconData = '';
   List<MbclLevel> levels = [];
 
   // temporary
@@ -20,12 +21,14 @@ class MbclUnit {
   Map<String, dynamic> toJSON() {
     return {
       "title": title,
+      "iconData": iconData,
       "levels": levels.map((level) => level.fileId).toList(),
     };
   }
 
   fromJSON(Map<String, dynamic> src) {
     title = src["title"];
+    iconData = src["iconData"];
     levels = [];
     int n = src["levels"].length;
     for (var i = 0; i < n; i++) {
