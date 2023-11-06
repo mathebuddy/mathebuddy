@@ -10,10 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'main.dart';
-import 'level.dart';
-import 'help.dart';
-import 'color.dart';
+import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/help.dart';
+import 'package:mathebuddy/color.dart';
+import 'package:mathebuddy/style.dart';
 
 Widget generateSingleMultiChoice(
     LevelState state, MbclLevel level, MbclLevelItem item,
@@ -41,7 +42,7 @@ Widget generateSingleMultiChoice(
       inputFieldData.expectedValue =
           exerciseInstance[inputFieldData.variableId] as String;
     }
-    var feedbackColor = getFeedbackColor(exerciseData.feedback);
+    var feedbackColor = getStyle().getFeedbackColor(exerciseData.feedback);
     var iconId = 0;
     if (inputFieldData.studentValue == "false") {
       if (item.type == MbclLevelItemType.singleChoice) {
@@ -59,7 +60,7 @@ Widget generateSingleMultiChoice(
     var icon = Icon(
       IconData(iconId, fontFamily: 'MaterialIcons'),
       color: feedbackColor,
-      size: 36,
+      size: getStyle().multiChoiceButtonSize,
     );
     var correct = inputFieldData.expectedValue == "true";
     var button = Column(children: [
@@ -71,7 +72,7 @@ Widget generateSingleMultiChoice(
                   borderRadius: BorderRadius.circular(10.0),
                   color: debugMode && correct
                       ? feedbackColor.withOpacity(0.25)
-                      : Colors.white),
+                      : const Color.fromARGB(0, 255, 255, 255)),
               child: icon)),
     ]);
     var text = generateLevelItem(state, level, inputField.items[0],
