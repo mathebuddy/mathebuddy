@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'level.dart';
+import 'package:mathebuddy/level.dart';
 
 Widget generateItemize(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
