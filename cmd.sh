@@ -30,7 +30,7 @@ do
     echo "[4]  build android app"
     echo "[5]  run website at http://localhost:8314"
     echo "[6]  run tests"
-    echo "[7]  update testdata from mathebuddy-public-courses repo"
+    #echo "[7]  update testdata from mathebuddy-public-courses repo"
     echo "[8]  update grammar.txt in lib/*"
     echo "[9]  update file system files (_fs.txt) files in docs/demo/"
     echo "[10] show empty directories recursively"
@@ -38,8 +38,10 @@ do
     echo "[12] update bundle-alpha"
     echo "[13] update bundle-smoke"
     echo "[14] update bundle-websim"
+    echo "[15] update bundle-bochum"
     echo "[20] update https://github.com/mathebuddy/alpha (must build web app + create bundle first)"
     echo "[21] update https://github.com/mathebuddy/smoke (must build web app + create bundle first)"
+    echo "[22] update https://github.com/mathebuddy/bochum (must build web app + create bundle first)"
     echo "[99] exit"
     read x
     case $x in
@@ -59,6 +61,7 @@ do
         ;;
     1)
         # [1] build website
+        # TODO: update file-system!!!
         cd bin
         dart bundler/src/bundler.dart bundle-websim.txt ../app/assets/bundle-websim.json
         cd ..
@@ -98,12 +101,12 @@ do
         ;;
     7)
         # [7] update testdata from mathebuddy-public-courses repo
-        cd lib/compiler/test/
-        ./update-testdata.sh
-        cd ../../..
-        cd lib/smpl/test/
-        ./update-testdata.sh
-        cd ../../..
+        #cd lib/compiler/test/
+        #./update-testdata.sh
+        #cd ../../..
+        #cd lib/smpl/test/
+        #./update-testdata.sh
+        #cd ../../..
         ;;
     8)  
         # [8] update grammar.txt in lib/*
@@ -145,6 +148,12 @@ do
         dart bundler/src/bundler.dart bundle-websim.txt ../app/assets/bundle-websim.json
         cd ..
         ;;
+    15)
+        # [15] create bundle-bochum
+        cd bin
+        dart bundler/src/bundler.dart bundle-bochum.txt ../app/assets/bundle-bochum.json
+        cd ..
+        ;;
     20)
         # [20] update https://github.com/mathebuddy/alpha
         DIR="../alpha/"
@@ -153,7 +162,7 @@ do
             mkdir -p ../alpha/docs/
             cp -r app/build/web/* ../alpha/docs/
             sed -i.bak 's/<base href="\/" \/>/<base href="\/alpha\/" \/>/g' ../alpha/docs/index.html
-            sed -i.bak 's/bundle-test.json/bundle-complex.json/g' ../alpha/docs/index.html
+            #sed -i.bak 's/bundle-test.json/bundle-complex.json/g' ../alpha/docs/index.html
         else
             echo "ERROR: alpha-repository must be placed next to mathebuddy repo"
         fi
@@ -166,7 +175,18 @@ do
             mkdir -p ../smoke/docs/
             cp -r app/build/web/* ../smoke/docs/
             sed -i.bak 's/<base href="\/" \/>/<base href="\/smoke\/" \/>/g' ../smoke/docs/index.html
-            #sed -i.bak 's/bundle-test.json/bundle-complex.json/g' ../smoke/docs/index.html
+        else
+            echo "ERROR: smoke-repository must be placed next to mathebuddy repo"
+        fi
+        ;;
+    22)
+        # [22] update https://github.com/mathebuddy/bochum
+        DIR="../bochum/"
+        if [ -d "$DIR" ]; then
+            rm -rf ../bochum/docs/
+            mkdir -p ../bochum/docs/
+            cp -r app/build/web/* ../bochum/docs/
+            sed -i.bak 's/<base href="\/" \/>/<base href="\/bochum\/" \/>/g' ../bochum/docs/index.html
         else
             echo "ERROR: smoke-repository must be placed next to mathebuddy repo"
         fi
