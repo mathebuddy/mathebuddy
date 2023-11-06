@@ -6,24 +6,6 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
-import 'package:mathebuddy/mbcl/src/level_item.dart';
-
-var matheBuddyRed = Color.fromARGB(0xFF, 0xAA, 0x32, 0x2C);
-var matheBuddyYellow = Colors.amber.shade700;
-var matheBuddyGreen = Colors.green.shade700;
-
-Color getFeedbackColor(MbclExerciseFeedback? feedback) {
-  if (feedback == null) return matheBuddyYellow;
-  switch (feedback) {
-    case MbclExerciseFeedback.unchecked:
-      //return matheBuddyYellow;
-      return matheBuddyRed;
-    case MbclExerciseFeedback.correct:
-      return matheBuddyGreen;
-    case MbclExerciseFeedback.incorrect:
-      return matheBuddyRed;
-  }
-}
 
 MaterialColor buildMaterialColor(Color color) {
   // method code taken from:
