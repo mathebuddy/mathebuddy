@@ -8,10 +8,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'main.dart';
-import 'event.dart';
+import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/event.dart';
+import 'package:mathebuddy/style.dart';
 
-AppBar buildAppBar(State state, bool graphButton, EventData? eventData) {
+AppBar buildAppBar(State state, EventData? eventData) {
   List<Widget> actions = [];
   // home button
   actions.add(Text('  '));
@@ -24,46 +25,97 @@ AppBar buildAppBar(State state, bool graphButton, EventData? eventData) {
         Navigator.pop(state.context);
       }
     },
-    icon: graphButton
-        ? Icon(
-            MdiIcons.fromString("graph-outline"),
-            size: 36,
-          )
-        : Icon(Icons.home,
-            size: 36,
-            color: Navigator.canPop(state.context)
-                ? Colors.black
-                : Colors.black26),
+    icon: Icon(Icons.home,
+        size: 36,
+        color: Navigator.canPop(state.context)
+            ? getStyle().appbarIconActiveColor
+            : getStyle().appbarIconInactiveColor),
   );
   var actionChat = IconButton(
-    onPressed: () {},
-    icon: Icon(Icons.chat, size: 36),
-  );
+      onPressed: () {
+        // TODO
+        // var route = MaterialPageRoute(builder: (context) {
+        //   return ChatWidget(widget.course);
+        // });
+        // Navigator.push(context, route).then((value) => setState(() {}));
+      },
+      icon: Icon(
+        MdiIcons.fromString("chat-question-outline"),
+        size: 42,
+        color: getStyle().appbarIconActiveColor,
+      )
+      // Icon(
+      //   Icons.chat,
+      //   size: 36,
+      //   color: getStyle().appbarIconActiveColor,
+      // ),
+      );
   actions.add(actionChat);
   actions.add(Text('  '));
   actions.add(actionHome);
   actions.add(Text('    '));
+  // language switch
+  var languageSwitchButton = Container(
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: getStyle().appbarDebugButtonColor,
+              width: getStyle().appbarDebugButtonBorderSize),
+          borderRadius: BorderRadius.circular(6)),
+      child: Padding(
+          padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+          child: Text(" $language ",
+              style: TextStyle(
+                  color: getStyle().appbarDebugButtonColor,
+                  fontSize: getStyle().appbarDebugButtonFontSize))));
   // debug/release button
   var switchDebugReleaseButton = Container(
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 2.0),
+          border: Border.all(
+              color: getStyle().appbarDebugButtonColor,
+              width: getStyle().appbarDebugButtonBorderSize),
           borderRadius: BorderRadius.circular(6)),
-      child: Text(debugMode ? " DEBUG " : " RELEASE ",
-          style: TextStyle(fontSize: 16)));
+      child: Padding(
+          padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+          child: Text(debugMode ? " debug " : " release ",
+              style: TextStyle(
+                  color: getStyle().appbarDebugButtonColor,
+                  fontSize: getStyle().appbarDebugButtonFontSize))));
+  var title = Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+    showDebugReleaseSwitch
+        ? GestureDetector(
+            onTap: () {
+              // ignore: invalid_use_of_protected_member
+              language = language == 'en' ? 'de' : 'en';
+              state.setState(() {});
+            },
+            child: languageSwitchButton)
+        : Text(''),
+    Text(' '),
+    showDebugReleaseSwitch
+        ? GestureDetector(
+            onTap: () {
+              debugMode = !debugMode;
+              // ignore: invalid_use_of_protected_member
+              state.setState(() {});
+            },
+            child: switchDebugReleaseButton)
+        : Text('')
+  ]);
   return AppBar(
       centerTitle: true,
-      title: showDebugReleaseSwitch
-          ? GestureDetector(
-              onTap: () {
-                debugMode = !debugMode;
-                state.setState(() {});
-              },
-              child: switchDebugReleaseButton)
-          : Text(''),
-      leading: IconButton(
-        onPressed: () {},
-        icon: Image.asset("assets/img/logoSmall.png"),
-      ),
+      backgroundColor: getStyle().appbarBackgroundColor,
+      title: title,
+      leading: Padding(
+          padding: EdgeInsets.all(7),
+          child: /*Container(
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    blurRadius: 5.0,
+                    spreadRadius: 4.0,
+                    offset: Offset(1, 1),
+                    color: const Color.fromARGB(255, 30, 30, 30))
+              ]),*/
+              Image.asset("assets/img/logoSmall.png")),
       elevation: 1,
       actions: actions);
 }
