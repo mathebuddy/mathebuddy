@@ -80,16 +80,17 @@ void main() {
 
   var files = [
     'smoke-test.mbl',
-    //'data/demo-course/course.mbl'
-    //'data/demo-course/basics/index.mbl'
-    //'data/demo-basic/exercises.mbl',
-    //'data/demo-basic/hello.mbl',
-    //'data/demo-basic/typography.mbl',
-    //'data/demo-basic/exercises-simple.mbl',
-    //'data/demo-basic/definitions.mbl',
-    //'data/demo-basic/equations.mbl',
-    //'data/demo-basic/examples.mbl',
-    //'data/demo-ma2/ma2-1.mbl',
+    //'../../../../mathebuddy-public-courses/demo-course/course.mbl'
+    //'../../../../mathebuddy-public-courses/demo-course/course.mbl'
+    //'../../../../mathebuddy-public-courses/demo-course/basics/index.mbl'
+    //'../../../../mathebuddy-public-courses/demo-basic/exercises.mbl',
+    //'../../../../mathebuddy-public-courses/demo-basic/hello.mbl',
+    //'../../../../mathebuddy-public-courses/demo-basic/typography.mbl',
+    //'../../../../mathebuddy-public-courses/demo-basic/exercises-simple.mbl',
+    //'../../../../mathebuddy-public-courses/demo-basic/definitions.mbl',
+    //'../../../../mathebuddy-public-courses/demo-basic/equations.mbl',
+    //'../../../../mathebuddy-public-courses/demo-basic/examples.mbl',
+    //'../../../../mathebuddy-public-courses/demo-ma2/ma2-1.mbl',
   ];
   for (var file in files) {
     print("******************* TESTING FILE $file *******************");
