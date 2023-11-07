@@ -220,6 +220,11 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         levelItem.title = block.title;
         levelItem.label = block.label;
         for (var child in block.children) {
+          // TODO: add CHATKEYS to grammar + public-course examples
+          if (child.id == 'CHATKEYS') {
+            levelItem.chatKeys = child.children[0].data.trim();
+            continue;
+          }
           parseLevelBlock(
               child, compiler, level, levelItem, depth + 1, exercise);
         }
@@ -475,105 +480,6 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
               child, compiler, level, exercise, depth + 1, exercise);
         }
 
-        // TODO: remove old source code
-        // for (var key in block.attributes.keys) {
-        //   var value = block.attributes[key]!;
-        //   switch (key) {
-        //     case "REQUIREMENT":
-        //       {
-        //         // TODO: comma separated list
-        //         var exerciseLabel = value;
-        //         var referencedExercise =
-        //             level.getExerciseByLabel(exerciseLabel);
-        //         if (referencedExercise == null) {
-        //           exercise.error +=
-        //               'Exercise referenced by "$exerciseLabel" does not exist';
-        //         } else {
-        //           data.requiredExercises.add(referencedExercise);
-        //         }
-        //         break;
-        //       }
-        //     case "ORDER":
-        //       {
-        //         if (value == 'static') {
-        //           data.staticOrder = true;
-        //         } else {
-        //           exercise.error +=
-        //               'Attribute value "$value" is not allowed for key "$key".';
-        //         }
-        //         break;
-        //       }
-        //     case "CHOICE_ALIGNMENT":
-        //       if (value == 'horizontal') {
-        //         data.horizontalSingleMultipleChoiceAlignment = true;
-        //       } else {
-        //         exercise.error +=
-        //             'Attribute value "$value" is not allowed for key "$key".';
-        //       }
-        //       break;
-        //     case "DISABLE_RETRY":
-        //       {
-        //         if (value == 'true') {
-        //           data.disableRetry = true;
-        //         } else {
-        //           exercise.error +=
-        //               'Attribute value "$value" is not allowed for key "$key".';
-        //         }
-        //         break;
-        //       }
-        //     case "KEYBOARD":
-        //       {
-        //         data.forceKeyboardId = value;
-        //         break;
-        //       }
-        //     case "SHOW_GAP_LENGTH":
-        //       {
-        //         if (value == 'true') {
-        //           data.showGapLength = true;
-        //         } else {
-        //           exercise.error +=
-        //               'Attribute value "$value" is not allowed for key "$key".';
-        //         }
-        //         break;
-        //       }
-        //     case "SHOW_REQUIRED_LETTERS_ONLY":
-        //       {
-        //         if (value == 'true') {
-        //           data.showRequiredGapLettersOnly = true;
-        //         } else {
-        //           exercise.error +=
-        //               'Attribute value "$value" is not allowed for key "$key".';
-        //         }
-        //         break;
-        //       }
-        //     case "SCORES":
-        //       {
-        //         var scores = 1;
-        //         try {
-        //           scores = int.parse(value);
-        //         } catch (e) {
-        //           exercise.error += 'Attribute value "$value" for key "$key" '
-        //               'must be integral.';
-        //         }
-        //         data.scores = scores;
-        //         break;
-        //       }
-        //     case "ARRANGE":
-        //       {
-        //         if (value == 'true') {
-        //           data.arrangement = true;
-        //         } else {
-        //           exercise.error +=
-        //               'Attribute value "$value" is not allowed for key "$key".';
-        //         }
-        //         break;
-        //       }
-        //     default:
-        //       exercise.error += 'Unknown attribute "$key".';
-        //       break;
-        //   }
-        //}
-        //print(exercise.toJSON());
         break;
       }
 
