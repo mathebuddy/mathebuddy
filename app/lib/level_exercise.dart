@@ -12,7 +12,6 @@ import 'package:mathebuddy/mbcl/src/level.dart';
 
 import 'package:mathebuddy/math-runtime/src/parse.dart' as term_parser;
 
-import 'package:mathebuddy/color.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/level.dart';
@@ -147,9 +146,11 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
             print("diff student answer: $studentTerm -> $studentTermDiff");
             studentTerm = studentTermDiff;
           }
-
-          var expectedTerm =
-              term_parser.Parser().parse(inputField.expectedValue);
+          var expected = inputField.expectedValue;
+          if (inputField.type == MbclInputFieldType.string) {
+            expected = expected.toUpperCase();
+          }
+          var expectedTerm = term_parser.Parser().parse(expected);
           print("comparing $studentTerm to $expectedTerm");
           ok = expectedTerm.compareNumerically(studentTerm);
         } catch (e) {
