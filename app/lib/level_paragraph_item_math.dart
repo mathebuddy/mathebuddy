@@ -61,6 +61,7 @@ InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
     }
   }
   var tex = TeX();
+  tex.setColor(color.red, color.green, color.blue);
   tex.scalingFactor = 1.08; //1.17;
   //print("... tex src: $texSrc");
   var svg = tex.tex2svg(texSrc,
