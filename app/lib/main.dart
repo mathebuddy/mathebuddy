@@ -29,7 +29,8 @@ void main() {
     showDebugReleaseSwitch = false;
     debugMode = false;
   }
-  if (html.window.location.href.contains("mathebuddy.github.io/mathebuddy/")) {
+  if (html.window.location.href.contains("mathebuddy.github.io/mathebuddy/") ||
+      html.window.location.href.contains("http://localhost:8314/")) {
     bundleName = 'assets/bundle-websim.json';
   } else if (html.window.location.href
       .contains("mathebuddy.github.io/alpha/")) {
