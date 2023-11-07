@@ -11,6 +11,7 @@ import 'package:mathebuddy/keyboard.dart';
 
 /// !B := backspace
 /// !E := enter key
+/// !S := space key
 /// # := empty / no key
 /// !X !Y !Z := variable placeholders (e.g. for x,y,z)
 
@@ -95,9 +96,9 @@ var keyboardLayoutsSrc = '''
 
 ### alpha
 
-q w e r t z u i o p
-a s d f g h j k l !B
-y x c v b n m # # !B
+Q W E R T Z U I O P
+A S D F G H J K L !B
+Y X C V B N M !S !S !E
 ''';
 
 Map<String, String> keyboardLayouts = {};
