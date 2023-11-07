@@ -7,9 +7,9 @@
    viewBox="0 0 200 64"
    height="64mm"
    width="200mm"
-   inkscape:export-filename="logo-large.png"
-   inkscape:export-xdpi="279.72455"
-   inkscape:export-ydpi="279.72455"
+   inkscape:export-filename="logo-large-black-de.png"
+   inkscape:export-xdpi="99.220001"
+   inkscape:export-ydpi="99.220001"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +156,7 @@
        style="font-size:85.3333px;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;white-space:pre;shape-inside:url(#rect24427);display:inline;fill:#b92323;fill-opacity:1;stroke:#b92323;stroke-opacity:1"><tspan
          x="97.843956"
          y="113.0245"
-         id="tspan2986">mathe:buddy
+         id="tspan4477">mathe:buddy
 </tspan></text>
     <text
        xml:space="preserve"
@@ -165,16 +165,16 @@
        style="font-size:57.8462px;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;white-space:pre;shape-inside:url(#rect24427-9);display:inline;fill:#b92323;fill-opacity:1;stroke:none;stroke-opacity:1"><tspan
          x="346.08134"
          y="88.265376"
-         id="tspan2992"><tspan
+         id="tspan4483"><tspan
    style="fill:#ffffff"
-   id="tspan2988">eine </tspan>G<tspan
+   id="tspan4479">eine </tspan>G<tspan
    style="fill:#ffffff"
-   id="tspan2990">amifizierte Lern-App
+   id="tspan4481">amifizierte Lern-App
 </tspan></tspan><tspan
          x="352.52125"
          y="160.57312"
-         id="tspan2996"><tspan
+         id="tspan4487"><tspan
            style="fill:#ffffff"
-           id="tspan2994">für die Höhere Mathematik</tspan></tspan></text>
+           id="tspan4485">für die Höhere Mathematik</tspan></tspan></text>
   </g>
 </svg>
