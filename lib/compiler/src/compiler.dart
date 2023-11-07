@@ -11,7 +11,6 @@ import '../../mbcl/src/chapter.dart';
 import '../../mbcl/src/course.dart';
 import '../../mbcl/src/level.dart';
 import '../../mbcl/src/unit.dart';
-import '../../mbcl/src/chat.dart';
 
 import 'block.dart';
 import 'chat.dart';
@@ -87,7 +86,7 @@ class Compiler {
       // processing a single course chapter
       course = MbclCourse();
       course?.debug = MbclCourseDebug.chapter;
-      compileChapter(path);
+      compileChapter(path, compileCompleteCourse: false);
     } else {
       // processing a single course level
       course = MbclCourse();
@@ -231,12 +230,14 @@ class Compiler {
   //G chapterAuthor = "AUTHOR" { ID } "\n";
   //G chapterUnit = "UNIT" { ID } [ "ICON" path ] "\n" { chapterLevel };
   //G chapterLevel = "(" INT "," INT ")" ID { "!" ID } [ "ICON" path ] "\n";
-  void compileChapter(String path) {
+  void compileChapter(String path, {bool compileCompleteCourse = true}) {
     // create a new chapter
     chapter = MbclChapter();
     course?.chapters.add(chapter as MbclChapter);
     var pathParts = path.replaceAll("/index.mbl", "").split("/");
-    chapter?.fileId = pathParts[pathParts.length - 1];
+    if (compileCompleteCourse) {
+      chapter?.fileId = pathParts[pathParts.length - 1];
+    }
     // get chapter index file source
     var src = loadFile(path);
     if (src.isEmpty) {
