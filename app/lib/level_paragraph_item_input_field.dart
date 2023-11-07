@@ -200,7 +200,7 @@ class AppInputField {
                 break;
               case MbclInputFieldType.string:
                 // gap question
-                var expected = inputFieldData.expectedValue;
+                var expected = inputFieldData.expectedValue.toUpperCase();
                 if (inputFieldData.showAllLettersOfGap) {
                   state.keyboardState.layout = getKeyboardLayout("alpha");
                   state.keyboardState.layout!.setGapKeyboard(true);
