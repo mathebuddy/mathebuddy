@@ -1,3 +1,17 @@
+DEFINITION @def:normalform
+    CHATKEYS
+        normalform,normal-form
+    Die Darstellung 
+    EQUATION*
+        z=x+iy
+    einer komplexen Zahl nennt man **Normalform**. 
+
+    Wir nennen $x = \text{Re}(z)$ den **Realteil** von $z$ und $y= \text{Im}(z)$ den **Imaginärteil** von $z$.
+
+    Mit komplexen Zahlen kann auf die gewohnte Weise gerechnet werden, wenn man $i^2=-1$ verwendet.
+
+!STOP
+
 EXERCISE Add
     INSTANCES=3
     CODE
