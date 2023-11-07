@@ -8,6 +8,7 @@
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
 import 'chapter.dart';
+import 'chat.dart';
 
 enum MbclCourseDebug {
   no,
@@ -23,6 +24,7 @@ class MbclCourse {
   int mbclVersion = 1;
   int dateModified = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
   List<MbclChapter> chapters = [];
+  MbclChat chat = MbclChat();
 
   String gatherErrors() {
     var err = error.isEmpty ? "" : "$error\n";
@@ -60,6 +62,7 @@ class MbclCourse {
       "mbclVersion": mbclVersion,
       "dateModified": dateModified,
       "chapters": chapters.map((chapter) => chapter.toJSON()).toList(),
+      "chat": chat.toJSON()
     };
   }
 
@@ -83,5 +86,7 @@ class MbclCourse {
         ch.requires.add(getChapterByFileID(req)!);
       }
     }
+    chat = MbclChat();
+    chat.fromJSON(src["chat"]);
   }
 }
