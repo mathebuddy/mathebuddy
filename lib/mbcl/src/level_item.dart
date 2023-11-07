@@ -30,6 +30,7 @@ class MbclLevelItem {
   MbclInputFieldData? inputFieldData;
 
   // temporary data
+  String chatKeys = '';
 
   MbclLevelItem(this.level, this.type, this.srcLine, [this.text = '']);
 
