@@ -86,7 +86,7 @@ InlineSpan generateParagraphItem(LevelState state, MbclLevelItem item,
             {
               for (var it in item.items) {
                 gen.add(generateParagraphItem(state, it,
-                    bold: true, exerciseData: exerciseData));
+                    bold: true, color: color, exerciseData: exerciseData));
               }
               return TextSpan(children: gen);
             }
@@ -94,7 +94,7 @@ InlineSpan generateParagraphItem(LevelState state, MbclLevelItem item,
             {
               for (var it in item.items) {
                 gen.add(generateParagraphItem(state, it,
-                    italic: true, exerciseData: exerciseData));
+                    italic: true, color: color, exerciseData: exerciseData));
               }
               return TextSpan(
                 children: gen,
