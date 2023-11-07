@@ -69,6 +69,7 @@ class Style {
       case MbclExerciseFeedback.unchecked:
         //return matheBuddyYellow;
         return matheBuddyRed;
+      //return Colors.black;
       case MbclExerciseFeedback.correct:
         return matheBuddyGreen;
       case MbclExerciseFeedback.incorrect:
