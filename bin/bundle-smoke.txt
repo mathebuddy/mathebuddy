@@ -1,6 +1,8 @@
 DEMO Grenzwerte:../../mathebuddy-private-courses/hm1/grenzwert/index.mbl
 DEMO Komplexe Zahlen:../../mathebuddy-private-courses/hm1/komplex/index.mbl
 
+DEMO Demo:../../mathebuddy-private-courses/hm1/course.mbl
+
 #u1-000-tutorial:../../mathebuddy-private-courses/hm1/komplex/u1-000-tutorial.mbl
 
 #u1-010-intro:../../mathebuddy-private-courses/hm1/komplex/u1-010-intro.mbl

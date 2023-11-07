@@ -9,4 +9,5 @@ figures:../../mathebuddy-public-courses/demo-basic/figures.mbl
 hello:../../mathebuddy-public-courses/demo-basic/hello.mbl
 tables:../../mathebuddy-public-courses/demo-basic/tables.mbl
 typography:../../mathebuddy-public-courses/demo-basic/typography.mbl
-chapterTest:../../mathebuddy-public-courses/demo-course/basics/index.mbl
+parts:../../mathebuddy-public-courses/demo-basic/parts.mbl
+courseTest:../../mathebuddy-public-courses/demo-course/course.mbl
