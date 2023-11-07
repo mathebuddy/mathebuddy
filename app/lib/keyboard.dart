@@ -156,8 +156,11 @@ class Keyboard {
 
     var screenWidth = MediaQuery.of(state.context).size.width;
     var keyWidth = screenWidth < 350 ? 45.0 : 55.0;
+    if (keyboardLayout.columnCount >= 7) {
+      keyWidth = 36;
+    }
     const keyHeight = 50.0;
-    const keyFontSize = 24.0;
+    const keyFontSize = 18.0; // 24.0;
     const keyFontSizeSmall = 18.0;
     const keyMargin = 4.0;
 
@@ -173,6 +176,11 @@ class Keyboard {
       var textColor = Colors.black; //Colors.black87;
       var backgroundColor = Colors.white;
 
+      var fontSize = key.text.length >= 2 ? keyFontSizeSmall : keyFontSize;
+      if (keyboardLayout.columnCount >= 7) {
+        fontSize = keyFontSizeSmall;
+      }
+      var keyText = key.text.replaceAll("!S", " ");
       var labelWidget = key.text.startsWith('icon:')
           ? Icon(
               IconData(int.parse(key.text.split(':')[1], radix: 16),
@@ -180,11 +188,8 @@ class Keyboard {
               color: textColor, // matheBuddyRed,
               size: keyFontSize,
             )
-          : Text(key.text,
-              style: TextStyle(
-                  color: textColor,
-                  fontSize:
-                      key.text.length >= 2 ? keyFontSizeSmall : keyFontSize));
+          : Text(keyText,
+              style: TextStyle(color: textColor, fontSize: fontSize));
       var buttonWidth = keyWidth * key.columnSpan.toDouble() - keyMargin;
       var buttonHeight = keyHeight * key.rowSpan.toDouble() - keyMargin;
 
@@ -200,6 +205,7 @@ class Keyboard {
                   minimumSize: Size(buttonWidth, buttonHeight),
                   maximumSize: Size(buttonWidth, buttonHeight)),
               onPressed: () {
+                // TODO: move code!!
                 //print('pressed key ${key.value}');
                 if (key.value == '!B') {
                   // backspace
@@ -248,7 +254,7 @@ class Keyboard {
                         .substring(0, keyboardInputFieldData.cursorPos);
                     var afterCursor = keyboardInputFieldData.studentValue
                         .substring(keyboardInputFieldData.cursorPos);
-                    var newStr = key.value;
+                    var newStr = key.value.replaceAll("!S", " ");
                     if (beforeCursor.isNotEmpty) {
                       // if the last character before the cursor is alpha
                       // and the inserted string starts with an alpha character,
@@ -424,12 +430,16 @@ class Keyboard {
     return Container(
         decoration: BoxDecoration(
           //color: Color.fromARGB(255, 240, 240, 240),
-          color: Colors.black87,
+          //color: Colors.black87,
           //border:
           //    Border.all(width: 0.5, color: Color.fromARGB(135, 190, 190, 190)),
           //borderRadius: BorderRadius.only(
           //    topLeft: Radius.elliptical(screenWidth / 2, 5),
           //    topRight: Radius.elliptical(screenWidth / 2, 5))
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.black87, const Color.fromARGB(175, 0, 0, 0)]),
         ),
         //color: Colors.black12,
         alignment: Alignment.bottomCenter,
