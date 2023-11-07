@@ -81,8 +81,9 @@ void main() {
   var files = [
     'smoke-test.mbl',
     //'../../../../mathebuddy-public-courses/demo-course/course.mbl'
-    //'../../../../mathebuddy-public-courses/demo-course/course.mbl'
     //'../../../../mathebuddy-public-courses/demo-course/basics/index.mbl'
+    //'../../../../mathebuddy-private-courses/hm1/komplex/index.mbl',
+    //'../../../../mathebuddy-private-courses/hm1/course.mbl',
     //'../../../../mathebuddy-public-courses/demo-basic/exercises.mbl',
     //'../../../../mathebuddy-public-courses/demo-basic/hello.mbl',
     //'../../../../mathebuddy-public-courses/demo-basic/typography.mbl',
