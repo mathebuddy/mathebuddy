@@ -11,8 +11,10 @@ import '../../mbcl/src/chapter.dart';
 import '../../mbcl/src/course.dart';
 import '../../mbcl/src/level.dart';
 import '../../mbcl/src/unit.dart';
+import '../../mbcl/src/chat.dart';
 
 import 'block.dart';
+import 'chat.dart';
 import 'course.dart';
 import 'help.dart';
 import 'level.dart';
@@ -102,6 +104,9 @@ class Compiler {
     // resolve references
     ReferenceSolver rs = ReferenceSolver(course as MbclCourse);
     rs.run();
+    // gater information for chatbot
+    var cir = ChatInformationRetrieval();
+    course!.chat = cir.run(course!);
   }
 
   //G course = courseTitle courseAuthor courseChapters;
