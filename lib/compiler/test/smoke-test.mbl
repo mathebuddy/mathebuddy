@@ -1,3 +1,39 @@
+
+
+EXERCISE
+    INSTANCES=3
+    CODE
+        a = -rand(2,5)^2
+        b = sqrt(a)
+    
+    Löse die Gleichung $z^2=a$.
+
+    $z=$ #b
+
+!STOP
+
+Multiple Choice
+===============
+
+EXERCISE Gerade und ungerade Funktionen
+    Welche der nachfolgenden Funktionen sind **gerade**?
+    [x] $ f(x) = x^2 $
+    [ ] $ f(x) = x^3 $
+    [x] $ f(x) = x^4 + 3 x^2 + 7 $
+    [ ] $ f(x) = 2 x^5 - 2 x^2 + 4 $
+
+Tokens
+======
+
+EXERCISE Integration
+    CODE
+        a = rand(3,7)
+        f(x) = (1/3) * x^3 + a*x
+    $\int (x^2+a)~dx = $  #f,TOKENS=1.0+"pi"  $+C$
+
+
+!STOP
+
 DEFINITION @def:normalform
     CHATKEYS
         normalform,normal-form
