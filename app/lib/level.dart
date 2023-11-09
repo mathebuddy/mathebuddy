@@ -225,15 +225,25 @@ class LevelState extends State<LevelWidget> {
       // add current exercise
       var ex = eventData!.getCurrentExercise();
       if (ex != null) {
+        if (ex.exerciseData!.feedback == MbclExerciseFeedback.correct) {
+          Timer(Duration(milliseconds: 250), () {
+            ex.exerciseData!.reset();
+            eventData!.switchExercise();
+            setState(() {});
+          });
+        }
         page.add(generateLevelItem(this, level, ex));
       }
       if (activeInputFields.isNotEmpty) {
         var f = activeInputFields[0];
-        Timer t = Timer(Duration(milliseconds: 50), () {
-          if (keyboardState.layout == null) {
-            f.gestureDetector!.onTap!();
-          }
-        });
+        if (f.inputFieldData!.exerciseData!.feedback ==
+            MbclExerciseFeedback.unchecked) {
+          Timer t = Timer(Duration(milliseconds: 50), () {
+            if (keyboardState.layout == null) {
+              f.gestureDetector!.onTap!();
+            }
+          });
+        }
       }
       var bp = 1337;
     } else {
@@ -392,7 +402,8 @@ class LevelState extends State<LevelWidget> {
     Widget bottomArea = Text('');
     if (keyboardState.layout != null) {
       var keyboard = Keyboard();
-      bottomArea = keyboard.generateWidget(this, keyboardState);
+      bottomArea = keyboard.generateWidget(this, keyboardState,
+          evaluateDirectly: level.isEvent);
     }
 
     return Scaffold(
