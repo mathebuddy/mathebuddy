@@ -1,4 +1,24 @@
+Event
+###############
 
+% TODO: TIME=XX,SCORE=YY
+
+EXERCISE 
+    CODE 
+        a/b = rand(3,7);
+    Was ist der Imaginärteil von $z=a+b i$?
+
+    $\text{Im}(z)=$ #b,CHOICES=4
+
+EXERCISE 
+    CODE 
+        a/b = rand(3,7);
+    Was ist der Realteil von $z=a+b i$?
+
+    $\text{Re}(z)=$ #a,CHOICES=4
+
+
+!STOP
 
 EXERCISE
     INSTANCES=3
