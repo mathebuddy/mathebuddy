@@ -1,5 +1,7 @@
 <!-- Mathe:Buddy Language (MBL) -->
 
+**WARNING: THE DOCUMENTATION IS NOT UP TO DATE. WE WILL PROVIDE AN UPDATE SOON.**
+
 This document describes the syntax of the _mathe:buddy language (MBL)_,
 which can be used to create mathematical based online courses.
 MBL describes contents as well as randomized training exercises.
