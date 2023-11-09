@@ -227,12 +227,13 @@ class LevelState extends State<LevelWidget> {
       if (ex != null) {
         if (ex.exerciseData!.feedback == MbclExerciseFeedback.correct) {
           Timer(Duration(milliseconds: 250), () {
-            ex.exerciseData!.reset();
+            ex!.exerciseData!.reset();
             eventData!.switchExercise();
+            ex = eventData!.getCurrentExercise();
             setState(() {});
           });
         }
-        page.add(generateLevelItem(this, level, ex));
+        page.add(generateLevelItem(this, level, ex!));
       }
       if (activeInputFields.isNotEmpty) {
         var f = activeInputFields[0];
