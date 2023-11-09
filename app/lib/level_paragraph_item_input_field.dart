@@ -22,6 +22,7 @@ import 'package:mathebuddy/keyboard_layouts.dart';
 
 class AppInputField {
   GestureDetector? gestureDetector;
+  MbclInputFieldData? inputFieldData;
 
   InlineSpan generateParagraphItemInputField(
     LevelState state,
@@ -31,29 +32,29 @@ class AppInputField {
     Color color = Colors.black,
     MbclExerciseData? exerciseData,
   }) {
-    var inputFieldData = item.inputFieldData as MbclInputFieldData;
-    inputFieldData.exerciseData = exerciseData;
+    inputFieldData = item.inputFieldData as MbclInputFieldData;
+    inputFieldData!.exerciseData = exerciseData;
     if (exerciseData != null &&
         exerciseData.inputFields.containsKey(item.id) == false) {
-      exerciseData.inputFields[item.id] = inputFieldData;
-      inputFieldData.studentValue = "";
+      exerciseData.inputFields[item.id] = inputFieldData!;
+      inputFieldData!.studentValue = "";
       var exerciseInstance =
           exerciseData.instances[exerciseData.runInstanceIdx];
-      if (inputFieldData.isFunction) {
-        inputFieldData.expectedValue =
-            exerciseInstance["@${inputFieldData.variableId}"] as String;
+      if (inputFieldData!.isFunction) {
+        inputFieldData!.expectedValue =
+            exerciseInstance["@${inputFieldData!.variableId}"] as String;
       } else {
-        inputFieldData.expectedValue =
-            exerciseInstance[inputFieldData.variableId] as String;
+        inputFieldData!.expectedValue =
+            exerciseInstance[inputFieldData!.variableId] as String;
       }
-      if (inputFieldData.index >= 0) {
-        var t = term_parser.Parser().parse(inputFieldData.expectedValue);
-        if (inputFieldData.index >= t.o.length) {
+      if (inputFieldData!.index >= 0) {
+        var t = term_parser.Parser().parse(inputFieldData!.expectedValue);
+        if (inputFieldData!.index >= t.o.length) {
           print("ERROR: indexing exceeds bound!");
         } else {
-          t = t.o[inputFieldData.index];
+          t = t.o[inputFieldData!.index];
         }
-        inputFieldData.expectedValue = t.toString();
+        inputFieldData!.expectedValue = t.toString();
       }
     }
     Widget contents;
@@ -61,7 +62,7 @@ class AppInputField {
     var isActive = state.keyboardState.layout != null &&
         state.keyboardState.inputFieldData == inputFieldData;
     var activeOpacity = 0.25;
-    if (inputFieldData.studentValue.isEmpty) {
+    if (inputFieldData!.studentValue.isEmpty) {
       contents = RichText(
           text: TextSpan(children: [
         WidgetSpan(
@@ -85,7 +86,7 @@ class AppInputField {
 
       List<InlineSpan> parts = [];
 
-      var studentValue = inputFieldData.studentValue;
+      var studentValue = inputFieldData!.studentValue;
       var studentValueTeX = studentValue;
       var texValid = true;
       try {
@@ -133,14 +134,14 @@ class AppInputField {
     gestureDetector = GestureDetector(
         onTap: () {
           state.activeExercise = exerciseData?.exercise;
-          if (key != null) {
+          if (key != null && key.currentContext != null) {
             Scrollable.ensureVisible(key.currentContext!,
                 duration: Duration(milliseconds: 250));
           }
           state.keyboardState.exerciseData = exerciseData;
           state.keyboardState.inputFieldData = inputFieldData;
-          var forceKeyboardId = inputFieldData.forceKeyboardId;
-          if (inputFieldData.termTokens) {
+          var forceKeyboardId = inputFieldData!.forceKeyboardId;
+          if (inputFieldData!.termTokens) {
             var termTokens = exerciseData!
                 .instances[exerciseData.runInstanceIdx]["TOKENS.${item.id}"]!
                 .split(" # ");
@@ -148,7 +149,7 @@ class AppInputField {
             if (termTokens.contains(")") == false) termTokens.add(")");
             state.keyboardState.layout =
                 createChoiceKeyboard(termTokens, hasBackButton: true);
-          } else if (inputFieldData.choices) {
+          } else if (inputFieldData!.choices) {
             var choices = exerciseData!.instances[exerciseData.runInstanceIdx]
                     ["CHOICES.${item.id}"]!
                 .split(" # ");
@@ -157,7 +158,7 @@ class AppInputField {
           } else if (forceKeyboardId.isNotEmpty) {
             state.keyboardState.layout = getKeyboardLayout(forceKeyboardId);
           } else {
-            switch (inputFieldData.type) {
+            switch (inputFieldData!.type) {
               case MbclInputFieldType.int:
                 state.keyboardState.layout = getKeyboardLayout("integer");
                 break;
@@ -177,7 +178,7 @@ class AppInputField {
                 break;
               case MbclInputFieldType.term:
                 var t =
-                    term_parser.Parser().parse(inputFieldData.expectedValue);
+                    term_parser.Parser().parse(inputFieldData!.expectedValue);
                 var vars = t.getVariableIDs().toList();
                 vars.sort();
                 switch (vars.length) {
@@ -200,8 +201,8 @@ class AppInputField {
                 break;
               case MbclInputFieldType.string:
                 // gap question
-                var expected = inputFieldData.expectedValue.toUpperCase();
-                if (inputFieldData.showAllLettersOfGap) {
+                var expected = inputFieldData!.expectedValue.toUpperCase();
+                if (inputFieldData!.showAllLettersOfGap) {
                   state.keyboardState.layout = getKeyboardLayout("alpha");
                   state.keyboardState.layout!.setGapKeyboard(true);
                 } else {
@@ -213,15 +214,15 @@ class AppInputField {
                   state.keyboardState.layout =
                       createChoiceKeyboard(letters.toList());
                 }
-                if (inputFieldData.hideLengthOfGap == false) {
+                if (inputFieldData!.hideLengthOfGap == false) {
                   state.keyboardState.layout!
-                      .setLengthHint(inputFieldData.expectedValue.length);
+                      .setLengthHint(inputFieldData!.expectedValue.length);
                 }
                 break;
               default:
                 print("WARNING: generateParagraphItem():"
                     "keyboard layout for input field type"
-                    " ${inputFieldData.type.name} not yet implemented");
+                    " ${inputFieldData!.type.name} not yet implemented");
                 state.keyboardState.layout = getKeyboardLayout("termX");
             }
           }
