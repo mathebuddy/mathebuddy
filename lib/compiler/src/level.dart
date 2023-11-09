@@ -378,9 +378,11 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
             figure.error +=
                 "Figure width percentage must be in range [5,100]; ";
           }
-          if (block.attributes.containsKey("path")) {
+          if (block.attributes.containsKey("PATH")) {
             data.filePath = block.attributes["PATH"]!;
-            data.data = compiler.loadFile(data.filePath);
+            var path = "${compiler.baseDirectory}"
+                "${compiler.chapter!.fileId}/${data.filePath}";
+            data.data = compiler.loadFile(path);
             if (data.data.isEmpty) {
               figure.error +=
                   'Could not load image file from path "${data.filePath}". ';
