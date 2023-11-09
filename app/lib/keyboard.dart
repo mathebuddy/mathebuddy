@@ -6,6 +6,7 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:mathebuddy/level_exercise.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
@@ -149,7 +150,8 @@ class KeyboardLayout {
 // TODO: move "KeyboardState keyboardState" to attributes here!
 
 class Keyboard {
-  Widget generateWidget(LevelState state, KeyboardState keyboardState) {
+  Widget generateWidget(LevelState state, KeyboardState keyboardState,
+      {bool evaluateDirectly = false}) {
     var keyboardLayout = keyboardState.layout as KeyboardLayout;
     var keyboardInputFieldData =
         keyboardState.inputFieldData as MbclInputFieldData;
@@ -282,7 +284,11 @@ class Keyboard {
                   keyboardState.exerciseData?.feedback =
                       MbclExerciseFeedback.unchecked;
                 }
-
+                // evaluate exercise on first key (used e.g. for Event levels)
+                if (evaluateDirectly) {
+                  evaluateExercise(state, state.widget.level,
+                      keyboardState.inputFieldData!.exerciseData!);
+                }
                 // ignore: invalid_use_of_protected_member
                 state.setState(() {});
               },
