@@ -72,9 +72,11 @@ String compileMblCode(String path /*, String src*/) {
     compiler.compile(path);
     var y = compiler.getCourse()?.toJSON();
     var jsonStr = JsonEncoder.withIndent("  ").convert(y);
-    var log = '... compilation to MBCL was successful!<br/>';
+    var log = '... compilation was successful!<br/>';
+    updateSimShortInfo("");
     var softErrors = compiler.gatherErrors();
     if (softErrors.isNotEmpty) {
+      updateSimShortInfo('minor errors occurred (see log below)', true);
       log += "+++++ MINOR ERRORS +++++<br/>";
       log += softErrors.replaceAll("\n", "<br/>");
       log += "+++++ END OF ERROR LOG +++++<br/>";
@@ -82,6 +84,8 @@ String compileMblCode(String path /*, String src*/) {
     logArea.innerHtml = log;
     return jsonStr;
   } catch (e) {
+    updateSimShortInfo(
+        '<span color="red">fatal errors occurred (see log below)</span>', true);
     logArea.innerHtml = e.toString();
     return '';
   }
@@ -160,13 +164,24 @@ void loadMblFile(String path) {
 }
 
 void showMbl() {
-  var tmp = htmlSafe(mblData);
-  dataArea.innerHtml = "MBL Code:<br/><pre><code>$tmp</code></pre>";
+  // insert line numbers
+  var res = "";
+  var lines = mblData.split("\n");
+  var i = 1;
+  for (var line in lines) {
+    res += "$i".padLeft(4, '0');
+    res += "  ";
+    res += "$line\n";
+    i++;
+  }
+  // set
+  var tmp = htmlSafe(res);
+  dataArea.innerHtml = "<pre><code>$tmp</code></pre>";
 }
 
 void showMbcl() {
   var tmp = htmlSafe(mbclData);
-  dataArea.innerHtml = "MBCL Code:<br/><pre><code>$tmp</code></pre>";
+  dataArea.innerHtml = "<pre><code>$tmp</code></pre>";
 }
 
 String htmlSafe(String s) {
@@ -182,10 +197,41 @@ void updateSimPathButtonsCore(List<String> files) {
   var simPathButtons =
       html.document.getElementById("sim-path-buttons") as html.SpanElement;
   simPathButtons.innerHtml = "";
+  // sort files
+  List<String> dirs = [];
+  List<String> nonDirs = [];
+  for (var file in files) {
+    if (file.endsWith("/")) {
+      dirs.add(file);
+    } else if (file == "..") {
+      dirs.insert(0, file);
+    } else {
+      nonDirs.add(file);
+    }
+  }
+  dirs.sort();
+  nonDirs.sort();
+  files = dirs;
+  files.addAll(nonDirs);
+  // add files
   for (var file in files) {
     var button = html.document.createElement("button");
     button.classes.add("button");
-    button.innerHtml = file;
+    button.style.paddingLeft = "8px";
+    button.style.paddingRight = "8px";
+    button.style.textTransform = "none";
+    button.style.height = "32px";
+    button.style.lineHeight = "32px";
+    button.style.letterSpacing = "normal";
+    if (file.endsWith("/") || file == "..") {
+      button.style.backgroundColor = "black";
+      button.style.color = "white";
+    }
+    if (file == "..") {
+      button.innerHtml = "&nbsp;&nbsp;$file&nbsp;&nbsp;";
+    } else {
+      button.innerHtml = file;
+    }
     simPathButtons.append(button);
     var span = html.document.createElement("span");
     span.innerHtml = "&nbsp;";
@@ -203,11 +249,22 @@ void updateSimPathButtonsCore(List<String> files) {
 }
 
 void updateSimPath() {
-  var e = html.document.getElementById("sim-current-path");
+  var e = html.document.getElementById("sim-current-path")!;
   var p = "";
   for (var i = 0; i < simPath.length; i++) {
     p += "&raquo; ${simPath[i].replaceAll("/", "")} ";
   }
   p += "<br/>";
-  e?.innerHtml = p;
+  e.innerHtml = p;
+}
+
+void updateSimShortInfo(String msg, [bool redColor = false]) {
+  var e = html.document.getElementById("sim-short-info")!;
+  var span = html.document.createElement("span");
+  if (redColor) {
+    span.style.color = "red";
+  }
+  span.innerHtml = msg;
+  e.innerHtml = "";
+  e.append(span);
 }
