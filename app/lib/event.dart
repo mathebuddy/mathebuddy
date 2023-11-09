@@ -58,6 +58,11 @@ class EventData {
     }
   }
 
+  void switchExercise() {
+    // TODO: randomize order??
+    currentExerciseIdx = (currentExerciseIdx + 1) % exercises.length;
+  }
+
   MbclLevelItem? getCurrentExercise() {
     if (currentExerciseIdx >= exercises.length) return null;
     return exercises[currentExerciseIdx];
