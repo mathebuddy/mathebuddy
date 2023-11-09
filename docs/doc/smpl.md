@@ -1,5 +1,7 @@
 <!-- Simple Math Programming Language (SMPL) -->
 
+**WARNING: THE DOCUMENTATION IS NOT UP TO DATE. WE WILL PROVIDE AN UPDATE SOON.**
+
 This document describes the _Simple Math Programming Language (SMPL)_.
 
 SMPL is a math-oriented programming language that can be interpreted in the browser. Its primary use is for the _mathe:buddy app_.
