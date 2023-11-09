@@ -50,8 +50,8 @@ AppBar buildAppBar(State state, EventData? eventData) {
       //   color: getStyle().appbarIconActiveColor,
       // ),
       );
-  actions.add(actionChat);
-  actions.add(Text('  '));
+  //actions.add(actionChat);
+  //actions.add(Text('  '));
   actions.add(actionHome);
   actions.add(Text('    '));
   // language switch
