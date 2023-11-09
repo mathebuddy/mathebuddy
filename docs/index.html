@@ -38,7 +38,7 @@
 
     <title>mathe:buddy</title>
     <!--<link rel="stylesheet" href="css/normalize.css" />-->
-    <link rel="stylesheet" href="css/skeleton.css?v=5" />
+    <link rel="stylesheet" href="css/skeleton.css?v=7" />
 
     <style>
       pre code {
@@ -148,26 +148,31 @@
           />
         </a>
         <img
+          id="download-ios"
           src="img/app-store/ios.png"
           style="height: 32px; vertical-align: middle"
         />
         <img
+          id="download-android"
           src="img/app-store/android.png"
           style="height: 32px; vertical-align: middle"
         />
         <br />
       </div>
 
-      <span class="text-german">
-        <a href="index.html">
-          <img class="u-max-full-width" src="img/logo/logo-large.svg" />
-        </a>
-      </span>
-      <span class="text-english">
-        <a href="index.html">
-          <img class="u-max-full-width" src="img/logo/logo-large-en.svg" />
-        </a>
-      </span>
+      <div id="top-logo-large" style="text-align: center; width: 100%">
+        <span class="text-german">
+          <a href="index.html">
+            <img src="img/logo/logo-large.svg" />
+          </a>
+        </span>
+        <span class="text-english">
+          <a href="index.html">
+            <img src="img/logo/logo-large-en.svg" />
+          </a>
+        </span>
+      </div>
+      <br />
 
       <div class="row">
         <div style="text-align: center">
@@ -190,14 +195,13 @@
           </button>
           <button class="button" onclick="showPlayground('smpl')">SMPL</button>
           <button class="button" onclick="showPlayground('mbl')">MBL</button>
-          <button class="button" onclick="showPlayground('chat')">chat</button>
           <button class="button" onclick="showPlayground('tex')">TeX</button>
         </div>
         <div id="doc-list" style="text-align: center; display: none">
           <b>DOCUMENTATION</b><br />
           <button class="button" onclick="showDoc('mbl')">MBL</button>
           <button class="button" onclick="showDoc('smpl')">SMPL</button>
-          <button class="button" onclick="showDoc('mbcl')">MBCL</button>
+          <!--<button class="button" onclick="showDoc('mbcl')">MBCL</button>-->
         </div>
         <div id="sim-list" style="text-align: center; display: none">
           <b>SIMULATION</b><br />
@@ -206,11 +210,6 @@
           <button id="showSimLocalhost" class="button">
             http://localhost:8271
           </button>
-          <br />
-          <span style="font-size: smaller">
-            Info: <code>http://localhost:8271</code> is currently NOT available
-            in the Apple Safari browser.
-          </span>
         </div>
       </div>
     </div>
@@ -251,19 +250,8 @@
       </div>
     </div>
 
-    <div id="sim" class="container" style="display: none">
+    <div id="sim" class="containerWide" style="display: none">
       <div class="row">
-        <br />
-        <h2>Simulator</h2>
-        <!--<p id="localhost-error-info" style="font-size: larger; display: none">
-          ERROR: You need to run a local webserver on your local computer. Head
-          to your course directory and run <code>python3 server.py</code>. Then
-          reload this page.
-        </p>
-        <p id="localhost-error-info" style="font-size: larger; display: none">
-          WARNING: The Safari Browser is currently NOT supported.
-        </p>-->
-        <!--<div style="text-align: center; color: #aa322c">Simulator</div>-->
         <div id="sim-list" class="row" style="padding: 0px; text-align: left">
           <span
             style="
@@ -280,28 +268,50 @@
           </span>
           <button
             class="button"
-            onclick="setDevice('iPhone5s')"
-            style="font-size: 10px"
+            onclick="setDevice('small')"
+            style="
+              font-size: 10px;
+              padding-left: 8px;
+              padding-right: 8px;
+              text-transform: none;
+              height: 32px;
+              line-height: 32px;
+              letter-spacing: normal;
+            "
           >
-            iPhone 5s
+            small
           </button>
           <button
             class="button"
-            onclick="setDevice('iPhone8')"
-            style="font-size: 10px"
+            onclick="setDevice('medium')"
+            style="
+              font-size: 10px;
+              padding-left: 8px;
+              padding-right: 8px;
+              text-transform: none;
+              height: 32px;
+              line-height: 32px;
+              letter-spacing: normal;
+            "
           >
-            iPhone 8
+            medium
           </button>
           <button
             class="button"
-            onclick="setDevice('iPhone14ProMax')"
-            style="font-size: 10px"
+            onclick="setDevice('large')"
+            style="
+              font-size: 10px;
+              padding-left: 8px;
+              padding-right: 8px;
+              text-transform: none;
+              height: 32px;
+              line-height: 32px;
+              letter-spacing: normal;
+            "
           >
-            iPhone 14 Pro Max
+            large
           </button>
-        </div>
-
-        <div class="row" style="padding: 0px; text-align: left">
+          &nbsp;
           <span
             style="
               color: gray;
@@ -321,28 +331,29 @@
           ></span>
         </div>
 
-        <div class="row" style="text-align: left">
-          <div class="six columns" style="text-align: center">&nbsp;</div>
-          <div class="six columns" style="text-align: center">
+        <!--<div class="row" style="text-align: left">
+          <div class="five columns" style="text-align: center">&nbsp;</div>
+          <div class="seven columns" style="text-align: center">
             <div id="sim-current-path" style="text-align: center; padding: 0" ;>
               <span>(no file selected)</span>
             </div>
           </div>
-        </div>
-        <div class="row" style="text-align: left">
-          <div class="six columns" style="text-align: center">
+        </div>-->
+        <div style="text-align: left">
+          <div style="float: left; text-align: center; width: 400px">
             <iframe
               id="sim-iframe"
               title="mathe:buddy simulator instance"
-              src="poweroff.html"
+              src="poweroff.html?v=5"
               style="
                 border-style: solid;
                 border-color: #434343;
                 border-width: 1px;
-                border-radius: 25px;
-                min-height: 640px;
-                height: 640px;
-                max-height: 640px;
+                border-radius: 10px;
+                background-color: #000000;
+                min-height: 750px;
+                height: 750px;
+                max-height: 750px;
                 width: 360px;
                 min-width: 360px;
                 max-width: 360px;
@@ -354,25 +365,37 @@
             >
             </iframe>
           </div>
-          <div class="six columns">
+          <div
+            style="
+              float: left;
+              width: calc(100% - 406px);
+              margin-left: 5px;
+              margin-bottom: 5px;
+            "
+          >
             <div
               style="
                 border-style: solid;
                 border-color: #434343;
                 border-width: 1px;
-                border-radius: 0px;
+                border-radius: 2px;
                 padding: 10px;
                 border-width: 2px;
                 width: 100%;
-                min-height: 640px;
-                height: 640px;
-                max-height: 640px;
+                min-height: 800px;
+                height: 800px;
+                height: 100%;
+                max-height: 800px;
                 -moz-box-shadow: 0 0 10px #aaa;
                 -webkit-box-shadow: 0 0 10px #aaa;
                 box-shadow: 0 0 10px #aaa;
                 overflow-y: scroll;
               "
             >
+              <div id="sim-current-path" style="text-align: center">
+                (no file selected)
+              </div>
+
               <div style="width: 100%; text-align: center">
                 <button id="resetSim" type="button">
                   <img
@@ -387,6 +410,7 @@
                 <button id="simShowMblButton" type="button">MBL</button>
                 <button id="simShowMbclButton" type="button">MBCL</button>
               </div>
+              <div id="sim-short-info" style="text-align: center"></div>
               <div id="sim-data-area"></div>
             </div>
           </div>
@@ -401,7 +425,7 @@
                 border-style: solid;
                 border-color: #434343;
                 border-width: 1px;
-                border-radius: 0px;
+                border-radius: 2px;
                 padding: 10px;
                 border-width: 2px;
                 width: 100%;
@@ -474,7 +498,7 @@
         <h3>Mathe:Buddy Compiled Language (MBCL)</h3>
         <p style="font-size: large">
           JSON-based technical language for compiled online math courses.
-          <a href="doc/mbcl.html" target="_blank">Documentation</a>
+          <!--<a href="doc/mbcl.html" target="_blank">Documentation</a>-->
         </p>
 
         <!--<h3>Simulator Guide</h3>
@@ -877,6 +901,14 @@
     <script>
       var language = "en";
 
+      // iOS/Android download buttons
+      document.getElementById("download-ios").onclick = () => {
+        alert("not yet available :-)");
+      };
+      document.getElementById("download-android").onclick = () => {
+        alert("not yet available :-)");
+      };
+
       // set home text
       fetch("text/home.html?ver=" + Date.now())
         .then((response) => response.text())
@@ -925,12 +957,17 @@
         let width = 360;
         let height = 640;
         switch (id) {
-          case "iPhone5s":
+          case "small":
             width = 308;
             height = 480;
             break;
-          case "iPhone8":
-            // default; no change
+          case "medium":
+            width = 360;
+            height = 750;
+            break;
+          case "large":
+            width = 400;
+            height = 800;
             break;
           default:
             console.log("Error: unknown device " + id);
@@ -967,6 +1004,9 @@
           id == "sim-info" ? "block" : "none";
         document.getElementById("play-list").style.display =
           id == "play-info" ? "block" : "none";
+        // hide logo in sim
+        document.getElementById("top-logo-large").style.display =
+          id == "sim-info" ? "none" : "block";
       }
       show("home"); // home is default
 
@@ -1125,6 +1165,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1699384785"></script>
+    <script src="js/index.min.js?version=1699527641"></script>
   </body>
 </html>
