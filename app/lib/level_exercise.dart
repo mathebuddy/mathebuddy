@@ -17,6 +17,55 @@ import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/level.dart';
 import 'package:mathebuddy/style.dart';
 
+void evaluateExercise(
+    LevelState state, MbclLevel level, MbclExerciseData exerciseData) {
+  print("----- evaluating exercise -----");
+  state.keyboardState.layout = null;
+  // check exercise: TODO must implement in e.g. new file exercise.dart
+  var allCorrect = true;
+  for (var inputFieldId in exerciseData.inputFields.keys) {
+    var inputField =
+        exerciseData.inputFields[inputFieldId] as MbclInputFieldData;
+    var ok = false;
+    try {
+      var studentTerm = term_parser.Parser().parse(inputField.studentValue);
+      if (inputField.diffVariableId.isNotEmpty) {
+        var studentTermDiff =
+            studentTerm.diff(inputField.diffVariableId).optimize();
+        print("diff student answer: $studentTerm -> $studentTermDiff");
+        studentTerm = studentTermDiff;
+      }
+      var expected = inputField.expectedValue;
+      if (inputField.type == MbclInputFieldType.string) {
+        expected = expected.toUpperCase();
+      }
+      var expectedTerm = term_parser.Parser().parse(expected);
+      print("comparing $studentTerm to $expectedTerm");
+      ok = expectedTerm.compareNumerically(studentTerm);
+    } catch (e) {
+      // TODO: give GUI feedback, that term is not well formed, ...
+      print("evaluating answer failed: $e");
+      ok = false;
+    }
+    if (ok) {
+      print("answer OK");
+    } else {
+      allCorrect = false;
+      print("answer wrong: expected ${inputField.expectedValue},"
+          " got ${inputField.studentValue}");
+    }
+  }
+  if (allCorrect) {
+    print("... all answers are correct!");
+    exerciseData.feedback = MbclExerciseFeedback.correct;
+  } else {
+    print("... at least one answer is incorrect!");
+    exerciseData.feedback = MbclExerciseFeedback.incorrect;
+  }
+  level.calcProgress();
+  print("----- end of exercise evaluation -----");
+}
+
 Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
   // TODO: must report error, if "exerciseData.instances.length" == 0!!
   exerciseKey = GlobalKey();
@@ -128,53 +177,7 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
   // button row: validation button + new random exercise button (if correct)
   var validateButton = GestureDetector(
     onTap: () {
-      print("----- evaluating exercise -----");
-      state.keyboardState.layout = null;
-      // check exercise: TODO must implement in e.g. new file exercise.dart
-      var allCorrect = true;
-      for (var inputFieldId in exerciseData.inputFields.keys) {
-        var inputField =
-            exerciseData.inputFields[inputFieldId] as MbclInputFieldData;
-
-        var ok = false;
-        try {
-          var studentTerm = term_parser.Parser().parse(inputField.studentValue);
-
-          if (inputField.diffVariableId.isNotEmpty) {
-            var studentTermDiff =
-                studentTerm.diff(inputField.diffVariableId).optimize();
-            print("diff student answer: $studentTerm -> $studentTermDiff");
-            studentTerm = studentTermDiff;
-          }
-          var expected = inputField.expectedValue;
-          if (inputField.type == MbclInputFieldType.string) {
-            expected = expected.toUpperCase();
-          }
-          var expectedTerm = term_parser.Parser().parse(expected);
-          print("comparing $studentTerm to $expectedTerm");
-          ok = expectedTerm.compareNumerically(studentTerm);
-        } catch (e) {
-          // TODO: give GUI feedback, that term is not well formed, ...
-          print("evaluating answer failed: $e");
-          ok = false;
-        }
-        if (ok) {
-          print("answer OK");
-        } else {
-          allCorrect = false;
-          print("answer wrong: expected ${inputField.expectedValue},"
-              " got ${inputField.studentValue}");
-        }
-      }
-      if (allCorrect) {
-        print("... all answers are correct!");
-        exerciseData.feedback = MbclExerciseFeedback.correct;
-      } else {
-        print("... at least one answer is incorrect!");
-        exerciseData.feedback = MbclExerciseFeedback.incorrect;
-      }
-      level.calcProgress();
-      print("----- end of exercise evaluation -----");
+      evaluateExercise(state, level, exerciseData);
       // ignore: invalid_use_of_protected_member
       state.setState(() {});
     },
