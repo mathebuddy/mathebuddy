@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-08-09" />
+  <meta name="dcterms.date" content="2023-11-09" />
   <title>Simple Math Programming Language (SMPL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -13,14 +13,18 @@
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
     ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
       width: 0.8em;
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -84,6 +88,7 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="doc.css" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
   type="text/javascript"></script>
@@ -96,15 +101,13 @@
 [<a href="https://mathebuddy.github.io/mathebuddy/">Home</a>] 
 [<a href="./mbl.html">MBL Reference</a>] 
 [<a href="./smpl.html">SMPL Reference</a>] 
-[<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Simple Math Programming Language (SMPL)</h1>
 <p class="author"></p>
-<p class="date">2023-08-09</p>
+<p class="date">2023-11-09</p>
 </header>
 <!-- Simple Math Programming Language (SMPL) -->
-<hr />
-<p><strong>NOTE</strong> This reference guide is updated frequently.</p>
-<hr />
+<p><strong>WARNING: THE DOCUMENTATION IS NOT UP TO DATE. WE WILL PROVIDE
+AN UPDATE SOON.</strong></p>
 <p>This document describes the <em>Simple Math Programming Language
 (SMPL)</em>.</p>
 <p>SMPL is a math-oriented programming language that can be interpreted
@@ -137,8 +140,8 @@ product of <span class="math inline">\(A\)</span> and <span
 class="math inline">\(B\)</span> is finally assigned to variable <span
 class="math inline">\(C\)</span>.</p>
 <pre><code>% multiplication of two 3x3-matrices
-let A/B = randZ&lt;3,3&gt;(-5,5);
-let C = A * B;</code></pre>
+let A/B = randZ&lt;3,3&gt;(-5,5)
+let C = A * B</code></pre>
 <p>The example demonstrates some of the key features of SMPL:</p>
 <ul>
 <li>very short syntax</li>
@@ -164,8 +167,8 @@ executed statement wise, i.e. <span
 class="math inline">\(s_{i+1}\)</span> is executed after statement <span
 class="math inline">\(s_i\)</span>.</p>
 <p>Example:</p>
-<pre><code>let x = 3;
-let y = sin(x);</code></pre>
+<pre><code>let x = 3
+let y = sin(x)</code></pre>
 <p>The example programs executes lines one and two in given order. Each
 line is evaluated, before the next line is executed. Indeed, we also
 could write all statements in one line, since the semicolon separates
@@ -189,22 +192,22 @@ that is not executed. Comments are introduced by the percentage sign
 (<code>%</code>) and are valid until the next line break.</p>
 <p>Example:</p>
 <pre><code>% this is a comment line
-let a = 5;  % assign integer constant 5 to variable a
-%let b = 7;</code></pre>
+let a = 5     % assign integer constant 5 to variable a
+%let b = 7</code></pre>
 <p>The same listing can be denoted as follows without comments:</p>
-<pre><code>let a = 5;</code></pre>
+<pre><code>let a = 5</code></pre>
 <h2 id="declarations">Declarations</h2>
 <p>Declarations are initiated with keyword <code>let</code>, followed by
 an identifier and finally assigned expression by <code>=</code>. The
 expression in the right-hand side is mandatory to derive the data type.
 Data types are described in detail in the next section.</p>
 <p>Example:</p>
-<pre><code>let x = 5, z = 9.1011;
-let y = 7;
-let u = rand(5);
-let v = zeros&lt;2,3&gt;();
-let a:b = randZ&lt;3,3&gt;(-2, 2);
-let c/d/e = rand&lt;3,3&gt;(-2, 2);</code></pre>
+<pre><code>let x = 5, z = 9.1011
+let y = 7
+let u = rand(5)
+let v = zeros&lt;2,3&gt;()
+let a:b = randZ&lt;3,3&gt;(-2, 2)
+let c/d/e = rand&lt;3,3&gt;(-2, 2)</code></pre>
 <ul>
 <li>Variables <code>x</code> and <code>u</code> are integral. The value
 for <code>u</code> is randomly chosen from set {0,1,2,3,4,5}.</li>
@@ -326,9 +329,9 @@ future SMPL revisions.)</em></p>
 <p>Some examples for expressions (the examples assumes, that variables
 <code>y</code>, <code>u</code>, <code>w</code>, <code>A</code>,
 <code>B</code>, <code>C</code> have been declared before usage):</p>
-<pre><code>let x = 1.23 * sin(y) + exp(u + 2*w);
-let C = A * transpose(B);
-let d = det(C);</code></pre>
+<pre><code>let x = 1.23 * sin(y) + exp(u + 2*w)
+let C = A * transpose(B)
+let d = det(C)</code></pre>
 <p>The set of implemented functions is listed in the appendix.</p>
 <h2 id="data-types">Data Types</h2>
 <p>SMPL supports the following data types:</p>
@@ -337,11 +340,11 @@ let d = det(C);</code></pre>
 <p>A boolean variable is either <code>true</code> or
 <code>false</code>.</p>
 <p>Example:</p>
-<pre><code>let x = true;
-let y = false;
-let w = true;
-let u = (x &amp;&amp; y) || !w;
-let v = 3 &lt; 5;</code></pre>
+<pre><code>let x = true
+let y = false
+let w = true
+let u = (x &amp;&amp; y) || !w
+let v = 3 &lt; 5</code></pre>
 <p><span class="math inline">\(u := (x \land y) \lor \lnot
 w\)</span></p></li>
 <li><p>integer (<code>INT</code>)</p>
@@ -353,10 +356,10 @@ class="math inline">\(2^{53}-1\)</span>.</p>
 precision floating point numbers.</p>
 </blockquote>
 <p>Example:</p>
-<pre><code>let x = 5;
-let y = -23;
-let z = x * y;
-let w = round(x / y);</code></pre>
+<pre><code>let x = 5
+let y = -23
+let z = x * y
+let w = round(x / y)</code></pre>
 <p>Note that the division outputs <code>RATIONAL</code> data type,
 despite concrete values. Use <code>round</code> or <code>floor</code> or
 <code>ceil</code> to get an integer value.</p></li>
@@ -364,8 +367,8 @@ despite concrete values. Use <code>round</code> or <code>floor</code> or
 <p>A rational number variable stores values of the form <code>x/y</code>
 with <span class="math inline">\(x,y \in \mathbb{Z}\)</span>.</p>
 <p>Example:</p>
-<pre><code>let x = 1 / 7;
-let y = real(1 / 7);</code></pre>
+<pre><code>let x = 1 / 7
+let y = real(1 / 7)</code></pre>
 <p>Variable <code>x</code> is of type <code>RATIONAL</code> and stores
 <code>1/7</code>. Variable <code>y</code> is of type <code>REAL</code>
 and stores <code>0.142857...</code> in IEEE 754 double
@@ -374,8 +377,8 @@ precision.</p></li>
 <p>Real number variables store approximations of real values with IEEE
 754 double precision.</p>
 <p>Example:</p>
-<pre><code>let x = PI;
-let y = sin(0.1);</code></pre></li>
+<pre><code>let x = PI
+let y = sin(0.1)</code></pre></li>
 <li><p>complex (<code>COMPLEX</code>).</p>
 <p>Complex variables store complex number in normal form
 <code>x+yi</code> with <span class="math inline">\(x,y \in
@@ -385,44 +388,43 @@ let y = sin(0.1);</code></pre></li>
 <code>i</code>. The identifier <code>i</code> is an ordinary variable
 name.</p>
 <p>Example:</p>
-<pre><code>let x = 3 - 4i;
-let y = complex(3, -4);
-let phi = arg(x);
-let r = abs(x);
-let z = r * exp(phi);</code></pre></li>
+<pre><code>let x = 3 - 4i
+let y = complex(3, -4)
+let phi = arg(x)
+let r = abs(x)
+let z = r * exp(phi)</code></pre></li>
 <li><p>set (<code>SET</code>)</p>
 <p>A set variable stores a set of elements. We use curly brackets to
 declare sets.</p>
 <p>Examples:</p>
 <pre><code>let y = {}                % an empty set
 let x = {3, 4, 5}
-add(x, {4,6});            % x := {3,4,5,6}
-remove(x, 3);             % x := {4,5,6}
-let y = iselement(x, 4);  % true</code></pre>
+add(x, {4,6})             % x := {3,4,5,6}
+remove(x, 3)              % x := {4,5,6}
+let y = iselement(x, 4)   % true</code></pre>
 <blockquote>
 <p>Note: set of non-integers will be supported later.</p>
 </blockquote></li>
 <li><p>term (<code>TERM</code>)</p>
 <p>A term is an symbolic expression.</p>
 <p>Example</p>
-<pre><code>let f(x) = x^2;
-let y = f(3);
-let g(x,y) = 2 * exp(-x) * sin(y);
-let h(x,y) = diff(g, x);
-let i = integrate(f, 0, 3);</code></pre>
+<pre><code>let f(x) = x^2
+let y = f(3)
+let g(x,y) = 2 * exp(-x) * sin(y)
+let h(x,y) = diff(g, x)
+let int = integrate(f, 0, 3)</code></pre>
 <p>The example calculates <span class="math inline">\(f(x)=x^2\)</span>,
 <span class="math inline">\(y=9\)</span>, <span
 class="math inline">\(g(x)=2\cdot\exp(x)\cdot\sin(y)\)</span>, <span
 class="math inline">\(h(x,y)=-2 \cdot \exp(x) \cdot \sin(y)\)</span>,
-<span class="math inline">\(i=21.3333...\)</span>.</p></li>
+<span class="math inline">\(int=21.3333...\)</span>.</p></li>
 <li><p>vector (<code>VECTOR</code>)</p>
-<pre><code>let v = [1, 2, 3];
-let w = [4, 5, 6];
-let x = zeros&lt;3&gt;();
-let n = len(v);
-let d = dot(v, w);</code></pre></li>
+<pre><code>let v = [1, 2, 3]
+let w = [4, 5, 6]
+let x = zeros&lt;3&gt;()
+let n = len(v)
+let d = dot(v, w)</code></pre></li>
 <li><p>matrix (<code>MATRIX</code>)</p>
-<p>A matrix variable stores a real valued matrix.</p>
 <ul>
 <li>Matrices can be initialized e.g. by the
 <code>zero&lt;m,n&gt;()</code> function, which creates a zero matrix
@@ -439,12 +441,14 @@ class="math inline">\(m-1\)</span> for a row and <span
 class="math inline">\(n-1\)</span> for a column.</li>
 </ul>
 <p>The appendix lists all functions with matrix operands.</p>
-<pre><code>let A = zeros&lt;2,3&gt;();
-let B = [1, 2, 3; 4, 5, 6];
-let C = ones&lt;3,3&gt;();
-B[2,3] = 5;
-let x = B[0,0];
-let d = det(C);</code></pre>
+<pre><code>let A = zeros&lt;2,3&gt;()
+let B = [1, 2, 3; 4, 5, 6]
+let C = ones&lt;3,3&gt;()
+B[2,3] = 5
+let x = B[0,0]
+let d = det(C)
+let r = rows(A);
+let c = cols(A);</code></pre>
 <blockquote>
 <p>Note: matrices with complex elements will be supported later.</p>
 </blockquote></li>
@@ -454,57 +458,61 @@ let d = det(C);</code></pre>
 <h2 id="conditions">Conditions</h2>
 <p>Conditional code is executed only, if a conditional is true. The
 <code>if</code>-statement has the form
-<code>if (C) { S0 } else if (C1) { S1 } ... else { Sn }</code>, with a
+<code>if C { S0 } elif C1 { S1 } ... else { Sn }</code>, with a
 sequences of statements <code>S0</code>, <code>S1</code> etc. Sequence
 <code>S0</code> is executed, if the boolean condition <code>S0</code> is
 true. Sequence <code>S1</code> is executed, if the boolean condition
 <code>S0</code> is false and the boolean condition <code>S1</code> is
 true. In case that all conditions <code>Ci</code> are false, then
 sequence <code>Sn</code> is executed.</p>
-<p>The <code>else if</code> parts and <code>else</code> part are
+<p>The <code>elif</code> parts and <code>else</code> part are
 optional.</p>
 <blockquote>
 <p>Example</p>
 </blockquote>
-<pre><code>let s = 0;
-if (x &gt; 0) {
-  s=1;
+<pre><code>let s = 0
+let x = rand(-5,5)
+if x &gt; 0 {
+  s = 1
 }
-else if (x &lt; 0) {
-  s = -1;
+elif x &lt; 0 {
+  s = -1
 }
 else {
-  x=0;
+  x = 0
 }</code></pre>
 <h2 id="loops">Loops</h2>
-<p>TODO:</p>
 <p>Example:</p>
-<pre><code>while (x &gt; 0) {
+<pre><code>while x &gt; 0 {
   % body
 }</code></pre>
 <p>Example:</p>
 <pre><code>do {
   % body
-} while (x &gt; 0);</code></pre>
+} while x &gt; 0</code></pre>
 <p>Example:</p>
-<pre><code>for (let i = 0; i &lt; 5; i++) {
-  % body
+<pre><code>let f = 1
+for k from 1 to 4 {
+  f = f * k
 }</code></pre>
-<h2 id="functions">Functions</h2>
-<p>A function consists of a <strong>header</strong> and a
-<strong>body</strong>:</p>
-<ul>
-<li>The <strong>header</strong> declared the name of the function, its
-parameter names and types and the return type.</li>
-<li>The <strong>body</strong> is represented by a list of statements and
-returns a result that is compatible to the return type.</li>
-</ul>
-<p>Example:</p>
-<pre><code>function f(x: INT, y: INT): INT {
+<!--
+## Functions
+
+A function consists of a **header** and a **body**:
+
+- The **header** declared the name of the function, its parameter names and types and the return type.
+- The **body** is represented by a list of statements and returns a result that is compatible to the return type.
+
+Example:
+
+```
+function f(x: INT, y: INT): INT {
   return x + y;
 }
 
-let y = f(3, 4);</code></pre>
+let y = f(3, 4);
+```
+-->
 <h2 id="appendix-built-in-constants">Appendix: Built-in constants</h2>
 <p>The following list describes all built-in constants. We use the
 notation <code>:T</code> after each variable to indicate its data
@@ -828,35 +836,39 @@ class="math inline">\(2\times 3\)</span> matrix with all elements
 <p>The following formal grammar (denoted in EBNF) is currently
 implemented.</p>
 <pre><code>&lt;GRAMMAR&gt;
-  program =
-    { (statement | &quot;\n&quot;) };
-  statement =
-      assignment
-    | ifCond
-    | whileLoop
-    | figure;
-  assignment =
-    [ &quot;let&quot; ]
-    ID ( {&quot;:&quot; ID} | {&quot;/&quot; ID} )
-    [&quot;(&quot; ID { &quot;,&quot; ID } &quot;)&quot;]
-    &quot;=&quot; TERM
-    [&quot;&gt;&gt;&gt;&quot; ID &quot;&gt;&gt;&gt;&quot; TERM [&quot;&gt;&gt;&gt;&quot; TERM]]
-    (&quot;;&quot;|&quot;\n&quot;);
-  ifCond =
-    &quot;if&quot; TERM block [ &quot;else&quot; block ];
-  whileLoop =
-    &quot;while&quot; TERM block;
-  block =
-    &quot;{&quot; { statement } &quot;}&quot;;
-  figure =
-    &quot;figure&quot; &quot;{&quot; { figureStatement } &quot;}&quot;;
-  figureStatement =
-      (&quot;x_axis&quot;|&quot;y_axis&quot;) &quot;(&quot; num &quot;,&quot; num &quot;,&quot; STR &quot;)&quot;
-    | &quot;function&quot; &quot;(&quot; ID &quot;)&quot;
-    | &quot;circle&quot; &quot;(&quot; num &quot;,&quot; num &quot;,&quot; num &quot;)&quot;;
-  num =
-      [&quot;-&quot;] INT
-    | [&quot;-&quot;] REAL;
+   program =
+     { (statement | &quot;\n&quot;) };
+   statement =
+       declareOrAssign
+     | ifCond
+     | whileLoop
+     | forLoop
+     | figure;
+   declareOrAssign =
+     [ &quot;let&quot; ]                 # &quot;let&quot; -&gt; declaration
+     ID [&quot;[&quot; TERM &quot;]&quot;]         # variable ID, optional: vector-index
+     ( {&quot;:&quot; ID} | {&quot;/&quot; ID} )   # additional variable ID(s), &#39;/&#39; := distinct
+     [&quot;(&quot; ID { &quot;,&quot; ID } &quot;)&quot;]   # function parameters
+     &quot;=&quot; TERM                  # assign right-hand side
+     [&quot;&gt;&gt;&gt;&quot; ID &quot;&gt;&gt;&gt;&quot; TERM [&quot;&gt;&gt;&gt;&quot; TERM]]     # TESTS: expected: type, value,
+     (&quot;;&quot;|&quot;\n&quot;);                            #                     stringified
+   ifCond =
+     &quot;if&quot; TERM block { &quot;elif&quot; TERM block } [ &quot;else&quot; block ];
+   whileLoop =
+     &quot;while&quot; TERM block;
+   forLoop =
+     &quot;for&quot; ID &quot;from&quot; TERM &quot;to&quot; TERM block;
+   block =
+     &quot;{&quot; { statement } &quot;}&quot;;
+   figure =
+     &quot;figure&quot; &quot;{&quot; { figureStatement } &quot;}&quot;;
+   figureStatement =
+       (&quot;x_axis&quot;|&quot;y_axis&quot;) &quot;(&quot; num &quot;,&quot; num &quot;,&quot; STR &quot;)&quot;
+     | &quot;function&quot; &quot;(&quot; ID &quot;)&quot;
+     | &quot;circle&quot; &quot;(&quot; num &quot;,&quot; num &quot;,&quot; num &quot;)&quot;;
+   num =
+       [&quot;-&quot;] INT
+     | [&quot;-&quot;] REAL;
 &lt;/GRAMMAR&gt;</code></pre>
 <p><em>Author: Andreas Schwenk, TH Köln</em></p>
 </body>
