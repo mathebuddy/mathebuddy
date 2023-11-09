@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="" />
-  <meta name="dcterms.date" content="2023-08-09" />
+  <meta name="dcterms.date" content="2023-11-09" />
   <title>Mathe:Buddy Language (MBL)</title>
   <style>
     code{white-space: pre-wrap;}
@@ -13,14 +13,18 @@
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
     ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
       width: 0.8em;
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -84,6 +88,7 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="doc.css" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
   type="text/javascript"></script>
@@ -96,15 +101,13 @@
 [<a href="https://mathebuddy.github.io/mathebuddy/">Home</a>] 
 [<a href="./mbl.html">MBL Reference</a>] 
 [<a href="./smpl.html">SMPL Reference</a>] 
-[<a href="./mbcl.html">MBCL Reference</a>] 
 <h1 class="title">Mathe:Buddy Language (MBL)</h1>
 <p class="author"></p>
-<p class="date">2023-08-09</p>
+<p class="date">2023-11-09</p>
 </header>
 <!-- Mathe:Buddy Language (MBL) -->
-<hr />
-<p><strong>NOTE</strong> This reference guide is updated frequently.</p>
-<hr />
+<p><strong>WARNING: THE DOCUMENTATION IS NOT UP TO DATE. WE WILL PROVIDE
+AN UPDATE SOON.</strong></p>
 <p>This document describes the syntax of the <em>mathe:buddy language
 (MBL)</em>, which can be used to create mathematical based online
 courses. MBL describes contents as well as randomized training
@@ -793,12 +796,16 @@ class="sourceCode mbl"><code class="sourceCode mbl"><span id="cb38-1"><a href="#
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">ACCEPT_IMMEDIATELY</span>=true</span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CODE</span></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>        let n = rand(5,10)          % length</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        let f = zeros&lt;1,n&gt;()        % row vector for the sequence</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        f[1] = 1                    % f[0]=0, f[1]=1</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        for (let i=2; i&lt;n; i++) {   % calc sequence iteratively</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>            f[i] = f[i-2] + f[i-1]</span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    Arrange the following numbers to get the first numbers of the Fibonacci sequence: #f</span></code></pre></div>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        let f = zeros&lt;n&gt;()          % vector for the sequence</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        f[0] = 0</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        f[1] = 1</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>        for k from 2 to n-1 {       % calc sequence iteratively</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>            f[k] = f[k-2] + f[k-1]</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    Arrange the following numbers to get the first numbers of the Fibonacci sequence: #f</span></code></pre></div>
+<p>Note the use of <code>k</code> for the loop variable. A variable
+named <code>i</code> would be considered as complex number
+<code>0+1*i</code>.</p>
 <p><em>Preface: The answer field <code>#f</code> would ask the student
 to type in the elements of the row vector:
 <code>[0, 1, 1, 2, 3, 5, ...]</code>.</em></p>
