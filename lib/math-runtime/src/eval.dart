@@ -306,9 +306,19 @@ Operand evalTerm(Term term, Map<String, Operand> varValues) {
         switch (x.type) {
           case OperandType.int:
           case OperandType.real:
-            return Operand.createReal(math.sqrt(x.real));
+            if (x.real >= 0) {
+              return Operand.createReal(math.sqrt(x.real));
+            } else {
+              return Operand.createSet([
+                Operand.createComplex(Operand.createInt(0),
+                    Operand.createReal(-math.sqrt(-x.real))),
+                Operand.createComplex(Operand.createInt(0),
+                    Operand.createReal(math.sqrt(-x.real)))
+              ]);
+            }
           case OperandType.rational:
             {
+              // TODO: negative
               num numerator = math.sqrt(x.real);
               num denominator = math.sqrt(x.denominator);
               var isNumeratorIntegral =
