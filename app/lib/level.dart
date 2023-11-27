@@ -224,18 +224,25 @@ class LevelState extends State<LevelWidget> {
               ]))));
       // add current exercise
       var ex = eventData!.getCurrentExercise();
+      if (ex != null &&
+          ex.exerciseData!.feedback == MbclExerciseFeedback.correct) {
+        ex.exerciseData!.feedback = MbclExerciseFeedback.unchecked;
+        Timer(Duration(milliseconds: 500), () {
+          ex!.exerciseData!.reset();
+          eventData!.switchExercise();
+          ex = eventData!.getCurrentExercise();
+          //setState(() {});
+        });
+      }
       if (ex != null) {
-        if (ex.exerciseData!.feedback == MbclExerciseFeedback.correct) {
-          Timer(Duration(milliseconds: 250), () {
-            ex!.exerciseData!.reset();
-            eventData!.switchExercise();
-            ex = eventData!.getCurrentExercise();
+        /*Timer(Duration(milliseconds: 500), () {
             setState(() {});
           });
-        }
+        }*/
         page.add(generateLevelItem(this, level, ex!));
       }
-      if (activeInputFields.isNotEmpty) {
+      // TODO: auto-open is not mapped to the correct exercise...
+      /*if (activeInputFields.isNotEmpty) {
         var f = activeInputFields[0];
         if (f.inputFieldData!.exerciseData!.feedback ==
             MbclExerciseFeedback.unchecked) {
@@ -245,7 +252,7 @@ class LevelState extends State<LevelWidget> {
             }
           });
         }
-      }
+      }*/
       var bp = 1337;
     } else {
       // -------- non-event level --------
