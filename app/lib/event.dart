@@ -61,6 +61,7 @@ class EventData {
   void switchExercise() {
     // TODO: randomize order??
     currentExerciseIdx = (currentExerciseIdx + 1) % exercises.length;
+    print(">>> exercise index is now $currentExerciseIdx");
   }
 
   MbclLevelItem? getCurrentExercise() {
