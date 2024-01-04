@@ -151,11 +151,15 @@ void loadMblFile(String path) {
     updateSimPathButtonsCore(simPath.isNotEmpty ? [".."] : []);
     showMbl();
     // compile
+    path = path.replaceAll("//", "/").replaceAll("http:/", "http://");
     fs[path] = mblData;
 
     readDirRecursively(fs, path_lib.dirname(path)).then((value) {
       print("FILE_SYSTEM:");
-      print(fs);
+      //print(fs);
+      for (var key in fs.keys) {
+        print(key);
+      }
       print("... END OF FILE_SYSTEM");
 
       mbclData = compileMblCode(path);
