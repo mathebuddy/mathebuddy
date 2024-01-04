@@ -7,11 +7,12 @@ parts:../../mathebuddy-public-courses/demo-basic/parts.mbl
 event:../../mathebuddy-public-courses/demo-basic/event.mbl
 exercises:../../mathebuddy-public-courses/demo-basic/exercises.mbl
 courseTest:../../mathebuddy-public-courses/demo-course/course.mbl
+equations:../../mathebuddy-public-courses/demo-basic/equations.mbl
 
 privateHM1:../../mathebuddy-private-courses/hm1/course.mbl
+privateHM1complex:../../mathebuddy-private-courses/hm1/komplex/index.mbl
 
 #definitions:../../mathebuddy-public-courses/demo-basic/definitions.mbl
-#equations:../../mathebuddy-public-courses/demo-basic/equations.mbl
 #examples:../../mathebuddy-public-courses/demo-basic/examples.mbl
 #exercises-simple:../../mathebuddy-public-courses/demo-basic/exercises-simple.mbl
 #exercises:../../mathebuddy-public-courses/demo-basic/exercises.mbl
@@ -24,7 +25,6 @@ privateHM1:../../mathebuddy-private-courses/hm1/course.mbl
 #courseTest:../../mathebuddy-public-courses/demo-course/course.mbl
 
 #Grenzwerte:../../mathebuddy-private-courses/hm1/grenzwert/index.mbl
-#Komplexe Zahlen:../../mathebuddy-private-courses/hm1/komplex/index.mbl
 
 #Mengen:../../mathebuddy-private-courses/hm1/grundlagen/Mengen.mbl
 #Reelle Zahlen:../../mathebuddy-private-courses/hm1/grundlagen/Reelle_Zahlen.mbl
