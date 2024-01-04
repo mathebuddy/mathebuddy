@@ -286,7 +286,7 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         if (block.id.endsWith("*")) {
           data.number = -1;
         } else {
-          data.number = 888; // TODO}
+          data.number = compiler.equationNumberCounter++;
         }
 
         List<String> nonEmptyLines = [];
@@ -384,8 +384,7 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
                 "${compiler.chapter!.fileId}/${data.filePath}";
             data.data = compiler.loadFile(path);
             if (data.data.isEmpty) {
-              figure.error +=
-                  'Could not load image file from path "${data.filePath}". ';
+              figure.error += 'Could not load image file from path "$path". ';
             }
             break;
           }
