@@ -224,7 +224,7 @@ class ChatState extends State<ChatWidget> {
         print("open level ${definition.levelPath}");
         if (chapter != null && level != null) {
           var route = MaterialPageRoute(builder: (context) {
-            return LevelWidget(chapter!, level!);
+            return LevelWidget(widget.course, chapter!, level!);
           });
           Navigator.push(context, route).then((value) => setState(() {}));
           // level.visited = true;
