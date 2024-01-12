@@ -109,8 +109,7 @@ void resetSim() {
   if (simURL.isNotEmpty) {
     (html.document.getElementById("sim-iframe") as html.IFrameElement).src =
         simURL;
-    updateSim();
-    //Timer(Duration(milliseconds: 150), () => sendCourseToSim());
+    Timer(Duration(milliseconds: 250), () => updateSim());
   }
 }
 
