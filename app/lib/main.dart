@@ -11,7 +11,6 @@ import 'package:universal_html/html.dart' as html;
 import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/mbcl/src/course.dart';
-import 'package:mathebuddy/mbcl/src/chapter.dart';
 
 import 'package:mathebuddy/color.dart';
 import 'package:mathebuddy/home.dart';
@@ -20,6 +19,7 @@ var showDebugReleaseSwitch = true;
 var debugMode = true;
 var language = 'en';
 
+var selectedCourseIdFromBundle = "";
 Map<String, MbclCourse> courses = {};
 var bundleName = 'assets/bundle-debug.json';
 
@@ -61,19 +61,7 @@ void loadCourseBundle(BuildContext context, State state) async {
   courses = {};
   if (bundleName.contains('bundle-debug.json') ||
       bundleName.contains('bundle-websim.json')) {
-    var course = tryToLoadDebugCourse();
-    if (course != null) {
-      courses['DEBUG'] = course;
-    } else {
-      var course = MbclCourse();
-      courses['DEBUG'] = course;
-      var chapter = MbclChapter();
-      chapter.title = "DEBUG-COURSE ONLY AVAILABLE...";
-      course.chapters.add(chapter);
-      chapter = MbclChapter();
-      chapter.title = "...ON MATHE:BUDDY WEBSITE";
-      course.chapters.add(chapter);
-    }
+    courses['DEBUG'] = MbclCourse();
   }
   bundleDataJson.forEach((key, value) {
     if (key != '__type') {
@@ -85,19 +73,9 @@ void loadCourseBundle(BuildContext context, State state) async {
   print('list of courses: ${courses.keys}');
   // ignore: invalid_use_of_protected_member
   state.setState(() {});
-  //setState(() {});
 }
 
-MbclCourse? tryToLoadDebugCourse() {
-  if (html.document.getElementById('course-data-span') == null) {
-    print('!!!!!!!!!!!!!!!!!!! SPAN IS >NOT< AVAILABLE !!!!!');
-  } else {
-    print('!!!!!!!!!!!!!!!!!!! SPAN AVAILABLE');
-    print(
-        ((html.document.getElementById('course-data-span') as html.SpanElement)
-            .innerHtml as String));
-  }
-
+bool loadDebugCourse() {
   if (html.document.getElementById('course-data-span') != null &&
       ((html.document.getElementById('course-data-span') as html.SpanElement)
               .innerHtml as String)
@@ -111,7 +89,8 @@ MbclCourse? tryToLoadDebugCourse() {
     courseDataStr = courseDataStr.replaceAll('&amp;', '&');
     var course = MbclCourse();
     course.fromJSON(jsonDecode(courseDataStr));
-    return course;
+    courses['DEBUG'] = course;
+    return true;
   }
-  return null;
+  return false;
 }
