@@ -45,6 +45,9 @@ void init() {
   html.querySelector('#resetSim')?.onClick.listen((event) {
     resetSim();
   });
+  html.querySelector('#updateSim')?.onClick.listen((event) {
+    updateSim();
+  });
   html.querySelector('#simShowMblButton')?.onClick.listen((event) {
     showMbl();
   });
@@ -103,20 +106,18 @@ void showSim(String location) {
 }
 
 void resetSim() {
-  if (currentMblPath.isNotEmpty) {
-    loadMblFile(currentMblPath);
-  }
-
   if (simURL.isNotEmpty) {
     (html.document.getElementById("sim-iframe") as html.IFrameElement).src =
         simURL;
-    Timer(Duration(milliseconds: 50), () => sendCourseToSim());
+    updateSim();
+    //Timer(Duration(milliseconds: 150), () => sendCourseToSim());
   }
 }
 
-void sendCourseToSim() {
-  var e = html.document.getElementById("sim-iframe") as html.IFrameElement;
-  e.contentWindow?.postMessage(htmlSafe(mbclData), '*');
+void updateSim() {
+  if (currentMblPath.isNotEmpty) {
+    loadMblFile(currentMblPath);
+  }
 }
 
 void updateSimPathButtons() {
@@ -163,6 +164,9 @@ void loadMblFile(String path) {
       print("... END OF FILE_SYSTEM");
 
       mbclData = compileMblCode(path);
+      // send course to sim
+      var e = html.document.getElementById("sim-iframe") as html.IFrameElement;
+      e.contentWindow?.postMessage(htmlSafe(mbclData), '*');
     });
   });
 }
