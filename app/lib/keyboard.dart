@@ -150,12 +150,17 @@ class KeyboardLayout {
 // TODO: move "KeyboardState keyboardState" to attributes here!
 
 class Keyboard {
-  Widget generateWidget(LevelState state, KeyboardState keyboardState,
-      {bool evaluateDirectly = false}) {
-    var keyboardLayout = keyboardState.layout as KeyboardLayout;
-    var keyboardInputFieldData =
-        keyboardState.inputFieldData as MbclInputFieldData;
+  final LevelState state;
+  final KeyboardState keyboardState;
+  final bool evaluateDirectly;
+  final KeyboardLayout keyboardLayout;
+  final MbclInputFieldData keyboardInputFieldData;
 
+  Keyboard(this.state, this.keyboardState, this.evaluateDirectly)
+      : keyboardLayout = keyboardState.layout!,
+        keyboardInputFieldData = keyboardState.inputFieldData!;
+
+  Widget generateWidget() {
     var screenWidth = MediaQuery.of(state.context).size.width;
     var keyWidth = screenWidth < 350 ? 45.0 : 55.0;
     if (keyboardLayout.columnCount >= 7) {
@@ -207,90 +212,7 @@ class Keyboard {
                   minimumSize: Size(buttonWidth, buttonHeight),
                   maximumSize: Size(buttonWidth, buttonHeight)),
               onPressed: () {
-                // TODO: move code!!
-                //print('pressed key ${key.value}');
-                if (key.value == '!B') {
-                  // backspace
-                  if (keyboardInputFieldData.studentValue.isNotEmpty &&
-                      keyboardInputFieldData.cursorPos > 0) {
-                    var oldValue = keyboardInputFieldData.studentValue;
-                    var newValue = "";
-
-                    var specialKey = "";
-                    var oldValueLeftOfCursor =
-                        oldValue.substring(0, keyboardInputFieldData.cursorPos);
-                    for (var key in keyboardLayout.keys) {
-                      if (key == null) continue;
-                      if (oldValueLeftOfCursor.endsWith(key.value)) {
-                        specialKey = key.value;
-                        break;
-                      }
-                    }
-                    var removeLength =
-                        specialKey.isEmpty ? 1 : specialKey.length;
-                    newValue = oldValue.substring(
-                        0, keyboardInputFieldData.cursorPos - removeLength);
-                    newValue +=
-                        oldValue.substring(keyboardInputFieldData.cursorPos);
-                    keyboardInputFieldData.studentValue = newValue;
-                    keyboardInputFieldData.cursorPos -= removeLength;
-                  }
-                } else if (key.value == '!E') {
-                  // enter
-                  state.activeExercise = null;
-                  keyboardState.layout = null;
-                } else if (keyboardLayout.lengthHint >= 0 &&
-                    keyboardInputFieldData.studentValue.length >=
-                        keyboardLayout.lengthHint) {
-                  // do nothing
-                } else if (keyboardLayout.hasBackButton == false) {
-                  // completely substitute answer, if keyboard has no
-                  // backspace button
-                  keyboardInputFieldData.studentValue = key.value;
-                  keyboardInputFieldData.cursorPos = key.value.length;
-                  keyboardState.exerciseData?.feedback =
-                      MbclExerciseFeedback.unchecked;
-                } else {
-                  if (keyboardInputFieldData.studentValue.length < 32) {
-                    var beforeCursor = keyboardInputFieldData.studentValue
-                        .substring(0, keyboardInputFieldData.cursorPos);
-                    var afterCursor = keyboardInputFieldData.studentValue
-                        .substring(keyboardInputFieldData.cursorPos);
-                    var newStr = key.value.replaceAll("!S", " ");
-                    if (beforeCursor.isNotEmpty) {
-                      // if the last character before the cursor is alpha
-                      // and the inserted string starts with an alpha character,
-                      // then insert "*" before the new string.
-                      // This does NOT apply for gap question keyboards.
-                      var beforeCursorLastChar =
-                          beforeCursor.codeUnitAt(beforeCursor.length - 1);
-                      var isBeforeCursorLastCharAlpha =
-                          beforeCursorLastChar >= "a".codeUnitAt(0) &&
-                              beforeCursorLastChar <= "z".codeUnitAt(0);
-                      var newStrFirstChar = newStr.codeUnitAt(0);
-                      var isNewStrFirstCharAlpha =
-                          newStrFirstChar >= "a".codeUnitAt(0) &&
-                              newStrFirstChar <= "z".codeUnitAt(0);
-                      if (isBeforeCursorLastCharAlpha &&
-                          isNewStrFirstCharAlpha &&
-                          keyboardLayout.isGapKeyboard == false) {
-                        newStr = "*$newStr";
-                      }
-                    }
-                    keyboardInputFieldData.studentValue =
-                        beforeCursor + newStr + afterCursor;
-                    keyboardInputFieldData.cursorPos += newStr.length;
-                  }
-                  keyboardState.exerciseData?.feedback =
-                      MbclExerciseFeedback.unchecked;
-                }
-                // evaluate exercise on first key (used e.g. for Event levels)
-                if (evaluateDirectly) {
-                  evaluateExercise(state, state.widget.level,
-                      keyboardState.inputFieldData!.exerciseData!);
-                }
-                // ignore: invalid_use_of_protected_member
-                state.setState(() {});
+                keyPressed(key);
               },
               child: Center(
                 child: labelWidget,
@@ -309,8 +231,6 @@ class Keyboard {
         top: 10,
         child: GestureDetector(
             onTapDown: (TapDownDetails d) {
-              // TODO: move to separate method
-
               // tap to change cursor position
               var x = d.globalPosition.dx;
               //print("x=$x");
@@ -433,23 +353,116 @@ class Keyboard {
     }
 
     // keyboard container
-    return Container(
-        decoration: BoxDecoration(
-          //color: Color.fromARGB(255, 240, 240, 240),
-          //color: Colors.black87,
-          //border:
-          //    Border.all(width: 0.5, color: Color.fromARGB(135, 190, 190, 190)),
-          //borderRadius: BorderRadius.only(
-          //    topLeft: Radius.elliptical(screenWidth / 2, 5),
-          //    topRight: Radius.elliptical(screenWidth / 2, 5))
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.black87, const Color.fromARGB(175, 0, 0, 0)]),
-        ),
-        //color: Colors.black12,
-        alignment: Alignment.bottomCenter,
-        constraints: BoxConstraints(maxHeight: 275.0),
-        child: Stack(children: widgets));
+    return Focus(
+        autofocus: true,
+        onKey: (node, event) {
+          //print("KEYBOARD ACTION");
+          //print(event.character);
+          var char = event.character ?? "###";
+          for (var key in keyboardLayout.keys) {
+            if (key == null || key.value == '#') continue;
+            var isChar = key.value.startsWith(char);
+            var isBackspace = key.value == "!B" &&
+                event.data.logicalKey.keyLabel == "Backspace";
+            var isEnter =
+                key.value == "!E" && event.data.logicalKey.keyLabel == "Enter";
+            if (isChar || isBackspace || isEnter) {
+              keyPressed(key);
+            }
+          }
+          return KeyEventResult.handled;
+        },
+        child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.black87, const Color.fromARGB(175, 0, 0, 0)]),
+            ),
+            alignment: Alignment.bottomCenter,
+            constraints: BoxConstraints(maxHeight: 275.0),
+            child: Stack(children: widgets)));
+  }
+
+  keyPressed(KeyboardKey key) {
+    // TODO: move code!!
+    //print('pressed key ${key.value}');
+    if (key.value == '!B') {
+      // backspace
+      if (keyboardInputFieldData.studentValue.isNotEmpty &&
+          keyboardInputFieldData.cursorPos > 0) {
+        var oldValue = keyboardInputFieldData.studentValue;
+        var newValue = "";
+
+        var specialKey = "";
+        var oldValueLeftOfCursor =
+            oldValue.substring(0, keyboardInputFieldData.cursorPos);
+        for (var key in keyboardLayout.keys) {
+          if (key == null) continue;
+          if (oldValueLeftOfCursor.endsWith(key.value)) {
+            specialKey = key.value;
+            break;
+          }
+        }
+        var removeLength = specialKey.isEmpty ? 1 : specialKey.length;
+        newValue = oldValue.substring(
+            0, keyboardInputFieldData.cursorPos - removeLength);
+        newValue += oldValue.substring(keyboardInputFieldData.cursorPos);
+        keyboardInputFieldData.studentValue = newValue;
+        keyboardInputFieldData.cursorPos -= removeLength;
+      }
+    } else if (key.value == '!E') {
+      // enter
+      state.activeExercise = null;
+      keyboardState.layout = null;
+    } else if (keyboardLayout.lengthHint >= 0 &&
+        keyboardInputFieldData.studentValue.length >=
+            keyboardLayout.lengthHint) {
+      // do nothing
+    } else if (keyboardLayout.hasBackButton == false) {
+      // completely substitute answer, if keyboard has no
+      // backspace button
+      keyboardInputFieldData.studentValue = key.value;
+      keyboardInputFieldData.cursorPos = key.value.length;
+      keyboardState.exerciseData?.feedback = MbclExerciseFeedback.unchecked;
+    } else {
+      if (keyboardInputFieldData.studentValue.length < 32) {
+        var beforeCursor = keyboardInputFieldData.studentValue
+            .substring(0, keyboardInputFieldData.cursorPos);
+        var afterCursor = keyboardInputFieldData.studentValue
+            .substring(keyboardInputFieldData.cursorPos);
+        var newStr = key.value.replaceAll("!S", " ");
+        if (beforeCursor.isNotEmpty) {
+          // if the last character before the cursor is alpha
+          // and the inserted string starts with an alpha character,
+          // then insert "*" before the new string.
+          // This does NOT apply for gap question keyboards.
+          var beforeCursorLastChar =
+              beforeCursor.codeUnitAt(beforeCursor.length - 1);
+          var isBeforeCursorLastCharAlpha =
+              beforeCursorLastChar >= "a".codeUnitAt(0) &&
+                  beforeCursorLastChar <= "z".codeUnitAt(0);
+          var newStrFirstChar = newStr.codeUnitAt(0);
+          var isNewStrFirstCharAlpha = newStrFirstChar >= "a".codeUnitAt(0) &&
+              newStrFirstChar <= "z".codeUnitAt(0);
+          if (isBeforeCursorLastCharAlpha &&
+              isNewStrFirstCharAlpha &&
+              keyboardLayout.isGapKeyboard == false) {
+            newStr = "*$newStr";
+          }
+        }
+        keyboardInputFieldData.studentValue =
+            beforeCursor + newStr + afterCursor;
+        keyboardInputFieldData.cursorPos += newStr.length;
+      }
+      keyboardState.exerciseData?.feedback = MbclExerciseFeedback.unchecked;
+    }
+    // evaluate exercise on first key (used e.g. for Event levels)
+    if (evaluateDirectly) {
+      evaluateExercise(state, state.widget.level,
+          keyboardState.inputFieldData!.exerciseData!);
+    }
+    // ignore: invalid_use_of_protected_member
+    state.setState(() {});
   }
 }
