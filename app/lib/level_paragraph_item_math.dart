@@ -50,7 +50,7 @@ InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
             if (variableTeXValue == null) {
               texSrc += 'ERROR: unknown exercise variable $variableId';
             } else {
-              texSrc += variableTeXValue;
+              texSrc += variableTeXValue /*+ key.replaceAll(".tex", "")*/;
             }
           }
           break;
@@ -70,7 +70,7 @@ InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
   var svgWidth = tex.width;
   if (tex.success() == false) {
     return TextSpan(
-      text: "${tex.error}. TEX-INPUT: $texSrc",
+      text: tex.error,
       style: TextStyle(color: Colors.red, fontSize: defaultFontSize),
     );
   } else {
