@@ -345,6 +345,8 @@ class MbclFigureData {
   int widthPercentage = 100;
   List<MbclLevelItem> caption = [];
 
+  bool zoomed = false;
+
   MbclFigureData(this.figure);
 
   Map<String, dynamic> toJSON() {
