@@ -133,15 +133,17 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
     }
     list.add(Row(mainAxisAlignment: MainAxisAlignment.end, children: [
       Opacity(
-          opacity: 0.4,
-          child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.all(Radius.circular(5))),
-              child: Padding(
-                  padding: EdgeInsets.all(2),
-                  child:
-                      Text(" $text ", style: TextStyle(color: Colors.white)))))
+          opacity: 0.8,
+          child: Padding(
+              padding: EdgeInsets.only(right: 4),
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  child: Padding(
+                      padding: EdgeInsets.all(2),
+                      child: Text(" $text ",
+                          style: TextStyle(color: Colors.white))))))
     ]));
   }
   for (var i = 0; i < item.items.length; i++) {
@@ -216,20 +218,34 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
             borderRadius: BorderRadius.all(
               Radius.circular(20),
             )),
-        child: Center(
-            child: Icon(
-          Icons.autorenew,
-          color: feedbackColor,
-        )),
+        child: debugMode
+            ? Opacity(
+                opacity: 0.8,
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    height: 28,
+                    child: Center(
+                        child: Text(
+                      "idx ${exerciseData.runInstanceIdx}",
+                      style: TextStyle(color: Colors.white),
+                    ))))
+            : Center(
+                child: Icon(
+                Icons.autorenew,
+                color: feedbackColor,
+              )),
       ));
 
   List<Widget> buttons = [];
   if (level.isEvent == false) {
     buttons.add(validateButton);
     buttons.add(Text('   '));
-    if (exerciseData.disableRetry == false &&
-        exerciseData.feedback == MbclExerciseFeedback.correct &&
-        exerciseData.instances.length > 1) {
+    if (debugMode ||
+        (exerciseData.disableRetry == false &&
+            exerciseData.feedback == MbclExerciseFeedback.correct &&
+            exerciseData.instances.length > 1)) {
       buttons.add(retryButton);
     }
   }
@@ -240,6 +256,52 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
   /*if (state.activeExercise != null) {
           opacity = item == state.activeExercise ? 1.0 : 0.3;
         }*/
+
+  if (debugMode) {
+    // show variable values
+    var instance = exerciseData.instances[exerciseData.runInstanceIdx];
+    var text = "";
+    for (var key in instance.keys) {
+      if (key.startsWith("__") || key.endsWith(".tex") || key.startsWith("@")) {
+        continue;
+      }
+      if (text.isNotEmpty) text += "\n";
+      var value = instance[key];
+      text += "$key=$value";
+
+      var term = "";
+      var opt = "";
+      if (instance.containsKey("@$key")) {
+        term = instance["@$key"]!;
+      }
+      if (instance.containsKey("@@$key")) {
+        opt = instance["@@$key"]!;
+      }
+      if (term.contains("rand") == false) {
+        text += ", term($key)=$term";
+        text += ", opt($key)=$opt";
+      }
+    }
+    if (text.isNotEmpty) {
+      list.add(Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Flexible(
+            child: Opacity(
+                opacity: 0.8,
+                child: Padding(
+                    padding: EdgeInsets.only(left: 4, top: 12, right: 4),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        child: Padding(
+                            padding: EdgeInsets.all(4),
+                            child: Text(" $text ",
+                                style: TextStyle(color: Colors.white)))))))
+      ]));
+      //list.add(Row(children: [Flexible(child: Text(text))]));
+    }
+  }
+
   return Opacity(
       opacity: opacity,
       child: Container(
