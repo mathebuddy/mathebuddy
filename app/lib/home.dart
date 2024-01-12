@@ -9,6 +9,7 @@
 /// courses.
 
 import 'package:mathebuddy/mbcl/src/course.dart';
+import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:flutter/material.dart';
 import 'package:mathebuddy/chapter.dart';
@@ -28,7 +29,7 @@ class HomeWidget extends StatefulWidget {
 }
 
 class HomeState extends State<HomeWidget> {
-  HomeState() {}
+  HomeState();
 
   @override
   void initState() {
@@ -45,6 +46,7 @@ class HomeState extends State<HomeWidget> {
     // if the bundle contains exactly one course, then directly switch to it.
     if (courses.keys.length == 1 &&
         courses[courses.keys.first]!.debug == MbclCourseDebug.no) {
+      selectedCourseIdFromBundle = courses.keys.first;
       var course = courses[courses.keys.first]!;
       Future.microtask(() => Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => CourseWidget(course))));
@@ -58,19 +60,23 @@ class HomeState extends State<HomeWidget> {
                   // open course (or first chapter/unit/level in case
                   // there is only one chapter/unit/level)
                   var route = MaterialPageRoute(builder: (context) {
+                    if (courseKey == 'DEBUG') {
+                      loadDebugCourse();
+                    }
                     var course = courses[courseKey]!;
+                    selectedCourseIdFromBundle = courseKey;
                     if (course.chapters.length == 1) {
                       var chapter = course.chapters[0];
                       if (chapter.units.length == 1) {
                         var unit = chapter.units[0];
                         if (unit.levels.length == 1) {
                           var level = unit.levels[0];
-                          return LevelWidget(chapter, level);
+                          return LevelWidget(course, chapter, level);
                         } else {
-                          return UnitWidget(chapter, unit);
+                          return UnitWidget(course, chapter, unit);
                         }
                       } else {
-                        return ChapterWidget(chapter);
+                        return ChapterWidget(course, chapter);
                       }
                     } else {
                       return CourseWidget(course);
@@ -112,9 +118,15 @@ class HomeState extends State<HomeWidget> {
                     fontSize: getStyle().courseTitleFontSize,
                     fontWeight: getStyle().courseTitleFontWeight))));
 
-    var contents = Column(children: [logo, title, listOfCourses]);
-    var body =
-        SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
+    var contents = Center(
+        child: Container(
+            constraints: BoxConstraints(maxWidth: maxContentsWidth),
+            child: Column(children: [logo, title, listOfCourses])));
+    var body = SingleChildScrollView(
+        physics: BouncingScrollPhysics(
+            decelerationRate: ScrollDecelerationRate.fast),
+        padding: EdgeInsets.all(5),
+        child: contents);
     return Scaffold(
       appBar: buildAppBar(this, null),
       body: body,
