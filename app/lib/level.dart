@@ -15,6 +15,7 @@ import 'package:mathebuddy/event.dart';
 import 'package:mathebuddy/event_painter.dart';
 import 'package:mathebuddy/level_paragraph_item_input_field.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
+import 'package:mathebuddy/mbcl/src/course.dart';
 
 import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
@@ -39,10 +40,12 @@ import 'package:mathebuddy/level_todo.dart';
 import 'package:mathebuddy/style.dart';
 
 class LevelWidget extends StatefulWidget {
+  final MbclCourse course;
   final MbclChapter chapter;
   final MbclLevel level;
 
-  const LevelWidget(this.chapter, this.level, {Key? key}) : super(key: key);
+  const LevelWidget(this.course, this.chapter, this.level, {Key? key})
+      : super(key: key);
 
   @override
   State<LevelWidget> createState() => LevelState();
@@ -86,7 +89,7 @@ class LevelState extends State<LevelWidget> {
       var text = "${widget.chapter.fileId}/${level.fileId}.mbl";
       page.add(Row(mainAxisAlignment: MainAxisAlignment.end, children: [
         Opacity(
-            opacity: 0.4,
+            opacity: 0.8,
             child: Container(
                 decoration: BoxDecoration(
                     color: Colors.green,
@@ -122,8 +125,37 @@ class LevelState extends State<LevelWidget> {
     if (level.isEvent == false) {
       page.add(levelTitle);
     }
+    if (debugMode) {
+      page.add(Text(" "));
+      page.add(Center(
+          child: Opacity(
+              opacity: 0.8,
+              child: GestureDetector(
+                  onTap: (() {
+                    //print("TODO: reload level");
+                    var chapterIdx =
+                        widget.course.chapters.indexOf(widget.chapter);
+                    var levelIdx = widget.chapter.levels.indexOf(widget.level);
+                    loadDebugCourse();
+                    widget.level.fromJSON(courses[selectedCourseIdFromBundle]!
+                        .chapters[chapterIdx]
+                        .levels[levelIdx]
+                        .toJSON());
+                    setState(() {});
+                  }),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 10, right: 10, top: 4, bottom: 4),
+                          child: Text("reload level",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18))))))));
+    }
     // navigation bar
-    if (level.numParts > 0) {
+    if (!debugMode && level.numParts > 0) {
       // TODO: click animation
       var iconSize = 45.0;
       var selectedColor = Colors.white;
@@ -260,10 +292,16 @@ class LevelState extends State<LevelWidget> {
       for (var item in level.items) {
         if (item.type == MbclLevelItemType.part) {
           part++;
+          if (debugMode) {
+            page.add(Text(" "));
+            page.add(Icon(MdiIcons.fromString(level.partIconIDs[part])));
+          }
         } else {
           // skip items that do not belong to current part
-          if (level.numParts > 0 && part != currentPart) {
-            continue;
+          if (!debugMode) {
+            if (level.numParts > 0 && part != currentPart) {
+              continue;
+            }
           }
           // skip exercises that contain unfulfilled requirements
           var skip = false;
@@ -386,32 +424,42 @@ class LevelState extends State<LevelWidget> {
       page.add(Text("\n"));
     }
     scrollView = SingleChildScrollView(
+        physics: BouncingScrollPhysics(
+            decelerationRate: ScrollDecelerationRate.fast),
         controller: scrollController,
         padding: EdgeInsets.only(right: 2.0),
         child: Container(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.topCenter,
             margin: EdgeInsets.only(left: 3.0, right: 3.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: page)));
+            child: Container(
+                constraints: BoxConstraints(maxWidth: maxContentsWidth),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: page))));
+
+    // var constrainedScrollView = Center(
+    //     child: Container(
+    //         constraints: BoxConstraints(maxWidth: maxContentsWidth),
+    //         child: scrollView));
 
     var body = Column(children: [
       Container(
           margin: EdgeInsets.only(top: 0),
           child: Column(children: levelHeadItems)),
-      Expanded(
-          child: Scrollbar(
-              thumbVisibility: true,
-              controller: scrollController,
-              child: scrollView!))
+      // Expanded(
+      //     child: Scrollbar(
+      //         thumbVisibility: false,
+      //         trackVisibility: false,
+      //         controller: scrollController,
+      //         child: constrainedScrollView))
+      Expanded(child: scrollView!)
     ]);
 
     Widget bottomArea = Text('');
     if (keyboardState.layout != null) {
-      var keyboard = Keyboard();
-      bottomArea = keyboard.generateWidget(this, keyboardState,
-          evaluateDirectly: level.isEvent);
+      var keyboard = Keyboard(this, keyboardState, level.isEvent);
+      bottomArea = keyboard.generateWidget();
     }
 
     return Scaffold(
