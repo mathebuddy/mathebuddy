@@ -12,4 +12,6 @@ ScrollController? scrollController;
 
 const double defaultFontSize = 16;
 
+const double maxContentsWidth = 640;
+
 GlobalKey? exerciseKey;
