@@ -13,14 +13,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 
 import 'package:mathebuddy/appbar.dart';
+import 'package:mathebuddy/mbcl/src/course.dart';
+import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:mathebuddy/unit.dart';
 import 'package:mathebuddy/error.dart';
 
 class ChapterWidget extends StatefulWidget {
+  final MbclCourse course;
   final MbclChapter chapter;
 
-  const ChapterWidget(this.chapter, {Key? key}) : super(key: key);
+  const ChapterWidget(this.course, this.chapter, {Key? key}) : super(key: key);
 
   @override
   State<ChapterWidget> createState() {
@@ -68,38 +71,55 @@ class ChapterState extends State<ChapterWidget> {
           padding: EdgeInsets.all(10.0),
           child: Column(children: [
             icon,
-            Wrap(children: [
-              Text(unit.title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 22,
-                      color: cellColor,
-                      fontWeight: FontWeight.w400))
-            ])
+            //Wrap(children: [
+            Text(unit.title,
+                textAlign: TextAlign.center,
+                softWrap: true,
+                style: TextStyle(
+                    fontSize: 22,
+                    color: cellColor,
+                    fontWeight: FontWeight.w400))
           ]));
-      tableCells.add(TableCell(
+      // TODO!! use Table(defaultVerticalAlignment: TableCellVerticalAlignment.intrinsicXX)
+      //  in flutter 3.18+
+      var fill = unit.title == "Integral-Lösungsansätze";
+      var cell = TableCell(
         //verticalAlignment: TableCellVerticalAlignment.fill,
+        //verticalAlignment: TableCellVerticalAlignment.middle,
+        verticalAlignment: fill
+            ? TableCellVerticalAlignment.fill
+            : TableCellVerticalAlignment.top,
         child: GestureDetector(
             onTap: () {
               var route = MaterialPageRoute(builder: (context) {
-                return UnitWidget(widget.chapter, unit);
+                return UnitWidget(widget.course, widget.chapter, unit);
               });
               Navigator.push(context, route).then((value) => setState(() {}));
             },
             child: Container(
-                margin: EdgeInsets.all(2.0),
-                decoration: BoxDecoration(
-                    color: getStyle()
-                        .matheBuddyRed //courseColors[i % getStyle().courseColors.length]
-                    //.withOpacity(0.95)
-                    ,
-                    borderRadius: BorderRadius.circular(20.0)),
-                child: Center(child: content))),
-      ));
+              alignment: Alignment.center,
+              //height: 200,
+              margin: EdgeInsets.all(2.0),
+              decoration: BoxDecoration(
+                  color: getStyle()
+                      .matheBuddyRed //courseColors[i % getStyle().courseColors.length]
+                  //.withOpacity(0.95)
+                  ,
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: content,
+            )),
+      );
+      tableCells.add(cell);
     }
     if ((tableCells.length % 2) != 0) {
       tableCells.add(TableCell(child: Text("")));
     }
+
+    // var heights = [];
+    // for(var cell in tableCells) {
+    //   heights.add(cell.)
+    // }
+
     var numRows = (tableCells.length / 2).ceil();
     for (var i = 0; i < numRows; i++) {
       List<TableCell> columns = [];
@@ -109,7 +129,8 @@ class ChapterState extends State<ChapterWidget> {
       tableRows.add(TableRow(children: columns));
     }
     var unitsTable = Table(
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      //defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      //defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
       children: tableRows,
     );
 
@@ -124,7 +145,14 @@ class ChapterState extends State<ChapterWidget> {
     }
 
     var body = SingleChildScrollView(
-        padding: EdgeInsets.all(5), child: Column(children: contents));
+        physics: BouncingScrollPhysics(
+            decelerationRate: ScrollDecelerationRate.fast),
+        padding: EdgeInsets.all(5),
+        child: Center(
+            child: Container(
+                constraints: BoxConstraints(maxWidth: maxContentsWidth),
+                child: Column(children: contents))));
+
     return Scaffold(
       appBar: buildAppBar(this, null),
       body: body,
