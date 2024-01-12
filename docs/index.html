@@ -183,7 +183,7 @@
           <button class="button-primary" onclick="show('play-info')">
             play
           </button>
-          <button class="button-primary" onclick="show('todo')">todo</button>
+          <!--<button class="button-primary" onclick="show('todo')">todo</button>-->
         </div>
         <div id="play-list" style="text-align: center; display: none">
           <b>PLAYGROUNDS</b><br />
@@ -231,15 +231,11 @@
     </div>
 
     <!-- ===== TODO ===== -->
-    <div id="todo" class="container" style="display: none">
-      <!--<div class="row" style="text-align: left">
-        <br />
-        <h2>TODO</h2>
-      </div>-->
+    <!--<div id="todo" class="container" style="display: none">
       <div class="row">
         <div id="upcoming-features"></div>
       </div>
-    </div>
+    </div>-->
 
     <!-- ===== SIM ===== -->
     <div id="sim-info" class="container" style="display: none">
@@ -344,7 +340,7 @@
             <iframe
               id="sim-iframe"
               title="mathe:buddy simulator instance"
-              src="poweroff.html?v=5"
+              src="poweroff.html?v=10"
               style="
                 border-style: solid;
                 border-color: #434343;
@@ -396,7 +392,7 @@
                 (no file selected)
               </div>
 
-              <div style="width: 100%; text-align: center">
+              <div style="width: 100%; text-align: left">
                 <button id="resetSim" type="button">
                   <img
                     src="img/fontawesome/power-off-solid.svg"
@@ -405,11 +401,50 @@
                       vertical-align: middle;
                       padding-inline: 0px;
                     "
+                    title="complete (re)start"
+                  />
+                </button>
+                <button id="updateSim" type="button">
+                  <img
+                    src="img/fontawesome/arrows-rotate-solid.svg"
+                    style="
+                      height: 20px;
+                      vertical-align: middle;
+                      padding-inline: 0px;
+                    "
+                    title="live reload"
                   />
                 </button>
                 <button id="simShowMblButton" type="button">MBL</button>
                 <button id="simShowMbclButton" type="button">MBCL</button>
               </div>
+
+              <div class="row" style="text-align: left">
+                <div class="twelve columns">
+                  <div
+                    style="
+                      margin-top: 10px;
+                      border-style: solid;
+                      border-color: #434343;
+                      border-width: 1px;
+                      border-radius: 2px;
+                      padding: 10px;
+                      border-width: 2px;
+                      width: calc(100% - 24px);
+                      min-height: 128px;
+                      height: 128px;
+                      max-height: 128px;
+                      -moz-box-shadow: 0 0 10px #aaa;
+                      -webkit-box-shadow: 0 0 10px #aaa;
+                      box-shadow: 0 0 10px #aaa;
+                      overflow-y: scroll;
+                    "
+                  >
+                    <div id="sim-log-area">Log Area</div>
+                  </div>
+                </div>
+              </div>
+
               <div id="sim-short-info" style="text-align: center"></div>
               <div id="sim-data-area"></div>
             </div>
@@ -417,31 +452,6 @@
         </div>
 
         <br />
-
-        <div class="row" style="text-align: left">
-          <div class="twelve columns">
-            <div
-              style="
-                border-style: solid;
-                border-color: #434343;
-                border-width: 1px;
-                border-radius: 2px;
-                padding: 10px;
-                border-width: 2px;
-                width: 100%;
-                min-height: 256px;
-                height: 256px;
-                max-height: 256px;
-                -moz-box-shadow: 0 0 10px #aaa;
-                -webkit-box-shadow: 0 0 10px #aaa;
-                box-shadow: 0 0 10px #aaa;
-                overflow-y: scroll;
-              "
-            >
-              <div id="sim-log-area">Log Area</div>
-            </div>
-          </div>
-        </div>
 
         <br />
         Link for mobile phone (only for static courses):<br />
@@ -931,26 +941,26 @@
           refreshLanguage();
         });
       // set upcoming features info
-      fetch("text/todo.txt?ver=" + Date.now())
-        .then((response) => response.text())
-        .then((data) => {
-          //data = data.replace(/\n/g, "<br/>");
-          let formatted = "";
-          let lines = data.split("\n");
-          for (let line of lines) {
-            line = line.trim();
-            if (line.startsWith("<h")) {
-              formatted += "<br/><br/>";
-            }
-            if (line.startsWith("-")) {
-              formatted += "<li>" + line.substring(1) + "</li>";
-            } else {
-              formatted += line;
-            }
-          }
-          document.getElementById("upcoming-features").innerHTML = formatted;
-          refreshLanguage();
-        });
+      // fetch("text/todo.txt?ver=" + Date.now())
+      //   .then((response) => response.text())
+      //   .then((data) => {
+      //     //data = data.replace(/\n/g, "<br/>");
+      //     let formatted = "";
+      //     let lines = data.split("\n");
+      //     for (let line of lines) {
+      //       line = line.trim();
+      //       if (line.startsWith("<h")) {
+      //         formatted += "<br/><br/>";
+      //       }
+      //       if (line.startsWith("-")) {
+      //         formatted += "<li>" + line.substring(1) + "</li>";
+      //       } else {
+      //         formatted += line;
+      //       }
+      //     }
+      //     document.getElementById("upcoming-features").innerHTML = formatted;
+      //     refreshLanguage();
+      //   });
 
       // switch simulator device (only changes width/height)
       function setDevice(id) {
@@ -992,7 +1002,7 @@
           "math-runtime",
           "smpl",
           "mbl",
-          "todo",
+          //"todo",
           "sim-info",
           "play-info",
         ];
@@ -1165,6 +1175,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1704367024"></script>
+    <script src="js/index.min.js?version=1705052815"></script>
   </body>
 </html>
