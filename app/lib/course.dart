@@ -18,6 +18,7 @@ import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/appbar.dart';
 import 'package:mathebuddy/chapter.dart';
 import 'package:mathebuddy/error.dart';
+import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
 
 class CourseWidget extends StatefulWidget {
@@ -104,7 +105,7 @@ class CourseState extends State<CourseWidget> {
         child: GestureDetector(
             onTap: () {
               var route = MaterialPageRoute(builder: (context) {
-                return ChapterWidget(chapter);
+                return ChapterWidget(widget.course, chapter);
               });
               Navigator.push(context, route).then((value) => setState(() {}));
             },
@@ -304,13 +305,26 @@ class CourseState extends State<CourseWidget> {
       ),
       logo,
     ]);
+    contents = Center(
+        child: Container(
+            constraints: BoxConstraints(maxWidth: maxContentsWidth),
+            child: contents));
 
     if (widget.course.error.isNotEmpty) {
       contents = generateErrorWidget(widget.course.error);
     }
 
-    var body =
-        SingleChildScrollView(padding: EdgeInsets.all(5), child: contents);
+    Widget body = SingleChildScrollView(
+        physics: BouncingScrollPhysics(
+            decelerationRate: ScrollDecelerationRate.fast),
+        padding: EdgeInsets.all(5),
+        child: contents);
+
+    // body = Center(
+    //     child: Container(
+    //         constraints: BoxConstraints(maxWidth: maxContentsWidth),
+    //         child: body));
+
     return Scaffold(
       appBar: buildAppBar(this, null),
       body: body,
