@@ -10,8 +10,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
+import 'package:mathebuddy/mbcl/src/course.dart';
 
 import 'package:mathebuddy/mbcl/src/unit.dart';
+import 'package:mathebuddy/screen.dart';
 
 import 'package:mathebuddy/style.dart';
 import 'package:mathebuddy/unit_painter.dart';
@@ -19,10 +21,12 @@ import 'package:mathebuddy/appbar.dart';
 import 'package:mathebuddy/level.dart';
 
 class UnitWidget extends StatefulWidget {
+  final MbclCourse course;
   final MbclChapter chapter;
   final MbclUnit unit;
 
-  const UnitWidget(this.chapter, this.unit, {Key? key}) : super(key: key);
+  const UnitWidget(this.course, this.chapter, this.unit, {Key? key})
+      : super(key: key);
 
   @override
   State<UnitWidget> createState() => UnitState();
@@ -59,6 +63,13 @@ class UnitState extends State<UnitWidget> {
     var maxTileWidth = 500.0;
 
     var screenWidth = MediaQuery.of(context).size.width;
+
+    var additionalOffsetX = 0.0;
+    if (screenWidth > maxContentsWidth) {
+      additionalOffsetX = (screenWidth - maxContentsWidth) / 2.0;
+      screenWidth = maxContentsWidth;
+    }
+
     var tileWidth = (screenWidth - 50) / (numCols);
     if (tileWidth > maxTileWidth) tileWidth = maxTileWidth;
     var tileHeight = tileWidth;
@@ -66,6 +77,7 @@ class UnitState extends State<UnitWidget> {
     var spacingX = 10.0;
     var spacingY = 10.0;
     var offsetX = (screenWidth - (tileWidth + spacingX) * numCols) / 2;
+    offsetX += additionalOffsetX;
     var offsetY = 20.0;
 
     List<Widget> widgets = [];
@@ -168,7 +180,7 @@ class UnitState extends State<UnitWidget> {
           child: GestureDetector(
               onTap: () {
                 var route = MaterialPageRoute(builder: (context) {
-                  return LevelWidget(widget.chapter, level);
+                  return LevelWidget(widget.course, widget.chapter, level);
                 });
                 Navigator.push(context, route).then((value) => setState(() {}));
                 // TODO
@@ -199,6 +211,8 @@ class UnitState extends State<UnitWidget> {
     }
     // create body
     var body = SingleChildScrollView(
+        physics: BouncingScrollPhysics(
+            decelerationRate: ScrollDecelerationRate.fast),
         child: Column(children: [title, Stack(children: widgets)]));
     return Scaffold(
       appBar: buildAppBar(this, null),
