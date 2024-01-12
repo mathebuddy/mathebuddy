@@ -67,13 +67,13 @@ class AppInputField {
           text: TextSpan(children: [
         WidgetSpan(
             child: Container(
+                margin: EdgeInsets.only(left: 2, right: 2),
                 decoration: BoxDecoration(
                     color: isActive
                         ? feedbackColor.withOpacity(activeOpacity)
                         : const Color.fromARGB(0, 255, 255, 255),
                     borderRadius: BorderRadius.all(Radius.circular(4.0))),
                 child: Icon(
-                  //Icons.settings_ethernet,
                   Icons.aspect_ratio,
                   size: 32,
                   color: feedbackColor,
