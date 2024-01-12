@@ -268,16 +268,17 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         var equation =
             MbclLevelItem(level, MbclLevelItemType.equation, block.srcLine);
         parent?.items.add(equation);
+        var data = MbclEquationData(equation);
+        equation.equationData = data;
         if (block.children.length != 1 || block.children[0].id != "DEFAULT") {
-          equation.error += "Expected equation code. "
+          equation.type = MbclLevelItemType.error;
+          equation.text = "Expected equation code. "
               "No other kinds of input is allowed here.";
           break;
         }
         var texCode = block.children[0].data;
         equation.title = block.title;
         equation.label = block.label;
-        var data = MbclEquationData(equation);
-        equation.equationData = data;
 
         if (block.id.startsWith("LEFT-EQUATION")) {
           data.leftAligned = true;
