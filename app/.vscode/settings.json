@@ -5,6 +5,8 @@
     "appbar",
     "ARGB",
     "autocorrect",
+    "autofocus",
+    "autorenew",
     "canvaskit",
     "cupertino",
     "focusable",
