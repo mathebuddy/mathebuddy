@@ -12,21 +12,31 @@ import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
 import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/screen.dart';
 
 Widget generateFigure(LevelState state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
   List<Widget> rows = [];
   var figureData = item.figureData as MbclFigureData;
   // image
-  var width = figureData.widthPercentage;
+  var width = figureData.zoomed ? 100 : figureData.widthPercentage;
   var screenWidth = MediaQuery.of(state.context).size.width;
+  if (screenWidth > maxContentsWidth) {
+    screenWidth = maxContentsWidth;
+  }
   if (figureData.data.startsWith('<svg') ||
       figureData.data.startsWith('<?xml')) {
     rows.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      SvgPicture.string(
-        figureData.data,
-        width: screenWidth * width / 100.0 - 15.0,
-      )
+      GestureDetector(
+          onDoubleTap: () {
+            figureData.zoomed = !figureData.zoomed;
+            // ignore: invalid_use_of_protected_member
+            state.setState(() {});
+          },
+          child: SvgPicture.string(
+            figureData.data,
+            width: screenWidth * width / 100.0 - 15.0,
+          ))
     ]));
   }
   // caption
