@@ -9,6 +9,10 @@ import 'package:slex/slex.dart';
 
 import '../../mbcl/src/level.dart';
 import '../../mbcl/src/level_item.dart';
+import '../../mbcl/src/level_item_equation.dart';
+import '../../mbcl/src/level_item_table.dart';
+import '../../mbcl/src/level_item_exercise.dart';
+import '../../mbcl/src/level_item_figure.dart';
 
 import '../../smpl/src/parser.dart' as smpl_parser;
 import '../../smpl/src/node.dart' as smpl_node;
@@ -382,7 +386,7 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
           if (block.attributes.containsKey("PATH")) {
             data.filePath = block.attributes["PATH"]!;
             var path = "${compiler.baseDirectory}"
-                "${compiler.chapter!.fileId}/${data.filePath}";
+                "${compiler.chapter.fileId}/${data.filePath}";
             data.data = compiler.loadFile(path);
             if (data.data.isEmpty) {
               figure.error += 'Could not load image file from path "$path". ';
