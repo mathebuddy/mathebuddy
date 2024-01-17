@@ -70,6 +70,8 @@ String loadFunction(String path) {
 
 String compileMblCode(String path /*, String src*/) {
   print("compiling the following MBL code at path $path");
+  logArea.innerHtml =
+      '... compiling - this may take a few more milliseconds ...';
   var compiler = Compiler(loadFunction);
   try {
     compiler.compile(path);
@@ -95,6 +97,7 @@ String compileMblCode(String path /*, String src*/) {
 }
 
 void showSim(String location) {
+  simPath = [];
   var src = html.window.location.host.contains("localhost")
       ? "sim/index.html"
       : "sim-ghpages/index.html";
@@ -155,12 +158,11 @@ void loadMblFile(String path) {
     fs[path] = mblData;
 
     readDirRecursively(fs, path_lib.dirname(path)).then((value) {
-      print("FILE_SYSTEM:");
-      //print(fs);
-      for (var key in fs.keys) {
-        print(key);
-      }
-      print("... END OF FILE_SYSTEM");
+      // print("FILE_SYSTEM:");
+      // for (var key in fs.keys) {
+      //   print(key);
+      // }
+      // print("... END OF FILE_SYSTEM");
 
       mbclData = compileMblCode(path);
       // send course to sim
