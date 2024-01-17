@@ -1,6 +1,6 @@
 /// mathe:buddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
-/// (c) 2022-2023 by TH Koeln
+/// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
@@ -13,12 +13,12 @@ import 'package:mathebuddy/mbcl/src/level_item_input_field.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
 import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/widget_level.dart';
 import 'package:mathebuddy/help.dart';
 import 'package:mathebuddy/style.dart';
 
 Widget generateSingleMultiChoice(
-    LevelState state, MbclLevel level, MbclLevelItem item,
+    State state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
   // exerciseData is non-null in a multiple choice context
   exerciseData as MbclExerciseData;
