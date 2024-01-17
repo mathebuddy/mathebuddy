@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 
 import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/level.dart';
@@ -35,7 +36,6 @@ InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
           if (exerciseData == null) {
             texSrc += 'ERROR: not in exercise mode!';
           } else {
-            var instance = exerciseData.instances[exerciseData.runInstanceIdx];
             var key = "$variableId.tex";
             switch (subItem.type) {
               case MbclLevelItemType.variableReferenceTerm:
@@ -46,7 +46,7 @@ InlineSpan generateParagraphItemMath(LevelState state, MbclLevelItem item,
                 break;
               default:
             }
-            var variableTeXValue = instance[key];
+            var variableTeXValue = exerciseData.activeInstance[key];
             if (variableTeXValue == null) {
               texSrc += 'ERROR: unknown exercise variable $variableId';
             } else {
