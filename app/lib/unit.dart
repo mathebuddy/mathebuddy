@@ -9,8 +9,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
+import 'package:mathebuddy/mbcl/src/level.dart';
+import 'package:mathebuddy/mbcl/src/level_item.dart';
 
 import 'package:mathebuddy/mbcl/src/unit.dart';
 import 'package:mathebuddy/screen.dart';
@@ -25,8 +28,11 @@ class UnitWidget extends StatefulWidget {
   final MbclChapter chapter;
   final MbclUnit unit;
 
-  const UnitWidget(this.course, this.chapter, this.unit, {Key? key})
-      : super(key: key);
+  UnitWidget(this.course, this.chapter, this.unit, {Key? key})
+      : super(key: key) {
+    chapter.lastVisitedUnit = unit;
+    course.saveUserData();
+  }
 
   @override
   State<UnitWidget> createState() => UnitState();
@@ -182,13 +188,11 @@ class UnitState extends State<UnitWidget> {
                 var route = MaterialPageRoute(builder: (context) {
                   return LevelWidget(widget.course, widget.chapter, level);
                 });
-                Navigator.push(context, route).then((value) => setState(() {}));
-                // TODO
-                // _level = level;
-                // _currentPart = 0;
-                // _viewState = ViewState.level;
+                Navigator.push(context, route).then((value) {
+                  setState(() {});
+                });
                 level.visited = true;
-                //print('clicked on ${level.fileId}');
+                widget.chapter.saveUserData();
                 setState(() {});
               },
               child: Container(
@@ -209,13 +213,83 @@ class UnitState extends State<UnitWidget> {
                           BorderRadius.all(Radius.circular(tileWidth * 0.175))),
                   child: content))));
     }
+    // debug buttons
+    Widget resetProgressBtn = Text("", style: TextStyle(fontSize: 1));
+    Widget allLevelsBtn = Text("", style: TextStyle(fontSize: 1));
+    if (debugMode) {
+      resetProgressBtn = GestureDetector(
+          onTap: () {
+            unit.resetProgress();
+            setState(() {});
+          },
+          child: Opacity(
+              opacity: 0.8,
+              child: Padding(
+                  padding: EdgeInsets.only(right: 4, top: 20),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(" RESET PROGRESS ",
+                              style: TextStyle(color: Colors.white)))))));
+
+      allLevelsBtn = GestureDetector(
+          onTap: () {
+            // build pseudo level and fill contents of all levels of unit
+            var megaLevel = MbclLevel(widget.course, widget.chapter);
+            megaLevel.isDebugLevel = true;
+            megaLevel.title = "ALL LEVELS OF UNIT: ${unit.title}";
+            for (var level in unit.levels) {
+              var title =
+                  MbclLevelItem(megaLevel, MbclLevelItemType.debugInfo, -1);
+              title.text = "----- LEVEL ${level.fileId} -----";
+              megaLevel.items.add(title);
+              for (var item in level.items) {
+                if (item.type == MbclLevelItemType.part) {
+                  var part =
+                      MbclLevelItem(megaLevel, MbclLevelItemType.debugInfo, -1);
+                  part.text = "next part";
+                  megaLevel.items.add(part);
+                } else {
+                  megaLevel.items.add(item);
+                }
+              }
+            }
+            // push
+            var route = MaterialPageRoute(builder: (context) {
+              return LevelWidget(widget.course, widget.chapter, megaLevel);
+            });
+            Navigator.push(context, route).then((value) => setState(() {}));
+            megaLevel.visited = true;
+            setState(() {});
+          },
+          child: Opacity(
+              opacity: 0.8,
+              child: Padding(
+                  padding: EdgeInsets.only(right: 4, top: 20),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(" SHOW ALL LEVELS IN SEQUENCE ",
+                              style: TextStyle(color: Colors.white)))))));
+    }
     // create body
     var body = SingleChildScrollView(
         physics: BouncingScrollPhysics(
             decelerationRate: ScrollDecelerationRate.fast),
-        child: Column(children: [title, Stack(children: widgets)]));
+        child: Column(children: [
+          title,
+          resetProgressBtn,
+          allLevelsBtn,
+          Stack(children: widgets)
+        ]));
     return Scaffold(
-      appBar: buildAppBar(this, null),
+      appBar: buildAppBar(this, widget.chapter, null),
       body: body,
       backgroundColor: Colors.white,
     );
