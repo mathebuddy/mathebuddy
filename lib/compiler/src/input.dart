@@ -13,6 +13,7 @@ import '../../math-runtime/src/term.dart';
 
 import '../../mbcl/src/level.dart';
 import '../../mbcl/src/level_item.dart';
+import '../../mbcl/src/level_item_input_field.dart';
 
 import 'exercise.dart';
 import 'help.dart';
@@ -45,8 +46,8 @@ MbclLevelItem parseInputElement(
   var data = MbclInputFieldData();
   inputField.inputFieldData = data;
   inputField.id = 'input${createUniqueId()}';
-  var exerciseData = exercise.exerciseData as MbclExerciseData;
-  exerciseData.inputFields[inputField.id] = data;
+  var exerciseData = exercise.exerciseData!;
+  exerciseData.inputFields.add(inputField);
   var isGap = false;
   // reference to a variable from part CODE
   if (lexer.isIdentifier()) {
