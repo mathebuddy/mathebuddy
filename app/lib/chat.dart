@@ -267,7 +267,7 @@ class ChatState extends State<ChatWidget> {
   Widget build(BuildContext context) {
     var body = SingleChildScrollView(child: Column(children: chatHistory));
     return Scaffold(
-        appBar: buildAppBar(this, null),
+        appBar: buildAppBar(this, null, null),
         body: body,
         backgroundColor: Colors.white);
   }
