@@ -1,6 +1,6 @@
 /// mathe:buddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
-/// (c) 2022-2023 by TH Koeln
+/// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
@@ -12,8 +12,11 @@ import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level_item_input_field.dart';
 
 import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/screen.dart';
+import 'package:mathebuddy/widget_level.dart';
 import 'package:mathebuddy/style.dart';
+
+KeyboardState keyboardState = KeyboardState();
 
 class KeyboardState {
   KeyboardLayout? layout; // null := not shown
@@ -151,7 +154,7 @@ class KeyboardLayout {
 // TODO: move "KeyboardState keyboardState" to attributes here!
 
 class Keyboard {
-  final LevelState state;
+  final State state;
   final KeyboardState keyboardState;
   final bool evaluateDirectly;
   final KeyboardLayout keyboardLayout;
@@ -414,7 +417,7 @@ class Keyboard {
       }
     } else if (key.value == '!E') {
       // enter
-      state.activeExercise = null;
+      //state.activeExercise = null;
       keyboardState.layout = null;
     } else if (keyboardLayout.lengthHint >= 0 &&
         keyboardInputFieldData.studentValue.length >=
@@ -460,8 +463,8 @@ class Keyboard {
     }
     // evaluate exercise on first key (used e.g. for Event levels)
     if (evaluateDirectly) {
-      evaluateExercise(state, state.widget.level,
-          keyboardState.inputFieldData!.exerciseData!);
+      var exerciseData = keyboardState.inputFieldData!.exerciseData!;
+      evaluateExercise(state, exerciseData.exercise.level, exerciseData);
     }
     // ignore: invalid_use_of_protected_member
     state.setState(() {});
