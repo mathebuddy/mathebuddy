@@ -1,6 +1,6 @@
 /// mathe:buddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
-/// (c) 2022-2023 by TH Koeln
+/// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
@@ -11,6 +11,7 @@ import 'dart:convert';
 
 import 'chapter.dart';
 import 'chat.dart';
+import 'level_item.dart';
 import 'persistence.dart';
 
 enum MbclCourseDebug {
@@ -38,6 +39,17 @@ class MbclCourse {
 
   MbclCourse() {
     chat = MbclChat(this);
+  }
+
+  MbclLevelItem? getSuggestedExercise() {
+    // TODO!! now simple returning first one
+    if (chapters.isEmpty) return null;
+    var chapter = chapters[0];
+    if (chapter.levels.isEmpty) return null;
+    var level = chapter.levels[0];
+    var exercises = level.getExercises();
+    if (exercises.isEmpty) return null;
+    return exercises[0];
   }
 
   setPersistence(MbclPersistence p) {
