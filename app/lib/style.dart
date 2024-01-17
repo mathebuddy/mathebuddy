@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 
 class Style {
   Color matheBuddyRed = Color.fromARGB(0xFF, 0xAA, 0x32, 0x2C);
@@ -16,6 +16,7 @@ class Style {
   // appbar
   Color appbarBackgroundColor = Colors.black87;
   Color appbarDebugButtonColor = Colors.white;
+  Color appbarDebugButtonBackgroundColor = Colors.green;
   double appbarDebugButtonFontSize = 12;
   double appbarDebugButtonBorderSize = 1;
   Color appbarIconActiveColor = Colors.white;
