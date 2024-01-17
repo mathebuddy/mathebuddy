@@ -36,7 +36,7 @@ class CourseState extends State<CourseWidget> {
   @override
   void initState() {
     super.initState();
-    //TODO: e.g. widget.course;
+    widget.course.loadUserData(); // TODO: no async OK???
   }
 
   @override
@@ -66,15 +66,7 @@ class CourseState extends State<CourseWidget> {
                     color: getStyle().courseTitleFontColor,
                     fontSize: getStyle().courseTitleFontSize,
                     fontWeight: getStyle().courseTitleFontWeight))));
-
     // chapters
-    Widget titleChapters = Padding(
-        padding: EdgeInsets.only(top: 5.0, left: 10, right: 10, bottom: 20),
-        child: Center(
-            child: Text(language == "en" ? "Chapters" : "Kapitel",
-                style: TextStyle(
-                    color: getStyle().courseTitleFontColor,
-                    fontSize: getStyle().courseTitleFontSize))));
     List<TableRow> tableRows = [];
     List<TableCell> tableCells = [];
     var cellColor = Colors.white;
@@ -107,7 +99,9 @@ class CourseState extends State<CourseWidget> {
               var route = MaterialPageRoute(builder: (context) {
                 return ChapterWidget(widget.course, chapter);
               });
-              Navigator.push(context, route).then((value) => setState(() {}));
+              Navigator.push(context, route).then((value) {
+                setState(() {});
+              });
             },
             child: Container(
                 height: 150, // TODO: 1 vs 2 rows of text
@@ -147,8 +141,18 @@ class CourseState extends State<CourseWidget> {
         "icon": "play-outline", //
         "text-en": "Continue", //
         "text-de": "Weiter", //
-        "action": () {},
-        "enabled": false,
+        "action": () {
+          if (widget.course.lastVisitedChapter != null) {
+            var chapter = widget.course.lastVisitedChapter!;
+            var route = MaterialPageRoute(builder: (context) {
+              return ChapterWidget(widget.course, chapter);
+            });
+            Navigator.push(context, route).then((value) {
+              setState(() {});
+            });
+          }
+        },
+        "enabled": true,
       },
       {
         "icon": "chat-question-outline", //
@@ -326,7 +330,7 @@ class CourseState extends State<CourseWidget> {
     //         child: body));
 
     return Scaffold(
-      appBar: buildAppBar(this, null),
+      appBar: buildAppBar(this, null, null),
       body: body,
       backgroundColor: Colors.white,
     );
