@@ -5,13 +5,23 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
-// refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
+// refer to the specification at https://mathebuddy.github.io/mathebuddy/
 
+import 'chapter.dart';
+import 'course.dart';
 import 'level.dart';
 import 'level_item.dart';
 
 class MbclChat {
+  MbclCourse course;
+  late MbclChapter pseudoChapter;
+  late MbclLevel pseudoLevel;
   Map<String, MbclChatDefinition> definitions = {};
+
+  MbclChat(this.course) {
+    pseudoChapter = MbclChapter(course);
+    pseudoLevel = MbclLevel(course, pseudoChapter);
+  }
 
   MbclChatDefinition? getDefinition(String label) {
     // TODO: search for similar labels
@@ -32,7 +42,8 @@ class MbclChat {
   fromJSON(Map<String, dynamic> src) {
     definitions = {};
     for (var key in src["definitions"].keys) {
-      definitions[key] = MbclChatDefinition.fromJSON(src["definitions"][key]);
+      definitions[key] =
+          MbclChatDefinition.fromJSON(src["definitions"][key], pseudoLevel);
     }
   }
 }
@@ -48,9 +59,8 @@ class MbclChatDefinition {
     return {"label": label, "levelPath": levelPath, "data": data.toJSON()};
   }
 
-  static fromJSON(Map<String, dynamic> src) {
-    var level = MbclLevel(); // TODO
-    var levelItem = MbclLevelItem(level, MbclLevelItemType.error, -1);
+  static fromJSON(Map<String, dynamic> src, MbclLevel pseudoLevel) {
+    var levelItem = MbclLevelItem(pseudoLevel, MbclLevelItemType.text, -1);
     levelItem.fromJSON(src["data"]);
     return MbclChatDefinition(src["label"], src["levelPath"], levelItem);
   }
