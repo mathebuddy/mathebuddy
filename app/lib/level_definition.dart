@@ -1,19 +1,20 @@
 /// mathe:buddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
-/// (c) 2022-2023 by TH Koeln
+/// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:mathebuddy/main.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/widget_level.dart';
 
-Widget generateDefinition(LevelState state, MbclLevel level, MbclLevelItem item,
+Widget generateDefinition(State state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
 // TODO: other MbclLevelItemType.def*
   // TODO: icon
@@ -66,8 +67,8 @@ Widget generateDefinition(LevelState state, MbclLevel level, MbclLevelItem item,
       //    color: Color.fromARGB(31, 192, 192, 192)),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(width: 1.0),
-        borderRadius: BorderRadius.circular(5),
+        border: debugMode ? Border.all(width: 1.0) : null,
+        //borderRadius: BorderRadius.circular(5),
         // boxShadow: [
         //   BoxShadow(
         //       color: Colors.grey.withOpacity(0.08),
