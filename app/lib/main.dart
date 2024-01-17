@@ -22,6 +22,7 @@ var language = 'en';
 var selectedCourseIdFromBundle = "";
 Map<String, MbclCourse> courses = {};
 var bundleName = 'assets/bundle-debug.json';
+var websiteDevMode = false;
 
 void main() {
   if (html.window.location.href.contains("mathebuddy.github.io/alpha/") ||
@@ -31,6 +32,7 @@ void main() {
   }
   if (html.window.location.href.contains("mathebuddy.github.io/mathebuddy/") ||
       html.window.location.href.contains("http://localhost:8314/")) {
+    websiteDevMode = true;
     bundleName = 'assets/bundle-websim.json';
   } else if (html.window.location.href
       .contains("mathebuddy.github.io/alpha/")) {
