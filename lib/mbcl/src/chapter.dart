@@ -5,12 +5,19 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
-// refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
+// refer to the specification at https://mathebuddy.github.io/mathebuddy/
 
+import 'dart:convert';
+
+import 'course.dart';
 import 'level.dart';
 import 'unit.dart';
 
 class MbclChapter {
+  final MbclCourse course;
+
+  MbclChapter(this.course);
+
   /// all references go go [fileId]; [label] is only used for searching
   String fileId = '';
   String error = "";
@@ -25,6 +32,10 @@ class MbclChapter {
   List<MbclUnit> units = [];
   List<MbclLevel> levels = [];
 
+  // temporary
+  MbclUnit? lastVisitedUnit;
+  MbclLevel? lastVisitedLevel;
+
   String gatherErrors() {
     var err = error.isEmpty ? "" : "$error\n";
     for (var level in levels) {
@@ -37,19 +48,68 @@ class MbclChapter {
   }
 
   MbclLevel? getLevelByLabel(String label) {
-    for (var i = 0; i < levels.length; i++) {
-      var level = levels[i];
+    for (var level in levels) {
       if (level.label == label) return level;
     }
     return null;
   }
 
   MbclLevel? getLevelByFileID(String fileID) {
-    for (var i = 0; i < levels.length; i++) {
-      var level = levels[i];
+    for (var level in levels) {
       if (level.fileId == fileID) return level;
     }
     return null;
+  }
+
+  MbclUnit? getUnitById(String id) {
+    for (var unit in units) {
+      if (unit.id == id) return unit;
+    }
+    return null;
+  }
+
+  Future<bool> loadUserData() async {
+    if (course.checkFileIO() == false) return false;
+    var path = _getFilePath();
+    try {
+      var chapterStringified = await course.persistence!.readFile(path);
+      var chapterJson = jsonDecode(chapterStringified);
+      progressFromJSON(chapterJson);
+    } catch (e) {
+      print("could not load chapter");
+    }
+    return true;
+  }
+
+  bool saveUserData() {
+    if (course.checkFileIO() == false) return false;
+    var chapterJson = progressToJSON();
+    var chapterStringified = JsonEncoder.withIndent("  ").convert(chapterJson);
+    var path = _getFilePath();
+    course.persistence!.writeFile(path, chapterStringified);
+    return true;
+  }
+
+  String _getFilePath() {
+    return "${course.courseId}_$fileId.json";
+  }
+
+  Map<String, dynamic> progressToJSON() {
+    Map<String, dynamic> levelData = {};
+    for (var level in levels) {
+      if (level.visited == false) continue;
+      levelData[level.fileId] = level.progressToJSON();
+    }
+    return {"levels": levelData};
+  }
+
+  progressFromJSON(Map<String, dynamic> src) {
+    var levelData = src["levels"];
+    for (var level in levels) {
+      if (levelData.containsKey(level.fileId)) {
+        level.progressFromJSON(levelData[level.fileId]!);
+      }
+    }
   }
 
   Map<String, dynamic> toJSON() {
@@ -81,7 +141,7 @@ class MbclChapter {
     levels = [];
     int n = src["levels"].length;
     for (var i = 0; i < n; i++) {
-      var level = MbclLevel();
+      var level = MbclLevel(course, this);
       level.fromJSON(src["levels"][i]);
       levels.add(level);
     }
@@ -95,7 +155,7 @@ class MbclChapter {
     units = [];
     n = src["units"].length;
     for (var i = 0; i < n; i++) {
-      var unit = MbclUnit();
+      var unit = MbclUnit(course, this);
       unit.fromJSON(src["units"][i]);
       units.add(unit);
       // reconstruct levels
