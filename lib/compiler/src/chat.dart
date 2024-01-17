@@ -12,7 +12,7 @@ import '../../mbcl/src/chat.dart';
 
 class ChatInformationRetrieval {
   MbclChat run(MbclCourse course) {
-    var chatData = MbclChat();
+    var chatData = MbclChat(course);
     for (var chapter in course.chapters) {
       for (var level in chapter.levels) {
         for (var item in level.items) {
@@ -24,7 +24,7 @@ class ChatInformationRetrieval {
                 // TODO (low prio): high memory consumption in case of many keys
                 // TODO (low prio): better save data only once
                 var levelPath = "${chapter.fileId}/${level.fileId}";
-                var pseudoLevel = MbclLevel();
+                var pseudoLevel = MbclLevel(course, chapter);
                 var paragraph = extractParagraph(item, pseudoLevel);
                 var cd = MbclChatDefinition(chatKey, levelPath, paragraph);
                 chatData.definitions[chatKey] = cd;
@@ -34,7 +34,6 @@ class ChatInformationRetrieval {
         }
       }
     }
-    var bp = 1337;
     return chatData;
   }
 
