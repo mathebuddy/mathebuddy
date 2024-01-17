@@ -8,7 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:mathebuddy/level_exercise.dart';
 
-import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
+import 'package:mathebuddy/mbcl/src/level_item_input_field.dart';
 
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/level.dart';
@@ -364,8 +365,8 @@ class Keyboard {
             var isChar = key.value.startsWith(char);
             var isBackspace = key.value == "!B" &&
                 event.data.logicalKey.keyLabel == "Backspace";
-            var isEnter =
-                key.value == "!E" && event.data.logicalKey.keyLabel == "Enter";
+            var isEnter = key.value == "!E" &&
+                event.data.logicalKey.keyLabel.endsWith("Enter");
             if (isChar || isBackspace || isEnter) {
               keyPressed(key);
             }
