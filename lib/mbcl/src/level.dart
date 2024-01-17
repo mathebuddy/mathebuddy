@@ -7,9 +7,17 @@
 
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
+import 'chapter.dart';
+import 'course.dart';
 import 'level_item.dart';
+import 'level_item_exercise.dart';
 
 class MbclLevel {
+  final MbclCourse course;
+  final MbclChapter chapter;
+
+  MbclLevel(this.course, this.chapter);
+
   // import/export
   String fileId =
       ''; // all references go here; label is only used for searching
@@ -33,6 +41,8 @@ class MbclLevel {
   double screenPosX = 0.0; // used in level overview
   double screenPosY = 0.0; // used in level overview
   double progress = 0.0; // percentage of correct exercises [0,1]
+
+  bool isDebugLevel = false; // e.g. true, if all levels are consolidated
 
   String gatherErrors() {
     var err = error.isEmpty ? "" : "$error\n";
@@ -67,6 +77,18 @@ class MbclLevel {
     return res;
   }
 
+  void resetProgress() {
+    visited = false;
+    progress = 0.0;
+    for (var item in items) {
+      if (item.type == MbclLevelItemType.exercise) {
+        var data = item.exerciseData!;
+        data.reset();
+      }
+    }
+    chapter.saveUserData();
+  }
+
   void calcProgress() {
     // TODO: this is yet inaccurate; scores are not weighted / ...
     double score = 0;
@@ -85,7 +107,7 @@ class MbclLevel {
       }
     }
     if (maxScore < 1e-12) {
-      progress = 1.0;
+      progress = 0.0;
     } else {
       progress = score / maxScore;
     }
@@ -103,6 +125,48 @@ class MbclLevel {
       }
     }
     return false;
+  }
+
+  Map<String, dynamic> progressToJSON() {
+    var exercisesData = {};
+    for (var item in items) {
+      switch (item.type) {
+        case MbclLevelItemType.exercise:
+          if (item.exerciseData!.feedback != MbclExerciseFeedback.unchecked) {
+            exercisesData[item.label] = item.exerciseData!.progressToJSON();
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    return {
+      "visited": visited,
+      "progress": progress,
+      "exercises": exercisesData
+    };
+  }
+
+  progressFromJSON(Map<String, dynamic> src) {
+    if (src.containsKey("visited")) {
+      visited = src["visited"];
+    }
+    if (src.containsKey("progress")) {
+      progress = src["progress"];
+    }
+    if (src.containsKey("exercises")) {
+      for (var item in items) {
+        switch (item.type) {
+          case MbclLevelItemType.exercise:
+            if (src["exercises"]!.containsKey(item.label)) {
+              item.exerciseData!.progressFromJSON(src["exercises"][item.label]);
+            }
+            break;
+          default:
+            break;
+        }
+      }
+    }
   }
 
   Map<String, dynamic> toJSON() {
