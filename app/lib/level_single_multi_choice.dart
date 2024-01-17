@@ -8,12 +8,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
+import 'package:mathebuddy/mbcl/src/level_item_input_field.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/level.dart';
 import 'package:mathebuddy/help.dart';
-import 'package:mathebuddy/color.dart';
 import 'package:mathebuddy/style.dart';
 
 Widget generateSingleMultiChoice(
@@ -23,38 +24,30 @@ Widget generateSingleMultiChoice(
   exerciseData as MbclExerciseData;
   //
   int n = item.items.length;
-  if (exerciseData.indexOrdering.isEmpty) {
-    exerciseData.indexOrdering = List<int>.generate(n, (i) => i);
+  if (item.indexOrdering.isEmpty) {
+    item.indexOrdering = List<int>.generate(n, (i) => i);
     if (exerciseData.staticOrder == false) {
-      shuffleIntegerList(exerciseData.indexOrdering);
+      shuffleIntegerList(item.indexOrdering);
     }
   }
   // generate answers
   List<Widget> mcOptions = [];
   for (var i = 0; i < item.items.length; i++) {
-    var inputField = item.items[exerciseData.indexOrdering[i]];
-    var inputFieldData = inputField.inputFieldData as MbclInputFieldData;
-    if (exerciseData.inputFields.containsKey(inputField.id) == false) {
-      exerciseData.inputFields[inputField.id] = inputFieldData;
-      inputFieldData.studentValue = "false";
-      var exerciseInstance =
-          exerciseData.instances[exerciseData.runInstanceIdx];
-      inputFieldData.expectedValue =
-          exerciseInstance[inputFieldData.variableId] as String;
-    }
+    var inputField = item.items[item.indexOrdering[i]];
+    var inputFieldData = inputField.inputFieldData!;
     var feedbackColor = getStyle().getFeedbackColor(exerciseData.feedback);
     var iconId = 0;
-    if (inputFieldData.studentValue == "false") {
-      if (item.type == MbclLevelItemType.singleChoice) {
-        iconId = 0xe504; // Icons.radio_button_unchecked
-      } else {
-        iconId = 0xe158; // Icons.check_box_outline_blank
-      }
-    } else {
+    if (inputFieldData.studentValue == "true") {
       if (item.type == MbclLevelItemType.singleChoice) {
         iconId = 0xe503; // Icons.radio_button_checked
       } else {
         iconId = 0xEF46; // Icons.check_box_outlined
+      }
+    } else {
+      if (item.type == MbclLevelItemType.singleChoice) {
+        iconId = 0xe504; // Icons.radio_button_unchecked
+      } else {
+        iconId = 0xe158; // Icons.check_box_outline_blank
       }
     }
     var icon = Icon(
@@ -106,10 +99,6 @@ Widget generateSingleMultiChoice(
             : Padding(
                 padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                 child: Row(children: [button, text]))));
-    //child: Padding(
-    //    padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-    //    child: Row(children: [button, text]))));
-    //child: Row(children: [button, text])));
   }
   if (exerciseData.alignChoicesHorizontally) {
     return Container(
