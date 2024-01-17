@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
+import 'package:mathebuddy/mbcl/src/level_item_input_field.dart';
 
 import 'package:mathebuddy/math-runtime/src/parse.dart' as term_parser;
 
@@ -32,31 +34,7 @@ class AppInputField {
     Color color = Colors.black,
     MbclExerciseData? exerciseData,
   }) {
-    inputFieldData = item.inputFieldData as MbclInputFieldData;
-    inputFieldData!.exerciseData = exerciseData;
-    if (exerciseData != null &&
-        exerciseData.inputFields.containsKey(item.id) == false) {
-      exerciseData.inputFields[item.id] = inputFieldData!;
-      inputFieldData!.studentValue = "";
-      var exerciseInstance =
-          exerciseData.instances[exerciseData.runInstanceIdx];
-      if (inputFieldData!.isFunction) {
-        inputFieldData!.expectedValue =
-            exerciseInstance["@${inputFieldData!.variableId}"] as String;
-      } else {
-        inputFieldData!.expectedValue =
-            exerciseInstance[inputFieldData!.variableId] as String;
-      }
-      if (inputFieldData!.index >= 0) {
-        var t = term_parser.Parser().parse(inputFieldData!.expectedValue);
-        if (inputFieldData!.index >= t.o.length) {
-          print("ERROR: indexing exceeds bound!");
-        } else {
-          t = t.o[inputFieldData!.index];
-        }
-        inputFieldData!.expectedValue = t.toString();
-      }
-    }
+    inputFieldData = item.inputFieldData!;
     Widget contents;
     Color feedbackColor = getStyle().getFeedbackColor(exerciseData?.feedback);
     var isActive = state.keyboardState.layout != null &&
