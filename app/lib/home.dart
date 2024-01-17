@@ -8,6 +8,7 @@
 /// This file implements the home screen widget that contains the list of
 /// courses.
 
+import 'package:mathebuddy/io.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
@@ -21,6 +22,8 @@ import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/appbar.dart';
 import 'package:mathebuddy/course.dart';
 
+//late Persistence persistence;
+
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
 
@@ -29,6 +32,9 @@ class HomeWidget extends StatefulWidget {
 }
 
 class HomeState extends State<HomeWidget> {
+  MbclCourse? course;
+  AppPersistence persistence = AppPersistence();
+
   HomeState();
 
   @override
@@ -47,9 +53,10 @@ class HomeState extends State<HomeWidget> {
     if (courses.keys.length == 1 &&
         courses[courses.keys.first]!.debug == MbclCourseDebug.no) {
       selectedCourseIdFromBundle = courses.keys.first;
-      var course = courses[courses.keys.first]!;
+      course = courses[courses.keys.first]!;
+      course!.persistence = persistence;
       Future.microtask(() => Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => CourseWidget(course))));
+          MaterialPageRoute(builder: (context) => CourseWidget(course!))));
     }
 
     for (var courseKey in courses.keys) {
@@ -63,23 +70,24 @@ class HomeState extends State<HomeWidget> {
                     if (courseKey == 'DEBUG') {
                       loadDebugCourse();
                     }
-                    var course = courses[courseKey]!;
+                    course = courses[courseKey]!;
+                    course!.persistence = persistence;
                     selectedCourseIdFromBundle = courseKey;
-                    if (course.chapters.length == 1) {
-                      var chapter = course.chapters[0];
+                    if (course!.chapters.length == 1) {
+                      var chapter = course!.chapters[0];
                       if (chapter.units.length == 1) {
                         var unit = chapter.units[0];
                         if (unit.levels.length == 1) {
                           var level = unit.levels[0];
-                          return LevelWidget(course, chapter, level);
+                          return LevelWidget(course!, chapter, level);
                         } else {
-                          return UnitWidget(course, chapter, unit);
+                          return UnitWidget(course!, chapter, unit);
                         }
                       } else {
-                        return ChapterWidget(course, chapter);
+                        return ChapterWidget(course!, chapter);
                       }
                     } else {
-                      return CourseWidget(course);
+                      return CourseWidget(course!);
                     }
                   });
                   Navigator.push(context, route)
@@ -97,10 +105,6 @@ class HomeState extends State<HomeWidget> {
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Center(child: Text(courseKey))))),
       ]));
-      if (debugMode == false) {
-        // TODO
-        //break;
-      }
     }
     var listOfCourses = Table(
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -128,7 +132,7 @@ class HomeState extends State<HomeWidget> {
         padding: EdgeInsets.all(5),
         child: contents);
     return Scaffold(
-      appBar: buildAppBar(this, null),
+      appBar: buildAppBar(this, null, null),
       body: body,
       backgroundColor: Colors.white,
     );
