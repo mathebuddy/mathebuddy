@@ -23,7 +23,10 @@ class ChapterWidget extends StatefulWidget {
   final MbclCourse course;
   final MbclChapter chapter;
 
-  const ChapterWidget(this.course, this.chapter, {Key? key}) : super(key: key);
+  ChapterWidget(this.course, this.chapter, {Key? key}) : super(key: key) {
+    course.lastVisitedChapter = chapter;
+    course.saveUserData();
+  }
 
   @override
   State<ChapterWidget> createState() {
@@ -35,7 +38,7 @@ class ChapterState extends State<ChapterWidget> {
   @override
   void initState() {
     super.initState();
-    //TODO: e.g. widget.course;
+    widget.chapter.loadUserData(); // TODO: no async OK???
   }
 
   @override
@@ -94,7 +97,9 @@ class ChapterState extends State<ChapterWidget> {
               var route = MaterialPageRoute(builder: (context) {
                 return UnitWidget(widget.course, widget.chapter, unit);
               });
-              Navigator.push(context, route).then((value) => setState(() {}));
+              Navigator.push(context, route).then((value) {
+                setState(() {});
+              });
             },
             child: Container(
               alignment: Alignment.center,
@@ -154,7 +159,7 @@ class ChapterState extends State<ChapterWidget> {
                 child: Column(children: contents))));
 
     return Scaffold(
-      appBar: buildAppBar(this, null),
+      appBar: buildAppBar(this, widget.chapter, null),
       body: body,
       backgroundColor: Colors.white,
     );
