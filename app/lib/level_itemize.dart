@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
 import 'package:mathebuddy/level.dart';
