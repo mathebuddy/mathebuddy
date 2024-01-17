@@ -1,10 +1,11 @@
 /// mathe:buddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
-/// (c) 2022-2023 by TH Koeln
+/// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:tex/tex.dart';
@@ -18,7 +19,6 @@ import 'package:mathebuddy/mbcl/src/level_item_input_field.dart';
 import 'package:mathebuddy/math-runtime/src/parse.dart' as term_parser;
 
 import 'package:mathebuddy/screen.dart';
-import 'package:mathebuddy/level.dart';
 import 'package:mathebuddy/help.dart';
 import 'package:mathebuddy/keyboard_layouts.dart';
 
@@ -27,7 +27,7 @@ class AppInputField {
   MbclInputFieldData? inputFieldData;
 
   InlineSpan generateParagraphItemInputField(
-    LevelState state,
+    State state,
     MbclLevelItem item, {
     bool bold = false,
     bool italic = false,
@@ -37,8 +37,8 @@ class AppInputField {
     inputFieldData = item.inputFieldData!;
     Widget contents;
     Color feedbackColor = getStyle().getFeedbackColor(exerciseData?.feedback);
-    var isActive = state.keyboardState.layout != null &&
-        state.keyboardState.inputFieldData == inputFieldData;
+    var isActive = keyboardState.layout != null &&
+        keyboardState.inputFieldData == inputFieldData;
     var activeOpacity = 0.25;
     if (inputFieldData!.studentValue.isEmpty) {
       contents = RichText(
@@ -111,13 +111,13 @@ class AppInputField {
     var key = exerciseKey;
     gestureDetector = GestureDetector(
         onTap: () {
-          state.activeExercise = exerciseData?.exercise;
+          //state.activeExercise = exerciseData?.exercise;
           if (key != null && key.currentContext != null) {
             Scrollable.ensureVisible(key.currentContext!,
                 duration: Duration(milliseconds: 250));
           }
-          state.keyboardState.exerciseData = exerciseData;
-          state.keyboardState.inputFieldData = inputFieldData;
+          keyboardState.exerciseData = exerciseData;
+          keyboardState.inputFieldData = inputFieldData;
           var forceKeyboardId = inputFieldData!.forceKeyboardId;
           if (inputFieldData!.termTokens) {
             var termTokens = exerciseData!
@@ -125,34 +125,32 @@ class AppInputField {
                 .split(" # ");
             if (termTokens.contains("(") == false) termTokens.add("(");
             if (termTokens.contains(")") == false) termTokens.add(")");
-            state.keyboardState.layout =
+            keyboardState.layout =
                 createChoiceKeyboard(termTokens, hasBackButton: true);
           } else if (inputFieldData!.choices) {
             var choices = exerciseData!.instances[exerciseData.runInstanceIdx]
                     ["CHOICES.${item.id}"]!
                 .split(" # ");
-            state.keyboardState.layout =
+            keyboardState.layout =
                 createChoiceKeyboard(choices, hasBackButton: false);
           } else if (forceKeyboardId.isNotEmpty) {
-            state.keyboardState.layout = getKeyboardLayout(forceKeyboardId);
+            keyboardState.layout = getKeyboardLayout(forceKeyboardId);
           } else {
             switch (inputFieldData!.type) {
               case MbclInputFieldType.int:
-                state.keyboardState.layout = getKeyboardLayout("integer");
+                keyboardState.layout = getKeyboardLayout("integer");
                 break;
               case MbclInputFieldType.real:
-                state.keyboardState.layout = getKeyboardLayout("real");
+                keyboardState.layout = getKeyboardLayout("real");
                 break;
               case MbclInputFieldType.complexNormal:
-                state.keyboardState.layout =
-                    getKeyboardLayout("complexNormalForm");
+                keyboardState.layout = getKeyboardLayout("complexNormalForm");
                 break;
               case MbclInputFieldType.intSet:
-                state.keyboardState.layout = getKeyboardLayout("integerSet");
+                keyboardState.layout = getKeyboardLayout("integerSet");
                 break;
               case MbclInputFieldType.complexIntSet:
-                state.keyboardState.layout =
-                    getKeyboardLayout("complexIntegerSet");
+                keyboardState.layout = getKeyboardLayout("complexIntegerSet");
                 break;
               case MbclInputFieldType.term:
                 var t =
@@ -161,19 +159,19 @@ class AppInputField {
                 vars.sort();
                 switch (vars.length) {
                   case 1:
-                    state.keyboardState.layout =
+                    keyboardState.layout =
                         getKeyboardLayout("termX", varX: vars[0]);
                     break;
                   case 2:
-                    state.keyboardState.layout = getKeyboardLayout("termXY",
+                    keyboardState.layout = getKeyboardLayout("termXY",
                         varX: vars[0], varY: vars[1]);
                     break;
                   case 3:
-                    state.keyboardState.layout = getKeyboardLayout("termXYZ",
+                    keyboardState.layout = getKeyboardLayout("termXYZ",
                         varX: vars[0], varY: vars[1], varZ: vars[2]);
                     break;
                   default:
-                    state.keyboardState.layout = getKeyboardLayout("termX");
+                    keyboardState.layout = getKeyboardLayout("termX");
                     break;
                 }
                 break;
@@ -181,19 +179,18 @@ class AppInputField {
                 // gap question
                 var expected = inputFieldData!.expectedValue.toUpperCase();
                 if (inputFieldData!.showAllLettersOfGap) {
-                  state.keyboardState.layout = getKeyboardLayout("alpha");
-                  state.keyboardState.layout!.setGapKeyboard(true);
+                  keyboardState.layout = getKeyboardLayout("alpha");
+                  keyboardState.layout!.setGapKeyboard(true);
                 } else {
                   Set<String> letters = {};
                   for (var i = 0; i < expected.length; i++) {
                     var ch = expected[i];
                     letters.add(ch);
                   }
-                  state.keyboardState.layout =
-                      createChoiceKeyboard(letters.toList());
+                  keyboardState.layout = createChoiceKeyboard(letters.toList());
                 }
                 if (inputFieldData!.hideLengthOfGap == false) {
-                  state.keyboardState.layout!
+                  keyboardState.layout!
                       .setLengthHint(inputFieldData!.expectedValue.length);
                 }
                 break;
@@ -201,7 +198,7 @@ class AppInputField {
                 print("WARNING: generateParagraphItem():"
                     "keyboard layout for input field type"
                     " ${inputFieldData!.type.name} not yet implemented");
-                state.keyboardState.layout = getKeyboardLayout("termX");
+                keyboardState.layout = getKeyboardLayout("termX");
             }
           }
           // ignore: invalid_use_of_protected_member
