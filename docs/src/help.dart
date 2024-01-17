@@ -17,15 +17,16 @@ void setTextArea(String id, String value) {
 }
 
 Future<String> readTextFile(String path) {
+  print("readTextFile: $path");
+  path = path.replaceAll("//", "/").replaceAll("http:/", "http://");
   return html.HttpRequest.getString(
           "$path?ver=${DateTime.now().millisecondsSinceEpoch}")
       .catchError((e) => throw Exception("failed to read file $path"))
-      .then((value) => /*value.replaceAll("Hello",
-          "Xxxxx"*/
-          value.replaceAll("\r", "")); // Windows.... :-(
+      .then((value) => value.replaceAll("\r", "")); // Windows.... :-(
 }
 
 Future<List<String>> getFilesFromDir(String path) async {
+  print("getFilesFromDir: $path");
   List<String> res = [];
   // a) try to do directory listing
   try {
@@ -35,7 +36,7 @@ Future<List<String>> getFilesFromDir(String path) async {
     print('reading _fs.txt');
     // b) try to read _fs.txt
     try {
-      var data = await readTextFile('${path}_fs.txt');
+      var data = await readTextFile('$path/_fs.txt');
       res = data.split('\n');
     } catch (e) {
       print("... failed to get files from dir '$path'");
@@ -45,11 +46,11 @@ Future<List<String>> getFilesFromDir(String path) async {
 }
 
 Future<void> readDirRecursively(Map<String, String> fs, String path) async {
+  //print("readDirRecursively: $path");
   path = path.replaceAll("//", "/").replaceAll("http:/", "http://");
-
   var fileList = await getFilesFromDir(path);
   for (var file in fileList) {
-    print("readDirRecursively: $path, $file");
+    //print("readDirRecursively: $path, $file");
     if (file.endsWith("/")) {
       await readDirRecursively(fs, "$path/$file");
     } else {
