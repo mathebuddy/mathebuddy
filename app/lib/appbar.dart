@@ -10,9 +10,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/event.dart';
+import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/style.dart';
 
-AppBar buildAppBar(State state, EventData? eventData) {
+AppBar buildAppBar(State state, MbclChapter? chapter, EventData? eventData) {
   List<Widget> actions = [];
   // home button
   actions.add(Text('  '));
@@ -70,22 +71,34 @@ AppBar buildAppBar(State state, EventData? eventData) {
   // debug/release button
   var switchDebugReleaseButton = Container(
       decoration: BoxDecoration(
-          border: Border.all(
-              color: getStyle().appbarDebugButtonColor,
-              width: getStyle().appbarDebugButtonBorderSize),
+          color: getStyle().appbarDebugButtonBackgroundColor,
           borderRadius: BorderRadius.circular(6)),
-      child: Padding(
-          padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
-          child: Text(debugMode ? " debug " : " release ",
-              style: TextStyle(
-                  color: getStyle().appbarDebugButtonColor,
-                  fontSize: getStyle().appbarDebugButtonFontSize))));
+      child: Opacity(
+          opacity: 0.8,
+          child: Padding(
+              padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+              child: Text(debugMode ? " debug " : " release ",
+                  style: TextStyle(
+                      color: getStyle().appbarDebugButtonColor,
+                      fontSize: getStyle().appbarDebugButtonFontSize)))));
+  var saveButton = Container(
+      decoration: BoxDecoration(
+          color: getStyle().appbarDebugButtonBackgroundColor,
+          borderRadius: BorderRadius.circular(6)),
+      child: Opacity(
+          opacity: 0.8,
+          child: Padding(
+              padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+              child: Text(" save ",
+                  style: TextStyle(
+                      color: getStyle().appbarDebugButtonColor,
+                      fontSize: getStyle().appbarDebugButtonFontSize)))));
   var title = Row(mainAxisAlignment: MainAxisAlignment.center, children: [
     showDebugReleaseSwitch
         ? GestureDetector(
             onTap: () {
-              // ignore: invalid_use_of_protected_member
               language = language == 'en' ? 'de' : 'en';
+              // ignore: invalid_use_of_protected_member
               state.setState(() {});
             },
             child: languageSwitchButton)
@@ -99,7 +112,17 @@ AppBar buildAppBar(State state, EventData? eventData) {
               state.setState(() {});
             },
             child: switchDebugReleaseButton)
-        : Text('')
+        : Text(''),
+    // Text(' '),
+    // debugMode
+    //     ? GestureDetector(
+    //         onTap: () {
+    //           if (chapter != null) chapter.saveProgress();
+    //           // ignore: invalid_use_of_protected_member
+    //           state.setState(() {});
+    //         },
+    //         child: saveButton)
+    //     : Text('')
   ]);
   return AppBar(
       centerTitle: true,
