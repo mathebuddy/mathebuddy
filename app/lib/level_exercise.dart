@@ -1,11 +1,12 @@
 /// mathe:buddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
-/// (c) 2022-2023 by TH Koeln
+/// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:mathebuddy/keyboard.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
@@ -13,19 +14,20 @@ import 'package:mathebuddy/mbcl/src/level.dart';
 
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/screen.dart';
-import 'package:mathebuddy/level.dart';
+import 'package:mathebuddy/widget_level.dart';
 import 'package:mathebuddy/style.dart';
 
 void evaluateExercise(
-    LevelState state, MbclLevel level, MbclExerciseData exerciseData) {
+    State state, MbclLevel level, MbclExerciseData exerciseData) {
   print("----- evaluating exercise -----");
-  state.keyboardState.layout = null;
+  keyboardState.layout = null;
   exerciseData.evaluate();
   level.calcProgress();
   level.chapter.saveUserData();
 }
 
-Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
+Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
+    {double borderRadius = 0.0, double borderWidth = 1.75}) {
   // TODO: must report error, if "exerciseData.numInstances" == 0!!
   exerciseKey = GlobalKey();
   var exerciseData = item.exerciseData!;
@@ -226,9 +228,16 @@ Widget generateExercise(LevelState state, MbclLevel level, MbclLevelItem item) {
       opacity: opacity,
       child: Container(
           decoration: BoxDecoration(
-              color: feedbackColor.withOpacity(0.03),
-              border: Border.all(color: feedbackColor, width: 1.0),
-              borderRadius: BorderRadius.circular(5)),
+            color: exerciseData.feedback == MbclExerciseFeedback.unchecked
+                ? Colors.white
+                : feedbackColor.withOpacity(0.08),
+            //border: Border.all(color: feedbackColor, width: borderWidth),
+            border: Border(
+              top: BorderSide(color: feedbackColor, width: borderWidth),
+              bottom: BorderSide(color: feedbackColor, width: borderWidth),
+            ),
+            //borderRadius: BorderRadius.circular(borderRadius)
+          ),
           padding: EdgeInsets.only(bottom: 10.0),
           margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
           child: Column(
