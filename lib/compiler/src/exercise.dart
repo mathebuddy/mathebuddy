@@ -8,6 +8,7 @@
 import '../../math-runtime/src/operand.dart' as math_operand;
 
 import '../../mbcl/src/level_item.dart';
+import '../../mbcl/src/level_item_exercise.dart';
 
 import '../../smpl/src/parser.dart' as smpl_parser;
 import '../../smpl/src/node.dart' as smpl_node;
