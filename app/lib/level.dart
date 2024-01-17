@@ -19,6 +19,7 @@ import 'package:mathebuddy/mbcl/src/course.dart';
 
 import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 
 import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/appbar.dart';
@@ -44,8 +45,11 @@ class LevelWidget extends StatefulWidget {
   final MbclChapter chapter;
   final MbclLevel level;
 
-  const LevelWidget(this.course, this.chapter, this.level, {Key? key})
-      : super(key: key);
+  LevelWidget(this.course, this.chapter, this.level, {Key? key})
+      : super(key: key) {
+    chapter.lastVisitedLevel = level;
+    course.saveUserData();
+  }
 
   @override
   State<LevelWidget> createState() => LevelState();
@@ -125,7 +129,7 @@ class LevelState extends State<LevelWidget> {
     if (level.isEvent == false) {
       page.add(levelTitle);
     }
-    if (debugMode) {
+    if (debugMode && level.isDebugLevel == false) {
       page.add(Text(" "));
       page.add(Center(
           child: Opacity(
@@ -463,7 +467,7 @@ class LevelState extends State<LevelWidget> {
     }
 
     return Scaffold(
-      appBar: buildAppBar(this, eventData),
+      appBar: buildAppBar(this, widget.chapter, eventData),
       body: body,
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
@@ -500,6 +504,21 @@ Widget generateLevelItem(LevelState state, MbclLevel level, MbclLevelItem item,
               item.text,
               style: TextStyle(fontSize: 14, color: Colors.red),
             ));
+      }
+    case MbclLevelItemType.debugInfo:
+      {
+        return Opacity(
+            opacity: 0.8,
+            child: Padding(
+                padding: EdgeInsets.only(right: 4),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    child: Padding(
+                        padding: EdgeInsets.all(2),
+                        child: Text("\n${item.text}\n",
+                            style: TextStyle(color: Colors.white))))));
       }
     case MbclLevelItemType.section:
       {
