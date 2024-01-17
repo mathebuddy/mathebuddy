@@ -11,6 +11,7 @@ import '../../math-runtime/src/operand.dart';
 
 import '../../mbcl/src/level.dart';
 import '../../mbcl/src/level_item.dart';
+import '../../mbcl/src/level_item_input_field.dart';
 
 import 'compiler.dart';
 import 'exercise.dart';
@@ -303,7 +304,7 @@ class Paragraph {
     int srcRowIdx,
     MbclLevelItem exercise,
   ) {
-    var exerciseData = exercise.exerciseData as MbclExerciseData;
+    var exerciseData = exercise.exerciseData!;
     var isMultipleChoice = lexer.isTerminal('[');
     lexer.next();
     var staticallyCorrect = false;
@@ -352,7 +353,7 @@ class Paragraph {
     inputFieldData.type = MbclInputFieldType.bool;
     inputFieldData.variableId = varId;
     root.items.add(inputField);
-    exerciseData.inputFields[inputField.id] = inputFieldData;
+    exerciseData.inputFields.add(inputField);
 
     var span = MbclLevelItem(level, MbclLevelItemType.span, srcRowIdx);
     inputField.items.add(span);
