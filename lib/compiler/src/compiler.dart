@@ -36,16 +36,16 @@ class Compiler {
   int equationNumberCounter = 1;
 
   /// The currently processed course.
-  MbclCourse? course;
+  late MbclCourse course;
 
   /// The currently processed chapter.
-  MbclChapter? chapter;
+  late MbclChapter chapter;
 
   /// The currently processed unit.
-  MbclUnit? unit;
+  late MbclUnit unit;
 
   /// The currently processed level.
-  MbclLevel? level;
+  late MbclLevel level;
 
   /// The source code lines of the current input file.
   List<String> srcLines = [];
@@ -69,8 +69,7 @@ class Compiler {
 
   /// Gets a (newline-separated) list of all errors.
   String gatherErrors() {
-    if (course == null) return "";
-    return course!.gatherErrors();
+    return course.gatherErrors();
   }
 
   /// Starts compilation of an MBL file at [path].
@@ -85,18 +84,18 @@ class Compiler {
     } else if (path.endsWith('index.mbl')) {
       // processing a single course chapter
       course = MbclCourse();
-      course?.debug = MbclCourseDebug.chapter;
+      course.debug = MbclCourseDebug.chapter;
       compileChapter(path, compileCompleteCourse: false);
     } else {
       // processing a single course level
       course = MbclCourse();
-      course!.debug = MbclCourseDebug.level;
-      chapter = MbclChapter();
-      course!.chapters.add(chapter!);
-      unit = MbclUnit();
-      chapter!.units.add(unit!);
+      course.debug = MbclCourseDebug.level;
+      chapter = MbclChapter(course);
+      course.chapters.add(chapter);
+      unit = MbclUnit(course, chapter);
+      chapter.units.add(unit);
       compileLevel(path);
-      unit!.levels.add(chapter!.levels[0]);
+      unit.levels.add(chapter.levels[0]);
     }
     // post processing
     postProcessCourse(course as MbclCourse);
@@ -105,7 +104,7 @@ class Compiler {
     rs.run();
     // gater information for chatbot
     var cir = ChatInformationRetrieval();
-    course!.chat = cir.run(course!);
+    course.chat = cir.run(course);
   }
 
   //G course = courseTitle courseAuthor courseChapters;
@@ -119,7 +118,7 @@ class Compiler {
     // get course description file source
     var src = loadFile(path);
     if (src.isEmpty) {
-      course!.error +=
+      course.error +=
           'Course description file "$path" does not exist or is empty. ';
       return;
     }
@@ -128,7 +127,7 @@ class Compiler {
     try {
       rootBlock = _parseBlockHierarchy(src);
     } catch (e) {
-      course!.error += ' $e ';
+      course.error += ' $e ';
       return;
     }
     for (var block in rootBlock.children) {
@@ -136,20 +135,24 @@ class Compiler {
         case "DEFAULT":
           // ignore
           break;
+        case "COURSEID":
         case "TITLE":
         case "AUTHOR":
         case "CHAPTERS":
           if (block.children.length != 1 || block.children[0].id != "DEFAULT") {
-            course!.error += "${block.id} is not well formatted. ";
+            course.error += "${block.id} is not well formatted. ";
             return;
           }
           var text = block.children[0].data.trim();
           switch (block.id) {
+            case "COURSEID":
+              course.courseId = text;
+              break;
             case "TITLE":
-              course!.title = text;
+              course.title = text;
               break;
             case "AUTHOR":
-              course!.author = text;
+              course.author = text;
               break;
             case "CHAPTERS":
               var lines = text.split("\n");
@@ -192,15 +195,15 @@ class Compiler {
                 try {
                   compileChapter(chapterPath);
                 } catch (e) {
-                  course!.error += "Chapter '$chapterPath' contains errors. "
+                  course.error += "Chapter '$chapterPath' contains errors. "
                       "Remove these errors first. ";
                   return;
                 }
                 // set chapter meta data
-                chapter?.iconData = iconData;
-                chapter?.posX = posX;
-                chapter?.posY = posY;
-                chapter?.requiresTmp.addAll(requirements);
+                chapter.iconData = iconData;
+                chapter.posX = posX;
+                chapter.posY = posY;
+                chapter.requiresTmp.addAll(requirements);
               }
               break;
           }
@@ -209,14 +212,17 @@ class Compiler {
         // TODO
       }
     }
+    if (course.courseId.isEmpty) {
+      course.error += "Missing Course Identifier. Set it via COURSEID.";
+    }
     // build dependency graph
-    for (var i = 0; i < (course as MbclCourse).chapters.length; i++) {
-      var chapter = course?.chapters[i] as MbclChapter;
+    for (var i = 0; i < course.chapters.length; i++) {
+      var chapter = course.chapters[i];
       for (var j = 0; j < chapter.requiresTmp.length; j++) {
         var r = chapter.requiresTmp[j];
-        var requiredChapter = course?.getChapterByFileID(r);
+        var requiredChapter = course.getChapterByFileID(r);
         if (requiredChapter == null) {
-          course!.error += 'Unknown chapter "$r". ';
+          course.error += 'Unknown chapter "$r". ';
           return;
         } else {
           chapter.requires.add(requiredChapter);
@@ -232,16 +238,16 @@ class Compiler {
   //G chapterLevel = "(" INT "," INT ")" ID { "!" ID } [ "ICON" path ] "\n";
   void compileChapter(String path, {bool compileCompleteCourse = true}) {
     // create a new chapter
-    chapter = MbclChapter();
-    course?.chapters.add(chapter as MbclChapter);
+    chapter = MbclChapter(course);
+    course.chapters.add(chapter);
     var pathParts = path.replaceAll("/index.mbl", "").split("/");
     if (compileCompleteCourse) {
-      chapter?.fileId = pathParts[pathParts.length - 1];
+      chapter.fileId = pathParts[pathParts.length - 1];
     }
     // get chapter index file source
     var src = loadFile(path);
     if (src.isEmpty) {
-      chapter!.error +=
+      chapter.error +=
           'Chapter index file "$path" does not exist or is empty. ';
       return;
     }
@@ -250,7 +256,7 @@ class Compiler {
     try {
       rootBlock = _parseBlockHierarchy(src);
     } catch (e) {
-      chapter!.error += " $e ";
+      chapter.error += " $e ";
       return;
     }
     for (var block in rootBlock.children) {
@@ -263,16 +269,16 @@ class Compiler {
         case "OPTIONS":
         case "UNIT":
           if (block.children.length != 1 || block.children[0].id != "DEFAULT") {
-            chapter!.error += "${block.id} is not well formatted. ";
+            chapter.error += "${block.id} is not well formatted. ";
             return;
           }
           var text = block.children[0].data.trim();
           switch (block.id) {
             case "TITLE":
-              chapter!.title = text;
+              chapter.title = text;
               break;
             case "AUTHOR":
-              chapter!.author = text;
+              chapter.author = text;
               break;
             case "OPTIONS":
               for (var key in block.attributes.keys) {
@@ -284,27 +290,29 @@ class Compiler {
                     } else if (value == "false") {
                       disableBlockTitles = false;
                     } else {
-                      chapter!.error +=
+                      chapter.error +=
                           "Invalid value '$value' for key='$key'. ";
                       return;
                     }
                     break;
                   default:
-                    chapter!.error += "Unknown attribute '$key'. ";
+                    chapter.error += "Unknown attribute '$key'. ";
                     return;
                 }
               }
               break;
             case "UNIT":
-              unit = MbclUnit();
+              unit = MbclUnit(course, chapter);
               var titleTokens = block.title.split("ICON");
-              unit?.title = titleTokens[0];
+              // TODO: FORCE EXPLICIT GIVEN NAMES, SINCE NUMBERS MAY CHANGE!!!
+              unit.id = "unit${chapter.units.length}";
+              unit.title = titleTokens[0].trim();
               if (titleTokens.length > 1) {
                 var iconPath = titleTokens[1].trim();
-                var path = "$baseDirectory${chapter!.fileId}/$iconPath";
-                unit?.iconData = loadFile(path);
+                var path = "$baseDirectory${chapter.fileId}/$iconPath";
+                unit.iconData = loadFile(path);
               }
-              chapter?.units.add(unit as MbclUnit);
+              chapter.units.add(unit);
               var lines = text.split("\n");
               for (var i = 0; i < lines.length; i++) {
                 var line = lines[i];
@@ -344,7 +352,7 @@ class Compiler {
                     lexer.next();
                   }
                   if (iconPath.isNotEmpty) {
-                    var path = "$baseDirectory${chapter!.fileId}/$iconPath";
+                    var path = "$baseDirectory${chapter.fileId}/$iconPath";
                     iconData = loadFile(path);
                   }
                 }
@@ -355,30 +363,30 @@ class Compiler {
                 try {
                   compileLevel(levelPath);
                 } catch (e) {
-                  chapter!.error += "Level '$levelPath' contains errors. "
+                  chapter.error += "Level '$levelPath' contains errors. "
                       "Remove these errors first. ";
                   return;
                 }
-                unit?.levels.add(level as MbclLevel);
+                unit.levels.add(level);
                 // set chapter meta data
-                level?.fileId = fileName;
-                level?.iconData = iconData;
-                level?.posX = posX.toDouble();
-                level?.posY = posY.toDouble();
-                level?.requiresTmp.addAll(requirements);
+                level.fileId = fileName;
+                level.iconData = iconData;
+                level.posX = posX.toDouble();
+                level.posY = posY.toDouble();
+                level.requiresTmp.addAll(requirements);
               }
           }
           break;
       }
     }
     // build dependency graph
-    for (var i = 0; i < (chapter as MbclChapter).levels.length; i++) {
-      var level = chapter?.levels[i] as MbclLevel;
+    for (var i = 0; i < chapter.levels.length; i++) {
+      var level = chapter.levels[i];
       for (var j = 0; j < level.requiresTmp.length; j++) {
         var r = level.requiresTmp[j];
-        var requiredLevel = chapter?.getLevelByFileID(r);
+        var requiredLevel = chapter.getLevelByFileID(r);
         if (requiredLevel == null) {
-          chapter!.error += 'Unknown dependency-level "$r". ';
+          chapter.error += 'Unknown dependency-level "$r". ';
           return;
         } else {
           level.requires.add(requiredLevel);
@@ -391,24 +399,24 @@ class Compiler {
   void compileLevel(String path) {
     equationNumberCounter = 1;
     // create a new level
-    level = MbclLevel();
+    level = MbclLevel(course, chapter);
     if (disableBlockTitles) {
-      level!.disableBlockTitles = true;
+      level.disableBlockTitles = true;
     }
-    chapter!.levels.add(level as MbclLevel);
+    chapter.levels.add(level as MbclLevel);
     // get level source
     var src = loadFile(path);
     if (src.isEmpty) {
-      level!.error += 'Level file $path does not exist or is empty.';
+      level.error += 'Level file $path does not exist or is empty.';
       return;
     }
     // parse block hierarchy
     try {
       var rootBlock = _parseBlockHierarchy(src);
       // process and deep-parse block hierarchy
-      parseLevelBlock(rootBlock, this, level!, null, 0, null);
+      parseLevelBlock(rootBlock, this, level, null, 0, null);
     } catch (e) {
-      level!.error += ' $e';
+      level.error += ' $e';
       return;
     }
   }
@@ -434,7 +442,7 @@ class Compiler {
     for (var k = 0; k < srcLines.length; k++) {
       var line = srcLines[k];
       var tokens = line.split('%');
-      srcLines[k] = tokens[0];
+      srcLines[k] = tokens[0].trimRight();
     }
     // init lexer
     currentLineIdx = -1;
