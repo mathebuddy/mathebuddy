@@ -8,7 +8,10 @@
 /// This file implements the awards widget.
 
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mathebuddy/appbar.dart';
+import 'package:mathebuddy/db_awards.dart';
+import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/mbcl/src/award.dart';
 import 'package:mathebuddy/screen.dart';
@@ -44,17 +47,26 @@ class AwardsState extends State<AwardsWidget> {
                     fontSize: getStyle().courseTitleFontSize,
                     fontWeight: getStyle().courseTitleFontWeight))));
 
-    List<MbclAward> testAwards = [];
-    testAwards.add(
-        MbclAward("3-days-in-row", "Trained 3 days in a row", DateTime.now()));
-    testAwards.add(MbclAward("5-days-in-row", "Trained 5 days in a row", null));
-    testAwards
-        .add(MbclAward("10-days-in-row", "Trained 10 days in a row", null));
+    // List<MbclAward> testAwards = [];
+    // for (var awardId in awardsDatabase.keys) {
+    //   var date = DateTime.now();
+    //   var awardText = awardsDatabase[awardId]![language]!;
+    //   testAwards.add(MbclAward(awardId, awardText, date));
+    // }
+    // testAwards.add(
+    //     MbclAward("3-days-in-row", "Trained 3 days in a row", DateTime.now()));
+    // testAwards.add(MbclAward("5-days-in-row", "Trained 5 days in a row", null));
+    // testAwards
+    //     .add(MbclAward("10-days-in-row", "Trained 10 days in a row", null));
+
+    var awardList = getAwardList();
+    // TODO: test
+    awardList[0].dateTime = DateTime.now();
 
     List<TableRow> awardWidgets = [];
-    for (var award in testAwards) {
+    for (var award in awardList) {
       String dateStr = award.dateTime != null
-          ? award.dateTime!.toLocal().toString()
+          ? award.dateTime!.toLocal().toString().split(".")[0]
           : "go fot it!";
 
       var dateEarned = Padding(
@@ -67,7 +79,7 @@ class AwardsState extends State<AwardsWidget> {
 
       Color backgroundColor = award.dateTime != null
           ? Style().matheBuddyGreen
-          : const Color.fromARGB(255, 59, 59, 59);
+          : const Color.fromARGB(255, 39, 39, 39);
       awardWidgets.add(TableRow(children: [
         TableCell(
             child: GestureDetector(
@@ -87,8 +99,10 @@ class AwardsState extends State<AwardsWidget> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 5),
                       child: Column(children: [
+                        Icon(MdiIcons.fromString("medal"),
+                            size: 70, color: Colors.white),
                         Text(
-                          award.text,
+                          language == "en" ? award.textEn : award.textDe,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 22, color: Colors.white),
                         ),
@@ -111,7 +125,7 @@ class AwardsState extends State<AwardsWidget> {
                 child: Column(children: contents))));
 
     return Scaffold(
-        appBar: buildAppBar(this, null, null),
+        appBar: buildAppBar(true, this, null, null),
         body: body,
         backgroundColor: Colors.white);
   }
