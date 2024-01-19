@@ -35,6 +35,16 @@ class MbclChapter {
   // temporary
   MbclUnit? lastVisitedUnit;
   MbclLevel? lastVisitedLevel;
+  double progress = 0.0;
+
+  void calcProgress() {
+    progress = 0.0;
+    for (var level in levels) {
+      level.calcProgress();
+      progress += level.progress;
+    }
+    progress /= levels.length;
+  }
 
   String gatherErrors() {
     var err = error.isEmpty ? "" : "$error\n";
