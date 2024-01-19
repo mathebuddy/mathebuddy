@@ -6,6 +6,7 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:mathebuddy/main.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
@@ -17,7 +18,18 @@ Widget generateExample(State state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
   List<Widget> list = [];
   if (level.disableBlockTitles) {
-    list.add(Text(' '));
+    var title = Wrap(children: [
+      Padding(
+          padding: EdgeInsets.only(left: 9.0, bottom: 5.0, top: 10.0),
+          child: Row(children: [
+            // TODO: wrap does not work:
+            Flexible(
+                child: Text(language == 'de' ? 'Beispiel' : 'Example',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)))
+          ]))
+    ]);
+    list.add(title);
   } else {
     var title = Wrap(children: [
       Padding(
@@ -57,8 +69,8 @@ Widget generateExample(State state, MbclLevel level, MbclLevelItem item,
 
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(width: 1.0),
-        borderRadius: BorderRadius.circular(3),
+        //borderRadius: BorderRadius.circular(3),
+        border: debugMode ? Border.all(width: 1.0) : null,
         //border:
         //    Border(top: BorderSide(width: 1.0), left: BorderSide(width: 1.0)),
         // boxShadow: [
