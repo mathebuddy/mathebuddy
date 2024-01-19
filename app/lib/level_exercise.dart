@@ -6,6 +6,7 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mathebuddy/keyboard.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
@@ -125,8 +126,58 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
   var validateButton = GestureDetector(
     onTap: () {
       evaluateExercise(state, level, exerciseData);
-      // ignore: invalid_use_of_protected_member
-      state.setState(() {});
+      // show visual feedback as overlay
+      if (debugMode == false) {
+        var overlayEntry = OverlayEntry(builder: (context) {
+          var ok = exerciseData.feedback == MbclExerciseFeedback.correct;
+          var color = ok ? Style().matheBuddyGreen : Style().matheBuddyRed;
+          var textsOK = ["well done", "awesome", "great"];
+          var iconsOK = [
+            "hand-clap",
+            "emoticon-happy-outline",
+            "check-outline",
+            "heart-outline"
+          ];
+          var textsERR = ["try again", "no", "incorrect"];
+          var iconsERR = ["emoticon-sad-outline", "emoticon-cry-outline"];
+          var text = ok
+              ? (textsOK.toList()..shuffle()).first
+              : (textsERR.toList()..shuffle()).first;
+          var icon = ok
+              ? (iconsOK.toList()..shuffle()).first
+              : (iconsERR.toList()..shuffle()).first;
+          return Container(
+              alignment: Alignment.center,
+              width: 200,
+              height: 200,
+              child: Opacity(
+                  opacity: 0.75,
+                  child: DefaultTextStyle(
+                      style: TextStyle(fontSize: 64, color: color),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            MdiIcons.fromString(icon),
+                            size: 80,
+                            color: color,
+                          ),
+                          Text(
+                            text,
+                          )
+                        ],
+                      ))));
+        });
+        Overlay.of(levelBuildContext!).insert(overlayEntry);
+        // ignore: invalid_use_of_protected_member
+        state.setState(() {});
+        Future.delayed(const Duration(milliseconds: 500), () {
+          overlayEntry.remove();
+          // ignore: invalid_use_of_protected_member
+          state.setState(() {});
+        });
+      }
     },
     child: Container(
       width: getStyle().exerciseEvalButtonWidth,
@@ -224,7 +275,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
     }
   }
 
-  return Opacity(
+  var exerciseWidget = Opacity(
       opacity: opacity,
       child: Container(
           decoration: BoxDecoration(
@@ -244,4 +295,6 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: list)));
+
+  return exerciseWidget;
 }
