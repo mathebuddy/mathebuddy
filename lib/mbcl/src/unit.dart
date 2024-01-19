@@ -22,9 +22,21 @@ class MbclUnit {
   String title = '';
   String iconData = '';
   List<MbclLevel> levels = [];
+  List<double> levelPosX = [];
+  List<double> levelPosY = [];
 
   // temporary
   List<String> levelFileIDs = [];
+  double progress = 0.0;
+
+  void calcProgress() {
+    progress = 0.0;
+    for (var level in levels) {
+      level.calcProgress();
+      progress += level.progress;
+    }
+    progress /= levels.length;
+  }
 
   void resetProgress() {
     for (var level in levels) {
@@ -38,6 +50,8 @@ class MbclUnit {
       "title": title,
       "iconData": iconData,
       "levels": levels.map((level) => level.fileId).toList(),
+      "levelPosX": levelPosX,
+      "levelPosY": levelPosY,
     };
   }
 
@@ -49,6 +63,15 @@ class MbclUnit {
     int n = src["levels"].length;
     for (var i = 0; i < n; i++) {
       levelFileIDs.add(src["levels"][i]);
+    }
+    levelPosX = [];
+    n = src["levelPosX"].length;
+    for (var i = 0; i < n; i++) {
+      levelPosX.add(src["levelPosX"][i]);
+    }
+    n = src["levelPosY"].length;
+    for (var i = 0; i < n; i++) {
+      levelPosY.add(src["levelPosY"][i]);
     }
   }
 }
