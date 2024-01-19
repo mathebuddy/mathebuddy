@@ -25,8 +25,8 @@ class MbclLevel {
   String title = '';
   String label = '';
 
-  double posX = -1; // used in level overview
-  double posY = -1; // used in level overview
+  //double posX = -1; // used in level overview
+  //double posY = -1; // used in level overview
   String iconData = '';
   int numParts = 0;
   List<String> partIconIDs = [];
@@ -175,8 +175,8 @@ class MbclLevel {
       "error": error,
       "title": title,
       "label": label,
-      "posX": posX,
-      "posY": posY,
+      //"posX": posX,
+      //"posY": posY,
       "iconData": iconData,
       "numParts": numParts,
       "partIconIDs": partIconIDs.map((e) => e).toList(),
@@ -192,8 +192,8 @@ class MbclLevel {
     error = src["error"];
     title = src["title"];
     label = src["label"];
-    posX = src["posX"];
-    posY = src["posY"];
+    //posX = src["posX"];
+    //posY = src["posY"];
     iconData = src.containsKey("iconData") ? src["iconData"] : "";
     numParts = src.containsKey("numParts") ? src["numParts"] : 1;
     // icon ids
