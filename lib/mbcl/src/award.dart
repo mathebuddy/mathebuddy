@@ -9,8 +9,9 @@
 
 class MbclAward {
   final String id;
-  final String text;
-  final DateTime? dateTime; // null, if award was NOT earned
+  final String textEn;
+  final String textDe;
+  DateTime? dateTime; // null, if award was NOT earned
 
-  MbclAward(this.id, this.text, this.dateTime);
+  MbclAward(this.id, this.textEn, this.textDe, this.dateTime);
 }
