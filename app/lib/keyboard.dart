@@ -463,8 +463,9 @@ class Keyboard {
     }
     // evaluate exercise on first key (used e.g. for Event levels)
     if (evaluateDirectly) {
-      var exerciseData = keyboardState.inputFieldData!.exerciseData!;
+      var exerciseData = keyboardState.exerciseData!;
       evaluateExercise(state, exerciseData.exercise.level, exerciseData);
+      var bp = 1337;
     }
     // ignore: invalid_use_of_protected_member
     state.setState(() {});
