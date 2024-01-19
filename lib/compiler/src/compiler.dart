@@ -94,13 +94,13 @@ class Compiler {
       course.chapters.add(chapter);
       unit = MbclUnit(course, chapter);
       chapter.units.add(unit);
-      compileLevel(path);
+      compileLevel(path, "");
       unit.levels.add(chapter.levels[0]);
     }
     // post processing
-    postProcessCourse(course as MbclCourse);
+    postProcessCourse(course);
     // resolve references
-    ReferenceSolver rs = ReferenceSolver(course as MbclCourse);
+    ReferenceSolver rs = ReferenceSolver(course);
     rs.run();
     // gater information for chatbot
     var cir = ChatInformationRetrieval();
@@ -361,19 +361,19 @@ class Compiler {
                 var dirname = extractDirname(path);
                 var levelPath = '$dirname$fileName.mbl';
                 try {
-                  compileLevel(levelPath);
+                  compileLevel(levelPath, fileName);
                 } catch (e) {
                   chapter.error += "Level '$levelPath' contains errors. "
                       "Remove these errors first. ";
                   return;
                 }
-                unit.levels.add(level);
-                // set chapter meta data
-                level.fileId = fileName;
                 level.iconData = iconData;
-                level.posX = posX.toDouble();
-                level.posY = posY.toDouble();
+                unit.levelPosX.add(posX.toDouble());
+                unit.levelPosY.add(posY.toDouble());
                 level.requiresTmp.addAll(requirements);
+                level.requiresTmp = level.requiresTmp.toSet().toList();
+                // add level to unit
+                unit.levels.add(level);
               }
           }
           break;
@@ -396,14 +396,20 @@ class Compiler {
   }
 
   //G level = TODO
-  void compileLevel(String path) {
+  void compileLevel(String path, fileId) {
+    var existing = chapter.getLevelByFileID(fileId);
+    if (existing != null) {
+      level = existing;
+      return;
+    }
     equationNumberCounter = 1;
     // create a new level
     level = MbclLevel(course, chapter);
+    level.fileId = fileId;
     if (disableBlockTitles) {
       level.disableBlockTitles = true;
     }
-    chapter.levels.add(level as MbclLevel);
+    chapter.levels.add(level);
     // get level source
     var src = loadFile(path);
     if (src.isEmpty) {
