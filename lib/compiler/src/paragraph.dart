@@ -80,6 +80,7 @@ class Paragraph {
     }
     // create lexer
     var lexer = Lexer();
+    lexer.enableEmitSingleQuotes(false);
     lexer.enableEmitBigint(false);
     lexer.enableEmitNewlines(true);
     lexer.enableUmlautInID(true);
