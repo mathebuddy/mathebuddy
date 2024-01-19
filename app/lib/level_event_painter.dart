@@ -6,9 +6,11 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:mathebuddy/style.dart';
 
 class EventPainter extends CustomPainter {
   double width;
+  double percentage = 1.0;
 
   EventPainter(this.width);
 
@@ -16,18 +18,21 @@ class EventPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint();
 
-    paint.color = Colors.grey;
+    Color color =
+        percentage >= 0.5 ? Style().matheBuddyGreen : Style().matheBuddyRed;
+
+    paint.color = const Color.fromARGB(255, 66, 66, 66);
     paint.strokeWidth = 20;
     paint.strokeCap = StrokeCap.round;
     canvas.drawLine(Offset(10, 25), Offset(width, 25), paint);
 
-    paint.color = Colors.green;
+    paint.color = color;
     paint.strokeWidth = 20;
     paint.strokeCap = StrokeCap.round;
-    canvas.drawLine(Offset(10, 25), Offset(100, 25), paint);
+    canvas.drawLine(Offset(10, 25), Offset(percentage * width, 25), paint);
 
     paint.color = Colors.black;
-    paint.strokeWidth = 10;
+    paint.strokeWidth = 5;
     paint.strokeCap = StrokeCap.round;
     canvas.drawLine(Offset(width / 2, 10), Offset(width / 2, 40), paint);
   }
