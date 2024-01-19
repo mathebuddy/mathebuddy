@@ -48,8 +48,10 @@ flutter:
     - assets/img/logoSmall.png
     - assets/img/logo-large-en.png
     - assets/img/logo-large-de.png
+    - assets/img/logo-large-no-text.png
     - assets/bundle-alpha.json
     - assets/bundle-debug.json
     - assets/bundle-smoke.json
     - assets/bundle-websim.json
     - assets/bundle-bochum.json
+    - assets/img/logo-institutes.png
