@@ -74,12 +74,21 @@ class CourseState extends State<CourseWidget> {
                   fontSize: getStyle().courseSubTitleFontSize,
                   fontWeight: getStyle().courseSubTitleFontWeight,
                 ))));
-
     List<TableRow> tableRows = [];
     List<TableCell> tableCells = [];
-    var cellColor = Colors.white;
+    widget.course.calcProgress();
+
     for (var i = 0; i < widget.course.chapters.length; i++) {
       var chapter = widget.course.chapters[i];
+      var color = Style().matheBuddyRed;
+      var cellColor = Colors.white;
+      if (chapter.progress > 0) {
+        color = Style().matheBuddyYellow;
+        //cellColor = Colors.black;
+      }
+      if ((chapter.progress - 1.0).abs() < 1e-6) {
+        color = Style().matheBuddyGreen;
+      }
       Widget icon = Text("");
       if (chapter.iconData.isNotEmpty) {
         icon = SvgPicture.string(chapter.iconData, color: cellColor);
@@ -120,8 +129,8 @@ class CourseState extends State<CourseWidget> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          getStyle().matheBuddyRed,
-                          getStyle().matheBuddyRed.withOpacity(0.9)
+                          color.withOpacity(0.9),
+                          color.withOpacity(0.95)
                         ]),
                     borderRadius: BorderRadius.circular(7.0)),
                 child: Center(child: content))),
@@ -318,31 +327,32 @@ class CourseState extends State<CourseWidget> {
     var progress = Row(
         mainAxisAlignment: MainAxisAlignment.center, children: progressBars);
 
+    Widget logo = Opacity(
+        opacity: 0.85,
+        //child: Image.asset('assets/img/logo-large-$language.png')
+        child: Image.asset('assets/img/logo-large-no-text.png'));
+
     // all
     Widget contents = Column(children: [
-      Container(
-        height: 5,
-      ),
-      Container(
-        height: 5,
-      ),
+      logo,
+
       controlShortcuts,
       progressShortcuts,
-      Container(
-        height: 0,
-      ),
-      Container(
-        height: 25,
-      ),
-      title,
-      author,
-      Container(
-        height: 20,
-      ),
+      //Container(
+      //  height: 0,
+      //),
+      //Container(
+      //  height: 25,
+      //),
+      //title,
+      //author,
+      // Container(
+      //   height: 20,
+      // ),
       //titleChapters,
-      Container(
-        height: 0,
-      ),
+      // Container(
+      //   height: 0,
+      // ),
       chapterTable,
       //titleAwards,
       // awards,
@@ -371,21 +381,18 @@ class CourseState extends State<CourseWidget> {
         padding: EdgeInsets.all(5),
         child: contents);
 
-    Widget logo = Opacity(
-        opacity: 0.85,
-        // decoration: BoxDecoration(
-        //     color: Colors.black,
-        //     border: Border(
-        //         top: BorderSide(color: getStyle().matheBuddyRed, width: 1.0))),
-        child: FractionallySizedBox(
-            widthFactor: 1.0,
-            child: Image.asset('assets/img/logo-large-$language.png')));
+    Widget bottomLogos = Container(
+        constraints: BoxConstraints(maxWidth: 400),
+        decoration: BoxDecoration(color: Colors.white),
+        child: Opacity(
+            opacity: 0.85,
+            child: Image.asset('assets/img/logo-institutes.png')));
 
     return Scaffold(
-      appBar: buildAppBar(this, null, null),
+      appBar: buildAppBar(false, this, null, null),
       body: body,
       backgroundColor: Colors.white,
-      bottomSheet: logo,
+      bottomSheet: bottomLogos,
     );
   }
 
