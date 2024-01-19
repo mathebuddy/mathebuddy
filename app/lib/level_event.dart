@@ -41,10 +41,13 @@ class EventData {
   }
 
   start() {
-    counter = 30; // TODO
+    counter = 5; // TODO
     running = true;
     timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
       counter--;
+      if (counter <= 0) {
+        end();
+      }
       print("update ${DateTime.now().toString()}");
       // ignore: invalid_use_of_protected_member
       levelState.setState(() {});
