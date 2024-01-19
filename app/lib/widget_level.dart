@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mathebuddy/level_event.dart';
 import 'package:mathebuddy/level_event_painter.dart';
-import 'package:mathebuddy/level_paragraph_item_input_field.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 
@@ -40,6 +39,8 @@ import 'package:mathebuddy/level_paragraph.dart';
 import 'package:mathebuddy/level_paragraph_item.dart';
 import 'package:mathebuddy/level_todo.dart';
 import 'package:mathebuddy/style.dart';
+
+BuildContext? levelBuildContext;
 
 class LevelWidget extends StatefulWidget {
   final MbclCourse course;
@@ -71,6 +72,7 @@ class LevelState extends State<LevelWidget> {
 
   @override
   Widget build(BuildContext context) {
+    levelBuildContext = context;
     scrollController = ScrollController();
 
     var level = widget.level;
@@ -217,12 +219,13 @@ class LevelState extends State<LevelWidget> {
       eventData ??= EventData(level, this);
       if (eventData != null) {
         if (eventData!.running == false) {
-          eventData!.start();
+          //eventData!.start();
         }
       }
 
       var width = MediaQuery.of(context).size.width - 50;
       var eventPainter = EventPainter(width - 20);
+      eventPainter.percentage = 0.75;
       page.add(Container(
           alignment: Alignment.center,
           child: CustomPaint(size: Size(width, 50), painter: eventPainter)));
@@ -239,7 +242,7 @@ class LevelState extends State<LevelWidget> {
                 Text(
                   //elapsedTimeStr,
                   counterStr,
-                  style: TextStyle(fontSize: 48, color: Colors.black54),
+                  style: TextStyle(fontSize: 64, color: Colors.black54),
                 ),
                 Text('   '),
                 /*Text(
@@ -404,13 +407,13 @@ class LevelState extends State<LevelWidget> {
                         color: bottomNavBarIconColor)))));
       }
     }
-    page.add(Column(children: [
-      Container(
-          margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-          padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: buttons))
-    ]));
+    // page.add(Column(children: [
+    //   Container(
+    //       margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+    //       padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+    //       child:
+    //           Row(mainAxisAlignment: MainAxisAlignment.end, children: buttons))
+    // ]));
 
     // add empty lines at the end; otherwise keyboard is in the way...
     for (var i = 0; i < 10; i++) {
@@ -443,10 +446,21 @@ class LevelState extends State<LevelWidget> {
     if (keyboardState.layout != null) {
       var keyboard = Keyboard(this, keyboardState, level.isEvent);
       bottomArea = keyboard.generateWidget();
+    } else if (debugMode == false) {
+      bottomArea = Opacity(
+          opacity: 1.0,
+          child: SizedBox(
+              height: 48,
+              child: Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: buttons,
+                  ))));
     }
 
     return Scaffold(
-      appBar: buildAppBar(this, widget.chapter, eventData),
+      appBar: buildAppBar(true, this, widget.chapter, eventData),
       body: body,
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
