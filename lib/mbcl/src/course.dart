@@ -36,6 +36,7 @@ class MbclCourse {
 
   // not saved
   MbclPersistence? persistence;
+  double progress = 0.0;
 
   MbclCourse() {
     chat = MbclChat(this);
@@ -54,6 +55,15 @@ class MbclCourse {
 
   setPersistence(MbclPersistence p) {
     persistence = p;
+  }
+
+  void calcProgress() {
+    progress = 0.0;
+    for (var chapter in chapters) {
+      chapter.calcProgress();
+      progress += chapter.progress;
+    }
+    progress /= chapters.length;
   }
 
   String gatherErrors() {
@@ -93,6 +103,7 @@ class MbclCourse {
     } catch (e) {
       print("could not load global user data (OK for first run)");
     }
+    calcProgress();
     return true;
   }
 
