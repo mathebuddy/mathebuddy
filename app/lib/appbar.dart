@@ -13,7 +13,8 @@ import 'package:mathebuddy/level_event.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/style.dart';
 
-AppBar buildAppBar(State state, MbclChapter? chapter, EventData? eventData) {
+AppBar buildAppBar(
+    bool showLogo, State state, MbclChapter? chapter, EventData? eventData) {
   List<Widget> actions = [];
   // home button
   actions.add(Text('  '));
@@ -56,43 +57,59 @@ AppBar buildAppBar(State state, MbclChapter? chapter, EventData? eventData) {
   actions.add(actionHome);
   actions.add(Text('    '));
   // language switch
-  var languageSwitchButton = Container(
-      decoration: BoxDecoration(
-          border: Border.all(
-              color: getStyle().appbarDebugButtonColor,
-              width: getStyle().appbarDebugButtonBorderSize),
-          borderRadius: BorderRadius.circular(6)),
-      child: Padding(
-          padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
-          child: Text(" $language ",
-              style: TextStyle(
+  var languageSwitchButton = Opacity(
+      opacity: 0.5,
+      child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(
                   color: getStyle().appbarDebugButtonColor,
-                  fontSize: getStyle().appbarDebugButtonFontSize))));
-  // debug/release button
-  var switchDebugReleaseButton = Container(
-      decoration: BoxDecoration(
-          color: getStyle().appbarDebugButtonBackgroundColor,
-          borderRadius: BorderRadius.circular(6)),
-      child: Opacity(
-          opacity: 0.8,
+                  width: getStyle().appbarDebugButtonBorderSize),
+              borderRadius: BorderRadius.circular(1)),
           child: Padding(
-              padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+              padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
+              child: Text(" $language ",
+                  style: TextStyle(
+                      color: getStyle().appbarDebugButtonColor,
+                      fontSize: getStyle().appbarDebugButtonFontSize)))));
+  // debug/release button
+  var switchDebugReleaseButton = Opacity(
+      opacity: 0.5,
+      child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                  color: getStyle().appbarDebugButtonColor,
+                  width: getStyle().appbarDebugButtonBorderSize),
+              borderRadius: BorderRadius.circular(1)),
+          child: Padding(
+              padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
               child: Text(debugMode ? " debug " : " release ",
                   style: TextStyle(
                       color: getStyle().appbarDebugButtonColor,
                       fontSize: getStyle().appbarDebugButtonFontSize)))));
-  var saveButton = Container(
-      decoration: BoxDecoration(
-          color: getStyle().appbarDebugButtonBackgroundColor,
-          borderRadius: BorderRadius.circular(6)),
-      child: Opacity(
-          opacity: 0.8,
-          child: Padding(
-              padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
-              child: Text(" save ",
-                  style: TextStyle(
-                      color: getStyle().appbarDebugButtonColor,
-                      fontSize: getStyle().appbarDebugButtonFontSize)))));
+  // Container(
+  //     decoration: BoxDecoration(
+  //         color: getStyle().appbarDebugButtonBackgroundColor,
+  //         borderRadius: BorderRadius.circular(6)),
+  //     child: Opacity(
+  //         opacity: 0.8,
+  //         child: Padding(
+  //             padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+  //             child: Text(debugMode ? " debug " : " release ",
+  //                 style: TextStyle(
+  //                     color: getStyle().appbarDebugButtonColor,
+  //                     fontSize: getStyle().appbarDebugButtonFontSize)))));
+  // var saveButton = Container(
+  //     decoration: BoxDecoration(
+  //         color: getStyle().appbarDebugButtonBackgroundColor,
+  //         borderRadius: BorderRadius.circular(6)),
+  //     child: Opacity(
+  //         opacity: 0.8,
+  //         child: Padding(
+  //             padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+  //             child: Text(" save ",
+  //                 style: TextStyle(
+  //                     color: getStyle().appbarDebugButtonColor,
+  //                     fontSize: getStyle().appbarDebugButtonFontSize)))));
   var title = Row(mainAxisAlignment: MainAxisAlignment.center, children: [
     showDebugReleaseSwitch
         ? GestureDetector(
@@ -128,9 +145,10 @@ AppBar buildAppBar(State state, MbclChapter? chapter, EventData? eventData) {
       centerTitle: true,
       backgroundColor: getStyle().appbarBackgroundColor,
       title: title,
-      leading: Padding(
-          padding: EdgeInsets.all(7),
-          child: /*Container(
+      leading: showLogo
+          ? Padding(
+              padding: EdgeInsets.all(7),
+              child: /*Container(
               decoration: BoxDecoration(boxShadow: [
                 BoxShadow(
                     blurRadius: 5.0,
@@ -138,7 +156,8 @@ AppBar buildAppBar(State state, MbclChapter? chapter, EventData? eventData) {
                     offset: Offset(1, 1),
                     color: const Color.fromARGB(255, 30, 30, 30))
               ]),*/
-              Image.asset("assets/img/logoSmall.png")),
+                  Image.asset("assets/img/logoSmall.png"))
+          : Text(""),
       elevation: 1,
       actions: actions);
 }
