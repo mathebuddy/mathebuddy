@@ -132,7 +132,7 @@ class HomeState extends State<HomeWidget> {
         padding: EdgeInsets.all(5),
         child: contents);
     return Scaffold(
-      appBar: buildAppBar(this, null, null),
+      appBar: buildAppBar(true, this, null, null),
       body: body,
       backgroundColor: Colors.white,
     );
