@@ -347,12 +347,12 @@
                 border-width: 1px;
                 border-radius: 10px;
                 background-color: #000000;
-                min-height: 750px;
-                height: 750px;
-                max-height: 750px;
-                width: 360px;
-                min-width: 360px;
-                max-width: 360px;
+                min-height: 800px;
+                height: 800px;
+                max-height: 800px;
+                width: 400px;
+                min-width: 400px;
+                max-width: 400px;
                 border-width: 2px;
                 -moz-box-shadow: 0 0 10px #aaa;
                 -webkit-box-shadow: 0 0 10px #aaa;
@@ -374,21 +374,24 @@
                 border-style: solid;
                 border-color: #434343;
                 border-width: 1px;
-                border-radius: 2px;
+                border-radius: 10px;
                 padding: 10px;
                 border-width: 2px;
                 width: 100%;
-                min-height: 800px;
-                height: 800px;
+                min-height: 780px;
+                height: 780px;
                 height: 100%;
-                max-height: 800px;
+                max-height: 780px;
                 -moz-box-shadow: 0 0 10px #aaa;
                 -webkit-box-shadow: 0 0 10px #aaa;
                 box-shadow: 0 0 10px #aaa;
                 overflow-y: scroll;
               "
             >
-              <div id="sim-current-path" style="text-align: center">
+              <div
+                id="sim-current-path"
+                style="text-align: start; padding-bottom: 4px"
+              >
                 (no file selected)
               </div>
 
@@ -450,17 +453,16 @@
             </div>
           </div>
         </div>
+      </div>
+      <br />
 
-        <br />
-
-        <br />
+      <div style="text-align: center">
         Link for mobile phone (only for static courses):<br />
         <img
           class="u-max-full-width"
           src="img/qr-sim.png"
           style="max-width: 256px"
         />
-        <br />
       </div>
     </div>
 
@@ -995,6 +997,9 @@
       function show(id) {
         document.getElementById("sim").style.display = "none";
         showPlayground(""); // disable active playground
+        // if (id === "sim-info") {
+        //   document.body.style.backgroundColor = "rgb(50,50,50)";
+        // }
         let divs = [
           "home",
           "blog",
@@ -1175,6 +1180,6 @@
       }
     </script>
 
-    <script src="js/index.min.js?version=1705055207"></script>
+    <script src="js/index.min.js?version=1705663118"></script>
   </body>
 </html>
