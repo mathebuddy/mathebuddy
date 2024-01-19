@@ -118,6 +118,7 @@ class MbclExerciseData {
   }
 
   void evaluate() {
+    if (feedback == MbclExerciseFeedback.correct) return;
     // check exercise: TODO must implement in e.g. new file exercise.dart
     var allCorrect = true;
     for (var inputFieldItem in inputFields) {
