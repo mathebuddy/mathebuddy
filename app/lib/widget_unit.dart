@@ -7,8 +7,11 @@
 
 /// This file implements the unit widget that contains the list of levels.
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
@@ -55,16 +58,9 @@ class UnitState extends State<UnitWidget> {
                 color: getStyle().unitTitleFontColor,
                 fontSize: getStyle().unitTitleFontSize)));
 
-    var numRows = 1.0;
-    var numCols = 1.0;
-    for (var level in unit.levels) {
-      if (level.posX + 1 > numCols) {
-        numCols = level.posX + 1;
-      }
-      if (level.posY + 1 > numRows) {
-        numRows = level.posY + 1;
-      }
-    }
+    var numRows = unit.levelPosY.reduce(max) + 1;
+    var numCols = unit.levelPosX.reduce(max) + 1;
+
     var maxTileWidth = 500.0;
 
     var screenWidth = MediaQuery.of(context).size.width;
@@ -93,19 +89,22 @@ class UnitState extends State<UnitWidget> {
     var unitEdges = UnitEdges(tileWidth * 0.1);
 
     // calculate progress and vertex coordinates
-    for (var level in unit.levels) {
+    for (var i = 0; i < unit.levels.length; i++) {
+      var level = unit.levels[i];
       level.calcProgress();
-      level.screenPosX = offsetX + level.posX * (tileWidth + spacingX);
-      level.screenPosY = offsetY + level.posY * (tileHeight + spacingY);
+      level.screenPosX = offsetX + unit.levelPosX[i] * (tileWidth + spacingX);
+      level.screenPosY = offsetY + unit.levelPosY[i] * (tileHeight + spacingY);
     }
     // calculate edges coordinates
     for (var level in unit.levels) {
-      for (var level2 in level.requires) {
+      if (level.fileId == "final") continue;
+      for (var req in level.requires) {
+        if (unit.levelFileIDs.contains(req.fileId) == false) continue;
         unitEdges.addEdge(
             level.screenPosX + tileWidth / 2,
             level.screenPosY + tileHeight / 2,
-            level2.screenPosX + tileWidth / 2,
-            level2.screenPosY + tileHeight / 2);
+            req.screenPosX + tileWidth / 2,
+            req.screenPosY + tileHeight / 2);
       }
     }
     // render edges
@@ -122,54 +121,41 @@ class UnitState extends State<UnitWidget> {
       var color = level.visited
           ? getStyle().matheBuddyYellow.withOpacity(0.96)
           : getStyle().matheBuddyRed.withOpacity(0.96);
-      var textColor = level.visited ? Colors.black : Colors.white;
+      var textColor =
+          Colors.white; //level.visited ? Colors.black : Colors.white;
       if ((level.progress - 1).abs() < 1e-12) {
         color = getStyle().matheBuddyGreen;
         textColor = Colors.white;
       }
 
-      var locked = level.isLocked();
-      var lockSizePercentage = 0.25;
-
-      // TODO: performance is currently slow...
-      List<Widget> stackedItems = [];
-
-      if (locked) {
-        // if the level is locked, show a lock-icon
-        var lockSize = tileWidth * lockSizePercentage;
-        stackedItems.add(
-            /*Padding(
-            padding: EdgeInsets.only(top: 0, left: 0),
-            child: */
-            Icon(Icons.lock,
-                size: lockSize, color: Colors.white.withOpacity(0.25)));
-      }
-
-      if (level.iconData.isNotEmpty) {
+      Widget iconOrText;
+      if (level.fileId == "final") {
+        iconOrText = SizedBox(
+            width: 130,
+            height: 130,
+            child: Icon(
+              MdiIcons.fromString("star-circle"),
+              size: tileWidth * 0.5,
+              color: textColor,
+            ));
+      } else if (level.iconData.isNotEmpty) {
         // used icon, if available
-        stackedItems.add(//Opacity(
-            //opacity: locked ? lockedItemOpacity : 1.0,
-            //child:
-            SvgPicture.string(
+        iconOrText = SvgPicture.string(
           level.iconData,
-          width: tileWidth * 0.99,
+          width: tileWidth,
           color: textColor,
           allowDrawingOutsideViewBox: true,
-        ));
+        );
       } else {
         // if there is no icon, show the level title
         var fontSize = getStyle().unitOverviewFontSize;
         if (screenWidth < 512) {
           fontSize *= 0.75;
         }
-        stackedItems.add(//Opacity(
-            //opacity: locked ? lockedItemOpacity : 1.0,
-            //child:
-            Text(level.title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: getStyle().unitOverviewFontColor,
-                    fontSize: fontSize)));
+        iconOrText = Text(level.title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: getStyle().unitOverviewFontColor, fontSize: fontSize));
       }
 
       Widget content = Container(
@@ -177,8 +163,10 @@ class UnitState extends State<UnitWidget> {
           width: tileWidth,
           height: tileHeight,
           child: Padding(
-              padding: EdgeInsets.all(3),
-              child: Stack(children: stackedItems)));
+              padding: EdgeInsets.all(0),
+              //child: Stack(children: stackedItems)));
+              child: iconOrText));
+
       widgets.add(Positioned(
           left: level.screenPosX,
           top: level.screenPosY,
@@ -212,7 +200,19 @@ class UnitState extends State<UnitWidget> {
                       borderRadius:
                           BorderRadius.all(Radius.circular(tileWidth * 0.175))),
                   child: content))));
+
+      if (level.isLocked()) {
+        // if the level is locked, show a lock-icon
+        var lockSize = tileWidth * 0.25;
+        widgets.add(Positioned(
+            left: level.screenPosX + 5,
+            top: level.screenPosY + 5,
+            child: IgnorePointer(
+                child: Icon(Icons.lock,
+                    size: lockSize, color: Colors.white.withOpacity(0.25)))));
+      }
     }
+
     // debug buttons
     Widget resetProgressBtn = Text("", style: TextStyle(fontSize: 1));
     Widget allLevelsBtn = Text("", style: TextStyle(fontSize: 1));
@@ -290,7 +290,7 @@ class UnitState extends State<UnitWidget> {
           Stack(children: widgets)
         ]));
     return Scaffold(
-      appBar: buildAppBar(this, widget.chapter, null),
+      appBar: buildAppBar(true, this, widget.chapter, null),
       body: body,
       backgroundColor: Colors.white,
     );
