@@ -50,8 +50,9 @@ void main() {
   runApp(MaterialApp(
       title: 'mathe:buddy',
       theme: ThemeData(
-        primarySwatch: buildMaterialColor(Color(0xFFFFFFFF)),
-      ),
+          primarySwatch: buildMaterialColor(Color(0xFFFFFFFF)),
+          bottomSheetTheme: BottomSheetThemeData(
+              backgroundColor: Colors.black.withOpacity(0))),
       home: const HomeWidget(),
       debugShowCheckedModeBanner: false));
 }
