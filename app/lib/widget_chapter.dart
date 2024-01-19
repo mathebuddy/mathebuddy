@@ -42,11 +42,6 @@ class ChapterState extends State<ChapterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // logo
-    Widget logo = ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 50),
-        child: Image.asset('assets/img/logo.png'));
-
     // title
     Widget title = Padding(
         padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
@@ -64,6 +59,15 @@ class ChapterState extends State<ChapterWidget> {
     var cellColor = Colors.white;
     for (var i = 0; i < widget.chapter.units.length; i++) {
       var unit = widget.chapter.units[i];
+
+      unit.calcProgress();
+      var color = Style().matheBuddyRed;
+      if (unit.progress > 0) {
+        color = Style().matheBuddyYellow;
+      } else if ((unit.progress - 1).abs() < 1e-6) {
+        color = Style().matheBuddyGreen;
+      }
+
       Widget icon = Text("");
       if (unit.iconData.isNotEmpty) {
         icon = SvgPicture.string(unit.iconData, color: cellColor);
@@ -105,11 +109,7 @@ class ChapterState extends State<ChapterWidget> {
               //height: 200,
               margin: EdgeInsets.all(2.0),
               decoration: BoxDecoration(
-                  color: getStyle()
-                      .matheBuddyRed //courseColors[i % getStyle().courseColors.length]
-                  //.withOpacity(0.95)
-                  ,
-                  borderRadius: BorderRadius.circular(8.0)),
+                  color: color, borderRadius: BorderRadius.circular(8.0)),
               child: content,
             )),
       );
@@ -158,7 +158,7 @@ class ChapterState extends State<ChapterWidget> {
                 child: Column(children: contents))));
 
     return Scaffold(
-      appBar: buildAppBar(this, widget.chapter, null),
+      appBar: buildAppBar(true, this, widget.chapter, null),
       body: body,
       backgroundColor: Colors.white,
     );
