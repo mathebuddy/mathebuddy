@@ -9,7 +9,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mathebuddy/appbar.dart';
-import 'package:mathebuddy/chat_db.dart';
+import 'package:mathebuddy/db_chat.dart';
 import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/level_exercise.dart';
 import 'package:mathebuddy/widget_level.dart';
@@ -130,7 +130,7 @@ class ChatState extends State<ChatWidget> {
   List<InlineSpan> generateParagraph(MbclLevelItem paragraph) {
     List<InlineSpan> res = [];
     for (var item in paragraph.items) {
-      res.add(generateParagraphItem(LevelState(), item, color: Colors.white));
+      res.add(generateParagraphItem(LevelState(), item, color: Colors.black));
     }
     return res;
   }
@@ -160,6 +160,7 @@ class ChatState extends State<ChatWidget> {
     } else if (msg.type == ChatMessageType.userMessage ||
         msg.type == ChatMessageType.userInputField) {
       color = getStyle().matheBuddyGreen.withOpacity(0.9);
+      textColor = Colors.white;
     }
     if (msg.debugMessage) {
       color = color.withOpacity(0.8);
@@ -208,7 +209,8 @@ class ChatState extends State<ChatWidget> {
           onEditingComplete: () {
             var text = textFieldController.text;
             //print(">>> editing complete: $text");
-            //TODO: answer(text);
+            answer(text);
+            setState(() {});
           },
           style: TextStyle(fontSize: fontSize, color: Colors.white),
           decoration: InputDecoration(filled: true, fillColor: color));
@@ -243,79 +245,78 @@ class ChatState extends State<ChatWidget> {
     ]);
   }
 
-  // !!!!! TODO
+  void answer(String text) {
+    // TODO: languages DE vs EN!!!!
 
-  // void answer(String text) {
-  //   // substitute user text field by user message
-  //   chatHistory.removeLast();
-  //   chatHistory
-  //       .add(generateChatRow(text, [], ChatMessageType.userMessage, () {}));
-  //   // search definition
-  //   var definition = widget.course.chat.getDefinition(text.toLowerCase());
-  //   if (definition != null) {
-  //     chatHistory.add(generateChatRow("", generateParagraph(definition.data),
-  //         ChatMessageType.botMessage, () {}));
-  //     // add link to chapter
-  //     var pathParts = definition.levelPath.split("/");
-  //     MbclChapter? chapter;
-  //     MbclLevel? level;
-  //     var levelName = "";
-  //     if (pathParts.length == 2 &&
-  //         pathParts[0].isNotEmpty &&
-  //         pathParts[1].isNotEmpty) {
-  //       var chapterFileId = pathParts[0];
-  //       var levelFileId = pathParts[1];
-  //       chapter = widget.course.getChapterByFileID(chapterFileId);
-  //       if (chapter != null) {
-  //         level = chapter.getLevelByFileID(levelFileId);
-  //         if (level != null) {
-  //           levelName = level.title;
-  //         }
-  //       }
-  //     }
-  //     chatHistory.add(generateChatRow(
-  //         "Gehe zu Level \"$levelName\"", [], ChatMessageType.userButton, () {
-  //       print("open level ${definition.levelPath}");
-  //       if (chapter != null && level != null) {
-  //         var route = MaterialPageRoute(builder: (context) {
-  //           return LevelWidget(widget.course, chapter!, null, level!);
-  //         });
-  //         Navigator.push(context, route).then((value) => setState(() {}));
-  //         // level.visited = true;
-  //         setState(() {});
-  //       }
-  //     }));
-  //   } else {
-  //     var evalSuccess = true;
-  //     var answer = "";
-  //     try {
-  //       var term = math_parse.Parser().parse(text);
-  //       var res = term.eval({});
-  //       answer = res.toTeXString();
-  //     } catch (err) {
-  //       print(">>> ${err.toString()}");
-  //       if (err.toString().contains("unset var")) {
-  //         answer = "Dein Term enthält unbekannte Variablen.";
-  //       } else {
-  //         evalSuccess = false;
-  //       }
-  //     }
-  //     if (evalSuccess == false) {
-  //       List<String> answers = [
-  //         "Leider kann ich Dir nicht helfen :(",
-  //         "Deine Eingabe verstehe ich nicht.",
-  //         "Sorry, das kann ich monentan noch nicht verstehen. Ich werde demnächst besser!!"
-  //       ];
-  //       answer = answers[Random().nextInt(answers.length)];
-  //     }
-  //     chatHistory
-  //         .add(generateChatRow(answer, [], ChatMessageType.botMessage, () {}));
-  //   }
-  //   // add a new user text field
-  //   pushTextInputField();
-  //   // refresh
-  //   setState(() {});
-  // }
+    // substitute user text field by user message
+    chatHistory.removeLast();
+    chatHistory.add(ChatMessage(ChatMessageType.userMessage, text));
+    // search definition
+    var definition = widget.course.chat.getDefinition(text.toLowerCase());
+    if (definition != null) {
+      var def = ChatMessage(ChatMessageType.botMessage, "");
+      def.referredItem = definition.data;
+      chatHistory.add(def);
+      // add link to chapter
+      var pathParts = definition.levelPath.split("/");
+      MbclChapter? chapter;
+      MbclLevel? level;
+      var levelName = "";
+      if (pathParts.length == 2 &&
+          pathParts[0].isNotEmpty &&
+          pathParts[1].isNotEmpty) {
+        var chapterFileId = pathParts[0];
+        var levelFileId = pathParts[1];
+        chapter = widget.course.getChapterByFileID(chapterFileId);
+        if (chapter != null) {
+          level = chapter.getLevelByFileID(levelFileId);
+          if (level != null) {
+            levelName = level.title;
+          }
+        }
+      }
+      var gotoLevelBtn = ChatMessage(
+          ChatMessageType.userButton, "Gehe zu Level \"$levelName\"");
+      gotoLevelBtn.action = () {
+        print("open level ${definition.levelPath}");
+        if (chapter != null && level != null) {
+          var route = MaterialPageRoute(builder: (context) {
+            return LevelWidget(widget.course, chapter!, null, level!);
+          });
+          Navigator.push(context, route).then((value) => setState(() {}));
+          // level.visited = true;
+          setState(() {});
+        }
+      };
+      chatHistory.add(gotoLevelBtn);
+    } else {
+      var evalSuccess = true;
+      var answer = "";
+      try {
+        var term = math_parse.Parser().parse(text);
+        var res = term.eval({});
+        answer = res.toTeXString();
+      } catch (err) {
+        print(">>> ${err.toString()}");
+        if (err.toString().contains("unset var")) {
+          answer = "Dein Term enthält unbekannte Variablen.";
+        } else {
+          evalSuccess = false;
+        }
+      }
+      if (evalSuccess == false) {
+        List<String> answers = [
+          "Leider kann ich Dir nicht helfen :(",
+          "Deine Eingabe verstehe ich nicht.",
+          "Sorry, das kann ich monentan noch nicht verstehen. Ich werde demnächst besser!!"
+        ];
+        answer = answers[Random().nextInt(answers.length)];
+      }
+      chatHistory.add(ChatMessage(ChatMessageType.botMessage, answer));
+    }
+    // add a new user text field
+    pushTextInputField();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -333,7 +334,7 @@ class ChatState extends State<ChatWidget> {
       bottomArea = keyboard.generateWidget();
     }
     return Scaffold(
-      appBar: buildAppBar(this, null, null),
+      appBar: buildAppBar(true, this, null, null),
       body: body,
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
