@@ -68,13 +68,14 @@ Widget generateDefinition(State state, MbclLevel level, MbclLevelItem item,
       decoration: BoxDecoration(
         color: Colors.white,
         border: debugMode ? Border.all(width: 1.0) : null,
+        //border: Border.all(width: 1.0, color: Colors.black26),
         //borderRadius: BorderRadius.circular(5),
         // boxShadow: [
         //   BoxShadow(
-        //       color: Colors.grey.withOpacity(0.08),
-        //       spreadRadius: 5,
-        //       blurRadius: 7,
-        //       offset: Offset(0, 3))
+        //       color: Colors.grey.withOpacity(0.8),
+        //       spreadRadius: 1,
+        //       blurRadius: 2,
+        //       offset: Offset(0, 1))
         // ]
       ),
       padding: EdgeInsets.only(bottom: 10.0, right: 5),
