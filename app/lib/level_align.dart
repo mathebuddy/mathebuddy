@@ -6,12 +6,11 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:mathebuddy/level_item.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
-
-import 'package:mathebuddy/widget_level.dart';
 
 Widget generateAlign(State state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
