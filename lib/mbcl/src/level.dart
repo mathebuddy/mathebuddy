@@ -36,6 +36,7 @@ class MbclLevel {
   bool disableBlockTitles = false;
 
   // temporary
+  int currentPart = 0;
   List<String> requiresTmp = [];
   bool visited = false;
   double screenPosX = 0.0; // used in level overview
@@ -111,7 +112,6 @@ class MbclLevel {
     } else {
       progress = score / maxScore;
     }
-    print("level progress = ${(progress * 100).round()} %");
   }
 
   bool isLocked() {
