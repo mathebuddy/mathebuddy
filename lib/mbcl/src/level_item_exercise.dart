@@ -41,6 +41,7 @@ class MbclExerciseData {
   List<MbclLevelItem> requiredExercises = [];
 
   // temporary
+  bool generateInputFields = true;
   MbclLevelItem exercise;
   int staticVariableCounter = 0;
   Map<String, String> smplOperandType = {}; // base type
@@ -75,6 +76,17 @@ class MbclExerciseData {
       f.inputFieldData!.reset();
     }
     nextInstance();
+  }
+
+  List<String> getChoicesOfFirstInputField() {
+    if (inputFields.isEmpty) return [];
+    var firstInputField = inputFields[0];
+    if (firstInputField.inputFieldData!.choices == false) return [];
+    var varId = "CHOICES.${firstInputField.id}";
+    if (activeInstance.containsKey(varId) == false) return [];
+    List<String> choices = activeInstance[varId]!.split("#");
+    choices = choices.map((x) => x.trim()).toList();
+    return choices;
   }
 
   void nextInstance() {
@@ -118,7 +130,7 @@ class MbclExerciseData {
   }
 
   void evaluate() {
-    if (feedback == MbclExerciseFeedback.correct) return;
+    //if (feedback == MbclExerciseFeedback.correct) return;
     // check exercise: TODO must implement in e.g. new file exercise.dart
     var allCorrect = true;
     for (var inputFieldItem in inputFields) {
