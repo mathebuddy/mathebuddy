@@ -116,14 +116,19 @@ InlineSpan generateParagraphItem(State state, MbclLevelItem item,
       }
     case MbclLevelItemType.inputField:
       {
-        AppInputField f = AppInputField();
-        InlineSpan inputField = f.generateParagraphItemInputField(state, item,
-            bold: bold,
-            italic: italic,
-            color: color,
-            exerciseData: exerciseData);
-        //state.activeInputFields.add(f);
-        return inputField;
+        var generate =
+            exerciseData != null ? exerciseData!.generateInputFields : true;
+        if (generate) {
+          AppInputField f = AppInputField();
+          InlineSpan inputField = f.generateParagraphItemInputField(state, item,
+              bold: bold,
+              italic: italic,
+              color: color,
+              exerciseData: exerciseData);
+          return inputField;
+        } else {
+          return TextSpan(text: "");
+        }
       }
     default:
       {
