@@ -12,6 +12,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mathebuddy/event.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
@@ -22,6 +23,7 @@ import 'package:mathebuddy/mbcl/src/unit.dart';
 import 'package:mathebuddy/screen.dart';
 
 import 'package:mathebuddy/style.dart';
+import 'package:mathebuddy/widget_event.dart';
 import 'package:mathebuddy/widget_unit_painter.dart';
 import 'package:mathebuddy/appbar.dart';
 import 'package:mathebuddy/widget_level.dart';
@@ -173,8 +175,13 @@ class UnitState extends State<UnitWidget> {
           child: GestureDetector(
               onTap: () {
                 var route = MaterialPageRoute(builder: (context) {
-                  return LevelWidget(
-                      widget.course, widget.chapter, widget.unit, level);
+                  if (level.isEvent) {
+                    return EventWidget(widget.course, widget.chapter,
+                        widget.unit, level, EventData(level));
+                  } else {
+                    return LevelWidget(
+                        widget.course, widget.chapter, widget.unit, level);
+                  }
                 });
                 Navigator.push(context, route).then((value) {
                   setState(() {});
@@ -290,7 +297,7 @@ class UnitState extends State<UnitWidget> {
           Stack(children: widgets)
         ]));
     return Scaffold(
-      appBar: buildAppBar(true, this, widget.chapter, null),
+      appBar: buildAppBar(true, this, widget.chapter),
       body: body,
       backgroundColor: Colors.white,
     );
