@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mathebuddy/keyboard.dart';
+import 'package:mathebuddy/db_exercise.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
@@ -15,8 +15,9 @@ import 'package:mathebuddy/mbcl/src/level.dart';
 
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/screen.dart';
-import 'package:mathebuddy/widget_level.dart';
 import 'package:mathebuddy/style.dart';
+import 'package:mathebuddy/keyboard.dart';
+import 'package:mathebuddy/level_item.dart';
 
 void evaluateExercise(
     State state, MbclLevel level, MbclExerciseData exerciseData) {
@@ -27,11 +28,14 @@ void evaluateExercise(
   level.chapter.saveUserData();
 }
 
+// TODO: must report error, if "exerciseData.numInstances" == 0!!
 Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
-    {double borderRadius = 0.0, double borderWidth = 1.75}) {
-  // TODO: must report error, if "exerciseData.numInstances" == 0!!
+    {bool generateInputFields = true,
+    double borderRadius = 0.0,
+    double borderWidth = 1.75}) {
   exerciseKey = GlobalKey();
   var exerciseData = item.exerciseData!;
+  exerciseData.generateInputFields = generateInputFields;
   List<Widget> list = [];
   if (debugMode && exerciseData.requiredExercises.isNotEmpty) {
     var text = 'DEBUG INFO: This exercise depends on [';
@@ -58,7 +62,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
           padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
           key: exerciseKey,
           child: Row(children: [
-            Text(' '), // TODO: use padding instead of Text(' ')
+            Text(' '),
             Icon(Icons.play_circle_outlined, size: 35.0),
             Text(' '),
             // TODO: wrap does not work:
@@ -126,58 +130,8 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
   var validateButton = GestureDetector(
     onTap: () {
       evaluateExercise(state, level, exerciseData);
-      // show visual feedback as overlay
-      if (debugMode == false) {
-        var overlayEntry = OverlayEntry(builder: (context) {
-          var ok = exerciseData.feedback == MbclExerciseFeedback.correct;
-          var color = ok ? Style().matheBuddyGreen : Style().matheBuddyRed;
-          var textsOK = ["well done", "awesome", "great"];
-          var iconsOK = [
-            "hand-clap",
-            "emoticon-happy-outline",
-            "check-outline",
-            "heart-outline"
-          ];
-          var textsERR = ["try again", "no", "incorrect"];
-          var iconsERR = ["emoticon-sad-outline", "emoticon-cry-outline"];
-          var text = ok
-              ? (textsOK.toList()..shuffle()).first
-              : (textsERR.toList()..shuffle()).first;
-          var icon = ok
-              ? (iconsOK.toList()..shuffle()).first
-              : (iconsERR.toList()..shuffle()).first;
-          return Container(
-              alignment: Alignment.center,
-              width: 200,
-              height: 200,
-              child: Opacity(
-                  opacity: 0.75,
-                  child: DefaultTextStyle(
-                      style: TextStyle(fontSize: 64, color: color),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            MdiIcons.fromString(icon),
-                            size: 80,
-                            color: color,
-                          ),
-                          Text(
-                            text,
-                          )
-                        ],
-                      ))));
-        });
-        Overlay.of(levelBuildContext!).insert(overlayEntry);
-        // ignore: invalid_use_of_protected_member
-        state.setState(() {});
-        Future.delayed(const Duration(milliseconds: 500), () {
-          overlayEntry.remove();
-          // ignore: invalid_use_of_protected_member
-          state.setState(() {});
-        });
-      }
+      renderFeedbackOverlay(
+          state, exerciseData.feedback == MbclExerciseFeedback.correct);
     },
     child: Container(
       width: getStyle().exerciseEvalButtonWidth,
@@ -206,8 +160,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
         state.setState(() {});
       },
       child: Container(
-        width: 75, //double.infinity,
-        //padding: EdgeInsets.only(left: 15, right: 5),
+        width: 75,
         decoration: BoxDecoration(
             border: Border.all(
                 width: 2.5, color: feedbackColor, style: BorderStyle.solid),
@@ -247,11 +200,6 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
   }
 
   list.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: buttons));
-  var opacity = 1.0;
-  // TODO: improve + reactivate this
-  /*if (state.activeExercise != null) {
-          opacity = item == state.activeExercise ? 1.0 : 0.3;
-        }*/
 
   if (debugMode && exerciseData.instances.isNotEmpty) {
     // show variable values
@@ -275,26 +223,64 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
     }
   }
 
-  var exerciseWidget = Opacity(
-      opacity: opacity,
-      child: Container(
-          decoration: BoxDecoration(
-            color: exerciseData.feedback == MbclExerciseFeedback.unchecked
-                ? Colors.white
-                : feedbackColor.withOpacity(0.08),
-            //border: Border.all(color: feedbackColor, width: borderWidth),
-            border: Border(
-              top: BorderSide(color: feedbackColor, width: borderWidth),
-              bottom: BorderSide(color: feedbackColor, width: borderWidth),
-            ),
-            //borderRadius: BorderRadius.circular(borderRadius)
-          ),
-          padding: EdgeInsets.only(bottom: 10.0),
-          margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: list)));
+  return Container(
+      decoration: BoxDecoration(
+        color: exerciseData.feedback == MbclExerciseFeedback.unchecked
+            ? Colors.white
+            : feedbackColor.withOpacity(0.08),
+        border: borderWidth > 0
+            ? Border(
+                top: BorderSide(color: feedbackColor, width: borderWidth),
+                bottom: BorderSide(color: feedbackColor, width: borderWidth),
+              )
+            : null,
+      ),
+      padding: EdgeInsets.only(bottom: 10.0),
+      margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: list));
+}
 
-  return exerciseWidget;
+void renderFeedbackOverlay(State state, bool success) {
+  // show visual feedback as overlay
+  //if (debugMode == false) {
+  var overlayEntry = OverlayEntry(builder: (context) {
+    var color = success ? Style().matheBuddyGreen : Style().matheBuddyRed;
+    var text = getFeedbackText(success);
+    var icon = getFeedbackIcon(success);
+    return Container(
+        alignment: Alignment.center,
+        width: 200,
+        height: 200,
+        child: Opacity(
+            opacity: 0.75,
+            child: DefaultTextStyle(
+                style: TextStyle(fontSize: 64, color: color),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      MdiIcons.fromString(icon),
+                      size: 80,
+                      color: color,
+                    ),
+                    Center(
+                        child: Text(
+                      text,
+                    ))
+                  ],
+                ))));
+  });
+  Overlay.of(levelBuildContext!).insert(overlayEntry);
+  // ignore: invalid_use_of_protected_member
+  state.setState(() {});
+  Future.delayed(const Duration(milliseconds: 500), () {
+    overlayEntry.remove();
+    // ignore: invalid_use_of_protected_member
+    state.setState(() {});
+  });
+  //}
 }
