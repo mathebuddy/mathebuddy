@@ -19,6 +19,8 @@ var showDebugReleaseSwitch = true;
 var debugMode = true;
 var language = 'en';
 
+BuildContext? levelBuildContext;
+
 var selectedCourseIdFromBundle = "";
 Map<String, MbclCourse> courses = {};
 var bundleName = 'assets/bundle-debug.json';
