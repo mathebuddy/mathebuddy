@@ -7,24 +7,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mathebuddy/keyboard.dart';
 
 import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/level_event.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/style.dart';
 
-AppBar buildAppBar(
-    bool showLogo, State state, MbclChapter? chapter, EventData? eventData) {
+AppBar buildAppBar(bool showLogo, State state, MbclChapter? chapter) {
   List<Widget> actions = [];
   // home button
   actions.add(Text('  '));
   var actionHome = IconButton(
     onPressed: () {
-      if (eventData != null) {
-        eventData.end();
-      }
       if (Navigator.canPop(state.context)) {
         Navigator.pop(state.context);
+        keyboardState.layout = null;
       }
     },
     icon: Icon(Icons.home,
