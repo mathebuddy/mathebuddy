@@ -158,7 +158,7 @@ class ChapterState extends State<ChapterWidget> {
                 child: Column(children: contents))));
 
     return Scaffold(
-      appBar: buildAppBar(true, this, widget.chapter, null),
+      appBar: buildAppBar(true, this, widget.chapter),
       body: body,
       backgroundColor: Colors.white,
     );
