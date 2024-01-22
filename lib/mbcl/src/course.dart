@@ -72,7 +72,7 @@ class MbclCourse {
       err += chapter.gatherErrors();
     }
     if (err.isNotEmpty) {
-      err = "@COURSE:\n$err";
+      err = "@COURSE $courseId:\n$err";
     }
     return err;
   }
@@ -103,7 +103,6 @@ class MbclCourse {
     } catch (e) {
       print("could not load global user data (OK for first run)");
     }
-    calcProgress();
     return true;
   }
 
@@ -162,6 +161,7 @@ class MbclCourse {
         }
       }
     }
+    calcProgress();
   }
 
   Map<String, Object> toJSON() {
