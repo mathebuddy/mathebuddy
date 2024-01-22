@@ -1,14 +1,3 @@
-EXAMPLE @exa:partiell
-    nd $g'(x)=e^x$ und erhalten $f'(x)=1$, $g(x)=\frac{1}{2}e^{2x}$. 
-
-
-EXAMPLE @exa:partiell
-    Das Integral $\int x \cdot e^x\, dx$ lässt sich mit Hilfe der partielle Integration berechnen:
-    Dafür setzen wir $f(x)=x$ und $g'(x)=e^x$ und erhalten $f'(x)=1$, $g(x)=\frac{1}{2}e^{2x}$. 
-
-!STOP
-
-
 Event
 ###############
 
@@ -27,6 +16,10 @@ EXERCISE
     Was ist der Realteil von $z=a+b i$?
 
     $\text{Re}(z)=$ #a,CHOICES=4
+
+
+
+
 
 
 !STOP
