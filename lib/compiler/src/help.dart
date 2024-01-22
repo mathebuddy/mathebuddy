@@ -20,7 +20,7 @@ int createUniqueId() {
 void checkAttributes(Map<String, String> attributes, List<String> validKeys) {
   for (var key in attributes.keys) {
     if (validKeys.contains(key) == false) {
-      throw Exception("Unknown attribute $key. ");
+      throw Exception("Unknown attribute '$key'. ");
     }
   }
 }
