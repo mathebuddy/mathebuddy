@@ -41,11 +41,15 @@ class CourseState extends State<CourseWidget> {
   @override
   void initState() {
     super.initState();
-    widget.course.loadUserData(); // TODO: no async OK???
+    widget.course.loadUserData().then((value) {
+      setState(() {});
+    }); // TODO: no async OK???
   }
 
   @override
   Widget build(BuildContext context) {
+    //widget.course.calcProgress();
+
     // author
     Widget author = Padding(
         padding: EdgeInsets.only(top: 8.0, left: 10, right: 10, bottom: 0),
@@ -76,7 +80,6 @@ class CourseState extends State<CourseWidget> {
                 ))));
     List<TableRow> tableRows = [];
     List<TableCell> tableCells = [];
-    widget.course.calcProgress();
 
     for (var i = 0; i < widget.course.chapters.length; i++) {
       var chapter = widget.course.chapters[i];
@@ -332,6 +335,13 @@ class CourseState extends State<CourseWidget> {
         //child: Image.asset('assets/img/logo-large-$language.png')
         child: Image.asset('assets/img/logo-large-no-text.png'));
 
+    // Widget bottomLogos = Container(
+    //     constraints: BoxConstraints(maxWidth: 400),
+    //     decoration: BoxDecoration(color: Colors.white),
+    //     child: Opacity(
+    //         opacity: 0.85,
+    //         child: Image.asset('assets/img/logo-institutes.png')));
+
     // all
     Widget contents = Column(children: [
       logo,
@@ -365,7 +375,14 @@ class CourseState extends State<CourseWidget> {
       //   height: 40,
       // ),
       //logo,
+      Text("\n"), Text("\n"),
+      Opacity(
+          opacity: 0.85,
+          child: Container(
+              constraints: BoxConstraints(maxWidth: 400),
+              child: Image.asset('assets/img/logo-institutes.png')))
     ]);
+
     contents = Center(
         child: Container(
             constraints: BoxConstraints(maxWidth: maxContentsWidth),
@@ -381,18 +398,11 @@ class CourseState extends State<CourseWidget> {
         padding: EdgeInsets.all(5),
         child: contents);
 
-    Widget bottomLogos = Container(
-        constraints: BoxConstraints(maxWidth: 400),
-        decoration: BoxDecoration(color: Colors.white),
-        child: Opacity(
-            opacity: 0.85,
-            child: Image.asset('assets/img/logo-institutes.png')));
-
     return Scaffold(
-      appBar: buildAppBar(false, this, null, null),
+      appBar: buildAppBar(false, this, null),
       body: body,
       backgroundColor: Colors.white,
-      bottomSheet: bottomLogos,
+      //bottomSheet: bottomLogos,
     );
   }
 
