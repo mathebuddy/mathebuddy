@@ -1,11 +1,10 @@
-import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/mbcl/src/award.dart';
-
 /// mathe:buddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
 /// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
+
+import 'package:mathebuddy/mbcl/src/award.dart';
 
 var awardsDatabase = {
   "3-days-in-row": {
