@@ -81,7 +81,7 @@ String compileMblCode(String path /*, String src*/) {
     updateSimShortInfo("");
     var softErrors = compiler.gatherErrors();
     if (softErrors.isNotEmpty) {
-      updateSimShortInfo('minor errors occurred (see log below)', true);
+      updateSimShortInfo('minor errors occurred (refer to log)', true);
       log += "+++++ MINOR ERRORS +++++<br/>";
       log += softErrors.replaceAll("\n", "<br/>");
       log += "+++++ END OF ERROR LOG +++++<br/>";
