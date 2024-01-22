@@ -8,12 +8,14 @@
 /// This file implements the home screen widget that contains the list of
 /// courses.
 
+import 'package:mathebuddy/event.dart';
 import 'package:mathebuddy/io.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:flutter/material.dart';
 import 'package:mathebuddy/widget_chapter.dart';
+import 'package:mathebuddy/widget_event.dart';
 import 'package:mathebuddy/widget_level.dart';
 
 import 'package:mathebuddy/widget_unit.dart';
@@ -79,7 +81,12 @@ class HomeState extends State<HomeWidget> {
                         var unit = chapter.units[0];
                         if (unit.levels.length == 1) {
                           var level = unit.levels[0];
-                          return LevelWidget(course!, chapter, unit, level);
+                          if (level.isEvent) {
+                            return EventWidget(course!, chapter, unit, level,
+                                EventData(level));
+                          } else {
+                            return LevelWidget(course!, chapter, unit, level);
+                          }
                         } else {
                           return UnitWidget(course!, chapter, unit);
                         }
@@ -132,7 +139,7 @@ class HomeState extends State<HomeWidget> {
         padding: EdgeInsets.all(5),
         child: contents);
     return Scaffold(
-      appBar: buildAppBar(true, this, null, null),
+      appBar: buildAppBar(true, this, null),
       body: body,
       backgroundColor: Colors.white,
     );
