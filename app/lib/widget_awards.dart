@@ -125,7 +125,7 @@ class AwardsState extends State<AwardsWidget> {
                 child: Column(children: contents))));
 
     return Scaffold(
-        appBar: buildAppBar(true, this, null, null),
+        appBar: buildAppBar(true, this, null),
         body: body,
         backgroundColor: Colors.white);
   }
