@@ -33,7 +33,7 @@ class HelpState extends State<HelpWidget> {
   Widget build(BuildContext context) {
     var body = Text('TODO: help widget');
     return Scaffold(
-        appBar: buildAppBar(true, this, null, null),
+        appBar: buildAppBar(true, this, null),
         body: body,
         backgroundColor: Colors.white);
   }
