@@ -287,7 +287,12 @@ MbclLevelItem parseInputElement(
     data.showAllLettersOfGap =
         getAttributeBool(attributes, "SHOW_ALL_LETTERS", false);
   } catch (e) {
+    exercise.error += "Error in an input element: ";
     exercise.error += e.toString();
+    if (e.toString().contains("Unknown attribute")) {
+      exercise.error +=
+          "You may try to end the list of attributes with a semicolon. ";
+    }
   }
   return inputField;
 }
