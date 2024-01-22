@@ -110,6 +110,7 @@ class ChatState extends State<ChatWidget> {
         chatHistory.add(ChatMessage(ChatMessageType.botMessage,
             getChatText("noExercises", language, [])));
       } else {
+        exercise.exerciseData!.reset();
         var chapterId = exercise.level.chapter.title;
         chatHistory.add(ChatMessage(ChatMessageType.botMessage,
             getChatText("hereExercise", language, [chapterId])));
@@ -117,8 +118,8 @@ class ChatState extends State<ChatWidget> {
         ex.referredItem = exercise;
         chatHistory.add(ex);
       }
-      //TODO: chatHistory.add(likeToExercise);
-      //TODO: pushTextInputField();
+      //chatHistory.add(likeToExercise);
+      pushTextInputField();
       setState(() {});
     };
     chatHistory.add(likeToExercise);
@@ -320,6 +321,8 @@ class ChatState extends State<ChatWidget> {
 
   @override
   Widget build(BuildContext context) {
+    levelBuildContext = context; // TODO: used for overlay
+
     List<Widget> chatWidgets = [];
     for (var msg in chatHistory) {
       if (!debugMode && msg.debugMessage) {
@@ -330,11 +333,11 @@ class ChatState extends State<ChatWidget> {
     var body = SingleChildScrollView(child: Column(children: chatWidgets));
     Widget bottomArea = Text('');
     if (keyboardState.layout != null) {
-      var keyboard = Keyboard(this, keyboardState, false);
+      var keyboard = Keyboard(this, keyboardState);
       bottomArea = keyboard.generateWidget();
     }
     return Scaffold(
-      appBar: buildAppBar(true, this, null, null),
+      appBar: buildAppBar(true, this, null),
       body: body,
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
