@@ -13,9 +13,9 @@ import 'package:mathebuddy/mbcl/src/level_item_input_field.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
 import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/widget_level.dart';
 import 'package:mathebuddy/help.dart';
 import 'package:mathebuddy/style.dart';
+import 'package:mathebuddy/level_item.dart';
 
 Widget generateSingleMultiChoice(
     State state, MbclLevel level, MbclLevelItem item,
