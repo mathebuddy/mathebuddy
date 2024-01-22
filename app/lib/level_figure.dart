@@ -7,13 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mathebuddy/level_item.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level_item_figure.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
-import 'package:mathebuddy/widget_level.dart';
 import 'package:mathebuddy/screen.dart';
 
 Widget generateFigure(State state, MbclLevel level, MbclLevelItem item,
