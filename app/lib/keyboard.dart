@@ -156,11 +156,11 @@ class KeyboardLayout {
 class Keyboard {
   final State state;
   final KeyboardState keyboardState;
-  final bool evaluateDirectly;
+  //final bool evaluateDirectly;
   final KeyboardLayout keyboardLayout;
   final MbclInputFieldData keyboardInputFieldData;
 
-  Keyboard(this.state, this.keyboardState, this.evaluateDirectly)
+  Keyboard(this.state, this.keyboardState /*, this.evaluateDirectly*/)
       : keyboardLayout = keyboardState.layout!,
         keyboardInputFieldData = keyboardState.inputFieldData!;
 
@@ -462,11 +462,11 @@ class Keyboard {
       keyboardState.exerciseData?.feedback = MbclExerciseFeedback.unchecked;
     }
     // evaluate exercise on first key (used e.g. for Event levels)
-    if (evaluateDirectly) {
-      var exerciseData = keyboardState.exerciseData!;
-      evaluateExercise(state, exerciseData.exercise.level, exerciseData);
-      var bp = 1337;
-    }
+    // if (evaluateDirectly) {
+    //   var exerciseData = keyboardState.exerciseData!;
+    //   evaluateExercise(state, exerciseData.exercise.level, exerciseData);
+    //   var bp = 1337;
+    // }
     // ignore: invalid_use_of_protected_member
     state.setState(() {});
   }
