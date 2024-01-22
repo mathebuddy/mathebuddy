@@ -93,6 +93,7 @@ class MbclChapter {
 
   bool saveUserData() {
     if (course.checkFileIO() == false) return false;
+    calcProgress();
     var chapterJson = progressToJSON();
     var chapterStringified = JsonEncoder.withIndent("  ").convert(chapterJson);
     var path = _getFilePath();
