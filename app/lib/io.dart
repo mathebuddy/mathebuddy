@@ -12,6 +12,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:universal_html/html.dart' as html;
 
 import 'package:mathebuddy/mbcl/src/persistence.dart';
 
@@ -47,11 +48,16 @@ class AppPersistence implements MbclPersistence {
         if (response.statusCode == 200) {
           return response.body;
         } else {
-          throw Exception("failed to load");
+          throw Exception("failed to load $localPath");
         }
       } else {
-        var msg = "WARNING: reading file '$localPath' is not supported";
-        throw Exception(msg);
+        //var msg = "WARNING: reading file '$localPath' is not supported";
+        //throw Exception(msg);
+        if (html.window.localStorage.containsKey(localPath)) {
+          return html.window.localStorage[localPath]!;
+        } else {
+          throw Exception("failed to load $localPath");
+        }
       }
     } else {
       var file = File("$documentsPath/$localPath");
@@ -74,7 +80,9 @@ class AppPersistence implements MbclPersistence {
             // }),
             body: data);
       } else {
-        print("WARNING: writing file '$localPath' is not supported");
+        //print("WARNING: writing file '$localPath' is not supported");
+        html.window.localStorage[localPath] = data;
+        // console.log(window.localStorage.getItem("blub"));
       }
     } else {
       var file = File("$documentsPath/$localPath");
