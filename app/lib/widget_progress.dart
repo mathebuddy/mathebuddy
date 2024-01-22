@@ -34,7 +34,7 @@ class ProgressState extends State<ProgressWidget> {
     var body = Text('TODO: progress widget');
 
     return Scaffold(
-        appBar: buildAppBar(true, this, null, null),
+        appBar: buildAppBar(true, this, null),
         body: body,
         backgroundColor: Colors.white);
   }
