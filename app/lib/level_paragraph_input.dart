@@ -58,26 +58,11 @@ class AppInputField {
                 ))),
       ]));
     } else {
-      var tex = TeX();
-      tex.scalingFactor = 1.33; //1.17;
-      tex.setColor(feedbackColor.red, feedbackColor.green, feedbackColor.blue);
-
       List<InlineSpan> parts = [];
 
       var studentValue = inputFieldData!.studentValue;
-      var studentValueTeX = studentValue;
-      var texValid = true;
-      try {
-        studentValueTeX = convertMath2TeX(studentValue, true);
-      } catch (e) {
-        texValid = false;
-        studentValueTeX = studentValueTeX
-            .replaceAll("{", "\\{")
-            .replaceAll("}", "\\}")
-            .replaceAll("^", "\\wedge");
-      }
-      var svgData = tex.tex2svg(studentValueTeX, displayStyle: true);
-      if (tex.success()) {
+
+      if (inputFieldData!.type == MbclInputFieldType.string) {
         parts.add(WidgetSpan(
             alignment: PlaceholderAlignment.middle,
             child: Container(
@@ -85,25 +70,57 @@ class AppInputField {
                     ? EdgeInsets.only(left: 5, right: 5)
                     : EdgeInsets.all(0),
                 decoration: BoxDecoration(
-                    border: texValid
-                        ? null
-                        : Border(
-                            top: BorderSide(
-                                color: getStyle().matheBuddyRed, width: 1.5),
-                            bottom: BorderSide(
-                                color: getStyle().matheBuddyRed, width: 1.5)),
                     color: isActive
                         ? feedbackColor.withOpacity(activeOpacity)
                         : Colors.white.withOpacity(0.0),
-                    borderRadius: texValid
-                        ? BorderRadius.all(Radius.circular(4.0))
-                        : null),
-                child:
-                    SvgPicture.string(svgData, width: tex.width.toDouble()))));
+                    borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                child: Text(studentValue,
+                    style: TextStyle(color: feedbackColor, fontSize: 20)))));
       } else {
-        parts.add(TextSpan(
-            text: tex.error,
-            style: TextStyle(color: Colors.red, fontSize: defaultFontSize)));
+        var studentValueTeX = studentValue;
+        var texValid = true;
+        try {
+          studentValueTeX = convertMath2TeX(studentValue, true);
+        } catch (e) {
+          texValid = false;
+          studentValueTeX = studentValueTeX
+              .replaceAll("{", "\\{")
+              .replaceAll("}", "\\}")
+              .replaceAll("^", "\\wedge");
+        }
+        var tex = TeX();
+        tex.scalingFactor = 1.33; //1.17;
+        tex.setColor(
+            feedbackColor.red, feedbackColor.green, feedbackColor.blue);
+        var svgData = tex.tex2svg(studentValueTeX, displayStyle: true);
+        if (tex.success()) {
+          parts.add(WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              child: Container(
+                  padding: isActive
+                      ? EdgeInsets.only(left: 5, right: 5)
+                      : EdgeInsets.all(0),
+                  decoration: BoxDecoration(
+                      border: texValid
+                          ? null
+                          : Border(
+                              top: BorderSide(
+                                  color: getStyle().matheBuddyRed, width: 1.5),
+                              bottom: BorderSide(
+                                  color: getStyle().matheBuddyRed, width: 1.5)),
+                      color: isActive
+                          ? feedbackColor.withOpacity(activeOpacity)
+                          : Colors.white.withOpacity(0.0),
+                      borderRadius: texValid
+                          ? BorderRadius.all(Radius.circular(4.0))
+                          : null),
+                  child: SvgPicture.string(svgData,
+                      width: tex.width.toDouble()))));
+        } else {
+          parts.add(TextSpan(
+              text: tex.error,
+              style: TextStyle(color: Colors.red, fontSize: defaultFontSize)));
+        }
       }
 
       contents = RichText(text: TextSpan(children: parts));
@@ -187,6 +204,7 @@ class AppInputField {
                     var ch = expected[i];
                     letters.add(ch);
                   }
+                  letters.add("!M"); // magic key
                   keyboardState.layout = createChoiceKeyboard(letters.toList());
                 }
                 if (inputFieldData!.hideLengthOfGap == false) {
