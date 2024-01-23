@@ -6,14 +6,11 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
-import 'package:mathebuddy/level_exercise.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level_item_input_field.dart';
 
 import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/screen.dart';
-import 'package:mathebuddy/widget_level.dart';
 import 'package:mathebuddy/style.dart';
 
 KeyboardState keyboardState = KeyboardState();
