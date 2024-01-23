@@ -10,10 +10,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:mathebuddy/keyboard.dart';
 
 import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/mbcl/src/chapter.dart';
+import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/style.dart';
+import 'package:mathebuddy/widget_chat.dart';
 
-AppBar buildAppBar(bool showLogo, State state, MbclChapter? chapter) {
+AppBar buildAppBar(bool showAppLogo, bool showChatButton, State state,
+    BuildContext context, MbclCourse? course) {
   List<Widget> actions = [];
   // home button
   actions.add(Text('  '));
@@ -30,27 +32,23 @@ AppBar buildAppBar(bool showLogo, State state, MbclChapter? chapter) {
             ? getStyle().appbarIconActiveColor
             : getStyle().appbarIconInactiveColor),
   );
-  var actionChat = IconButton(
-      onPressed: () {
-        // TODO
-        // var route = MaterialPageRoute(builder: (context) {
-        //   return ChatWidget(widget.course);
-        // });
-        // Navigator.push(context, route).then((value) => setState(() {}));
-      },
-      icon: Icon(
-        MdiIcons.fromString("chat-question-outline"),
-        size: 42,
-        color: getStyle().appbarIconActiveColor,
-      )
-      // Icon(
-      //   Icons.chat,
-      //   size: 36,
-      //   color: getStyle().appbarIconActiveColor,
-      // ),
-      );
-  //actions.add(actionChat);
-  //actions.add(Text('  '));
+  if (showChatButton && course != null) {
+    actions.add(IconButton(
+        onPressed: () {
+          var route = MaterialPageRoute(builder: (context) {
+            return ChatWidget(course);
+          });
+          Navigator.push(context, route)
+              // ignore: invalid_use_of_protected_member
+              .then((value) => {state.setState(() {})});
+        },
+        icon: Icon(
+          MdiIcons.fromString("chat-question-outline"),
+          size: 42,
+          color: getStyle().appbarIconActiveColor,
+        )));
+  }
+  actions.add(Text('  '));
   actions.add(actionHome);
   actions.add(Text('    '));
   // language switch
@@ -127,33 +125,15 @@ AppBar buildAppBar(bool showLogo, State state, MbclChapter? chapter) {
             },
             child: switchDebugReleaseButton)
         : Text(''),
-    // Text(' '),
-    // debugMode
-    //     ? GestureDetector(
-    //         onTap: () {
-    //           if (chapter != null) chapter.saveProgress();
-    //           // ignore: invalid_use_of_protected_member
-    //           state.setState(() {});
-    //         },
-    //         child: saveButton)
-    //     : Text('')
   ]);
   return AppBar(
       centerTitle: true,
       backgroundColor: getStyle().appbarBackgroundColor,
       title: title,
-      leading: showLogo
+      leading: showAppLogo
           ? Padding(
               padding: EdgeInsets.all(7),
-              child: /*Container(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                    blurRadius: 5.0,
-                    spreadRadius: 4.0,
-                    offset: Offset(1, 1),
-                    color: const Color.fromARGB(255, 30, 30, 30))
-              ]),*/
-                  Image.asset("assets/img/logoSmall.png"))
+              child: Image.asset("assets/img/logoSmall.png"))
           : Text(""),
       elevation: 1,
       actions: actions);
