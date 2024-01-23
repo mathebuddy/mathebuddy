@@ -138,6 +138,9 @@ class KeyboardLayout {
       case '!E': // enter
         key.text = 'icon:E614'; // subdirectory_arrow_left
         break;
+      case '!M': //magic key
+        key.text = 'icon:E5fA'; // star_border
+        break;
       default:
         key.text = value;
     }
@@ -388,13 +391,24 @@ class Keyboard {
   keyPressed(KeyboardKey key) {
     // TODO: move code!!
     //print('pressed key ${key.value}');
-    if (key.value == '!B') {
+    if (key.value == '!M') {
+      // magic
+      if (keyboardInputFieldData.type == MbclInputFieldType.string) {
+        var expected = keyboardInputFieldData.expectedValue.toUpperCase();
+        var student = keyboardInputFieldData.studentValue;
+        if (student.length < expected.length &&
+            expected.substring(0, student.length) == student) {
+          keyboardInputFieldData.studentValue +=
+              expected[student.length].toUpperCase();
+          keyboardInputFieldData.cursorPos++;
+        }
+      }
+    } else if (key.value == '!B') {
       // backspace
       if (keyboardInputFieldData.studentValue.isNotEmpty &&
           keyboardInputFieldData.cursorPos > 0) {
         var oldValue = keyboardInputFieldData.studentValue;
         var newValue = "";
-
         var specialKey = "";
         var oldValueLeftOfCursor =
             oldValue.substring(0, keyboardInputFieldData.cursorPos);
