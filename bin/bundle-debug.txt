@@ -2,6 +2,7 @@
 # format: "ID: PATH"
 
 compiler-smoke:../lib/compiler/test/smoke-test.mbl
+privateHM1:../../mathebuddy-private-courses/hm1/course.mbl
 
 parts:../../mathebuddy-public-courses/demo-basic/parts.mbl
 event:../../mathebuddy-public-courses/demo-basic/event.mbl
@@ -10,7 +11,6 @@ exercises:../../mathebuddy-public-courses/demo-basic/exercises.mbl
 courseTest:../../mathebuddy-public-courses/demo-course/course.mbl
 equations:../../mathebuddy-public-courses/demo-basic/equations.mbl
 
-privateHM1:../../mathebuddy-private-courses/hm1/course.mbl
 privateHM1complex:../../mathebuddy-private-courses/hm1/komplex/index.mbl
 privateHM1limits:../../mathebuddy-private-courses/hm1/grenzwert/index.mbl
 privateHM1integrals:../../mathebuddy-private-courses/hm1/integral/index.mbl
