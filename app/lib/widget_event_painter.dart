@@ -38,7 +38,7 @@ class EventPainter extends CustomPainter {
     canvas.drawLine(Offset(0, 25), Offset(percentage * width, 25), paint);
 
     if (middleLine) {
-      paint.color = const Color.fromARGB(255, 45, 45, 45);
+      paint.color = const Color.fromARGB(255, 145, 145, 145);
       paint.strokeWidth = 3.0;
       paint.strokeCap = StrokeCap.round;
       canvas.drawLine(Offset(width / 2, 10), Offset(width / 2, 40), paint);
