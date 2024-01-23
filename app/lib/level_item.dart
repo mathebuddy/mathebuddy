@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mathebuddy/error.dart';
+import 'package:mathebuddy/main.dart';
 
 import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
@@ -22,7 +23,6 @@ import 'package:mathebuddy/level_single_multi_choice.dart';
 import 'package:mathebuddy/level_table.dart';
 import 'package:mathebuddy/level_equation.dart';
 import 'package:mathebuddy/level_paragraph.dart';
-import 'package:mathebuddy/level_paragraph_item.dart';
 import 'package:mathebuddy/level_todo.dart';
 import 'package:mathebuddy/style.dart';
 
@@ -31,6 +31,7 @@ Widget generateLevelItem(State state, MbclLevel level, MbclLevelItem item,
     paragraphPaddingRight = 3.0,
     paragraphPaddingTop = 10.0,
     paragraphPaddingBottom = 5.0,
+    textColor = Colors.black,
     MbclExerciseData? exerciseData}) {
   if (item.error.isNotEmpty) {
     var title = item.title;
@@ -109,7 +110,8 @@ Widget generateLevelItem(State state, MbclLevel level, MbclLevelItem item,
             paragraphPaddingLeft: paragraphPaddingLeft,
             paragraphPaddingRight: paragraphPaddingRight,
             paragraphPaddingTop: paragraphPaddingTop,
-            paragraphPaddingBottom: paragraphPaddingBottom);
+            paragraphPaddingBottom: paragraphPaddingBottom,
+            textColor: textColor);
       }
     case MbclLevelItemType.alignCenter:
       {
@@ -146,7 +148,11 @@ Widget generateLevelItem(State state, MbclLevel level, MbclLevelItem item,
       }
     case MbclLevelItemType.todo:
       {
-        return generateTodo(state, level, item, exerciseData: exerciseData);
+        if (debugMode) {
+          return generateTodo(state, level, item, exerciseData: exerciseData);
+        } else {
+          return Text("");
+        }
       }
     case MbclLevelItemType.exercise:
       {
