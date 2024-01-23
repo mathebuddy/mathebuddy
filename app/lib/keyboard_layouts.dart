@@ -12,6 +12,7 @@ import 'package:mathebuddy/keyboard.dart';
 /// !B := backspace
 /// !E := enter key
 /// !S := space key
+/// !M := magic key (sets next letter of gap question)
 /// # := empty / no key
 /// !X !Y !Z := variable placeholders (e.g. for x,y,z)
 
@@ -98,7 +99,7 @@ var keyboardLayoutsSrc = '''
 
 Q W E R T Z U I O P
 A S D F G H J K L !B
-Y X C V B N M !S !S !E
+Y X C V B N M !S !M !E
 ''';
 
 Map<String, String> keyboardLayouts = {};
@@ -152,6 +153,11 @@ KeyboardLayout createChoiceKeyboard(List<String> choices,
     k++;
     if (k > 5) break;
   } while (choices.length > 1 && choices[0] == originalOrder[0]);
+  // move magic key to end
+  if (choices.contains('!M')) {
+    choices.removeAt(choices.indexOf('!M'));
+    choices.add('!M');
+  }
   // generate the keyboard matrix
   var rows = sqrt(choices.length.toDouble()).floor();
   if (rows > 4) rows = 4;
