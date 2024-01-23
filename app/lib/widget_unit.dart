@@ -216,7 +216,7 @@ class UnitState extends State<UnitWidget> {
             top: level.screenPosY + 5,
             child: IgnorePointer(
                 child: Icon(Icons.lock,
-                    size: lockSize, color: Colors.white.withOpacity(0.25)))));
+                    size: lockSize, color: Colors.white.withOpacity(0.7)))));
       }
     }
 
@@ -297,7 +297,7 @@ class UnitState extends State<UnitWidget> {
           Stack(children: widgets)
         ]));
     return Scaffold(
-      appBar: buildAppBar(true, this, widget.chapter),
+      appBar: buildAppBar(true, true, this, context, widget.course),
       body: body,
       backgroundColor: Colors.white,
     );
