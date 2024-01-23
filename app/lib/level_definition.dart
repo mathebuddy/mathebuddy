@@ -17,18 +17,18 @@ Widget generateDefinition(State state, MbclLevel level, MbclLevelItem item,
     {MbclExerciseData? exerciseData}) {
 // TODO: other MbclLevelItemType.def*
   // TODO: icon
-  var prefix = '';
-  switch (item.type) {
-    case MbclLevelItemType.defDefinition:
-      prefix = 'Definition';
-      break;
-    case MbclLevelItemType.defTheorem:
-      prefix = 'Theorem';
-      break;
-    default:
-      prefix = 'UNIMPLEMENTED';
-      break;
-  }
+  // var prefix = '';
+  // switch (item.type) {
+  //   case MbclLevelItemType.defDefinition:
+  //     prefix = 'Definition';
+  //     break;
+  //   case MbclLevelItemType.defTheorem:
+  //     prefix = 'Theorem';
+  //     break;
+  //   default:
+  //     prefix = 'UNIMPLEMENTED';
+  //     break;
+  // }
   List<Widget> list = [];
   if (level.disableBlockTitles) {
     list.add(Text(' '));
