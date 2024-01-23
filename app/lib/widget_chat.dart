@@ -13,7 +13,7 @@ import 'package:mathebuddy/db_chat.dart';
 import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/level_exercise.dart';
 import 'package:mathebuddy/widget_level.dart';
-import 'package:mathebuddy/level_paragraph_item.dart';
+import 'package:mathebuddy/level_paragraph.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/style.dart';
 
@@ -337,7 +337,7 @@ class ChatState extends State<ChatWidget> {
       bottomArea = keyboard.generateWidget();
     }
     return Scaffold(
-      appBar: buildAppBar(true, this, null),
+      appBar: buildAppBar(true, false, this, context, widget.course),
       body: body,
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
