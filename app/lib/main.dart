@@ -5,15 +5,13 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
-import 'dart:convert';
-
+import 'package:mathebuddy/widget_load.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/mbcl/src/course.dart';
 
 import 'package:mathebuddy/color.dart';
-import 'package:mathebuddy/widget_home.dart';
 
 var showDebugReleaseSwitch = true;
 var debugMode = true;
@@ -55,47 +53,6 @@ void main() {
           primarySwatch: buildMaterialColor(Color(0xFFFFFFFF)),
           bottomSheetTheme: BottomSheetThemeData(
               backgroundColor: Colors.black.withOpacity(0))),
-      home: const HomeWidget(),
+      home: LoadWidget(),
       debugShowCheckedModeBanner: false));
-}
-
-void loadCourseBundle(BuildContext context, State state) async {
-  var bundleDataStr =
-      await DefaultAssetBundle.of(context).loadString(bundleName, cache: false);
-  var bundleDataJson = jsonDecode(bundleDataStr);
-  courses = {};
-  if (bundleName.contains('bundle-debug.json') ||
-      bundleName.contains('bundle-websim.json')) {
-    courses['DEBUG'] = MbclCourse();
-  }
-  bundleDataJson.forEach((key, value) {
-    if (key != '__type') {
-      var course = MbclCourse();
-      course.fromJSON(value);
-      courses[key] = course;
-    }
-  });
-  print('list of courses: ${courses.keys}');
-  // ignore: invalid_use_of_protected_member
-  state.setState(() {});
-}
-
-bool loadDebugCourse() {
-  if (html.document.getElementById('course-data-span') != null &&
-      ((html.document.getElementById('course-data-span') as html.SpanElement)
-              .innerHtml as String)
-          .isNotEmpty) {
-    var courseDataStr =
-        html.document.getElementById('course-data-span')?.innerHtml as String;
-    courseDataStr = courseDataStr.replaceAll('&lt;', '<');
-    courseDataStr = courseDataStr.replaceAll('&gt;', '>');
-    courseDataStr = courseDataStr.replaceAll('&quot;', '"');
-    courseDataStr = courseDataStr.replaceAll('&#039;', '\'');
-    courseDataStr = courseDataStr.replaceAll('&amp;', '&');
-    var course = MbclCourse();
-    course.fromJSON(jsonDecode(courseDataStr));
-    courses['DEBUG'] = course;
-    return true;
-  }
-  return false;
 }
