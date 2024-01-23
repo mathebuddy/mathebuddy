@@ -13,7 +13,6 @@ import 'package:mathebuddy/appbar.dart';
 import 'package:mathebuddy/db_awards.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
-import 'package:mathebuddy/mbcl/src/award.dart';
 import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
 
@@ -47,17 +46,15 @@ class AwardsState extends State<AwardsWidget> {
                     fontSize: getStyle().courseTitleFontSize,
                     fontWeight: getStyle().courseTitleFontWeight))));
 
-    // List<MbclAward> testAwards = [];
-    // for (var awardId in awardsDatabase.keys) {
-    //   var date = DateTime.now();
-    //   var awardText = awardsDatabase[awardId]![language]!;
-    //   testAwards.add(MbclAward(awardId, awardText, date));
-    // }
-    // testAwards.add(
-    //     MbclAward("3-days-in-row", "Trained 3 days in a row", DateTime.now()));
-    // testAwards.add(MbclAward("5-days-in-row", "Trained 5 days in a row", null));
-    // testAwards
-    //     .add(MbclAward("10-days-in-row", "Trained 10 days in a row", null));
+    var constructionSite = Padding(
+        padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
+        child: Center(
+            child: Text(language == "de" ? "Baustelle" : "in construction",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold))));
 
     var awardList = getAwardList();
     // TODO: test
@@ -113,7 +110,7 @@ class AwardsState extends State<AwardsWidget> {
     }
     var table = Table(children: awardWidgets);
 
-    List<Widget> contents = [title, table];
+    List<Widget> contents = [title, constructionSite, table];
 
     var body = SingleChildScrollView(
         physics: BouncingScrollPhysics(
@@ -125,7 +122,7 @@ class AwardsState extends State<AwardsWidget> {
                 child: Column(children: contents))));
 
     return Scaffold(
-        appBar: buildAppBar(true, this, null),
+        appBar: buildAppBar(true, true, this, context, widget.course),
         body: body,
         backgroundColor: Colors.white);
   }
