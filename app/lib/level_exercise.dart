@@ -32,11 +32,12 @@ void evaluateExercise(
 Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
     {bool generateInputFields = true,
     double borderRadius = 0.0,
-    double borderWidth = 1.75}) {
+    double borderWidth = 1.75,
+    eventColorScheme = false}) {
   exerciseKey = GlobalKey();
   var exerciseData = item.exerciseData!;
   exerciseData.generateInputFields = generateInputFields;
-  List<Widget> list = [];
+  List<Widget> widgets = [];
   if (debugMode && exerciseData.requiredExercises.isNotEmpty) {
     var text = 'DEBUG INFO: This exercise depends on [';
     for (var req in exerciseData.requiredExercises) {
@@ -46,13 +47,13 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
       }
     }
     text += ']';
-    list.add(Text(
+    widgets.add(Text(
       text,
       style: TextStyle(color: Colors.grey),
     ));
   }
   if (level.disableBlockTitles) {
-    list.add(Text(
+    widgets.add(Text(
       ' ',
       key: exerciseKey,
     ));
@@ -72,7 +73,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20)))
           ]))
     ]);
-    list.add(title);
+    widgets.add(title);
   }
   if (debugMode) {
     // show random instances, scores, time
@@ -81,7 +82,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
     if (exerciseData.time >= 0) {
       text += "   \u231b${exerciseData.time}";
     }
-    list.add(Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+    widgets.add(Row(mainAxisAlignment: MainAxisAlignment.end, children: [
       Opacity(
           opacity: 0.8,
           child: Padding(
@@ -98,11 +99,12 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
   }
   for (var i = 0; i < item.items.length; i++) {
     var subItem = item.items[i];
-    list.add(Wrap(children: [
+    widgets.add(Wrap(children: [
       generateLevelItem(state, level, subItem,
           paragraphPaddingLeft: 10.0,
           paragraphPaddingTop: i == 0 ? 5.0 : 10.0,
-          exerciseData: item.exerciseData)
+          exerciseData: item.exerciseData,
+          textColor: eventColorScheme ? Colors.white : Colors.black)
     ]));
   }
 
@@ -199,13 +201,14 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
     }
   }
 
-  list.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: buttons));
+  widgets
+      .add(Row(mainAxisAlignment: MainAxisAlignment.center, children: buttons));
 
   if (debugMode && exerciseData.instances.isNotEmpty) {
     // show variable values
     var text = exerciseData.getVariableValuesAsString();
     if (text.isNotEmpty) {
-      list.add(Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      widgets.add(Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Flexible(
             child: Opacity(
                 opacity: 0.8,
@@ -223,11 +226,17 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
     }
   }
 
+  var backgroundColor = exerciseData.feedback == MbclExerciseFeedback.unchecked
+      ? Colors.white
+      : feedbackColor.withOpacity(0.08);
+
+  if (eventColorScheme) {
+    backgroundColor = Colors.black;
+  }
+
   return Container(
       decoration: BoxDecoration(
-        color: exerciseData.feedback == MbclExerciseFeedback.unchecked
-            ? Colors.white
-            : feedbackColor.withOpacity(0.08),
+        color: backgroundColor,
         border: borderWidth > 0
             ? Border(
                 top: BorderSide(color: feedbackColor, width: borderWidth),
@@ -240,7 +249,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
-          children: list));
+          children: widgets));
 }
 
 void renderFeedbackOverlay(State state, bool success) {
