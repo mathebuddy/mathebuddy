@@ -24,6 +24,7 @@ import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/error.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:mathebuddy/level_item.dart';
+import 'package:mathebuddy/widget_load.dart';
 
 class LevelWidget extends StatefulWidget {
   final MbclCourse course;
@@ -117,6 +118,30 @@ class LevelState extends State<LevelWidget> {
                           child: Text("reload level",
                               style: TextStyle(
                                   color: Colors.white, fontSize: 18))))))));
+      page.add(Text(" "));
+      page.add(Center(
+          child: Opacity(
+              opacity: 0.8,
+              child: GestureDetector(
+                  onTap: (() {
+                    for (var item in widget.level.items) {
+                      if (item.type == MbclLevelItemType.exercise) {
+                        item.exerciseData!.feedback =
+                            MbclExerciseFeedback.correct;
+                      }
+                    }
+                    setState(() {});
+                  }),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 10, right: 10, top: 4, bottom: 4),
+                          child: Text("set all exercises correct",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18))))))));
     }
 
     // level items
@@ -196,7 +221,7 @@ class LevelState extends State<LevelWidget> {
           generateLevelBottomNavigationBar(this, level, levelTitleKey!);
     }
     return Scaffold(
-      appBar: buildAppBar(true, this, widget.chapter),
+      appBar: buildAppBar(true, true, this, context, widget.course),
       body: body,
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
