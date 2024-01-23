@@ -27,7 +27,8 @@ do
     echo "[1]  build website"
     echo "[2]  build documentation"
     echo "[3]  build flutter web app"
-    echo "[4]  build android app"
+    echo "[4a]  build android app"
+    echo "[4c]  build macOS app"
     echo "[5]  run website at http://localhost:8314"
     echo "[6]  run tests"
     #echo "[7]  update testdata from mathebuddy-public-courses repo"
@@ -81,10 +82,16 @@ do
         ./build-web.sh
         cd ..
         ;;
-    4)
-        # [4] build flutter android app
+    4a)
+        # [4a] build flutter android app
         cd app
         ./build-android.sh
+        cd ..
+        ;;
+    4c)
+        # [4c] build flutter macOS app
+        cd app
+        ./build-macos.sh
         cd ..
         ;;
     5)
