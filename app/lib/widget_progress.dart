@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mathebuddy/appbar.dart';
+import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 
 class ProgressWidget extends StatefulWidget {
@@ -31,11 +32,19 @@ class ProgressState extends State<ProgressWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var body = Text('TODO: progress widget');
+    var constructionSite = Padding(
+        padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
+        child: Center(
+            child: Text(language == "de" ? "Baustelle" : "in construction",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold))));
 
     return Scaffold(
-        appBar: buildAppBar(true, this, null),
-        body: body,
+        appBar: buildAppBar(true, true, this, context, widget.course),
+        body: constructionSite,
         backgroundColor: Colors.white);
   }
 }
