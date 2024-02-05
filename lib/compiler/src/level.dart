@@ -305,6 +305,8 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
         }
         // compile math
         var lexer = Lexer();
+        lexer.enableEmitSingleQuotes(false);
+        lexer.enableEmitBigint(false);
         lexer.enableEmitBigint(false);
         lexer.pushSource('', equation.text);
         data.math = parseInlineMath(level, lexer, exercise);

@@ -1,3 +1,65 @@
+EQUATION*
+    \int_a^b f(x)g'(x)\, dx = \left[f(x)g(x)\right]_a^b - \int_a^b f'(x)g(x)\, dx
+
+
+Partielle Integration
+##########
+
+PART
+    ICON=help-circle-outline
+
+EXERCISE @ex:partiell1
+    Welche Gleichung beschreibt die Produktregel aus der Differentialrechnung für die Funktion $h(x)=f(x) \cdot g(x)$?
+
+    (x) $h'(x)=f'(x) \cdot g(x) + f(x) \cdot g'(x)$
+    ( ) $h'(x)=f'(x) \cdot g(x) - f(x) \cdot g'(x)$
+    ( ) $h'(x)=f'(x) \cdot g'(x) + f(x) \cdot g(x)$
+    ( ) $h'(x)=f'(x) \cdot g'(x) - f(x) \cdot g(x)$
+
+PART
+    ICON=book-open-page-variant-outline
+ 
+DEFINITION  @def:partiell
+    Die **partielle Integration** kann man als Pendant der Produktregel der
+    Differentiation ansehen.
+
+    Für zwei stetig differenzierbare Funktionen $f,g:[a,b] \rightarrow \RR $ gilt:
+    EQUATION*
+        \int_a^b f(x)g'(x)\, dx = \left[f(x)g(x)\right]_a^b - \int_a^b f'(x)g(x)\, dx
+    bzw. für die unbestimmten Integrale gilt:
+    EQUATION*
+        \int f(x)g'(x)\, dx = f(x)g(x) - \int f'(x)g(x)\, dx
+    
+    Die partielle Integration liefert keine
+    geschlossene Lösungsmethode für alle Integrale von Produkten von Funktionen, sondern führt lediglich auf ein anderes
+    Integral, das sich vielleicht besser lösen lässt.
+
+EXAMPLE @exa:partiell
+    Das Integral $\int x \cdot e^x\, dx$ lässt sich mit Hilfe der partielle Integration berechnen:
+    Dafür setzen wir $f(x)=x$ und $g'(x)=e^x$ und erhalten $f'(x)=1$, $g(x)=\frac{1}{2}e^{2x}$. 
+    Mit der Formel folgt dann
+    ALIGNED-EQUATION*
+        \int x \cdot e^{2}x \, dx &= x \cdot \frac{1}{2}e^{2x} - \int 1 \cdot \frac{1}{2} e^x \, dx \\
+        &= \frac{1}{2}xe^x - \frac{1}{2}e^x + C \\
+        &= \frac{1}{2}(x-1)e^x + C , \; C \in \mathbb{R}\\
+
+    Wird im Integranden ein Polynom (hier $x$) mit einer Exponential- oder trigonometrischen Funktion (hier $e^x$) multipliziert, so ist es meist ein guter Ansatz das Polynom als abzuleitende Funktion $f(x)$ und die jeweils andere als zu integrierende Funktion $g'(x)$ zu setzen!
+ 
+PART
+    ICON=checkbox-marked-circle-outline
+ 
+EXERCISE @ex:partiell2
+    CODE
+        f(x) = (x+1) / exp(x);
+        F(x) = x*e^x;
+
+    Bestimme durch **partielle Integration:**
+    CENTER
+        $ \int f \, dx = $ #F $ + C, ~~ C \in \RR$
+
+!STOP
+
+
 Event
 ###############
 
