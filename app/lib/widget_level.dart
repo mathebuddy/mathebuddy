@@ -381,7 +381,9 @@ Widget generateLevelBottomNavigationBar(
     }
   }
   // spacing
-  buttons.add(Text("  "));
+  for (var i = 0; i < 3; i++) {
+    buttons.add(Text("  "));
+  }
   // output
   return Opacity(
       opacity: 1.0,

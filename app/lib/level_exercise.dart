@@ -99,6 +99,14 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
   }
   for (var i = 0; i < item.items.length; i++) {
     var subItem = item.items[i];
+
+    if (generateInputFields == false) {
+      if (subItem.type == MbclLevelItemType.singleChoice ||
+          subItem.type == MbclLevelItemType.multipleChoice) {
+        continue;
+      }
+    }
+
     widgets.add(Wrap(children: [
       generateLevelItem(state, level, subItem,
           paragraphPaddingLeft: 10.0,
@@ -252,7 +260,8 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
           children: widgets));
 }
 
-void renderFeedbackOverlay(State state, bool success) {
+void renderFeedbackOverlay(State state, bool success,
+    {textOpacity = 0.75, backgroundOpacity = 0.0}) {
   // show visual feedback as overlay
   //if (debugMode == false) {
   var overlayEntry = OverlayEntry(builder: (context) {
@@ -264,24 +273,27 @@ void renderFeedbackOverlay(State state, bool success) {
         width: 200,
         height: 200,
         child: Opacity(
-            opacity: 0.75,
-            child: DefaultTextStyle(
-                style: TextStyle(fontSize: 64, color: color),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      MdiIcons.fromString(icon),
-                      size: 80,
-                      color: color,
-                    ),
-                    Center(
-                        child: Text(
-                      text,
-                    ))
-                  ],
-                ))));
+            opacity: textOpacity,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(backgroundOpacity)),
+                child: DefaultTextStyle(
+                    style: TextStyle(fontSize: 64, color: color),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          MdiIcons.fromString(icon),
+                          size: 80,
+                          color: color,
+                        ),
+                        Center(
+                            child: Text(
+                          text,
+                        ))
+                      ],
+                    )))));
   });
   Overlay.of(levelBuildContext!).insert(overlayEntry);
   // ignore: invalid_use_of_protected_member

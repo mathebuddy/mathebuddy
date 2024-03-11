@@ -23,6 +23,19 @@ class MbclChat {
     pseudoLevel = MbclLevel(course, pseudoChapter);
   }
 
+  List<String> getSimilarKeywords(String label) {
+    if (label.length < 3) return [];
+    List<String> result = [];
+    for (var definition in definitions.entries) {
+      var key = definition.key;
+      // TODO: does not work for SIMILAR writings
+      if (key.contains(label)) {
+        result.add(key);
+      }
+    }
+    return result;
+  }
+
   MbclChatDefinition? getDefinition(String label) {
     // TODO: search for similar labels
     label = label.toLowerCase();

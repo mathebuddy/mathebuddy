@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mathebuddy/event.dart';
+import 'package:mathebuddy/level_item.dart';
+import 'package:mathebuddy/level_paragraph.dart';
+import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/widget_event_painter.dart';
 import 'package:mathebuddy/level_exercise.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
@@ -253,7 +256,29 @@ class EventState extends State<EventWidget> {
             eventColorScheme: true));
 
         var exerciseData = exercise.exerciseData!;
+
+        List<MbclLevelItem> choicesElements = [];
+
         var choices = exerciseData.getChoicesOfFirstInputField();
+        if (choices.length == 4) {
+          // choices answer
+          for (var choice in choices) {
+            var span = MbclLevelItem(level, MbclLevelItemType.span, -1);
+            choicesElements.add(span);
+            var text = MbclLevelItem(level, MbclLevelItemType.text, -1, choice);
+            span.items.add(text);
+          }
+        } else {
+          // single choice answer
+          var answers = exerciseData.getSingleChoiceAnswers();
+          for (var answer in answers) {
+            choicesElements.add(answer.items[0]); // add span
+            answer.inputFieldData!.studentValue = "false";
+            var v = answer.inputFieldData!.variableId;
+            var correct = exerciseData.activeInstance[v]!;
+            choices.add(correct);
+          }
+        }
 
         if (choices.length == 4) {
           var inputField = exerciseData.inputFields[0];
@@ -275,14 +300,12 @@ class EventState extends State<EventWidget> {
             var tex = TeX();
             tex.scalingFactor = 1.33; //1.17;
             tex.setColor(0, 0, 0);
-            var optionText = choices[idx];
-            var svgData = tex.tex2svg(optionText, displayStyle: true);
-            Widget buttonText = Text("TeX-Error",
-                style: TextStyle(color: Colors.red, fontSize: 32));
-            if (tex.success()) {
-              buttonText =
-                  SvgPicture.string(svgData, width: tex.width.toDouble());
-            }
+
+            var studentValue = choices[idx];
+            var optionText = choicesElements[idx];
+            Widget buttonText = generateLevelItem(this, level, optionText,
+                exerciseData: exerciseData);
+
             // generate button
             var column = i % 2;
             var row = (i / 2).floor();
@@ -294,7 +317,7 @@ class EventState extends State<EventWidget> {
                     height: buttonHeight - 6,
                     child: GestureDetector(
                         onTap: () {
-                          inputFieldData.studentValue = optionText;
+                          inputFieldData.studentValue = studentValue;
                           exerciseData.evaluate();
                           var correct = exerciseData.feedback ==
                               MbclExerciseFeedback.correct;
@@ -304,7 +327,8 @@ class EventState extends State<EventWidget> {
                           } else {
                             widget.eventData.incorrectAnswers++;
                           }
-                          renderFeedbackOverlay(this, correct);
+                          renderFeedbackOverlay(this, correct,
+                              textOpacity: 1.0, backgroundOpacity: 0.7);
                           widget.eventData.switchExercise();
                           exerciseData.feedback =
                               MbclExerciseFeedback.unchecked;

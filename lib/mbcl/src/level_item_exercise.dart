@@ -9,6 +9,7 @@
 
 import 'package:collection/collection.dart';
 
+import 'level.dart';
 import 'level_item.dart';
 import 'level_item_input_field.dart';
 
@@ -89,6 +90,19 @@ class MbclExerciseData {
     return choices;
   }
 
+  List<MbclLevelItem> getSingleChoiceAnswers() {
+    List<MbclLevelItem> result = [];
+    for (var item in exercise.items) {
+      if (item.type == MbclLevelItemType.singleChoice) {
+        /*for (var answer in item.items) {
+          result.add(answer.items[0]);
+        }*/
+        result = item.items;
+      }
+    }
+    return result;
+  }
+
   void nextInstance() {
     if (exercise.error.isNotEmpty) {
       print("WARNING: exercise contains errors");
@@ -135,28 +149,38 @@ class MbclExerciseData {
     var allCorrect = true;
     for (var inputFieldItem in inputFields) {
       var data = inputFieldItem.inputFieldData!;
-      var ok = false;
-      try {
-        var studentTerm = term_parser.Parser().parse(data.studentValue);
-        if (data.diffVariableId.isNotEmpty) {
-          var studentTermDiff =
-              studentTerm.diff(data.diffVariableId).optimize();
-          print("diff student answer: $studentTerm -> $studentTermDiff");
-          studentTerm = studentTermDiff;
+      data.correct = false;
+
+      if (data.type == MbclInputFieldType.string) {
+        // --- gap exercise ---
+        var student = data.studentValue.trim().toUpperCase();
+        var expected = data.expectedValue.trim().toUpperCase();
+        print("comparing STRINGS $student to $expected");
+        data.correct = student == expected;
+      } else {
+        // term / number exercise
+        try {
+          var studentTerm = term_parser.Parser().parse(data.studentValue);
+          if (data.diffVariableId.isNotEmpty) {
+            var studentTermDiff =
+                studentTerm.diff(data.diffVariableId).optimize();
+            print("diff student answer: $studentTerm -> $studentTermDiff");
+            studentTerm = studentTermDiff;
+          }
+          var expected = data.expectedValue;
+          if (data.type == MbclInputFieldType.string) {
+            expected = expected.toUpperCase();
+          }
+          var expectedTerm = term_parser.Parser().parse(expected);
+          print("comparing $studentTerm to $expectedTerm");
+          data.correct = expectedTerm.compareNumerically(studentTerm);
+        } catch (e) {
+          // TODO: give GUI feedback, that term is not well formed, ...
+          print("evaluating answer failed: $e");
+          data.correct = false;
         }
-        var expected = data.expectedValue;
-        if (data.type == MbclInputFieldType.string) {
-          expected = expected.toUpperCase();
-        }
-        var expectedTerm = term_parser.Parser().parse(expected);
-        print("comparing $studentTerm to $expectedTerm");
-        ok = expectedTerm.compareNumerically(studentTerm);
-      } catch (e) {
-        // TODO: give GUI feedback, that term is not well formed, ...
-        print("evaluating answer failed: $e");
-        ok = false;
       }
-      if (ok) {
+      if (data.correct) {
         print("answer OK");
       } else {
         allCorrect = false;

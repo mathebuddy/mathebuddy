@@ -17,7 +17,7 @@ void setTextArea(String id, String value) {
 }
 
 Future<String> readTextFile(String path) {
-  print("readTextFile: $path");
+  //print("readTextFile: $path");
   path = path.replaceAll("//", "/").replaceAll("http:/", "http://");
   return html.HttpRequest.getString(
           "$path?ver=${DateTime.now().millisecondsSinceEpoch}")

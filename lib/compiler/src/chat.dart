@@ -21,6 +21,7 @@ class ChatInformationRetrieval {
             if (item.chatKeys.isNotEmpty) {
               var chatKeys = item.chatKeys.split(",");
               for (var chatKey in chatKeys) {
+                chatKey = chatKey.trim().toLowerCase();
                 // TODO (low prio): high memory consumption in case of many keys
                 // TODO (low prio): better save data only once
                 var levelPath = "${chapter.fileId}/${level.fileId}";
@@ -47,6 +48,25 @@ class ChatInformationRetrieval {
         case MbclLevelItemType.equation:
           var data = subItem.equationData!;
           p.items.add(data.math!);
+          break;
+        case MbclLevelItemType.itemize:
+        case MbclLevelItemType.enumerate:
+          var i = 0;
+          for (var bullet in subItem.items) {
+            var label = "";
+            if (subItem.type == MbclLevelItemType.itemize) {
+              label += String.fromCharCode("a".codeUnitAt(0) + i);
+              label = " ($label) ";
+            } else {
+              label += String.fromCharCode("1".codeUnitAt(0) + i);
+              label = " $label. ";
+            }
+            p.items
+                .add(MbclLevelItem(level, MbclLevelItemType.text, -1, label));
+            p.items.addAll(bullet.items);
+            i++;
+          }
+          p.items.add(MbclLevelItem(level, MbclLevelItemType.text, -1, " // "));
           break;
         default:
         // TODO

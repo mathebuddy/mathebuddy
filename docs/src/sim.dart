@@ -70,8 +70,6 @@ String loadFunction(String path) {
 
 String compileMblCode(String path /*, String src*/) {
   print("compiling the following MBL code at path $path");
-  logArea.innerHtml =
-      '... compiling - this may take a few more milliseconds ...';
   var compiler = Compiler(loadFunction);
   try {
     compiler.compile(path);
@@ -148,6 +146,10 @@ void updateSimPathButtons() {
 
 void loadMblFile(String path) {
   currentMblPath = path;
+
+  logArea.innerHtml =
+      '... loading & compiling - this may take a few more milliseconds ...';
+
   //path = path.replaceAll('//', '/');
   readTextFile(path).then((text) async {
     mblData = text;

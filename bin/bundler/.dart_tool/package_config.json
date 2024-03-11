@@ -99,9 +99,9 @@
     },
     {
       "name": "lints",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/lints-2.0.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/lints-3.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.0"
     },
     {
       "name": "logging",
@@ -290,7 +290,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2023-03-13T13:17:12.107634Z",
+  "generated": "2024-03-08T18:41:02.557181Z",
   "generator": "pub",
-  "generatorVersion": "2.19.3"
+  "generatorVersion": "3.3.1"
 }

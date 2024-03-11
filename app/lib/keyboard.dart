@@ -6,6 +6,7 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level_item_input_field.dart';
@@ -360,18 +361,20 @@ class Keyboard {
     return Focus(
         autofocus: true,
         onKey: (node, event) {
-          //print("KEYBOARD ACTION");
-          //print(event.character);
-          var char = event.character ?? "###";
-          for (var key in keyboardLayout.keys) {
-            if (key == null || key.value == '#') continue;
-            var isChar = key.value.startsWith(char);
-            var isBackspace = key.value == "!B" &&
-                event.data.logicalKey.keyLabel == "Backspace";
-            var isEnter = key.value == "!E" &&
-                event.data.logicalKey.keyLabel.endsWith("Enter");
-            if (isChar || isBackspace || isEnter) {
-              keyPressed(key);
+          if (event is RawKeyUpEvent) {
+            //print("KEYBOARD ACTION");
+            //print(event.character);
+            var char = event.character ?? "###";
+            for (var key in keyboardLayout.keys) {
+              if (key == null || key.value == '#') continue;
+              var isChar = key.value.startsWith(char);
+              var isBackspace = key.value == "!B" &&
+                  event.data.logicalKey.keyLabel == "Backspace";
+              var isEnter = key.value == "!E" &&
+                  event.data.logicalKey.keyLabel.endsWith("Enter");
+              if (isChar || isBackspace || isEnter) {
+                keyPressed(key);
+              }
             }
           }
           return KeyEventResult.handled;

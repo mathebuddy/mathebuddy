@@ -207,6 +207,13 @@ class ChatState extends State<ChatWidget> {
       var textField = TextField(
           controller: textFieldController,
           autocorrect: false,
+          onChanged: (value) {
+            //var similarKeywords = widget.course.chat.getSimilarKeywords(value);
+            /*if (similarKeywords.isNotEmpty) {
+              textFieldController.value =
+                  TextEditingValue(text: similarKeywords[0]);
+            }*/
+          },
           onEditingComplete: () {
             var text = textFieldController.text;
             //print(">>> editing complete: $text");
@@ -253,43 +260,58 @@ class ChatState extends State<ChatWidget> {
     chatHistory.removeLast();
     chatHistory.add(ChatMessage(ChatMessageType.userMessage, text));
     // search definition
-    var definition = widget.course.chat.getDefinition(text.toLowerCase());
-    if (definition != null) {
-      var def = ChatMessage(ChatMessageType.botMessage, "");
-      def.referredItem = definition.data;
-      chatHistory.add(def);
-      // add link to chapter
-      var pathParts = definition.levelPath.split("/");
-      MbclChapter? chapter;
-      MbclLevel? level;
-      var levelName = "";
-      if (pathParts.length == 2 &&
-          pathParts[0].isNotEmpty &&
-          pathParts[1].isNotEmpty) {
-        var chapterFileId = pathParts[0];
-        var levelFileId = pathParts[1];
-        chapter = widget.course.getChapterByFileID(chapterFileId);
-        if (chapter != null) {
-          level = chapter.getLevelByFileID(levelFileId);
-          if (level != null) {
-            levelName = level.title;
+    List<String> similarDefinitionKeywords =
+        widget.course.chat.getSimilarKeywords(text.trim().toLowerCase());
+    if (similarDefinitionKeywords.length > 1) {
+      chatHistory.add(ChatMessage(ChatMessageType.botMessage,
+          getChatText("similarKeywords", language, [])));
+      for (var kw in similarDefinitionKeywords) {
+        var msg = ChatMessage(ChatMessageType.userButton, kw.toUpperCase());
+        msg.action = () {
+          answer(kw);
+          setState(() {});
+        };
+        chatHistory.add(msg);
+      }
+    } else if (similarDefinitionKeywords.length == 1) {
+      var definition = widget.course.chat.getDefinition(text.toLowerCase());
+      if (definition != null) {
+        var def = ChatMessage(ChatMessageType.botMessage, "");
+        def.referredItem = definition.data;
+        chatHistory.add(def);
+        // add link to chapter
+        var pathParts = definition.levelPath.split("/");
+        MbclChapter? chapter;
+        MbclLevel? level;
+        var levelName = "";
+        if (pathParts.length == 2 &&
+            pathParts[0].isNotEmpty &&
+            pathParts[1].isNotEmpty) {
+          var chapterFileId = pathParts[0];
+          var levelFileId = pathParts[1];
+          chapter = widget.course.getChapterByFileID(chapterFileId);
+          if (chapter != null) {
+            level = chapter.getLevelByFileID(levelFileId);
+            if (level != null) {
+              levelName = level.title;
+            }
           }
         }
+        var gotoLevelBtn = ChatMessage(
+            ChatMessageType.userButton, "Gehe zu Level \"$levelName\"");
+        gotoLevelBtn.action = () {
+          print("open level ${definition.levelPath}");
+          if (chapter != null && level != null) {
+            var route = MaterialPageRoute(builder: (context) {
+              return LevelWidget(widget.course, chapter!, null, level!);
+            });
+            Navigator.push(context, route).then((value) => setState(() {}));
+            // level.visited = true;
+            setState(() {});
+          }
+        };
+        chatHistory.add(gotoLevelBtn);
       }
-      var gotoLevelBtn = ChatMessage(
-          ChatMessageType.userButton, "Gehe zu Level \"$levelName\"");
-      gotoLevelBtn.action = () {
-        print("open level ${definition.levelPath}");
-        if (chapter != null && level != null) {
-          var route = MaterialPageRoute(builder: (context) {
-            return LevelWidget(widget.course, chapter!, null, level!);
-          });
-          Navigator.push(context, route).then((value) => setState(() {}));
-          // level.visited = true;
-          setState(() {});
-        }
-      };
-      chatHistory.add(gotoLevelBtn);
     } else {
       var evalSuccess = true;
       var answer = "";

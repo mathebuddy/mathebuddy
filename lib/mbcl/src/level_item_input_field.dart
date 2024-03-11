@@ -31,6 +31,7 @@ class MbclInputFieldData {
   int cursorPos = 0;
   String studentValue = '';
   String expectedValue = '';
+  bool correct = true;
 
   void reset() {
     cursorPos = 0;

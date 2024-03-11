@@ -1,3 +1,45 @@
+DEFINITION Gausssche Zahlenebene @def:gaussscheZahlenebene
+    CHATKEYS
+        gaussschezahlenebene, gaußsche zahleneben, imaginäre einheit, imaginäre achse
+    Im $\RR^2$ definieren wir die **Addition** und die **Multiplikation** durch
+    -  $(x_1,y_1)+(x_2,y_2)=(x_1+x_2,y_1+y_2)$
+    -  $(x_1,y_1) \cdot (x_2,y_2)=(x_1x_2-y_1y_2,x_1y_2+x_2y_1)$.
+
+    Die Menge $\RR^2$ mit diesen beiden Operationen wird als Menge $\CC$ der **komplexen Zahlen** oder als **Gaußsche Zahlenebene** bezeichnet. Die Elemente der $x$- oder **reellen Achse**, kannst du mit den reellen Zahlen
+    identifizieren. Wir schreiben dann $x$ statt $(x,0)$. Die Elemente der $y$- oder **imaginären Achse** heißen rein imaginär. $(0,y)$ wird auch mit **i y **
+    notiert, wobei das **i** die **imaginäre Einheit** darstellt.
+
+
+
+!STOP
+
+
+Event
+###############
+    
+EXERCISE 
+    CODE 
+        a/b = rand(3,7);
+    Was ist komplex Konjugierte von $z=a+b i$?
+
+    $\overline{z}=$ 
+    (x) $a-b i$
+    ( ) $-a+ b i$
+    ( ) $-a-b i$
+    ( ) $b+ a i$    
+
+EXERCISE 
+    CODE 
+        a/b = rand(3,7);
+    Was ist der Imaginärteil von $z=a+b i$?
+
+    $\text{Im}(z)=$ #b,CHOICES=4
+
+
+
+!STOP
+
+
 EQUATION*
     \int_a^b f(x)g'(x)\, dx = \left[f(x)g(x)\right]_a^b - \int_a^b f'(x)g(x)\, dx
 

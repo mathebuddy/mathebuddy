@@ -28,6 +28,12 @@ var chatDatabaseSrc = """
     Here is an exercise from chapter \"@0\":
   @de
     Hier eine Aufgabe aus dem Kapitel \"@0\":
+
+@@similarKeywords
+  @en
+    Similar keywords:
+  @de
+    Ähnliche Begriffe:
 """;
 
 Map<String, String> chatDatabase = {};

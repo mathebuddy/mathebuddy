@@ -34,9 +34,12 @@ class AppInputField {
     Color color = Colors.black,
     MbclExerciseData? exerciseData,
   }) {
-    inputFieldData = item.inputFieldData!;
+    inputFieldData = item.inputFieldData;
     Widget contents;
     Color feedbackColor = getStyle().getFeedbackColor(exerciseData?.feedback);
+
+    bool markAsIncorrect = inputFieldData!.correct == false;
+
     var isActive = keyboardState.layout != null &&
         keyboardState.inputFieldData == inputFieldData;
     var activeOpacity = 0.25;
@@ -73,7 +76,13 @@ class AppInputField {
                     color: isActive
                         ? feedbackColor.withOpacity(activeOpacity)
                         : Colors.white.withOpacity(0.0),
-                    borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                    border: markAsIncorrect
+                        ? Border.all(
+                            style: BorderStyle.solid,
+                            color: getStyle().matheBuddyRed,
+                            width: 2.0)
+                        : null),
                 child: Text(studentValue,
                     style: TextStyle(color: feedbackColor, fontSize: 20)))));
       } else {
@@ -94,20 +103,26 @@ class AppInputField {
             feedbackColor.red, feedbackColor.green, feedbackColor.blue);
         var svgData = tex.tex2svg(studentValueTeX, displayStyle: true);
         if (tex.success()) {
+          BoxBorder? border;
+          if (markAsIncorrect) {
+            border = Border.all(
+                style: BorderStyle.solid,
+                color: getStyle().matheBuddyRed,
+                width: 2.0);
+          } else if (!texValid) {
+            border = Border(
+                top: BorderSide(color: getStyle().matheBuddyRed, width: 1.5),
+                bottom:
+                    BorderSide(color: getStyle().matheBuddyRed, width: 1.5));
+          }
           parts.add(WidgetSpan(
               alignment: PlaceholderAlignment.middle,
               child: Container(
-                  padding: isActive
+                  padding: isActive || markAsIncorrect
                       ? EdgeInsets.only(left: 5, right: 5)
                       : EdgeInsets.all(0),
                   decoration: BoxDecoration(
-                      border: texValid
-                          ? null
-                          : Border(
-                              top: BorderSide(
-                                  color: getStyle().matheBuddyRed, width: 1.5),
-                              bottom: BorderSide(
-                                  color: getStyle().matheBuddyRed, width: 1.5)),
+                      border: border,
                       color: isActive
                           ? feedbackColor.withOpacity(activeOpacity)
                           : Colors.white.withOpacity(0.0),

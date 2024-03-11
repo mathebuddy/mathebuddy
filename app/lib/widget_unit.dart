@@ -144,7 +144,7 @@ class UnitState extends State<UnitWidget> {
         // used icon, if available
         iconOrText = SvgPicture.string(
           level.iconData,
-          width: tileWidth,
+          width: tileWidth - 5,
           color: textColor,
           allowDrawingOutsideViewBox: true,
         );
@@ -167,7 +167,8 @@ class UnitState extends State<UnitWidget> {
           child: Padding(
               padding: EdgeInsets.all(0),
               //child: Stack(children: stackedItems)));
-              child: iconOrText));
+              child: Opacity(
+                  opacity: level.isLocked() ? 0.25 : 1.0, child: iconOrText)));
 
       widgets.add(Positioned(
           left: level.screenPosX,
@@ -216,7 +217,7 @@ class UnitState extends State<UnitWidget> {
             top: level.screenPosY + 5,
             child: IgnorePointer(
                 child: Icon(Icons.lock,
-                    size: lockSize, color: Colors.white.withOpacity(0.7)))));
+                    size: lockSize, color: Colors.white.withOpacity(0.75)))));
       }
     }
 
