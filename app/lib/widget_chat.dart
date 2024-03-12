@@ -370,6 +370,9 @@ class ChatState extends State<ChatWidget> {
       }
       chatWidgets.add(generateChatMessage(msg));
     }
+    for (var i = 0; i < 5; i++) {
+      chatWidgets.add(Text(" "));
+    }
     var body = SingleChildScrollView(child: Column(children: chatWidgets));
     Widget bottomArea = Text('');
     if (keyboardState.layout != null) {

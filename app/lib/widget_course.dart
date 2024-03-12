@@ -112,7 +112,7 @@ class CourseState extends State<CourseWidget> {
               });
             },
             child: Container(
-                height: 140, // TODO: 1 vs 2 rows of text
+                //height: 140, // TODO: 1 vs 2 rows of text
                 margin: EdgeInsets.all(2.0),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -128,7 +128,7 @@ class CourseState extends State<CourseWidget> {
                 child: Center(child: content))),
       ));
     }
-    const columnsPerRow = 3;
+    const columnsPerRow = 2;
     while ((tableCells.length % columnsPerRow) != 0) {
       tableCells.add(TableCell(child: Text("")));
     }
@@ -141,7 +141,7 @@ class CourseState extends State<CourseWidget> {
       tableRows.add(TableRow(children: columns));
     }
     var chapterTable = Table(
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      defaultVerticalAlignment: TableCellVerticalAlignment.intrinsicHeight,
       children: tableRows,
     );
 
@@ -264,7 +264,7 @@ class CourseState extends State<CourseWidget> {
       controlShortcuts,
       progressShortcuts,
       Container(
-        height: 10,
+        height: 0,
       ),
       chapterTable,
       Container(

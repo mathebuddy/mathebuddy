@@ -86,15 +86,17 @@ class ChapterState extends State<ChapterWidget> {
                     color: cellColor,
                     fontWeight: FontWeight.w400))
           ]));
-      // TODO!! use Table(defaultVerticalAlignment: TableCellVerticalAlignment.intrinsicXX)
       //  in flutter 3.18+
       var fill = unit.title == "Integral-Lösungsansätze";
       var cell = TableCell(
         //verticalAlignment: TableCellVerticalAlignment.fill,
         //verticalAlignment: TableCellVerticalAlignment.middle,
-        verticalAlignment: fill
-            ? TableCellVerticalAlignment.fill
-            : TableCellVerticalAlignment.top,
+
+        // !!
+        // verticalAlignment: fill
+        //     ? TableCellVerticalAlignment.fill
+        //     : TableCellVerticalAlignment.top,
+
         child: GestureDetector(
             onTap: () {
               var route = MaterialPageRoute(builder: (context) {
@@ -133,6 +135,7 @@ class ChapterState extends State<ChapterWidget> {
       tableRows.add(TableRow(children: columns));
     }
     var unitsTable = Table(
+      defaultVerticalAlignment: TableCellVerticalAlignment.intrinsicHeight,
       //defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       //defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
       children: tableRows,

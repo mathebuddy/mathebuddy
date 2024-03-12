@@ -27,10 +27,11 @@ do
     echo "[1]  build website"
     echo "[2]  build documentation"
     echo "[3]  build flutter web app"
-    echo "[4a]  build android app"
-    echo "[4c]  build macOS app"
-    echo "[5]  run website at http://localhost:8314"
-    echo "[6]  run tests"
+    echo "[4a] build android app"
+    echo "[4c] build macOS app"
+    echo "[5a] run website at http://localhost:8314"
+    echo "[5b] run web app at http://localhost:8315"
+    echo "[6] run tests"
     #echo "[7]  update testdata from mathebuddy-public-courses repo"
     echo "[8]  update grammar.txt in lib/*"
     echo "[9]  update file system files (_fs.txt) files in docs/demo/"
@@ -97,11 +98,17 @@ do
         ./build-macos.sh
         cd ..
         ;;
-    5)
-        # [5] run website at http://localhost:8314
+    5a)
+        # [5a] run website at http://localhost:8314
         cd docs
         python3 -m http.server 8314
         cd ..
+        ;;
+    5b)
+        # [5b] run web app at http://localhost:8315
+        cd app/build/web
+        python3 -m http.server 8315
+        cd ../../..
         ;;
     6)
         # [6] run tests

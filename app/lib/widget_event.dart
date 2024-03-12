@@ -397,14 +397,16 @@ class EventState extends State<EventWidget> {
       Expanded(child: scrollView!)
     ]);
 
-    var bottomArea =
-        generateLevelBottomNavigationBar(this, level, levelTitleKey!);
+    // var bottomArea =
+    //     generateLevelBottomNavigationBar(this, level, levelTitleKey!, context);
+
+    // page.add(bottomArea);
 
     return Scaffold(
       appBar: buildAppBar(true, false, this, context, widget.course),
       body: body,
       backgroundColor: Colors.black,
-      bottomSheet: bottomArea,
+      //bottomSheet: bottomArea,
     );
   }
 }

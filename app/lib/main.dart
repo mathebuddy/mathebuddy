@@ -52,7 +52,7 @@ void main() {
       theme: ThemeData(
           primarySwatch: buildMaterialColor(Color(0xFFFFFFFF)),
           bottomSheetTheme: BottomSheetThemeData(
-              backgroundColor: Colors.black.withOpacity(0))),
+              backgroundColor: Colors.black.withOpacity(0.0))),
       home: LoadWidget(),
       debugShowCheckedModeBanner: false));
 }

@@ -180,12 +180,6 @@ class LevelState extends State<LevelWidget> {
       }
     }
 
-    // add empty lines at the end; otherwise keyboard is in the way...
-    for (var i = 0; i < 10; i++) {
-      // TODO
-      page.add(Text("\n"));
-    }
-
     // generate document
     scrollController = ScrollController();
     scrollView = SingleChildScrollView(
@@ -216,10 +210,20 @@ class LevelState extends State<LevelWidget> {
     if (keyboardState.layout != null) {
       var keyboard = Keyboard(this, keyboardState);
       bottomArea = keyboard.generateWidget();
-    } else if (debugMode == false) {
-      bottomArea =
-          generateLevelBottomNavigationBar(this, level, levelTitleKey!);
     }
+    /*else*/ if (debugMode == false) {
+      var bottomNavBar = generateLevelBottomNavigationBar(
+          this, level, levelTitleKey!, context);
+      //bottomArea = bottomNavBar;
+      page.add(bottomNavBar);
+    }
+
+    // add empty lines at the end; otherwise keyboard is in the way...
+    for (var i = 0; i < 10; i++) {
+      // TODO
+      page.add(Text("\n"));
+    }
+
     return Scaffold(
       appBar: buildAppBar(true, true, this, context, widget.course),
       body: body,
@@ -291,14 +295,16 @@ Widget generateLevelTopNavigationBar(State state, MbclLevel level) {
   ]);
 }
 
-Widget generateLevelBottomNavigationBar(
-    State state, MbclLevel level, GlobalKey levelTitleKey) {
+Widget generateLevelBottomNavigationBar(State state, MbclLevel level,
+    GlobalKey levelTitleKey, BuildContext context) {
   // bottom navigation bar
   var bottomNavBarIconSize = 32.0;
   var bottomNavBarIconColor = Colors.black.withOpacity(0.75);
   List<Widget> buttons = [];
   // left
+  var hasLeftButton = false;
   if (level.numParts > 0 && level.currentPart > 0) {
+    hasLeftButton = true;
     buttons.add(GestureDetector(
         onTapDown: (TapDownDetails d) {
           level.currentPart--;
@@ -326,7 +332,7 @@ Widget generateLevelBottomNavigationBar(
   // right
   if (level.numParts > 0) {
     if (level.currentPart < level.numParts - 1) {
-      buttons.add(Text('  '));
+      if (hasLeftButton) buttons.add(Text('  '));
       buttons.add(GestureDetector(
           onTapDown: (TapDownDetails d) {
             level.currentPart++;
@@ -380,18 +386,27 @@ Widget generateLevelBottomNavigationBar(
                       color: bottomNavBarIconColor)))));
     }
   }
+  // add spacing
+  for (var i = 0; i < 3; i++) {
+    buttons.add(Text('  '));
+  }
   // output
-  return SizedBox(
-      height: 50,
-      width: 110,
-      child: Padding(
-          padding: EdgeInsets.all(0),
-          child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: const Color.fromARGB(100, 235, 235, 235)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+  var screenWidth = MediaQuery.of(context).size.width;
+  if (screenWidth > maxContentsWidth) screenWidth = maxContentsWidth;
+  return //Padding(
+      //padding: EdgeInsets.only(left: screenWidth - 300),
+      //child:
+      Container(
+          alignment: Alignment.bottomRight,
+          child: SizedBox(
+              height: 65,
+              width: 150,
+              child: Container(
+                  // decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(50),
+                  //     color: const Color.fromARGB(100, 235, 235, 235)),
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: buttons,
               ))));
