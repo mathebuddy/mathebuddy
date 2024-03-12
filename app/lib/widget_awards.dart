@@ -36,6 +36,9 @@ class AwardsState extends State<AwardsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var constructionSite = Text("WORK-IN-PROGRESS :-)",
+        style: TextStyle(color: Colors.red, fontSize: 25));
+
     Widget title = Padding(
         padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
         child: Center(
@@ -45,16 +48,6 @@ class AwardsState extends State<AwardsWidget> {
                     color: getStyle().courseTitleFontColor,
                     fontSize: getStyle().courseTitleFontSize,
                     fontWeight: getStyle().courseTitleFontWeight))));
-
-    var constructionSite = Padding(
-        padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
-        child: Center(
-            child: Text(language == "de" ? "Baustelle" : "in construction",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold))));
 
     var awardList = getAwardList();
     // TODO: test
@@ -110,7 +103,7 @@ class AwardsState extends State<AwardsWidget> {
     }
     var table = Table(children: awardWidgets);
 
-    List<Widget> contents = [title, constructionSite, table];
+    List<Widget> contents = [constructionSite, title, table];
 
     var body = SingleChildScrollView(
         physics: BouncingScrollPhysics(

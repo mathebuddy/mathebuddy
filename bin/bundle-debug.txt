@@ -7,7 +7,7 @@ privateHM1:../../mathebuddy-private-courses/hm1/course.mbl
 #parts:../../mathebuddy-public-courses/demo-basic/parts.mbl
 #event:../../mathebuddy-public-courses/demo-basic/event.mbl
 #exercises-simple:../../mathebuddy-public-courses/demo-basic/exercises-simple.mbl
-#exercises:../../mathebuddy-public-courses/demo-basic/exercises.mbl
+exercises:../../mathebuddy-public-courses/demo-basic/exercises.mbl
 #courseTest:../../mathebuddy-public-courses/demo-course/course.mbl
 #equations:../../mathebuddy-public-courses/demo-basic/equations.mbl
 

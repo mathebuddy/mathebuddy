@@ -17,6 +17,12 @@ var chatDatabaseSrc = """
   @de
     Ich möchte trainieren
 
+@@likeAnotherExercise
+  @en
+    next exercise
+  @de
+    nächste Aufgabe
+
 @@noExercises
   @en
     Unfortunately, I can't recommend a task at the moment...

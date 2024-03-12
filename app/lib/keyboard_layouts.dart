@@ -143,7 +143,7 @@ KeyboardLayout getKeyboardLayout(String keyboardId,
 }
 
 KeyboardLayout createChoiceKeyboard(List<String> choices,
-    {bool hasBackButton = true}) {
+    {bool hasBackButton = true, bool hasEnterButton = true}) {
   // shuffle input s.t. the left-most key is not the first required letter
   // (prevents to show the solution from left to right in case of gap exercises)
   var originalOrder = List<String>.from(choices);
@@ -174,9 +174,16 @@ KeyboardLayout createChoiceKeyboard(List<String> choices,
     }
     if (hasBackButton) {
       if (i < 5) {
-        src += '!B'; // backspace
+        src += ' !B '; // backspace
       } else {
-        src += '#'; // empty
+        src += ' # '; // empty
+      }
+    }
+    if (hasEnterButton) {
+      if (i < 5) {
+        src += ' !E '; // backspace
+      } else {
+        src += ' # '; // empty
       }
     }
     src += "\n";

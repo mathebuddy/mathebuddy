@@ -380,19 +380,19 @@ Widget generateLevelBottomNavigationBar(
                       color: bottomNavBarIconColor)))));
     }
   }
-  // spacing
-  for (var i = 0; i < 3; i++) {
-    buttons.add(Text("  "));
-  }
   // output
-  return Opacity(
-      opacity: 1.0,
-      child: SizedBox(
-          height: 60,
-          child: Padding(
-              padding: EdgeInsets.all(4),
+  return SizedBox(
+      height: 50,
+      width: 110,
+      child: Padding(
+          padding: EdgeInsets.all(0),
+          child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: const Color.fromARGB(100, 235, 235, 235)),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: buttons,
               ))));
 }

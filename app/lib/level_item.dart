@@ -156,7 +156,7 @@ Widget generateLevelItem(State state, MbclLevel level, MbclLevelItem item,
       }
     case MbclLevelItemType.exercise:
       {
-        return generateExercise(state, level, item);
+        return generateExercise(state, level, item, borderWidth: 3.0);
       }
     case MbclLevelItemType.multipleChoice:
     case MbclLevelItemType.singleChoice:

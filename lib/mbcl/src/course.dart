@@ -12,6 +12,7 @@ import 'dart:convert';
 import 'chapter.dart';
 import 'chat.dart';
 import 'level_item.dart';
+import 'level_item_exercise.dart';
 import 'persistence.dart';
 
 enum MbclCourseDebug {
@@ -42,15 +43,22 @@ class MbclCourse {
     chat = MbclChat(this);
   }
 
-  MbclLevelItem? getSuggestedExercise() {
-    // TODO!! now simple returning first one
-    if (chapters.isEmpty) return null;
-    var chapter = chapters[0];
-    if (chapter.levels.isEmpty) return null;
-    var level = chapter.levels[0];
-    var exercises = level.getExercises();
-    if (exercises.isEmpty) return null;
-    return exercises[0];
+  MbclLevelItem? getSuggestedExercise(List<MbclLevelItem> exclusionList) {
+    for (var chapter in chapters) {
+      for (var level in chapter.levels) {
+        if (level.visited == false || level.isEvent) continue;
+        for (var exercise in level.getExercises()) {
+          var data = exercise.exerciseData!;
+          if (data.feedback == MbclExerciseFeedback.incorrect ||
+              data.feedback == MbclExerciseFeedback.unchecked) {
+            if (exclusionList.contains(exercise) == false) {
+              return exercise;
+            }
+          }
+        }
+      }
+    }
+    return null;
   }
 
   setPersistence(MbclPersistence p) {

@@ -12,6 +12,7 @@ import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level_item_input_field.dart';
 
 import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
 
 KeyboardState keyboardState = KeyboardState();
@@ -167,6 +168,10 @@ class Keyboard {
 
   Widget generateWidget() {
     var screenWidth = MediaQuery.of(state.context).size.width;
+    if (screenWidth > maxContentsWidth) {
+      screenWidth = maxContentsWidth;
+    }
+
     var keyWidth = screenWidth < 350 ? 45.0 : 55.0;
     if (keyboardLayout.columnCount >= 7) {
       keyWidth = 36;
@@ -228,7 +233,16 @@ class Keyboard {
     // render typed text
     var studentValue = keyboardInputFieldData.studentValue;
     var cursorPos = keyboardInputFieldData.cursorPos;
-    var charWidth = 16.8;
+
+    var inputFieldFontSize = 28.0 - 0.3 * studentValue.length;
+    /*if (studentValue.length > 15) {
+      inputFieldFontSize = 20.0;
+    }*/
+    double charWidth = inputFieldFontSize * 3.0 / 5.0;
+    if (charWidth * studentValue.length > screenWidth * 0.8) {
+      inputFieldFontSize *= 0.75;
+      charWidth *= 0.75;
+    }
 
     // input field
     widgets.add(Positioned(
@@ -291,7 +305,7 @@ class Keyboard {
                         child: Text(
                       studentValue,
                       style: TextStyle(
-                          fontSize: 28,
+                          fontSize: inputFieldFontSize,
                           fontFamily: 'RobotoMono',
                           color: Colors.black),
                     )))))));

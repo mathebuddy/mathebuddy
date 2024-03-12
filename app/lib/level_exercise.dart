@@ -141,7 +141,8 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
     onTap: () {
       evaluateExercise(state, level, exerciseData);
       renderFeedbackOverlay(
-          state, exerciseData.feedback == MbclExerciseFeedback.correct);
+          state, exerciseData.feedback == MbclExerciseFeedback.correct,
+          backgroundOpacity: 0.95);
     },
     child: Container(
       width: getStyle().exerciseEvalButtonWidth,

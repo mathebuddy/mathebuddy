@@ -56,10 +56,45 @@ class ChatState extends State<ChatWidget> {
   List<ChatMessage> chatHistory = [];
   late ChatMessage likeToExercise;
 
+  List<MbclLevelItem> sessionExercises = [];
+
   @override
   void initState() {
     super.initState();
     reset();
+  }
+
+  void likeToExerciseAction() {
+    chatHistory.removeLast(); // remove user input field
+    chatHistory.removeLast(); // remove "i like to exercise" button
+    var exercise = widget.course.getSuggestedExercise(sessionExercises);
+    if (exercise == null) {
+      chatHistory.add(ChatMessage(ChatMessageType.botMessage,
+          getChatText("noExercises", language, [])));
+    } else {
+      sessionExercises.add(exercise);
+
+      exercise.exerciseData!.reset();
+      var chapterId = exercise.level.chapter.title;
+      chatHistory.add(ChatMessage(ChatMessageType.botMessage,
+          getChatText("hereExercise", language, [chapterId])));
+      var ex = ChatMessage(ChatMessageType.exercise, "");
+      ex.referredItem = exercise;
+      chatHistory.add(ex);
+
+      // button for next exercise
+      var anotherExercise = ChatMessage(ChatMessageType.userButton,
+          getChatText("likeAnotherExercise", language, []));
+      anotherExercise.action = () {
+        chatHistory.removeLast(); // remove "hereExercise"
+        chatHistory.removeLast(); // remove old exercise
+        likeToExerciseAction();
+      };
+      chatHistory.add(anotherExercise);
+    }
+
+    pushTextInputField();
+    setState(() {});
   }
 
   void reset() {
@@ -103,24 +138,7 @@ class ChatState extends State<ChatWidget> {
     likeToExercise = ChatMessage(
         ChatMessageType.userButton, getChatText("likeExercise", language, []));
     likeToExercise.action = () {
-      chatHistory.removeLast(); // remove user input field
-      chatHistory.removeLast(); // remove "i like to exercise" button
-      var exercise = widget.course.getSuggestedExercise();
-      if (exercise == null) {
-        chatHistory.add(ChatMessage(ChatMessageType.botMessage,
-            getChatText("noExercises", language, [])));
-      } else {
-        exercise.exerciseData!.reset();
-        var chapterId = exercise.level.chapter.title;
-        chatHistory.add(ChatMessage(ChatMessageType.botMessage,
-            getChatText("hereExercise", language, [chapterId])));
-        var ex = ChatMessage(ChatMessageType.exercise, "");
-        ex.referredItem = exercise;
-        chatHistory.add(ex);
-      }
-      //chatHistory.add(likeToExercise);
-      pushTextInputField();
-      setState(() {});
+      likeToExerciseAction();
     };
     chatHistory.add(likeToExercise);
 

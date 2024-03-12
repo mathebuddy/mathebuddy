@@ -40,55 +40,33 @@ class CourseWidget extends StatefulWidget {
 class CourseState extends State<CourseWidget> {
   @override
   void initState() {
+    // TODO: setState should only be called ONCE after all loadings
     super.initState();
     widget.course.loadUserData().then((value) {
+      for (var chapter in widget.course.chapters) {
+        chapter.loadUserData().then((value) {
+          setState(() {});
+        });
+      }
       setState(() {});
-    }); // TODO: no async OK???
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    //widget.course.calcProgress();
+    widget.course.calcProgress();
 
-    // // author
-    // Widget author = Padding(
-    //     padding: EdgeInsets.only(top: 8.0, left: 10, right: 10, bottom: 0),
-    //     child: Text(widget.course.author,
-    //         style: TextStyle(
-    //             color: getStyle().courseAuthorFontColor,
-    //             fontSize: getStyle().courseAuthorFontSize,
-    //             fontWeight: getStyle().courseAuthorFontWeight)));
-    // // title
-    // Widget title = Padding(
-    //     padding: EdgeInsets.only(top: 0.0, left: 10, right: 10, bottom: 0),
-    //     child: Center(
-    //         child: Text(widget.course.title,
-    //             textAlign: TextAlign.center,
-    //             style: TextStyle(
-    //                 color: getStyle().courseTitleFontColor,
-    //                 fontSize: getStyle().courseTitleFontSize,
-    //                 fontWeight: getStyle().courseTitleFontWeight))));
-    // // chapters
-    // Widget titleChapters = Padding(
-    //     padding: EdgeInsets.only(top: 0.0, left: 10, right: 10, bottom: 0),
-    //     child: Center(
-    //         child: Text(language == "en" ? "Chapters" : "Kapitel",
-    //             style: TextStyle(
-    //               color: getStyle().courseSubTitleFontColor,
-    //               fontSize: getStyle().courseSubTitleFontSize,
-    //               fontWeight: getStyle().courseSubTitleFontWeight,
-    //             ))));
     List<TableRow> tableRows = [];
     List<TableCell> tableCells = [];
 
     for (var i = 0; i < widget.course.chapters.length; i++) {
       var chapter = widget.course.chapters[i];
-      var color = Style().matheBuddyRed;
+      Color color = Style().matheBuddyRed;
       var cellColor = Colors.white;
-      if (chapter.progress > 0) {
+      /*if (chapter.progress > 0) {
         color = Style().matheBuddyYellow;
         //cellColor = Colors.black;
-      }
+      }*/
       if ((chapter.progress - 1.0).abs() < 1e-6) {
         color = Style().matheBuddyGreen;
       }
@@ -96,20 +74,30 @@ class CourseState extends State<CourseWidget> {
       if (chapter.iconData.isNotEmpty) {
         icon = SvgPicture.string(chapter.iconData, color: cellColor);
       }
-      icon = SizedBox(height: 75, child: icon);
-      Widget content = Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Column(children: [
-            icon,
-            Wrap(children: [
-              Text(chapter.title,
-                  textAlign: TextAlign.center,
+      icon = SizedBox(height: 55, child: icon);
+      var title = chapter.title;
+      //title = title.replaceAll(" ", "\n");
+      var percentage = "${(chapter.progress * 100).round()} %";
+      Widget content = Container(
+          alignment: Alignment.center,
+          child: Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Column(children: [
+                Text(
+                  percentage,
                   style: TextStyle(
-                      fontSize: 18,
-                      color: cellColor,
-                      fontWeight: FontWeight.w400))
-            ])
-          ]));
+                      color: const Color.fromARGB(255, 221, 211, 211)),
+                ),
+                icon,
+                Wrap(alignment: WrapAlignment.center, children: [
+                  Text(title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: cellColor,
+                          fontWeight: FontWeight.w400))
+                ])
+              ])));
       tableCells.add(TableCell(
         //verticalAlignment: (i % 2) == 1
         //    ? TableCellVerticalAlignment.fill
@@ -124,8 +112,9 @@ class CourseState extends State<CourseWidget> {
               });
             },
             child: Container(
-                height: 150, // TODO: 1 vs 2 rows of text
+                height: 140, // TODO: 1 vs 2 rows of text
                 margin: EdgeInsets.all(2.0),
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                     //color: getStyle().matheBuddyRed,
                     gradient: LinearGradient(
@@ -139,14 +128,15 @@ class CourseState extends State<CourseWidget> {
                 child: Center(child: content))),
       ));
     }
-    if ((tableCells.length % 2) != 0) {
+    const columnsPerRow = 3;
+    while ((tableCells.length % columnsPerRow) != 0) {
       tableCells.add(TableCell(child: Text("")));
     }
-    var numRows = (tableCells.length / 2).ceil();
+    var numRows = (tableCells.length / columnsPerRow).ceil();
     for (var i = 0; i < numRows; i++) {
       List<TableCell> columns = [];
-      for (var j = 0; j < 2; j++) {
-        columns.add(tableCells[i * 2 + j]);
+      for (var j = 0; j < columnsPerRow; j++) {
+        columns.add(tableCells[i * columnsPerRow + j]);
       }
       tableRows.add(TableRow(children: columns));
     }
@@ -265,115 +255,21 @@ class CourseState extends State<CourseWidget> {
       },
     ]);
 
-    // awards
-    // Widget titleAwards = Padding(
-    //     padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 10),
-    //     child: Center(
-    //         child: Text("Awards",
-    //             style: TextStyle(
-    //               color: getStyle().courseSubTitleFontColor,
-    //               fontSize: getStyle().courseSubTitleFontSize,
-    //               fontWeight: getStyle().courseSubTitleFontWeight,
-    //             ))));
-
-    // var gotAward = getStyle().matheBuddyGreen;
-    // var goForAward = Colors.grey;
-    // var awards = Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-    //   Container(
-    //       decoration: BoxDecoration(
-    //           border: Border(bottom: BorderSide(color: gotAward, width: 5))),
-    //       child: Icon(
-    //         MdiIcons.fromString("medal"),
-    //         size: 80,
-    //         color: gotAward,
-    //       )),
-    //   Icon(
-    //     MdiIcons.fromString("trophy-award"),
-    //     size: 80,
-    //     color: goForAward,
-    //   ),
-    //   Icon(
-    //     MdiIcons.fromString("run-fast"),
-    //     size: 80,
-    //     color: goForAward,
-    //   )
-    // ]);
-
-    // indicators
-    // var text = language == 'en' ? "Progress" : "Fortschritt";
-    // Widget titleProgress = Padding(
-    //     padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
-    //     child: Center(
-    //         child: Text(text,
-    //             style: TextStyle(
-    //               color: getStyle().courseSubTitleFontColor,
-    //               fontSize: getStyle().courseSubTitleFontSize,
-    //               fontWeight: getStyle().courseSubTitleFontWeight,
-    //             ))));
-    // List<Color> progressColors = [
-    //   getStyle().matheBuddyRed,
-    //   getStyle().matheBuddyGreen,
-    //   getStyle().matheBuddyYellow
-    // ];
-    // List<double> progressBarPercentages = [0.66, 1.0, 0.75];
-    // List<Widget> progressBars = [];
-    // for (var i = 0; i < progressBarPercentages.length; i++) {
-    //   progressBars.add(SizedBox(
-    //       width: 50,
-    //       height: 50,
-    //       child: CircularProgressIndicator(
-    //           strokeWidth: 15,
-    //           value: progressBarPercentages[i],
-    //           color: progressColors[i])));
-    //   progressBars.add(Container(width: 20));
-    // }
-    // var progress = Row(
-    //     mainAxisAlignment: MainAxisAlignment.center, children: progressBars);
-
     Widget logo = Opacity(
-        opacity: 0.85,
-        //child: Image.asset('assets/img/logo-large-$language.png')
-        child: Image.asset('assets/img/logo-large-no-text.png'));
-
-    // Widget bottomLogos = Container(
-    //     constraints: BoxConstraints(maxWidth: 400),
-    //     decoration: BoxDecoration(color: Colors.white),
-    //     child: Opacity(
-    //         opacity: 0.85,
-    //         child: Image.asset('assets/img/logo-institutes.png')));
+        opacity: 0.85, child: Image.asset('assets/img/logo-large-no-text.png'));
 
     // all
     Widget contents = Column(children: [
       logo,
       controlShortcuts,
       progressShortcuts,
-      //Container(
-      //  height: 0,
-      //),
-      //Container(
-      //  height: 25,
-      //),
-      //title,
-      //author,
-      // Container(
-      //   height: 20,
-      // ),
-      //titleChapters,
-      // Container(
-      //   height: 0,
-      // ),
+      Container(
+        height: 10,
+      ),
       chapterTable,
-      //titleAwards,
-      // awards,
-      // Container(
-      //   height: 10,
-      // ),
-      // titleProgress,
-      // progress,
-      // Container(
-      //   height: 40,
-      // ),
-      //logo,
+      Container(
+        height: 20,
+      ),
       Opacity(
           opacity: 0.85,
           child: Container(
@@ -418,7 +314,7 @@ class CourseState extends State<CourseWidget> {
               },
               child: Container(
                 margin: EdgeInsets.all(2.0),
-                padding: EdgeInsets.only(bottom: 5),
+                padding: EdgeInsets.only(bottom: 12, top: 7),
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,

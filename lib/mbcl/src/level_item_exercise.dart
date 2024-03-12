@@ -72,6 +72,7 @@ class MbclExerciseData {
 
   void reset() {
     runInstanceIdx = -1;
+    maxReachedScore = 0;
     feedback = MbclExerciseFeedback.unchecked;
     for (var f in inputFields) {
       f.inputFieldData!.reset();
@@ -276,6 +277,7 @@ class MbclExerciseData {
     for (var i = 0; i < inputFields.length; i++) {
       var inputField = inputFields[i].inputFieldData!;
       inputField.studentValue = src["studentValues"][i];
+      inputField.cursorPos = inputField.studentValue.length;
     }
   }
 

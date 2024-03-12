@@ -144,7 +144,7 @@ class UnitState extends State<UnitWidget> {
         // used icon, if available
         iconOrText = SvgPicture.string(
           level.iconData,
-          width: tileWidth - 5,
+          width: tileWidth - 10,
           color: textColor,
           allowDrawingOutsideViewBox: true,
         );

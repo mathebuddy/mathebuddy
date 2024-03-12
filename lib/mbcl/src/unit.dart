@@ -42,6 +42,8 @@ class MbclUnit {
     for (var level in levels) {
       level.resetProgress();
     }
+    progress = 0.0;
+    //calcProgress();
   }
 
   Map<String, dynamic> toJSON() {

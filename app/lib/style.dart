@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 
 class Style {
-  Color matheBuddyRed = Color.fromARGB(0xFF, 0xAA, 0x32, 0x2C);
-  Color matheBuddyYellow =
-      Color.fromARGB(255, 218, 94, 0); // Colors.amber.shade700
+  Color matheBuddyRed = Color.fromARGB(255, 170, 50, 44);
+  Color matheBuddyYellow = Color.fromARGB(255, 220, 110, 30);
+  //Color.fromARGB(255, 218, 94, 0); // Colors.amber.shade700
   Color matheBuddyGreen = Colors.green.shade700;
   // appbar
   Color appbarBackgroundColor = Colors.black87;
