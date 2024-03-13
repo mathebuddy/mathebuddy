@@ -8,15 +8,12 @@
 /// This file implements the level widget.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mathebuddy/event.dart';
 import 'package:mathebuddy/level_item.dart';
-import 'package:mathebuddy/level_paragraph.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/widget_event_painter.dart';
 import 'package:mathebuddy/level_exercise.dart';
-import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 
 import 'package:mathebuddy/mbcl/src/level.dart';
@@ -24,7 +21,6 @@ import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 
 import 'package:mathebuddy/appbar.dart';
 import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/mbcl/src/unit.dart';
 import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/error.dart';
 import 'package:mathebuddy/style.dart';
@@ -33,17 +29,11 @@ import 'package:tex/tex.dart';
 
 class EventWidget extends StatefulWidget {
   final MbclCourse course;
-  final MbclChapter chapter;
-  final MbclUnit? unit;
   final MbclLevel level;
   final EventData eventData;
 
-  EventWidget(this.course, this.chapter, this.unit, this.level, this.eventData,
-      {Key? key})
+  EventWidget(this.course, this.level, this.eventData, {Key? key})
       : super(key: key) {
-    course.lastVisitedChapter = chapter;
-    chapter.lastVisitedUnit = unit;
-    chapter.lastVisitedLevel = level;
     course.saveUserData();
   }
 
@@ -77,7 +67,7 @@ class EventState extends State<EventWidget> {
 
     // debug: show level path
     if (debugMode && level.fileId.isNotEmpty) {
-      var path = "${widget.chapter.fileId}/${level.fileId}.mbl";
+      var path = "${level.chapter.fileId}/${level.fileId}.mbl";
       page.add(generateLevelPath(path));
     }
 

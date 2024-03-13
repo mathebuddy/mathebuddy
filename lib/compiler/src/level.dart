@@ -389,6 +389,7 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
             data.filePath = block.attributes["PATH"]!;
             var path = "${compiler.baseDirectory}"
                 "${compiler.chapter.fileId}/${data.filePath}";
+            path = path.replaceAll("//", "/");
             data.data = compiler.loadFile(path);
             if (data.data.isEmpty) {
               figure.error += 'Could not load image file from path "$path". ';

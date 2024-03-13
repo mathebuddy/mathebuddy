@@ -36,8 +36,8 @@ class ProgressState extends State<ProgressWidget> {
   Widget build(BuildContext context) {
     List<Widget> contents = [];
 
-    contents.add(Text("WORK-IN-PROGRESS :-)",
-        style: TextStyle(color: Colors.red, fontSize: 25)));
+    //contents.add(Text("WORK-IN-PROGRESS :-)",
+    //    style: TextStyle(color: Colors.red, fontSize: 25)));
 
     // page title
     Widget title = Padding(
@@ -53,33 +53,43 @@ class ProgressState extends State<ProgressWidget> {
 
     // chapter progress
     for (var chapter in widget.course.chapters) {
+      List<Widget> boxChildren = [];
+
       // chapter title
       var label = language == "en" ? "Chapter" : "Kapitel";
       Widget chapterTitleLabel = Padding(
           padding: EdgeInsets.all(0.0),
           child: Text(label,
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 16.0,
               )));
-      contents.add(Center(child: chapterTitleLabel));
+      boxChildren.add(Center(child: chapterTitleLabel));
       Widget chapterTitle = Padding(
           padding: EdgeInsets.only(top: 0, left: 10, right: 10, bottom: 10),
           child: Text(chapter.title,
               style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold)));
-      contents.add(Center(child: chapterTitle));
-      contents.add(Text(" "));
+      boxChildren.add(Center(child: chapterTitle));
+      boxChildren.add(Text(" "));
 
       // chapter stats
+      var progressText = chapter.getVisitedLevelPercentage();
+      var progressExercises = chapter.progress;
+      var progressGames = 0.0; // TODO
+
       List<Color> progressColors = [
         getStyle().matheBuddyRed,
         getStyle().matheBuddyGreen,
         getStyle().matheBuddyYellow
       ];
-      List<double> progressBarPercentages = [0.88, 0.55, 0.44]; // TODO
+      List<double> progressBarPercentages = [
+        progressText,
+        progressExercises,
+        progressGames,
+      ]; // TODO
       List<String> progressBarLabels = ["Text", "Übungen", "Spiele"];
       if (language == "en") {
         progressBarLabels = ["Text", "Training", "Games"];
@@ -112,16 +122,36 @@ class ProgressState extends State<ProgressWidget> {
               padding: EdgeInsets.only(top: 10),
               child: Text(
                 progressBarLabels[i],
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 14, color: Colors.white),
               ))
         ]));
         progressBars.add(Container(width: 20));
       }
-      contents.add(Row(
+      boxChildren.add(Row(
           mainAxisAlignment: MainAxisAlignment.center, children: progressBars));
 
-      contents.add(Text(" "));
-      contents.add(Text(" "));
+      var box = Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+              //color: Colors.black.withOpacity(0.85),
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.black.withOpacity(0.9),
+                    Colors.black.withOpacity(0.85)
+                  ]),
+              borderRadius: BorderRadius.circular(5)),
+          child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(children: boxChildren)));
+      contents.add(box);
+
+      contents.add(
+        Container(
+          height: 5,
+        ),
+      );
       // TODO: add link "go to chapter"
     }
 

@@ -12,7 +12,12 @@ import '../../../lib/compiler/src/compiler.dart';
 
 String loadFile(String path) {
   try {
-    return File(path).readAsStringSync();
+    if (path.endsWith(".jpg")) {
+      var bytes = File(path).readAsBytesSync();
+      return base64Encode(bytes);
+    } else {
+      return File(path).readAsStringSync();
+    }
   } catch (e) {
     print("ERROR: file '$path' does not exist"
         " (current directory is '${Directory.current.path}')!");

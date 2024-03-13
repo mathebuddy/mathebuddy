@@ -8,9 +8,11 @@
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'chapter.dart';
 import 'chat.dart';
+import 'level.dart';
 import 'level_item.dart';
 import 'level_item_exercise.dart';
 import 'persistence.dart';
@@ -31,6 +33,7 @@ class MbclCourse {
   int dateModified = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
   List<MbclChapter> chapters = [];
   late MbclChat chat;
+  MbclLevel? help;
 
   // temporary
   MbclChapter? lastVisitedChapter;
@@ -43,7 +46,7 @@ class MbclCourse {
     chat = MbclChat(this);
   }
 
-  MbclLevelItem? getSuggestedExercise(List<MbclLevelItem> exclusionList) {
+  MbclLevelItem? suggestExercise(List<MbclLevelItem> exclusionList) {
     for (var chapter in chapters) {
       for (var level in chapter.levels) {
         if (level.visited == false || level.isEvent) continue;
@@ -59,6 +62,23 @@ class MbclCourse {
       }
     }
     return null;
+  }
+
+  MbclLevel? suggestGame() {
+    List<MbclLevel> candidates = [];
+    for (var chapter in chapters) {
+      for (var level in chapter.levels) {
+        if (level.visited == false) continue;
+        if (level.isEvent) {
+          candidates.add(level);
+        }
+      }
+    }
+    if (candidates.isEmpty) {
+      return null;
+    }
+    var idx = Random().nextInt(candidates.length);
+    return candidates[idx];
   }
 
   setPersistence(MbclPersistence p) {
@@ -102,6 +122,7 @@ class MbclCourse {
   }
 
   Future<bool> loadUserData() async {
+    print("loading course user data");
     if (checkFileIO() == false) return false;
     var path = _getFilePath();
     try {
@@ -115,6 +136,7 @@ class MbclCourse {
   }
 
   bool saveUserData() {
+    print("saving course user data");
     if (checkFileIO() == false) return false;
     var data = progressToJSON();
     var dataStringified = JsonEncoder.withIndent("  ").convert(data);
@@ -182,7 +204,8 @@ class MbclCourse {
       "mbclVersion": mbclVersion,
       "dateModified": dateModified,
       "chapters": chapters.map((chapter) => chapter.toJSON()).toList(),
-      "chat": chat.toJSON()
+      "chat": chat.toJSON(),
+      "help": help == null ? {} : help!.toJSON(),
     };
   }
 
@@ -209,5 +232,10 @@ class MbclCourse {
     }
     chat = MbclChat(this);
     chat.fromJSON(src["chat"]);
+    if (src["help"].containsKey('fileId')) {
+      var pseudoChapter = MbclChapter(this);
+      help = MbclLevel(this, pseudoChapter);
+      help!.fromJSON(src["help"]);
+    }
   }
 }

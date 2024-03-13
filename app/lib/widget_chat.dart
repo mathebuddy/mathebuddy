@@ -67,7 +67,7 @@ class ChatState extends State<ChatWidget> {
   void likeToExerciseAction() {
     chatHistory.removeLast(); // remove user input field
     chatHistory.removeLast(); // remove "i like to exercise" button
-    var exercise = widget.course.getSuggestedExercise(sessionExercises);
+    var exercise = widget.course.suggestExercise(sessionExercises);
     if (exercise == null) {
       chatHistory.add(ChatMessage(ChatMessageType.botMessage,
           getChatText("noExercises", language, [])));

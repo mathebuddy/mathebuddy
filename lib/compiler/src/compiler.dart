@@ -113,6 +113,7 @@ class Compiler {
   //G courseChapters = "CHAPTERS" "\n" { courseChapter };
   //G courseChapter = "(" INT "," INT ")" ID { "!" ID } [ "ICON" path ] "\n";
   void compileCourse(String path) {
+    var helpPath = "";
     // create a new course
     course = MbclCourse();
     // get course description file source
@@ -138,6 +139,7 @@ class Compiler {
         case "COURSEID":
         case "TITLE":
         case "AUTHOR":
+        case "HELP":
         case "CHAPTERS":
           if (block.children.length != 1 || block.children[0].id != "DEFAULT") {
             course.error += "${block.id} is not well formatted. ";
@@ -153,6 +155,9 @@ class Compiler {
               break;
             case "AUTHOR":
               course.author = text;
+              break;
+            case "HELP":
+              helpPath = text;
               break;
             case "CHAPTERS":
               var lines = text.split("\n");
@@ -227,6 +232,18 @@ class Compiler {
         } else {
           chapter.requires.add(requiredChapter);
         }
+      }
+    }
+    // build help pages, if present
+    if (helpPath.isNotEmpty) {
+      var dirname = extractDirname(path);
+      helpPath = '$dirname$helpPath.mbl';
+      try {
+        chapter = MbclChapter(course);
+        compileLevel(helpPath, "help");
+        course.help = level;
+      } catch (e) {
+        course.error += "Errors in help file";
       }
     }
   }

@@ -177,8 +177,7 @@ class UnitState extends State<UnitWidget> {
               onTap: () {
                 var route = MaterialPageRoute(builder: (context) {
                   if (level.isEvent) {
-                    return EventWidget(widget.course, widget.chapter,
-                        widget.unit, level, EventData(level));
+                    return EventWidget(widget.course, level, EventData(level));
                   } else {
                     return LevelWidget(
                         widget.course, widget.chapter, widget.unit, level);

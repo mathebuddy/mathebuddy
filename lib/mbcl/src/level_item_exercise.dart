@@ -169,9 +169,6 @@ class MbclExerciseData {
             studentTerm = studentTermDiff;
           }
           var expected = data.expectedValue;
-          if (data.type == MbclInputFieldType.string) {
-            expected = expected.toUpperCase();
-          }
           var expectedTerm = term_parser.Parser().parse(expected);
           print("comparing $studentTerm to $expectedTerm");
           data.correct = expectedTerm.compareNumerically(studentTerm);

@@ -46,6 +46,16 @@ class MbclChapter {
     progress /= levels.length;
   }
 
+  double getVisitedLevelPercentage() {
+    var v = 0;
+    for (var level in levels) {
+      if (level.visited) {
+        v++;
+      }
+    }
+    return v.toDouble() / levels.length.toDouble();
+  }
+
   String gatherErrors() {
     var err = error.isEmpty ? "" : "$error\n";
     for (var level in levels) {
@@ -79,6 +89,7 @@ class MbclChapter {
   }
 
   Future<bool> loadUserData() async {
+    print("loading chapter user data ($fileId)");
     if (course.checkFileIO() == false) return false;
     var path = _getFilePath();
     try {
@@ -92,6 +103,7 @@ class MbclChapter {
   }
 
   bool saveUserData() {
+    print("saving chapter user data ($fileId)");
     if (course.checkFileIO() == false) return false;
     calcProgress();
     var chapterJson = progressToJSON();

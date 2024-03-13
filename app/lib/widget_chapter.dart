@@ -73,30 +73,34 @@ class ChapterState extends State<ChapterWidget> {
         icon = SvgPicture.string(unit.iconData, color: cellColor);
       }
       icon = SizedBox(height: 75, child: icon);
-      Widget content = Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Column(children: [
-            icon,
-            //Wrap(children: [
-            Text(unit.title,
-                textAlign: TextAlign.center,
-                softWrap: true,
-                style: TextStyle(
-                    fontSize: 22,
-                    color: cellColor,
-                    fontWeight: FontWeight.w400))
-          ]));
-      //  in flutter 3.18+
-      var fill = unit.title == "Integral-Lösungsansätze";
+
+      var progress = unit.progress;
+      var percentage = "${(progress * 100).round()} %";
+
+      Widget content = Container(
+          alignment: Alignment.topLeft,
+          child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child:
+                  Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                Text(
+                  textAlign: TextAlign.start,
+                  percentage,
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 221, 211, 211)),
+                ),
+                Center(child: icon),
+                Center(
+                    child: Text(unit.title,
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        style: TextStyle(
+                            fontSize: 22,
+                            color: cellColor,
+                            fontWeight: FontWeight.w400)))
+              ])));
+
       var cell = TableCell(
-        //verticalAlignment: TableCellVerticalAlignment.fill,
-        //verticalAlignment: TableCellVerticalAlignment.middle,
-
-        // !!
-        // verticalAlignment: fill
-        //     ? TableCellVerticalAlignment.fill
-        //     : TableCellVerticalAlignment.top,
-
         child: GestureDetector(
             onTap: () {
               var route = MaterialPageRoute(builder: (context) {
@@ -107,7 +111,6 @@ class ChapterState extends State<ChapterWidget> {
               });
             },
             child: Container(
-              alignment: Alignment.center,
               //height: 200,
               margin: EdgeInsets.all(2.0),
               decoration: BoxDecoration(
@@ -121,11 +124,6 @@ class ChapterState extends State<ChapterWidget> {
       tableCells.add(TableCell(child: Text("")));
     }
 
-    // var heights = [];
-    // for(var cell in tableCells) {
-    //   heights.add(cell.)
-    // }
-
     var numRows = (tableCells.length / 2).ceil();
     for (var i = 0; i < numRows; i++) {
       List<TableCell> columns = [];
@@ -136,15 +134,10 @@ class ChapterState extends State<ChapterWidget> {
     }
     var unitsTable = Table(
       defaultVerticalAlignment: TableCellVerticalAlignment.intrinsicHeight,
-      //defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      //defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
       children: tableRows,
     );
 
-    List<Widget> contents = [
-      //logo,
-      title, unitsTable
-    ];
+    List<Widget> contents = [title, unitsTable];
 
     if (widget.chapter.error.isNotEmpty) {
       var err = generateErrorWidget(widget.chapter.error);

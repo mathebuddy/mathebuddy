@@ -49,6 +49,9 @@ Widget generateSingleMultiChoice(
       } else {
         iconId = 0xe158; // Icons.check_box_outline_blank
       }
+      // set the answer explicitly to "false", since it may be reset to
+      // the empty string
+      inputFieldData.studentValue = "false";
     }
     var icon = Icon(
       IconData(iconId, fontFamily: 'MaterialIcons'),

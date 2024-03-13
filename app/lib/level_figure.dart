@@ -5,6 +5,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathebuddy/level_item.dart';
@@ -26,8 +28,9 @@ Widget generateFigure(State state, MbclLevel level, MbclLevelItem item,
   if (screenWidth > maxContentsWidth) {
     screenWidth = maxContentsWidth;
   }
-  if (figureData.data.startsWith('<svg') ||
-      figureData.data.startsWith('<?xml')) {
+  if (figureData.filePath.endsWith(".svg") &&
+      (figureData.data.startsWith('<svg') ||
+          figureData.data.startsWith('<?xml'))) {
     rows.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       GestureDetector(
           onDoubleTap: () {
@@ -40,6 +43,15 @@ Widget generateFigure(State state, MbclLevel level, MbclLevelItem item,
             width: screenWidth * width / 100.0 - 15.0,
           ))
     ]));
+  } else if (figureData.filePath.endsWith(".jpg")) {
+    rows.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Image.memory(
+        base64Decode(figureData.data),
+        width: screenWidth * width / 100.0 - 15.0,
+      )
+    ]));
+
+    var bp = 1337;
   }
   // caption
   if (figureData.caption.isNotEmpty) {

@@ -5,12 +5,12 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
-import 'package:mathebuddy/widget_load.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/mbcl/src/course.dart';
 
+import 'package:mathebuddy/widget_load.dart';
 import 'package:mathebuddy/color.dart';
 
 var showDebugReleaseSwitch = true;
@@ -42,6 +42,7 @@ void main() {
       .contains("mathebuddy.github.io/smoke/")) {
     bundleName = 'assets/bundle-smoke.json';
     language = 'de';
+    debugMode = false;
   } else if (html.window.location.href
       .contains("mathebuddy.github.io/bochum/")) {
     bundleName = 'assets/bundle-bochum.json';

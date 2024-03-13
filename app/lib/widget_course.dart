@@ -10,6 +10,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mathebuddy/event.dart';
+import 'package:mathebuddy/mbcl/src/chapter.dart';
+import 'package:mathebuddy/mbcl/src/unit.dart';
 import 'package:mathebuddy/widget_awards.dart';
 import 'package:mathebuddy/widget_chat.dart';
 import 'package:mathebuddy/main.dart';
@@ -21,6 +24,7 @@ import 'package:mathebuddy/widget_chapter.dart';
 import 'package:mathebuddy/error.dart';
 import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
+import 'package:mathebuddy/widget_event.dart';
 import 'package:mathebuddy/widget_help.dart';
 import 'package:mathebuddy/widget_level.dart';
 import 'package:mathebuddy/widget_progress.dart';
@@ -77,26 +81,28 @@ class CourseState extends State<CourseWidget> {
       icon = SizedBox(height: 55, child: icon);
       var title = chapter.title;
       //title = title.replaceAll(" ", "\n");
-      var percentage = "${(chapter.progress * 100).round()} %";
+      var percentage = " ${(chapter.progress * 100).round()} % ";
       Widget content = Container(
           alignment: Alignment.center,
           child: Padding(
               padding: EdgeInsets.all(5.0),
-              child: Column(children: [
+              child:
+                  Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 Text(
                   percentage,
                   style: TextStyle(
                       color: const Color.fromARGB(255, 221, 211, 211)),
                 ),
-                icon,
-                Wrap(alignment: WrapAlignment.center, children: [
+                Center(child: icon),
+                Center(
+                    child: Wrap(alignment: WrapAlignment.center, children: [
                   Text(title,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 16,
                           color: cellColor,
                           fontWeight: FontWeight.w400))
-                ])
+                ]))
               ])));
       tableCells.add(TableCell(
         //verticalAlignment: (i % 2) == 1
@@ -181,7 +187,7 @@ class CourseState extends State<CourseWidget> {
             }
           }
         },
-        "enabled": true,
+        "enabled": widget.course.lastVisitedChapter != null,
       },
       {
         "icon": "chat-question-outline", //
@@ -201,8 +207,21 @@ class CourseState extends State<CourseWidget> {
         "color": Style().matheBuddyRed,
         "text-en": "Play", //
         "text-de": "Spielen",
-        "action": () {},
-        "enabled": false,
+        "action": () {
+          // open event level
+          var level = widget.course.suggestGame();
+          if (level == null) {
+            // TODO!!
+          } else {
+            var route = MaterialPageRoute(builder: (context) {
+              return EventWidget(widget.course, level, EventData(level));
+            });
+            Navigator.push(context, route).then((value) {
+              setState(() {});
+            });
+          }
+        },
+        "enabled": widget.course.suggestGame() != null,
       },
     ]);
 
@@ -244,12 +263,24 @@ class CourseState extends State<CourseWidget> {
         "text-en": "Help", //
         "text-de": "Hilfe", //
         "action": () {
-          var route = MaterialPageRoute(builder: (context) {
-            return HelpWidget(widget.course);
-          });
-          Navigator.push(context, route).then((value) {
-            setState(() {});
-          });
+          if (widget.course.help != null) {
+            var level = widget.course.help!;
+            var route = MaterialPageRoute(builder: (context) {
+              var pseudoChapter = MbclChapter(widget.course);
+              var pseudoUnit = MbclUnit(widget.course, pseudoChapter);
+              return LevelWidget(
+                  widget.course, pseudoChapter, pseudoUnit, level);
+            });
+            Navigator.push(context, route).then((value) {
+              setState(() {});
+            });
+          }
+          // var route = MaterialPageRoute(builder: (context) {
+          //   return HelpWidget(widget.course);
+          // });
+          // Navigator.push(context, route).then((value) {
+          //   setState(() {});
+          // });
         },
         "enabled": true,
       },

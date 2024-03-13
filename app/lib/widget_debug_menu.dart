@@ -69,8 +69,8 @@ class DebugMenuState extends State<DebugMenuWidget> {
                         if (unit.levels.length == 1) {
                           var level = unit.levels[0];
                           if (level.isEvent) {
-                            return EventWidget(course!, chapter, unit, level,
-                                EventData(level));
+                            return EventWidget(
+                                course!, level, EventData(level));
                           } else {
                             return LevelWidget(course!, chapter, unit, level);
                           }

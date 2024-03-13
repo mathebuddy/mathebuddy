@@ -31,12 +31,16 @@ class LevelWidget extends StatefulWidget {
   final MbclChapter chapter;
   final MbclUnit? unit;
   final MbclLevel level;
+  bool isHelpLevel = false;
 
   LevelWidget(this.course, this.chapter, this.unit, this.level, {Key? key})
       : super(key: key) {
-    course.lastVisitedChapter = chapter;
-    chapter.lastVisitedUnit = unit;
-    chapter.lastVisitedLevel = level;
+    isHelpLevel = level.fileId == "help";
+    if (isHelpLevel == false) {
+      course.lastVisitedChapter = chapter;
+      chapter.lastVisitedUnit = unit;
+      chapter.lastVisitedLevel = level;
+    }
     course.saveUserData();
   }
 
@@ -91,7 +95,9 @@ class LevelState extends State<LevelWidget> {
     page.add(levelTitle);
 
     // debug: level reload button
-    if (debugMode && level.isDebugLevel == false) {
+    if (widget.isHelpLevel == false &&
+        debugMode &&
+        level.isDebugLevel == false) {
       page.add(Text(" "));
       page.add(Center(
           child: Opacity(

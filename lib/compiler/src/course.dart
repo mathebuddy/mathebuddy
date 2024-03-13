@@ -8,10 +8,14 @@
 import '../../mbcl/src/course.dart';
 
 import 'chapter.dart';
+import 'level.dart';
 
 void postProcessCourse(MbclCourse course) {
   for (var i = 0; i < course.chapters.length; i++) {
     var chapter = course.chapters[i];
     postProcessChapter(chapter);
+  }
+  if (course.help != null) {
+    postProcessLevel(course.help!);
   }
 }
