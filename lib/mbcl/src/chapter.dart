@@ -97,7 +97,7 @@ class MbclChapter {
       var chapterJson = jsonDecode(chapterStringified);
       progressFromJSON(chapterJson);
     } catch (e) {
-      print("could not load chapter");
+      print("could not load user data for chapter $path");
     }
     return true;
   }

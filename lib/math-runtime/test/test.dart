@@ -16,6 +16,9 @@ void main() {
 
   var parser = Parser();
 
+  var xx = parser.parse("4i*(z-5i)^2");
+  var yy = xx.toTeXString();
+
   var t = parser.parse("4*[1+10,2,3][1]");
   var v = t.eval({});
 

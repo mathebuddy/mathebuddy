@@ -166,7 +166,25 @@ class AppInputField {
             keyboardState.layout =
                 createChoiceKeyboard(choices, hasBackButton: false);
           } else if (forceKeyboardId.isNotEmpty) {
-            keyboardState.layout = getKeyboardLayout(forceKeyboardId);
+            var varX = "x";
+            var varY = "y";
+            var varZ = "z";
+            if (inputFieldData!.type == MbclInputFieldType.term) {
+              var t = term_parser.Parser().parse(inputFieldData!.expectedValue);
+              var vars = t.getVariableIDs().toList();
+              vars.sort();
+              if (vars.isNotEmpty) {
+                varX = vars[0];
+                if (vars.length >= 2) {
+                  varY = vars[1];
+                  if (vars.length >= 3) {
+                    varZ = vars[2];
+                  }
+                }
+              }
+            }
+            keyboardState.layout = getKeyboardLayout(forceKeyboardId,
+                varX: varX, varY: varY, varZ: varZ);
           } else {
             switch (inputFieldData!.type) {
               case MbclInputFieldType.int:

@@ -63,7 +63,6 @@ class EventState extends State<EventWidget> {
     List<Widget> page = [];
     scrollController = ScrollController();
     var level = widget.level;
-    level.calcProgress();
 
     // debug: show level path
     if (debugMode && level.fileId.isNotEmpty) {
@@ -138,9 +137,14 @@ class EventState extends State<EventWidget> {
               child: GestureDetector(
                   onTap: () {
                     if (i == 0) {
-                      widget.eventData.applyJoker(EventDataJoker.joker5050);
+                      if (widget.eventData.jokerAvailable5050) {
+                        widget.eventData.applyJoker(EventDataJoker.joker5050);
+                      }
                     } else if (i == 1) {
-                      widget.eventData.applyJoker(EventDataJoker.jokerTimePlus);
+                      if (widget.eventData.jokerAvailableTimePlus) {
+                        widget.eventData
+                            .applyJoker(EventDataJoker.jokerTimePlus);
+                      }
                     }
                     setState(() {});
                   },
@@ -232,9 +236,17 @@ class EventState extends State<EventWidget> {
                   color: getStyle().matheBuddyRed,
                   fontSize: 64,
                   fontWeight: FontWeight.bold))));
+    } else if (widget.eventData.eventState == EventDataState.success) {
+      page.add(Center(
+          child: Text("WELL\nDONE",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: getStyle().matheBuddyGreen,
+                  fontSize: 64,
+                  fontWeight: FontWeight.bold))));
     } else {
       // add current exercise
-      var exercise = widget.eventData.getCurrentExercise();
+      var exercise = widget.eventData.activeExercise;
       if (exercise != null &&
           exercise.exerciseData!.feedback == MbclExerciseFeedback.correct) {
         exercise.exerciseData!.feedback = MbclExerciseFeedback.unchecked;
@@ -248,6 +260,7 @@ class EventState extends State<EventWidget> {
         var exerciseData = exercise.exerciseData!;
 
         List<MbclLevelItem> choicesElements = [];
+        int correctAnswerIdx = 0;
 
         var choices = exerciseData.getChoicesOfFirstInputField();
         if (choices.length == 4) {
@@ -261,25 +274,29 @@ class EventState extends State<EventWidget> {
         } else {
           // single choice answer
           var answers = exerciseData.getSingleChoiceAnswers();
+          var idx = 0;
           for (var answer in answers) {
             choicesElements.add(answer.items[0]); // add span
             answer.inputFieldData!.studentValue = "false";
             var v = answer.inputFieldData!.variableId;
             var correct = exerciseData.activeInstance[v]!;
-            choices.add(correct);
+            if (correct == "true") correctAnswerIdx = idx;
+            idx++;
           }
+          // print("CORRECT IDX");
+          // print(correctAnswerIdx);
+          // print("active instance");
+          // print(exerciseData.activeInstance);
         }
 
-        if (choices.length == 4) {
-          var inputField = exerciseData.inputFields[0];
-          var inputFieldData = inputField.inputFieldData!;
-
+        if (choicesElements.length == 4) {
           var buttonWidth = screenWidth / 2 - 5;
           var buttonHeight = 65.0;
 
           List<Widget> buttons = [];
           for (var i = 0; i < 4; i++) {
-            var idx = widget.eventData.randomOrder[i];
+            var idx = widget.eventData.answerOrder[i];
+
             var opacity = 1.0;
             if (widget.eventData.jokerActive5050) {
               if (idx == 1 || idx == 2) {
@@ -291,7 +308,6 @@ class EventState extends State<EventWidget> {
             tex.scalingFactor = 1.33; //1.17;
             tex.setColor(0, 0, 0);
 
-            var studentValue = choices[idx];
             var optionText = choicesElements[idx];
             Widget buttonText = generateLevelItem(this, level, optionText,
                 exerciseData: exerciseData);
@@ -307,19 +323,19 @@ class EventState extends State<EventWidget> {
                     height: buttonHeight - 6,
                     child: GestureDetector(
                         onTap: () {
-                          inputFieldData.studentValue = studentValue;
-                          exerciseData.evaluate();
-                          var correct = exerciseData.feedback ==
-                              MbclExerciseFeedback.correct;
-                          widget.eventData.updateScore(correct);
+                          var correct = idx == correctAnswerIdx;
+                          exerciseData.feedback = correct
+                              ? MbclExerciseFeedback.correct
+                              : MbclExerciseFeedback.incorrect;
                           if (correct) {
                             widget.eventData.correctAnswers++;
                           } else {
                             widget.eventData.incorrectAnswers++;
                           }
+                          widget.eventData.updateScore(correct);
                           renderFeedbackOverlay(this, correct,
                               textOpacity: 1.0, backgroundOpacity: 0.7);
-                          widget.eventData.switchExercise();
+                          widget.eventData.switchExercise(correct);
                           exerciseData.feedback =
                               MbclExerciseFeedback.unchecked;
                           setState(() {});
@@ -328,21 +344,11 @@ class EventState extends State<EventWidget> {
                           opacity: opacity,
                           child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                                // border: Border.all(
-                                //     color:
-                                //         const Color.fromARGB(255, 75, 75, 75),
-                                //     width: 2),
+                                color: debugMode && idx == correctAnswerIdx
+                                    ? getStyle().matheBuddyGreen
+                                    : Colors.white,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15)),
-                                // boxShadow: [
-                                //   BoxShadow(
-                                //       blurRadius: 3.0,
-                                //       spreadRadius: 2.0,
-                                //       offset: Offset(1, 1),
-                                //       color: const Color.fromARGB(
-                                //           255, 200, 200, 200))
-                                // ],
                               ),
                               alignment: Alignment.center,
                               child: buttonText),

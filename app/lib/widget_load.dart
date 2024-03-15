@@ -11,7 +11,12 @@
 import 'dart:convert';
 
 import 'package:mathebuddy/appbar.dart';
+import 'package:mathebuddy/event.dart';
+import 'package:mathebuddy/widget_chapter.dart';
 import 'package:mathebuddy/widget_debug_menu.dart';
+import 'package:mathebuddy/widget_event.dart';
+import 'package:mathebuddy/widget_level.dart';
+import 'package:mathebuddy/widget_unit.dart';
 import 'package:universal_html/html.dart' as html;
 
 import 'package:mathebuddy/io.dart';
@@ -21,8 +26,6 @@ import 'package:flutter/material.dart';
 
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/widget_course.dart';
-
-//late Persistence persistence;
 
 class LoadWidget extends StatefulWidget {
   const LoadWidget({super.key});
@@ -56,6 +59,31 @@ class LoadState extends State<LoadWidget> {
         course!.persistence = persistence;
         Future.microtask(() => Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => CourseWidget(course!))));
+      } else if (courses.keys.length == 1) {
+        selectedCourseIdFromBundle = courses.keys.first;
+        course = courses[courses.keys.first]!;
+        course!.persistence = persistence;
+        if (course!.debug != MbclCourseDebug.no &&
+            course!.chapters.length == 1) {
+          var chapter = course!.chapters[0];
+          if (chapter.units.length == 1) {
+            var unit = chapter.units[0];
+            if (unit.levels.length == 1) {
+              var level = unit.levels[0];
+              if (level.isEvent) {
+                return EventWidget(course!, level, EventData(level));
+              } else {
+                return LevelWidget(course!, chapter, unit, level);
+              }
+            } else {
+              return UnitWidget(course!, chapter, unit);
+            }
+          } else {
+            return ChapterWidget(course!, chapter);
+          }
+        } else {
+          return CourseWidget(course!);
+        }
       } else {
         // otherwise, show the debug menu
         Future.microtask(() => Navigator.pushReplacement(context,
@@ -76,8 +104,7 @@ void loadCourseBundle(BuildContext context, State state) async {
       await DefaultAssetBundle.of(context).loadString(bundleName, cache: false);
   var bundleDataJson = jsonDecode(bundleDataStr);
   courses = {};
-  if (bundleName.contains('bundle-debug.json') ||
-      bundleName.contains('bundle-websim.json')) {
+  if (bundleName.contains('bundle-websim.json')) {
     courses['DEBUG'] = MbclCourse();
   }
   bundleDataJson.forEach((key, value) {

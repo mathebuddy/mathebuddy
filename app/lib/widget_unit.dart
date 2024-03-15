@@ -175,20 +175,23 @@ class UnitState extends State<UnitWidget> {
           top: level.screenPosY,
           child: GestureDetector(
               onTap: () {
-                var route = MaterialPageRoute(builder: (context) {
-                  if (level.isEvent) {
-                    return EventWidget(widget.course, level, EventData(level));
-                  } else {
-                    return LevelWidget(
-                        widget.course, widget.chapter, widget.unit, level);
-                  }
-                });
-                Navigator.push(context, route).then((value) {
+                if (debugMode || level.isLocked() == false) {
+                  var route = MaterialPageRoute(builder: (context) {
+                    if (level.isEvent) {
+                      return EventWidget(
+                          widget.course, level, EventData(level));
+                    } else {
+                      return LevelWidget(
+                          widget.course, widget.chapter, widget.unit, level);
+                    }
+                  });
+                  Navigator.push(context, route).then((value) {
+                    setState(() {});
+                  });
+                  level.visited = true;
+                  widget.chapter.saveUserData();
                   setState(() {});
-                });
-                level.visited = true;
-                widget.chapter.saveUserData();
-                setState(() {});
+                }
               },
               child: Container(
                   width: tileWidth,

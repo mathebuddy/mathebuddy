@@ -67,6 +67,15 @@ var keyboardLayoutsSrc = '''
 1 2 3 - !E
 0 0 i , !E
 
+
+### complexFunction
+ 
+7 8 9 !X + !    !B
+4 5 6 !Y - sin( !E
+1 2 3 i  * cos( exp(
+0 ( ) ^  / tan( ln(
+
+
 ### termX
 
 7 8  9 + ^    !    !B

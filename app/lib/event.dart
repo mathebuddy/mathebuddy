@@ -28,8 +28,15 @@ enum EventDataJoker { joker5050, jokerTimePlus }
 class EventData {
   EventDataState eventState = EventDataState.init;
 
-  List<MbclLevelItem> exercises = [];
-  int currentExerciseIdx = 0;
+  MbclLevel level;
+  List<MbclLevelItem> allExercises = [];
+  //int currentExerciseIdx = 0;
+
+  // pipeline = all exercises at start; first is popped and wrongly answered
+  // are pushed back again
+  List<MbclLevelItem> exercisePipeline = [];
+  MbclLevelItem? activeExercise;
+
   //int highScore = 0;
   int correctAnswers = 0;
   int incorrectAnswers = 0;
@@ -48,14 +55,19 @@ class EventData {
 
   bool jokerActive5050 = false;
 
-  List<int> randomOrder = [0, 1, 2, 3];
+  List<int> answerOrder = [0, 1, 2, 3];
 
-  EventData(MbclLevel level) {
-    randomOrder.shuffle();
+  EventData(this.level) {
+    answerOrder.shuffle();
     for (var item in level.items) {
       if (item.type == MbclLevelItemType.exercise) {
-        exercises.add(item);
+        activeExercise ??= item;
+        allExercises.add(item);
+        exercisePipeline.add(item);
       }
+    }
+    if (exercisePipeline.isNotEmpty) {
+      exercisePipeline.removeLast(); // first exercise is already active
     }
   }
 
@@ -84,6 +96,9 @@ class EventData {
 
   start(State state) {
     print("--- starting event timer ---");
+
+    timeTotal = activeExercise!.exerciseData!.time.toDouble();
+
     timeRemaining = timeTotal;
     eventState = EventDataState.running;
     timer = Timer.periodic(Duration(milliseconds: 500), (Timer t) {
@@ -92,7 +107,7 @@ class EventData {
         score -= 0.2;
         checkGameOver();
         renderFeedbackOverlay(state, false);
-        switchExercise();
+        switchExercise(false);
       }
       print("event tick ${DateTime.now().toString()}");
       // ignore: invalid_use_of_protected_member
@@ -122,25 +137,42 @@ class EventData {
     }
   }
 
-  void switchExercise() {
+  void switchExercise(bool correct) {
     jokerActive5050 = false;
-    var currentExercise = getCurrentExercise();
-    if (currentExercise != null) {
-      // prepare for next run
-      currentExercise.exerciseData!.runInstanceIdx = -1;
-      currentExercise.exerciseData!.nextInstance();
-      print(
-          "----- run instances idx ${currentExercise.exerciseData!.runInstanceIdx} -----");
+
+    if (correct == false && activeExercise != null) {
+      exercisePipeline.add(activeExercise!);
     }
-    randomOrder.shuffle();
+
+    if (exercisePipeline.isEmpty) {
+      if (score < 0.5) {
+        exercisePipeline.addAll(allExercises);
+      } else {
+        eventState = EventDataState.success;
+        level.progress = 1.0;
+        stop();
+      }
+    } else {
+      activeExercise = exercisePipeline.removeAt(0);
+    }
+
+    if (activeExercise != null) {
+      // prepare for next run
+      activeExercise!.exerciseData!.runInstanceIdx = -1;
+      activeExercise!.exerciseData!.nextInstance();
+      print(
+          "----- run instances idx ${activeExercise!.exerciseData!.runInstanceIdx} -----");
+    }
+    answerOrder.shuffle();
+    timeTotal = activeExercise!.exerciseData!.time.toDouble();
     timeRemaining = timeTotal;
     // TODO: randomize order??
-    currentExerciseIdx = (currentExerciseIdx + 1) % exercises.length;
-    print(">>> exercise index is now $currentExerciseIdx");
+    //currentExerciseIdx = (currentExerciseIdx + 1) % allExercises.length;
+    //print(">>> exercise index is now $currentExerciseIdx");
   }
 
-  MbclLevelItem? getCurrentExercise() {
-    if (currentExerciseIdx >= exercises.length) return null;
-    return exercises[currentExerciseIdx];
-  }
+  // MbclLevelItem? getCurrentExercise() {
+  //   if (currentExerciseIdx >= allExercises.length) return null;
+  //   return allExercises[currentExerciseIdx];
+  // }
 }

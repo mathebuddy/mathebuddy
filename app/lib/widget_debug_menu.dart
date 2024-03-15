@@ -47,59 +47,61 @@ class DebugMenuState extends State<DebugMenuWidget> {
   Widget build(BuildContext context) {
     refreshStyle();
     // create course list
+    List<TableCell> tableCells = [];
     List<TableRow> tableRows = [];
     for (var courseKey in courses.keys) {
-      tableRows.add(TableRow(children: [
-        TableCell(
-            child: GestureDetector(
-                onTap: () {
-                  // open course (or first chapter/unit/level in case
-                  // there is only one chapter/unit/level)
-                  var route = MaterialPageRoute(builder: (context) {
-                    if (courseKey == 'DEBUG') {
-                      loadDebugCourse();
-                    }
-                    course = courses[courseKey]!;
-                    course!.persistence = persistence;
-                    selectedCourseIdFromBundle = courseKey;
-                    if (course!.chapters.length == 1) {
-                      var chapter = course!.chapters[0];
-                      if (chapter.units.length == 1) {
-                        var unit = chapter.units[0];
-                        if (unit.levels.length == 1) {
-                          var level = unit.levels[0];
-                          if (level.isEvent) {
-                            return EventWidget(
-                                course!, level, EventData(level));
-                          } else {
-                            return LevelWidget(course!, chapter, unit, level);
-                          }
+      var tableCell = TableCell(
+          child: GestureDetector(
+              onTap: () {
+                // open course (or first chapter/unit/level in case
+                // there is only one chapter/unit/level)
+                var route = MaterialPageRoute(builder: (context) {
+                  if (courseKey == 'DEBUG') {
+                    loadDebugCourse();
+                  }
+                  course = courses[courseKey]!;
+                  course!.persistence = persistence;
+                  selectedCourseIdFromBundle = courseKey;
+
+                  if (course!.debug != MbclCourseDebug.no &&
+                      course!.chapters.length == 1) {
+                    var chapter = course!.chapters[0];
+                    if (chapter.units.length == 1) {
+                      var unit = chapter.units[0];
+                      if (unit.levels.length == 1) {
+                        var level = unit.levels[0];
+                        if (level.isEvent) {
+                          return EventWidget(course!, level, EventData(level));
                         } else {
-                          return UnitWidget(course!, chapter, unit);
+                          return LevelWidget(course!, chapter, unit, level);
                         }
                       } else {
-                        return ChapterWidget(course!, chapter);
+                        return UnitWidget(course!, chapter, unit);
                       }
                     } else {
-                      return CourseWidget(course!);
+                      return ChapterWidget(course!, chapter);
                     }
-                  });
-                  Navigator.push(context, route)
-                      .then((value) => setState(() {}));
-                },
-                child: Container(
-                    margin: EdgeInsets.all(2.0),
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                        color: courseKey == 'DEBUG'
-                            ? Color.fromARGB(255, 255, 210, 210)
-                            : Colors.white,
-                        border: Border.all(
-                            width: 2.0, color: Color.fromARGB(255, 81, 81, 81)),
-                        borderRadius: BorderRadius.circular(8.0)),
-                    child: Center(child: Text(courseKey))))),
-      ]));
+                  } else {
+                    return CourseWidget(course!);
+                  }
+                });
+                Navigator.push(context, route).then((value) => setState(() {}));
+              },
+              child: Container(
+                  margin: EdgeInsets.all(2.0),
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                      color: courseKey == 'DEBUG'
+                          ? Color.fromARGB(255, 255, 210, 210)
+                          : Colors.white,
+                      border: Border.all(
+                          width: 2.0, color: Color.fromARGB(255, 81, 81, 81)),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Center(child: Text(courseKey)))));
+      tableCells.add(tableCell);
+      tableRows.add(TableRow(children: [tableCell]));
     }
+
     var listOfCourses = Table(
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: tableRows,

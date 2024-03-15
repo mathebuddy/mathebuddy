@@ -7,12 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mathebuddy/keyboard.dart';
 
+import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:mathebuddy/widget_chat.dart';
+import 'package:mathebuddy/widget_load.dart';
 
 AppBar buildAppBar(bool showAppLogo, bool showChatButton, State state,
     BuildContext context, MbclCourse? course) {
@@ -51,6 +52,23 @@ AppBar buildAppBar(bool showAppLogo, bool showChatButton, State state,
   actions.add(Text('  '));
   actions.add(actionHome);
   actions.add(Text('    '));
+
+  // restart app
+  var reloadAppButton = Opacity(
+      opacity: 0.5,
+      child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                  color: getStyle().appbarDebugButtonColor,
+                  width: getStyle().appbarDebugButtonBorderSize),
+              borderRadius: BorderRadius.circular(1)),
+          child: Padding(
+              padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
+              child: Text(" reload ",
+                  style: TextStyle(
+                      color: getStyle().appbarDebugButtonColor,
+                      fontSize: getStyle().appbarDebugButtonFontSize)))));
+
   // language switch
   var languageSwitchButton = Opacity(
       opacity: 0.5,
@@ -81,31 +99,24 @@ AppBar buildAppBar(bool showAppLogo, bool showChatButton, State state,
                   style: TextStyle(
                       color: getStyle().appbarDebugButtonColor,
                       fontSize: getStyle().appbarDebugButtonFontSize)))));
-  // Container(
-  //     decoration: BoxDecoration(
-  //         color: getStyle().appbarDebugButtonBackgroundColor,
-  //         borderRadius: BorderRadius.circular(6)),
-  //     child: Opacity(
-  //         opacity: 0.8,
-  //         child: Padding(
-  //             padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
-  //             child: Text(debugMode ? " debug " : " release ",
-  //                 style: TextStyle(
-  //                     color: getStyle().appbarDebugButtonColor,
-  //                     fontSize: getStyle().appbarDebugButtonFontSize)))));
-  // var saveButton = Container(
-  //     decoration: BoxDecoration(
-  //         color: getStyle().appbarDebugButtonBackgroundColor,
-  //         borderRadius: BorderRadius.circular(6)),
-  //     child: Opacity(
-  //         opacity: 0.8,
-  //         child: Padding(
-  //             padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
-  //             child: Text(" save ",
-  //                 style: TextStyle(
-  //                     color: getStyle().appbarDebugButtonColor,
-  //                     fontSize: getStyle().appbarDebugButtonFontSize)))));
+
   var title = Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+    showDebugReleaseSwitch
+        ? GestureDetector(
+            onTap: () {
+              while (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              }
+              var route = MaterialPageRoute(builder: (context) {
+                return LoadWidget();
+              });
+              Navigator.pushReplacement(context, route)
+                  // ignore: invalid_use_of_protected_member
+                  .then((value) => {state.setState(() {})});
+            },
+            child: reloadAppButton)
+        : Text(''),
+    Text(' '),
     showDebugReleaseSwitch
         ? GestureDetector(
             onTap: () {

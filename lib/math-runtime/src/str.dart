@@ -156,8 +156,11 @@ String term2tex(Term term, {bool needParentheses = false}) {
           }
           // TODO: must be improved (e.g. unary minus is missing)!!!
           // TODO: skip "\cdot" before sin,cos,i,...
-          var p =
+          var p1 =
               term.op == '*' && (term.o[i].op == '+' || term.o[i].op == '-');
+          var p2 =
+              term.op == "^" && (term.o[i].op == '+' || term.o[i].op == '-');
+          var p = p1 || p2;
           s += term.o[i].toTeXString(needParentheses: p);
         }
         if (needParentheses) {

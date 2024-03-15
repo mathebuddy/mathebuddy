@@ -80,7 +80,10 @@ class MbclLevel {
 
   void resetProgress() {
     visited = false;
-    progress = 0.0;
+    if (isEvent == false) {
+      // event progress is managed manually!
+      progress = 0.0;
+    }
     for (var item in items) {
       if (item.type == MbclLevelItemType.exercise) {
         var data = item.exerciseData!;
@@ -91,6 +94,10 @@ class MbclLevel {
   }
 
   void calcProgress() {
+    if (isEvent) {
+      // event progress is managed manually!
+      return;
+    }
     // TODO: this is yet inaccurate; scores are not weighted / ...
     double score = 0;
     double maxScore = 0;
@@ -119,7 +126,7 @@ class MbclLevel {
       return false;
     }
     for (var req in requires) {
-      if (req.progress < 0.5) {
+      if (req.progress < 0.8) {
         // TODO: constant!!
         return true;
       }

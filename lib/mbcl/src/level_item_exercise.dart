@@ -95,9 +95,6 @@ class MbclExerciseData {
     List<MbclLevelItem> result = [];
     for (var item in exercise.items) {
       if (item.type == MbclLevelItemType.singleChoice) {
-        /*for (var answer in item.items) {
-          result.add(answer.items[0]);
-        }*/
         result = item.items;
       }
     }

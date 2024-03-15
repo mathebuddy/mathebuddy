@@ -98,32 +98,32 @@ class LevelState extends State<LevelWidget> {
     if (widget.isHelpLevel == false &&
         debugMode &&
         level.isDebugLevel == false) {
-      page.add(Text(" "));
-      page.add(Center(
-          child: Opacity(
-              opacity: 0.8,
-              child: GestureDetector(
-                  onTap: (() {
-                    var chapterIdx =
-                        widget.course.chapters.indexOf(widget.chapter);
-                    var levelIdx = widget.chapter.levels.indexOf(widget.level);
-                    loadDebugCourse();
-                    widget.level.fromJSON(courses[selectedCourseIdFromBundle]!
-                        .chapters[chapterIdx]
-                        .levels[levelIdx]
-                        .toJSON());
-                    setState(() {});
-                  }),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 10, right: 10, top: 4, bottom: 4),
-                          child: Text("reload level",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 18))))))));
+      // page.add(Text(" "));
+      // page.add(Center(
+      //     child: Opacity(
+      //         opacity: 0.8,
+      //         child: GestureDetector(
+      //             onTap: (() {
+      //               var chapterIdx =
+      //                   widget.course.chapters.indexOf(widget.chapter);
+      //               var levelIdx = widget.chapter.levels.indexOf(widget.level);
+      //               loadDebugCourse();
+      //               widget.level.fromJSON(courses[selectedCourseIdFromBundle]!
+      //                   .chapters[chapterIdx]
+      //                   .levels[levelIdx]
+      //                   .toJSON());
+      //               setState(() {});
+      //             }),
+      //             child: Container(
+      //                 decoration: BoxDecoration(
+      //                     color: Colors.green,
+      //                     borderRadius: BorderRadius.all(Radius.circular(5))),
+      //                 child: Padding(
+      //                     padding: EdgeInsets.only(
+      //                         left: 10, right: 10, top: 4, bottom: 4),
+      //                     child: Text("reload level",
+      //                         style: TextStyle(
+      //                             color: Colors.white, fontSize: 18))))))));
       page.add(Text(" "));
       page.add(Center(
           child: Opacity(

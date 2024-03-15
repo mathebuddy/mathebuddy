@@ -178,7 +178,7 @@ class Keyboard {
     }
     const keyHeight = 50.0;
     const keyFontSize = 18.0; // 24.0;
-    const keyFontSizeSmall = 18.0;
+    const keyFontSizeSmall = 12.0;
     const keyMargin = 4.0;
 
     var offsetX = (screenWidth - keyboardLayout.columnCount * keyWidth) / 2.0;
@@ -375,9 +375,7 @@ class Keyboard {
     return Focus(
         autofocus: true,
         onKey: (node, event) {
-          if (event is RawKeyUpEvent) {
-            //print("KEYBOARD ACTION");
-            //print(event.character);
+          if (event is RawKeyDownEvent) {
             var char = event.character ?? "###";
             for (var key in keyboardLayout.keys) {
               if (key == null || key.value == '#') continue;

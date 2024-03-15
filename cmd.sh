@@ -28,7 +28,7 @@ do
     echo "[2]  build documentation"
     echo "[3]  build flutter web app"
     echo "[4a] build android app"
-    echo "[4c] build macOS app"
+    echo "[4c] build macOS app and update simulator in private-courses"
     echo "[5a] run website at http://localhost:8314"
     echo "[5b] run web app at http://localhost:8315"
     echo "[6] run tests"
@@ -93,10 +93,16 @@ do
         cd ..
         ;;
     4c)
-        # [4c] build flutter macOS app
+        # [4c] build flutter macOS app and update simulator in private-courses
         cd app
         ./build-macos.sh
         cd ..
+        rm -rf ../mathebuddy-private-courses/tools/mathebuddy.app
+        rm -rf ../mathebuddy-private-courses/tools/bin
+        rm -rf ../mathebuddy-private-courses/tools/lib
+        cp -R app/build/macos/Build/Products/Release/mathebuddy.app ../mathebuddy-private-courses/tools
+        cp -R bin ../mathebuddy-private-courses/tools/
+        cp -R lib ../mathebuddy-private-courses/tools/
         ;;
     5a)
         # [5a] run website at http://localhost:8314
