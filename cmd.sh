@@ -97,12 +97,13 @@ do
         cd app
         ./build-macos.sh
         cd ..
+        cd bin/bundler
+        #  !!! TODO: using x64-Dart compiler to support both Intel and Apple Silicon
+        /Users/andi/Downloads/dart-sdk/bin/dart compile exe src/bundler.dart -o bundler
+        cd ../..
         rm -rf ../mathebuddy-private-courses/tools/mathebuddy.app
-        rm -rf ../mathebuddy-private-courses/tools/bin
-        rm -rf ../mathebuddy-private-courses/tools/lib
         cp -R app/build/macos/Build/Products/Release/mathebuddy.app ../mathebuddy-private-courses/tools
-        cp -R bin ../mathebuddy-private-courses/tools/
-        cp -R lib ../mathebuddy-private-courses/tools/
+        mv bin/bundler/bundler ../mathebuddy-private-courses/tools/
         ;;
     5a)
         # [5a] run website at http://localhost:8314
