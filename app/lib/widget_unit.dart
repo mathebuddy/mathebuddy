@@ -18,6 +18,7 @@ import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
+import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 
 import 'package:mathebuddy/mbcl/src/unit.dart';
 import 'package:mathebuddy/screen.dart';
@@ -226,6 +227,7 @@ class UnitState extends State<UnitWidget> {
     // debug buttons
     Widget resetProgressBtn = Text("", style: TextStyle(fontSize: 1));
     Widget allLevelsBtn = Text("", style: TextStyle(fontSize: 1));
+    Widget setAllExercisesOkBtn = Text("", style: TextStyle(fontSize: 1));
     if (debugMode) {
       resetProgressBtn = GestureDetector(
           onTap: () {
@@ -288,6 +290,38 @@ class UnitState extends State<UnitWidget> {
                           padding: EdgeInsets.all(8),
                           child: Text(" SHOW ALL LEVELS IN SEQUENCE ",
                               style: TextStyle(color: Colors.white)))))));
+
+      setAllExercisesOkBtn = Center(
+          child: Opacity(
+              opacity: 0.8,
+              child: GestureDetector(
+                  onTap: (() {
+                    for (var level in widget.unit.levels) {
+                      if (level.isEvent) {
+                        level.progress = 1.0;
+                      }
+                      for (var item in level.items) {
+                        if (item.type == MbclLevelItemType.exercise) {
+                          item.exerciseData!.feedback =
+                              MbclExerciseFeedback.correct;
+                        }
+                      }
+                    }
+                    setState(() {});
+                  }),
+                  child: Padding(
+                      padding: EdgeInsets.only(right: 4, top: 20),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
+                          child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 10, right: 10, top: 4, bottom: 4),
+                              child: Text("set all exercises correct",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18))))))));
     }
     // create body
     var body = SingleChildScrollView(
@@ -297,6 +331,7 @@ class UnitState extends State<UnitWidget> {
           title,
           resetProgressBtn,
           allLevelsBtn,
+          setAllExercisesOkBtn,
           Stack(children: widgets)
         ]));
     return Scaffold(
