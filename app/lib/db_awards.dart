@@ -4,32 +4,44 @@
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 
-import 'package:mathebuddy/mbcl/src/award.dart';
+//import 'package:mathebuddy/mbcl/src/award.dart';
 
-var awardsDatabase = {
-  "3-days-in-row": {
-    "en": "Trained 3 days in a row",
-    "de": "3 Tage hintereinander geübt"
-  },
-  "5-days-in-row": {
-    "en": "Trained 5 days in a row",
-    "de": "5 Tage hintereinander geübt"
-  },
-  "10-days-in-row": {
-    "en": "Trained 10 days in a row",
-    "de": "10 Tage hintereinander geübt"
-  },
-};
+// TODO: this file is no longer needed!!?!
 
-List<MbclAward> _awardList = [];
+// var awardsDatabase = {
+//   MbclAwardType.unknown: {"en": "ERROR", "de": "ERROR"},
+//   MbclAwardType.passedFirstLevel: {
+//     "en": "Passed the first level",
+//     "de": "Erstes Level geschafft"
+//   },
+//   MbclAwardType.passedFirstUnit: {
+//     "en": "Passed the first unit",
+//     "de": "Erste Unit geschafft"
+//   },
+//   MbclAwardType.passedFirstChapter: {
+//     "en": "Passed the first chapter",
+//     "de": "Erstes Kapitel geschafft"
+//   },
+//   MbclAwardType.passedFirstGame: {
+//     "en": "Played a first game",
+//     "de": "Erstes Spiel gespielt",
+//   },
+//   MbclAwardType.played3daysInRow: {
+//     "en": "Trained 3 days in a row",
+//     "de": "3 Tage hintereinander geübt"
+//   },
+//   MbclAwardType.played5daysInRow: {
+//     "en": "Trained 5 days in a row",
+//     "de": "5 Tage hintereinander geübt"
+//   },
+//   MbclAwardType.played10daysInRow: {
+//     "en": "Trained 10 days in a row",
+//     "de": "10 Tage hintereinander geübt"
+//   },
+// };
 
-List<MbclAward> getAwardList() {
-  if (_awardList.isEmpty) {
-    for (var awardId in awardsDatabase.keys) {
-      var awardTextEn = awardsDatabase[awardId]!["en"]!;
-      var awardTextDe = awardsDatabase[awardId]!["de"]!;
-      _awardList.add(MbclAward(awardId, awardTextEn, awardTextDe, null));
-    }
-  }
-  return _awardList;
-}
+// String getAwardText(MbclAwardType type, String languageId) {
+//   if (languageId != "de" && languageId != "en") return "ERROR";
+//   if (awardsDatabase.containsKey(type) == false) return "ERROR";
+//   return awardsDatabase[type]![languageId]!;
+// }
