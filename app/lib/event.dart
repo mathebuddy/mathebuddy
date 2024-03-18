@@ -150,6 +150,8 @@ class EventData {
       } else {
         eventState = EventDataState.success;
         level.progress = 1.0;
+        level.chapter.saveUserData();
+        level.chapter.course.saveUserData();
         stop();
       }
     } else {
