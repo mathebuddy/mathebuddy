@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mathebuddy/main.dart';
 
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 
@@ -64,9 +65,15 @@ class ChapterState extends State<ChapterWidget> {
       var color = Style().matheBuddyRed;
       if (unit.progress > 0) {
         color = Style().matheBuddyYellow;
-      } else if ((unit.progress - 1).abs() < 1e-6) {
+      }
+      if ((unit.progress - 1).abs() < 1e-6) {
         color = Style().matheBuddyGreen;
       }
+
+      var locked = unit.isLocked();
+      var lockSize = 28.0;
+      var lockedIcon = Icon(Icons.lock,
+          size: lockSize, color: Colors.white.withOpacity(0.75));
 
       Widget icon = Text("");
       if (unit.iconData.isNotEmpty) {
@@ -77,38 +84,49 @@ class ChapterState extends State<ChapterWidget> {
       var progress = unit.progress;
       var percentage = "${(progress * 100).round()} %";
 
-      Widget content = Container(
-          alignment: Alignment.topLeft,
-          child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child:
-                  Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                Text(
-                  textAlign: TextAlign.start,
-                  percentage,
-                  style: TextStyle(
-                      color: const Color.fromARGB(255, 221, 211, 211)),
-                ),
-                Center(child: icon),
-                Center(
-                    child: Text(unit.title,
-                        textAlign: TextAlign.center,
-                        softWrap: true,
-                        style: TextStyle(
-                            fontSize: 22,
-                            color: cellColor,
-                            fontWeight: FontWeight.w400)))
-              ])));
+      Widget content = Opacity(
+          opacity: locked ? 0.5 : 1,
+          child: Container(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        locked
+                            ? Container(
+                                alignment: Alignment.topLeft, child: lockedIcon)
+                            : Padding(
+                                padding: EdgeInsets.only(bottom: 8.0),
+                                child: Text(
+                                  textAlign: TextAlign.start,
+                                  percentage,
+                                  style: TextStyle(
+                                      color: const Color.fromARGB(
+                                          255, 221, 211, 211)),
+                                )),
+                        Center(child: icon),
+                        Center(
+                            child: Text(unit.title,
+                                textAlign: TextAlign.center,
+                                softWrap: true,
+                                style: TextStyle(
+                                    fontSize: 22,
+                                    color: cellColor,
+                                    fontWeight: FontWeight.w400)))
+                      ]))));
 
       var cell = TableCell(
         child: GestureDetector(
             onTap: () {
-              var route = MaterialPageRoute(builder: (context) {
-                return UnitWidget(widget.course, widget.chapter, unit);
-              });
-              Navigator.push(context, route).then((value) {
-                setState(() {});
-              });
+              if (!locked || debugMode) {
+                var route = MaterialPageRoute(builder: (context) {
+                  return UnitWidget(widget.course, widget.chapter, unit);
+                });
+                Navigator.push(context, route).then((value) {
+                  setState(() {});
+                });
+              }
             },
             child: Container(
               //height: 200,
