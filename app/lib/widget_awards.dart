@@ -10,7 +10,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mathebuddy/appbar.dart';
-import 'package:mathebuddy/db_awards.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/screen.dart';
@@ -36,8 +35,8 @@ class AwardsState extends State<AwardsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var constructionSite = Text("WORK-IN-PROGRESS :-)",
-        style: TextStyle(color: Colors.red, fontSize: 25));
+    // var constructionSite = Text("WORK-IN-PROGRESS :-)",
+    //     style: TextStyle(color: Colors.red, fontSize: 25));
 
     Widget title = Padding(
         padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
@@ -49,16 +48,20 @@ class AwardsState extends State<AwardsWidget> {
                     fontSize: getStyle().courseTitleFontSize,
                     fontWeight: getStyle().courseTitleFontWeight))));
 
-    var awardList = getAwardList();
-    // TODO: test
-    awardList[0].dateTime = DateTime.now();
+    Map<String, int> awardList = widget.course.awards.awards;
+    // TODO: sort
 
     List<TableRow> awardWidgets = [];
-    for (var award in awardList) {
-      String dateStr = award.dateTime != null
-          ? award.dateTime!.toLocal().toString().split(".")[0]
-          : "go fot it!";
-
+    for (var entry in awardList.entries) {
+      String awardId = entry.key;
+      bool received = entry.value != 0;
+      String dateStr = "go for it";
+      if (received) {
+        dateStr = DateTime.fromMillisecondsSinceEpoch(entry.value)
+            .toLocal()
+            .toString()
+            .split(".")[0];
+      }
       var dateEarned = Padding(
           padding: EdgeInsets.only(top: 10),
           child: Text(
@@ -67,7 +70,7 @@ class AwardsState extends State<AwardsWidget> {
             style: TextStyle(fontSize: 14, color: Colors.white),
           ));
 
-      Color backgroundColor = award.dateTime != null
+      Color backgroundColor = received
           ? Style().matheBuddyGreen
           : const Color.fromARGB(255, 39, 39, 39);
       awardWidgets.add(TableRow(children: [
@@ -92,7 +95,7 @@ class AwardsState extends State<AwardsWidget> {
                         Icon(MdiIcons.fromString("medal"),
                             size: 70, color: Colors.white),
                         Text(
-                          language == "en" ? award.textEn : award.textDe,
+                          widget.course.awards.getText(awardId, language),
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 22, color: Colors.white),
                         ),
@@ -103,7 +106,7 @@ class AwardsState extends State<AwardsWidget> {
     }
     var table = Table(children: awardWidgets);
 
-    List<Widget> contents = [constructionSite, title, table];
+    List<Widget> contents = [/*constructionSite, */ title, table];
 
     var body = SingleChildScrollView(
         physics: BouncingScrollPhysics(
