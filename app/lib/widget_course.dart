@@ -71,6 +71,9 @@ class CourseState extends State<CourseWidget> {
         color = Style().matheBuddyYellow;
         //cellColor = Colors.black;
       }*/
+      if (chapter.progress > 0) {
+        color = Style().matheBuddyYellow;
+      }
       if ((chapter.progress - 1.0).abs() < 1e-6) {
         color = Style().matheBuddyGreen;
       }
