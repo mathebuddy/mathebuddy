@@ -26,6 +26,7 @@ void evaluateExercise(
   exerciseData.evaluate();
   level.calcProgress();
   level.chapter.saveUserData();
+  level.chapter.course.saveUserData();
 }
 
 // TODO: must report error, if "exerciseData.numInstances" == 0!!
