@@ -38,6 +38,15 @@ class MbclUnit {
     progress /= levels.length;
   }
 
+  bool isLocked() {
+    for (var level in levels) {
+      if (level.isLocked() == false) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   void resetProgress() {
     for (var level in levels) {
       level.resetProgress();
