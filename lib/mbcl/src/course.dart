@@ -10,6 +10,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'award.dart';
 import 'chapter.dart';
 import 'chat.dart';
 import 'level.dart';
@@ -35,8 +36,9 @@ class MbclCourse {
   late MbclChat chat;
   MbclLevel? help;
 
-  // temporary
+  // persisted data
   MbclChapter? lastVisitedChapter;
+  MbclAwards awards = MbclAwards();
 
   // not saved
   MbclPersistence? persistence;
@@ -92,6 +94,28 @@ class MbclCourse {
       progress += chapter.progress;
     }
     progress /= chapters.length;
+    updateAwards();
+  }
+
+  updateAwards() {
+    for (var chapter in chapters) {
+      for (var level in chapter.levels) {
+        if (level.progress > 0.8) {
+          awards.enableAwardConditionally(MbclAwardType.passedFirstLevel);
+          if (level.isEvent) {
+            awards.enableAwardConditionally(MbclAwardType.passedFirstGame);
+          }
+        }
+      }
+      for (var unit in chapter.units) {
+        if (unit.progress > 0.99) {
+          awards.enableAwardConditionally(MbclAwardType.passedFirstUnit);
+        }
+      }
+      if (chapter.progress > 0.99) {
+        awards.enableAwardConditionally(MbclAwardType.passedFirstChapter);
+      }
+    }
   }
 
   String gatherErrors() {
@@ -136,6 +160,7 @@ class MbclCourse {
   }
 
   bool saveUserData() {
+    calcProgress();
     print("saving course user data");
     if (checkFileIO() == false) return false;
     var data = progressToJSON();
@@ -173,6 +198,7 @@ class MbclCourse {
             lastVisitedChapter!.lastVisitedLevel!.fileId;
       }
     }
+    data["awards"] = awards.toJSON();
     return data;
   }
 
@@ -190,6 +216,10 @@ class MbclCourse {
           lastVisitedChapter!.lastVisitedLevel = level;
         }
       }
+    }
+    if (src.containsKey("awards")) {
+      awards = MbclAwards();
+      awards.fromJSON(src["awards"]);
     }
     calcProgress();
   }
