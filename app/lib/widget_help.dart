@@ -42,7 +42,7 @@ class HelpState extends State<HelpWidget> {
                     fontSize: 48,
                     fontWeight: FontWeight.bold))));
     return Scaffold(
-        appBar: buildAppBar(true, true, this, context, widget.course),
+        appBar: buildAppBar(true, [], true, this, context, widget.course),
         body: constructionSite,
         backgroundColor: Colors.white);
   }
