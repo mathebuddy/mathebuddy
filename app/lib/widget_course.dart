@@ -26,6 +26,7 @@ import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:mathebuddy/widget_event.dart';
 import 'package:mathebuddy/widget_help.dart';
+import 'package:mathebuddy/widget_legal.dart';
 import 'package:mathebuddy/widget_level.dart';
 import 'package:mathebuddy/widget_progress.dart';
 import 'package:mathebuddy/widget_unit.dart';
@@ -304,12 +305,32 @@ class CourseState extends State<CourseWidget> {
       Container(
         height: 20,
       ),
-      Opacity(
-          opacity: 0.85,
-          child: Container(
-              constraints: BoxConstraints(maxWidth: 400),
-              child: Image.asset('assets/img/logo-institutes.png')))
     ]);
+
+    var bottomColor = Color.fromARGB(35, 230, 230, 230);
+    var bottomLogos = GestureDetector(
+        onTap: () {
+          var route = MaterialPageRoute(builder: (context) {
+            return LegalWidget.LegalWidget(widget.course);
+          });
+          Navigator.push(context, route).then((value) {
+            setState(() {});
+          });
+        },
+        child: Container(
+            decoration: BoxDecoration(
+                border: Border(
+                    top: BorderSide(
+                        width: 1.25,
+                        color: getStyle()
+                            .appbarBackgroundColor
+                            .withOpacity(0.33))),
+                color: bottomColor),
+            child: Opacity(
+                opacity: 0.85,
+                child: Container(
+                    constraints: BoxConstraints(maxWidth: maxContentsWidth),
+                    child: Image.asset('assets/img/logo-institutes.png')))));
 
     contents = Center(
         child: Container(
@@ -327,10 +348,10 @@ class CourseState extends State<CourseWidget> {
         child: contents);
 
     return Scaffold(
-      appBar: buildAppBar(false, false, this, context, widget.course),
+      appBar: buildAppBar(false, [], false, this, context, widget.course),
       body: body,
       backgroundColor: Colors.white,
-      //bottomSheet: bottomLogos,
+      bottomNavigationBar: bottomLogos,
     );
   }
 
