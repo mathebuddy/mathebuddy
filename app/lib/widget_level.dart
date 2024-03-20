@@ -76,6 +76,8 @@ class LevelState extends State<LevelWidget> {
     }
 
     // title
+    var languageIndex = language == "de" ? 0 : 1; // TODO;
+    var title = filterLanguage(level.title, languageIndex);
     levelTitleKey = GlobalKey();
     var levelTitle = Column(children: [
       Container(
@@ -83,7 +85,7 @@ class LevelState extends State<LevelWidget> {
           margin: EdgeInsets.only(top: 20.0),
           child: Center(
             child: Text(
-              level.title,
+              title,
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: getStyle().levelTitleFontSize,
@@ -202,16 +204,21 @@ class LevelState extends State<LevelWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: page))));
-    Widget? navBar;
+    //Widget? navBar;
+    List<Widget> levelPartIcons = [];
     if (!debugMode && level.numParts != 0) {
-      navBar = generateLevelTopNavigationBar(this, level);
+      levelPartIcons = generateLevelPartIcons(this, level);
     }
-    var body = Column(children: [
-      Container(
-          margin: EdgeInsets.only(top: 0),
-          child: Column(children: navBar == null ? [] : [navBar])),
-      Expanded(child: scrollView!)
-    ]);
+    // var body = Column(children: [
+    //   Container(
+    //       margin: EdgeInsets.only(top: 0),
+    //       child: Column(children: navBar == null ? [] : [navBar])),
+    //   Expanded(child: scrollView!)
+    // ]);
+
+    //var body = Expanded(child: scrollView!);
+    var body = scrollView!;
+
     Widget bottomArea = Text('');
     if (keyboardState.layout != null) {
       var keyboard = Keyboard(this, keyboardState);
@@ -231,7 +238,8 @@ class LevelState extends State<LevelWidget> {
     }
 
     return Scaffold(
-      appBar: buildAppBar(true, true, this, context, widget.course),
+      appBar:
+          buildAppBar(true, levelPartIcons, true, this, context, widget.course),
       body: body,
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
@@ -239,28 +247,47 @@ class LevelState extends State<LevelWidget> {
   }
 }
 
-Widget generateLevelTopNavigationBar(State state, MbclLevel level) {
-  // navigation bar
-  // TODO: click animation
-  var iconSize = 45.0;
+List<Widget> generateLevelPartIcons(State state, MbclLevel level) {
   var selectedColor = Colors.white;
-  var unselectedColor = Color.fromARGB(255, 60, 60, 60);
+  var unselectedColor = Color.fromARGB(255, 80, 80, 80);
   // part icons
   List<Widget> icons = [];
   for (var i = 0; i < level.partIconIDs.length; i++) {
     var iconId = level.partIconIDs[i];
-    var icon = TextButton(
-        onPressed: () {
-          level.currentPart = i;
-          keyboardState.layout = null;
-          // ignore: invalid_use_of_protected_member
-          state.setState(() {});
-        },
-        child: Icon(MdiIcons.fromString(iconId),
-            size: iconSize,
-            color: level.currentPart == i ? selectedColor : unselectedColor));
-    icons.add(
-        Padding(padding: EdgeInsets.only(left: 2.0, right: 2.0), child: icon));
+    var icon = Container(
+        width: 38,
+        height: 36,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: level.currentPart != i
+              ? selectedColor.withOpacity(0.33)
+              : unselectedColor.withOpacity(0.33),
+        ),
+
+        //color: Color.fromARGB(10, 100, 100, 100),
+
+        child: GestureDetector(
+            onTap: () {
+              level.currentPart = i;
+              keyboardState.layout = null;
+              // ignore: invalid_use_of_protected_member
+              state.setState(() {});
+            },
+            child: Icon(MdiIcons.fromString(iconId),
+                color:
+                    level.currentPart == i ? selectedColor : unselectedColor)));
+    icons.add(Padding(
+        padding: EdgeInsets.only(left: 3.0, right: 3.0, bottom: 0.0),
+        child: Container(
+
+            // decoration: BoxDecoration(
+            //     border: Border(
+            //         bottom: BorderSide(
+            //             width: 2.0,
+            //             color: level.currentPart != i
+            //                 ? selectedColor
+            //                 : unselectedColor))),
+            child: icon)));
   }
   // panel
   // TODO: animate progress controller
@@ -269,36 +296,42 @@ Widget generateLevelTopNavigationBar(State state, MbclLevel level) {
     // make progress bar visible
     progress = 0.01;
   }
-  return Column(children: [
-    LinearProgressIndicator(
-      backgroundColor: Colors.grey.withOpacity(0.25),
-      value: progress,
-      valueColor: AlwaysStoppedAnimation(getStyle().matheBuddyGreen),
-      minHeight: 4,
-    ),
-    Container(
-        margin:
-            //EdgeInsets.only(left: 5.0, right: 5.0, bottom: 8.0, top: 10),
-            EdgeInsets.only(left: 0.0, right: 0.0, bottom: 0.0, top: 0),
-        padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
-        decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.85),
-            //border: Border.all(width: 20),
-            border: Border(
-                //top: BorderSide(width: 0.75, color: Colors.black54),
-                bottom: BorderSide(
-                    width: 0.85, color: Colors.black.withOpacity(0.125))),
-            //borderRadius: BorderRadius.circular(11),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.withOpacity(0.18),
-                  spreadRadius: 1,
-                  blurRadius: 5,
-                  offset: Offset(1, 3))
-            ]),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: icons))
-  ]);
+
+  //return Container(color: Colors.black, child: Column(children: icons));
+  return icons;
+
+  // TODO: reenable displaying level progress????
+
+  // return Column(children: [
+  //   LinearProgressIndicator(
+  //     backgroundColor: Colors.grey.withOpacity(0.25),
+  //     value: progress,
+  //     valueColor: AlwaysStoppedAnimation(getStyle().matheBuddyGreen),
+  //     minHeight: 4,
+  //   ),
+  //   Container(
+  //       margin:
+  //           //EdgeInsets.only(left: 5.0, right: 5.0, bottom: 8.0, top: 10),
+  //           EdgeInsets.only(left: 0.0, right: 0.0, bottom: 0.0, top: 0),
+  //       padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
+  //       decoration: BoxDecoration(
+  //           color: Colors.black.withOpacity(0.85),
+  //           //border: Border.all(width: 20),
+  //           border: Border(
+  //               //top: BorderSide(width: 0.75, color: Colors.black54),
+  //               bottom: BorderSide(
+  //                   width: 0.85, color: Colors.black.withOpacity(0.125))),
+  //           //borderRadius: BorderRadius.circular(11),
+  //           boxShadow: [
+  //             BoxShadow(
+  //                 color: Colors.grey.withOpacity(0.18),
+  //                 spreadRadius: 1,
+  //                 blurRadius: 5,
+  //                 offset: Offset(1, 3))
+  //           ]),
+  //       child:
+  //           Row(mainAxisAlignment: MainAxisAlignment.center, children: icons))
+  // ]);
 }
 
 Widget generateLevelBottomNavigationBar(State state, MbclLevel level,
