@@ -272,6 +272,7 @@ class MbclExerciseData {
       var inputField = inputFields[i].inputFieldData!;
       inputField.studentValue = src["studentValues"][i];
       inputField.cursorPos = inputField.studentValue.length;
+      inputField.expectedValue = activeInstance[inputField.variableId]!;
     }
   }
 
