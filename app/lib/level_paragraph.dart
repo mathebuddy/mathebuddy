@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:mathebuddy/level_paragraph_input.dart';
 import 'package:mathebuddy/level_paragraph_math.dart';
+import 'package:mathebuddy/main.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
@@ -18,12 +19,13 @@ import 'package:mathebuddy/style.dart';
 Widget generateParagraph(State state, MbclLevel level, MbclLevelItem item,
     {paragraphPaddingLeft = 3.0,
     paragraphPaddingRight = 3.0,
-    paragraphPaddingTop = 10.0,
+    paragraphPaddingTop = 5.0,
     paragraphPaddingBottom = 5.0,
     textColor = Colors.black,
     MbclExerciseData? exerciseData}) {
   List<InlineSpan> list = [];
-  for (var subItem in item.items) {
+  var languageIndex = language == "de" ? 0 : 1; // TODO
+  for (var subItem in filterLanguage2(item.items, languageIndex)) {
     list.add(generateParagraphItem(state, subItem,
         exerciseData: exerciseData, color: textColor));
   }
@@ -45,6 +47,9 @@ InlineSpan generateParagraphItem(State state, MbclLevelItem item,
     italic = false,
     color = Colors.black,
     MbclExerciseData? exerciseData}) {
+  var screenWidth = MediaQuery.of(state.context).size.width;
+  if (screenWidth > maxContentsWidth) screenWidth = maxContentsWidth;
+  var textHeight = screenWidth < 480 ? 1.5 : 1.6;
   switch (item.type) {
     case MbclLevelItemType.reference:
       {
@@ -67,7 +72,7 @@ InlineSpan generateParagraphItem(State state, MbclLevelItem item,
         text: "${item.text} ",
         style: TextStyle(
             color: color,
-            height: 1.6, //1.6,
+            height: textHeight,
             fontSize: defaultFontSize,
             fontWeight: bold ? FontWeight.bold : FontWeight.normal,
             fontStyle: italic ? FontStyle.italic : FontStyle.normal),
@@ -77,7 +82,7 @@ InlineSpan generateParagraphItem(State state, MbclLevelItem item,
         text: "${item.text} ",
         style: TextStyle(
             color: color,
-            height: 1.6, //1.6,
+            height: textHeight,
             fontFamily: 'RobotoMono',
             fontSize: defaultFontSize,
             fontWeight: bold ? FontWeight.bold : FontWeight.normal,
