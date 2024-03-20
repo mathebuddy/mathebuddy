@@ -9,7 +9,7 @@ description: mathe:buddy - a gamified app for higher math
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 0.0.5
+version: 0.5.0
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -30,6 +30,7 @@ dependencies:
   path_provider: ^2.1.2
   http: ^1.1.0
   platform_detector: ^0.2.0
+  audioplayers: ^6.0.0 # TODO: must install dependencies for non-macOS desktop app
 
 dev_dependencies:
   flutter_test:
@@ -56,3 +57,6 @@ flutter:
     - assets/bundle-websim.json
     - assets/bundle-bochum.json
     - assets/img/logo-institutes.png
+    - assets/img/go.svg
+    - assets/sfx/pass.wav
+    - assets/sfx/fail.wav
