@@ -56,6 +56,7 @@ enum MbclLevelItemType {
   subSubSection,
   table,
   text,
+  languageSeparator,
   todo,
   variableReferenceOperand,
   variableReferenceTerm,
@@ -184,4 +185,31 @@ class MbclLevelItem {
         break;
     }
   }
+}
+
+String filterLanguage(String s, int languageIndex) {
+  var tokens = s.split("///");
+  var res = tokens[languageIndex < tokens.length ? languageIndex : 0];
+  return res;
+}
+
+List<MbclLevelItem> filterLanguage2(
+    List<MbclLevelItem> items, int languageIndex) {
+  // TODO: support more than two languages
+  var languageSeparatorIdx = -1;
+  for (var i = 0; i < items.length; i++) {
+    if (items[i].type == MbclLevelItemType.languageSeparator) {
+      languageSeparatorIdx = i;
+      break;
+    }
+  }
+  var relevantItems = items;
+  if (languageSeparatorIdx >= 0) {
+    if (languageIndex == 0) {
+      relevantItems = relevantItems.sublist(0, languageSeparatorIdx);
+    } else {
+      relevantItems = relevantItems.sublist(languageSeparatorIdx + 1);
+    }
+  }
+  return relevantItems;
 }
