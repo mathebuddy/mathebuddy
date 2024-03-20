@@ -6,18 +6,21 @@
 /// License: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mathebuddy/db_exercise.dart';
+import 'package:mathebuddy/audio.dart';
 
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
+import 'package:mathebuddy/db_exercise.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/level_item.dart';
+import 'package:mathebuddy/widget_load.dart';
 
 void evaluateExercise(
     State state, MbclLevel level, MbclExerciseData exerciseData) {
@@ -39,6 +42,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
   var exerciseData = item.exerciseData!;
   exerciseData.generateInputFields = generateInputFields;
   List<Widget> widgets = [];
+
   if (debugMode && exerciseData.requiredExercises.isNotEmpty) {
     var text = 'DEBUG INFO: This exercise depends on [';
     for (var req in exerciseData.requiredExercises) {
@@ -55,8 +59,9 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
   }
   if (level.disableBlockTitles) {
     widgets.add(Text(
-      ' ',
+      '',
       key: exerciseKey,
+      style: TextStyle(fontSize: 3),
     ));
   } else {
     var title = Wrap(children: [
@@ -122,10 +127,13 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
   var isCorrect = exerciseData.feedback == MbclExerciseFeedback.correct;
   switch (exerciseData.feedback) {
     case MbclExerciseFeedback.unchecked:
-      feedbackText = Text('?',
-          style: TextStyle(
-              color: feedbackColor,
-              fontSize: getStyle().exerciseEvalButtonFontSize));
+      feedbackText = Padding(
+          padding: EdgeInsets.only(bottom: 5.0, top: 5.0),
+          child: SvgPicture.asset('assets/img/go.svg', height: 18));
+      // feedbackText = Text('?',
+      //     style: TextStyle(
+      //         color: feedbackColor,
+      //         fontSize: getStyle().exerciseEvalButtonFontSize));
       break;
     case MbclExerciseFeedback.correct:
       feedbackText = Icon(Icons.check,
@@ -139,11 +147,14 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
 
   // button row: validation button + new random exercise button (if correct)
   var validateButton = GestureDetector(
-    onTap: () {
+    onTap: () async {
       evaluateExercise(state, level, exerciseData);
-      renderFeedbackOverlay(
-          state, exerciseData.feedback == MbclExerciseFeedback.correct,
-          backgroundOpacity: 0.95);
+      var correct = exerciseData.feedback == MbclExerciseFeedback.correct;
+      renderFeedbackOverlay(state, correct, backgroundOpacity: 0.95);
+      if (!level.course.muteAudio) {
+        appAudio.play(
+            correct ? AppAudioId.passedExercise : AppAudioId.failedExercise);
+      }
     },
     child: Container(
       width: getStyle().exerciseEvalButtonWidth,
