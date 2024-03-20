@@ -12,6 +12,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mathebuddy/audio.dart';
 import 'package:mathebuddy/event.dart';
 import 'package:mathebuddy/main.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
@@ -51,6 +52,8 @@ class UnitState extends State<UnitWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var unlockAllLevels = widget.course.unlockAll;
+
     var unit = widget.unit;
 
     var title = Padding(
@@ -169,14 +172,15 @@ class UnitState extends State<UnitWidget> {
               padding: EdgeInsets.all(0),
               //child: Stack(children: stackedItems)));
               child: Opacity(
-                  opacity: level.isLocked() ? 0.25 : 1.0, child: iconOrText)));
+                  opacity: level.isLocked() && !unlockAllLevels ? 0.25 : 1.0,
+                  child: iconOrText)));
 
       widgets.add(Positioned(
           left: level.screenPosX,
           top: level.screenPosY,
           child: GestureDetector(
               onTap: () {
-                if (debugMode || level.isLocked() == false) {
+                if (debugMode || unlockAllLevels || level.isLocked() == false) {
                   var route = MaterialPageRoute(builder: (context) {
                     if (level.isEvent) {
                       return EventWidget(
@@ -186,6 +190,7 @@ class UnitState extends State<UnitWidget> {
                           widget.course, widget.chapter, widget.unit, level);
                     }
                   });
+                  appAudio.initAfterButtonPress();
                   Navigator.push(context, route).then((value) {
                     setState(() {});
                   });
@@ -212,7 +217,7 @@ class UnitState extends State<UnitWidget> {
                           BorderRadius.all(Radius.circular(tileWidth * 0.175))),
                   child: content))));
 
-      if (level.isLocked()) {
+      if (!unlockAllLevels && level.isLocked()) {
         // if the level is locked, show a lock-icon
         var lockSize = tileWidth * 0.25;
         widgets.add(Positioned(
@@ -335,7 +340,7 @@ class UnitState extends State<UnitWidget> {
           Stack(children: widgets)
         ]));
     return Scaffold(
-      appBar: buildAppBar(true, true, this, context, widget.course),
+      appBar: buildAppBar(true, [], true, this, context, widget.course),
       body: body,
       backgroundColor: Colors.white,
     );
