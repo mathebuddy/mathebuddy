@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mathebuddy/audio.dart';
 import 'package:mathebuddy/event.dart';
 import 'package:mathebuddy/level_item.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
@@ -339,6 +340,11 @@ class EventState extends State<EventWidget> {
                           exerciseData.feedback =
                               MbclExerciseFeedback.unchecked;
                           setState(() {});
+                          if (!level.course.muteAudio) {
+                            appAudio.play(correct
+                                ? AppAudioId.passedExercise
+                                : AppAudioId.failedExercise);
+                          }
                         },
                         child: Opacity(
                           opacity: opacity,
@@ -382,16 +388,18 @@ class EventState extends State<EventWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: page))));
-    Widget? navBar;
+    //Widget? navBar;
+    List<Widget> levelPartIcons = [];
     if (!debugMode && level.numParts != 0) {
-      navBar = generateLevelTopNavigationBar(this, level);
+      levelPartIcons = generateLevelPartIcons(this, level);
     }
-    var body = Column(children: [
-      Container(
-          margin: EdgeInsets.only(top: 0),
-          child: Column(children: navBar == null ? [] : [navBar])),
-      Expanded(child: scrollView!)
-    ]);
+    // var body = Column(children: [
+    //   Container(
+    //       margin: EdgeInsets.only(top: 0),
+    //       child: Column(children: navBar == null ? [] : [navBar])),
+    //   Expanded(child: scrollView!)
+    // ]);
+    var body = scrollView!;
 
     // var bottomArea =
     //     generateLevelBottomNavigationBar(this, level, levelTitleKey!, context);
@@ -399,7 +407,8 @@ class EventState extends State<EventWidget> {
     // page.add(bottomArea);
 
     return Scaffold(
-      appBar: buildAppBar(true, false, this, context, widget.course),
+      appBar: buildAppBar(
+          true, levelPartIcons, false, this, context, widget.course),
       body: body,
       backgroundColor: Colors.black,
       //bottomSheet: bottomArea,
