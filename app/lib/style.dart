@@ -18,7 +18,7 @@ class Style {
   Color appbarBackgroundColor = Colors.black87;
   Color appbarDebugButtonColor = Colors.white;
   Color appbarDebugButtonBackgroundColor = Colors.green;
-  double appbarDebugButtonFontSize = 12;
+  double appbarDebugButtonFontSize = 15;
   double appbarDebugButtonBorderSize = 1;
   Color appbarIconActiveColor = Colors.white;
   Color appbarIconInactiveColor = const Color.fromARGB(221, 102, 102, 102);
