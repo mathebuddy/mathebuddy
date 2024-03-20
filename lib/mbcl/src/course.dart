@@ -39,6 +39,8 @@ class MbclCourse {
   // persisted data
   MbclChapter? lastVisitedChapter;
   MbclAwards awards = MbclAwards();
+  bool unlockAll = false;
+  bool muteAudio = false;
 
   // not saved
   MbclPersistence? persistence;
@@ -199,6 +201,8 @@ class MbclCourse {
       }
     }
     data["awards"] = awards.toJSON();
+    data["unlock_all"] = unlockAll;
+    data["mute_audio"] = muteAudio;
     return data;
   }
 
@@ -220,6 +224,12 @@ class MbclCourse {
     if (src.containsKey("awards")) {
       awards = MbclAwards();
       awards.fromJSON(src["awards"]);
+    }
+    if (src.containsKey("unlock_all")) {
+      unlockAll = src["unlock_all"];
+    }
+    if (src.containsKey("mute_audio")) {
+      muteAudio = src["mute_audio"];
     }
     calcProgress();
   }
