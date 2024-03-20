@@ -80,10 +80,7 @@ class MbclLevel {
 
   void resetProgress() {
     visited = false;
-    // if (isEvent == false) {
-    //   // event progress is managed manually!
-    //   progress = 0.0;
-    // }
+    progress = 0.0;
     for (var item in items) {
       if (item.type == MbclLevelItemType.exercise) {
         var data = item.exerciseData!;
