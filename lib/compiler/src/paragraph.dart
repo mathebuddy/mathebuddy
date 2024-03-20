@@ -84,7 +84,7 @@ class Paragraph {
     lexer.enableEmitBigint(false);
     lexer.enableEmitNewlines(true);
     lexer.enableUmlautInID(true);
-    lexer.setTerminals(['**', '#.', '-)', '@@']);
+    lexer.setTerminals(['**', '#.', '-)', '@@', '///']);
     lexer.configureSingleLineComments('/////');
     lexer.pushSource('', raw);
     List<MbclLevelItem> res = [];
@@ -164,6 +164,10 @@ class Paragraph {
     } else if (lexer.isTerminal('[')) {
       // text properties: e.g. "[text in red color]@color1"
       return _parseTextProperty(lexer, srcRowIdx, exercise);
+    } else if (lexer.isTerminal('///')) {
+      lexer.next();
+      return MbclLevelItem(
+          level, MbclLevelItemType.languageSeparator, srcRowIdx);
     } else {
       // text tokens (... or yet unimplemented paragraph items)
       var text = MbclLevelItem(level, MbclLevelItemType.text, srcRowIdx);
