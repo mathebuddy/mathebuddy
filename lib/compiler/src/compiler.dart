@@ -433,6 +433,26 @@ class Compiler {
       level.error += 'Level file $path does not exist or is empty.';
       return;
     }
+    // extract the requested language
+    // var lines = src.split("\n");
+    // var src2 = "";
+    // for (var line in lines) {
+    //   var indent = "";
+    //   var i = 0;
+    //   for (; i < line.length; i++) {
+    //     var ch = line[i];
+    //     if (" \t".contains(ch)) {
+    //       indent += ch;
+    //     } else {
+    //       break;
+    //     }
+    //   }
+    //   var rest = line.substring(i);
+    //   var parts = rest.split("///");
+    //   var contents = parts[0].trim();
+    //   src2 += "$indent$contents\n";
+    // }
+    // src = src2;
     // parse block hierarchy
     try {
       var rootBlock = _parseBlockHierarchy(src);
