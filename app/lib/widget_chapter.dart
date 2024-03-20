@@ -43,6 +43,8 @@ class ChapterState extends State<ChapterWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var unlockAllLevels = widget.course.unlockAll;
+
     // title
     Widget title = Padding(
         padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
@@ -70,7 +72,7 @@ class ChapterState extends State<ChapterWidget> {
         color = Style().matheBuddyGreen;
       }
 
-      var locked = unit.isLocked();
+      var locked = !unlockAllLevels && unit.isLocked();
       var lockSize = 28.0;
       var lockedIcon = Icon(Icons.lock,
           size: lockSize, color: Colors.white.withOpacity(0.75));
@@ -172,7 +174,7 @@ class ChapterState extends State<ChapterWidget> {
                 child: Column(children: contents))));
 
     return Scaffold(
-      appBar: buildAppBar(true, true, this, context, widget.course),
+      appBar: buildAppBar(true, [], true, this, context, widget.course),
       body: body,
       backgroundColor: Colors.white,
     );
