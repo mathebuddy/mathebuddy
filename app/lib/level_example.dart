@@ -55,7 +55,7 @@ Widget generateExample(State state, MbclLevel level, MbclLevelItem item,
     list.add(Wrap(children: [
       generateLevelItem(state, level, subItem,
           paragraphPaddingLeft: 10.0,
-          paragraphPaddingTop: i == 0 ? 0.0 : 10.0,
+          paragraphPaddingTop: i == 0 ? 0.0 : 5.0,
           exerciseData: exerciseData)
     ]));
   }
