@@ -128,7 +128,7 @@ class DebugMenuState extends State<DebugMenuWidget> {
         padding: EdgeInsets.all(5),
         child: contents);
     return Scaffold(
-      appBar: buildAppBar(true, false, this, context, null),
+      appBar: buildAppBar(true, [], false, this, context, null),
       body: body,
       backgroundColor: Colors.white,
     );
