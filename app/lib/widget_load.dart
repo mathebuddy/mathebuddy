@@ -43,7 +43,8 @@ class LoadState extends State<LoadWidget> {
   @override
   void initState() {
     super.initState();
-    loadCourseBundle(context, this);
+
+    loadAssets(context, this);
   }
 
   @override
@@ -92,14 +93,14 @@ class LoadState extends State<LoadWidget> {
     }
 
     return Scaffold(
-      appBar: buildAppBar(false, false, this, context, null),
+      appBar: buildAppBar(false, [], false, this, context, null),
       body: Text(''),
       backgroundColor: Colors.white,
     );
   }
 }
 
-void loadCourseBundle(BuildContext context, State state) async {
+void loadAssets(BuildContext context, State state) async {
   var bundleDataStr =
       await DefaultAssetBundle.of(context).loadString(bundleName, cache: false);
   var bundleDataJson = jsonDecode(bundleDataStr);
