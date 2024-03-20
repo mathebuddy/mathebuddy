@@ -380,7 +380,7 @@ class ChatState extends State<ChatWidget> {
       bottomArea = keyboard.generateWidget();
     }
     return Scaffold(
-      appBar: buildAppBar(true, false, this, context, widget.course),
+      appBar: buildAppBar(true, [], false, this, context, widget.course),
       body: body,
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
