@@ -1,3 +1,53 @@
+Intro
+##########
+
+PART
+    ICON=help-circle-outline
+    % icon library: https://pictogrammers.com/library/mdi/
+
+EXERCISE @ex:intro1
+    DISABLE_RETRY=true
+    Hat die Gleichung $x^2=-9$ eine reelle Lösung? /// Does the equation $x^2=-9$ have a real solution?
+    ( ) Ja /// Yes
+    (x) Nein /// No
+
+PART
+    ICON=book-open-page-variant-outline
+
+DEFINITION @def:intro
+    Über den reellen Zahlen kannst du Gleichungen wie $x^2=-1$ nicht lösen, da keine Quadratwurzeln aus negativen Zahlen existieren. Deshalb erweitern wir den Zahlenbereich auf die sogenannten **komplexen Zahlen** und lernen die **imaginäre Einheit i** kennen, für die gilt /// You cannot solve equations such as $x^2=-1$ using real numbers, as there are no square roots of negative numbers. Therefore, we extend the number range to the **complex numbers** and get to know the **imaginary unit i**, for which the following applies 
+    EQUATION*
+        i^2=-1.       
+    $i$ ist keine reelle, sondern eine komplexe Zahl. Komplexe Zahlen werden oft mit **$z$** satt $x$ notiert. /// $i$ is not a real number, but a complex number. Complex numbers are often notated with **$z$** instead of $x$.
+
+EXAMPLE @exa:intro
+    Um die Gleichung $z^2=-9$ zu lösen, nutzen wir die Eigenschaft $i^2=-1$: /// To solve the equation $z^2=-9$, we use the property $i^2=-1$:
+    EQUATION*
+        z^2= -9= 9\cdot (-1)= 9 \cdot i^2
+    Jetzt kannst du die Quadratwurzel ziehen und erhältst die komplexe Zahlen /// Now you can draw the square root and get the complex numbers
+    EQUATION*
+        z= \pm 3i 
+
+PART
+    ICON=checkbox-marked-circle-outline
+
+EXERCISE @ex:intro
+    CODE
+        a = rand(4,9);
+        b = a^2;
+
+    Löse die Gleichung $z^2=-b$. /// Solve the equation $z^2=-b$.
+
+    $z= \pm$ #a $i$
+
+
+
+
+
+!STOP
+
+
+
 Event
 ###############
     
