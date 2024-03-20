@@ -14,12 +14,135 @@ import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:mathebuddy/widget_chat.dart';
 import 'package:mathebuddy/widget_load.dart';
+import 'package:mathebuddy/widget_settings.dart';
 
-AppBar buildAppBar(bool showAppLogo, bool showChatButton, State state,
-    BuildContext context, MbclCourse? course) {
+AppBar buildAppBar(
+    bool showAppLogo,
+    List<Widget> additionalButtons,
+    bool showChatButton,
+    State state,
+    BuildContext context,
+    MbclCourse? course) {
+  var iconSize = 36.0;
+
+  List<Widget> debugButtons = [];
+
+  Widget leading = Text("");
+  double leadingWidth = 60.0;
+
+  if (showDebugReleaseSwitch) {
+    leadingWidth = 115.0;
+    leading = Row(children: debugButtons);
+  } else if (showAppLogo) {
+    leading = Padding(
+        padding: EdgeInsets.all(12),
+        child: Image.asset("assets/img/logoSmall.png"));
+  }
+
+  // debug buttons
+  if (showDebugReleaseSwitch) {
+    // restart app
+    debugButtons.add(GestureDetector(
+        onTap: () {
+          while (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          }
+          var route = MaterialPageRoute(builder: (context) {
+            return LoadWidget();
+          });
+          Navigator.pushReplacement(context, route)
+              // ignore: invalid_use_of_protected_member
+              .then((value) => {state.setState(() {})});
+        },
+        child: Opacity(
+            opacity: 0.5,
+            child: Container(
+                margin: EdgeInsets.only(left: 4.0, right: 4.0),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: getStyle().appbarDebugButtonColor,
+                        width: getStyle().appbarDebugButtonBorderSize),
+                    borderRadius: BorderRadius.circular(1)),
+                child: Padding(
+                    padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
+                    child: Icon(
+                      MdiIcons.refresh,
+                      size: 32.0,
+                      color: getStyle().appbarDebugButtonColor,
+                    ))))));
+
+    // language switch
+    debugButtons.add(GestureDetector(
+        onTap: () {
+          language = language == 'en' ? 'de' : 'en';
+          // ignore: invalid_use_of_protected_member
+          state.setState(() {});
+        },
+        child: Opacity(
+            opacity: 0.5,
+            child: Container(
+                margin: EdgeInsets.only(right: 4.0),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: getStyle().appbarDebugButtonColor,
+                        width: getStyle().appbarDebugButtonBorderSize),
+                    borderRadius: BorderRadius.circular(1)),
+                child: Container(
+                    height: 35.0,
+                    padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
+                    child: Text(" ${language.toUpperCase()} ",
+                        style: TextStyle(
+                            color: getStyle().appbarDebugButtonColor,
+                            fontSize:
+                                getStyle().appbarDebugButtonFontSize)))))));
+    // switch debug / release mode
+    debugButtons.add(GestureDetector(
+        onTap: () {
+          debugMode = !debugMode;
+          // ignore: invalid_use_of_protected_member
+          state.setState(() {});
+        },
+        child: Opacity(
+            opacity: 0.5,
+            child: Container(
+                margin: EdgeInsets.only(right: 0.0),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: getStyle().appbarDebugButtonColor,
+                        width: getStyle().appbarDebugButtonBorderSize),
+                    borderRadius: BorderRadius.circular(1)),
+                child: Padding(
+                    padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
+                    child: Icon(
+                      //debugMode ? MdiIcons.testTube : MdiIcons.sitemap,
+                      debugMode ? MdiIcons.alphaD : MdiIcons.alphaR,
+                      size: 32.0,
+                      color: getStyle().appbarDebugButtonColor,
+                    ))))));
+  }
+
   List<Widget> actions = [];
+
+  // settings button
+  if (showChatButton == false) {
+    actions.add(IconButton(
+        onPressed: () {
+          var route = MaterialPageRoute(builder: (context) {
+            return SettingsWidget(course);
+          });
+          Navigator.push(context, route).then((value) {
+            // ignore: invalid_use_of_protected_member
+            state.setState(() {});
+          });
+        },
+        icon: Icon(MdiIcons.cogOutline,
+            size: iconSize,
+            color: Navigator.canPop(state.context)
+                ? getStyle().appbarIconActiveColor
+                : getStyle().appbarIconInactiveColor)));
+  }
   // home button
-  actions.add(Text('  '));
+  actions.add(Text(' '));
   var actionHome = IconButton(
     onPressed: () {
       if (Navigator.canPop(state.context)) {
@@ -28,7 +151,7 @@ AppBar buildAppBar(bool showAppLogo, bool showChatButton, State state,
       }
     },
     icon: Icon(Icons.home,
-        size: 36,
+        size: iconSize,
         color: Navigator.canPop(state.context)
             ? getStyle().appbarIconActiveColor
             : getStyle().appbarIconInactiveColor),
@@ -45,107 +168,21 @@ AppBar buildAppBar(bool showAppLogo, bool showChatButton, State state,
         },
         icon: Icon(
           MdiIcons.fromString("chat-question-outline"),
-          size: 42,
+          size: iconSize,
           color: getStyle().appbarIconActiveColor,
         )));
   }
-  actions.add(Text('  '));
+  //actions.add(Text(' '));
   actions.add(actionHome);
-  actions.add(Text('    '));
+  actions.add(Text('  '));
 
-  // restart app
-  var reloadAppButton = Opacity(
-      opacity: 0.5,
-      child: Container(
-          decoration: BoxDecoration(
-              border: Border.all(
-                  color: getStyle().appbarDebugButtonColor,
-                  width: getStyle().appbarDebugButtonBorderSize),
-              borderRadius: BorderRadius.circular(1)),
-          child: Padding(
-              padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
-              child: Text(" reload ",
-                  style: TextStyle(
-                      color: getStyle().appbarDebugButtonColor,
-                      fontSize: getStyle().appbarDebugButtonFontSize)))));
-
-  // language switch
-  var languageSwitchButton = Opacity(
-      opacity: 0.5,
-      child: Container(
-          decoration: BoxDecoration(
-              border: Border.all(
-                  color: getStyle().appbarDebugButtonColor,
-                  width: getStyle().appbarDebugButtonBorderSize),
-              borderRadius: BorderRadius.circular(1)),
-          child: Padding(
-              padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
-              child: Text(" $language ",
-                  style: TextStyle(
-                      color: getStyle().appbarDebugButtonColor,
-                      fontSize: getStyle().appbarDebugButtonFontSize)))));
-  // debug/release button
-  var switchDebugReleaseButton = Opacity(
-      opacity: 0.5,
-      child: Container(
-          decoration: BoxDecoration(
-              border: Border.all(
-                  color: getStyle().appbarDebugButtonColor,
-                  width: getStyle().appbarDebugButtonBorderSize),
-              borderRadius: BorderRadius.circular(1)),
-          child: Padding(
-              padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
-              child: Text(debugMode ? " debug " : " release ",
-                  style: TextStyle(
-                      color: getStyle().appbarDebugButtonColor,
-                      fontSize: getStyle().appbarDebugButtonFontSize)))));
-
-  var title = Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-    showDebugReleaseSwitch
-        ? GestureDetector(
-            onTap: () {
-              while (Navigator.canPop(context)) {
-                Navigator.pop(context);
-              }
-              var route = MaterialPageRoute(builder: (context) {
-                return LoadWidget();
-              });
-              Navigator.pushReplacement(context, route)
-                  // ignore: invalid_use_of_protected_member
-                  .then((value) => {state.setState(() {})});
-            },
-            child: reloadAppButton)
-        : Text(''),
-    Text(' '),
-    showDebugReleaseSwitch
-        ? GestureDetector(
-            onTap: () {
-              language = language == 'en' ? 'de' : 'en';
-              // ignore: invalid_use_of_protected_member
-              state.setState(() {});
-            },
-            child: languageSwitchButton)
-        : Text(''),
-    Text(' '),
-    showDebugReleaseSwitch
-        ? GestureDetector(
-            onTap: () {
-              debugMode = !debugMode;
-              // ignore: invalid_use_of_protected_member
-              state.setState(() {});
-            },
-            child: switchDebugReleaseButton)
-        : Text(''),
-  ]);
   return AppBar(
+      titleSpacing: 2.0,
+      leadingWidth: leadingWidth,
       centerTitle: true,
       backgroundColor: getStyle().appbarBackgroundColor,
-      title: title,
-      leading: showAppLogo
-          ? Padding(
-              padding: EdgeInsets.all(7),
-              child: Image.asset("assets/img/logoSmall.png"))
-          : Text(""),
+      title: Row(children: additionalButtons),
+      leading: leading,
       elevation: 1,
       actions: actions);
 }
