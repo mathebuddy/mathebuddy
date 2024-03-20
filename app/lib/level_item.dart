@@ -29,7 +29,7 @@ import 'package:mathebuddy/style.dart';
 Widget generateLevelItem(State state, MbclLevel level, MbclLevelItem item,
     {paragraphPaddingLeft = 3.0,
     paragraphPaddingRight = 3.0,
-    paragraphPaddingTop = 10.0,
+    paragraphPaddingTop = 5.0,
     paragraphPaddingBottom = 5.0,
     textColor = Colors.black,
     MbclExerciseData? exerciseData}) {
@@ -94,7 +94,8 @@ Widget generateLevelItem(State state, MbclLevel level, MbclLevelItem item,
     case MbclLevelItemType.span:
       {
         List<InlineSpan> list = [];
-        for (var subItem in item.items) {
+        var languageIndex = language == "de" ? 0 : 1; // TODO
+        for (var subItem in filterLanguage2(item.items, languageIndex)) {
           list.add(generateParagraphItem(state, subItem,
               exerciseData: exerciseData));
         }
