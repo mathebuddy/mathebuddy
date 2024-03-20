@@ -31,18 +31,28 @@ Widget generateFigure(State state, MbclLevel level, MbclLevelItem item,
   if (figureData.filePath.endsWith(".svg") &&
       (figureData.data.startsWith('<svg') ||
           figureData.data.startsWith('<?xml'))) {
-    rows.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      GestureDetector(
-          onDoubleTap: () {
-            figureData.zoomed = !figureData.zoomed;
-            // ignore: invalid_use_of_protected_member
-            state.setState(() {});
-          },
-          child: SvgPicture.string(
-            figureData.data,
-            width: screenWidth * width / 100.0 - 15.0,
-          ))
-    ]));
+    rows.add(Center(
+        child: InteractiveViewer(
+            minScale: 0.2,
+            maxScale: 5.0,
+            child: SvgPicture.string(
+              figureData.data,
+              //width: screenWidth,
+              width: screenWidth * width / 100.0 - 15.0,
+            ))));
+
+    // rows.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+    //   GestureDetector(
+    //       onDoubleTap: () {
+    //         figureData.zoomed = !figureData.zoomed;
+    //         // ignore: invalid_use_of_protected_member
+    //         state.setState(() {});
+    //       },
+    //       child: SvgPicture.string(
+    //         figureData.data,
+    //         width: screenWidth * width / 100.0 - 15.0,
+    //       ))
+    // ]));
   } else if (figureData.filePath.endsWith(".jpg")) {
     rows.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Image.memory(
@@ -50,8 +60,6 @@ Widget generateFigure(State state, MbclLevel level, MbclLevelItem item,
         width: screenWidth * width / 100.0 - 15.0,
       )
     ]));
-
-    var bp = 1337;
   }
   // caption
   if (figureData.caption.isNotEmpty) {
