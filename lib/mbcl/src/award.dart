@@ -21,6 +21,9 @@ class MbclAwards {
   // <AwardId, UnixTime>  time is 0 in case the award is not yet received
   Map<String, int> awards = {};
 
+  // list of awards that have not yet been shown as popup
+  List<MbclAwardType> notShownAwards = [];
+
   MbclAwards() {
     for (var type in MbclAwardType.values) {
       awards[type.name] = 0;
@@ -31,11 +34,25 @@ class MbclAwards {
     return awards;
   }
 
+  bool isAwardEnabled(MbclAwardType type) {
+    return awards.containsKey(type.name);
+  }
+
+  MbclAwardType? popNotShownAward() {
+    if (notShownAwards.isNotEmpty) {
+      var res = notShownAwards.last;
+      notShownAwards.removeLast();
+      return res;
+    }
+    return null;
+  }
+
   /// returns true, if the award is new
   bool enableAwardConditionally(MbclAwardType type) {
     var alreadyAchieved = awards[type.name]! > 0;
     if (alreadyAchieved) return false;
     awards[type.name] = DateTime.now().millisecondsSinceEpoch;
+    notShownAwards.add(type);
     return true;
   }
 

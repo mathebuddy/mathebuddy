@@ -41,6 +41,7 @@ class MbclCourse {
   MbclAwards awards = MbclAwards();
   bool unlockAll = false;
   bool muteAudio = false;
+  List<DateTime> daysPlayed = [];
 
   // not saved
   MbclPersistence? persistence;
@@ -100,6 +101,39 @@ class MbclCourse {
   }
 
   updateAwards() {
+    // played X days in a row
+    // (a) add current day, if now yet present
+    var now = DateTime.now();
+    var dayInDatabase = daysPlayed.isNotEmpty &&
+        daysPlayed.last.year == now.year &&
+        daysPlayed.last.month == now.month &&
+        daysPlayed.last.day == now.day;
+    if (dayInDatabase == false) {
+      daysPlayed.add(now);
+    }
+    // (b) get the sorted list of days played as days since epoch
+    var daysPlayedSinceEpoch = daysPlayed
+        .map((x) => (x.millisecondsSinceEpoch / 1000 / 60 / 60 / 24).floor())
+        .toList();
+    daysPlayedSinceEpoch.sort();
+    var maxRow = 0;
+    for (var i = 0; i < daysPlayedSinceEpoch.length; i++) {
+      for (var j = i + 1; j < daysPlayedSinceEpoch.length; j++) {
+        if ((daysPlayedSinceEpoch[j] - daysPlayedSinceEpoch[j - 1]) != 1) break;
+        maxRow = max(maxRow, j - i + 1);
+      }
+    }
+    // (c) conditionally enable awards
+    if (maxRow >= 3) {
+      awards.enableAwardConditionally(MbclAwardType.played3daysInRow);
+      if (maxRow >= 5) {
+        awards.enableAwardConditionally(MbclAwardType.played5daysInRow);
+        if (maxRow >= 5) {
+          awards.enableAwardConditionally(MbclAwardType.played10daysInRow);
+        }
+      }
+    }
+    // passed first level / game / unit / chapter
     for (var chapter in chapters) {
       for (var level in chapter.levels) {
         if (level.progress > 0.8) {
@@ -203,6 +237,8 @@ class MbclCourse {
     data["awards"] = awards.toJSON();
     data["unlock_all"] = unlockAll;
     data["mute_audio"] = muteAudio;
+    data["days_played"] =
+        daysPlayed.map((e) => e.millisecondsSinceEpoch).toList();
     return data;
   }
 
@@ -230,6 +266,14 @@ class MbclCourse {
     }
     if (src.containsKey("mute_audio")) {
       muteAudio = src["mute_audio"];
+    }
+    if (src.containsKey("days_played")) {
+      daysPlayed = [];
+      var n = src["days_played"].length;
+      for (var i = 0; i < n; i++) {
+        daysPlayed
+            .add(DateTime.fromMillisecondsSinceEpoch(src["days_played"][i]));
+      }
     }
     calcProgress();
   }

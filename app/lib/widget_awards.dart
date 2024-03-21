@@ -10,7 +10,9 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mathebuddy/appbar.dart';
+import 'package:mathebuddy/audio.dart';
 import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/mbcl/src/award.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
@@ -122,4 +124,57 @@ class AwardsState extends State<AwardsWidget> {
         body: body,
         backgroundColor: Colors.white);
   }
+}
+
+void renderGotAwardOverlay(
+    MbclCourse course, State state, BuildContext buildContext,
+    {textOpacity = 0.95, backgroundOpacity = 0.95}) {
+  MbclAwardType? type = course.awards.popNotShownAward();
+  if (type == null) {
+    return;
+  }
+  if (!course.muteAudio) {
+    appAudio.play(AppAudioId.passedExercise);
+  }
+  // show visual feedback as overlay
+  //if (debugMode == false) {
+  var overlayEntry = OverlayEntry(builder: (context) {
+    var color = Style().matheBuddyGreen;
+    var text = MbclAwards().getText(type.name, language);
+    return Container(
+        alignment: Alignment.center,
+        width: 200,
+        height: 200,
+        child: Opacity(
+            opacity: textOpacity,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(backgroundOpacity)),
+                child: DefaultTextStyle(
+                    style: TextStyle(fontSize: 64, color: color),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          MdiIcons.fromString("medal"),
+                          size: 120,
+                          color: color,
+                        ),
+                        Center(
+                            child: Text(
+                          text,
+                        ))
+                      ],
+                    )))));
+  });
+  Overlay.of(buildContext).insert(overlayEntry);
+  // ignore: invalid_use_of_protected_member
+  state.setState(() {});
+  Future.delayed(const Duration(milliseconds: 1000), () {
+    overlayEntry.remove();
+    // ignore: invalid_use_of_protected_member
+    //state.setState(() {});
+  });
+  //}
 }

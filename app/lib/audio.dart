@@ -7,6 +7,8 @@
 
 /// This file implements audio feedback.
 
+// TODO: Android-bug: https://github.com/bluefireteam/audioplayers/issues/1706
+
 import 'package:audioplayers/audioplayers.dart';
 
 var appAudio = AppAudio();
@@ -41,6 +43,8 @@ class AppAudio {
         {
           await audioPlayerPass!.stop();
           await audioPlayerPass!.resume();
+          //var xx = AudioPlayer();
+          //xx.play(AssetSource("sfx/pass.wav"));
           break;
         }
       case AppAudioId.failedExercise:

@@ -20,7 +20,6 @@ import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/level_item.dart';
-import 'package:mathebuddy/widget_load.dart';
 
 void evaluateExercise(
     State state, MbclLevel level, MbclExerciseData exerciseData) {

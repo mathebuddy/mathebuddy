@@ -10,8 +10,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/main.dart';
+import 'package:mathebuddy/mbcl/src/award.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/style.dart';
+import 'package:mathebuddy/widget_awards.dart';
 import 'package:mathebuddy/widget_chat.dart';
 import 'package:mathebuddy/widget_load.dart';
 import 'package:mathebuddy/widget_settings.dart';
@@ -146,6 +148,10 @@ AppBar buildAppBar(
   var actionHome = IconButton(
     onPressed: () {
       if (Navigator.canPop(state.context)) {
+        if (course != null) {
+          renderGotAwardOverlay(course, state, context);
+        }
+
         Navigator.pop(state.context);
         keyboardState.layout = null;
       }
