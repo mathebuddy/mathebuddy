@@ -34,6 +34,12 @@ class MbclAwards {
     return awards;
   }
 
+  void removeAllAwards() {
+    for (var key in awards.keys) {
+      awards[key] = 0;
+    }
+  }
+
   bool isAwardEnabled(MbclAwardType type) {
     return awards.containsKey(type.name);
   }
