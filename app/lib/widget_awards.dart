@@ -40,6 +40,27 @@ class AwardsState extends State<AwardsWidget> {
     // var constructionSite = Text("WORK-IN-PROGRESS :-)",
     //     style: TextStyle(color: Colors.red, fontSize: 25));
 
+    Widget resetAwardsBtn = Text("");
+    if (debugMode) {
+      resetAwardsBtn = GestureDetector(
+          onTap: () {
+            widget.course.awards.removeAllAwards();
+            setState(() {});
+          },
+          child: Opacity(
+              opacity: 0.8,
+              child: Padding(
+                  padding: EdgeInsets.only(right: 4, top: 20),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(" REMOVE ALL AWARDS ",
+                              style: TextStyle(color: Colors.white)))))));
+    }
+
     Widget title = Padding(
         padding: EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
         child: Center(
@@ -108,7 +129,11 @@ class AwardsState extends State<AwardsWidget> {
     }
     var table = Table(children: awardWidgets);
 
-    List<Widget> contents = [/*constructionSite, */ title, table];
+    List<Widget> contents = [
+      /*constructionSite, */ title,
+      resetAwardsBtn,
+      table
+    ];
 
     var body = SingleChildScrollView(
         physics: BouncingScrollPhysics(
