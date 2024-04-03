@@ -63,6 +63,8 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
       style: TextStyle(fontSize: 3),
     ));
   } else {
+    var languageIndex = language == "de" ? 0 : 1; // TODO
+    var titleText = filterLanguage(item.title, languageIndex);
     var title = Wrap(children: [
       Padding(
           padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
@@ -73,7 +75,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
             Text(' '),
             // TODO: wrap does not work:
             Flexible(
-                child: Text(item.title,
+                child: Text(titleText,
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20)))
           ]))
