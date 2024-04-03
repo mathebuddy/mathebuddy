@@ -177,6 +177,7 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
     case 'PARADOX':
     case 'PROPOSITION':
     case 'THEOREM':
+    case 'PROOF':
     case 'TODO':
       {
         block.setChildrenDefaultType("PARAGRAPH");
@@ -214,6 +215,9 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
             break;
           case 'PARADOX':
             type = MbclLevelItemType.defParadox;
+            break;
+          case 'PROOF':
+            type = MbclLevelItemType.defProof;
             break;
           case 'TODO':
             type = MbclLevelItemType.todo;
