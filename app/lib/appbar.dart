@@ -10,7 +10,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'package:mathebuddy/keyboard.dart';
 import 'package:mathebuddy/main.dart';
-import 'package:mathebuddy/mbcl/src/award.dart';
 import 'package:mathebuddy/mbcl/src/course.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:mathebuddy/widget_awards.dart';
@@ -156,7 +155,7 @@ AppBar buildAppBar(
         keyboardState.layout = null;
       }
     },
-    icon: Icon(Icons.home,
+    icon: Icon(Icons.arrow_back_ios_new, //   Icons.home,
         size: iconSize,
         color: Navigator.canPop(state.context)
             ? getStyle().appbarIconActiveColor
