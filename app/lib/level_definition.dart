@@ -31,8 +31,29 @@ Widget generateDefinition(State state, MbclLevel level, MbclLevelItem item,
   // }
   List<Widget> list = [];
   if (level.disableBlockTitles) {
-    list.add(Text(' '));
+    var titleText = "";
+    switch (item.type) {
+      case MbclLevelItemType.defProof:
+        titleText = language == 'de' ? 'Beweis' : 'Proof';
+        break;
+      default:
+        break;
+    }
+    var title = Wrap(children: [
+      Padding(
+          padding: EdgeInsets.only(left: 9.0, bottom: 5.0, top: 10.0),
+          child: Row(children: [
+            // TODO: wrap does not work:
+            Flexible(
+                child: Text(titleText,
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)))
+          ]))
+    ]);
+    list.add(title);
   } else {
+    var languageIndex = language == "de" ? 0 : 1; // TODO
+    var titleText = filterLanguage(item.title, languageIndex);
     var title = Wrap(children: [
       Padding(
           padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
@@ -42,7 +63,7 @@ Widget generateDefinition(State state, MbclLevel level, MbclLevelItem item,
             Text(' '),
             // TODO: wrap does not work:
             Flexible(
-                child: Text(item.title,
+                child: Text(titleText,
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20)))
           ]))
