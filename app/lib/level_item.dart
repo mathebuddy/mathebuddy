@@ -135,6 +135,7 @@ Widget generateLevelItem(State state, MbclLevel level, MbclLevelItem item,
       }
     case MbclLevelItemType.defDefinition:
     case MbclLevelItemType.defTheorem:
+    case MbclLevelItemType.defProof:
       {
         return generateDefinition(state, level, item,
             exerciseData: exerciseData);
