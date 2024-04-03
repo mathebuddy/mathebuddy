@@ -31,6 +31,7 @@ enum MbclLevelItemType {
   defParadox,
   defProposition,
   defTheorem,
+  defProof,
   displayMath,
   enumerate,
   enumerateAlpha,
