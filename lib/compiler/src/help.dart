@@ -1,3 +1,5 @@
+import 'dart:io';
+
 /// mathe:buddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
 /// (c) 2022-2024 by TH Koeln
@@ -6,8 +8,14 @@
 /// License: GPL-3.0-or-later
 
 String extractDirname(String path) {
-  if (path.contains('/') == false) return '';
-  return path.substring(0, path.lastIndexOf('/') + 1);
+  // TODO: use path library
+  if (Platform.isWindows) {
+    if (path.contains('\\') == false) return '';
+    return path.substring(0, path.lastIndexOf('\\') + 1);
+  } else {
+    if (path.contains('/') == false) return '';
+    return path.substring(0, path.lastIndexOf('/') + 1);
+  }
 }
 
 /// A counter variable to generate unique IDs.

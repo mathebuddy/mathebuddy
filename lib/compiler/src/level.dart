@@ -5,6 +5,7 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'package:path/path.dart' as Path;
 import 'package:slex/slex.dart';
 
 import '../../mbcl/src/level.dart';
@@ -391,9 +392,11 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
           }
           if (block.attributes.containsKey("PATH")) {
             data.filePath = block.attributes["PATH"]!;
-            var path = "${compiler.baseDirectory}"
-                "${compiler.chapter.fileId}/${data.filePath}";
-            path = path.replaceAll("//", "/");
+            //var path = "${compiler.baseDirectory}"
+            //    "${compiler.chapter.fileId}/${data.filePath}";
+            //path = path.replaceAll("//", "/");
+            var path = Path.join(
+                compiler.baseDirectory, compiler.chapter.fileId, data.filePath);
             data.data = compiler.loadFile(path);
             if (data.data.isEmpty) {
               figure.error += 'Could not load image file from path "$path". ';

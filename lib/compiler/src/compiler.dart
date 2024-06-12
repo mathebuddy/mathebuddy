@@ -6,6 +6,7 @@
 /// License: GPL-3.0-or-later
 
 import 'package:slex/slex.dart';
+import 'package:path/path.dart' as Path;
 
 import '../../mbcl/src/chapter.dart';
 import '../../mbcl/src/course.dart';
@@ -77,6 +78,12 @@ class Compiler {
     print("COMPILING FROM PATH '$path'");
     // extract base directory from path
     baseDirectory = extractDirname(path);
+
+    print(">>>>>A");
+    print(path);
+    print(">>>>>B");
+    print(baseDirectory);
+
     // compile
     if (path.endsWith('course.mbl')) {
       // processing complete course
@@ -189,14 +196,17 @@ class Compiler {
                     lexer.next();
                   }
                   if (iconPath.isNotEmpty) {
-                    var path = "$baseDirectory$iconPath";
+                    //var path = "$baseDirectory$iconPath";
+                    var path = Path.join(baseDirectory, iconPath);
                     iconData = loadFile(path);
                   }
                 }
                 lexer.end();
                 // compile chapter
                 var dirname = extractDirname(path);
-                var chapterPath = '$dirname$directoryName/index.mbl';
+                //var chapterPath = '$dirname$directoryName/index.mbl';
+                var chapterPath =
+                    Path.join(dirname, directoryName, 'index.mbl');
                 try {
                   compileChapter(chapterPath);
                 } catch (e) {
@@ -257,9 +267,10 @@ class Compiler {
     // create a new chapter
     chapter = MbclChapter(course);
     course.chapters.add(chapter);
-    var pathParts = path.replaceAll("/index.mbl", "").split("/");
+    //var pathParts = path.replaceAll("/index.mbl", "").split("/");
     if (compileCompleteCourse) {
-      chapter.fileId = pathParts[pathParts.length - 1];
+      //chapter.fileId = pathParts[pathParts.length - 1];
+      chapter.fileId = Path.split(path.replaceAll("index.mbl", "")).last;
     }
     // get chapter index file source
     var src = loadFile(path);
@@ -326,7 +337,8 @@ class Compiler {
               unit.title = titleTokens[0].trim();
               if (titleTokens.length > 1) {
                 var iconPath = titleTokens[1].trim();
-                var path = "$baseDirectory${chapter.fileId}/$iconPath";
+                //var path = "$baseDirectory${chapter.fileId}/$iconPath";
+                var path = Path.join(baseDirectory, chapter.fileId, iconPath);
                 unit.iconData = loadFile(path);
               }
               chapter.units.add(unit);

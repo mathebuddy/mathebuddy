@@ -5,6 +5,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+import 'package:path/path.dart' as Path;
+
 import '../../mbcl/src/course.dart';
 import '../../mbcl/src/level.dart';
 import '../../mbcl/src/level_item.dart';
@@ -24,7 +26,8 @@ class ChatInformationRetrieval {
                 chatKey = chatKey.trim().toLowerCase();
                 // TODO (low prio): high memory consumption in case of many keys
                 // TODO (low prio): better save data only once
-                var levelPath = "${chapter.fileId}/${level.fileId}";
+                //var levelPath = "${chapter.fileId}/${level.fileId}";
+                var levelPath = Path.join(chapter.fileId, level.fileId);
                 var pseudoLevel = MbclLevel(course, chapter);
                 var paragraph = extractParagraph(item, pseudoLevel);
                 var cd = MbclChatDefinition(chatKey, levelPath, paragraph);
