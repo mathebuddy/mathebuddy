@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 
 class Style {
+  double tileRadius = 7.0;
+
   Color matheBuddyRed = Color.fromARGB(255, 170, 50, 44);
   Color matheBuddyYellow = Color.fromARGB(255, 220, 110, 30);
   //Color.fromARGB(255, 218, 94, 0); // Colors.amber.shade700

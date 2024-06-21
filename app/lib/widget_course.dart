@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mathebuddy/event.dart';
-import 'package:mathebuddy/mbcl/src/award.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/unit.dart';
 import 'package:mathebuddy/widget_awards.dart';
@@ -134,7 +133,7 @@ class CourseState extends State<CourseWidget> {
                           color.withOpacity(0.9),
                           color.withOpacity(0.95)
                         ]),
-                    borderRadius: BorderRadius.circular(7.0)),
+                    borderRadius: BorderRadius.circular(getStyle().tileRadius)),
                 child: Center(child: content))),
       ));
     }
@@ -329,7 +328,8 @@ class CourseState extends State<CourseWidget> {
             child: Opacity(
                 opacity: 0.85,
                 child: Container(
-                    constraints: BoxConstraints(maxWidth: maxContentsWidth),
+                    constraints: BoxConstraints(
+                        maxWidth: maxContentsWidth, maxHeight: 80),
                     child: Image.asset('assets/img/logo-institutes.png')))));
 
     contents = Center(
@@ -378,7 +378,7 @@ class CourseState extends State<CourseWidget> {
                           (data["color"] as Color),
                           (data["color"] as Color).withOpacity(0.9)
                         ]),
-                    borderRadius: BorderRadius.circular(7.0)),
+                    borderRadius: BorderRadius.circular(getStyle().tileRadius)),
                 child: Column(children: [
                   Icon(
                     MdiIcons.fromString(data["icon"] as String),

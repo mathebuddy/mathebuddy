@@ -31,7 +31,7 @@ class MbclExerciseData {
   List<Map<String, String>> instances = []; // TODO: DESCRIBE!!
   bool staticOrder = false;
   bool disableRetry = false;
-  int scores = 1;
+  int score = 1;
   int numInstances = 5;
   int time = -1; // time in seconds; negative := exercise has no time limit
   //TODO: remove: bool showGapLength = false;
@@ -285,7 +285,7 @@ class MbclExerciseData {
       "instances": instances.map((e) => e).toList(),
       "staticOrder": staticOrder,
       "disableRetry": disableRetry,
-      "scores": scores,
+      "scores": score,
       "numInstances": numInstances,
       "time": time,
       //"showGapLength": showGapLength,
@@ -322,7 +322,7 @@ class MbclExerciseData {
     }
     staticOrder = src["staticOrder"] as bool;
     disableRetry = src["disableRetry"] as bool;
-    scores = src["scores"] as int;
+    score = src["scores"] as int;
     numInstances = src["numInstances"] as int;
     time = src["time"] as int;
     //showGapLength = src["showGapLength"] as bool;

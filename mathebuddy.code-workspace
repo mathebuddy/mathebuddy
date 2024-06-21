@@ -21,7 +21,6 @@
   "extensions": {
     "recommendations": [
       "vscjava.vscode-java-pack",
-      "vscjava.vscode-gradle",
       "vscjava.vscode-java-debug",
       "mathebuddy.mbl-language-extension"
     ]

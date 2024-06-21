@@ -37,6 +37,12 @@ class AppInputField {
     inputFieldData = item.inputFieldData;
     Widget contents;
     Color feedbackColor = getStyle().getFeedbackColor(exerciseData?.feedback);
+    Color textFeedbackColor = feedbackColor;
+    if (inputFieldData!.correct) {
+      // set answers to green, if correct
+      textFeedbackColor =
+          getStyle().getFeedbackColor(MbclExerciseFeedback.correct);
+    }
 
     bool markAsIncorrect = inputFieldData!.correct == false;
 
@@ -99,8 +105,10 @@ class AppInputField {
         }
         var tex = TeX();
         tex.scalingFactor = 1.33; //1.17;
-        tex.setColor(
-            feedbackColor.red, feedbackColor.green, feedbackColor.blue);
+
+        tex.setColor(textFeedbackColor.red, textFeedbackColor.green,
+            textFeedbackColor.blue);
+
         var svgData = tex.tex2svg(studentValueTeX, displayStyle: true);
         if (tex.success()) {
           BoxBorder? border;
@@ -108,7 +116,7 @@ class AppInputField {
             border = Border.all(
                 style: BorderStyle.solid,
                 color: getStyle().matheBuddyRed,
-                width: 2.0);
+                width: 3.0);
           } else if (!texValid) {
             border = Border(
                 top: BorderSide(color: getStyle().matheBuddyRed, width: 1.5),
@@ -256,7 +264,7 @@ class AppInputField {
           state.setState(() {});
         },
         child: contents);
-    var scores = exerciseData!.scores;
+    var scores = exerciseData!.score;
     var showInfo = scores != 1;
     var info = Opacity(
         opacity: 0.4,

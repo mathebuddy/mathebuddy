@@ -14,8 +14,6 @@ import 'package:mathebuddy/level_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 
-// TODO: MOVE THIS FILE TO APP!!! THIS IS NOT MBCL
-
 enum EventDataState {
   init,
   running,
@@ -30,12 +28,13 @@ class EventData {
 
   MbclLevel level;
   List<MbclLevelItem> allExercises = [];
-  //int currentExerciseIdx = 0;
+  int allExercisesScore = 0;
 
   // pipeline = all exercises at start; first is popped and wrongly answered
   // are pushed back again
-  List<MbclLevelItem> exercisePipeline = [];
+  //List<MbclLevelItem> exercisePipeline = [];
   MbclLevelItem? activeExercise;
+  int activeExerciseIdx = 0;
 
   //int highScore = 0;
   int correctAnswers = 0;
@@ -43,11 +42,11 @@ class EventData {
   DateTime startTimeEvent = DateTime.now();
   DateTime startTimeCurrentExercise = DateTime.now();
 
-  double score = 0.5;
+  double scoreNEW = 0.0; // TODO: rename to score
 
   Timer? timer;
 
-  double timeTotal = 10.0;
+  double timeTotal = 10.0; // set via TIME=XX in MBL
   double timeRemaining = 0.0;
 
   bool jokerAvailable5050 = true;
@@ -58,17 +57,20 @@ class EventData {
   List<int> answerOrder = [0, 1, 2, 3];
 
   EventData(this.level) {
+    activeExerciseIdx = 0;
+    allExercisesScore = 0;
     answerOrder.shuffle();
     for (var item in level.items) {
       if (item.type == MbclLevelItemType.exercise) {
         activeExercise ??= item;
         allExercises.add(item);
-        exercisePipeline.add(item);
+        allExercisesScore += item.exerciseData!.score;
+        //exercisePipeline.add(item);
       }
     }
-    if (exercisePipeline.isNotEmpty) {
-      exercisePipeline.removeLast(); // first exercise is already active
-    }
+    // if (exercisePipeline.isNotEmpty) {
+    //   exercisePipeline.removeLast(); // first exercise is already active
+    // }
   }
 
   applyJoker(EventDataJoker joker) {
@@ -104,12 +106,14 @@ class EventData {
     timer = Timer.periodic(Duration(milliseconds: 500), (Timer t) {
       timeRemaining -= 0.5;
       if (timeRemaining <= 0) {
-        score -= 0.2;
-        checkGameOver();
-        renderFeedbackOverlay(state, false);
-        switchExercise(false);
+        timer!.cancel();
+        // TODO score -= 0.2;
+        // checkGameOver();
+        // renderFeedbackOverlay(state, false);
+        // switchExercise(false);
       }
       print("event tick ${DateTime.now().toString()}");
+      print("remaining time $timeRemaining");
       // ignore: invalid_use_of_protected_member
       state.setState(() {});
     });
@@ -121,41 +125,73 @@ class EventData {
     }
   }
 
-  void updateScore(bool correct) {
-    var delta = 0.2 * timeRemaining / timeTotal;
-    score += correct ? delta : -delta;
-    if (score > 1) {
-      score = 1;
-    }
-    checkGameOver();
+  /// Returns the percentage in range [0,1], based on the current score
+  double getPercentage() {
+    var p = scoreNEW / allExercisesScore;
+    return p / 2 + 0.5;
   }
 
-  void checkGameOver() {
-    if (score < 0) {
-      eventState = EventDataState.gameOver;
-      stop();
+  void updateScore(bool correct) {
+    var percentageTime = timeRemaining / timeTotal;
+    double factor = 1.0;
+    if (percentageTime.abs() < 1e-6) {
+      factor = 0.25;
+    } else if (percentageTime <= 1 / 3) {
+      factor = 0.50;
+    } else if (percentageTime <= 2 / 3) {
+      factor = 0.75;
     }
+    double delta = factor * activeExercise!.exerciseData!.score.toDouble();
+    if (correct == false) {
+      delta = -delta;
+    }
+    scoreNEW += delta;
+    //checkGameOver();
   }
+
+  //void checkGameOver() {
+  // TODO
+  // if (score < 0) {
+  //   eventState = EventDataState.gameOver;
+  //   stop();
+  // }
+  //}
 
   void switchExercise(bool correct) {
     jokerActive5050 = false;
 
-    if (correct == false && activeExercise != null) {
-      exercisePipeline.add(activeExercise!);
-    }
+    // if (correct == false && activeExercise != null) {
+    //   exercisePipeline.add(activeExercise!);
+    // }
 
-    if (exercisePipeline.isEmpty) {
-      if (score < 0.5) {
-        exercisePipeline.addAll(allExercises);
-      } else {
+    // if (exercisePipeline.isEmpty) {
+    //   if (score < 0.5) {
+    //     exercisePipeline.addAll(allExercises);
+    //   } else {
+    //     eventState = EventDataState.success;
+    //     level.progress = 1.0;
+    //     level.chapter.saveUserData();
+    //     level.chapter.course.saveUserData();
+    //     stop();
+    //   }
+    // } else {
+    //   activeExercise = exercisePipeline.removeAt(0);
+    // }
+
+    // TODO: check end!!!!!
+    if (activeExerciseIdx < allExercises.length - 1) {
+      activeExerciseIdx++;
+      activeExercise = allExercises[activeExerciseIdx];
+    } else {
+      stop();
+      if (scoreNEW + 1e-6 >= 0) {
         eventState = EventDataState.success;
         level.progress = 1.0;
         level.chapter.saveUserData();
         level.chapter.course.saveUserData();
-        stop();
+      } else {
+        eventState = EventDataState.gameOver;
       }
-    } else {
-      activeExercise = exercisePipeline.removeAt(0);
     }
 
     if (activeExercise != null) {

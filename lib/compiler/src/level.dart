@@ -461,13 +461,13 @@ void parseLevelBlock(Block block, Compiler compiler, MbclLevel level,
             "CHOICE_ALIGNMENT",
             "DISABLE_RETRY",
             "TIME",
-            "SCORES",
+            "SCORE",
             "INSTANCES"
           ]);
           data.disableRetry =
               getAttributeBool(block.attributes, "DISABLE_RETRY", false);
           data.time = getAttributeInt(block.attributes, "TIME", -1);
-          data.scores = getAttributeInt(block.attributes, "SCORES", 1);
+          data.score = getAttributeInt(block.attributes, "SCORE", 1);
           data.staticOrder = getAttributeString(block.attributes, "ORDER",
                   ["static", "shuffled"], "shuffled") ==
               "static";

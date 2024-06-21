@@ -93,13 +93,15 @@ class EventState extends State<EventWidget> {
     }
 
     // score-line
+    var percentage = widget.eventData.getPercentage();
+    //widget.eventData.score
     page.add(Padding(
         padding: EdgeInsets.only(left: 8, right: 8),
         child: Container(
             alignment: Alignment.center,
             child: CustomPaint(
-                size: Size(screenWidth, 50),
-                painter: EventPainter(20, true, widget.eventData.score)))));
+                size: Size(screenWidth, 30),
+                painter: EventPainter(22, true, percentage)))));
 
     // remaining time
     var timePercentage =
@@ -109,8 +111,9 @@ class EventState extends State<EventWidget> {
         child: Container(
             alignment: Alignment.center,
             child: CustomPaint(
-                size: Size(screenWidth, 50),
-                painter: EventPainter(8, false, timePercentage)))));
+                size: Size(screenWidth, 40),
+                painter: EventPainter(10, false, timePercentage)))));
+    page.add(Text(" "));
 
     // jokers
     List<Widget> jokerTexts = [
@@ -334,8 +337,10 @@ class EventState extends State<EventWidget> {
                             widget.eventData.incorrectAnswers++;
                           }
                           widget.eventData.updateScore(correct);
-                          renderFeedbackOverlay(this, correct,
-                              textOpacity: 1.0, backgroundOpacity: 0.7);
+                          renderFeedbackOverlay(
+                            this,
+                            correct,
+                          );
                           widget.eventData.switchExercise(correct);
                           exerciseData.feedback =
                               MbclExerciseFeedback.unchecked;
@@ -408,7 +413,8 @@ class EventState extends State<EventWidget> {
 
     return Scaffold(
       appBar: buildAppBar(
-          true, levelPartIcons, false, this, context, widget.course),
+          true, levelPartIcons, false, this, context, widget.course,
+          hideSettings: true),
       body: body,
       backgroundColor: Colors.black,
       //bottomSheet: bottomArea,

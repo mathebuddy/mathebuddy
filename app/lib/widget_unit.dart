@@ -105,7 +105,10 @@ class UnitState extends State<UnitWidget> {
     for (var level in unit.levels) {
       if (level.fileId == "final") continue;
       for (var req in level.requires) {
-        if (unit.levelFileIDs.contains(req.fileId) == false) continue;
+        if (unit.levelFileIDs.contains(req.fileId) == false) {
+          // levels of other units are NOT displayed here
+          continue;
+        }
         unitEdges.addEdge(
             level.screenPosX + tileWidth / 2,
             level.screenPosY + tileHeight / 2,
@@ -197,6 +200,17 @@ class UnitState extends State<UnitWidget> {
                   level.visited = true;
                   widget.chapter.saveUserData();
                   setState(() {});
+                } else {
+                  // if a level is locked and there are requirements of another
+                  // unit, inform the user
+                  for (var req in level.requires) {
+                    if (unit.levelFileIDs.contains(req.fileId) == false) {
+                      // TODO: English / German
+                      var levelTitle = req.title.split("///")[0].trim();
+                      var msg = "Level '$levelTitle' aus vorheriger Unit fehlt";
+                      renderLevelOtherUnitOverlay(this, context, msg);
+                    }
+                  }
                 }
               },
               child: Container(
@@ -213,8 +227,8 @@ class UnitState extends State<UnitWidget> {
                             blurRadius: 1.5,
                             offset: Offset(0.5, 0.5)),
                       ],
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(tileWidth * 0.175))),
+                      borderRadius: BorderRadius.all(Radius.circular(
+                          getStyle().tileRadius /*tileWidth * 0.175*/))),
                   child: content))));
 
       if (!unlockAllLevels && level.isLocked()) {
@@ -345,4 +359,41 @@ class UnitState extends State<UnitWidget> {
       backgroundColor: Colors.white,
     );
   }
+}
+
+void renderLevelOtherUnitOverlay(
+    State state, BuildContext buildContext, String message) {
+  // show visual feedback as overlay
+  var overlayEntry = OverlayEntry(builder: (context) {
+    var color = Colors.black;
+    return Container(
+        alignment: Alignment.center,
+        width: 200,
+        height: 200,
+        child: Opacity(
+            opacity: 0.99,
+            child: Container(
+                decoration:
+                    BoxDecoration(color: Colors.white.withOpacity(0.85)),
+                child: DefaultTextStyle(
+                    style: TextStyle(fontSize: 48, color: color),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Center(
+                            child: Text(
+                          message,
+                        ))
+                      ],
+                    )))));
+  });
+  Overlay.of(buildContext).insert(overlayEntry);
+  // ignore: invalid_use_of_protected_member
+  state.setState(() {});
+  Future.delayed(const Duration(milliseconds: 1000), () {
+    overlayEntry.remove();
+    // ignore: invalid_use_of_protected_member
+    //state.setState(() {});
+  });
 }

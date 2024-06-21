@@ -1,3 +1,21 @@
+EXERCISE Addition  @ex:add
+    INSTANCES=2
+    SCORE=3
+    TIME=10
+    CODE
+        x/y = rand(1, 5)
+        z = x + y
+        u/v = rand(10, 20)
+        w = u + v
+    - Calculate $ x + y = $ #z.
+    - Calculate $ u + v = $ #w.
+
+
+
+!STOP
+
+
+
 Intro
 ##########
 

@@ -25,7 +25,7 @@ class EventPainter extends CustomPainter {
     var width = size.width;
 
     Color color =
-        percentage >= 0.2 ? Style().matheBuddyGreen : Style().matheBuddyRed;
+        percentage >= 0.5 ? Style().matheBuddyGreen : Style().matheBuddyRed;
 
     paint.color = const Color.fromARGB(255, 66, 66, 66);
     paint.strokeWidth = strokeWidth;
@@ -38,8 +38,8 @@ class EventPainter extends CustomPainter {
     canvas.drawLine(Offset(0, 25), Offset(percentage * width, 25), paint);
 
     if (middleLine) {
-      paint.color = const Color.fromARGB(255, 145, 145, 145);
-      paint.strokeWidth = 3.0;
+      paint.color = Colors.white;
+      paint.strokeWidth = 4.0;
       paint.strokeCap = StrokeCap.round;
       canvas.drawLine(Offset(width / 2, 10), Offset(width / 2, 40), paint);
     }

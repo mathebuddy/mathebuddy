@@ -119,6 +119,7 @@ class MbclLevel {
   }
 
   bool isLocked() {
+    if (progress > 0) return false;
     if (requires.isEmpty) {
       return false;
     }

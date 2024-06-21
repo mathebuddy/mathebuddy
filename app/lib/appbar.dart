@@ -17,13 +17,9 @@ import 'package:mathebuddy/widget_chat.dart';
 import 'package:mathebuddy/widget_load.dart';
 import 'package:mathebuddy/widget_settings.dart';
 
-AppBar buildAppBar(
-    bool showAppLogo,
-    List<Widget> additionalButtons,
-    bool showChatButton,
-    State state,
-    BuildContext context,
-    MbclCourse? course) {
+AppBar buildAppBar(bool showAppLogo, List<Widget> additionalButtons,
+    bool showChatButton, State state, BuildContext context, MbclCourse? course,
+    {hideSettings = false}) {
   var iconSize = 36.0;
 
   List<Widget> debugButtons = [];
@@ -125,7 +121,7 @@ AppBar buildAppBar(
   List<Widget> actions = [];
 
   // settings button
-  if (showChatButton == false) {
+  if (hideSettings == false) {
     actions.add(IconButton(
         onPressed: () {
           var route = MaterialPageRoute(builder: (context) {
@@ -146,11 +142,28 @@ AppBar buildAppBar(
   actions.add(Text(' '));
   var actionHome = IconButton(
     onPressed: () {
+      while (Navigator.canPop(state.context)) {
+        if (course != null) {
+          renderGotAwardOverlay(course, state, context);
+        }
+        Navigator.pop(state.context);
+        keyboardState.layout = null;
+      }
+    },
+    icon: Icon(Icons.home,
+        size: iconSize,
+        color: Navigator.canPop(state.context)
+            ? getStyle().appbarIconActiveColor
+            : getStyle().appbarIconInactiveColor),
+  );
+  // back button
+  actions.add(Text(' '));
+  var actionBack = IconButton(
+    onPressed: () {
       if (Navigator.canPop(state.context)) {
         if (course != null) {
           renderGotAwardOverlay(course, state, context);
         }
-
         Navigator.pop(state.context);
         keyboardState.layout = null;
       }
@@ -161,6 +174,7 @@ AppBar buildAppBar(
             ? getStyle().appbarIconActiveColor
             : getStyle().appbarIconInactiveColor),
   );
+  // chat button
   if (showChatButton && course != null) {
     actions.add(IconButton(
         onPressed: () {
@@ -179,6 +193,7 @@ AppBar buildAppBar(
   }
   //actions.add(Text(' '));
   actions.add(actionHome);
+  actions.add(actionBack);
   actions.add(Text('  '));
 
   return AppBar(

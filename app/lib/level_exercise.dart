@@ -85,7 +85,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
   if (debugMode) {
     // show random instances, scores, time
     var text = "\u2684 ${exerciseData.numInstances}"
-        "   \u2211 ${exerciseData.scores}";
+        "   \u2211 ${exerciseData.score}";
     if (exerciseData.time >= 0) {
       text += "   \u231b${exerciseData.time}";
     }
@@ -151,7 +151,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
     onTap: () async {
       evaluateExercise(state, level, exerciseData);
       var correct = exerciseData.feedback == MbclExerciseFeedback.correct;
-      renderFeedbackOverlay(state, correct, backgroundOpacity: 0.95);
+      renderFeedbackOverlay(state, correct);
       if (!level.course.muteAudio) {
         appAudio.play(
             correct ? AppAudioId.passedExercise : AppAudioId.failedExercise);
@@ -274,8 +274,10 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
           children: widgets));
 }
 
-void renderFeedbackOverlay(State state, bool success,
-    {textOpacity = 0.75, backgroundOpacity = 0.0}) {
+void renderFeedbackOverlay(
+  State state,
+  bool success,
+) {
   // show visual feedback as overlay
   //if (debugMode == false) {
   var overlayEntry = OverlayEntry(builder: (context) {
@@ -287,10 +289,10 @@ void renderFeedbackOverlay(State state, bool success,
         width: 200,
         height: 200,
         child: Opacity(
-            opacity: textOpacity,
+            opacity: 1,
             child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(backgroundOpacity)),
+                decoration:
+                    BoxDecoration(color: Colors.white.withOpacity(0.85)),
                 child: DefaultTextStyle(
                     style: TextStyle(fontSize: 64, color: color),
                     child: Column(

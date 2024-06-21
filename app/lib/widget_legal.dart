@@ -71,6 +71,13 @@ class LegalState extends State<LegalWidget> {
       contents.add(text);
     }
 
+    // link to privacy polity
+    contents.add(Container(
+      height: 40,
+    ));
+    contents.add(Center(
+        child: Text("https://mathebuddy.github.io/mathebuddy/privacy.html")));
+
     // page body
     var body = SingleChildScrollView(
         physics: BouncingScrollPhysics(

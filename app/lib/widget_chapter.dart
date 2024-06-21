@@ -134,7 +134,8 @@ class ChapterState extends State<ChapterWidget> {
               //height: 200,
               margin: EdgeInsets.all(2.0),
               decoration: BoxDecoration(
-                  color: color, borderRadius: BorderRadius.circular(8.0)),
+                  color: color,
+                  borderRadius: BorderRadius.circular(getStyle().tileRadius)),
               child: content,
             )),
       );

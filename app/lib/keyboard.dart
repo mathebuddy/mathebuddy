@@ -167,9 +167,12 @@ class Keyboard {
         keyboardInputFieldData = keyboardState.inputFieldData!;
 
   Widget generateWidget() {
+    var wideScreen = false;
+
     var screenWidth = MediaQuery.of(state.context).size.width;
     if (screenWidth > maxContentsWidth) {
       screenWidth = maxContentsWidth;
+      wideScreen = true;
     }
 
     var keyWidth = screenWidth < 350 ? 45.0 : 55.0;
@@ -251,8 +254,7 @@ class Keyboard {
         child: GestureDetector(
             onTapDown: (TapDownDetails d) {
               // tap to change cursor position
-              var x = d.globalPosition.dx;
-              //print("x=$x");
+              var x = d.localPosition.dx;
               var newCursorPos =
                   ((x - (screenWidth - charWidth * studentValue.length) / 2) /
                           charWidth)
@@ -393,6 +395,10 @@ class Keyboard {
         },
         child: Container(
             decoration: BoxDecoration(
+              borderRadius: wideScreen
+                  ? BorderRadius.only(
+                      topLeft: Radius.circular(6), topRight: Radius.circular(6))
+                  : null,
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,

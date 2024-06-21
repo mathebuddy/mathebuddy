@@ -149,7 +149,7 @@ class ChatState extends State<ChatWidget> {
   List<InlineSpan> generateParagraph(MbclLevelItem paragraph) {
     List<InlineSpan> res = [];
     for (var item in paragraph.items) {
-      res.add(generateParagraphItem(LevelState(), item, color: Colors.black));
+      res.add(generateParagraphItem(this, item, color: Colors.black));
     }
     return res;
   }
@@ -315,6 +315,7 @@ class ChatState extends State<ChatWidget> {
             }
           }
         }
+        levelName = levelName.split("///")[0].trim(); // TODO: switch language
         var gotoLevelBtn = ChatMessage(
             ChatMessageType.userButton, "Gehe zu Level \"$levelName\"");
         gotoLevelBtn.action = () {
@@ -346,14 +347,23 @@ class ChatState extends State<ChatWidget> {
         }
       }
       if (evalSuccess == false) {
+        // TODO: English
         List<String> answers = [
           "Leider kann ich Dir nicht helfen :(",
           "Deine Eingabe verstehe ich nicht.",
-          "Sorry, das kann ich monentan noch nicht verstehen. Ich werde demnächst besser!!"
+          "Sorry, das kann ich momentan noch nicht verstehen. Ich werde demnächst besser!!"
         ];
         answer = answers[Random().nextInt(answers.length)];
       }
       chatHistory.add(ChatMessage(ChatMessageType.botMessage, answer));
+
+      // List<String> answers = [
+      //   "Ich agiere nur als Index.",
+      //   "Gib bitte einen Suchbegriff ein.",
+      //   "Versuche es bitte mit einem anderen Suchbegriff.",
+      // ];
+      // var answer = answers[Random().nextInt(answers.length)];
+      // chatHistory.add(ChatMessage(ChatMessageType.botMessage, answer));
     }
     // add a new user text field
     pushTextInputField();

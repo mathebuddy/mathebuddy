@@ -66,6 +66,10 @@ class SettingsState extends State<SettingsWidget> {
       // boxChildren.add(Center(child: chapterTitle));
 
       var checkboxUnlockAll = CheckboxListTile(
+          checkColor:
+              widget.course!.unlockAll == false ? Colors.white : Colors.black,
+          activeColor: Colors.white,
+          hoverColor: Colors.grey,
           title: Text(
             language == "en"
                 ? "Unlock all levels (this setting is NOT recommended from a didactic point of view)"
@@ -80,6 +84,10 @@ class SettingsState extends State<SettingsWidget> {
           controlAffinity: ListTileControlAffinity.leading);
       boxChildren.add(checkboxUnlockAll);
       var checkboxMuteAudio = CheckboxListTile(
+          checkColor:
+              widget.course!.muteAudio == false ? Colors.white : Colors.black,
+          activeColor: Colors.white,
+          hoverColor: Colors.grey,
           title: Text(
             language == "en"
                 ? "Mute audio feedback"
@@ -133,7 +141,8 @@ class SettingsState extends State<SettingsWidget> {
                     children: contents))));
 
     return Scaffold(
-        appBar: buildAppBar(true, [], true, this, context, widget.course),
+        appBar: buildAppBar(true, [], true, this, context, widget.course,
+            hideSettings: true),
         body: body,
         backgroundColor: Colors.white);
   }

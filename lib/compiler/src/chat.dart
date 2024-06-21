@@ -46,7 +46,8 @@ class ChatInformationRetrieval {
     for (var subItem in item.items) {
       switch (subItem.type) {
         case MbclLevelItemType.paragraph:
-          p.items.addAll(subItem.items);
+          var languageIndex = 0; // TODO!!
+          p.items.addAll(filterLanguage2(subItem.items, languageIndex));
           break;
         case MbclLevelItemType.equation:
           var data = subItem.equationData!;
