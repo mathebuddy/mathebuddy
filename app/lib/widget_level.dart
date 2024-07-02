@@ -34,8 +34,7 @@ class LevelWidget extends StatefulWidget {
   final MbclLevel level;
   bool isHelpLevel = false;
 
-  LevelWidget(this.course, this.chapter, this.unit, this.level, {Key? key})
-      : super(key: key) {
+  LevelWidget(this.course, this.chapter, this.unit, this.level, {super.key}) {
     isHelpLevel = level.fileId == "help";
     if (isHelpLevel == false) {
       course.lastVisitedChapter = chapter;
@@ -210,14 +209,6 @@ class LevelState extends State<LevelWidget> {
     if (!debugMode && level.numParts != 0) {
       levelPartIcons = generateLevelPartIcons(this, level);
     }
-    // var body = Column(children: [
-    //   Container(
-    //       margin: EdgeInsets.only(top: 0),
-    //       child: Column(children: navBar == null ? [] : [navBar])),
-    //   Expanded(child: scrollView!)
-    // ]);
-
-    //var body = Expanded(child: scrollView!);
     var body = scrollView!;
 
     Widget bottomArea = Text('');
@@ -264,9 +255,6 @@ List<Widget> generateLevelPartIcons(State state, MbclLevel level) {
               ? selectedColor.withOpacity(0.33)
               : unselectedColor.withOpacity(0.33),
         ),
-
-        //color: Color.fromARGB(10, 100, 100, 100),
-
         child: GestureDetector(
             onTap: () {
               level.currentPart = i;
@@ -279,16 +267,7 @@ List<Widget> generateLevelPartIcons(State state, MbclLevel level) {
                     level.currentPart == i ? selectedColor : unselectedColor)));
     icons.add(Padding(
         padding: EdgeInsets.only(left: 3.0, right: 3.0, bottom: 0.0),
-        child: Container(
-
-            // decoration: BoxDecoration(
-            //     border: Border(
-            //         bottom: BorderSide(
-            //             width: 2.0,
-            //             color: level.currentPart != i
-            //                 ? selectedColor
-            //                 : unselectedColor))),
-            child: icon)));
+        child: Container(child: icon)));
   }
   // panel
   // TODO: animate progress controller
@@ -300,39 +279,6 @@ List<Widget> generateLevelPartIcons(State state, MbclLevel level) {
 
   //return Container(color: Colors.black, child: Column(children: icons));
   return icons;
-
-  // TODO: reenable displaying level progress????
-
-  // return Column(children: [
-  //   LinearProgressIndicator(
-  //     backgroundColor: Colors.grey.withOpacity(0.25),
-  //     value: progress,
-  //     valueColor: AlwaysStoppedAnimation(getStyle().matheBuddyGreen),
-  //     minHeight: 4,
-  //   ),
-  //   Container(
-  //       margin:
-  //           //EdgeInsets.only(left: 5.0, right: 5.0, bottom: 8.0, top: 10),
-  //           EdgeInsets.only(left: 0.0, right: 0.0, bottom: 0.0, top: 0),
-  //       padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
-  //       decoration: BoxDecoration(
-  //           color: Colors.black.withOpacity(0.85),
-  //           //border: Border.all(width: 20),
-  //           border: Border(
-  //               //top: BorderSide(width: 0.75, color: Colors.black54),
-  //               bottom: BorderSide(
-  //                   width: 0.85, color: Colors.black.withOpacity(0.125))),
-  //           //borderRadius: BorderRadius.circular(11),
-  //           boxShadow: [
-  //             BoxShadow(
-  //                 color: Colors.grey.withOpacity(0.18),
-  //                 spreadRadius: 1,
-  //                 blurRadius: 5,
-  //                 offset: Offset(1, 3))
-  //           ]),
-  //       child:
-  //           Row(mainAxisAlignment: MainAxisAlignment.center, children: icons))
-  // ]);
 }
 
 Widget generateLevelBottomNavigationBar(State state, MbclLevel level,
@@ -363,11 +309,8 @@ Widget generateLevelBottomNavigationBar(State state, MbclLevel level,
                     bottomRight: Radius.circular(20),
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20))),
-            child: Icon(
-                MdiIcons.fromString(
-                    "chevron-left" /*"arrow-left-bold-box-outline"*/),
-                size: bottomNavBarIconSize,
-                color: bottomNavBarIconColor))));
+            child: Icon(MdiIcons.fromString("chevron-left"),
+                size: bottomNavBarIconSize, color: bottomNavBarIconColor))));
   }
   // right
   if (level.numParts > 0) {
@@ -393,11 +336,8 @@ Widget generateLevelBottomNavigationBar(State state, MbclLevel level,
                       bottomRight: Radius.circular(20),
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
-              child: Icon(
-                  MdiIcons.fromString(
-                      "chevron-right" /*"arrow-right-bold-box-outline"*/),
-                  size: bottomNavBarIconSize,
-                  color: bottomNavBarIconColor))));
+              child: Icon(MdiIcons.fromString("chevron-right"),
+                  size: bottomNavBarIconSize, color: bottomNavBarIconColor))));
     } else {
       buttons.add(Text('  '));
       buttons.add(GestureDetector(
@@ -433,23 +373,16 @@ Widget generateLevelBottomNavigationBar(State state, MbclLevel level,
   // output
   var screenWidth = MediaQuery.of(context).size.width;
   if (screenWidth > maxContentsWidth) screenWidth = maxContentsWidth;
-  return //Padding(
-      //padding: EdgeInsets.only(left: screenWidth - 300),
-      //child:
-      Container(
-          alignment: Alignment.bottomRight,
-          child: SizedBox(
-              height: 65,
-              width: 150,
-              child: Container(
-                  // decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(50),
-                  //     color: const Color.fromARGB(100, 235, 235, 235)),
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: buttons,
-              ))));
+  return Container(
+      alignment: Alignment.bottomRight,
+      child: SizedBox(
+          height: 65,
+          width: 150,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: buttons,
+          )));
 }
 
 Widget generateLevelPath(String text) {

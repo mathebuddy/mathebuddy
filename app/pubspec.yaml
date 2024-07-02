@@ -51,6 +51,7 @@ flutter:
     - assets/img/logo-large-en.png
     - assets/img/logo-large-de.png
     - assets/img/logo-large-no-text.png
+    - assets/img/background.jpg
     - assets/bundle-alpha.json
     - assets/bundle-debug.json
     - assets/bundle-smoke.json

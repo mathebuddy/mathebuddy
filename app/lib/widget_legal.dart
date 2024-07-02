@@ -19,7 +19,7 @@ import 'package:mathebuddy/style.dart';
 class LegalWidget extends StatefulWidget {
   final MbclCourse? course;
 
-  const LegalWidget.LegalWidget(this.course, {Key? key}) : super(key: key);
+  LegalWidget(this.course, {super.key});
 
   @override
   State<LegalWidget> createState() {

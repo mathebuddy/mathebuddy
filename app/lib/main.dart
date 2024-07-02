@@ -19,7 +19,7 @@ import 'package:mathebuddy/color.dart';
 
 var showDebugReleaseSwitch = true;
 var debugMode = true;
-var language = 'en';
+var language = 'de'; // 'en';
 
 BuildContext? levelBuildContext;
 

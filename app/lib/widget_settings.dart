@@ -19,7 +19,7 @@ import 'package:mathebuddy/style.dart';
 class SettingsWidget extends StatefulWidget {
   final MbclCourse? course;
 
-  const SettingsWidget(this.course, {Key? key}) : super(key: key);
+  const SettingsWidget(this.course, {super.key});
 
   @override
   State<SettingsWidget> createState() {

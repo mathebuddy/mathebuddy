@@ -135,10 +135,7 @@ AppBar buildAppBar(bool showAppLogo, List<Widget> additionalButtons,
           });
         },
         icon: Icon(MdiIcons.cogOutline,
-            size: iconSize,
-            color: Navigator.canPop(state.context)
-                ? getStyle().appbarIconActiveColor
-                : getStyle().appbarIconInactiveColor)));
+            size: iconSize, color: getStyle().appbarIconActiveColor)));
   }
   // home button
   actions.add(Text(' '));

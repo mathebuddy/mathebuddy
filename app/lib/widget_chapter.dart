@@ -26,7 +26,7 @@ class ChapterWidget extends StatefulWidget {
   final MbclCourse course;
   final MbclChapter chapter;
 
-  ChapterWidget(this.course, this.chapter, {Key? key}) : super(key: key) {
+  ChapterWidget(this.course, this.chapter, {super.key}) {
     course.saveUserData();
   }
 

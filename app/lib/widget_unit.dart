@@ -37,8 +37,7 @@ class UnitWidget extends StatefulWidget {
   final MbclChapter chapter;
   final MbclUnit unit;
 
-  UnitWidget(this.course, this.chapter, this.unit, {Key? key})
-      : super(key: key) {
+  UnitWidget(this.course, this.chapter, this.unit, {super.key}) {
     course.saveUserData();
   }
 

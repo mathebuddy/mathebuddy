@@ -35,8 +35,7 @@ class EventWidget extends StatefulWidget {
   final MbclLevel level;
   final EventData eventData;
 
-  EventWidget(this.course, this.level, this.eventData, {Key? key})
-      : super(key: key) {
+  EventWidget(this.course, this.level, this.eventData, {super.key}) {
     course.saveUserData();
   }
 
@@ -171,24 +170,22 @@ class EventState extends State<EventWidget> {
                         child: buttonText),
                   )))));
     }
-    page.add(Container(
-        //color: Colors.pink,
-        child: SizedBox(
-            width: screenWidth, height: 50, child: Stack(children: buttons))));
+    page.add(SizedBox(
+        width: screenWidth, height: 50, child: Stack(children: buttons)));
 
     // exercise or game over
     if (widget.eventData.eventState == EventDataState.init) {
       var infoDE = [
-        "Dies ist ein Event-Level. Es kommt beim Lösen der Aufgaben auf die Zeit an.",
-        "Der obere Balken zeigt den Highscore. Löst Du eine Aufgabe richtig, so erhöht sich dieser Balken. Andernfalls verringert er sich. High Risk / High Impact: Je schneller Du die Lösung auswählst, umso größer ist die Auswirkung auf Deinen Highscore.",
-        "Der zweite Balken zeigt die verbleibende Zeit an.",
-        "Dir stehen einige Joker zur Verfügung. Diese kannst Du per Button anwenden."
+        "Im folgenden Level ist deine Schnelligkeit gefragt. Je schneller du richtig antwortest, desto mehr Punkte erhältst du. Aber Vorsicht, bei falscher Antwort verlierst du so auch mehr Punkte.",
+        "Dein Ziel ist es, am Ende über der mittleren Linie des ersten Balkens zu bleiben. Der zweite Balken zeigt dir deine verbleibende Zeit an.",
+        "Dir stehen außerdem einige Joker zur Verfügung. Diese kannst du per Button anwenden.",
+        "Viel Erfolg!"
       ];
       var infoEN = [
-        "This is an event level. Time is of the essence when solving the tasks.",
-        "The upper bar shows the high score. If you solve a task correctly, this bar increases. Otherwise it decreases. High Risk / High Impact: The faster you select the solution, the greater the impact on your high score.",
-        "The second bar shows the remaining time.",
-        "You have several jokers at your disposal. You can use these with the button."
+        "In the following level, your speed is crucial. The faster you answer correctly, the more points you will earn. But be careful, with a wrong answer, you will also lose more points.",
+        "Your goal is to stay above the middle line of the first bar by the end. The second bar shows your remaining time.",
+        "You also have some jokers available. You can use them by pressing the button.",
+        "Good luck!"
       ];
       var info = language == "de" ? infoDE : infoEN;
 

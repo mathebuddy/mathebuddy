@@ -29,7 +29,7 @@ import 'package:mathebuddy/mbcl/src/level_item.dart';
 class ChatWidget extends StatefulWidget {
   final MbclCourse course;
 
-  const ChatWidget(this.course, {Key? key}) : super(key: key);
+  const ChatWidget(this.course, {super.key});
 
   @override
   State<ChatWidget> createState() => ChatState();

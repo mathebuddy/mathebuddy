@@ -19,7 +19,7 @@ import 'package:mathebuddy/style.dart';
 class ProgressWidget extends StatefulWidget {
   final MbclCourse course;
 
-  const ProgressWidget(this.course, {Key? key}) : super(key: key);
+  const ProgressWidget(this.course, {super.key});
 
   @override
   State<ProgressWidget> createState() {

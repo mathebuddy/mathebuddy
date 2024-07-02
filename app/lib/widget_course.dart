@@ -35,7 +35,7 @@ import 'package:mathebuddy/widget_unit.dart';
 class CourseWidget extends StatefulWidget {
   final MbclCourse course;
 
-  const CourseWidget(this.course, {Key? key}) : super(key: key);
+  const CourseWidget(this.course, {super.key});
 
   @override
   State<CourseWidget> createState() {
@@ -46,7 +46,6 @@ class CourseWidget extends StatefulWidget {
 class CourseState extends State<CourseWidget> {
   @override
   void initState() {
-    // TODO: setState should only be called ONCE after all loadings
     super.initState();
     widget.course.loadUserData().then((value) {
       for (var chapter in widget.course.chapters) {
@@ -69,10 +68,6 @@ class CourseState extends State<CourseWidget> {
       var chapter = widget.course.chapters[i];
       Color color = Style().matheBuddyRed;
       var cellColor = Colors.white;
-      /*if (chapter.progress > 0) {
-        color = Style().matheBuddyYellow;
-        //cellColor = Colors.black;
-      }*/
       if (chapter.progress > 0) {
         color = Style().matheBuddyYellow;
       }
@@ -110,9 +105,6 @@ class CourseState extends State<CourseWidget> {
                 ]))
               ])));
       tableCells.add(TableCell(
-        //verticalAlignment: (i % 2) == 1
-        //    ? TableCellVerticalAlignment.fill
-        //    : TableCellVerticalAlignment.top,
         child: GestureDetector(
             onTap: () {
               var route = MaterialPageRoute(builder: (context) {
@@ -123,7 +115,6 @@ class CourseState extends State<CourseWidget> {
               });
             },
             child: Container(
-                //height: 140, // TODO: 1 vs 2 rows of text
                 margin: EdgeInsets.all(2.0),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -216,7 +207,7 @@ class CourseState extends State<CourseWidget> {
           // open event level
           var level = widget.course.suggestGame();
           if (level == null) {
-            // TODO!!
+            // TODO: message!!
           } else {
             var route = MaterialPageRoute(builder: (context) {
               return EventWidget(widget.course, level, EventData(level));
@@ -312,7 +303,7 @@ class CourseState extends State<CourseWidget> {
     var bottomLogos = GestureDetector(
         onTap: () {
           var route = MaterialPageRoute(builder: (context) {
-            return LegalWidget.LegalWidget(widget.course);
+            return LegalWidget(widget.course);
           });
           Navigator.push(context, route).then((value) {
             setState(() {});
@@ -351,7 +342,16 @@ class CourseState extends State<CourseWidget> {
 
     return Scaffold(
       appBar: buildAppBar(false, [], false, this, context, widget.course),
-      body: body,
+      body: Stack(children: [
+        Opacity(
+            opacity: 0.035,
+            child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/img/background.jpg"),
+                        fit: BoxFit.cover)))),
+        body
+      ]),
       backgroundColor: Colors.white,
       bottomNavigationBar: bottomLogos,
     );

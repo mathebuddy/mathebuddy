@@ -95,7 +95,6 @@ InlineSpan generateParagraphItem(State state, MbclLevelItem item,
         List<InlineSpan> gen = [];
         var colorKey = int.parse(item.id);
         var colors = [
-          // TODO
           Colors.black,
           getStyle().matheBuddyRed,
           getStyle().matheBuddyYellow,

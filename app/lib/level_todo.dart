@@ -21,14 +21,13 @@ Widget generateTodo(State state, MbclLevel level, MbclLevelItem item,
     Padding(
         padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
         child: Row(children: [
-          Text(' '), // TODO: use padding instead of Text(' ')
+          Text(' '),
           Icon(
             Icons.build,
             size: 50.0,
             color: Colors.white,
           ),
           Text(' '),
-          // TODO: wrap does not work:
           Flexible(
               child: Text(item.title,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)))
@@ -38,7 +37,9 @@ Widget generateTodo(State state, MbclLevel level, MbclLevelItem item,
   var text = "";
   try {
     text = item.items[0].items[0].text;
-  } catch (e) {}
+  } catch (e) {
+    //
+  }
   list.add(Container(
       margin: EdgeInsets.only(left: 5, right: 5),
       child: RichText(
