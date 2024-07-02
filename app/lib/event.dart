@@ -108,10 +108,15 @@ class EventData {
       timeRemaining -= 0.5;
       if (timeRemaining <= 0) {
         timer!.cancel();
+
+        eventState = EventDataState.gameOver;
+        stop();
+
         // TODO score -= 0.2;
         // checkGameOver();
         // renderFeedbackOverlay(state, false);
         // switchExercise(false);
+        //eventState = EventDataState.gameOver;
       }
       print("event tick ${DateTime.now().toString()}");
       print("remaining time $timeRemaining");
