@@ -4,6 +4,8 @@
 /// Author: Andreas Schwenk contact@compiler-construction.com
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 
+library mathe_buddy_app;
+
 //import 'package:mathebuddy/mbcl/src/award.dart';
 
 // TODO: this file is no longer needed!!?!

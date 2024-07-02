@@ -7,6 +7,8 @@
 
 /// This file implements audio feedback.
 
+library mathe_buddy_app;
+
 // TODO: Android-bug: https://github.com/bluefireteam/audioplayers/issues/1706
 
 import 'package:audioplayers/audioplayers.dart';

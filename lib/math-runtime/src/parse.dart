@@ -5,6 +5,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+library math_runtime;
+
 import 'dart:math' as math;
 
 import 'help.dart';

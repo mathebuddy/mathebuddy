@@ -5,17 +5,18 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+library math_runtime;
+
 import 'parse.dart';
 import 'term.dart';
 
 Map<num, Term> table = {};
 
-// TODO: extend table!
 void _createTable() {
   var parser = Parser();
 
-  var testxxx = parser.parse("1/3", splitIdentifiers: false);
-  var testyyy = testxxx.eval({});
+  //var test_xxx = parser.parse("1/3", splitIdentifiers: false);
+  //var test_yyy = test_xxx.eval({});
 
   var list = [
     "sqrt(2)/2",

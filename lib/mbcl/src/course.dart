@@ -5,6 +5,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+library mbcl;
+
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/
 
 import 'dart:convert';
@@ -182,7 +184,7 @@ class MbclCourse {
   }
 
   Future<bool> loadUserData() async {
-    print("loading course user data");
+    //print("loading course user data");
     if (checkFileIO() == false) return false;
     var path = _getFilePath();
     try {
@@ -197,7 +199,7 @@ class MbclCourse {
 
   bool saveUserData() {
     calcProgress();
-    print("saving course user data");
+    //print("saving course user data");
     if (checkFileIO() == false) return false;
     var data = progressToJSON();
     var dataStringified = JsonEncoder.withIndent("  ").convert(data);

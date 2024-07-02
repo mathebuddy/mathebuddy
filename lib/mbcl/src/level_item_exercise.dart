@@ -5,11 +5,12 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+library mbcl;
+
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/
 
 import 'package:collection/collection.dart';
 
-import 'level.dart';
 import 'level_item.dart';
 import 'level_item_input_field.dart';
 

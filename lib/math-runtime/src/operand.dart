@@ -5,6 +5,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+library math_runtime;
+
 /// NOTE: Symbolic computing is limited in the math engine.
 ///       Only constants (like PI) may have type IRRATIONAL.
 ///       All numeric computations result in type REAL instead of IRRATIONAL.

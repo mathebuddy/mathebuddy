@@ -5,12 +5,13 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+library mathe_buddy_app;
+
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/ (TODO: update link!)
 
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mathebuddy/level_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/mbcl/src/level_item.dart';
 

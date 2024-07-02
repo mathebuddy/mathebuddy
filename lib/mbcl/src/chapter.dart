@@ -5,6 +5,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+library mbcl;
+
 // refer to the specification at https://mathebuddy.github.io/mathebuddy/
 
 import 'dart:convert';
@@ -89,7 +91,7 @@ class MbclChapter {
   }
 
   Future<bool> loadUserData() async {
-    print("loading chapter user data ($fileId)");
+    //print("loading chapter user data ($fileId)");
     if (course.checkFileIO() == false) return false;
     var path = _getFilePath();
     try {
@@ -103,7 +105,7 @@ class MbclChapter {
   }
 
   bool saveUserData() {
-    print("saving chapter user data ($fileId)");
+    //print("saving chapter user data ($fileId)");
     if (course.checkFileIO() == false) return false;
     calcProgress();
     var chapterJson = progressToJSON();

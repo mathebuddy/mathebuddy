@@ -5,6 +5,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+library mathe_buddy_app;
+
 import 'package:flutter/material.dart';
 
 MaterialColor buildMaterialColor(Color color) {

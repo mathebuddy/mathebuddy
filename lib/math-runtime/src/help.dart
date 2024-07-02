@@ -5,6 +5,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+library math_runtime;
+
 bool isInteger(num x) {
   var eps = 1e-14; // TODO
   if (x != double.infinity && x != double.negativeInfinity) {

@@ -5,6 +5,8 @@
 /// Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 /// License: GPL-3.0-or-later
 
+library mathe_buddy_app;
+
 /// This file implements the level widget.
 
 import 'package:flutter/material.dart';
@@ -24,7 +26,6 @@ import 'package:mathebuddy/screen.dart';
 import 'package:mathebuddy/error.dart';
 import 'package:mathebuddy/style.dart';
 import 'package:mathebuddy/level_item.dart';
-import 'package:mathebuddy/widget_load.dart';
 
 class LevelWidget extends StatefulWidget {
   final MbclCourse course;
