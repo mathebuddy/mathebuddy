@@ -2,6 +2,10 @@
 
 Official website with simulator and playgrounds: [https://mathebuddy.github.io/mathebuddy/](https://mathebuddy.github.io/mathebuddy/)
 
+## Funding
+
+This project is funded by "FREIRAUM 2022" (Stiftung Innovation in der Hochschullehre), Germany.
+
 ## Users and Content Creators Info
 
 - If you only like to use playgrounds or test the simulator with example files, there is no need to install anything. Just visit [https://mathebuddy.github.io/mathebuddy/](https://mathebuddy.github.io/mathebuddy/)
