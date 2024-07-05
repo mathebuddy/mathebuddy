@@ -26,12 +26,12 @@ class AppAudio {
 
   /// The initialization must be triggered AFTER a button press.
   /// Otherwise, web browsers reject to play audio.
-  initAfterButtonPress() {
+  initAfterButtonPress() async {
     if (audioPlayerPass == null) {
       audioPlayerPass = AudioPlayer();
       audioPlayerFail = AudioPlayer();
-      audioPlayerPass!.setSource(AssetSource("sfx/pass.wav"));
-      audioPlayerFail!.setSource(AssetSource("sfx/fail.wav"));
+      await audioPlayerPass!.setSource(AssetSource("sfx/pass.wav"));
+      await audioPlayerFail!.setSource(AssetSource("sfx/fail.wav"));
     }
   }
 

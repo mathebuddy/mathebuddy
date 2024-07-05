@@ -87,9 +87,9 @@ do
         # [4a] build flutter android app
         cd app
         ./build-android.sh
-        rm ../../smoke/android/*.apk
-        rm ../../smoke/android/*.sha1
-        cp build/app/outputs/flutter-apk/app-arm* ../../smoke/android/
+        rm ../../alpha/android/*.apk
+        rm ../../alpha/android/*.sha1
+        cp build/app/outputs/flutter-apk/app-arm* ../../alpha/android/
         cd ..
         ;;
     4c)

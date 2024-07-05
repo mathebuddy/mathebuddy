@@ -21,7 +21,7 @@ import 'package:mathebuddy/widget_settings.dart';
 
 AppBar buildAppBar(bool showAppLogo, List<Widget> additionalButtons,
     bool showChatButton, State state, BuildContext context, MbclCourse? course,
-    {hideSettings = false}) {
+    {showSettings = false}) {
   var iconSize = 36.0;
 
   List<Widget> debugButtons = [];
@@ -123,7 +123,7 @@ AppBar buildAppBar(bool showAppLogo, List<Widget> additionalButtons,
   List<Widget> actions = [];
 
   // settings button
-  if (hideSettings == false) {
+  if (showSettings) {
     actions.add(IconButton(
         onPressed: () {
           var route = MaterialPageRoute(builder: (context) {
@@ -177,6 +177,7 @@ AppBar buildAppBar(bool showAppLogo, List<Widget> additionalButtons,
   if (showChatButton && course != null) {
     actions.add(IconButton(
         onPressed: () {
+          keyboardState.layout = null;
           var route = MaterialPageRoute(builder: (context) {
             return ChatWidget(course);
           });

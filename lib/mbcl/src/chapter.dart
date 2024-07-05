@@ -48,14 +48,27 @@ class MbclChapter {
     progress /= levels.length;
   }
 
+  double getEventsPercentage() {
+    var numTotal = 0.0;
+    var numPassed = 0.0;
+    for (var level in levels) {
+      if (level.isEvent == false) continue;
+      numTotal++;
+      if (level.progress > 0.99999) {
+        numPassed++;
+      }
+    }
+    return numPassed / numTotal;
+  }
+
   double getVisitedLevelPercentage() {
-    var v = 0;
+    var v = 0.0;
     for (var level in levels) {
       if (level.visited) {
         v++;
       }
     }
-    return v.toDouble() / levels.length.toDouble();
+    return v / levels.length.toDouble();
   }
 
   String gatherErrors() {

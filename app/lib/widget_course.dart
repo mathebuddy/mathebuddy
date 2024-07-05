@@ -341,7 +341,8 @@ class CourseState extends State<CourseWidget> {
         child: contents);
 
     return Scaffold(
-      appBar: buildAppBar(false, [], false, this, context, widget.course),
+      appBar: buildAppBar(false, [], false, this, context, widget.course,
+          showSettings: true),
       body: Stack(children: [
         Opacity(
             opacity: 0.035,

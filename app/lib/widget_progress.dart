@@ -80,7 +80,7 @@ class ProgressState extends State<ProgressWidget> {
       // chapter stats
       var progressText = chapter.getVisitedLevelPercentage();
       var progressExercises = chapter.progress;
-      var progressGames = 0.0; // TODO
+      var progressGames = chapter.getEventsPercentage();
 
       List<Color> progressColors = [
         getStyle().matheBuddyRed,

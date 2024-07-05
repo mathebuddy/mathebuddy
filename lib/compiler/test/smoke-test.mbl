@@ -1,3 +1,15 @@
+EXERCISE @ex:gaussscheZahlenebene2
+    CODE
+        z = 42
+    $(a,b)$ lässt sich in der gaußschen Zahlenebene darstellen als #z. /// $(a,b)$ can be represented in the Gaussian number plane as #z.
+
+
+
+
+!STOP
+
+
+
 EXERCISE Addition  @ex:add
     INSTANCES=2
     SCORE=3

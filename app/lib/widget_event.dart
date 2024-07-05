@@ -412,8 +412,13 @@ class EventState extends State<EventWidget> {
 
     return Scaffold(
       appBar: buildAppBar(
-          true, levelPartIcons, false, this, context, widget.course,
-          hideSettings: true),
+        true,
+        levelPartIcons,
+        false,
+        this,
+        context,
+        widget.course,
+      ),
       body: body,
       backgroundColor: Colors.black,
       //bottomSheet: bottomArea,

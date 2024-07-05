@@ -143,8 +143,14 @@ class SettingsState extends State<SettingsWidget> {
                     children: contents))));
 
     return Scaffold(
-        appBar: buildAppBar(true, [], true, this, context, widget.course,
-            hideSettings: true),
+        appBar: buildAppBar(
+          true,
+          [],
+          true,
+          this,
+          context,
+          widget.course,
+        ),
         body: body,
         backgroundColor: Colors.white);
   }

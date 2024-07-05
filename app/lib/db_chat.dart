@@ -11,7 +11,7 @@ var chatDatabaseSrc = """
   @en
     How can I help you? Give me a keyword or click on one of the red buttons.
   @de
-    Wie kann ich Dir helfen? Nenne mir ein Stichwort, oder klicke auf einen der roten Buttons.
+    Wie kann ich Dir helfen? Nenne mir ein STICHWORT, oder klicke auf einen der roten Buttons.
 
 @@likeExercise
   @en
