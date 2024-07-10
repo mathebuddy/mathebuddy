@@ -9,7 +9,7 @@ description: mathe:buddy - a gamified app for higher math
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 0.6.0+2 # must increment version + version code
+version: 0.7.1+4 # must increment version + version code
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
