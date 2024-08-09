@@ -60,6 +60,7 @@ class CourseState extends State<CourseWidget> {
   @override
   Widget build(BuildContext context) {
     widget.course.calcProgress();
+    var firstStart = widget.course.isFirstStart();
 
     List<TableRow> tableRows = [];
     List<TableCell> tableCells = [];
@@ -171,15 +172,15 @@ class CourseState extends State<CourseWidget> {
               Navigator.push(context, route).then((value) {
                 setState(() {});
               });
-              if (chapter.lastVisitedLevel != null) {
-                var level = chapter.lastVisitedLevel!;
-                var route = MaterialPageRoute(builder: (context) {
-                  return LevelWidget(widget.course, chapter, unit, level);
-                });
-                Navigator.push(context, route).then((value) {
-                  setState(() {});
-                });
-              }
+              // if (chapter.lastVisitedLevel != null) {
+              //   var level = chapter.lastVisitedLevel!;
+              //   var route = MaterialPageRoute(builder: (context) {
+              //     return LevelWidget(widget.course, chapter, unit, level);
+              //   });
+              //   Navigator.push(context, route).then((value) {
+              //     setState(() {});
+              //   });
+              // }
             }
           }
         },
@@ -286,18 +287,48 @@ class CourseState extends State<CourseWidget> {
         opacity: 0.85, child: Image.asset('assets/img/logo-large-no-text.png'));
 
     // all
-    Widget contents = Column(children: [
-      logo,
-      controlShortcuts,
-      progressShortcuts,
-      Container(
-        height: 0,
-      ),
-      chapterTable,
-      Container(
-        height: 20,
-      ),
-    ]);
+    var contentsList = [logo];
+    if (firstStart && !debugMode) {
+      // TODO: bug: loading issues!! will be shown ALWAYS
+      contentsList.add(Text(""));
+      contentsList.add(Text("WILLKOMMEN",
+          style: TextStyle(
+              fontSize: 32,
+              color: getStyle().matheBuddyGreen,
+              fontWeight: FontWeight.bold)));
+      contentsList.add(Container(
+        height: 6,
+      ));
+      contentsList.add(Text(
+          "Bist du bereit für die höhere Mathematik?\nLass uns starten!",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 24,
+              color: getStyle().matheBuddyGreen,
+              fontWeight: FontWeight.normal)));
+      contentsList.add(Text(""));
+      contentsList.add(Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              border:
+                  Border.all(color: getStyle().matheBuddyGreen, width: 3.0)),
+          child: Column(
+            children: [
+              Text("Wähle ein Kapitel aus",
+                  style: TextStyle(
+                      fontSize: 20, color: getStyle().matheBuddyGreen)),
+              chapterTable
+            ],
+          )));
+      contentsList.add(Text(""));
+    }
+    contentsList.add(controlShortcuts);
+    contentsList.add(progressShortcuts);
+    if ((firstStart && !debugMode) == false) {
+      contentsList.add(chapterTable);
+    }
+
+    Widget contents = Column(children: contentsList);
 
     var bottomColor = Color.fromARGB(35, 230, 230, 230);
     var bottomLogos = GestureDetector(

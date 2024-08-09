@@ -155,7 +155,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
       var correct = exerciseData.feedback == MbclExerciseFeedback.correct;
       renderFeedbackOverlay(state, correct);
       if (!level.course.muteAudio) {
-        appAudio.play(
+        AppAudio.play(
             correct ? AppAudioId.passedExercise : AppAudioId.failedExercise);
       }
     },
@@ -251,7 +251,7 @@ Widget generateExercise(State state, MbclLevel level, MbclLevelItem item,
   }
 
   var backgroundColor = exerciseData.feedback == MbclExerciseFeedback.unchecked
-      ? Colors.white
+      ? Colors.white.withOpacity(0.5)
       : feedbackColor.withOpacity(0.08);
 
   if (eventColorScheme) {

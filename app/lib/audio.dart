@@ -9,11 +9,7 @@
 
 library mathe_buddy_app;
 
-// TODO: Android-bug: https://github.com/bluefireteam/audioplayers/issues/1706
-
 import 'package:audioplayers/audioplayers.dart';
-
-var appAudio = AppAudio();
 
 enum AppAudioId {
   passedExercise,
@@ -21,40 +17,17 @@ enum AppAudioId {
 }
 
 class AppAudio {
-  AudioPlayer? audioPlayerPass;
-  AudioPlayer? audioPlayerFail;
-
-  /// The initialization must be triggered AFTER a button press.
-  /// Otherwise, web browsers reject to play audio.
-  initAfterButtonPress() async {
-    if (audioPlayerPass == null) {
-      audioPlayerPass = AudioPlayer();
-      audioPlayerFail = AudioPlayer();
-      await audioPlayerPass!.setSource(AssetSource("sfx/pass.wav"));
-      await audioPlayerFail!.setSource(AssetSource("sfx/fail.wav"));
-    }
-  }
-
-  void play(AppAudioId id) async {
-    if (audioPlayerPass == null || audioPlayerFail == null) {
-      print("ERROR: cannot play audio, since it was not initialized before!");
-      return;
-    }
+  static void play(AppAudioId id) async {
+    var player = AudioPlayer();
     switch (id) {
       case AppAudioId.passedExercise:
-        {
-          await audioPlayerPass!.stop();
-          await audioPlayerPass!.resume();
-          //var xx = AudioPlayer();
-          //xx.play(AssetSource("sfx/pass.wav"));
-          break;
-        }
+        await player.setSource(AssetSource("sfx/pass.wav"));
+        await player.resume();
+        break;
       case AppAudioId.failedExercise:
-        {
-          await audioPlayerFail!.stop();
-          await audioPlayerFail!.resume();
-          break;
-        }
+        await player.setSource(AssetSource("sfx/fail.wav"));
+        await player.resume();
+        break;
     }
   }
 }

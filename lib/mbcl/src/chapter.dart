@@ -48,6 +48,14 @@ class MbclChapter {
     progress /= levels.length;
   }
 
+  void resetProgress() {
+    for (var level in levels) {
+      level.resetProgress();
+      progress += level.progress;
+    }
+    calcProgress();
+  }
+
   double getEventsPercentage() {
     var numTotal = 0.0;
     var numPassed = 0.0;

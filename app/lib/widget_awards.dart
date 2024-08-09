@@ -161,7 +161,7 @@ void renderGotAwardOverlay(
     return;
   }
   if (!course.muteAudio) {
-    appAudio.play(AppAudioId.passedExercise);
+    AppAudio.play(AppAudioId.passedExercise);
   }
   // show visual feedback as overlay
   //if (debugMode == false) {

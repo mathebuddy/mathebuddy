@@ -345,7 +345,7 @@ class EventState extends State<EventWidget> {
                               MbclExerciseFeedback.unchecked;
                           setState(() {});
                           if (!level.course.muteAudio) {
-                            appAudio.play(correct
+                            AppAudio.play(correct
                                 ? AppAudioId.passedExercise
                                 : AppAudioId.failedExercise);
                           }

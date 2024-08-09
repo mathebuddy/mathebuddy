@@ -100,32 +100,6 @@ class LevelState extends State<LevelWidget> {
     if (widget.isHelpLevel == false &&
         debugMode &&
         level.isDebugLevel == false) {
-      // page.add(Text(" "));
-      // page.add(Center(
-      //     child: Opacity(
-      //         opacity: 0.8,
-      //         child: GestureDetector(
-      //             onTap: (() {
-      //               var chapterIdx =
-      //                   widget.course.chapters.indexOf(widget.chapter);
-      //               var levelIdx = widget.chapter.levels.indexOf(widget.level);
-      //               loadDebugCourse();
-      //               widget.level.fromJSON(courses[selectedCourseIdFromBundle]!
-      //                   .chapters[chapterIdx]
-      //                   .levels[levelIdx]
-      //                   .toJSON());
-      //               setState(() {});
-      //             }),
-      //             child: Container(
-      //                 decoration: BoxDecoration(
-      //                     color: Colors.green,
-      //                     borderRadius: BorderRadius.all(Radius.circular(5))),
-      //                 child: Padding(
-      //                     padding: EdgeInsets.only(
-      //                         left: 10, right: 10, top: 4, bottom: 4),
-      //                     child: Text("reload level",
-      //                         style: TextStyle(
-      //                             color: Colors.white, fontSize: 18))))))));
       page.add(Text(" "));
       page.add(Center(
           child: Opacity(
@@ -161,6 +135,29 @@ class LevelState extends State<LevelWidget> {
           page.add(Text(" "));
           page.add(Icon(MdiIcons.fromString(level.partIconIDs[part])));
         }
+
+        if (level.showTutorial && part == level.currentPart) {
+          var text = "";
+          switch (part) {
+            case 0:
+              text =
+                  "\nZum Einstieg in ein neues Level stelle ich dir zunächst eine einfache Frage.\n\n-Wähle die richtige Antwort aus und klicke zur Auswertung auf den Button 'GO'.\n\n-Mit dem Pfeil unten kannst du zur nächsten Lernseite wechseln.";
+              break;
+            case 1:
+              text =
+                  "\nAuf der zweiten Seite eines Levels erhältst du neue Informationen.";
+              break;
+            case 2:
+              text =
+                  "\nAuf der dritten (und letzten) Seite eines Levels stelle ich dir eine Abschlussfrage. Wenn du diese beantworten kannst, hast du das Wesentliche verstanden!";
+              break;
+          }
+          page.add(Padding(
+              padding: EdgeInsets.only(left: 6, right: 6),
+              child: Text(text,
+                  style: TextStyle(
+                      fontSize: 20, color: getStyle().matheBuddyGreen))));
+        }
       } else {
         // skip items that do not belong to current part
         if (!debugMode) {
@@ -168,6 +165,7 @@ class LevelState extends State<LevelWidget> {
             continue;
           }
         }
+
         // skip exercises that contain unfulfilled requirements
         var skip = false;
         if (!debugMode && item.type == MbclLevelItemType.exercise) {
@@ -232,7 +230,16 @@ class LevelState extends State<LevelWidget> {
     return Scaffold(
       appBar:
           buildAppBar(true, levelPartIcons, true, this, context, widget.course),
-      body: body,
+      body: Stack(children: [
+        Opacity(
+            opacity: 0.035,
+            child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/img/background.jpg"),
+                        fit: BoxFit.cover)))),
+        body
+      ]),
       backgroundColor: Colors.white,
       bottomSheet: bottomArea,
     );
@@ -359,11 +366,11 @@ Widget generateLevelBottomNavigationBar(State state, MbclLevel level,
                       bottomRight: Radius.circular(20),
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
-              child: Container(
-                  padding: EdgeInsets.only(left: 5, right: 5),
-                  child: Icon(MdiIcons.fromString("graph-outline"),
+              child:
+                  //padding: EdgeInsets.only(left: 5, right: 5),
+                  Icon(MdiIcons.fromString("chevron-right" /*"graph-outline"*/),
                       size: bottomNavBarIconSize,
-                      color: bottomNavBarIconColor)))));
+                      color: bottomNavBarIconColor))));
     }
   }
   // add spacing

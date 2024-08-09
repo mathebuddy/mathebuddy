@@ -120,27 +120,38 @@ class ChapterState extends State<ChapterWidget> {
                                     fontWeight: FontWeight.w400)))
                       ]))));
 
-      var cell = TableCell(
-        child: GestureDetector(
-            onTap: () {
-              if (!locked || debugMode) {
-                var route = MaterialPageRoute(builder: (context) {
-                  return UnitWidget(widget.course, widget.chapter, unit);
-                });
-                Navigator.push(context, route).then((value) {
-                  setState(() {});
-                });
-              }
-            },
-            child: Container(
-              //height: 200,
-              margin: EdgeInsets.all(2.0),
-              decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(getStyle().tileRadius)),
-              child: content,
-            )),
-      );
+      var cellContent = Container(
+          child: GestureDetector(
+              onTap: () {
+                if (!locked || debugMode) {
+                  var route = MaterialPageRoute(builder: (context) {
+                    return UnitWidget(widget.course, widget.chapter, unit);
+                  });
+                  Navigator.push(context, route).then((value) {
+                    setState(() {});
+                  });
+                }
+              },
+              child: Container(
+                //height: 200,
+                margin: EdgeInsets.all(2.0),
+                decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(getStyle().tileRadius)),
+                child: content,
+              )));
+
+      if (i == 0 && !debugMode && widget.course.isFirstStart()) {
+        cellContent = Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                border:
+                    Border.all(color: getStyle().matheBuddyGreen, width: 3.0)),
+            child: cellContent);
+      }
+
+      var cell = TableCell(child: cellContent);
+
       tableCells.add(cell);
     }
     if ((tableCells.length % 2) != 0) {
@@ -160,7 +171,16 @@ class ChapterState extends State<ChapterWidget> {
       children: tableRows,
     );
 
-    List<Widget> contents = [title, unitsTable];
+    List<Widget> contents = [title];
+
+    if (!debugMode && widget.course.isFirstStart()) {
+      contents.add(Text(
+          "Jedes Kapitel ist in sogenannte Units unterteilt.\n\nWähle die erste Unit aus:\n",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, color: getStyle().matheBuddyGreen)));
+    }
+
+    contents.add(unitsTable);
 
     if (widget.chapter.error.isNotEmpty) {
       var err = generateErrorWidget(widget.chapter.error);
@@ -178,7 +198,16 @@ class ChapterState extends State<ChapterWidget> {
 
     return Scaffold(
       appBar: buildAppBar(true, [], true, this, context, widget.course),
-      body: body,
+      body: Stack(children: [
+        Opacity(
+            opacity: 0.035,
+            child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/img/background.jpg"),
+                        fit: BoxFit.cover)))),
+        body
+      ]),
       backgroundColor: Colors.white,
     );
   }

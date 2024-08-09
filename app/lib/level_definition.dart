@@ -88,7 +88,7 @@ Widget generateDefinition(State state, MbclLevel level, MbclLevelItem item,
       //    borderRadius: BorderRadius.circular(8.0),
       //    color: Color.fromARGB(31, 192, 192, 192)),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.5),
         border: debugMode ? Border.all(width: 1.0) : null,
         //border: Border.all(width: 1.0, color: Colors.black26),
         //borderRadius: BorderRadius.circular(5),

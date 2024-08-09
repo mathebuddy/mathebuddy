@@ -294,6 +294,7 @@ class ChatState extends State<ChatWidget> {
         chatHistory.add(msg);
       }
     } else if (similarDefinitionKeywords.length == 1) {
+      text = similarDefinitionKeywords[0];
       var definition = widget.course.chat.getDefinition(text.toLowerCase());
       if (definition != null) {
         var def = ChatMessage(ChatMessageType.botMessage, "");
@@ -343,6 +344,7 @@ class ChatState extends State<ChatWidget> {
       } catch (err) {
         print(">>> ${err.toString()}");
         if (err.toString().contains("unset var")) {
+          evalSuccess = false; // TODO
           answer = "Dein Term enthält unbekannte Variablen.";
         } else {
           evalSuccess = false;

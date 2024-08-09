@@ -104,7 +104,7 @@ class SettingsState extends State<SettingsWidget> {
           controlAffinity: ListTileControlAffinity.leading);
       boxChildren.add(checkboxMuteAudio);
 
-      var box = Container(
+      var checkboxPanel = Container(
           width: double.infinity,
           decoration: BoxDecoration(
               //color: Colors.black.withOpacity(0.85),
@@ -119,13 +119,33 @@ class SettingsState extends State<SettingsWidget> {
           child: Padding(
               padding: EdgeInsets.all(20),
               child: Column(children: boxChildren)));
-      contents.add(box);
+      contents.add(checkboxPanel);
 
-      contents.add(
-        Container(
-          height: 5,
-        ),
-      );
+      contents.add(Container(height: 35));
+
+      for (var chapter in widget.course!.chapters) {
+        var eraseButton = Center(
+            child: GestureDetector(
+                onTap: () async {
+                  var doErase = await alertDialog(context, "Sicher?",
+                      "Kapitel '${chapter.title}' wirklich zurücksetzen?");
+                  if (doErase) {
+                    chapter.resetProgress();
+                  }
+                },
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: getStyle().matheBuddyRed,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "Kapitel '${chapter.title}' zurücksetzen.",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ))));
+        contents.add(eraseButton);
+      }
     }
 
     // page body
@@ -154,4 +174,35 @@ class SettingsState extends State<SettingsWidget> {
         body: body,
         backgroundColor: Colors.white);
   }
+}
+
+Future<bool> alertDialog(
+    BuildContext context, String title, String message) async {
+  Widget cancelButton = ElevatedButton(
+    child: Text("nein", style: TextStyle(color: Colors.black)),
+    onPressed: () {
+      Navigator.of(context).pop(false);
+    },
+  );
+  Widget continueButton = ElevatedButton(
+    child: Text("ja", style: TextStyle(color: Colors.red)),
+    onPressed: () {
+      Navigator.of(context).pop(true);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text(title),
+    content: Text(message),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+  final result = await showDialog<bool?>(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+  return result ?? false;
 }

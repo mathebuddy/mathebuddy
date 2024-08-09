@@ -71,7 +71,7 @@ Widget generateExample(State state, MbclLevel level, MbclLevelItem item,
       //padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.5),
         //borderRadius: BorderRadius.circular(3),
         border: debugMode ? Border.all(width: 1.0) : null,
         //border:

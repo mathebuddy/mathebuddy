@@ -41,6 +41,7 @@ class MbclLevel {
   int currentPart = 0;
   List<String> requiresTmp = [];
   bool visited = false;
+  bool showTutorial = false;
   double screenPosX = 0.0; // used in level overview
   double screenPosY = 0.0; // used in level overview
   double progress = 0.0; // percentage of correct exercises [0,1]

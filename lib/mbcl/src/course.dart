@@ -88,6 +88,10 @@ class MbclCourse {
     return candidates[idx];
   }
 
+  isFirstStart() {
+    return progress < 1e-9;
+  }
+
   setPersistence(MbclPersistence p) {
     persistence = p;
   }

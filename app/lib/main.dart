@@ -49,9 +49,16 @@ void main() {
   runApp(MaterialApp(
       title: 'mathe:buddy',
       theme: ThemeData(
-          primarySwatch: buildMaterialColor(Color(0xFFFFFFFF)),
-          bottomSheetTheme: BottomSheetThemeData(
-              backgroundColor: Colors.black.withOpacity(0.0))),
+          brightness: Brightness.light,
+          primaryColor: Colors.black,
+          buttonTheme: ButtonThemeData(
+              buttonColor: Colors.black, textTheme: ButtonTextTheme.primary)),
+      // theme: ThemeData(
+      //     buttonTheme: ButtonThemeData(
+      //         buttonColor: Colors.black, textTheme: ButtonTextTheme.primary),
+      //     primarySwatch: buildMaterialColor(Color(0xFFFFFFFF)),
+      //     bottomSheetTheme: BottomSheetThemeData(
+      //         backgroundColor: Colors.black.withOpacity(0.0))),
       home: LoadWidget(),
       debugShowCheckedModeBanner: false));
 }

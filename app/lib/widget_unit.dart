@@ -194,10 +194,11 @@ class UnitState extends State<UnitWidget> {
                           widget.course, widget.chapter, widget.unit, level);
                     }
                   });
-                  appAudio.initAfterButtonPress();
                   Navigator.push(context, route).then((value) {
                     setState(() {});
                   });
+                  level.showTutorial =
+                      !debugMode && widget.course.isFirstStart();
                   level.visited = true;
                   widget.chapter.saveUserData();
                   setState(() {});
@@ -344,19 +345,32 @@ class UnitState extends State<UnitWidget> {
                                       color: Colors.white, fontSize: 18))))))));
     }
     // create body
+    var list = [title, resetProgressBtn, allLevelsBtn, setAllExercisesOkBtn];
+    if (!debugMode && widget.course.isFirstStart()) {
+      list.add(Text(""));
+      list.add(Text(
+          "Eine Unit ist in mehrere Level unterteilt.\n\nWähle das erste Level aus:",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, color: getStyle().matheBuddyGreen)));
+    }
+    list.add(Stack(children: widgets));
+
     var body = SingleChildScrollView(
         physics: BouncingScrollPhysics(
             decelerationRate: ScrollDecelerationRate.fast),
-        child: Column(children: [
-          title,
-          resetProgressBtn,
-          allLevelsBtn,
-          setAllExercisesOkBtn,
-          Stack(children: widgets)
-        ]));
+        child: Column(children: list));
     return Scaffold(
       appBar: buildAppBar(true, [], true, this, context, widget.course),
-      body: body,
+      body: Stack(children: [
+        Opacity(
+            opacity: 0.035,
+            child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/img/background.jpg"),
+                        fit: BoxFit.cover)))),
+        body
+      ]),
       backgroundColor: Colors.white,
     );
   }

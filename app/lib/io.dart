@@ -10,6 +10,9 @@ library mathe_buddy_app;
 /// This file implements the home screen widget that contains the list of
 /// courses.
 
+/// In macOS the path is
+///   /Users/USER_ID/Library/Containers/com.example.mathebuddy/Data/Documents
+
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
