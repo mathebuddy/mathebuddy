@@ -127,6 +127,7 @@ class LevelState extends State<LevelWidget> {
     }
 
     // level items
+    var pageContainsExercise = false;
     var part = -1;
     for (var item in level.items) {
       if (item.type == MbclLevelItemType.part) {
@@ -164,6 +165,10 @@ class LevelState extends State<LevelWidget> {
           if (level.numParts > 0 && part != level.currentPart) {
             continue;
           }
+        }
+
+        if (item.type == MbclLevelItemType.exercise) {
+          pageContainsExercise = true;
         }
 
         // skip exercises that contain unfulfilled requirements
@@ -221,10 +226,12 @@ class LevelState extends State<LevelWidget> {
       page.add(bottomNavBar);
     }
 
-    // add empty lines at the end; otherwise keyboard is in the way...
-    for (var i = 0; i < 10; i++) {
-      // TODO
-      page.add(Text("\n"));
+    // in case of pages with exercises:
+    //   add empty lines at the end; otherwise keyboard is in the way...
+    if (pageContainsExercise) {
+      for (var i = 0; i < 10; i++) {
+        page.add(Text("\n"));
+      }
     }
 
     return Scaffold(

@@ -318,6 +318,7 @@ class UnitState extends State<UnitWidget> {
               child: GestureDetector(
                   onTap: (() {
                     for (var level in widget.unit.levels) {
+                      level.visited = true;
                       if (level.isEvent) {
                         level.progress = 1.0;
                       }

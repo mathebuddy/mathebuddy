@@ -141,17 +141,19 @@ class EventState extends State<EventWidget> {
               height: buttonHeight - 3,
               child: GestureDetector(
                   onTap: () {
-                    if (i == 0) {
-                      if (widget.eventData.jokerAvailable5050) {
-                        widget.eventData.applyJoker(EventDataJoker.joker5050);
+                    if (widget.eventData.eventState == EventDataState.running) {
+                      if (i == 0) {
+                        if (widget.eventData.jokerAvailable5050) {
+                          widget.eventData.applyJoker(EventDataJoker.joker5050);
+                        }
+                      } else if (i == 1) {
+                        if (widget.eventData.jokerAvailableTimePlus) {
+                          widget.eventData
+                              .applyJoker(EventDataJoker.jokerTimePlus);
+                        }
                       }
-                    } else if (i == 1) {
-                      if (widget.eventData.jokerAvailableTimePlus) {
-                        widget.eventData
-                            .applyJoker(EventDataJoker.jokerTimePlus);
-                      }
+                      setState(() {});
                     }
-                    setState(() {});
                   },
                   child: Opacity(
                     opacity: jokerAvailable ? 1.0 : 0.5,
@@ -176,15 +178,17 @@ class EventState extends State<EventWidget> {
     // exercise or game over
     if (widget.eventData.eventState == EventDataState.init) {
       var infoDE = [
-        "Im folgenden Level ist deine Schnelligkeit gefragt. Je schneller du richtig antwortest, desto mehr Punkte erhältst du. Aber Vorsicht, bei falscher Antwort verlierst du so auch mehr Punkte.",
-        "Dein Ziel ist es, am Ende über der mittleren Linie des ersten Balkens zu bleiben. Der zweite Balken zeigt dir deine verbleibende Zeit an.",
-        "Dir stehen außerdem einige Joker zur Verfügung. Diese kannst du per Button anwenden.",
+        "Im nächsten Level zählt deine Schnelligkeit.",
+        "Dein Ziel ist es, am Ende über der Mittellinie des ersten Balkens zu bleiben. Je schneller du richtig antwortest, desto mehr füllt sich der Balken - aber Vorsicht: Bei falschen Antworten verlierst du entsprechend mehr.",
+        "Der zweite Balken zeigt deine verbleibende Zeit an.",
+        "Du hast außerdem einige Joker zur Verfügung, die du per Button einsetzen kannst.",
         "Viel Erfolg!"
       ];
       var infoEN = [
-        "In the following level, your speed is crucial. The faster you answer correctly, the more points you will earn. But be careful, with a wrong answer, you will also lose more points.",
-        "Your goal is to stay above the middle line of the first bar by the end. The second bar shows your remaining time.",
-        "You also have some jokers available. You can use them by pressing the button.",
+        "In the next level, your speed is what counts. Your goal is to stay above the middle line of the first bar by the end.",
+        "The faster you answer correctly, the more the bar fills up - but be careful: Incorrect answers will cost you more.",
+        "The second bar shows your remaining time.",
+        "You also have a few jokers available, which you can use by pressing the button.",
         "Good luck!"
       ];
       var info = language == "de" ? infoDE : infoEN;
@@ -195,7 +199,8 @@ class EventState extends State<EventWidget> {
             child: RichText(
                 text: TextSpan(
                     text: text,
-                    style: TextStyle(fontSize: 18, color: Colors.white)))));
+                    style: TextStyle(
+                        fontSize: 18, color: Colors.white, height: 1.5)))));
       }
       var w = 100;
       var h = 50;
@@ -240,8 +245,17 @@ class EventState extends State<EventWidget> {
                   fontSize: 64,
                   fontWeight: FontWeight.bold))));
     } else if (widget.eventData.eventState == EventDataState.success) {
+      var text = "WELL\nDONE";
+      var percentage = widget.eventData.getPercentage();
+      if (percentage > 0.9) {
+        text = "WELL\nDONE";
+      } else if (percentage > 0.7) {
+        text = "GESCHAFFT";
+      } else {
+        text = "MIT FEHLERN\nBESTANDEN";
+      }
       page.add(Center(
-          child: Text("WELL\nDONE",
+          child: Text(text,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: getStyle().matheBuddyGreen,

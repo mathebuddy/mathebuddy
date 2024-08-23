@@ -199,7 +199,7 @@ class CourseState extends State<CourseWidget> {
         },
         "enabled": true,
       },
-      {
+      /*{
         "icon": "controller-classic", //
         "color": Style().matheBuddyRed,
         "text-en": "Play", //
@@ -219,7 +219,7 @@ class CourseState extends State<CourseWidget> {
           }
         },
         "enabled": widget.course.suggestGame() != null,
-      },
+      },*/
     ]);
 
     // ----- control shortcuts

@@ -7,6 +7,7 @@
 
 library mathe_buddy_app;
 
+import 'package:mathebuddy/math-runtime/src/parse.dart';
 import 'package:platform_detector/platform_detector.dart';
 
 import 'package:universal_html/html.dart' as html;
