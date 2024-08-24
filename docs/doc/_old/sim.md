@@ -1,4 +1,4 @@
-<!-- Mathe:Buddy Simulator -->
+<!-- MatheBuddy Simulator -->
 
 ---
 
@@ -12,11 +12,11 @@
 
 **NOTE**
 
-- If you installed mathe:buddy simulator before 2023-01-19, then run `git stash` and `git pull` in Terminal, right before running `python3 server.py`. This must be done only once.
+- If you installed MatheBuddy simulator before 2023-01-19, then run `git stash` and `git pull` in Terminal, right before running `python3 server.py`. This must be done only once.
 
 ---
 
-We provide a web-based simulation environment for the `mathe:buddy` app.
+We provide a web-based simulation environment for the `MatheBuddy` app.
 
 ![](img/screenshot.png)
 
@@ -47,7 +47,7 @@ Make sure you got `git`, `python3`, `npm`, `node` and `pandoc` installed on your
   brew install git python3 node pandoc
   ```
 
-You now need to clone three _mathe:buddy_ repositories. Replace `YOUR_FAVORITE_DIRECTORY` by a local directory on your disk.
+You now need to clone three _MatheBuddy_ repositories. Replace `YOUR_FAVORITE_DIRECTORY` by a local directory on your disk.
 
 > TIP: use [GitHub Desktop](https://desktop.github.com) to clone the repositories (refer to the end of this document).
 
@@ -109,7 +109,7 @@ Choose a number and press `[ENTER]`.
 
 - starts a web server at port 8314. Open [http://localhost:8314](http://localhost:8314) in your favorite browser. You should see the contents of screenshot above ("hello world" will be shown later!)
 
-- Select a file from the dropdown menu. All files with suffix `*.mbl` (mathe:buddy language) from repository `mathebuddy-public-courses` are listed. Open `../mathebuddy-public-courses/demo-basic/hello.mbl` for a hello world example. The compiler is run automatically and the simulator renders the result.
+- Select a file from the dropdown menu. All files with suffix `*.mbl` (MatheBuddy language) from repository `mathebuddy-public-courses` are listed. Open `../mathebuddy-public-courses/demo-basic/hello.mbl` for a hello world example. The compiler is run automatically and the simulator renders the result.
 
 - Use radio buttons `input`, `JSON` and `HTML` to show intermediate results:
 
@@ -146,7 +146,7 @@ Open Visual Studio Code and open repository `mathebuddy-public-courses` on your 
 
 # Committing Changes
 
-> WARNING: committing code to the public-course directory is yet only permitted to the mathe:buddy core team.
+> WARNING: committing code to the public-course directory is yet only permitted to the MatheBuddy core team.
 
 Committing changes can be done on the command line via git:
 

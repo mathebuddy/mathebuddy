@@ -1,4 +1,4 @@
-/// mathe:buddy - a gamified app for higher math
+/// MatheBuddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
 /// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
@@ -50,13 +50,13 @@ class LegalState extends State<LegalWidget> {
     contents.add(title);
 
     List<String> english = [
-      "The learning application mathe:buddy is an interactive and gamified app for higher mathematics in the first year of study. Students are motivated through interactive training and elements of game-based learning, motivating, guiding, and individually supported.",
+      "The learning application MatheBuddy is an interactive and gamified app for higher mathematics in the first year of study. Students are motivated through interactive training and elements of game-based learning, motivating, guiding, and individually supported.",
       "We provide this app as-is and do not take responsibility for any damage.",
       "Funded by Stiftung Innovation in der Hochschullehre; FREIRAUM 2022."
     ];
 
     List<String> german = [
-      "Die Lernapplikation mathe:buddy ist eine interaktive und gamifizierte App für die höhere Mathematik im ersten Studienjahr. Studierende werden durch interaktives Training und Elemente des spielerischen Lernens motiviert, angeleitet und individuell gefördert.",
+      "Die Lernapplikation MatheBuddy ist eine interaktive und gamifizierte App für die höhere Mathematik im ersten Studienjahr. Studierende werden durch interaktives Training und Elemente des spielerischen Lernens motiviert, angeleitet und individuell gefördert.",
       "Wir stellen diese App ohne Gewähr zur Verfügung und übernehmen keine Verantwortung für eventuelle Schäden.",
       "Gefördert durch die Stiftung Innovation in der Hochschullehre; FREIRAUM 2022."
     ];

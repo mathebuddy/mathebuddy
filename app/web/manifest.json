@@ -5,7 +5,7 @@
   "display": "standalone",
   "background_color": "#AA322C",
   "theme_color": "#AA322C",
-  "description": "mathe:buddy",
+  "description": "MatheBuddy",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,
   "icons": [

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:">
+      location = "self:/Users/andi/git/github-mathebuddy/mathebuddy/app/ios/Runner.xcodeproj">
    </FileRef>
 </Workspace>

@@ -1,15 +1,15 @@
-# mathe:buddy - a gamified app for higher math
+# MatheBuddy - a gamified app for higher math
 # (c) 2022-2024 by TH Koeln
 # Author: Andreas Schwenk contact@compiler-construction.com
 # Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
 # License: GPL-3.0-or-later
 
 name: mathebuddy
-description: mathe:buddy - a gamified app for higher math
+description: MatheBuddy - a gamified app for higher math
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 0.9.3+7 # must increment version + version code
+version: 0.9.4+8 # must increment version + version code
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -31,11 +31,12 @@ dependencies:
   http: ^1.1.0
   platform_detector: ^0.2.0
   audioplayers: ^6.0.0 # TODO: must install dependencies for non-macOS desktop app
+  collection: ^1.18.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true

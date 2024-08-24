@@ -100,17 +100,17 @@
   </defs>
   <sodipodi:namedview
      inkscape:window-maximized="0"
-     inkscape:window-y="25"
+     inkscape:window-y="37"
      inkscape:window-x="0"
-     inkscape:window-height="1318"
-     inkscape:window-width="2006"
+     inkscape:window-height="848"
+     inkscape:window-width="1470"
      showgrid="false"
      inkscape:document-rotation="0"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="1354.6623"
-     inkscape:cx="1842.1355"
-     inkscape:zoom="0.29232377"
+     inkscape:cy="1853.4622"
+     inkscape:cx="909.11263"
+     inkscape:zoom="0.14189661"
      inkscape:pageshadow="2"
      inkscape:pageopacity="1"
      borderopacity="1.0"
@@ -145,9 +145,9 @@
        transform="matrix(1.113089,0,0,1.113089,330.31398,27.018519)"
        id="text24425"
        style="font-size:85.3333px;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;white-space:pre;shape-inside:url(#rect24427);display:inline;fill:#b92323;fill-opacity:1;stroke:#b92323;stroke-opacity:1"><tspan
-         x="97.843956"
+         x="112.09395"
          y="113.0245"
-         id="tspan940">mathe:buddy
+         id="tspan597">MatheBuddy
 </tspan></text>
     <text
        xml:space="preserve"
@@ -156,16 +156,16 @@
        style="font-size:57.8462px;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;white-space:pre;shape-inside:url(#rect24427-9);display:inline;fill:#1a1a1a;fill-opacity:1;stroke:#1a1a1a;stroke-opacity:1"><tspan
          x="592.33755"
          y="88.265376"
-         id="tspan944">eine <tspan
+         id="tspan601">eine <tspan
    style="fill:#b92323;stroke:#b92323"
-   id="tspan942">G</tspan>amifizierte
+   id="tspan599">G</tspan>amifizierte
 </tspan><tspan
          x="611.5443"
          y="160.57312"
-         id="tspan946">Lern-App für die
+         id="tspan603">Lern-App für die
 </tspan><tspan
          x="521.58329"
          y="232.88087"
-         id="tspan948">Höhere Mathematik</tspan></text>
+         id="tspan605">Höhere Mathematik</tspan></text>
   </g>
 </svg>

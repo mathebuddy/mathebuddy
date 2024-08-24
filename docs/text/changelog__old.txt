@@ -33,12 +33,12 @@
 [MBL]  redefinition of index-files
 [MBL]  rewrote data structures according to new [MBCL] guide
 [MBL]  added support for "rand(set(..))"
-[MBCL] defined Mathe:Buddy Compiled Language =: MBCL
+[MBCL] defined MatheBuddy Compiled Language =: MBCL
 
 === LEGEND ===
 
-- MBL := Mathe:Buddy Language
-- MBCL := Mathe:Buddy Compiled Language
+- MBL := MatheBuddy Language
+- MBCL := MatheBuddy Compiled Language
 - SMPL := Simple Math Programming Language
-- SIM := Mathe:Buddy Simulator
+- SIM := MatheBuddy Simulator
 - APP := ios/Android App

@@ -36,7 +36,7 @@
       content="upgrade-insecure-requests"
     />
 
-    <title>mathe:buddy</title>
+    <title>MatheBuddy</title>
     <!--<link rel="stylesheet" href="css/normalize.css" />-->
     <link rel="stylesheet" href="css/skeleton.css?v=7" />
 
@@ -339,7 +339,7 @@
           <div style="float: left; text-align: center; width: 400px">
             <iframe
               id="sim-iframe"
-              title="mathe:buddy simulator instance"
+              title="MatheBuddy simulator instance"
               src="poweroff.html?v=10"
               style="
                 border-style: solid;
@@ -495,7 +495,7 @@
 
         <!-- TODO: math-runtime -->
 
-        <h3>Mathe:Buddy Language (MBL)</h3>
+        <h3>MatheBuddy Language (MBL)</h3>
         <p style="font-size: large">
           Formal language to expressively define online math courses.
           <a href="doc/mbl.html" target="_blank">Documentation</a>
@@ -508,7 +508,7 @@
           <a href="doc/smpl.html" target="_blank">Documentation</a>
         </p>
 
-        <h3>Mathe:Buddy Compiled Language (MBCL)</h3>
+        <h3>MatheBuddy Compiled Language (MBCL)</h3>
         <p style="font-size: large">
           JSON-based technical language for compiled online math courses.
           <!--<a href="doc/mbcl.html" target="_blank">Documentation</a>-->
@@ -516,7 +516,7 @@
 
         <!--<h3>Simulator Guide</h3>
         <p style="font-size: large">
-          Mathe:Buddy simulator installation guide.
+          MatheBuddy simulator installation guide.
           <a href="doc/sim.html" target="_blank">Documentation</a>
         </p>-->
       </div>
@@ -538,9 +538,9 @@
       <div class="row">
         <h2>Math-Runtime</h2>
         <p>
-          "Math Runtime" is used as math engine in the <i>mathe:buddy</i> app.
-          It is entirely written in the <i>Dart</i> programming language and has
-          no dependencies.
+          "Math Runtime" is used as math engine in the <i>MatheBuddy</i> app. It
+          is entirely written in the <i>Dart</i> programming language and has no
+          dependencies.
         </p>
         <b>Currently implemented grammar</b><br />
         <button id="showHideGrammar" type="button">show/hide</button><br />
@@ -712,11 +712,11 @@
       <div class="row">
         <h2>MBL</h2>
         <p>
-          MBL (mathe:buddy language) is a language to describe randomized and
+          MBL (MatheBuddy language) is a language to describe randomized and
           gamified math online courses. The compiler is entirely written in the
           <i>Dart</i> programming language and has no dependencies, except
-          "smpl" and "math-runtime", which are part of the mathe:buddy project.
-          The compiler generates code in the MBCL format (mathe:buddy compiled
+          "smpl" and "math-runtime", which are part of the MatheBuddy project.
+          The compiler generates code in the MBCL format (MatheBuddy compiled
           language), which is encodes as JSON-data.
         </p>
         <p>
@@ -792,7 +792,7 @@
         <h2>TeX</h2>
         <p>
           <code>TeX</code> syntax is used to display equations in the
-          <i>mathe:buddy</i> app. Unfortunately, there is currently no fully
+          <i>MatheBuddy</i> app. Unfortunately, there is currently no fully
           implemented TeX rendering engine available that meets our demands: We
           use <code>Flutter</code> to write the app. Equations must be embedded
           into TextSpan elements in fluent text. These elements must be
@@ -816,7 +816,7 @@
             <a href="https://pub.dev/packages/tex" target="_blank">tex</a>
             package for equation rendering. It is extremely light-weight and
             entirely written in the <code>Dart</code> programming language;
-            without any dependencies and maintained by the mathe:buddy software
+            without any dependencies and maintained by the MatheBuddy software
             architect.
           </li>
           <li>

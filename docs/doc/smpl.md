@@ -4,7 +4,7 @@
 
 This document describes the _Simple Math Programming Language (SMPL)_.
 
-SMPL is a math-oriented programming language that can be interpreted in the browser. Its primary use is for the _mathe:buddy app_.
+SMPL is a math-oriented programming language that can be interpreted in the browser. Its primary use is for the _MatheBuddy app_.
 
 SMPL is (mostly) an imperative, typed language. Its syntax is basically a subset of _JavaScript_, but extends with intrinsic mathematical data types (e.g. terms, sets and matrices) and operator overloading for these types.
 
@@ -12,7 +12,7 @@ The language definition of SMPL is independent of concrete implementations.
 A reference implementation can be found [here](https://github.com/mathebuddy/mathebuddy-smpl).
 Visit our online [playground](https://mathebuddy.github.io/mathebuddy-smpl/).
 
-SMPL is heavily used by the [mathe:buddy language](https://app.f07-its.fh-koeln.de/docs-mbl.html).
+SMPL is heavily used by the [MatheBuddy language](https://app.f07-its.fh-koeln.de/docs-mbl.html).
 
 ### History Notes
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# mathe:buddy - a gamified learning-app for higher math
+# MatheBuddy - a gamified learning-app for higher math
 # (c) 2022-2024 by TH Koeln
 # Author: Andreas Schwenk contact@compiler-construction.com
 # Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
@@ -22,12 +22,13 @@ cd ..
 # TODO: integrate "update grammar.txt in lib/*" to "build website"??
 while true
 do
-    echo "mathe:buddy CLI. Choose option and press [ENTER]"
+    echo "MatheBuddy CLI. Choose option and press [ENTER]"
     echo "[0]  update Dart dependencies"
     echo "[1]  build website"
     echo "[2]  build documentation"
     echo "[3]  build flutter web app"
     echo "[4a] build android app"
+    echo "[4b] build iOS app"
     echo "[4c] build macOS app and update simulator in private-courses"
     echo "[5a] run website at http://localhost:8314"
     echo "[5b] run web app at http://localhost:8315"
@@ -92,6 +93,12 @@ do
         cp build/app/outputs/flutter-apk/app-arm* ../../alpha/android/
         cd ..
         ;;
+    4b)
+	# [4b] build flutter iOS app
+	cd app
+	./build-ios.sh
+	cd ..
+	;;
     4c)
         # [4c] build flutter macOS app and update simulator in private-courses
         cd app

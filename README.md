@@ -1,4 +1,4 @@
-# mathe:buddy
+# MatheBuddy
 
 Official website with simulator and playgrounds: [https://mathebuddy.github.io/mathebuddy/](https://mathebuddy.github.io/mathebuddy/)
 
@@ -14,7 +14,7 @@ This project is funded by "FREIRAUM 2022" (Stiftung Innovation in der Hochschull
 
 ## Developers Info
 
-This repository implements all components of the `mathe:buddy` app.
+This repository implements all components of the `matheBuddy` app.
 
 <!-- for the iOS App Store and Google Playground.-->
 
@@ -48,7 +48,7 @@ _Other operating systems than Debian and macOS are not yet supported. Only macOS
 
 <!-- TODO: android SDK, XCode, ... -->
 
-Note: Android and XCode can be skipped, if you only like to compile and run `mathe:buddy` simulator. `pandoc` can be skipped if you do not intend to build the manuals.
+Note: Android and XCode can be skipped, if you only like to compile and run `MatheBuddy` simulator. `pandoc` can be skipped if you do not intend to build the manuals.
 
 - Debian based Linux (e.g. Ubuntu)
 
@@ -95,9 +95,9 @@ Then run `flutter doctor` in a terminal window and install all listed dependenci
 
   <!-- In case of Java Errors, run `export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jbr/Contents/Home` and then run `flutter doctor` again.-->
 
-### Getting mathe:buddy
+### Getting MatheBuddy
 
-You now need to clone the following _mathe:buddy_ repositories. Replace `YOUR_FAVORITE_DIRECTORY` by a local directory on your disk.
+You now need to clone the following _MatheBuddy_ repositories. Replace `YOUR_FAVORITE_DIRECTORY` by a local directory on your disk.
 
 > TIP: use [GitHub Desktop](https://desktop.github.com) to clone the repositories (refer to the end of this document).
 
@@ -160,7 +160,7 @@ Also consider the other repositories of this GitHub account. You will find a lis
 <!--
 - https://github.com/mathebuddy/mathebuddy-downloads
 
-  Downloadable toolchains and data for the mathe:buddy app (e.g. VSCode Plugins)
+  Downloadable toolchains and data for the MatheBuddy app (e.g. VSCode Plugins)
 
 - https://github.com/mathebuddy/mathebuddy-compiler
 

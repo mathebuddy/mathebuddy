@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-  "name": "mathe:buddy",
-  "short_name": "mathe:buddy",
+  "name": "MatheBuddy",
+  "short_name": "MatheBuddy",
   "description": "",
   "icons": [
     {

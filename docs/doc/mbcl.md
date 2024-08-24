@@ -1,4 +1,4 @@
-<!-- Mathe:Buddy Compiled Language (MBCL) -->
+<!-- MatheBuddy Compiled Language (MBCL) -->
 
 ---
 
@@ -7,13 +7,13 @@ This reference guide is OUTDATED. We will rewrite it later. Up to now, refer to 
 
 ---
 
-This document describes the syntax of the _mathe:buddy compiled language (MBCL)_,
+This document describes the syntax of the _MatheBuddy compiled language (MBCL)_,
 which can be used to express mathematical based online courses technically.
 
 ## Introduction
 
-MBCL is a JSON-based format defined for the mathe:buddy App.
-Each MBCL-JSON file stores a complete course, defined by the Mathe:Buddy Language (MBL).
+MBCL is a JSON-based format defined for the MatheBuddy App.
+Each MBCL-JSON file stores a complete course, defined by the MatheBuddy Language (MBL).
 
 MBL is intended to be used by course creators, i.e. humans, while MBCL is a pure computer language.
 

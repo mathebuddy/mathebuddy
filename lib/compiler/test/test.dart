@@ -1,4 +1,4 @@
-/// mathe:buddy - a gamified app for higher math
+/// MatheBuddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
 /// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
@@ -73,7 +73,7 @@ void compile(String pathIn) {
 }
 
 void main() {
-  print('mathe:buddy Compiler (c) 2022-2024 by TH Koeln');
+  print('MatheBuddy Compiler (c) 2022-2024 by TH Koeln');
 
   // demo course
   print('=== TESTING DEMO FILES ===');

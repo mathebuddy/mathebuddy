@@ -1,4 +1,4 @@
-# mathe:buddy - a gamified learning-app for higher math
+# MatheBuddy - a gamified learning-app for higher math
 # (c) 2022-2024 by TH Koeln
 # Author: Andreas Schwenk contact@compiler-construction.com
 # Funded by: FREIRAUM 2022, Stiftung Innovation in der Hochschullehre
@@ -10,7 +10,7 @@
 # python3 server.py          listens to port 8271
 # python3 server.py 8314     listens to port 8314
 
-# Place this file to your mathe:buddy working directory that contains
+# Place this file to your MatheBuddy working directory that contains
 # one or more courses.
 
 # Head to https://mathebuddy.github.io/mathebuddy/ and run the simulator.

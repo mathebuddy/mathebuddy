@@ -1,4 +1,4 @@
-/// mathe:buddy - a gamified app for higher math
+/// MatheBuddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
 /// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
@@ -12,7 +12,7 @@ import '../src/term.dart';
 // TODO: add asserts
 
 void main() {
-  print('running mathe:buddy MATH RUNTIME tests ...');
+  print('running MatheBuddy MATH RUNTIME tests ...');
 
   var parser = Parser();
 

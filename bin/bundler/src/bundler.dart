@@ -1,4 +1,4 @@
-/// mathe:buddy - a gamified app for higher math
+/// MatheBuddy - a gamified app for higher math
 /// https://mathebuddy.github.io/
 /// (c) 2022-2024 by TH Koeln
 /// Author: Andreas Schwenk contact@compiler-construction.com
@@ -26,7 +26,7 @@ String loadFile(String path) {
 }
 
 void main(List<String> args) {
-  print('mathe:buddy course bundler tool');
+  print('MatheBuddy course bundler tool');
   if (args.length != 2) {
     print('ERROR: usage: bundler.dart INPUT_BUNDLE_FILE_PATH OUTPUT_FILE_PATH');
     exit(-1);
