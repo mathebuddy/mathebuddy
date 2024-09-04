@@ -2,7 +2,7 @@
     <application
         android:label="MatheBuddy"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true">
         <activity
             android:name="com.mathebuddy.mathebuddy.MainActivity"

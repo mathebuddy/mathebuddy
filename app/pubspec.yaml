@@ -32,6 +32,7 @@ dependencies:
   platform_detector: ^0.2.0
   audioplayers: ^6.0.0 # TODO: must install dependencies for non-macOS desktop app
   collection: ^1.18.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +49,9 @@ flutter:
 
   assets:
     - assets/img/logo.png
+    - assets/img/logo-android-foreground.png
+    - assets/img/logo-white-bg.png
+    - assets/img/logo-appstore.png
     - assets/img/logoSmall.png
     - assets/img/logo-large-en.png
     - assets/img/logo-large-de.png
@@ -62,3 +66,26 @@ flutter:
     - assets/img/go.svg
     - assets/sfx/pass.wav
     - assets/sfx/fail.wav
+
+# update via $flutter pub get && flutter pub run flutter_launcher_icons
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/img/logo-appstore.png"
+  image_path_android: "assets/img/logo-white-bg.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/img/logo-android-foreground.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/img/logo-appstore.png"
+    background_color: "#ffffff"
+    theme_color: "#aa322c"
+  windows:
+    generate: true
+    image_path: "assets/img/logo-appstore.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/img/logo-appstore.png"
