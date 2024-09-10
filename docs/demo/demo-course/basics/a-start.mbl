@@ -1,9 +1,0 @@
-Start
-###########
-
-Some text here.
-
-FIGURE My figure title @fig:myFigure
-    WIDTH=75
-    PATH=img/logo.svg
-    MatheBuddy logo

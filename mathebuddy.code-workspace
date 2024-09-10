@@ -16,7 +16,8 @@
       "slex",
       "smpl",
       "summands"
-    ]
+    ],
+    "liveServer.settings.multiRootWorkspaceName": "mathebuddy"
   },
   "extensions": {
     "recommendations": [

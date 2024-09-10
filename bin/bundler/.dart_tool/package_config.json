@@ -3,21 +3,27 @@
   "packages": [
     {
       "name": "_fe_analyzer_shared",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-55.0.0",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-73.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "_macros",
+      "rootUri": "file:///opt/homebrew/Caskroom/flutter/3.7.6/flutter/bin/cache/dart-sdk/pkg/_macros",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
     },
     {
       "name": "analyzer",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/analyzer-5.7.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/analyzer-6.8.0",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.3"
     },
     {
       "name": "args",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/args-2.4.0",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/args-2.5.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.0"
     },
     {
       "name": "async",
@@ -33,9 +39,9 @@
     },
     {
       "name": "collection",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/collection-1.17.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/collection-1.19.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "convert",
@@ -45,33 +51,33 @@
     },
     {
       "name": "coverage",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/coverage-1.6.3",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/coverage-1.9.2",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "crypto",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/crypto-3.0.2",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/crypto-3.0.5",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.4"
     },
     {
       "name": "file",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/file-6.1.4",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/file-7.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "frontend_server_client",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/frontend_server_client-3.2.0",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/frontend_server_client-4.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "glob",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/glob-2.1.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/glob-2.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.15"
+      "languageVersion": "2.19"
     },
     {
       "name": "http_multi_server",
@@ -81,9 +87,9 @@
     },
     {
       "name": "http_parser",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/http_parser-4.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.4"
     },
     {
       "name": "io",
@@ -93,39 +99,45 @@
     },
     {
       "name": "js",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/js-0.6.7",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/js-0.7.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
+      "name": "lints",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/lints-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
+      "name": "logging",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/logging-1.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
-      "name": "lints",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/lints-3.0.0",
+      "name": "macros",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/macros-0.1.2-main.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "matcher",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/matcher-0.12.16+1",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
-      "name": "logging",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/logging-1.1.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
-      "name": "matcher",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/matcher-0.12.14",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
       "name": "meta",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/meta-1.9.0",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/meta-1.15.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "mime",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/mime-1.0.4",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/mime-1.0.6",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.2"
     },
     {
       "name": "node_preamble",
@@ -141,9 +153,9 @@
     },
     {
       "name": "path",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/path-1.8.3",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/path-1.9.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "pool",
@@ -153,33 +165,33 @@
     },
     {
       "name": "pub_semver",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/pub_semver-2.1.3",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/pub_semver-2.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "shelf",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/shelf-1.4.0",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/shelf-1.4.2",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.4"
     },
     {
       "name": "shelf_packages_handler",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/shelf_packages_handler-3.0.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/shelf_packages_handler-3.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.17"
     },
     {
       "name": "shelf_static",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/shelf_static-1.1.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/shelf_static-1.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.17"
     },
     {
       "name": "shelf_web_socket",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/shelf_web_socket-1.0.3",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/shelf_web_socket-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.0"
     },
     {
       "name": "slex",
@@ -189,9 +201,9 @@
     },
     {
       "name": "source_map_stack_trace",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/source_map_stack_trace-2.1.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/source_map_stack_trace-2.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.3"
     },
     {
       "name": "source_maps",
@@ -201,27 +213,27 @@
     },
     {
       "name": "source_span",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/source_span-1.9.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/source_span-1.10.0",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.18"
     },
     {
       "name": "stack_trace",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/stack_trace-1.11.0",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/stack_trace-1.11.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "stream_channel",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/stream_channel-2.1.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/stream_channel-2.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.19"
     },
     {
       "name": "string_scanner",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/string_scanner-1.3.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.1"
     },
     {
       "name": "term_glyph",
@@ -231,66 +243,81 @@
     },
     {
       "name": "test",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/test-1.23.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/test-1.25.8",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/test_api-0.4.18",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/test_api-0.7.3",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "test_core",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/test_core-0.4.24",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/test_core-0.6.5",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "typed_data",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/typed_data-1.3.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/typed_data-1.3.2",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.17"
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/vm_service-11.2.0",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/vm_service-14.2.5",
       "packageUri": "lib/",
-      "languageVersion": "2.15"
+      "languageVersion": "3.3"
     },
     {
       "name": "watcher",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/watcher-1.0.2",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/watcher-1.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "web",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/web-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "web_socket",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/web_socket-0.1.6",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
     },
     {
       "name": "web_socket_channel",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/web_socket_channel-2.3.0",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/web_socket_channel-3.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.3"
     },
     {
       "name": "webkit_inspection_protocol",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/webkit_inspection_protocol-1.2.0",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/webkit_inspection_protocol-1.2.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "yaml",
-      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/yaml-3.1.1",
+      "rootUri": "file:///Users/andi/.pub-cache/hosted/pub.dev/yaml-3.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.19"
     },
     {
       "name": "mathebuddy_bundler",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-03-08T18:41:02.557181Z",
+  "generated": "2024-09-06T11:59:56.675643Z",
   "generator": "pub",
-  "generatorVersion": "3.3.1"
+  "generatorVersion": "3.5.1",
+  "flutterRoot": "file:///opt/homebrew/Caskroom/flutter/3.7.6/flutter",
+  "flutterVersion": "3.24.1",
+  "pubCache": "file:///Users/andi/.pub-cache"
 }

@@ -1,2 +1,0 @@
-x-start.mbl
-index.mbl

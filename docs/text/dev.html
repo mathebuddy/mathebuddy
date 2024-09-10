@@ -1,0 +1,217 @@
+<div class="row">
+  <br />
+  <h2><span class="text-english">Course Development</span></h2>
+  <h2><span class="text-german">Kursentwicklung</span></h2>
+</div>
+
+<p>
+  <span class="text-english">
+    We offer the capability to create custom courses through an efficient
+    workflow that integrates seamlessly with VSCode, using a custom
+    syntax-highlighting plugin. Courses are written in the MatheBuddy Language
+    (MBL) and are compiled into a (single) JSON file with the provided compiler.
+    The simulator, currently available for macOS and Windows, then renders the
+    course data, bringing your custom content to life.
+  </span>
+  <span class="text-german">
+    Wir bieten die Möglichkeit, benutzerdefinierte Kurse über einen effizienten
+    Workflow zu erstellen, der nahtlos mit VSCode und einem benutzerdefinierten
+    Syntax-Highlighting-Plugin integriert ist. Die Kurse werden in der
+    MatheBuddy-Sprache (MBL) geschrieben und mit dem bereitgestellten Compiler
+    in eine (einzige) JSON-Datei kompiliert. Der Simulator, der derzeit für
+    macOS und Windows verfügbar ist, emuliert die Kursdaten.
+  </span>
+</p>
+
+<p>
+  <span class="text-english">
+    The reference to MBL can be found <a href="index.html?page=mbl">here</a>.
+  </span>
+  <span class="text-german">
+    Die Referenz zu MBL findet man <a href="index.html?page=mbl">hier</a> (nur
+    in englischer Sprache verfügbar).
+  </span>
+</p>
+
+<div style="text-align: center">
+  <i>
+    <span class="text-english">
+      Course Development with VSCode and MatheBuddy Simulator
+    </span>
+    <span class="text-german">
+      Kursentwicklung mit VSCode und dem MatheBuddy Simulator
+    </span>
+  </i>
+</div>
+
+<img
+  src="img/dev/dev.jpg"
+  style="width: 100%; border-style: solid; border-width: 2px"
+/>
+
+<br /><br />
+
+<h3>
+  <span class="text-english">Quick Guide</span
+  ><span class="text-german">Kurzanleitung</span>
+</h3>
+
+<span class="text-english">
+  The following explains how to create custom course sections for the app.
+</span>
+<span class="text-german">
+  Im Folgenden wird erklärt, wie man eigene Kursteile für die App erstellen kann
+  (nur Englisch).
+</span>
+
+<ol>
+  <li>
+    Install Python:
+    <a href="https://www.python.org/downloads/"
+      >https://www.python.org/downloads/</a
+    >
+  </li>
+  <li>
+    Install VSCode:
+    <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a>
+  </li>
+  <li>
+    Open VSCode and install the plugin
+    <code>mbl-language-extension</code>:
+    <div style="text-align: center">
+      <img
+        src="img/dev/vscode-plugin.jpg"
+        style="
+          max-width: 400px;
+          border-style: solid;
+          border-width: 2px;
+          margin: 8px;
+        "
+      />
+    </div>
+  </li>
+  <li>
+    Download the VSCode-project
+    <a href="https://github.com/mathebuddy/mathebuddy-course-dev">here</a>
+    and extract it (experts use the command
+    <code
+      >git clone https://github.com/mathebuddy/mathebuddy-course-dev.git</code
+    >):
+    <div style="text-align: center">
+      <img
+        src="img/dev/download-project.jpg"
+        style="width: 100%; border-style: solid; border-width: 2px; margin: 8px"
+      />
+    </div>
+  </li>
+  <li>
+    In VSCode, select [File] &rarr; [Open] from the menu, and open the folder
+    extracted in the previous step.
+
+    <br />
+    <br />
+
+    The following screenshot shows the key work areas:
+    <div style="text-align: center">
+      <img
+        src="img/dev/vscode-overview.jpg"
+        style="width: 100%; border-style: solid; border-width: 2px; margin: 8px"
+      />
+    </div>
+    Some hints:
+    <ul>
+      <li>After selecting the Explorer (E), you will see the file tree (F).</li>
+      <li>
+        After selecting a file in (F), you will see the content in the text
+        editor (T).
+      </li>
+      <li>
+        The course data is located in (F) in the <code>course/</code> folder.
+      </li>
+      <li>
+        Im vorgegebenen Beispiel sieht man die Hierarchie: Der Ordner
+        <code>komplex/</code> beinhaltet ein Kapitel. Die Kapitel werden in der
+        Datei <code>course.mbl</code> gelistet. Jedes Kapitel besteht aus einer
+        oder mehreren Units, welche unterhalb des Kapitel-Ordners in der Datei
+        <code>index.mbl</code> spezifiziert werden. Eine Unit enthält mehrere
+        Level. Diese liegen ebenfalls im Kapitel-Ordner als
+        <code>*.mbl</code>-Dateien. In the provided example, you can see the
+        hierarchy: The folder <code>complex/</code> contains a chapter. The
+        chapters are listed in the <code>course.mbl</code> file. Each chapter
+        consists of one or more units, which are specified in the
+        <code>index.mbl</code> file within the chapter folder. A unit contains
+        several levels, which are also located in the chapter folder as
+        <code>*.mbl</code> files.
+      </li>
+    </ul>
+  </li>
+  <li>
+    Before you can simulate your custom course, the course data must be
+    compiled. There are two ways to start the compilation process:
+    <ul>
+      <li>
+        Translate and simulate only the file currently open in the text editor
+        (T).
+      </li>
+      <li>Translate and simulate the entire course.</li>
+    </ul>
+    You select one of the two options as follows:
+    <div style="text-align: center">
+      <img
+        src="img/dev/vscode-launch-config.jpg"
+        style="width: 100%; border-style: solid; border-width: 2px; margin: 8px"
+      />
+    </div>
+    Then, the file or the entire course can be compiled via the main menu by
+    selecting [Run] &rarr; [Start Debugging] (Tip: use the [F5] shortcut). Any
+    errors will be displayed in the log area (L). If the log area is not
+    visible, you can display it through the main menu by selecting [View] &rarr;
+    [Terminal].
+  </li>
+  <li>
+    Now, start the simulator through the Explorer/Finder of your operating
+    system. It is located in the VSCode project that was downloaded and
+    extracted in Step 4 of this guide.
+    <ul>
+      <li>
+        On macOS, open <code>mathebuddy.app</code> in the
+        <code>tools-macos/</code> directory.
+      </li>
+      <li>
+        On Windows, open <code>mathebuddy.exe</code> in the
+        <code>tools-windows/app/</code> directory.
+      </li>
+    </ul>
+    Tip: It's best to place VSCode and the simulator side by side, as shown in
+    the image at the top of this site.
+  </li>
+  <li>
+    In the simulator, the file/course you just compiled should be visible. The
+    simulator offers the following menu items, which are not available in the
+    version distributed on the App Store:
+    <div style="text-align: center">
+      <img
+        src="img/dev/sim.jpg"
+        style="
+          max-width: 400px;
+          border-style: solid;
+          border-width: 2px;
+          margin: 8px;
+        "
+      />
+    </div>
+    <ol>
+      <li>
+        Updates the course data after restarting the compilation process in
+        VSCode. This means you don't need to restart the simulator after every
+        change.
+      </li>
+      <li>Switches between German and English language.</li>
+      <li>
+        Switches between Debug mode (D) and Release mode (R). In Debug mode, you
+        get additional developer options, such as displaying the solution to a
+        task on the on-screen keyboard, and more.
+      </li>
+    </ol>
+  </li>
+</ol>

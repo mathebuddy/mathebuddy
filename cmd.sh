@@ -64,10 +64,6 @@ do
         ;;
     1)
         # [1] build website
-        # TODO: update file-system!!!
-        cd bin
-        dart bundler/src/bundler.dart bundle-websim.txt ../app/assets/bundle-websim.json
-        cd ..
         cd docs
         ./build.sh
         cd ..

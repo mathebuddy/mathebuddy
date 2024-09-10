@@ -30,15 +30,8 @@
     <meta name="msapplication-TileColor" content="#9c1e14" />
     <meta name="msapplication-config" content="img/favicon/browserconfig.xml" />
 
-    <!-- TODO: -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="upgrade-insecure-requests"
-    />
-
     <title>MatheBuddy</title>
-    <!--<link rel="stylesheet" href="css/normalize.css" />-->
-    <link rel="stylesheet" href="css/skeleton.css?v=7" />
+    <link rel="stylesheet" href="index.css?v=8" />
 
     <style>
       pre code {
@@ -122,765 +115,215 @@
         text-align: left;
         padding-left: 10px;
       }
+      .text-german {
+        display: none;
+      }
+      li {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
     </style>
   </head>
 
   <body>
-    <div class="container">
-      <br />
-      <div style="text-align: left">
-        <span onclick="switchLanguage('de')" style="cursor: pointer"
-          ><b>German</b></span
-        >
-        |
-        <span onclick="switchLanguage('en')" style="cursor: pointer"
-          ><b>English</b></span
-        >
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a
-          href="https://github.com/mathebuddy"
-          target="_blank"
-          style="cursor: pointer"
-        >
-          <img
-            src="img/github/GitHub_Logo.png"
-            style="max-height: 26px; vertical-align: middle"
-          />
-        </a>
-        <img
-          id="download-ios"
-          src="img/app-store/ios.png"
-          style="height: 32px; vertical-align: middle"
-        />
-        <img
-          id="download-android"
-          src="img/app-store/android.png"
-          style="height: 32px; vertical-align: middle"
-        />
-        <br />
-      </div>
+    <div
+      style="
+        position: fixed;
+        background-color: rgba(230, 230, 230, 0.95);
+        width: 100%;
+        height: 34px;
+        padding: 6px 20px;
+        z-index: 1000;
 
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: rgb(144, 144, 144);
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: auto;
+          margin-right: auto;
+          padding-top: 1px;
+        "
+      >
+        <div style="padding-top: 6px">
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <span onclick="switchLanguage('en')" style="cursor: pointer"
+            ><b>English</b></span
+          >
+          |
+          <span onclick="switchLanguage('de')" style="cursor: pointer"
+            ><b>Deutsch</b></span
+          >
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div>
+          <a
+            href="https://apps.apple.com/de/app/mathebuddy/id6661013198"
+            target="_blank"
+            style="cursor: pointer"
+          >
+            <img
+              src="img/app-store/ios.png"
+              style="height: 32px; vertical-align: middle"
+            />
+          </a>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.mathebuddy.mathebuddy"
+            target="_blank"
+            style="cursor: pointer"
+          >
+            <img
+              src="img/app-store/android.png"
+              style="height: 32px; vertical-align: middle"
+            />
+          </a>
+          <a
+            href="https://github.com/mathebuddy"
+            target="_blank"
+            style="cursor: pointer"
+          >
+            <img
+              src="img/github/GitHub_Logo.png"
+              style="max-height: 26px; vertical-align: middle"
+            />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <br /><br /><br />
+
+    <div class="container">
       <div id="top-logo-large" style="text-align: center">
         <span class="text-german">
           <a href="index.html">
-            <img src="img/logo/logo-large.svg" style="width: 100%" />
+            <img src="img/logo/logo-large.svg" style="width: 75%" />
           </a>
         </span>
         <span class="text-english">
           <a href="index.html">
-            <img src="img/logo/logo-large-en.svg" style="width: 100%" />
+            <img src="img/logo/logo-large-en.svg" style="width: 75%" />
           </a>
         </span>
       </div>
-      <br />
+    </div>
 
+    <br />
+
+    <div
+      style="
+        width: 100%;
+        height: 44px;
+        background-color: rgba(245, 245, 245, 1);
+        padding-top: 6px;
+        -webkit-box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.28);
+        box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.08);
+      "
+    >
       <div class="row">
         <div style="text-align: center">
-          <button class="button-primary" onclick="show('home')">home</button>
-          <button class="button-primary" onclick="show('blog')">blog</button>
-          <button class="button-primary" onclick="show('doc')">doc</button>
-          <button class="button-primary" onclick="show('sim-info')">sim</button>
-          <button class="button-primary" onclick="show('play-info')">
-            play
+          <button
+            id="btn-home"
+            class="button-primary"
+            onclick="switchPage('home')"
+          >
+            Home
           </button>
-          <!--<button class="button-primary" onclick="show('todo')">todo</button>-->
-        </div>
-        <div id="play-list" style="text-align: center; display: none">
-          <b>PLAYGROUNDS</b><br />
-          <button class="button" onclick="showPlayground('play-info')">
-            INFO
+          <button
+            id="btn-dev"
+            class="button-primary"
+            onclick="switchPage('dev')"
+          >
+            Course Dev
           </button>
-          <button class="button" onclick="showPlayground('math-runtime')">
-            math
+          <button
+            id="btn-mbl"
+            class="button-primary"
+            onclick="switchPage('mbl')"
+          >
+            MBL
           </button>
-          <button class="button" onclick="showPlayground('smpl')">SMPL</button>
-          <button class="button" onclick="showPlayground('mbl')">MBL</button>
-          <button class="button" onclick="showPlayground('tex')">TeX</button>
-        </div>
-        <div id="doc-list" style="text-align: center; display: none">
-          <b>DOCUMENTATION</b><br />
-          <button class="button" onclick="showDoc('mbl')">MBL</button>
-          <button class="button" onclick="showDoc('smpl')">SMPL</button>
-          <!--<button class="button" onclick="showDoc('mbcl')">MBCL</button>-->
-        </div>
-        <div id="sim-list" style="text-align: center; display: none">
-          <b>SIMULATION</b><br />
-          <button id="showSimInfo" class="button">info</button>
-          <button id="showSimDemo" class="button">demo</button>
-          <button id="showSimLocalhost" class="button">
-            http://localhost:8271
+          <button
+            id="btn-smpl"
+            class="button-primary"
+            onclick="switchPage('smpl')"
+          >
+            SMPL
+          </button>
+          <button
+            id="btn-privacy"
+            class="button-primary"
+            onclick="switchPage('privacy')"
+          >
+            Privacy
           </button>
         </div>
       </div>
     </div>
 
-    <!-- ===== HOME ===== -->
+    <br />
+
     <div id="home" class="container" style="display: none">
       <div class="row">
         <div id="home-contents"></div>
       </div>
+      <div class="row"></div>
+      <h2 style="text-align: center">NEWS</h2>
+      <div id="blog-items"></div>
     </div>
 
-    <!-- ===== BLOG ===== -->
-    <div id="blog" class="container" style="display: none">
-      <div class="row">
-        <br />
-        <h2>Blog</h2>
-        <div id="blog-items"></div>
-      </div>
-    </div>
+    <!-- ===== DEV ===== -->
 
-    <!-- ===== TODO ===== -->
-    <!--<div id="todo" class="container" style="display: none">
-      <div class="row">
-        <div id="upcoming-features"></div>
-      </div>
-    </div>-->
-
-    <!-- ===== SIM ===== -->
-    <div id="sim-info" class="container" style="display: none">
-      <div class="row">
-        <br />
-        <h2>Simulator</h2>
-        <div id="sim-info-contents"></div>
+    <div id="dev" class="container" style="display: none">
+      <div class="row" style="font-size: large">
+        <div id="dev-contents"></div>
       </div>
     </div>
 
-    <div id="sim" class="containerWide" style="display: none">
+    <!-- ===== MBL ===== -->
+    <div id="mbl" class="container" style="display: none; font-size: large">
       <div class="row">
-        <div id="sim-list" class="row" style="padding: 0px; text-align: left">
-          <span
-            style="
-              color: gray;
-              width: 20px;
-              display: inline-block;
-              text-align: center;
-            "
-          >
-            <img
-              src="img/fontawesome/mobile-screen-solid.svg"
-              style="height: 12px"
-            />
-          </span>
-          <button
-            class="button"
-            onclick="setDevice('small')"
-            style="
-              font-size: 10px;
-              padding-left: 8px;
-              padding-right: 8px;
-              text-transform: none;
-              height: 32px;
-              line-height: 32px;
-              letter-spacing: normal;
-            "
-          >
-            small
-          </button>
-          <button
-            class="button"
-            onclick="setDevice('medium')"
-            style="
-              font-size: 10px;
-              padding-left: 8px;
-              padding-right: 8px;
-              text-transform: none;
-              height: 32px;
-              line-height: 32px;
-              letter-spacing: normal;
-            "
-          >
-            medium
-          </button>
-          <button
-            class="button"
-            onclick="setDevice('large')"
-            style="
-              font-size: 10px;
-              padding-left: 8px;
-              padding-right: 8px;
-              text-transform: none;
-              height: 32px;
-              line-height: 32px;
-              letter-spacing: normal;
-            "
-          >
-            large
-          </button>
-          &nbsp;
-          <span
-            style="
-              color: gray;
-              width: 20px;
-              display: inline-block;
-              text-align: center;
-            "
-          >
-            <img
-              src="img/fontawesome/folder-open-solid.svg"
-              style="height: 12px"
-            />
-          </span>
-          <span
-            id="sim-path-buttons"
-            style="text-align: left; padding: 0"
-          ></span>
-        </div>
-
-        <!--<div class="row" style="text-align: left">
-          <div class="five columns" style="text-align: center">&nbsp;</div>
-          <div class="seven columns" style="text-align: center">
-            <div id="sim-current-path" style="text-align: center; padding: 0" ;>
-              <span>(no file selected)</span>
-            </div>
-          </div>
-        </div>-->
-        <div style="text-align: left">
-          <div style="float: left; text-align: center; width: 400px">
-            <iframe
-              id="sim-iframe"
-              title="MatheBuddy simulator instance"
-              src="poweroff.html?v=10"
-              style="
-                border-style: solid;
-                border-color: #434343;
-                border-width: 1px;
-                border-radius: 10px;
-                background-color: #000000;
-                min-height: 800px;
-                height: 800px;
-                max-height: 800px;
-                width: 400px;
-                min-width: 400px;
-                max-width: 400px;
-                border-width: 2px;
-                -moz-box-shadow: 0 0 10px #aaa;
-                -webkit-box-shadow: 0 0 10px #aaa;
-                box-shadow: 0 0 10px #aaa;
-              "
-            >
-            </iframe>
-          </div>
-          <div
-            style="
-              float: left;
-              width: calc(100% - 406px);
-              margin-left: 5px;
-              margin-bottom: 5px;
-            "
-          >
-            <div
-              style="
-                border-style: solid;
-                border-color: #434343;
-                border-width: 1px;
-                border-radius: 10px;
-                padding: 10px;
-                border-width: 2px;
-                width: 100%;
-                min-height: 780px;
-                height: 780px;
-                height: 100%;
-                max-height: 780px;
-                -moz-box-shadow: 0 0 10px #aaa;
-                -webkit-box-shadow: 0 0 10px #aaa;
-                box-shadow: 0 0 10px #aaa;
-                overflow-y: scroll;
-              "
-            >
-              <div
-                id="sim-current-path"
-                style="text-align: start; padding-bottom: 4px"
-              >
-                (no file selected)
-              </div>
-
-              <div style="width: 100%; text-align: left">
-                <button id="resetSim" type="button">
-                  <img
-                    src="img/fontawesome/power-off-solid.svg"
-                    style="
-                      height: 20px;
-                      vertical-align: middle;
-                      padding-inline: 0px;
-                    "
-                    title="complete (re)start"
-                  />
-                </button>
-                <button id="updateSim" type="button">
-                  <img
-                    src="img/fontawesome/arrows-rotate-solid.svg"
-                    style="
-                      height: 20px;
-                      vertical-align: middle;
-                      padding-inline: 0px;
-                    "
-                    title="live reload"
-                  />
-                </button>
-                <button id="simShowMblButton" type="button">MBL</button>
-                <button id="simShowMbclButton" type="button">MBCL</button>
-              </div>
-
-              <div id="sim-short-info" style="text-align: center"></div>
-
-              <div class="row" style="text-align: left">
-                <div class="twelve columns">
-                  <div
-                    style="
-                      margin-top: 10px;
-                      border-style: solid;
-                      border-color: #434343;
-                      border-width: 1px;
-                      border-radius: 2px;
-                      padding: 10px;
-                      border-width: 2px;
-                      width: calc(100% - 24px);
-                      min-height: 128px;
-                      height: 128px;
-                      max-height: 128px;
-                      -moz-box-shadow: 0 0 10px #aaa;
-                      -webkit-box-shadow: 0 0 10px #aaa;
-                      box-shadow: 0 0 10px #aaa;
-                      overflow-y: scroll;
-                    "
-                  >
-                    <div id="sim-log-area">Log Area</div>
-                  </div>
-                </div>
-              </div>
-
-              <div id="sim-data-area"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br />
-
-      <div style="text-align: center">
-        Link for mobile phone (only for static courses):<br />
-        <img
-          class="u-max-full-width"
-          src="img/qr-sim.png"
-          style="max-width: 256px"
-        />
+        <div id="mbl-contents"></div>
       </div>
     </div>
 
-    <!-- ===== DOC ===== -->
-    <div id="doc" class="container" style="display: none">
+    <!-- ===== SMPL ===== -->
+    <div id="smpl" class="container" style="display: none; font-size: large">
       <div class="row">
-        <br />
-        <h2>Documentation</h2>
-        <p style="font-size: large">
-          The following diagram visually shows all components of the app and the
-          environment.
-        </p>
-        <div
-          style="
-            border-style: solid;
-            border-width: 1px;
-            border-color: black;
-            border-radius: 10px;
-            padding: 10px;
-            width: 65%;
-          "
-        >
-          <img
-            class="u-max-full-width"
-            src="img/misc/mathebuddy-comp-diag.png?v=7"
-          />
-        </div>
-        <br />
-
-        <!-- TODO: math-runtime -->
-
-        <h3>MatheBuddy Language (MBL)</h3>
-        <p style="font-size: large">
-          Formal language to expressively define online math courses.
-          <a href="doc/mbl.html" target="_blank">Documentation</a>
-        </p>
-
-        <h3>Simple Math Programming Language (SMPL)</h3>
-        <p style="font-size: large">
-          Turing-complete programming language with intrinsic mathematical data
-          types.
-          <a href="doc/smpl.html" target="_blank">Documentation</a>
-        </p>
-
-        <h3>MatheBuddy Compiled Language (MBCL)</h3>
-        <p style="font-size: large">
-          JSON-based technical language for compiled online math courses.
-          <!--<a href="doc/mbcl.html" target="_blank">Documentation</a>-->
-        </p>
-
-        <!--<h3>Simulator Guide</h3>
-        <p style="font-size: large">
-          MatheBuddy simulator installation guide.
-          <a href="doc/sim.html" target="_blank">Documentation</a>
-        </p>-->
+        <div id="smpl-contents"></div>
       </div>
     </div>
 
-    <!-- ===== PLAYGROUNDS ===== -->
+    <!-- ===== PRIVACY ===== -->
 
-    <div id="play-info" class="container" style="display: none">
+    <div id="privacy" class="container" style="display: none">
+      <br /><br /><br />
       <div class="row">
-        <br />
-        <h2>Playgrounds</h2>
-        <div id="play-info-contents"></div>
+        <div id="privacy-contents"></div>
       </div>
     </div>
-
-    <!-- ===== PLAYGROUND: MATH RUNTIME ===== -->
-
-    <div id="math-runtime" class="container" style="display: none">
-      <div class="row">
-        <h2>Math-Runtime</h2>
-        <p>
-          "Math Runtime" is used as math engine in the <i>MatheBuddy</i> app. It
-          is entirely written in the <i>Dart</i> programming language and has no
-          dependencies.
-        </p>
-        <b>Currently implemented grammar</b><br />
-        <button id="showHideGrammar" type="button">show/hide</button><br />
-        <div id="math-grammar" style="display: none">
-          <pre><code id="math-runtime-grammar"></code></pre>
-        </div>
-      </div>
-
-      <br />
-
-      <div style="border-style: solid; border-width: 2px; padding: 5px">
-        <div class="row">
-          <h4>Robust Parsing of Student Input</h4>
-          <input type="text" id="student-term" class="u-full-width" />
-          <button id="runParser" type="button">run</button>
-          <br />
-        </div>
-
-        <div class="row">
-          <b>Tokens:</b>&nbsp;
-          <div id="tokens">(empty)</div>
-        </div>
-
-        <div class="row" style="padding-top: 5px">
-          <b>Parsed Term / Error(s):</b>&nbsp;
-          <div id="term">(empty)</div>
-        </div>
-      </div>
-
-      <br />
-
-      <div style="border-style: solid; border-width: 2px; padding: 5px">
-        <div class="row">
-          <h4>Numerical Evaluation of Terms</h4>
-          <input type="text" id="term-eval" class="u-full-width" />
-          <button id="runEval" type="button">run</button>
-          <br />
-        </div>
-        <div class="row">
-          <b>Output:</b>&nbsp;
-          <div id="eval-output">(empty)</div>
-        </div>
-      </div>
-
-      <br />
-
-      <div style="border-style: solid; border-width: 2px; padding: 5px">
-        <div class="row">
-          <h4>Term Optimization</h4>
-          <input type="text" id="term-opt" class="u-full-width" />
-          <button id="runOpt" type="button">run</button>
-          <br />
-        </div>
-        <div class="row">
-          <b>Output:</b>&nbsp;
-          <div id="opt-output">(empty)</div>
-        </div>
-      </div>
-
-      <br />
-
-      <div style="border-style: solid; border-width: 2px; padding: 5px">
-        <div class="row">
-          <h4>Automatic Differentiation</h4>
-          Term:
-          <input type="text" id="term-diff" class="u-full-width" />
-          Variable:
-          <input type="text" id="term-diff-var" class="u-full-width" />
-          <button id="runDiff" type="button">run</button>
-          <br />
-        </div>
-        <div class="row">
-          <b>Output:</b>&nbsp;
-          <div id="diff-output">(empty)</div>
-        </div>
-      </div>
-
-      <br />
-
-      <div style="border-style: solid; border-width: 2px; padding: 5px">
-        <div class="row">
-          <h4>Equivalency of Terms</h4>
-          First Term:
-          <input type="text" id="term-compare-first" class="u-full-width" />
-          Second Term:
-          <input type="text" id="term-compare-second" class="u-full-width" />
-          <button id="runCompare" type="button">run</button>
-          <br />
-        </div>
-        <div class="row">
-          <b>Output:</b>&nbsp;
-          <div id="compare-output">(empty)</div>
-        </div>
-      </div>
-
-      <br />
-
-      <div style="border-style: solid; border-width: 2px; padding: 5px">
-        <div class="row">
-          <h4>Generation of Term Tokens</h4>
-          Term:
-          <input type="text" id="term-tokens" class="u-full-width" />
-          Percentage of extra (random) tokens:
-          <input type="text" id="term-tokens-percentage" class="u-full-width" />
-          <button id="runTermTokens" type="button">run</button>
-          <br />
-        </div>
-        <div class="row">
-          <b>Output:</b>&nbsp;
-          <div id="term-tokens-output">(empty)</div>
-        </div>
-      </div>
-
-      <br />
-
-      <br />
-    </div>
-
-    <!-- ===== PLAYGROUND: SMPL ===== -->
-
-    <div id="smpl" class="container" style="display: none">
-      <div class="row">
-        <h2>SMPL</h2>
-        <p>
-          SMPL is a math-oriented programming language that can be interpreted
-          in the browser. It is entirely written in the <i>Dart</i> programming
-          language and has no dependencies, except "math-runtime".
-        </p>
-        <p>
-          More examples can be found in
-          <a href="https://github.com/mathebuddy/mathebuddy-public-courses"
-            >https://github.com/mathebuddy/mathebuddy-public-courses</a
-          >
-          (consider @code parts).
-        </p>
-        <b>Currently implemented grammar</b>
-        (math-runtime grammar is not listed here)
-        <pre><code id="smpl-grammar"></code></pre>
-      </div>
-
-      <div class="row">
-        <h4>Source Code</h4>
-        <textarea
-          id="smpl-editor"
-          class="u-full-width"
-          style="width: 100%; min-height: 150px; resize: vertical"
-          spellcheck="false"
-        ></textarea>
-        <button id="runSmpl" type="button">run</button>
-        <br />
-      </div>
-
-      <br />
-
-      <div class="row">
-        <h4>Output</h4>
-        <div id="smpl-output">(empty)<br /><br /></div>
-      </div>
-
-      <div class="row">
-        <h4>Intermediate Code</h4>
-        <div id="smpl-ic">(empty)<br /><br /></div>
-      </div>
-    </div>
-
-    <!-- ===== PLAYGROUND: MBL ===== -->
-
-    <div id="mbl" class="container" style="display: none">
-      <div class="row">
-        <h2>MBL</h2>
-        <p>
-          MBL (MatheBuddy language) is a language to describe randomized and
-          gamified math online courses. The compiler is entirely written in the
-          <i>Dart</i> programming language and has no dependencies, except
-          "smpl" and "math-runtime", which are part of the MatheBuddy project.
-          The compiler generates code in the MBCL format (MatheBuddy compiled
-          language), which is encodes as JSON-data.
-        </p>
-        <p>
-          More examples can be found in
-          <a href="https://github.com/mathebuddy/mathebuddy-public-courses"
-            >https://github.com/mathebuddy/mathebuddy-public-courses</a
-          >
-        </p>
-        <b>Currently implemented grammar</b>
-        <pre><code id="mbl-grammar"></code></pre>
-      </div>
-
-      <div class="row">
-        <h4>MBL Code</h4>
-        <textarea
-          id="mbl-editor"
-          class="u-full-width"
-          style="width: 100%; min-height: 150px; resize: vertical"
-          spellcheck="false"
-        ></textarea>
-        <button id="runMbl" type="button">run</button>
-        <br />
-      </div>
-
-      <br />
-
-      <div class="row">
-        <h4>MBCL</h4>
-        <div id="mbl-output">(empty)<br /><br /></div>
-      </div>
-    </div>
-
-    <!-- ===== PLAYGROUND: CHAT ===== -->
-
-    <div id="chat" class="container" style="display: none">
-      <div class="row">
-        <h2>CHAT</h2>
-        <p>
-          The app will contain a chatbot. This playground provides the current
-          implementation. The language is yet only German.
-        </p>
-      </div>
-
-      <div class="row">
-        <h4>Playground</h4>
-        Examples:
-        <ul>
-          <li><code>Wie geht's?</code></li>
-          <li><code>a=[[1,2],[3,4]]</code></li>
-          <li><code>3*a</code></li>
-        </ul>
-        <button id="chat-reset" type="button">reset</button><br />
-      </div>
-      <div id="chat-content"></div>
-      <div class="row" style="text-align: right">
-        <input
-          id="chat-input"
-          type="text"
-          class="u-full-width"
-          value=""
-          style="width: 75%; text-align: right"
-        />
-      </div>
-      <div class="row" style="text-align: right">
-        Press ENTER to post messages.
-      </div>
-    </div>
-
-    <!-- ===== PLAYGROUND: TEX ===== -->
-
-    <div id="tex" class="container" style="display: none">
-      <div class="row">
-        <h2>TeX</h2>
-        <p>
-          <code>TeX</code> syntax is used to display equations in the
-          <i>MatheBuddy</i> app. Unfortunately, there is currently no fully
-          implemented TeX rendering engine available that meets our demands: We
-          use <code>Flutter</code> to write the app. Equations must be embedded
-          into TextSpan elements in fluent text. These elements must be
-          updatable at runtime. All available libraries, for example
-          <code>MathJax</code>, use <code>JavaScript (JS)</code>. Even it is
-          feasible to run JS code from Flutter, MathJax has a minified size of
-          nearly 2 MB (would still be OK!). Furthermore, we would require
-          conditional code for the JS runtime (dart:js for the web-app,
-          flutter_js for all other platforms), that results in an ugly build
-          process.
-        </p>
-        <p>
-          YES, we know about <code>flutter_tex</code>; but it just is a shell
-          around MathJax and does not provide TextSpan integration.
-        </p>
-
-        <ul>
-          <li>
-            <!-- -->
-            We will use the
-            <a href="https://pub.dev/packages/tex" target="_blank">tex</a>
-            package for equation rendering. It is extremely light-weight and
-            entirely written in the <code>Dart</code> programming language;
-            without any dependencies and maintained by the MatheBuddy software
-            architect.
-          </li>
-          <li>
-            <!-- -->This playground uses the above mentioned the tex typesetter.
-          </li>
-          <li>
-            <!-- -->
-            A list of implemented glyphs, macros and examples can be found
-            <a href="https://andreas-schwenk.github.io/tex/" target="_blank"
-              >here</a
-            >.
-          </li>
-          <li>
-            <!-- -->
-            The changelog can be found
-            <a href="https://pub.dev/packages/tex/changelog" target="_blank"
-              >here</a
-            >.
-          </li>
-        </ul>
-      </div>
-
-      <div class="row">
-        <b>Input TeX Code:</b>&nbsp;
-        <input type="text" id="tex-input" class="u-full-width" />
-        <button id="runTex" type="button">typeset</button>
-        <button id="runTexWithBorder" type="button">debug</button>
-        <br />
-      </div>
-
-      <div class="row" style="padding-top: 5px">
-        <b>Parsed Term:</b>&nbsp;
-        <div id="tex-term">(empty)</div>
-      </div>
-
-      <div class="row" style="padding-top: 5px">
-        <b>Rendering:</b>&nbsp;
-        <div
-          id="tex-rendering"
-          style="
-            overflow-x: scroll;
-            border-style: solid;
-            border-radius: 3px;
-            border-width: 1px;
-          "
-        ></div>
-      </div>
-
-      <br />
-    </div>
-
-    <!-- end of tex -->
 
     <!-- ===== FOOTER ===== -->
 
-    <div class="container">
+    <div class="container" style="text-align: center">
       <br />
       <br />
       <p style="color: #767676">
-        &copy; 2022-<span id="current-year"></span> Prof. Dr. Heiko Knospe,
-        Patricia Maria Graf M.Sc.,
-        <a href="https://www.th-koeln.de/personen/andreas.schwenk/"
-          >Andreas Schwenk M.Sc.</a
-        >, TH Köln.
+        &copy; 2022-<span id="current-year"></span>
+
+        <a href="https://www.nt.th-koeln.de/fachgebiete/mathe/knospe/">
+          Prof. Dr. Heiko Knospe,</a
+        >
+        <a href="https://www.th-koeln.de/personen/patricia_maria.graf/">
+          Patricia Maria Graf M.Sc.,
+        </a>
+        <a href="https://www.arts-and-sciences.com">Andreas Schwenk M.Sc.</a>,
+        TH Köln.
       </p>
 
       <a href="https://www.th-koeln.de">
@@ -890,7 +333,7 @@
           alt="Responsive image"
           style="height: 48px"
       /></a>
-      &nbsp; &nbsp;
+      &nbsp; &nbsp; &nbsp; &nbsp;
       <a href="https://stiftung-hochschullehre.de">
         <img
           src="img/misc/logo_stiftung_hochschullehre.png"
@@ -898,7 +341,7 @@
           alt="Responsive image"
           style="height: 48px"
       /></a>
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      &nbsp; &nbsp; &nbsp;
       <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">
         <img
           src="img/misc/gpl-v3-logo.svg"
@@ -908,143 +351,74 @@
         />
       </a>
 
-      <br />
+      <br /><br />
+
+      Funded by
+      <i
+        >Stiftung Innovation in der Hochschullehre;
+        <a
+          href="https://stiftung-hochschullehre.de/foerderung/freiraum2022/"
+          target="_blank"
+          >FREIRAUM 2022</a
+        >
+      </i>
     </div>
 
+    <br />
+
     <script>
+      const urlParams = new URLSearchParams(window.location.search);
       var language = "en";
-
-      // iOS/Android download buttons
-      document.getElementById("download-ios").onclick = () => {
-        alert("not yet available :-)");
-      };
-      document.getElementById("download-android").onclick = () => {
-        alert("not yet available :-)");
-      };
-
-      // set home text
-      fetch("text/home.html?ver=" + Date.now())
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("home-contents").innerHTML = data;
-          refreshLanguage();
-        });
-      // set simulator info text
-      fetch("text/sim-info.html?ver=" + Date.now())
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("sim-info-contents").innerHTML = data;
-          refreshLanguage();
-        });
-      // set playground info text
-      fetch("text/play-info.html?ver=" + Date.now())
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("play-info-contents").innerHTML = data;
-          refreshLanguage();
-        });
-      // set upcoming features info
-      // fetch("text/todo.txt?ver=" + Date.now())
-      //   .then((response) => response.text())
-      //   .then((data) => {
-      //     //data = data.replace(/\n/g, "<br/>");
-      //     let formatted = "";
-      //     let lines = data.split("\n");
-      //     for (let line of lines) {
-      //       line = line.trim();
-      //       if (line.startsWith("<h")) {
-      //         formatted += "<br/><br/>";
-      //       }
-      //       if (line.startsWith("-")) {
-      //         formatted += "<li>" + line.substring(1) + "</li>";
-      //       } else {
-      //         formatted += line;
-      //       }
-      //     }
-      //     document.getElementById("upcoming-features").innerHTML = formatted;
-      //     refreshLanguage();
-      //   });
-
-      // switch simulator device (only changes width/height)
-      function setDevice(id) {
-        let width = 360;
-        let height = 640;
-        switch (id) {
-          case "small":
-            width = 308;
-            height = 480;
-            break;
-          case "medium":
-            width = 360;
-            height = 750;
-            break;
-          case "large":
-            width = 400;
-            height = 800;
-            break;
-          default:
-            console.log("Error: unknown device " + id);
-        }
-        const div = document.getElementById("sim-iframe");
-        div.style.minWidth = width + "px";
-        div.style.maxWidth = width + "px";
-        div.style.width = width + "px";
-        div.style.minHeight = height + "px";
-        div.style.maxHeight = height + "px";
-        div.style.height = height + "px";
+      if (urlParams.has("lang")) {
+        language = new URLSearchParams(window.location.search).get("lang");
+      }
+      var page = "home";
+      if (urlParams.has("page")) {
+        page = new URLSearchParams(window.location.search).get("page");
       }
 
-      // div selection
-      function show(id) {
-        document.getElementById("sim").style.display = "none";
-        showPlayground(""); // disable active playground
-        // if (id === "sim-info") {
-        //   document.body.style.backgroundColor = "rgb(50,50,50)";
-        // }
-        let divs = [
-          "home",
-          "blog",
-          "doc",
-          "math-runtime",
-          "smpl",
-          "mbl",
-          //"todo",
-          "sim-info",
-          "play-info",
-        ];
-        for (let d of divs)
-          document.getElementById(d).style.display = id == d ? "block" : "none";
-        document.getElementById("doc-list").style.display =
-          id == "doc" ? "block" : "none";
-        document.getElementById("sim-list").style.display =
-          id == "sim-info" ? "block" : "none";
-        document.getElementById("play-list").style.display =
-          id == "play-info" ? "block" : "none";
-        // hide logo in sim
-        document.getElementById("top-logo-large").style.display =
-          id == "sim-info" ? "none" : "block";
-      }
-      show("home"); // home is default
+      // highlight button
+      let btn = document.getElementById("btn-" + page);
+      btn.style.backgroundColor = "white";
+      btn.style.color = "#aa322c";
 
-      // documentation selection
-      function showDoc(id) {
-        window.open("doc/" + id + ".html?ver=" + Date.now(), "_blank");
+      // get text that is stored in other files
+      if (["home", "dev", "privacy", "mbl", "smpl"].includes(page)) {
+        fetch("text/" + page + ".html?ver=" + Date.now())
+          .then((response) => response.text())
+          .then((data) => {
+            if (["mbl", "smpl"].includes(page)) {
+              data = data.replace("margin: 0 auto;", "");
+              data = data.replace("max-width: 36em;", "");
+              data = data.replace("padding-left: 50px;", "");
+              data = data.replace("padding-right: 50px;", "");
+              data = data.replace("padding-top: 50px;", "");
+              data = data.replace("padding-bottom: 50px;", "");
+              data = data.replaceAll(
+                "pre {",
+                "pre{\nborder: black;border-width: 1px;border-style: solid;padding: 10px;"
+              );
+            } else if (page === "privacy") {
+              data = data.replaceAll("<hr />", "");
+              data = data.replaceAll("<h2>", "<br/><br/><h3>");
+              data = data.replaceAll("</h2>", "</h3>");
+              data = data.replaceAll("<h1>", "<br/><br/><br/><h2>");
+              data = data.replaceAll("</h1>", "</h2>");
+            }
+            document.getElementById(page + "-contents").innerHTML = data;
+            refreshLanguage();
+          });
       }
 
-      // playground selection
-      function showPlayground(id) {
-        let playgrounds = [
-          "play-info",
-          "math-runtime",
-          "smpl",
-          "mbl",
-          "chat",
-          "tex",
-        ];
-        for (let d of playgrounds) {
-          document.getElementById(d).style.display = id == d ? "block" : "none";
-        }
+      // switch page -> reload
+      function switchPage(page) {
+        window.location.href = "index.html?page=" + page + "&lang=" + language;
       }
+
+      // (de)activate visible items
+      let divs = ["home", "dev", "mbl", "smpl", "privacy"];
+      for (let d of divs)
+        document.getElementById(d).style.display = page == d ? "block" : "none";
 
       // language
       function refreshLanguage() {
@@ -1059,31 +433,6 @@
         language = id;
         refreshLanguage();
       }
-
-      // update formal grammar (read from "*-grammar")
-      let element1 = document.getElementById("math-runtime-grammar");
-      fetch("text/math-runtime-grammar.txt?ver=" + Date.now())
-        .then((response) => response.text())
-        .then((data) => (element1.innerHTML = data));
-      let element2 = document.getElementById("smpl-grammar");
-      fetch("text/smpl-grammar.txt?ver=" + Date.now())
-        .then((response) => response.text())
-        .then((data) => (element2.innerHTML = data));
-      let element3 = document.getElementById("mbl-grammar");
-      fetch("text/mbl-grammar.txt?ver=" + Date.now())
-        .then((response) => response.text())
-        .then((data) => (element3.innerHTML = data));
-
-      // show/hide grammar
-      var grammarShown = false;
-      document
-        .getElementById("showHideGrammar")
-        .addEventListener("click", () => {
-          grammarShown = !grammarShown;
-          document.getElementById("math-grammar").style.display = grammarShown
-            ? "block"
-            : "none";
-        });
 
       // set current year in footer
       document.getElementById("current-year").innerHTML =
@@ -1103,9 +452,13 @@
           if (line.length == 0) continue;
 
           let blogItem = document.createElement("div");
-          blogItem.style.borderStyle = "solid";
+
+          //blogItem.style.borderLeftStyle = "solid";
+          //blogItem.style.borderLeftWidth = "5px";
           blogItem.style.borderRadius = "10px";
-          blogItem.style.borderColor = "#aa322c";
+          blogItem.style.backgroundColor = "rgb(245,245,245)";
+          //blogItem.style.borderColor = "#aa322c";
+
           blogItem.style.padding = "10px";
           blogItem.style.fontSize = "large";
           div.appendChild(blogItem);
@@ -1164,23 +517,12 @@
             date + " " + author;
           document.getElementById("blog-title-" + idx).innerHTML = title;
           if (imgPath.length > 0) {
-            src +=
-              '<br/><br/><img class="u-max-full-width" src="' + imgPath + '"/>';
+            src += '<br/><img class="u-max-full-width" src="' + imgPath + '"/>';
           }
           document.getElementById("blog-text-" + idx).innerHTML = src;
           refreshLanguage();
         }
       }
-
-      var params = new URLSearchParams(window.location.search);
-      if (params.has("site")) {
-        show(params.get("site"));
-        if (params.has("playground")) {
-          showPlayground(params.get("playground"));
-        }
-      }
     </script>
-
-    <script src="js/index.min.js?version=1720175516"></script>
   </body>
 </html>
