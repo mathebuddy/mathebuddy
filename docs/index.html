@@ -31,7 +31,11 @@
     <meta name="msapplication-config" content="img/favicon/browserconfig.xml" />
 
     <title>MatheBuddy</title>
-    <link rel="stylesheet" href="index.css?v=9" />
+    <link
+      rel="stylesheet"
+      href="index.css?v=10
+    "
+    />
 
     <style>
       pre code {
@@ -420,6 +424,8 @@
               data = data.replace("padding-right: 50px;", "");
               data = data.replace("padding-top: 50px;", "");
               data = data.replace("padding-bottom: 50px;", "");
+              data = data.replace("padding: 12px;", "");
+              data = data.replace("font-size: 0.9em;", "");
               data = data.replaceAll(
                 "pre {",
                 "pre{\nborder: black;border-width: 1px;border-style: solid;padding: 10px;"
