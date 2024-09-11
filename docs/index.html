@@ -153,11 +153,11 @@
         <div style="padding-top: 6px">
           &nbsp;&nbsp;&nbsp;&nbsp;
           <span onclick="switchLanguage('en')" style="cursor: pointer"
-            ><b>English</b></span
+            ><b>EN</b></span
           >
           |
           <span onclick="switchLanguage('de')" style="cursor: pointer"
-            ><b>Deutsch</b></span
+            ><b>DE</b></span
           >
         </div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -368,7 +368,11 @@
 
     <script>
       const urlParams = new URLSearchParams(window.location.search);
-      var language = "en";
+
+      const isGerman =
+        (navigator.language || navigator.userLanguage) === "de-DE";
+
+      var language = isGerman ? "de" : "en";
       if (urlParams.has("lang")) {
         language = new URLSearchParams(window.location.search).get("lang");
       }
