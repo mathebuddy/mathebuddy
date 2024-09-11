@@ -2,33 +2,27 @@
 
 (only available in English)
 
-**WARNING: THE DOCUMENTATION IS NOT UP TO DATE. WE WILL PROVIDE AN UPDATE SOON.**
+This document outlines the syntax of the `MatheBuddy Language (MBL)`, designed for creating math-based online courses. `MBL` supports both content structuring and the generation of randomized training exercises. It is especially suited for organizing large, multi-level courses and managing content dependencies efficiently. Additionally, semantic tags can be added to transform the structure into a semantic network, which can be leveraged in applications like chatbots or adaptive learning strategies, such as smart repetition for optimized memorization.
 
-This document describes the syntax of the _MatheBuddy Language (MBL)_,
-which can be used to create mathematical based online courses.
-MBL describes contents as well as randomized training exercises.
-It is also used to structure large courses with many levels and keeps track of the contents dependencies.
-Tags can be inserted to transform the definition into a semantical network.
-The latter can be used for example in chat bots or didactical learning concepts;
-e.g. smart repetition for optimized memoization.
+Several concepts in MBL are inspired by other formal languages:
 
-Some concepts of MBL are taken (or copied) from other formal languages:
+- Text formatting draws from `Markdown`, known for its expressive and easy-to-remember syntax.
+- `TeX` is employed for equations, as it is the standard language used by most academic staff in mathematics departments.
+- `SMPL`, developed alongside MBL, is a general-purpose language with a focus on mathematical expression. It is used to generate random variables in exercises and compute sample solutions.
 
-- Text formatting is inspired from `Markdown`, as it provides a very expressive and memorable syntax.
-- `TeX` is used for equations, as most mathematical staff at universities is firm to that language.
-- `SMPL`, which is developed in parallel to `MBL`, is a general purpose language with focus on expressive math. It is used to generate random variables in exercises, as well as to calculate sample solutions.
+Although originally developed for the MatheBuddy Learning app, the `MBL` language is designed to be platform-independent, allowing for easy integration into other learning management systems.
 
-<!-- TODO: implement such tags in to the language! -->
+For a comprehensive collection of example courses, visit the public repository: [MatheBuddy Public Courses](https://github.com/mathebuddy/mathebuddy-public-courses).
 
-The language definition of MBL is independent of concrete implementations.
-All concepts can be transferred to other learning management systems.
-The example implementation can be found [here](https://github.com/mathebuddy/mathebuddy/tree/main/lib/compiler).
+## File Format
 
-A large set of examples can be obtained from [https://github.com/mathebuddy/mathebuddy-public-courses](https://github.com/mathebuddy/mathebuddy-public-courses).
+MBL files are written in UTF-8 encoded text and use the `*.mbl` file extension. Typically, an `*.mbl` file represents a level, which is a self-contained module designed to explain specific content to students. These files include text, equations, figures, and exercises.
+
+The chapter _Course Structure_ will detail how to organize a full course, comprising multiple chapters, units, and levels.
 
 ## Hello, world!
 
-The following lines define a trivial level page:
+The following example defines a simple level page with only the title and a single paragraph of text.
 
 ```mbl
 My first level
@@ -37,118 +31,87 @@ My first level
 Welcome to MatheBuddy!
 ```
 
+Here's an improved version of the provided section:
+
 ## Typography
 
-This section describes the text structuring and text formatting features.
+This section outlines the text structuring and formatting features in MBL.
 
-- `Level Title`
+- **Level Title**: The main heading of a level file, defined with at least four hashtags (`#`). Labels are optional.
 
-  A level title is the main heading of a level file. Example:
+  Example:
 
   ```mbl
   My Course Title @myLabel
   ###############
   ```
 
-  Four or more hashtags (`#`) are required. Labels are optional.
+- **Sections**: Levels can be divided into sections using at least four equal signs (`=`). Labels are optional, and it is recommended to use the prefix `sec:` for section labels.
 
-- `Sections`
-
-  A level can be separated into sections (headlines). Example:
+  Example:
 
   ```mbl
   My Section @sec:myLabel
   ==========
   ```
 
-  Four or more equal signs (`=`) are required. Labels are optional. We suggest to use prefix `sec:` for section labels, but this is optional.
+- **Subsections**: Sections can be further subdivided with subsections, using at least four dashes (`-`). Labels are optional, and it is recommended to use the prefix `subsec:` for subsection labels.
 
-- `Subsections`
-
-  A section can be subdivided into one or multiple subsections. Example:
+  Example:
 
   ```mbl
   My Subsection @subsec:myLabel
   -------------
   ```
 
-  Four or more dashes (`-`) are required. Labels are optional. We suggest to use prefix `subsec:` for subsection labels, but this is optional.
+- **Paragraphs**: A paragraph consists of one or more lines of continuous text. New paragraphs start after an empty line.
 
-- `Paragraphs`
-
-  A paragraph consists of one or multiple lines of continuous text. Example:
+  Example:
 
   ```mbl
-  This is text within a paragraph.
-  Even this text stands in a new line,
-  it will be visible directly behind the last line.
+  This is a sentence within a paragraph.
+  Although the next sentence starts on a new line,
+  it will still appear directly after the previous one without any gap.
 
-  An empty line starts a new paragraph.
+  A new paragraph begins here.
   ```
 
-- `Bold, Italic and Colored Text`
+- **Bold, Italic, and Colored Text**: Basic text formatting options include bold, italic, and colored text. Use `**` for bold, `*` for italic, and square brackets with a color code for colored text.
 
-  Basic text formatting options are bold text, italic text and colored text.
-  _Bold text_ is embedded into a pair of double-asterisks (`**`).
-  _Italic text_ is embedded into a pair of single-asterisks (`*`).
-  _Colored text_ is embedded into brackets and postposed by the color name (`[...]@colorN`).
-
-  Examples:
+  Example:
 
   ```mbl
-  Some **bold** text. Some *italic* text.
-  The word [sky]@color1 is written in primary color.
-  [Some text written in the secondary color.]@color2.
-  You can also write [bold text]@bold and [italic text]@italic similar to color notation.
+  This text is **bold**. This one is *italic*.
+  The word [beautiful]@color1 is displayed in the primary color."
   ```
 
-  Colors are only defined implicitly by a number.
-  The exact rendering depends on the runtime environment, including the currently active color profile.
-  We restricted the degree of freedom per design to force uniformly presented courses. `color0` defines black color in all cases.
+  The specific colors depend on the runtime environment, but `color0` is always black.
 
-- `Definitions, Theorems, Lemmas, ...`
-
-  Definitions, Theorems etc. are embedded into a _block_.
-  All lines that belong to a block are indented to the right by a tabulator, or four spaces respectively.
+- **Definitions and Theorems**: Definitions, theorems, and similar elements are structured in blocks. All lines in a block are indented by four spaces.
 
   Examples:
 
   ```mbl
   DEFINITION Positive @def:positive
-      For any integer $n$, $n$ is **positive** if $n>0$.
-  ```
+      A number $n$ is **positive** if $n > 0$.
 
-  ```mbl
   THEOREM The Aristotelian Syllogism @thm:socrates
-      If every man is mortal and Socrates is a man, then Socrates is mortal.
+      If all men are mortal and Socrates is a man, then Socrates is mortal.
   ```
 
-  The runtime environment may replace tag names (e.g. `THEOREM`) with corresponding terms of the local language.
+  The list of supported tags is: `AXIOM`, `CLAIM`, `CONJECTURE`, `COROLLARY`, `DEFINITION`, `EXAMPLE`, `IDENTITY`, `LEMMA`, `PARADOX`, `PROPOSITION`, `THEOREM`, `PROOF`.
 
-  The complete list of supported tags is `DEFINITION`, `THEOREM`, `LEMMA`, `COROLLARY`, `PROPOSITION`, `CONJECTURE`, `AXIOM`, `CLAIM`, `IDENTITY`, `PARADOX`.
+- **Examples**: Examples are also formatted in blocks, indented by four spaces.
 
-- `Examples`
-
-  Examples are embedded into a _block_.
-  All lines that belong to a block are indented to the right by a tabulator, or four spaces respectively.
+  Example:
 
   ```mbl
-  EXAMPLE Addition of complex numbers @ex:myExample
-      $z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i$
+  EXAMPLE Complex Number Addition @ex:myExample
+      $z_1 = 1 + 3i$, $z_2 = 2 + 4i$,
+      so $z_1 + z_2 = 3 + 7i$.
   ```
 
-  Full line equations can be inserted as described in subsection "nesting of blocks below. Example:
-
-  ```mbl
-  EXAMPLE Addition of complex numbers @ex:myExample
-      EQUATION
-          z_1=1+3i ~~ z_2=2+4i ~~ z_1+z_2=3+7i
-  ```
-
-- `Alignment`
-
-  The default alignment of paragraphs is left.
-  Block types `LEFT`, `CENTER` and `RIGHT` change the alignment.
+- **Alignment**: Text alignment can be adjusted using the `LEFT`, `CENTER`, and `RIGHT` blocks.
 
   Example:
 
@@ -157,145 +120,93 @@ This section describes the text structuring and text formatting features.
       This text is centered.
   ```
 
-- `Links and References`
-
-  Each section, subsection, equation, exercise, ... can be labeled at declaration. A label has the form `@PREFIX:LABEL`, with identifiers for `PREFIX` and `LABEL`.
-  Using prefixes is optional.
-
-  A link to a labeled object can be placed in paragraph text. One has to write `@PREFIX:LABEL` again.
-
-  The order of declaration and reference is arbitrary.
-
-  <!-- TODO: references to other levels.. -->
+- **Links and References**: Sections, exercises, and other objects can be labeled with `@PREFIX:LABEL`, allowing for easy cross-referencing.
 
   Example:
 
   ```mbl
-  An introduction is given in @sec:intro.
+  Refer to section @sec:intro for an introduction.
 
   Intro @sec:intro
   =====
   ```
 
-  We suggest to use the following prefixes:
+  Suggested prefixes include `sec:` for sections, `ex:` for exercises, and `fig:` for figures.
 
-  | prefix    | used for    |
-  | --------- | ----------- |
-  | `sec:`    | sections    |
-  | `subsec:` | subsections |
-  | `ex:`     | exercises   |
-  | `fig:`    | figures     |
-  | `eq:`     | equation    |
-  | `tab:`    | table       |
-  | `def:`    | definition  |
-  | `thm:`    | theorem     |
+- **Comments**: Comments are indicated by `%` and ignored by the compiler until the end of the line.
 
-  References to other files should be avoided, if destination levels are possibly unplayable/locked (read section [course structure](#course-structure)).
-
-  A link to a labeled object in another file is denoted by `@PATH/PREFIX:LABEL`, where `PATH` is the relative file path within the current course, without file extension (`.mbl`). _Example: To link to theorem `thm:taylor` in file `../diff/taylor.mbl`, write `@../diff/intro/thm:taylor`._
-
-  It is also feasible to insert generic references with the asterisk operator (`*`). For example, `@ex:taylor*` links to the set of all exercises that have a label starting with `ex:taylor` (e.g. `ex:taylor-simple`, `ex:taylor2`, ...). The runtime environment inserts comma separated links.
-
-- `Comments`
-
-  All characters after `%` are ignored by the compiler, until the current line ends.
-
-  Comments can e.g. be used to make notes to other developers, or temporarily hide unfinished stuff. Example:
+  Example:
 
   ```mbl
-  This text is displayed in the output.
-  % only a course developer can read this text.
+  This is visible text.
+  % This comment is visible to developers only.
   ```
 
-- `Page Breaks`
+- **Page Breaks**: To minimize excessive vertical scrolling, page breaks can be added using the `NEWPAGE` block.
 
-  A level can be scrolled vertically by the student. Doom-scrolling should be avoided (not only) for didactical reasons. Page breaks can be inserted by a `NEWPAGE`-_block_. Example:
-
-  TODO!!!!!
+  Example:
 
   ```mbl
   NEWPAGE
   ```
 
-- Nesting of blocks:
+- **Block Nesting**: Blocks can be nested, with deeper levels created by additional indentation. The `END` keyword can be used to close a block explicitly.
 
-  In general, format blocks are used in a sequence, i.e. a new block starts after the last block ended.
-
-  In some cases, a nesting of blocks is needed.
-  The following example uses text alignment and an equation within a `DEFINITION`:
+  Example:
 
   ```mbl
-  DEFINITION My definition  @def:myDef
-      Some paragraph text here.
+  DEFINITION My Definition @def:myDef
+      Some explanation here.
       CENTER
-          This text is center aligned.
-      EQUATION @myEquation
+          This text is centered.
+      EQUATION
           x^2 + y^2 = z^2
-      Another paragraph here.
-  ```
-
-  Inner blocks are created by further indentation.
-
-  **Warning:** Attributes (for example `@options` in exercises) refer to the innermost declared subblock. To explicitly end a subblock, use the `END` keyword. Example:
-
-  ```mbl
-  ---
-  EXERCISE Test
-
-  FIGURE
-  @path
-  img/my-figure.svg
-  END
-
-  @text            % The following lines belong to 'EXERCISE'
-  (x) correct answer
-  ( ) incorrect answer
+      Additional explanation here.
   ```
 
 ## Equations
 
-We distinguish two kinds of equations:
-_inline equations_ are embedded into a text of a paragraph.
-_Full equations_ are rendered in one or more separate lines.
-The latter are numbered by default.
+We differentiate between two types of equations:
 
-Equations are encoded in `TeX` notation.
+- **Inline equations** are embedded within the text of a paragraph.
+- **Block equations** are rendered on separate lines, typically with numbering.
 
-- `Inline Equations`
+Equations are written using `TeX` notation.
 
-  An inline equation is embedded into a pair of dollar signs. Example:
-
-  ```mbl
-  Einstein's famous formula is $E=mc^2$. It defines the energy $E$ of ...
-  ```
-
-- `Full Equations` (equations in display math mode)
-
-  Full equations are embedded into a block with keyword `EQUATION`. Example:
-
-  ```mbl
-  EQUATION  @eq:myLabel
-      a^2 + b^2 = c^2
-  ```
-
-  The label is optional.
-
-  A numbering is displayed right to the equation per default.
-  An asterisk `*` hides the numbering. Example:
-
-  ```mbl
-  EQUATION*  @eq:myLabel
-      a^2 + b^2 = c^2
-  ```
-
-  Equations can be labeled with `@`.
-  For example, `@eq:myLabel` is displayed $Eq~(1)$ (depends on the runtime environment).
-
-  **Aligned equations** improve readability. For example you may stack equal signs vertically.
-
-  Each row must contains an ampersand character (`&`) for the alignment, and must end with a line feed `\\`.
+- **Inline Equations**:  
+  Inline equations are enclosed within dollar signs (`$`).
 
   Example:
+
+  ```mbl
+  Einstein’s renowned equation, $E=mc^2$,
+  defines the relationship between energy ($E$) and mass ($m$),
+  with $c$ representing the speed of light.
+  ```
+
+- **Block Equations** (display math mode):  
+  Block equations are enclosed within an `EQUATION` block.
+
+  Example:
+
+  ```mbl
+  EQUATION @eq:myLabel
+      a^2 + b^2 = c^2
+  ```
+
+  - Labels are optional and allow referencing the equation (e.g., `@eq:myLabel`).
+  - By default, equations are numbered. To suppress numbering, use an asterisk (`*`):
+
+  ```mbl
+  EQUATION* @eq:myLabel
+      a^2 + b^2 = c^2
+  ```
+
+  Equations can be referenced in the text, e.g., `@eq:myLabel`, and will be displayed based on the runtime environment (e.g., as $Eq~(1)$).
+
+- **Aligned Equations**:  
+  For better readability, equations with multiple steps or operations can be aligned vertically.  
+  Use an ampersand (`&`) for alignment, and end each line with a double backslash (`\\`). Example:
 
   ```mbl
   ALIGNED-EQUATION
@@ -304,25 +215,21 @@ Equations are encoded in `TeX` notation.
               &= x^2 + 2x + 1 \\
   ```
 
-  _Remarks: The last linefeed via `\\` is optional. The spacing before `&` is optional, but highly suggested to improve readability._
+  _Note: The final linefeed (`\\`) is optional. Consistent spacing around `&` is recommended for clarity._
 
-- Abbreviations
+- **Abbreviations**:  
+  To simplify the notation, some commonly used mathematical symbols have shorthand versions. The following table lists available abbreviations:
 
-  Equations are written in plain `TeX` code.
-  In some cases, the notation is rather long.
-  We introduce some abbreviations for a shorter notation.
-  The following table lists all implemented abbreviations:
+  | Symbol       | `TeX` Code   | Abbreviation |
+  | ------------ | ------------ | ------------ |
+  | $\mathbb{R}$ | `\mathbb{R}` | `\RR`        |
+  | $\mathbb{N}$ | `\mathbb{N}` | `\NN`        |
+  | $\mathbb{Z}$ | `\mathbb{Z}` | `\ZZ`        |
+  | $\mathbb{C}$ | `\mathbb{C}` | `\CC`        |
 
-  | type         | plain tex    | short notation |     |
-  | ------------ | ------------ | -------------- | --- |
-  | $\mathbb{R}$ | `\mathbb{R}` | `\RR`          |     |
-  | $\mathbb{N}$ | `\mathbb{N}` | `\NN`          |     |
-  | $\mathbb{Z}$ | `\mathbb{Z}` | `\ZZ`          |     |
-  | $\mathbb{C}$ | `\mathbb{C}` | `\CC`          |     |
+  Abbreviations are optional but can enhance readability for common symbols.
 
-  Using abbreviations is optional.
-
-<!-- (TODO: extend table) -->
+<!-- TODO: old from here on -->
 
 ## Figures
 
