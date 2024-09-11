@@ -31,8 +31,6 @@ My first level
 Welcome to MatheBuddy!
 ```
 
-Here's an improved version of the provided section:
-
 ## Typography
 
 This section outlines the text structuring and formatting features in MBL.
