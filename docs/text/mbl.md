@@ -220,12 +220,12 @@ Equations are written using `TeX` notation.
 - **Abbreviations**:  
   To simplify the notation, some commonly used mathematical symbols have shorthand versions. The following table lists available abbreviations:
 
-  | Symbol       | `TeX` Code   | Abbreviation |
-  | ------------ | ------------ | ------------ |
-  | $\mathbb{R}$ | `\mathbb{R}` | `\RR`        |
-  | $\mathbb{N}$ | `\mathbb{N}` | `\NN`        |
-  | $\mathbb{Z}$ | `\mathbb{Z}` | `\ZZ`        |
-  | $\mathbb{C}$ | `\mathbb{C}` | `\CC`        |
+  | Symbol   | `TeX` Code   | Abbreviation |
+  | -------- | ------------ | ------------ |
+  | &#x211D; | `\mathbb{R}` | `\RR`        |
+  | &#x2115; | `\mathbb{N}` | `\NN`        |
+  | &#x2124; | `\mathbb{Z}` | `\ZZ`        |
+  | &#x2102; | `\mathbb{C}` | `\CC`        |
 
   Abbreviations are optional but can enhance readability for common symbols.
 
