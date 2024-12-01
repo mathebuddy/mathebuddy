@@ -9,7 +9,7 @@ description: MatheBuddy - a gamified app for higher math
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+9 # must increment version + version code
+version: 1.1.0+10 # must increment version + version code
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
