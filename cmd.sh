@@ -102,6 +102,8 @@ do
         cd ..
         cd bin/bundler
         #  !!! TODO: using x64-Dart compiler to support both Intel and Apple Silicon
+        #     https://dart.dev/get-dart/archive -> stable release macOS x64
+        #       version MUST match    dart --version
         /Users/andi/Downloads/dart-sdk/bin/dart compile exe src/bundler.dart -o bundler
         cd ../..
         rm -rf ../mathebuddy-private-courses/tools/mathebuddy.app
