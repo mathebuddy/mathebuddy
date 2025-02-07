@@ -71,7 +71,7 @@ InlineSpan generateParagraphItem(State state, MbclLevelItem item,
       }
     case MbclLevelItemType.text:
       return TextSpan(
-        text: "${item.text} ",
+        text: "${item.text}",
         style: TextStyle(
             color: color,
             height: textHeight,
@@ -119,7 +119,9 @@ InlineSpan generateParagraphItem(State state, MbclLevelItem item,
                 gen.add(generateParagraphItem(state, it,
                     bold: true, color: color, exerciseData: exerciseData));
               }
-              return TextSpan(children: gen);
+              return TextSpan(
+                children: gen,
+              );
             }
           case MbclLevelItemType.italicText:
             {

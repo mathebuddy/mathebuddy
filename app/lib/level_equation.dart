@@ -16,9 +16,10 @@ import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/level_paragraph.dart';
 
 Widget generateEquation(State state, MbclLevel level, MbclLevelItem item,
-    {MbclExerciseData? exerciseData}) {
+    {MbclExerciseData? exerciseData, Color color = Colors.black}) {
   var data = item.equationData!;
-  var eq = generateParagraphItem(state, data.math!, exerciseData: exerciseData);
+  var eq = generateParagraphItem(state, data.math!,
+      exerciseData: exerciseData, color: color);
   var equationWidget = RichText(text: TextSpan(children: [eq]));
   var eqNumber = data.number;
   var eqNumberWidget = Text(eqNumber >= 0 ? '($eqNumber)' : '');

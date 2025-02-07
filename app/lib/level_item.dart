@@ -99,7 +99,7 @@ Widget generateLevelItem(State state, MbclLevel level, MbclLevelItem item,
         var languageIndex = language == "de" ? 0 : 1; // TODO
         for (var subItem in filterLanguage2(item.items, languageIndex)) {
           list.add(generateParagraphItem(state, subItem,
-              exerciseData: exerciseData));
+              exerciseData: exerciseData, color: textColor));
         }
         var richText = RichText(
           text: TextSpan(children: list),
@@ -118,18 +118,20 @@ Widget generateLevelItem(State state, MbclLevel level, MbclLevelItem item,
       }
     case MbclLevelItemType.alignCenter:
       {
-        return generateAlign(state, level, item, exerciseData: exerciseData);
+        return generateAlign(state, level, item,
+            exerciseData: exerciseData, textColor: textColor);
       }
     case MbclLevelItemType.equation:
       {
-        return generateEquation(state, level, item, exerciseData: exerciseData);
+        return generateEquation(state, level, item,
+            exerciseData: exerciseData, color: textColor);
       }
-
     case MbclLevelItemType.itemize:
     case MbclLevelItemType.enumerate:
     case MbclLevelItemType.enumerateAlpha:
       {
-        return generateItemize(state, level, item, exerciseData: exerciseData);
+        return generateItemize(state, level, item,
+            exerciseData: exerciseData, textColor: textColor);
       }
     case MbclLevelItemType.example:
       {

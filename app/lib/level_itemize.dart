@@ -16,7 +16,7 @@ import 'package:mathebuddy/mbcl/src/level.dart';
 import 'package:mathebuddy/level_item.dart';
 
 Widget generateItemize(State state, MbclLevel level, MbclLevelItem item,
-    {MbclExerciseData? exerciseData}) {
+    {MbclExerciseData? exerciseData, Color textColor = Colors.black}) {
   List<Row> rows = [];
   for (var i = 0; i < item.items.length; i++) {
     var subItem = item.items[i];
@@ -25,18 +25,24 @@ Widget generateItemize(State state, MbclLevel level, MbclLevelItem item,
         child: Icon(
           Icons.fiber_manual_record,
           size: 8,
+          color: textColor,
         ));
     if (item.type == MbclLevelItemType.enumerate) {
       leading = Padding(
-          padding: EdgeInsets.only(top: 4.0, left: 7.0),
-          child: Text("${i + 1}."));
+        padding: EdgeInsets.only(top: 4.0, left: 7.0),
+        child: Text(
+          "${i + 1}.",
+          style: TextStyle(color: textColor),
+        ),
+      );
     } else if (item.type == MbclLevelItemType.enumerateAlpha) {
       leading = Padding(
           padding: EdgeInsets.only(top: 4.0, left: 7.0),
-          child: Text("${String.fromCharCode("a".codeUnitAt(0) + i)})"));
+          child: Text("${String.fromCharCode("a".codeUnitAt(0) + i)})",
+              style: TextStyle(color: textColor)));
     }
-    var content =
-        generateLevelItem(state, level, subItem, exerciseData: exerciseData);
+    var content = generateLevelItem(state, level, subItem,
+        exerciseData: exerciseData, textColor: textColor);
     var row = Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -73,6 +73,8 @@ class Paragraph {
   MbclLevel level;
   Compiler compiler;
 
+  String lastTk = "";
+
   Paragraph(this.level, this.compiler);
 
   List<MbclLevelItem> parse(String raw, int srcRowIdx, [MbclLevelItem? ex]) {
@@ -86,6 +88,7 @@ class Paragraph {
     lexer.enableEmitBigint(false);
     lexer.enableEmitNewlines(true);
     lexer.enableUmlautInID(true);
+    lexer.enableEmitIndentation(true);
     lexer.setTerminals(['**', '#.', '-)', '@@', '///']);
     lexer.configureSingleLineComments('/////');
     lexer.pushSource('', raw);
@@ -124,12 +127,16 @@ class Paragraph {
   }
 
   MbclLevelItem _parsePart(
-      Lexer lexer, int srcRowIdx, MbclLevelItem? exercise) {
+    Lexer lexer,
+    int srcRowIdx,
+    MbclLevelItem? exercise,
+  ) {
     if (lexer.getToken().col == 1 &&
         (lexer.isTerminal('-') ||
             lexer.isTerminal('#.') ||
             lexer.isTerminal('-)'))) {
       // itemize or enumerate
+      lastTk = "";
       return _parseItemize(lexer, srcRowIdx, exercise);
     } else if (lexer.isTerminal('**')) {
       // bold text
@@ -139,6 +146,7 @@ class Paragraph {
       return _parseItalicText(lexer, srcRowIdx, exercise);
     } else if (lexer.isTerminal('\$')) {
       // inline math
+      lastTk = " ";
       return parseInlineMath(level, lexer, exercise);
     } else if (lexer.isTerminal('`')) {
       // inline code
@@ -153,12 +161,14 @@ class Paragraph {
         lexer.getToken().col == 1 &&
         (lexer.isTerminal('[') || lexer.isTerminal('('))) {
       // single or multiple choice answer
+      lastTk = "";
       return _parseSingleOrMultipleChoice(compiler, lexer, srcRowIdx, exercise);
     } else if (lexer.isTerminal('\n')) {
       // line feed
       var isNewParagraph = lexer.getToken().col == 1;
       lexer.next();
       if (isNewParagraph) {
+        lastTk = "";
         return MbclLevelItem(level, MbclLevelItemType.lineFeed, srcRowIdx);
       } else {
         return MbclLevelItem(level, MbclLevelItemType.text, srcRowIdx);
@@ -173,7 +183,15 @@ class Paragraph {
     } else {
       // text tokens (... or yet unimplemented paragraph items)
       var text = MbclLevelItem(level, MbclLevelItemType.text, srcRowIdx);
-      text.text = lexer.getToken().token;
+      var tk = lexer.getToken().token;
+      var isSeparator = '.,:!?)]'.contains(tk);
+      var lastOpening = '([]'.contains(lastTk);
+      if (lastTk.isNotEmpty && lastOpening == false && isSeparator == false) {
+        text.text = " " + tk;
+      } else {
+        text.text = tk;
+      }
+      lastTk = tk;
       lexer.next();
       return text;
     }
@@ -200,6 +218,7 @@ class Paragraph {
     while (lexer.getToken().col == 1 &&
         lexer.isTerminal(typeStr) &&
         lexer.isNotEnd()) {
+      lastTk = "";
       rowIdx = lexer.getToken().row;
       lexer.next();
       var span = MbclLevelItem(level, MbclLevelItemType.span, srcRowIdx);

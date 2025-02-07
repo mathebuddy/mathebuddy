@@ -15,11 +15,11 @@ import 'package:mathebuddy/mbcl/src/level_item_exercise.dart';
 import 'package:mathebuddy/mbcl/src/level.dart';
 
 Widget generateAlign(State state, MbclLevel level, MbclLevelItem item,
-    {MbclExerciseData? exerciseData}) {
+    {MbclExerciseData? exerciseData, Color textColor = Colors.black}) {
   List<Widget> list = [];
   for (var subItem in item.items) {
-    list.add(
-        generateLevelItem(state, level, subItem, exerciseData: exerciseData));
+    list.add(generateLevelItem(state, level, subItem,
+        exerciseData: exerciseData, textColor: textColor));
   }
   return Padding(
       padding: EdgeInsets.all(3.0),

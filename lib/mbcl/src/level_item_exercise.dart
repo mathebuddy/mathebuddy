@@ -163,12 +163,14 @@ class MbclExerciseData {
           if (data.diffVariableId.isNotEmpty) {
             var studentTermDiff =
                 studentTerm.diff(data.diffVariableId).optimize();
-            print("diff student answer: $studentTerm -> $studentTermDiff");
+            print("diff student answer: '$studentTerm' -> '$studentTermDiff'");
             studentTerm = studentTermDiff;
           }
           var expected = data.expectedValue;
+          expected = expected.replaceAll("Infinity",
+              "inf"); // TODO: this is a hack: the compiler should output better things!
           var expectedTerm = term_parser.Parser().parse(expected);
-          print("comparing $studentTerm to $expectedTerm");
+          print("comparing '$studentTerm' to '$expectedTerm'");
           data.correct = expectedTerm.compareNumerically(studentTerm);
         } catch (e) {
           // TODO: give GUI feedback, that term is not well formed, ...

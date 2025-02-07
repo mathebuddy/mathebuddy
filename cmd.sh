@@ -90,11 +90,11 @@ do
         cd ..
         ;;
     4b)
-	# [4b] build flutter iOS app
-	cd app
-	./build-ios.sh
-	cd ..
-	;;
+        # [4b] build flutter iOS app
+        cd app
+        ./build-ios.sh
+        cd ..
+        ;;
     4c)
         # [4c] build flutter macOS app and update simulator in private-courses
         cd app

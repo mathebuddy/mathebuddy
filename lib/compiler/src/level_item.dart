@@ -74,24 +74,25 @@ void aggregateText(List<MbclLevelItem> items) {
     items.removeLast();
   }
   // concatenate consecutive text items
-  for (var i = 0; i < items.length; i++) {
-    if (i > 0 &&
-        items[i - 1].type == MbclLevelItemType.text &&
-        items[i].type == MbclLevelItemType.text) {
-      var text = items[i].text;
-      if ('.,:!?)]'.contains(text) == false) {
-        text = ' $text';
-      }
-      items[i - 1].text += text;
-      // next line is an ugly hack for TeX..
-      items[i - 1].text = items[i - 1].text.replaceAll("\\ ", '\\');
-      // next lines provide an ugly hack for opening parentheses
-      items[i - 1].text = items[i - 1].text.replaceAll("( ", "(");
-      items[i - 1].text = items[i - 1].text.replaceAll("[ ", "[");
-      items.removeAt(i);
-      i--;
-    }
-  }
+  // !!!!! TODO: ACTIVATE AGAIN !!!!!
+  // for (var i = 0; i < items.length; i++) {
+  //   if (i > 0 &&
+  //       items[i - 1].type == MbclLevelItemType.text &&
+  //       items[i].type == MbclLevelItemType.text) {
+  //     var text = items[i].text;
+  //     if ('.,:!?)]'.contains(text) == false) {
+  //       text = ' $text';
+  //     }
+  //     items[i - 1].text += text;
+  //     // next line is an ugly hack for TeX..
+  //     items[i - 1].text = items[i - 1].text.replaceAll("\\ ", '\\');
+  //     // next lines provide an ugly hack for opening parentheses
+  //     items[i - 1].text = items[i - 1].text.replaceAll("( ", "(");
+  //     items[i - 1].text = items[i - 1].text.replaceAll("[ ", "[");
+  //     items.removeAt(i);
+  //     i--;
+  //   }
+  // }
 }
 
 void aggregateMultipleChoice(List<MbclLevelItem> items) {

@@ -693,7 +693,7 @@ class Parser {
   }
 
   bool _isBuiltIn(String tk) {
-    var builtin = ['pi', 'e'];
+    var builtin = ['pi', 'e', 'inf'];
     return builtin.contains(tk);
   }
 

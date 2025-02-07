@@ -18,6 +18,7 @@ import '../../mbcl/src/level_item.dart';
 /// </GRAMMAR>
 MbclLevelItem parseInlineMath(
     MbclLevel level, Lexer lexer, MbclLevelItem? exercise) {
+  var lastTk = "";
   if (lexer.isTerminal('\$')) lexer.next();
   var inlineMath = MbclLevelItem(level, MbclLevelItemType.inlineMath, -1);
   while (lexer.isNotTerminal('\$') && lexer.isNotEnd()) {
@@ -59,8 +60,13 @@ MbclLevelItem parseInlineMath(
     }
     // default (no variable reference)
     var text = MbclLevelItem(level, MbclLevelItemType.text, -1);
-    text.text = tk;
+    if (lastTk == "\\") {
+      text.text = tk;
+    } else {
+      text.text = " " + tk;
+    }
     inlineMath.items.add(text);
+    lastTk = tk;
   }
   if (lexer.isTerminal('\$')) lexer.next();
   return inlineMath;

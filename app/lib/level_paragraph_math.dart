@@ -78,9 +78,8 @@ InlineSpan generateParagraphItemMath(State state, MbclLevelItem item,
     return WidgetSpan(
         alignment: PlaceholderAlignment.middle,
         child: Container(
-            //decoration:
-            //    BoxDecoration(border: Border.all(color: Colors.red)),
-            padding: EdgeInsets.only(right: 4.0),
+            //decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+            padding: EdgeInsets.only(left: 5.0, right: 0.0),
             child: SvgPicture.string(
               svg,
               width: svgWidth.toDouble(),

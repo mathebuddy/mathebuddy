@@ -1,3 +1,27 @@
+EXERCISE @ex:div-folgen2
+    CODE    
+        a=rand(2,7);
+        a1=inf;
+        b1=-inf;
+    Bestimme
+    - $\lim_{x \to a^+} \frac{1}{x-a}=$ #a1,KEYBOARD=infty
+    - $\lim_{x \to a^-} \frac{1}{x-a}=$ #b1,KEYBOARD=infty
+
+!STOP
+
+
+
+
+
+Itemization test:
+- x
+- y
+
+$\text{f}\ddot{\text{u}}\text{r}$
+
+$\text{für}$
+
+
 EXERCISE @ex:gaussscheZahlenebene2
     CODE
         z = 42
