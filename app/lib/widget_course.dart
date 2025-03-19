@@ -12,6 +12,7 @@ library mathe_buddy_app;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
 import 'package:mathebuddy/event.dart';
 import 'package:mathebuddy/mbcl/src/chapter.dart';
 import 'package:mathebuddy/mbcl/src/unit.dart';
@@ -327,6 +328,12 @@ class CourseState extends State<CourseWidget> {
     if ((firstStart && !debugMode) == false) {
       contentsList.add(chapterTable);
     }
+
+    contentsList.add(Text(""));
+    contentsList.add(Text(
+      "Version $appVersion",
+      style: TextStyle(fontSize: 8),
+    ));
 
     Widget contents = Column(children: contentsList);
 

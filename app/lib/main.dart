@@ -9,6 +9,7 @@ library mathe_buddy_app;
 
 import 'package:mathebuddy/math-runtime/src/parse.dart';
 import 'package:platform_detector/platform_detector.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:universal_html/html.dart' as html;
 import 'package:flutter/material.dart';
@@ -29,7 +30,13 @@ Map<String, MbclCourse> courses = {};
 var bundleName = 'assets/bundle-debug.json';
 var websiteDevMode = false;
 
-void main() {
+String appVersion = "Unknown";
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  appVersion = packageInfo.version; // Store the version
+
   if (html.window.location.href.contains("mathebuddy.github.io/alpha/") ||
       isMobile()) {
     bundleName = 'assets/bundle-alpha.json';

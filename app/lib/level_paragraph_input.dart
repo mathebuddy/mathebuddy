@@ -56,7 +56,7 @@ class AppInputField {
           text: TextSpan(children: [
         WidgetSpan(
             child: Container(
-                margin: EdgeInsets.only(left: 2, right: 2),
+                margin: EdgeInsets.only(left: 4, right: 0),
                 decoration: BoxDecoration(
                     color: isActive
                         ? feedbackColor.withOpacity(activeOpacity)
@@ -128,6 +128,7 @@ class AppInputField {
           parts.add(WidgetSpan(
               alignment: PlaceholderAlignment.middle,
               child: Container(
+                  margin: EdgeInsets.only(left: 4, right: 0),
                   padding: isActive || markAsIncorrect
                       ? EdgeInsets.only(left: 5, right: 5)
                       : EdgeInsets.all(0),

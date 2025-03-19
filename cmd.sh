@@ -38,7 +38,7 @@ do
     echo "[9]  update file system files (_fs.txt) files in docs/demo/"
     echo "[10] show empty directories recursively"
     echo "[11] update bundle-debug"
-    echo "[12] update bundle-alpha"
+    echo "[12] update bundle-alpha (THIS BEFORE FOR MOBILE BUILDS)"
     echo "[13] update bundle-smoke"
     echo "[14] update bundle-websim"
     echo "[15] update bundle-bochum"

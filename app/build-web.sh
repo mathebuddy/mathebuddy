@@ -6,7 +6,9 @@
 
 # ===== TODO: reenable first one, after fixing vscode plugin issues! ===== 
 #flutter build web --web-renderer auto --release --no-tree-shake-icons 
-flutter build web --web-renderer auto --profile --no-tree-shake-icons --dart-define=Dart2jsOptimization=O0
+#flutter build web --web-renderer auto --profile --no-tree-shake-icons --dart-define=Dart2jsOptimization=O0
+
+flutter build web --profile --no-tree-shake-icons --dart-define=Dart2jsOptimization=O0
 
 
 # update website

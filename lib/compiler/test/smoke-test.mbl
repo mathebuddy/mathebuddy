@@ -1,3 +1,13 @@
+EXERCISE @ex:konv1
+    CODE
+        a=1;
+    Was passiert, wenn wir die Folge $(\frac{n}{n+1})_{n \geq 0}$ immer weiter fortführen?
+    CENTER
+        $0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots, \frac{633}{634},\frac{634}{635}, \dots$ 
+    Die Folge nähert sich dem Wert  #a,KEYBOARD=infty  an. 
+
+!STOP
+
 EXERCISE @ex:div-folgen2
     CODE    
         a=rand(2,7);
@@ -8,8 +18,6 @@ EXERCISE @ex:div-folgen2
     - $\lim_{x \to a^-} \frac{1}{x-a}=$ #b1,KEYBOARD=infty
 
 !STOP
-
-
 
 
 

@@ -9,7 +9,7 @@ description: MatheBuddy - a gamified app for higher math
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.1.0+10 # must increment version + version code
+version: 1.2.3+14 # must increment version + version code
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -33,6 +33,7 @@ dependencies:
   audioplayers: ^6.0.0 # TODO: must install dependencies for non-macOS desktop app
   collection: ^1.18.0
   flutter_launcher_icons: ^0.13.1
+  package_info_plus: ^8.3.0
 
 dev_dependencies:
   flutter_test:
