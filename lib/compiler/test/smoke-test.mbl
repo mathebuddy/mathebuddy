@@ -1,3 +1,28 @@
+
+EXERCISE
+    xxx
+    - yyy 
+      
+      aaa $("x","y")$.
+
+      This is a test.
+
+    EQUATION
+        x^2
+
+      blub
+
+    - zzzzzz
+    
+      $("z","w")$.
+
+
+EXERCISE
+    blub
+
+
+!STOP
+
 EXERCISE @ex:konv1
     CODE
         a=1;

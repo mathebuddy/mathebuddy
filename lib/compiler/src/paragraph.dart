@@ -88,7 +88,7 @@ class Paragraph {
     lexer.enableEmitBigint(false);
     lexer.enableEmitNewlines(true);
     lexer.enableUmlautInID(true);
-    lexer.enableEmitIndentation(true);
+    lexer.enableEmitIndentation(false);
     lexer.setTerminals(['**', '#.', '-)', '@@', '///']);
     lexer.configureSingleLineComments('/////');
     lexer.pushSource('', raw);

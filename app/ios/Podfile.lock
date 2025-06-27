@@ -2,6 +2,8 @@ PODS:
   - audioplayers_darwin (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - package_info_plus (0.4.5):
+    - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -9,6 +11,7 @@ PODS:
 DEPENDENCIES:
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - Flutter (from `Flutter`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 EXTERNAL SOURCES:
@@ -16,14 +19,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/audioplayers_darwin/ios"
   Flutter:
     :path: Flutter
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
-  audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
+  audioplayers_darwin: ccf9c770ee768abb07e26d90af093f7bab1c12ab
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
 
 PODFILE CHECKSUM: abd3071c3798147190079d32cd7c9d7d9f0df55a
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
